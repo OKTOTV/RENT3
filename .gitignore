@@ -1,0 +1,45 @@
+#
+# Symfony2 related
+#
+
+# cache, logs, etc
+/app/bootstrap.php.cache
+/app/cache/*
+/app/logs/*
+/web/bundles/
+
+/vendor/
+/build/
+/bin/
+/composer.phar
+
+# environment sensitive
+/app/config/parameters.yml
+
+
+#
+# OS garbage, Editors, IDEs, etc
+#
+.DS_Store
+.svn
+*~
+*.swp
+*.php~
+code_coverage
+coverage
+.coverage
+build
+.build
+*.db
+*.tmproj
+*.sublime-project
+.idea
+
+# eclipse
+.buildpath
+.project
+.settings
+
+# netbeans
+nbproject
+.nbproject
