@@ -5,9 +5,30 @@
         <title>{% block title %}Welcome!{% endblock %}</title>
         {% block stylesheets %}{% endblock %}
         <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
+        
+        {% block head %}{% endblock %}
     </head>
-    <body>
-        {% block body %}{% endblock %}
+    
+    <body class="aui-layout aui-theme-default">
+      <div id="page">
+          {{ include('::header.html.twig') }}
+          
+          <section id="content" role="main">
+            {% block body %}{% endblock %}
+          </section>
+          
+          <footer id="footer">
+            <section class="footer-body">
+              <ul>
+                <li>Copyright &copy; 2013 Oktolab</li>
+                <li>Oktolab RENT pre-alpha 3.0</li>
+                <li><a href="#">Bug</a></li>
+                <li><a href="http://intern.okto.tv/display/RENT">Dokumentation</a></li>
+              </ul>
+            </section>
+          </footer>
+      </div>
+        
         {% block javascripts %}{% endblock %}
     </body>
 </html>

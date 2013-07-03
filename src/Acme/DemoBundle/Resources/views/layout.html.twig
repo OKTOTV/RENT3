@@ -1,10 +1,14 @@
-{% extends "TwigBundle::layout.html.twig" %}
+{% extends "::base.html.twig" %}
 
 {% block head %}
     <link rel="icon" sizes="16x16" href="{{ asset('favicon.ico') }}" />
-    <link rel="stylesheet" href="{{ asset('bundles/acmedemo/css/demo.css') }}" />
+    <link rel="stylesheet" href="{{ asset('aui-5.1/css/aui-all.css') }}" />
 {% endblock %}
 
+{% block javascripts %}
+    <script src="{{ asset('aui-5.1/js/aui-all.js') }}"></script>
+{% endblock %}
+    
 {% block title 'Demo Bundle' %}
 
 {% block body %}
