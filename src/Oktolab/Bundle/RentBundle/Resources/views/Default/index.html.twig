@@ -1,5 +1,5 @@
 {% extends "AcmeDemoBundle::layout.html.twig" %}
 
 {% block content %}
-<p>{{ licenses }}</p>
+{{ licenses | markdown }}
 {% endblock %}
