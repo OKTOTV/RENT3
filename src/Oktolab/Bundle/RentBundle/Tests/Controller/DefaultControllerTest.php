@@ -2,16 +2,13 @@
 
 namespace Oktolab\Bundle\RentBundle\Tests\Controller;
 
-use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
+use Oktolab\Bundle\RentBundle\Tests\WebTestCase;
 
 class DefaultControllerTest extends WebTestCase
 {
-    public function testIndex()
+    public function testDashboard()
     {
-        $client = static::createClient();
-
-        $crawler = $client->request('GET', '/hello/Fabien');
-
-        $this->assertTrue($crawler->filter('html:contains("Hello Fabien")')->count() > 0);
+        $this->client->request('GET', '/');
+        $this->assertRegExp('/Dashboard/', $this->client->getResponse()->getContent());
     }
 }
