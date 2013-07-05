@@ -1,0 +1,7 @@
+{% extends "AcmeDemoBundle::layout.html.twig" %}
+
+{% block content_header %}<h1>{% trans %}Lizenzen{% endtrans %}</h1>{% endblock %}
+
+{% block content %}
+    {{ licenses | markdown }}
+{% endblock %}

@@ -19,7 +19,7 @@
         </div>
     {% endfor %}
 
-    {% block content_header %}
+    {# block content_header %}
         <ul id="menu">
             {% block content_header_more %}
                 <li><a href="{{ path('_demo') }}">Demo Home</a></li>
@@ -27,21 +27,30 @@
         </ul>
 
         <div style="clear: both"></div>
-    {% endblock %}
-
-        <div class="aui-page-panel">
-            <div class="aui-page-panel-inner">
-                <section class="aui-page-panel-content">
-                    {% block content %}{% endblock %}
-                </section>
+    {% endblock #}
+    
+        <header class="aui-page-header">
+            <div class="aui-page-header-inner">
+                <div class="aui-page-header-main">
+                  {% block content_header %} {% endblock %}
+                </div>
             </div>
-        </div>
-        
+        </header>
 
-    {% if code is defined %}
+        <section id="content" role="main">
+            <div class="aui-page-panel">
+                <div class="aui-page-panel-inner">
+                    <section class="aui-page-panel-content">
+                        {% block content %}{% endblock %}
+                    </section>
+                </div>
+            </div>
+        </section>
+      
+    {# if code is defined %}
         <h2>Code behind this page</h2>
         <div class="block">
             <div class="symfony-content">{{ code|raw }}</div>
         </div>
-    {% endif %}
+    {% endif #}
 {% endblock %}

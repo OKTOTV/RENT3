@@ -12,8 +12,10 @@ class DefaultController extends Controller
      * @Route("/about", name="rentbundle_about")
      * @Template()
      */
-    public function indexAction()
+    public function aboutAction()
     {
         return array('licenses' => file_get_contents($this->get('kernel')->getRootDir().'/../LICENSE'));
     }
+    
+    
 }
