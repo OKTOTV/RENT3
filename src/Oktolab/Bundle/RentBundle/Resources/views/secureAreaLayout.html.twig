@@ -1,23 +1,14 @@
 {% extends "::base.html.twig" %}
 
-{% block head %}
-    <link rel="icon" sizes="16x16" href="{{ asset('favicon.ico') }}" />
-    <link rel="stylesheet" href="{{ asset('aui-5.1/css/aui-all.css') }}" />
-{% endblock %}
-
-{% block javascripts %}
-    <script src="{{ asset('aui-5.1/js/aui-all.js') }}"></script>
-    <script src="{{ asset('bundles/acmedemo/js/jira_bug_tracker.js') }}"></script>
-{% endblock %}
-    
 {% block title 'Demo Bundle' %}
 
 {% block body %}
-    {% for flashMessage in app.session.flashbag.get('notice') %}
+    {{ include('::header.html.twig') }}
+    {# for flashMessage in app.session.flashbag.get('notice') %}
         <div class="flash-message">
             <em>Notice</em>: {{ flashMessage }}
         </div>
-    {% endfor %}
+    {% endfor #}
 
     {# block content_header %}
         <ul id="menu">
@@ -28,7 +19,8 @@
 
         <div style="clear: both"></div>
     {% endblock #}
-    
+
+    <section id="content" role="main">
         <header class="aui-page-header">
             <div class="aui-page-header-inner">
                 <div class="aui-page-header-main">
@@ -46,11 +38,5 @@
                 </div>
             </div>
         </section>
-      
-    {# if code is defined %}
-        <h2>Code behind this page</h2>
-        <div class="block">
-            <div class="symfony-content">{{ code|raw }}</div>
-        </div>
-    {% endif #}
+    </section>
 {% endblock %}

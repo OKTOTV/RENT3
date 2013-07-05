@@ -1,0 +1,37 @@
+{% extends 'OktolabRentBundle::insecureAreaLayout.html.twig' %}
+
+{% block title 'Log In' %}
+
+{% block content %}
+<form class="aui login-form-container" action="{{ path("rentbundle_secure_check") }}" method="POST" name="login">
+    <h2>Log In</h2>
+    <div id="action-messages">
+        {% if error %}
+        <div class="aui-message error closeable">
+            <p class="title">
+                <span class="aui-icon icon-error"></span>
+                <strong>{% trans %}Log In fehlgeschlagen{% endtrans %}</strong>
+            </p>
+            {{ error.message }}
+        </div>
+        {% endif %}
+    </div>
+
+    <fieldset class="compact-form-fields">
+        <legend class="assistive"><span>{% trans %}Log in Oktolab RENT{% endtrans %}</span></legend>
+        <div class="field-group">
+            <label for="username" id="os_username-label">{% trans %}Benutzername{% endtrans %}</label>
+            <input type="text" data-focus="0" class="text" id="username" name="_username" value="{{ last_username }}">
+        </div>
+
+        <div class="field-group">
+            <label for="password" id="os_password-label">{% trans %}Passwort{% endtrans %}</label>
+            <input type="password" class="password " id="password" name="_password">
+        </div>
+
+        <div class="field-group form-buttons compact-form-buttons">
+            <input type="submit" value="{% trans %}Log In{% endtrans %}" name="login" class="aui-button aui-style aui-button-primary" id="loginButton">
+        </div>
+    </fieldset>
+</form>
+{% endblock %}

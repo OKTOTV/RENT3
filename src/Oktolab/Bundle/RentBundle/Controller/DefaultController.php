@@ -16,6 +16,14 @@ class DefaultController extends Controller
     {
         return array('licenses' => file_get_contents($this->get('kernel')->getRootDir().'/../LICENSE'));
     }
-    
-    
+
+    /**
+     * @Route("/", name="rentbundle_dashboard")
+     * @Template()
+     */
+    public function dashboardAction()
+    {
+        return array();
+    }
+
 }
