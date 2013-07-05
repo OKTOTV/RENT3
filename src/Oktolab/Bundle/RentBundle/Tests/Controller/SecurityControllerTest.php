@@ -34,6 +34,11 @@ class SecurityControllerTest extends WebTestCase
         $this->assertRegExp('/Dashboard/', $this->client->getResponse()->getContent());
     }
 
+    public function testClickLogoutWillDeleteSession()
+    {
+        $this->markTestIncomplete('dunno know how');
+    }
+
     private function logIn()
     {
         $session = $this->client->getContainer()->get('session');
