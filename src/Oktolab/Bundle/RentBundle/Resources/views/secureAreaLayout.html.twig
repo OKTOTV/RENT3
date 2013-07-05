@@ -4,21 +4,6 @@
 
 {% block body %}
     {{ include('::header.html.twig') }}
-    {# for flashMessage in app.session.flashbag.get('notice') %}
-        <div class="flash-message">
-            <em>Notice</em>: {{ flashMessage }}
-        </div>
-    {% endfor #}
-
-    {# block content_header %}
-        <ul id="menu">
-            {% block content_header_more %}
-                <li><a href="{{ path('_demo') }}">Demo Home</a></li>
-            {% endblock %}
-        </ul>
-
-        <div style="clear: both"></div>
-    {% endblock #}
 
     <section id="content" role="main">
         <header class="aui-page-header">
