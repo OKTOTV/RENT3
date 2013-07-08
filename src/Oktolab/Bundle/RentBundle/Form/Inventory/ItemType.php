@@ -17,15 +17,16 @@ class ItemType extends AbstractType
             ->add('buyDate')
             ->add('serialNumber')
             ->add('vendor')
-            ->add('modelNumber')
-        ;
+            ->add('modelNumber');
     }
 
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
-        $resolver->setDefaults(array(
-            'data_class' => 'Oktolab\Bundle\RentBundle\Entity\Inventory\Item'
-        ));
+        $resolver->setDefaults(
+            array(
+                'data_class' => 'Oktolab\Bundle\RentBundle\Entity\Inventory\Item'
+            )
+        );
     }
 
     public function getName()
