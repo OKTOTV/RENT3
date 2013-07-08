@@ -1,0 +1,244 @@
+<?php
+
+namespace Oktolab\Bundle\RentBundle\Entity\Inventory;
+
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * Item
+ *
+ * @ORM\Table()
+ * @ORM\Entity
+ */
+class Item
+{
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="id", type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="AUTO")
+     */
+    private $id;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="title", type="string", length=255)
+     */
+    private $title;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="description", type="string", length=500)
+     */
+    private $description;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="barcode", type="string", length=20)
+     */
+    private $barcode;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="buy_date", type="date")
+     */
+    private $buyDate;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="serial_number", type="string", length=255)
+     */
+    private $serialNumber;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="vendor", type="string", length=100)
+     */
+    private $vendor;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="model_number", type="string", length=100)
+     */
+    private $modelNumber;
+
+
+    /**
+     * Get id
+     *
+     * @return integer 
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * Set title
+     *
+     * @param string $title
+     * @return Item
+     */
+    public function setTitle($title)
+    {
+        $this->title = $title;
+    
+        return $this;
+    }
+
+    /**
+     * Get title
+     *
+     * @return string 
+     */
+    public function getTitle()
+    {
+        return $this->title;
+    }
+
+    /**
+     * Set description
+     *
+     * @param string $description
+     * @return Item
+     */
+    public function setDescription($description)
+    {
+        $this->description = $description;
+    
+        return $this;
+    }
+
+    /**
+     * Get description
+     *
+     * @return string 
+     */
+    public function getDescription()
+    {
+        return $this->description;
+    }
+
+    /**
+     * Set barcode
+     *
+     * @param string $barcode
+     * @return Item
+     */
+    public function setBarcode($barcode)
+    {
+        $this->barcode = $barcode;
+    
+        return $this;
+    }
+
+    /**
+     * Get barcode
+     *
+     * @return string 
+     */
+    public function getBarcode()
+    {
+        return $this->barcode;
+    }
+
+    /**
+     * Set buyDate
+     *
+     * @param \DateTime $buyDate
+     * @return Item
+     */
+    public function setBuyDate($buyDate)
+    {
+        $this->buyDate = $buyDate;
+    
+        return $this;
+    }
+
+    /**
+     * Get buyDate
+     *
+     * @return \DateTime 
+     */
+    public function getBuyDate()
+    {
+        return $this->buyDate;
+    }
+
+    /**
+     * Set serialNumber
+     *
+     * @param string $serialNumber
+     * @return Item
+     */
+    public function setSerialNumber($serialNumber)
+    {
+        $this->serialNumber = $serialNumber;
+    
+        return $this;
+    }
+
+    /**
+     * Get serialNumber
+     *
+     * @return string 
+     */
+    public function getSerialNumber()
+    {
+        return $this->serialNumber;
+    }
+
+    /**
+     * Set vendor
+     *
+     * @param string $vendor
+     * @return Item
+     */
+    public function setVendor($vendor)
+    {
+        $this->vendor = $vendor;
+    
+        return $this;
+    }
+
+    /**
+     * Get vendor
+     *
+     * @return string 
+     */
+    public function getVendor()
+    {
+        return $this->vendor;
+    }
+
+    /**
+     * Set modelNumber
+     *
+     * @param string $modelNumber
+     * @return Item
+     */
+    public function setModelNumber($modelNumber)
+    {
+        $this->modelNumber = $modelNumber;
+    
+        return $this;
+    }
+
+    /**
+     * Get modelNumber
+     *
+     * @return string 
+     */
+    public function getModelNumber()
+    {
+        return $this->modelNumber;
+    }
+}
