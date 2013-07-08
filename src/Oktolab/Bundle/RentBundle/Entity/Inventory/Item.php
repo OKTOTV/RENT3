@@ -26,7 +26,7 @@ class Item
      * @var string
      *
      * @ORM\Column(name="title", type="string", length=255)
-     * 
+     *
      * @Assert\NotBlank(message = "Du musst einen Titel angeben" )
      * @Assert\Length(
      *      max = 255,
@@ -39,7 +39,7 @@ class Item
      * @var string
      *
      * @ORM\Column(name="description", type="string", length=500)
-     * 
+     *
      * @Assert\NotBlank(message = "Du musst eine Beschreibung angeben" )
      * @Assert\Length
      *      (
@@ -53,7 +53,7 @@ class Item
      * @var string
      *
      * @ORM\Column(name="barcode", type="string", length=20)
-     * 
+     *
      * @Assert\NotBlank(message = "Du musst einen Barcode angeben" )
      * @Assert\Length
      *      (
@@ -91,11 +91,18 @@ class Item
      */
     private $modelNumber;
 
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="warranty_date", type="date", nullable=true)
+     */
+    private $warrantyDate;
+
 
     /**
      * Get id
      *
-     * @return integer 
+     * @return integer
      */
     public function getId()
     {
@@ -111,14 +118,14 @@ class Item
     public function setTitle($title)
     {
         $this->title = $title;
-    
+
         return $this;
     }
 
     /**
      * Get title
      *
-     * @return string 
+     * @return string
      */
     public function getTitle()
     {
@@ -134,14 +141,14 @@ class Item
     public function setDescription($description)
     {
         $this->description = $description;
-    
+
         return $this;
     }
 
     /**
      * Get description
      *
-     * @return string 
+     * @return string
      */
     public function getDescription()
     {
@@ -157,14 +164,14 @@ class Item
     public function setBarcode($barcode)
     {
         $this->barcode = $barcode;
-    
+
         return $this;
     }
 
     /**
      * Get barcode
      *
-     * @return string 
+     * @return string
      */
     public function getBarcode()
     {
@@ -180,14 +187,14 @@ class Item
     public function setBuyDate($buyDate)
     {
         $this->buyDate = $buyDate;
-    
+
         return $this;
     }
 
     /**
      * Get buyDate
      *
-     * @return \DateTime 
+     * @return \DateTime
      */
     public function getBuyDate()
     {
@@ -203,14 +210,14 @@ class Item
     public function setSerialNumber($serialNumber)
     {
         $this->serialNumber = $serialNumber;
-    
+
         return $this;
     }
 
     /**
      * Get serialNumber
      *
-     * @return string 
+     * @return string
      */
     public function getSerialNumber()
     {
@@ -226,14 +233,14 @@ class Item
     public function setVendor($vendor)
     {
         $this->vendor = $vendor;
-    
+
         return $this;
     }
 
     /**
      * Get vendor
      *
-     * @return string 
+     * @return string
      */
     public function getVendor()
     {
@@ -249,17 +256,50 @@ class Item
     public function setModelNumber($modelNumber)
     {
         $this->modelNumber = $modelNumber;
-    
+
         return $this;
     }
 
     /**
      * Get modelNumber
      *
-     * @return string 
+     * @return string
      */
     public function getModelNumber()
     {
         return $this->modelNumber;
+    }
+
+    /**
+     * Get warrantyDate
+     *
+     * @return \DateTime
+     */
+    public function getWarrantyDate()
+    {
+        return $this->warrantyDate;
+    }
+
+    /**
+     * Set warrantyDate
+     *
+     * @param \DateTime $warrantyDate
+     * @return Item
+     */
+    public function setWarrantyDate($warrantyDate)
+    {
+        $this->warrantyDate = $warrantyDate;
+        return $this;
+    }
+
+    /**
+     * Return true if item is on warranty, otherwise false
+     *
+     * @return boolean
+     */
+    public function isWarrantyVoid()
+    {
+        $now = new \DateTime();
+        return ($this->warrantyDate <= $now);
     }
 }
