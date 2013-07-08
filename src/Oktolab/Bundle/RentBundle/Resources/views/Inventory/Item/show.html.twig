@@ -1,62 +1,50 @@
-{% extends '::base.html.twig' %}
+{% extends 'OktolabRentBundle::secureAreaLayout.html.twig' %}
 
-{% block body -%}
-    <h1>Inventory\Item</h1>
+{% block content_header %}
+    <div class="aui-page-header-inner">
+        <div class="aui-page-header-image">
+            <div class="aui-avatar aui-avatar-xlarge aui-avatar-project">
+                <div class="aui-avatar-inner">
+                    <img src="static/img/none.png">
+                </div>
+            </div>
+        </div>
+        <div class="aui-page-header-main">
+            <h1>{{entity.title}}</h1>
+            <h3>Barcode: {{entity.barcode}}</h3>
+        </div>
+        <div class="aui-page-header-actions">
+            <div class="aui-buttons">
+                <div class="aui-buttons">
+                    <a class="aui-button" href="{{ path('inventory_item_edit', { 'id' : entity.id }) }}">Editieren</a>
+                    <a class="aui-button" href="{{ path('inventory_item') }}">{% trans %}Back to list{% endtrans %}</a>
+                    <button class="aui-button">Zu Set hinzufügen</button>
+                    <button class="aui-button">Ausmustern</button>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
 
-    <table class="record_properties">
-        <tbody>
-            <tr>
-                <th>Id</th>
-                <td>{{ entity.id }}</td>
-            </tr>
-            <tr>
-                <th>Title</th>
-                <td>{{ entity.title }}</td>
-            </tr>
-            <tr>
-                <th>Description</th>
-                <td>{{ entity.description }}</td>
-            </tr>
-            <tr>
-                <th>Barcode</th>
-                <td>{{ entity.barcode }}</td>
-            </tr>
-            <tr>
-                <th>Buydate</th>
-                <td>{{ entity.buyDate|date('Y-m-d H:i:s') }}</td>
-            </tr>
-            <tr>
-                <th>Serialnumber</th>
-                <td>{{ entity.serialNumber }}</td>
-            </tr>
-            <tr>
-                <th>Vendor</th>
-                <td>{{ entity.vendor }}</td>
-            </tr>
-            <tr>
-                <th>Modelnumber</th>
-                <td>{{ entity.modelNumber }}</td>
-            </tr>
-        </tbody>
-    </table>
+{% block content %}    
+    <div class="aui-page-panel">
+        <div class="aui-page-panel-inner">
+            <section class="aui-page-panel-content">
+                <h3>{% trans %}Description{% endtrans %}</h3>
+                <p>{{ entity.description }}</p>
 
-        <ul class="record_actions">
-    <li>
-        <a href="{{ path('inventory_item') }}">
-            Back to the list
-        </a>
-    </li>
-    <li>
-        <a href="{{ path('inventory_item_edit', { 'id': entity.id }) }}">
-            Edit
-        </a>
-    </li>
-    <li>
-        <form action="{{ path('inventory_item_delete', { 'id': entity.id }) }}" method="post">
-            <input type="hidden" name="_method" value="DELETE" />
-            {{ form_widget(delete_form) }}
-            <button type="submit">Delete</button>
-        </form>
-    </li>
-</ul>
+                <h3>{% trans %}Buy date{% endtrans %}</h3>
+                <p>{{ entity.buyDate|date('Y-m-d') }}</p>
+
+                <h3>{% trans %}Serial number{% endtrans %}</h3>
+                <p>{{ entity.serialNumber }}</p>
+
+                <h3>{% trans %}Vendor{% endtrans %}</h3>
+                <p>{{ entity.vendor }}</p>
+
+                <h3>{% trans %}Modelnumber{% endtrans %}</h3>
+                <p>{{ entity.modelNumber }}</p>
+            </section>
+        </div>
+    </div>
 {% endblock %}

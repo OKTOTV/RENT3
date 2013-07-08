@@ -12,7 +12,7 @@ class ItemType extends AbstractType
     {
         $builder
             ->add('title')
-            ->add('description')
+            ->add('description', 'textarea')
             ->add('barcode')
             ->add('buyDate')
             ->add('serialNumber')

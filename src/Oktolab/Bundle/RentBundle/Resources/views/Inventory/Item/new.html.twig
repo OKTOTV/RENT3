@@ -1,20 +1,80 @@
-{% extends '::base.html.twig' %}
+{% extends 'OktolabRentBundle::secureAreaLayout.html.twig' %}
 
-{% block body -%}
-    <h1>Inventory\Item creation</h1>
+{% block content_header %}
+    <div class="aui-page-header-inner">
+        <div class="aui-page-header-image">
+            <div class="aui-avatar aui-avatar-xlarge aui-avatar-project">
+                <div class="aui-avatar-inner">
+                    <img src="static/img/none.png">
+                </div>
+            </div>
+        </div>
+        <div class="aui-page-header-main">
+            <h1>Inventar Item Neu</h1>
+        </div>
+        <div class="aui-page-header-actions">
+            <div class="aui-buttons">
+                <div class="aui-buttons">
+                    <a class="aui-button" href="{{ path('inventory_item') }}">Zurück zur Liste</a>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
 
-    <form action="{{ path('inventory_item_create') }}" method="post" {{ form_enctype(form) }}>
-        {{ form_widget(form) }}
-        <p>
-            <button type="submit">Create</button>
-        </p>
-    </form>
+{% block content %}
+    <div class="aui-page-panel">
+        <div class="aui-page-panel-inner">
+            <section class="aui-page-panel-content">
 
-        <ul class="record_actions">
-    <li>
-        <a href="{{ path('inventory_item') }}">
-            Back to the list
-        </a>
-    </li>
-</ul>
+                <form action="{{ path('inventory_item_create') }}" method="post" {{ form_enctype(form) }} class="aui">
+                    {{ form_start(form) }}
+                        <fieldset>
+                            {{ form_errors(form) }}
+                            <div class="field-group">
+                                <label for="d-fname">{{ form_label(form.title) }}<span class="aui-icon icon-required"></span></label>
+                                {{ form_widget(form.title, {'attr': {'class': 'text'}}) }}
+                                <div class="error">{{ form_errors(form.title) }}</div>
+                                <div class="description">Name des Items</div>
+                            </div>
+                            <div class="field-group">
+                                <label for="d-fname">{{ form_label(form.description) }}<span class="aui-icon icon-required"></span></label>
+                                {{ form_widget(form.description, {'attr': {'class': 'textarea', 'placeholder': "Dein Beschreibungstext..."}}) }}
+                                <div class="error">{{ form_errors(form.description) }}</div>
+                            </div>
+                            <div class="field-group">
+                                <label for="d-fname">{{ form_label(form.barcode) }}<span class="aui-icon icon-required"></span></label>
+                                {{ form_widget(form.barcode, {'attr': {'class': 'text'}}) }}
+                                <div class="error">{{ form_errors(form.barcode) }}</div>
+                                <div class="description">Einzigartiger Barcode für das System</div>
+                            </div>
+                            <div class="field-group">
+                                <label for="d-fname">{{ form_label(form.buyDate) }}<span class="aui-icon icon-required"></span></label>
+                                {{ form_widget(form.buyDate) }}
+                                <div class="error">{{ form_errors(form.buyDate) }}</div>
+                            </div>
+                            <div class="field-group">
+                                <label for="d-fname">{{ form_label(form.serialNumber) }}<span class="aui-icon icon-required"></span></label>
+                                {{ form_widget(form.serialNumber, {'attr': {'class': 'text'}}) }}
+                                <div class="error">{{ form_errors(form.serialNumber) }}</div>
+                            </div>
+                            <div class="field-group">
+                                <label for="d-fname">{{ form_label(form.vendor) }}<span class="aui-icon icon-required"></span></label>
+                                {{ form_widget(form.vendor, {'attr': {'class': 'text'}}) }}
+                                <div class="error">{{ form_errors(form.vendor) }}</div>
+                            </div>
+                            <div class="field-group">
+                                <label for="d-fname">{{ form_label(form.modelNumber) }}<span class="aui-icon icon-required"></span></label>
+                                {{ form_widget(form.modelNumber, {'attr': {'class': 'text'}}) }}
+                                <div class="error">{{ form_errors(form.modelNumber) }}</div>
+                            </div>
+                            <div class="buttons-container">
+                                <input class="button submit" type="submit">
+                            </div>
+                        </fieldset>
+                    {{ form_end(form) }}
+                </form>
+            </section>
+        </div>
+    </div>
 {% endblock %}

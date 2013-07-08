@@ -3,7 +3,7 @@
 namespace Oktolab\Bundle\RentBundle\Entity\Inventory;
 
 use Doctrine\ORM\Mapping as ORM;
-
+use Symfony\Component\Validator\Constraints as Assert;
 /**
  * Item
  *
@@ -25,6 +25,12 @@ class Item
      * @var string
      *
      * @ORM\Column(name="title", type="string", length=255)
+     * 
+     * @Assert\NotBlank(message = "Du musst einen Titel angeben" )
+     * @Assert\Length(
+     *      max = 255,
+     *      maxMessage = "Der Titel darf maximal 255 Zeichen lang sein"
+     *      )
      */
     private $title;
 
@@ -32,6 +38,13 @@ class Item
      * @var string
      *
      * @ORM\Column(name="description", type="string", length=500)
+     * 
+     * @Assert\NotBlank(message = "Du musst eine Beschreibung angeben" )
+     * @Assert\Length
+     *      (
+     *      max = 500,
+     *      maxMessage = "Die Beschreibung darf maximal 500 Zeichen lang sein"
+     *      )
      */
     private $description;
 
@@ -39,6 +52,13 @@ class Item
      * @var string
      *
      * @ORM\Column(name="barcode", type="string", length=20)
+     * 
+     * @Assert\NotBlank(message = "Du musst einen Barcode angeben" )
+     * @Assert\Length
+     *      (
+     *      max = 20,
+     *      maxMessage = "Der Barcode darf maximal 20 Zeichen lang sein"
+     *      )
      */
     private $barcode;
 
@@ -52,21 +72,21 @@ class Item
     /**
      * @var string
      *
-     * @ORM\Column(name="serial_number", type="string", length=255)
+     * @ORM\Column(name="serial_number", type="string", length=255, nullable=true)
      */
     private $serialNumber;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="vendor", type="string", length=100)
+     * @ORM\Column(name="vendor", type="string", length=100, nullable=true)
      */
     private $vendor;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="model_number", type="string", length=100)
+     * @ORM\Column(name="model_number", type="string", length=100, nullable=true)
      */
     private $modelNumber;
 
