@@ -11,4 +11,11 @@ class DefaultControllerTest extends WebTestCase
         $this->client->request('GET', '/');
         $this->assertRegExp('/Dashboard/', $this->client->getResponse()->getContent());
     }
+
+    public function testAbout()
+    {
+        $this->client->request('GET', '/about');
+        $this->assertTrue($this->client->getResponse()->isSuccessful());
+        $this->assertRegExp('/Lizenzen/', $this->client->getResponse()->getContent());
+    }
 }
