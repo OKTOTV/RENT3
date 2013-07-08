@@ -17,12 +17,8 @@ class SecurityControllerTest extends WebTestCase
 
     public function testWillRedirectToLoginPage()
     {
-        $this->client->request('GET', '/about');
-        $this->assertTrue($this->client->getResponse()->isRedirect());
-
-        $this->client->followRedirect();
-        $this->assertTrue($this->client->getResponse()->isSuccessful());
-        $this->assertRegExp('/Log In/', $this->client->getResponse()->getContent());
+        $this->client->request('GET', '/');
+        $this->assertRegExp('/\/secure\/login$/', $this->client->getResponse()->headers->get('location'));
     }
 
     public function testCanAccessDashboardAfterLogin()
@@ -34,9 +30,44 @@ class SecurityControllerTest extends WebTestCase
         $this->assertRegExp('/Dashboard/', $this->client->getResponse()->getContent());
     }
 
+    public function testCanNotAccessSearchBarWhileLoggedOut()
+    {
+        $crawler = $this->client->request('GET', '/secure/login');
+        $this->assertSame(0, $crawler->filter('#quicksearch')->count());
+    }
+
     public function testClickLogoutWillDeleteSession()
     {
-        $this->markTestIncomplete('dunno know how');
+        $this->logIn();
+        $crawler = $this->client->request('GET', '/');
+        $this->assertTrue($this->client->getResponse()->isSuccessful());
+
+        $this->client->click($crawler->selectLink('Log out')->link());
+
+        // tests redirection to login page
+        $this->assertRegExp('/\/secure\/login$/', $this->client->getResponse()->headers->get('location'));
+
+        // verifies deleted session
+        $this->assertSame(null, $this->client->getContainer()->get('session')->get('_security_secured_area'));
+    }
+
+    public function testFailedLoginWillThrowError()
+    {
+        $crawler = $this->client->request('GET', '/secure/login');
+        $this->assertTrue($this->client->getResponse()->isSuccessful());
+
+        $buttonCrawlerNode = $crawler->selectButton('Log In');
+        $form = $buttonCrawlerNode->form(array(
+            '_username'  => 'Fabien',
+            '_password'  => 'Symfony rocks!',
+        ));
+
+        $this->client->submit($form);
+        $this->assertTrue($this->client->getResponse()->isRedirect());
+
+        $this->client->followRedirect();
+        $this->assertTrue($this->client->getResponse()->isSuccessful());
+        $this->assertRegExp('/Log In fehlgeschlagen/', $this->client->getResponse()->getContent());
     }
 
     private function logIn()
