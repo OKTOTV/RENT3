@@ -2,15 +2,22 @@
 
 namespace Oktolab\Bundle\RentBundle\Tests\Controller\Inventory;
 
-use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
+use Oktolab\Bundle\RentBundle\Tests\WebTestCase;
 
 class ItemControllerTest extends WebTestCase
 {
-    /*
+    public function testShowList()
+    {
+        $this->markTestIncomplete();
+    }
+
+/*
     public function testCompleteScenario()
     {
+
         // Create a new client to browse the application
-        $client = static::createClient();
+        $client = $this->client;
+
 
         // Create a new entry in the database
         $crawler = $client->request('GET', '/inventory_item/');
@@ -49,7 +56,5 @@ class ItemControllerTest extends WebTestCase
 
         // Check the entity has been delete on the list
         $this->assertNotRegExp('/Foo/', $client->getResponse()->getContent());
-    }
-
-    */
+    }*/
 }
