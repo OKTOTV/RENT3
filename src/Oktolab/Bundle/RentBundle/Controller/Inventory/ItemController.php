@@ -166,7 +166,7 @@ class ItemController extends Controller
             $em->persist($entity);
             $em->flush();
 
-            return $this->redirect($this->generateUrl('inventory_item_edit', array('id' => $id)));
+            return $this->redirect($this->generateUrl('inventory_item_show', array('id' => $id)));
         }
 
         return array(
@@ -178,15 +178,15 @@ class ItemController extends Controller
     /**
      * Deletes a Inventory\Item entity.
      *
-     * @Route("/{id}", name="inventory_item_delete")
-     * @Method("DELETE")
+     * @Route("/delete/{id}", name="inventory_item_delete")
+     * @Method("GET")
      */
     public function deleteAction(Request $request, $id)
     {
-        $form = $this->createDeleteForm($id);
-        $form->bind($request);
-
-        if ($form->isValid()) {
+//        $form = $this->createDeleteForm($id);
+//        $form->bind($request);
+//
+//        if ($form->isValid()) {
             $em = $this->getDoctrine()->getManager();
             $entity = $em->getRepository('OktolabRentBundle:Inventory\Item')->find($id);
 
@@ -196,7 +196,7 @@ class ItemController extends Controller
 
             $em->remove($entity);
             $em->flush();
-        }
+//        }
 
         return $this->redirect($this->generateUrl('inventory_item'));
     }
