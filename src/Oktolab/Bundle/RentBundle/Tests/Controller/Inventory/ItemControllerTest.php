@@ -7,9 +7,12 @@ use Oktolab\Bundle\RentBundle\Tests\WebTestCase;
 class ItemControllerTest extends WebTestCase
 {
     
-    public function testShowList()
+    public function testShowEmptyList()
     {
-        $this->markTestIncomplete();
+        $client = $this->client;
+        
+        $crawler = $client->request('GET', 'inventory/item');
+        $this->assertEquals(0, $crawler->filter('table tr')->count());
     }
 
     public function testCompleteScenario()
