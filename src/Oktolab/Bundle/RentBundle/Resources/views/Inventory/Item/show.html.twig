@@ -18,8 +18,8 @@
                 <div class="aui-buttons">
                     <a class="aui-button" href="{{ path('inventory_item_edit', { 'id' : entity.id }) }}">Editieren</a>
                     <a class="aui-button" href="{{ path('inventory_item') }}">{% trans %}Back to list{% endtrans %}</a>
-                    <button class="aui-button">Zu Set hinzufügen</button>
-                    <button class="aui-button">Ausmustern</button>
+                    <button class="aui-button" aria-disabled="true">Zu Set hinzufügen</button>
+                    <button class="aui-button" aria-disabled="true">Ausmustern</button>
                 </div>
             </div>
         </div>

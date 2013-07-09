@@ -13,11 +13,10 @@ use Oktolab\Bundle\RentBundle\Form\Inventory\ItemType;
 /**
  * Inventory\Item controller.
  *
- * @Route("/inventory_item")
+ * @Route("/inventory/item")
  */
 class ItemController extends Controller
 {
-
     /**
      * Lists all Inventory\Item entities.
      *
@@ -72,7 +71,7 @@ class ItemController extends Controller
     public function newAction()
     {
         $entity = new Item();
-        $form   = $this->createForm(new ItemType(), $entity);
+        $form   = $this->createForm(new ItemType(), $entity, array('action' => $this->generateUrl('inventory_item_create')));
 
         return array(
             'entity' => $entity,
@@ -122,7 +121,17 @@ class ItemController extends Controller
             throw $this->createNotFoundException('Unable to find Inventory\Item entity.');
         }
 
-        $editForm = $this->createForm(new ItemType(), $entity);
+        $editForm = $this->createForm(
+                new ItemType(), 
+                $entity, 
+                array(
+                    'action' => $this->generateUrl(
+                            'inventory_item_update', 
+                            array('id' => $id)), 
+                    'method' => 'PUT'
+                    )
+                );
+        
         $deleteForm = $this->createDeleteForm($id);
 
         return array(

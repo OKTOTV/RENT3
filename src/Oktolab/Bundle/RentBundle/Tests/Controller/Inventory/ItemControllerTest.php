@@ -6,27 +6,26 @@ use Oktolab\Bundle\RentBundle\Tests\WebTestCase;
 
 class ItemControllerTest extends WebTestCase
 {
+    
     public function testShowList()
     {
         $this->markTestIncomplete();
     }
 
-/*
     public function testCompleteScenario()
     {
-
         // Create a new client to browse the application
         $client = $this->client;
 
-
         // Create a new entry in the database
-        $crawler = $client->request('GET', '/inventory_item/');
-        $this->assertEquals(200, $client->getResponse()->getStatusCode(), "Unexpected HTTP status code for GET /inventory_item/");
-        $crawler = $client->click($crawler->selectLink('Create a new entry')->link());
-
+        $crawler = $client->request('GET', '/inventory/item/');        
+        $this->assertEquals(200, $client->getResponse()->getStatusCode(), "Unexpected HTTP status code for GET /inventory/item/");
+        $crawler = $client->click($crawler->selectLink('Neues Item')->link());
         // Fill in the form and submit it
-        $form = $crawler->selectButton('Create')->form(array(
-            'oktolab_bundle_rentbundle_inventory_itemtype[field_name]'  => 'Test',
+        $form = $crawler->selectButton('Senden')->form(array(
+            'oktolab_bundle_rentbundle_inventory_itemtype[title]'  => 'Test',
+            'oktolab_bundle_rentbundle_inventory_itemtype[description]' => 'Description',
+            'oktolab_bundle_rentbundle_inventory_itemtype[barcode]' => 'ASDF01',
             // ... other fields to fill
         ));
 
@@ -56,5 +55,5 @@ class ItemControllerTest extends WebTestCase
 
         // Check the entity has been delete on the list
         $this->assertNotRegExp('/Foo/', $client->getResponse()->getContent());
-    }*/
+    }
 }
