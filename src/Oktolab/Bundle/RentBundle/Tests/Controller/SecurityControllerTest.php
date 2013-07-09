@@ -57,10 +57,12 @@ class SecurityControllerTest extends WebTestCase
         $this->assertTrue($this->client->getResponse()->isSuccessful());
 
         $buttonCrawlerNode = $crawler->selectButton('Log In');
-        $form = $buttonCrawlerNode->form(array(
-            '_username'  => 'Fabien',
-            '_password'  => 'Symfony rocks!',
-        ));
+        $form = $buttonCrawlerNode->form(
+            array(
+                '_username'  => 'Fabien',
+                '_password'  => 'Symfony rocks!',
+            )
+        );
 
         $this->client->submit($form);
         $this->assertTrue($this->client->getResponse()->isRedirect());

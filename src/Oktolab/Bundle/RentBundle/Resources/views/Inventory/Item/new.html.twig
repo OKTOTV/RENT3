@@ -15,7 +15,7 @@
         <div class="aui-page-header-actions">
             <div class="aui-buttons">
                 <div class="aui-buttons">
-                    <a class="aui-button" href="{{ path('inventory_item') }}">Zurück zur Liste</a>
+                    <a class="aui-button" href="{{ path('inventory_item') }}">{% trans %}Back to list{% endtrans %}</a>
                 </div>
             </div>
         </div>
@@ -25,63 +25,21 @@
 {% block content %}
     <div class="aui-page-panel">
         <div class="aui-page-panel-inner">
-            <section class="aui-page-panel-content">              
+            <section class="aui-page-panel-content">
                 {{ form_start(form, {'attr': {'class': 'aui'}}) }}
                     <fieldset>
                         {{ form_errors(form) }}
-                        <div class="field-group">
-                            <label for="d-fname">{{ form_label(form.title) }}
-                                <span class="aui-icon icon-required"></span>
-                            </label>
-                            {{ form_widget(form.title, {'attr': {'class': 'text'}}) }}
-                            <div class="error">{{ form_errors(form.title) }}</div>
-                            <div class="description">Name des Items</div>
-                        </div>
-                        <div class="field-group">
-                            <label for="d-fname">{{ form_label(form.description) }}
-                                <span class="aui-icon icon-required"></span>
-                            </label>
-                            {{ form_widget(form.description, {'attr': {'class': 'textarea', 'placeholder': "Dein Beschreibungstext..."}}) }}
-                            <div class="error">{{ form_errors(form.description) }}</div>
-                        </div>
-                        <div class="field-group">
-                            <label for="d-fname">{{ form_label(form.barcode) }}
-                                <span class="aui-icon icon-required"></span>
-                            </label>
-                            {{ form_widget(form.barcode, {'attr': {'class': 'text'}}) }}
-                            <div class="error">{{ form_errors(form.barcode) }}</div>
-                            <div class="description">Einzigartiger Barcode für das System</div>
-                        </div>
-                        <div class="field-group">
-                            <label for="d-fname">{{ form_label(form.buyDate) }}
-                                <span class="aui-icon icon-required"></span>
-                            </label>
-                            {{ form_widget(form.buyDate) }}
-                            <div class="error">{{ form_errors(form.buyDate) }}</div>
-                        </div>
-                        <div class="field-group">
-                            <label for="d-fname">{{ form_label(form.serialNumber) }}
-                                <span class="aui-icon icon-required"></span>
-                            </label>
-                            {{ form_widget(form.serialNumber, {'attr': {'class': 'text'}}) }}
-                            <div class="error">{{ form_errors(form.serialNumber) }}</div>
-                        </div>
-                        <div class="field-group">
-                            <label for="d-fname">{{ form_label(form.vendor) }}
-                                <span class="aui-icon icon-required"></span>
-                            </label>
-                            {{ form_widget(form.vendor, {'attr': {'class': 'text'}}) }}
-                            <div class="error">{{ form_errors(form.vendor) }}</div>
-                        </div>
-                        <div class="field-group">
-                            <label for="d-fname">{{ form_label(form.modelNumber) }}
-                                <span class="aui-icon icon-required"></span>
-                            </label>
-                            {{ form_widget(form.modelNumber, {'attr': {'class': 'text'}}) }}
-                            <div class="error">{{ form_errors(form.modelNumber) }}</div>
-                        </div>
+
+                        {{ form_row(form.title) }}
+                        {{ form_row(form.description, {'attr': {'placeholder': 'Description of the item'} }) }}
+                        {{ form_row(form.barcode) }}
+                        {{ form_row(form.buyDate) }}
+                        {{ form_row(form.serialNumber) }}
+                        {{ form_row(form.vendor) }}
+                        {{ form_row(form.modelNumber) }}
+
                         <div class="buttons-container">
-                            <button class="button submit">{% trans %}Submit{% endtrans %}</button>
+                            <button class="button submit" type="submit">{% trans %}Submit{% endtrans %}</button>
                         </div>
                     </fieldset>
                 {{ form_end(form) }}
