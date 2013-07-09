@@ -19,7 +19,7 @@
     {% endspaceless %}
 {% endblock %}
 
-{# override form_widget #}
+{# override form_widget_simple #}
 {% block form_widget_simple %}
     {% spaceless %}
         {% set type = type|default('text') %}
@@ -27,7 +27,19 @@
             class="text" type="{{ type }}"
             id="{{ id }}"
             title="{{ name }}"
+            {{ block('widget_attributes') }}
             {% if value is not empty %} value="{{ value }}"{% endif %}
         />
     {% endspaceless %}
 {% endblock %}
+
+{# override textarea_widget #}
+{% block textarea_widget %}
+    {% spaceless %}
+        <textarea
+            class="textarea" id="{{ id }}"
+            {{ block('widget_attributes') }}
+        >{% if value is not empty %} value="{{ value }}"{% endif %}</textarea>
+
+    {% endspaceless %}
+{% endblock %}<textarea <?php echo $view['form']->block($form, 'widget_attributes') ?>><?php echo $view->escape($value) ?></textarea>
