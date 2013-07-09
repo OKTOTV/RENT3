@@ -293,7 +293,7 @@ class Item
     }
 
     /**
-     * Return true if item is on warranty, otherwise false
+     * Return true if warranty of item is void
      *
      * @return boolean
      */
