@@ -19,23 +19,15 @@
     {% endspaceless %}
 {% endblock %}
 
-{# override form_widget }
+{# override form_widget #}
 {% block form_widget_simple %}
     {% spaceless %}
         {% set type = type|default('text') %}
-        <input class="text" type="{{ type }}"
-               {% if value is not empty %} value="{{ value }}"{% endif %}
-               {{ widget_attributes(form) }}>
-
-
-
-
-        {#<input type="" {{ block('widget_attributes') }} {% if value is not empty %}value="{{ value }}" {% endif %}/>}
+        <input
+            class="text" type="{{ type }}"
+            id="{{ id }}"
+            title="{{ name }}"
+            {% if value is not empty %} value="{{ value }}"{% endif %}
+        />
     {% endspaceless %}
 {% endblock %}
-
-<input
-    type="<?php echo isset($type) ? $view->escape($type) : 'text' ?>"
-    <?php if (!empty($value)): ?>value="<?php echo $view->escape($value) ?>"<?php endif ?>
-<?php echo $view['form']->block($form, 'widget_attributes') ?>
-/> #}
