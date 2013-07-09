@@ -31,12 +31,8 @@
                     {{ form_start(form) }}
                         <fieldset>
                             {{ form_errors(form) }}
-                            <div class="field-group">
-                                <label for="d-fname">{{ form_label(form.title) }}<span class="aui-icon icon-required"></span></label>
-                                {{ form_widget(form.title, {'attr': {'class': 'text'}}) }}
-                                <div class="error">{{ form_errors(form.title) }}</div>
-                                <div class="description">Name des Items</div>
-                            </div>
+                            {{ form_row(form.title) }}
+
                             <div class="field-group">
                                 <label for="d-fname">{{ form_label(form.description) }}<span class="aui-icon icon-required"></span></label>
                                 {{ form_widget(form.description, {'attr': {'class': 'textarea', 'placeholder': "Dein Beschreibungstext..."}}) }}

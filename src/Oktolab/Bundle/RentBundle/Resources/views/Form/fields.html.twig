@@ -1,0 +1,41 @@
+{# override form_row #}
+{% block form_row %}
+    {% spaceless %}
+        <div class="field-group">
+            {{ form_label(form) }}
+            {{ form_errors(form) }}
+            {{ form_widget(form) }}
+        </div>
+    {% endspaceless %}
+{% endblock %}
+
+{# override form_label #}
+{% block form_label %}
+    {% spaceless %}
+        <label {% if compound == false %} for="{{ id }}"{% endif %}>
+            {{ name|humanize|trans }}
+            {% if required %}<span class="aui-icon icon-required"> required</span>{% endif %}
+        </label>
+    {% endspaceless %}
+{% endblock %}
+
+{# override form_widget }
+{% block form_widget_simple %}
+    {% spaceless %}
+        {% set type = type|default('text') %}
+        <input class="text" type="{{ type }}"
+               {% if value is not empty %} value="{{ value }}"{% endif %}
+               {{ widget_attributes(form) }}>
+
+
+
+
+        {#<input type="" {{ block('widget_attributes') }} {% if value is not empty %}value="{{ value }}" {% endif %}/>}
+    {% endspaceless %}
+{% endblock %}
+
+<input
+    type="<?php echo isset($type) ? $view->escape($type) : 'text' ?>"
+    <?php if (!empty($value)): ?>value="<?php echo $view->escape($value) ?>"<?php endif ?>
+<?php echo $view['form']->block($form, 'widget_attributes') ?>
+/> #}
