@@ -66,7 +66,7 @@ class Item
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="buy_date", type="date")
+     * @ORM\Column(name="buy_date", type="date", nullable=true)
      */
     private $buyDate;
 
