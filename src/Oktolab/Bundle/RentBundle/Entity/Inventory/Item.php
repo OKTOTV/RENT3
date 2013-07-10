@@ -99,6 +99,15 @@ class Item
     private $warrantyDate;
 
     /**
+     * @var integer
+     *
+     * 
+     * @ORM\ManyToOne(targetEntity="Set", inversedBy="items")
+     *
+     */
+    private $set;
+
+    /**
      * Get id
      *
      * @return integer
