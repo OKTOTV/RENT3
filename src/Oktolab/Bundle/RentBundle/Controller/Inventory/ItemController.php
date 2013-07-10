@@ -122,16 +122,16 @@ class ItemController extends Controller
         }
 
         $editForm = $this->createForm(
-                new ItemType(), 
-                $entity, 
+                new ItemType(),
+                $entity,
                 array(
                     'action' => $this->generateUrl(
-                            'inventory_item_update', 
-                            array('id' => $id)), 
+                            'inventory_item_update',
+                            array('id' => $id)),
                     'method' => 'PUT'
                     )
                 );
-        
+
         $deleteForm = $this->createDeleteForm($id);
 
         return array(
@@ -197,7 +197,6 @@ class ItemController extends Controller
             $em->remove($entity);
             $em->flush();
 //        }
-
         return $this->redirect($this->generateUrl('inventory_item'));
     }
 

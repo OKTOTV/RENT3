@@ -26,6 +26,10 @@
                 <source>Model number</source>
                 <target>Modellnummer</target>
             </trans-unit>
+            <trans-unit id="7">
+                <source>Back to list</source>
+                <target>Zurück zur Liste</target>
+            </trans-unit>
         </body>
     </file>
 </xliff>
