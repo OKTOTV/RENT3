@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * Set
  *
- * @ORM\Table()
+ * @ORM\Table(name="Item_Set")
  * @ORM\Entity
  */
 class Set
