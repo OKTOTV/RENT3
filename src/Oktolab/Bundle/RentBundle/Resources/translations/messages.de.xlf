@@ -30,6 +30,10 @@
                 <source>Back to list</source>
                 <target>Zurück zur Liste</target>
             </trans-unit>
+            <trans-unit id="8">
+                <source>Submit</source>
+                <target>Speichern</target>
+            </trans-unit>
         </body>
     </file>
 </xliff>
