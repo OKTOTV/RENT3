@@ -12,7 +12,7 @@ class SetType extends AbstractType
     {
         $builder
             ->add('title')
-            ->add('description')
+            ->add('description', 'textarea')
         ;
     }
 
