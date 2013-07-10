@@ -1,31 +1,5 @@
 {% extends "::base.html.twig" %}
 
-{% block head %}
-    <style type="text/css">
-            .login #main.aui-page-panel {
-                border-radius: 5px 5px 5px 5px;
-                box-shadow: 0 0 5px 1px #DDDDDD;
-                margin: 150px auto 0;
-                min-height: 120px;
-                overflow: auto;
-                padding: 30px;
-                width: 500px;
-            }
-
-            .userpassword-section h2, .login-section h2, .signup-section h2 {
-                border-bottom: 1px solid #DDDDDD;
-                color: #333333;
-                margin-bottom: 20px;
-                padding-bottom: 10px;
-            }
-    </style>
-{% endblock %}
-
-{% block javascripts %}
-    <script src="{{ asset('aui-5.1/js/aui-all.js') }}"></script>
-    <script src="{{ asset('bundles/acmedemo/js/jira_bug_tracker.js') }}"></script>
-{% endblock %}
-
 {% block title '' %}
 
 {% block body %}
