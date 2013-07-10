@@ -2,6 +2,7 @@
 <html>
     <head>
         <meta charset="UTF-8" />
+        <meta name="decorator" content="atl.general">
         <title>{% block title %}Welcome!{% endblock %} - Oktolab RENT</title>
         <link rel="icon" type="image/x-icon" sizes="16x16" href="{{ asset('favicon.ico') }}" />
         <link rel="stylesheet" href="{{ asset('aui-5.1/css/aui-all.css') }}" />
@@ -28,9 +29,11 @@
             </footer>
         </div>
 
-        <script type="text/javascript" src="{{ asset('aui-5.1/js/aui-all.js') }}"></script>
-        <script type="text/javascript" src="{{ asset('bundles/oktolabrent/js/jira_bug_tracker.js') }}"></script>
-        <script type="text/javascript" src="{{ asset('bundles/oktolabrent/js/aui-tools.js') }}"></script>
+        {% javascripts
+            'aui-5.1/js/aui-all.js'
+            '@OktolabRentBundle/Resources/public/js/*' %}
+            <script type="text/javascript" src="{{ asset_url }}"></script>
+        {% endjavascripts %}
         {% block javascripts %}{% endblock %}
     </body>
 </html>

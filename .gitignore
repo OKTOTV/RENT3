@@ -7,6 +7,8 @@
 /app/cache/*
 /app/logs/*
 /web/bundles/
+/web/js/
+/web/css/
 
 /vendor/
 /build/
