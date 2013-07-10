@@ -35,6 +35,7 @@ build
 *.sublime-project
 .idea
 /test-results
+/test-reports
 
 # eclipse
 .buildpath

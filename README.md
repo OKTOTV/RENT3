@@ -1,3 +1,14 @@
+Oktolab RENT
+========================
+
+Find Documentation at http://intern.okto.tv/display/RENT
+
+### Run Test-Suite
+phpunit -c app/
+phpcs src/ --standard=PSR2
+
+
+
 Symfony Standard Edition
 ========================
 

@@ -25,8 +25,6 @@
         {% set type = type|default('text') %}
         <input
             class="text" type="{{ type }}"
-            id="{{ id }}"
-            title="{{ name }}"
             {{ block('widget_attributes') }}
             {% if value is not empty %} value="{{ value }}"{% endif %}
         />
@@ -39,7 +37,7 @@
         <textarea
             class="textarea" id="{{ id }}"
             {{ block('widget_attributes') }}
-        >{% if value is not empty %} value="{{ value }}"{% endif %}</textarea>
+        >{% if value is not empty %}{{ value }}{% endif %}</textarea>
 
     {% endspaceless %}
 {% endblock %}<textarea <?php echo $view['form']->block($form, 'widget_attributes') ?>><?php echo $view->escape($value) ?></textarea>

@@ -293,14 +293,13 @@ class Item
     }
 
     /**
-     * Return true if item is on warranty, otherwise false
+     * Return true if warranty of item is void
      *
      * @return boolean
      */
     public function isWarrantyVoid()
     {
         $now = new \DateTime();
-
         return ($this->warrantyDate <= $now);
     }
 }
