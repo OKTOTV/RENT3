@@ -28,7 +28,7 @@
             id="{{ id }}"
             title="{{ name }}"
             {{ block('widget_attributes') }}
-            {% if value is not empty %} value="{{ value }}"{% endif %}
+            {% if value is not empty %}{{ value }}{% endif %}
         />
     {% endspaceless %}
 {% endblock %}

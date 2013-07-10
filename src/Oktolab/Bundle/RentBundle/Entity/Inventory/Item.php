@@ -98,7 +98,6 @@ class Item
      */
     private $warrantyDate;
 
-
     /**
      * Get id
      *
@@ -112,7 +111,7 @@ class Item
     /**
      * Set title
      *
-     * @param string $title
+     * @param  string $title
      * @return Item
      */
     public function setTitle($title)
@@ -135,7 +134,7 @@ class Item
     /**
      * Set description
      *
-     * @param string $description
+     * @param  string $description
      * @return Item
      */
     public function setDescription($description)
@@ -158,7 +157,7 @@ class Item
     /**
      * Set barcode
      *
-     * @param string $barcode
+     * @param  string $barcode
      * @return Item
      */
     public function setBarcode($barcode)
@@ -181,7 +180,7 @@ class Item
     /**
      * Set buyDate
      *
-     * @param \DateTime $buyDate
+     * @param  \DateTime $buyDate
      * @return Item
      */
     public function setBuyDate($buyDate)
@@ -204,7 +203,7 @@ class Item
     /**
      * Set serialNumber
      *
-     * @param string $serialNumber
+     * @param  string $serialNumber
      * @return Item
      */
     public function setSerialNumber($serialNumber)
@@ -227,7 +226,7 @@ class Item
     /**
      * Set vendor
      *
-     * @param string $vendor
+     * @param  string $vendor
      * @return Item
      */
     public function setVendor($vendor)
@@ -250,7 +249,7 @@ class Item
     /**
      * Set modelNumber
      *
-     * @param string $modelNumber
+     * @param  string $modelNumber
      * @return Item
      */
     public function setModelNumber($modelNumber)
@@ -283,12 +282,13 @@ class Item
     /**
      * Set warrantyDate
      *
-     * @param \DateTime $warrantyDate
+     * @param  \DateTime $warrantyDate
      * @return Item
      */
     public function setWarrantyDate($warrantyDate)
     {
         $this->warrantyDate = $warrantyDate;
+
         return $this;
     }
 
