@@ -25,10 +25,8 @@
         {% set type = type|default('text') %}
         <input
             class="text" type="{{ type }}"
-            id="{{ id }}"
-            title="{{ name }}"
             {{ block('widget_attributes') }}
-            {% if value is not empty %}{{ value }}{% endif %}
+            {% if value is not empty %} value="{{ value }}"{% endif %}
         />
     {% endspaceless %}
 {% endblock %}
