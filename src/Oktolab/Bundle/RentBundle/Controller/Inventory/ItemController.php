@@ -71,7 +71,13 @@ class ItemController extends Controller
     public function newAction()
     {
         $entity = new Item();
-        $form   = $this->createForm(new ItemType(), $entity, array('action' => $this->generateUrl('inventory_item_create')));
+        $form   = $this->createForm(
+            new ItemType(),
+            $entity,
+            array(
+                'action' => $this->generateUrl('inventory_item_create')
+                )
+        );
 
         return array(
             'entity' => $entity,
@@ -122,15 +128,16 @@ class ItemController extends Controller
         }
 
         $editForm = $this->createForm(
-                new ItemType(),
-                $entity,
-                array(
-                    'action' => $this->generateUrl(
-                            'inventory_item_update',
-                            array('id' => $id)),
-                    'method' => 'PUT'
-                    )
-                );
+            new ItemType(),
+            $entity,
+            array(
+                'action' => $this->generateUrl(
+                    'inventory_item_update',
+                    array('id' => $id)
+                ),
+                'method' => 'PUT'
+            )
+        );
 
         $deleteForm = $this->createDeleteForm($id);
 
@@ -183,20 +190,15 @@ class ItemController extends Controller
      */
     public function deleteAction(Request $request, $id)
     {
-//        $form = $this->createDeleteForm($id);
-//        $form->bind($request);
-//
-//        if ($form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
-            $entity = $em->getRepository('OktolabRentBundle:Inventory\Item')->find($id);
-
-            if (!$entity) {
+        $em = $this->getDoctrine()->getManager();
+        $entity = $em->getRepository('OktolabRentBundle:Inventory\Item')->find($id);
+        if (!$entity) {
                 throw $this->createNotFoundException('Unable to find Inventory\Item entity.');
-            }
+        }
 
-            $em->remove($entity);
-            $em->flush();
-//        }
+        $em->remove($entity);
+        $em->flush();
+
         return $this->redirect($this->generateUrl('inventory_item'));
     }
 
