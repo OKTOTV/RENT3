@@ -19,6 +19,25 @@
     {% endspaceless %}
 {% endblock %}
 
+{# override form_errors #}
+{% block form_errors %}
+    {% spaceless %}
+        {% if errors|length == 1 %}
+            <div class="error">{{ errors|first.message }}</div>
+        {% elseif errors|length >= 2 %}
+            <div class="error">
+                <ul>
+                {% for error in errors %}
+                    <li>{{ error.message }}</li>
+                {% endfor %}
+                </ul>
+            </div>
+        {% else %}
+            {# print nothing #}
+        {% endif %}
+    {% endspaceless %}
+{% endblock %}
+
 {# override form_widget_simple #}
 {% block form_widget_simple %}
     {% spaceless %}
@@ -41,18 +60,12 @@
     {% endspaceless %}
 {% endblock %}
 
-{% block form_errors %}
+{# override date_widget #}
+{% block date_widget %}
     {% spaceless %}
-        {% if errors|length == 1 %}
-            <div class="error">{{ errors|first.message }}</div>
-        {% else %}
-            <div class="error">
-                <ul>
-                {% for error in errors %}
-                    <li>{{ error.message }}</li>
-                {% endfor %}
-                </ul>
-            </div>
-        {% endif %}
+        <input
+            class="aui-date-picker" type="date" {{ block('widget_attributes') }}
+            {% if value is not empty %} value="{{ value }}"{% endif %}
+        />
     {% endspaceless %}
 {% endblock %}
