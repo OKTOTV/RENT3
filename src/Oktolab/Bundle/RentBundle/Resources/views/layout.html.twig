@@ -3,34 +3,7 @@
 {% block title 'Demo Bundle' %}
 
 {% block page_header %}
-    {% if (app.security.token is not null) %}
         {{ include('::header.html.twig') }}
-    {% else %}
-        <header id="header" role="banner">
-            <nav class="aui-header aui-dropdown2-trigger-group" role="navigation">
-                <div class="aui-header-primary">
-                    <h1 id="logo" class="aui-header-logo aui-header-logo-aui"><a href="{{ path('rentbundle_dashboard') }}"><span class="aui-header-logo-device">RENT</span></a></h1>
-                </div>
-                <div class="aui-header-secondary">
-                    <ul class="aui-nav">
-                        <li><a href="#dropdown2-header7" aria-owns="dropdown2-header7" aria-haspopup="true" class="aui-dropdown2-trigger" aria-controls="dropdown2-header7"><span class="aui-icon aui-icon-small aui-iconfont-help">{% trans %}Help{% endtrans %}</span><span class="aui-icon-dropdown"></span></a>
-                          <div class="aui-dropdown2 aui-style-default aui-dropdown2-in-header" id="dropdown2-header7" style="display: none; top: 40px; min-width: 160px; left: 1213px; " aria-hidden="true">
-                              <div class="aui-dropdown2-section">
-                                  <ul>
-                                      <li><a href="{{ rent_documentation_url }}" class="active">{% trans %}Online help{% endtrans %}</a></li>
-                                      <li><a href="{{ path('rentbundle_about') }}">{% trans %}About{% endtrans %}</a></li>
-                                  </ul>
-                              </div>
-                          </div>
-                        </li>
-                        <li><a href="{{ path('rentbundle_secure_login') }}" class="aui-nav-imagelink">{% trans %}Log In{% endtrans %}</a></li>
-                    </ul>
-                </div>
-            </nav>
-
-            <br class="clear">
-        </header>
-    {% endif %}
 {% endblock page_header %}
 
 {% block page_main %}
