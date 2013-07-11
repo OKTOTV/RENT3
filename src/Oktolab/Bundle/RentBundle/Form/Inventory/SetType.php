@@ -12,15 +12,16 @@ class SetType extends AbstractType
     {
         $builder
             ->add('title')
-            ->add('description', 'textarea')
-        ;
+            ->add('description', 'textarea');
     }
 
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
-        $resolver->setDefaults(array(
-            'data_class' => 'Oktolab\Bundle\RentBundle\Entity\Inventory\Set'
-        ));
+        $resolver->setDefaults(
+            array(
+                'data_class' => 'Oktolab\Bundle\RentBundle\Entity\Inventory\Set'
+            )
+        );
     }
 
     public function getName()

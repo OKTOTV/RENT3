@@ -3,6 +3,7 @@
 namespace Oktolab\Bundle\RentBundle\Entity\Inventory;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Set
@@ -25,6 +26,12 @@ class Set
      * @var string
      *
      * @ORM\Column(name="title", type="string", length=255)
+     *
+     * @Assert\NotBlank(message = "Du musst einen Titel angeben" )
+     * @Assert\Length(
+     *     max = 255,
+     *     maxMessage = "Der Titel darf maximal 255 Zeichen lang sein"
+     * )
      */
     private $title;
 
@@ -32,6 +39,12 @@ class Set
      * @var string
      *
      * @ORM\Column(name="description", type="string", length=500)
+     *
+     * @Assert\NotBlank(message = "Du musst eine Beschreibung angeben" )
+     * @Assert\Length(
+     *     max = 500,
+     *     maxMessage = "Die Beschreibung darf maximal 500 Zeichen lang sein"
+     *     )
      */
     private $description;
 

@@ -1,28 +1,39 @@
-{% extends '::base.html.twig' %}
+{% extends 'OktolabRentBundle::secureAreaLayout.html.twig' %}
 
-{% block body -%}
-    <h1>Inventory\Set edit</h1>
+{% block content_header %}
+<div class="aui-page-header-inner">
+    <div class="aui-page-header-image">
+        <div class="aui-avatar aui-avatar-xlarge aui-avatar-project">
+            <div class="aui-avatar-inner">
+                <img src="static/img/none.png">
+            </div>
+        </div>
+    </div>
+    <div class="aui-page-header-main">
+        <h1>{{entity.title }} bearbeiten</h1>
+    </div>
+    <div class="aui-page-header-actions">
+        <div class="aui-buttons">
+            <div class="aui-buttons">
+                <a class="aui-button" href="{{ path('inventory_set') }}">{% trans %}Back to list{% endtrans %}</a>
+                <a class="aui-button" href="{{ path('inventory_set_delete', { 'id': entity.id }) }}">{% trans %}Delete{% endtrans %}</a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
 
-    <form action="{{ path('inventory_set_update', { 'id': entity.id }) }}" method="post" {{ form_enctype(edit_form) }}>
-        <input type="hidden" name="_method" value="PUT" />
-        {{ form_widget(edit_form) }}
-        <p>
-            <button type="submit">Edit</button>
-        </p>
-    </form>
+{% block content%}
+    {{ form_start(edit_form, {'attr': {'class': 'aui'}}) }}
+        <fieldset>
+            {{ form_errors(edit_form) }}
 
-        <ul class="record_actions">
-    <li>
-        <a href="{{ path('inventory_set') }}">
-            Back to the list
-        </a>
-    </li>
-    <li>
-        <form action="{{ path('inventory_set_delete', { 'id': entity.id }) }}" method="post">
-            <input type="hidden" name="_method" value="DELETE" />
-            {{ form_widget(delete_form) }}
-            <button type="submit">Delete</button>
-        </form>
-    </li>
-</ul>
+            {{ form_row(edit_form.title) }}
+            {{ form_row(edit_form.description, {'attr': {'placeholder': 'Description of the set'} }) }}
+
+            <div class="buttons-container">
+                <button class="button submit aui-primary" type="submit">{% trans %}Submit{% endtrans %}</button>
+            </div>
+        </fieldset>
+    {{ form_end(edit_form) }}
 {% endblock %}

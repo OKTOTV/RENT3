@@ -1,42 +1,74 @@
-{% extends '::base.html.twig' %}
+{% extends 'OktolabRentBundle::secureAreaLayout.html.twig' %}
 
-{% block body -%}
-    <h1>Inventory\Set</h1>
+{% block content_header %}
+    <div class="aui-page-header-inner">
+        <div class="aui-page-header-image">
+            <div class="aui-avatar aui-avatar-xlarge aui-avatar-project">
+                <div class="aui-avatar-inner">
+                    <img src="static/img/none.png">
+                </div>
+            </div>
+        </div>
+        <div class="aui-page-header-main">
+            <h1>{{entity.title}}</h1>
+            <h3>Barcode: </h3>
+        </div>
+        <div class="aui-page-header-actions">
+            <div class="aui-buttons">
+                <div class="aui-buttons">
+                    <a class="aui-button" href="{{ path('inventory_set_edit', { 'id' : entity.id }) }}">Editieren</a>
+                    <a class="aui-button" href="{{ path('inventory_set') }}">{% trans %}Back to list{% endtrans %}</a>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
 
-    <table class="record_properties">
-        <tbody>
-            <tr>
-                <th>Id</th>
-                <td>{{ entity.id }}</td>
-            </tr>
-            <tr>
-                <th>Title</th>
-                <td>{{ entity.title }}</td>
-            </tr>
-            <tr>
-                <th>Description</th>
-                <td>{{ entity.description }}</td>
-            </tr>
-        </tbody>
-    </table>
+{% block content %}
+    <div class="aui-page-panel">
+        <div class="aui-page-panel-inner">
+            <section class="aui-page-panel-content">
+                <h3>{% trans %}Description{% endtrans %}</h3>
+                <p>{{ entity.description }}</p>
 
-        <ul class="record_actions">
-    <li>
-        <a href="{{ path('inventory_set') }}">
-            Back to the list
-        </a>
-    </li>
-    <li>
-        <a href="{{ path('inventory_set_edit', { 'id': entity.id }) }}">
-            Edit
-        </a>
-    </li>
-    <li>
-        <form action="{{ path('inventory_set_delete', { 'id': entity.id }) }}" method="post">
-            <input type="hidden" name="_method" value="DELETE" />
-            {{ form_widget(delete_form) }}
-            <button type="submit">Delete</button>
-        </form>
-    </li>
-</ul>
+                <h3>{% trans %}Items{% endtrans %}</h3>
+                <table class="aui">
+                    <thead>
+                        <tr>
+                            <th id="name">{% trans %}Title{% endtrans %}</th>
+                            <th>{% trans %}Description{% endtrans %}</th>
+                            <th>{% trans %}Barcode{% endtrans %}</th>
+                            <th>{% trans %}Buydate{% endtrans %}</th>
+                            <th>{% trans %}Serialnumber{% endtrans %}</th>
+                            <th>{% trans %}Vendor{% endtrans %}</th>
+                            <th>{% trans %}Modelnumber{% endtrans %}</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for item in items %}
+                            <tr>
+                                <td headers="name">{{ item.title }}</td>
+                                <td>{{ item.description }}</td>
+                                <td>{{ item.barcode }}</td>
+                                <td>{% if item.buyDate %}{{ item.buyDate|date('Y-m-d') }}{% endif %}</td>
+                                <td>{{ item.serialNumber }}</td>
+                                <td>{{ item.vendor }}</td>
+                                <td>{{ item.modelNumber }}</td>
+                                <td class="action" headers="action">
+                                    <ul class="menu">
+                                        <li>
+                                            <a href="{{ path('inventory_item_show', { 'id': item.id }) }}">{% trans %}show{% endtrans %}</a>
+                                        </li>
+                                        <li>
+                                            <a href="{{ path('inventory_item_edit', { 'id': item.id }) }}">{% trans %}edit{% endtrans %}</a>
+                                        </li>
+                                    </ul>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </section>
+        </div>
+    </div>
 {% endblock %}

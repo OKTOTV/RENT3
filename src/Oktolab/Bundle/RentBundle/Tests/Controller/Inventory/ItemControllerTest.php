@@ -6,7 +6,6 @@ use Oktolab\Bundle\RentBundle\Tests\WebTestCase;
 
 class ItemControllerTest extends WebTestCase
 {
-
     public function testShowEmptyList()
     {
         $client = $this->client;

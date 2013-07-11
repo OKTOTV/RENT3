@@ -72,7 +72,10 @@ class SetController extends Controller
     public function newAction()
     {
         $entity = new Set();
-        $form   = $this->createForm(new SetType(), $entity);
+        $form   = $this->createForm(
+            new SetType(),
+            $entity,
+            array('action' => $this->generateUrl('inventory_set_create')));
 
         return array(
             'entity' => $entity,
@@ -99,9 +102,12 @@ class SetController extends Controller
 
         $deleteForm = $this->createDeleteForm($id);
 
+        $items = $entity->getItems();
+
         return array(
             'entity'      => $entity,
             'delete_form' => $deleteForm->createView(),
+            'items'       => $items,
         );
     }
 
@@ -122,7 +128,23 @@ class SetController extends Controller
             throw $this->createNotFoundException('Unable to find Inventory\Set entity.');
         }
 
-        $editForm = $this->createForm(new SetType(), $entity);
+        $items = $entity->getItems();
+
+        $editForm = $this->createForm(
+            new SetType(),
+            $entity,
+            array(
+                'method' => 'PUT',
+                'action' => $this->generateUrl(
+                    'inventory_set_update',
+                    array(
+                        'id' => $id,
+                        'items' => $items
+                    )
+                )
+            )
+        );
+
         $deleteForm = $this->createDeleteForm($id);
 
         return array(
@@ -148,7 +170,7 @@ class SetController extends Controller
         if (!$entity) {
             throw $this->createNotFoundException('Unable to find Inventory\Set entity.');
         }
-
+        $items = $entity->getItems();
         $deleteForm = $this->createDeleteForm($id);
         $editForm = $this->createForm(new SetType(), $entity);
         $editForm->bind($request);
@@ -157,38 +179,33 @@ class SetController extends Controller
             $em->persist($entity);
             $em->flush();
 
-            return $this->redirect($this->generateUrl('inventory_set_edit', array('id' => $id)));
+            return $this->redirect($this->generateUrl('inventory_set_show', array('id' => $id, 'items' => $items)));
         }
 
         return array(
             'entity'      => $entity,
             'edit_form'   => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
+            'items'       => $items
         );
     }
     /**
      * Deletes a Inventory\Set entity.
      *
-     * @Route("/{id}", name="inventory_set_delete")
-     * @Method("DELETE")
+     * @Route("/delete/{id}", name="inventory_set_delete")
+     * @Method("GET")
      */
     public function deleteAction(Request $request, $id)
     {
-        $form = $this->createDeleteForm($id);
-        $form->bind($request);
+        $em = $this->getDoctrine()->getManager();
+        $entity = $em->getRepository('OktolabRentBundle:Inventory\Set')->find($id);
 
-        if ($form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
-            $entity = $em->getRepository('OktolabRentBundle:Inventory\Set')->find($id);
-
-            if (!$entity) {
-                throw $this->createNotFoundException('Unable to find Inventory\Set entity.');
-            }
-
-            $em->remove($entity);
-            $em->flush();
+        if (!$entity) {
+            throw $this->createNotFoundException('Unable to find Inventory\Set entity.');
         }
 
+        $em->remove($entity);
+        $em->flush();
         return $this->redirect($this->generateUrl('inventory_set'));
     }
 
@@ -203,7 +220,6 @@ class SetController extends Controller
     {
         return $this->createFormBuilder(array('id' => $id))
             ->add('id', 'hidden')
-            ->getForm()
-        ;
+            ->getForm();
     }
 }
