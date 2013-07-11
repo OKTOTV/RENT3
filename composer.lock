@@ -3,7 +3,7 @@
         "This file locks the dependencies of your project to a known state",
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file"
     ],
-    "hash": "7fd77d97e4f5f12c2d61ca3d4ac3ff12",
+    "hash": "7b0d52eafd508227c6273236e5e645cc",
     "packages": [
         {
             "name": "dflydev/markdown",
@@ -330,6 +330,47 @@
                 "orm"
             ],
             "time": "2013-05-11 07:51:12"
+        },
+        {
+            "name": "frequence-web/calendr-bundle",
+            "version": "1.0.0",
+            "target-dir": "FrequenceWeb/Bundle/CalendRBundle",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/frequence-web/FrequenceWebCalendRBundle.git",
+                "reference": "1.0.0"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://github.com/frequence-web/FrequenceWebCalendRBundle/archive/1.0.0.zip",
+                "reference": "1.0.0",
+                "shasum": ""
+            },
+            "require": {
+                "symfony/framework-bundle": "2.*",
+                "yohang/calendr": ">=1.0"
+            },
+            "type": "symfony-bundle",
+            "autoload": {
+                "psr-0": {
+                    "FrequenceWeb\\Bundle\\CalendRBundle": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Yohan Giarelli",
+                    "homepage": "http://github.com/yohang"
+                }
+            ],
+            "description": "This bundle provides an integration of the CalendR library",
+            "keywords": [
+                "calendar"
+            ],
+            "time": "2013-01-23 12:08:05"
         },
         {
             "name": "incenteev/composer-parameter-handler",
@@ -1277,6 +1318,61 @@
                 "templating"
             ],
             "time": "2013-06-06 06:06:01"
+        },
+        {
+            "name": "yohang/calendr",
+            "version": "1.0.5",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/yohang/CalendR.git",
+                "reference": "1.0.5"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/yohang/CalendR/zipball/1.0.5",
+                "reference": "1.0.5",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.0"
+            },
+            "require-dev": {
+                "doctrine/orm": ">=2.2",
+                "google/google-api-php-client": "0.6.2",
+                "phpunit/phpunit": "3.7.*",
+                "silex/silex": "1.1.*",
+                "twig/twig": "1.*"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.0.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-0": {
+                    "CalendR": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Yohan GIARELLI",
+                    "email": "yohan@giarel.li",
+                    "homepage": "http://yohan.giarel.li"
+                }
+            ],
+            "description": "Object Oriented calendar management",
+            "homepage": "https://github.com/yohang/CalendR",
+            "keywords": [
+                "calendar",
+                "date",
+                "events"
+            ],
+            "time": "2013-07-09 09:50:17"
         }
     ],
     "packages-dev": [
