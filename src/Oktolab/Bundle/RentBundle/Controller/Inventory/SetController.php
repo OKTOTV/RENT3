@@ -173,7 +173,7 @@ class SetController extends Controller
         }
         $items = $entity->getItems();
         $deleteForm = $this->createDeleteForm($id);
-        $editForm = $this->createForm(new SetType(), $entity);
+        $editForm = $this->createForm(new SetType(), $entity, array('method' => 'PUT'));
         $editForm->bind($request);
 
         if ($editForm->isValid()) {

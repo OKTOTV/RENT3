@@ -166,7 +166,7 @@ class ItemController extends Controller
         }
 
         $deleteForm = $this->createDeleteForm($id);
-        $editForm = $this->createForm(new ItemType(), $entity);
+        $editForm = $this->createForm(new ItemType(), $entity, array('method' => 'PUT'));
         $editForm->bind($request);
 
         if ($editForm->isValid()) {

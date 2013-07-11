@@ -15,7 +15,7 @@
     <div class="aui-page-header-actions">
         <div class="aui-buttons">
             <div class="aui-buttons">
-                <a class="aui-button" href="{{ path('inventory_item') }}">{% trans %}Back to list{% endtrans %}</a>
+                <a class="aui-button" href="{{ path('inventory_set') }}">{% trans %}Back to list{% endtrans %}</a>
             </div>
         </div>
     </div>
@@ -29,6 +29,7 @@
 
             {{ form_row(form.title) }}
             {{ form_row(form.description) }}
+
 
                 <div class="buttons-container">
                     <button class="aui-button aui-button-primary" type="submit">{% trans %}Submit{% endtrans %}</button>
