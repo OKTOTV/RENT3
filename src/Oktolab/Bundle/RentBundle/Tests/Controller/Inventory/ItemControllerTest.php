@@ -91,7 +91,7 @@ class ItemControllerTest extends WebTestCase
 
         $crawler = $client->submit($form);
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
-        $this->assertEquals(1, $crawler->filter('html:contains("Du musst einen Titel angeben")')->count());
+        $this->assertEquals(1, $crawler->filter('.error:contains("Du musst einen Titel angeben")')->count());
     }
 
     public function testDeleteItem()

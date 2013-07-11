@@ -3,8 +3,8 @@
     {% spaceless %}
         <div class="field-group">
             {{ form_label(form) }}
-            {{ form_errors(form) }}
             {{ form_widget(form) }}
+            {{ form_errors(form) }}
         </div>
     {% endspaceless %}
 {% endblock %}
@@ -38,6 +38,21 @@
             class="textarea" id="{{ id }}"
             {{ block('widget_attributes') }}
         >{% if value is not empty %}{{ value }}{% endif %}</textarea>
-
     {% endspaceless %}
-{% endblock %}<textarea <?php echo $view['form']->block($form, 'widget_attributes') ?>><?php echo $view->escape($value) ?></textarea>
+{% endblock %}
+
+{% block form_errors %}
+    {% spaceless %}
+        {% if errors|length == 1 %}
+            <div class="error">{{ errors|first.message }}</div>
+        {% else %}
+            <div class="error">
+                <ul>
+                {% for error in errors %}
+                    <li>{{ error.message }}</li>
+                {% endfor %}
+                </ul>
+            </div>
+        {% endif %}
+    {% endspaceless %}
+{% endblock %}
