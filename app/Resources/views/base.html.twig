@@ -18,7 +18,9 @@
 
     <body class="aui-layout aui-theme-default">
         <div id="page">
-            {% block page %}{% endblock %}
+            {% block page_header %}{% endblock %}
+            {% block page_main %}{% endblock %}
+            {% block page_footer %}{% endblock%}
         </div>
 
         {% javascripts
