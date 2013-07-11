@@ -14,7 +14,6 @@ class ItemType extends AbstractType
             ->add('title')
             ->add('description', 'textarea')
             ->add('barcode')
-            //->add('buyDate', 'date', array('widget' => 'single_text', 'format' => 'yyyy-MM-dd', 'attr' => array('min' => '1970-01-01', 'max' => '2030-12-31')))
             ->add('buyDate', 'date', array('widget' => 'single_text', 'required' => false, 'empty_value' => ''))
             ->add('serialNumber')
             ->add('vendor')

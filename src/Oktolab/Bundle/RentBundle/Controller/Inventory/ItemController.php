@@ -71,7 +71,11 @@ class ItemController extends Controller
     public function newAction()
     {
         $entity = new Item();
-        $form   = $this->createForm(new ItemType(), $entity, array('action' => $this->generateUrl('inventory_item_create')));
+        $form   = $this->createForm(
+            new ItemType(),
+            $entity,
+            array('action' => $this->generateUrl('inventory_item_create'))
+        );
 
         return array(
             'entity' => $entity,
