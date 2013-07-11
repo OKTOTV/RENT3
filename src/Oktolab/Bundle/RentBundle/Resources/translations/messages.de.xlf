@@ -34,6 +34,18 @@
                 <source>Submit</source>
                 <target>Speichern</target>
             </trans-unit>
+            <trans-unit id="9">
+                <source>Documentation</source>
+                <target>Dokumentation</target>
+            </trans-unit>
+            <trans-unit id="10">
+                <source>Username</source>
+                <target>Benutzername</target>
+            </trans-unit>
+            <trans-unit id="11">
+                <source>Password</source>
+                <target>Passwort</target>
+            </trans-unit>
         </body>
     </file>
 </xliff>

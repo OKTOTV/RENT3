@@ -1,9 +1,9 @@
-{% extends 'OktolabRentBundle::secureAreaLayout.html.twig' %}
+{% extends 'OktolabRentBundle::layout.html.twig' %}
 {% block title 'Log In' %}
 
 {% block page_main %}
 <div class="login">
-        <div class=" aui-page-panel" id="main">
+        <div class="aui-page-panel" id="main">
             <div id="login-container">
                 <div class="login-section ">
 <form class="aui login-form-container" action="{{ path("rentbundle_secure_check") }}" method="POST" name="login">
@@ -23,12 +23,12 @@
     <fieldset class="compact-form-fields">
         <legend class="assistive"><span>{% trans %}Log in Oktolab RENT{% endtrans %}</span></legend>
         <div class="field-group">
-            <label for="username" id="os_username-label">{% trans %}Benutzername{% endtrans %}</label>
+            <label for="username" id="os_username-label">{% trans %}Username{% endtrans %}</label>
             <input type="text" data-focus="0" class="text" id="username" name="_username" value="{{ last_username }}">
         </div>
 
         <div class="field-group">
-            <label for="password" id="os_password-label">{% trans %}Passwort{% endtrans %}</label>
+            <label for="password" id="os_password-label">{% trans %}Password{% endtrans %}</label>
             <input type="password" class="password " id="password" name="_password">
         </div>
 
