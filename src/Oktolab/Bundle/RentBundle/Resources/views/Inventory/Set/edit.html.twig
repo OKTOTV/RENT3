@@ -1,4 +1,4 @@
-{% extends 'OktolabRentBundle::layout.html.twig' %}
+{% extends 'OktolabRentBundle::secureAreaLayout.html.twig' %}
 
 {% block content_header %}
 <div class="aui-page-header-inner">
@@ -15,8 +15,8 @@
     <div class="aui-page-header-actions">
         <div class="aui-buttons">
             <div class="aui-buttons">
-                <a class="aui-button" href="{{ path('inventory_item') }}">{% trans %}Back to list{% endtrans %}</a>
-                <a class="aui-button" href="{{ path('inventory_item_delete', { 'id': entity.id }) }}">{% trans %}Löschen{% endtrans %}</a>
+                <a class="aui-button" href="{{ path('inventory_set') }}">{% trans %}Back to list{% endtrans %}</a>
+                <a class="aui-button" href="{{ path('inventory_set_delete', { 'id': entity.id }) }}">{% trans %}Delete{% endtrans %}</a>
             </div>
         </div>
     </div>
@@ -29,12 +29,7 @@
             {{ form_errors(edit_form) }}
 
             {{ form_row(edit_form.title) }}
-            {{ form_row(edit_form.description, {'attr': {'placeholder': 'Description of the item'} }) }}
-            {{ form_row(edit_form.barcode) }}
-            {{ form_row(edit_form.buyDate) }}
-            {{ form_row(edit_form.serialNumber) }}
-            {{ form_row(edit_form.vendor) }}
-            {{ form_row(edit_form.modelNumber) }}
+            {{ form_row(edit_form.description, {'attr': {'placeholder': 'Description of the set'} }) }}
 
             <div class="buttons-container">
                 <button class="button submit aui-primary" type="submit">{% trans %}Submit{% endtrans %}</button>

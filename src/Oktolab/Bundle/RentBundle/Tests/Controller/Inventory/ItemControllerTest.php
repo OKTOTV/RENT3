@@ -6,7 +6,6 @@ use Oktolab\Bundle\RentBundle\Tests\WebTestCase;
 
 class ItemControllerTest extends WebTestCase
 {
-
     public function testShowEmptyList()
     {
         $client = $this->client;
@@ -108,6 +107,4 @@ class ItemControllerTest extends WebTestCase
         // Check the entity has been delete on the list
         $this->assertNotRegExp('/Foo/', $client->getResponse()->getContent());
     }
-
-
 }

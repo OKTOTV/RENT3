@@ -99,6 +99,15 @@ class Item
     private $warrantyDate;
 
     /**
+     * @var integer
+     *
+     *
+     * @ORM\ManyToOne(targetEntity="Set", inversedBy="items")
+     *
+     */
+    private $set;
+
+    /**
      * Get id
      *
      * @return integer
@@ -301,5 +310,28 @@ class Item
     {
         $now = new \DateTime();
         return ($this->warrantyDate <= $now);
+    }
+
+    /**
+     * Set set
+     *
+     * @param \Oktolab\Bundle\RentBundle\Entity\Inventory\Set $set
+     * @return Item
+     */
+    public function setSet(\Oktolab\Bundle\RentBundle\Entity\Inventory\Set $set = null)
+    {
+        $this->set = $set;
+
+        return $this;
+    }
+
+    /**
+     * Get set
+     *
+     * @return \Oktolab\Bundle\RentBundle\Entity\Inventory\Set
+     */
+    public function getSet()
+    {
+        return $this->set;
     }
 }

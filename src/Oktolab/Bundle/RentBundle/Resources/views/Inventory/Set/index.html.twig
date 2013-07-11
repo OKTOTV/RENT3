@@ -1,4 +1,4 @@
-{% extends 'OktolabRentBundle::layout.html.twig' %}
+{% extends 'OktolabRentBundle::secureAreaLayout.html.twig' %}
 
 {% block content_header %}
     <div class="aui-page-header-inner">
@@ -10,29 +10,23 @@
             </div>
         </div>
         <div class="aui-page-header-main">
-            <h1>Inventar Item Liste</h1>
+            <h1>Inventar Set Liste</h1>
         </div>
         <div class="aui-page-header-actions">
             <div class="aui-buttons">
                 <div class="aui-buttons">
-                    <a class="aui-button" href="{{ path('inventory_item_new') }}">Neues Item</a>
+                    <a class="aui-button" href="{{ path('inventory_set_new') }}">Neues Set</a>
                 </div>
             </div>
         </div>
     </div>
 {% endblock %}
-
 {% block content %}
     <table class="aui">
         <thead>
             <tr>
                 <th id="name">{% trans %}Title{% endtrans %}</th>
                 <th>{% trans %}Description{% endtrans %}</th>
-                <th>{% trans %}Barcode{% endtrans %}</th>
-                <th>{% trans %}Buydate{% endtrans %}</th>
-                <th>{% trans %}Serialnumber{% endtrans %}</th>
-                <th>{% trans %}Vendor{% endtrans %}</th>
-                <th>{% trans %}Modelnumber{% endtrans %}</th>
                 <th id="action">{% trans %}Actions{% endtrans %}</th>
             </tr>
         </thead>
@@ -41,18 +35,13 @@
             <tr>
                 <td headers="name">{{ entity.title }}</td>
                 <td>{{ entity.description }}</td>
-                <td>{{ entity.barcode }}</td>
-                <td>{% if entity.buyDate %}{{ entity.buyDate|date('Y-m-d') }}{% endif %}</td>
-                <td>{{ entity.serialNumber }}</td>
-                <td>{{ entity.vendor }}</td>
-                <td>{{ entity.modelNumber }}</td>
                 <td class="action" headers="action">
                     <ul class="menu">
                         <li>
-                            <a href="{{ path('inventory_item_show', { 'id': entity.id }) }}">show</a>
+                            <a href="{{ path('inventory_set_show', { 'id': entity.id }) }}">show</a>
                         </li>
                         <li>
-                            <a href="{{ path('inventory_item_edit', { 'id': entity.id }) }}">edit</a>
+                            <a href="{{ path('inventory_set_edit', { 'id': entity.id }) }}">edit</a>
                         </li>
                     </ul>
                 </td>
