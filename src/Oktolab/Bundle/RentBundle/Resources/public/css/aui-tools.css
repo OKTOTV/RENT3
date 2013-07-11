@@ -15,9 +15,58 @@
     padding-bottom: 10px;
 }
 
+
+/* styles for jquery.calendar */
 #dashboard-calendar {
-    min-height: 500px;
+    min-height: 600px;
     min-width: 600px;
     position: relative;
-    
+}
+
+.ui-cal-dateline-fill, .ui-cal-dateline {
+    height: 32px !important;
+}
+
+.ui-cal-week .ui-cal-timeline {
+    background-color: #F0F0F0;
+}
+
+.ui-cal-week .ui-cal-time[past="00"] {
+    border-color: #CCCCCC;
+}
+.ui-cal-week .ui-cal-timeline {
+    border-color: #CCCCCC;
+}
+
+.ui-cal .ui-cal-date.ui-cal-today {
+    background-color: #F3F9F4;
+}
+
+.ui-cal .ui-cal-date {
+    background-color: #FCFCFC;
+}
+
+.ui-cal-label-time p {
+    font-weight: bold;
+}
+
+.ui-cal .ui-cal-dateline, .ui-cal .ui-cal-dateline-fill, .ui-cal .ui-cal-event, .ui-cal .ui-cal-event.selected {
+    background: none repeat scroll 0 0 #205081;
+}
+
+.ui-cal-week .ui-cal-dateline, .ui-cal .ui-cal-resourceline {
+    color: #ffffff;
+}
+
+.ui-cal .ui-cal-label-date p, .ui-cal .ui-cal-label-resource p {
+    text-shadow: none;
+    text-overflow: string;
+}
+
+.ui-cal .ui-cal-label-date .delimiter {
+    display: none;
+}
+
+.ui-cal-week .ui-cal-dateline, .ui-cal .ui-cal-resourceline {
+    border: 0 none;
 }

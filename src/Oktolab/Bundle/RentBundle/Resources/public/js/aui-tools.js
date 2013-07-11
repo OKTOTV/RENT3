@@ -3,5 +3,8 @@ AJS.$(document).ready(function() {
         AJS.$(this).datePicker({'overrideBrowserDefault': true, 'firstDay': -1, 'languageCode': 'de'});
     });
 
-    AJS.$('#dashboard-calendar').cal();
+    AJS.$('#dashboard-calendar').cal({
+        masktimelabel: { '00': 'H:i' },
+        gridincrement: '30 mins',
+    });
 });
