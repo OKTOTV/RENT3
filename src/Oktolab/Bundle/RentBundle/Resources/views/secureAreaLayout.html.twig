@@ -2,22 +2,60 @@
 
 {% block title 'Demo Bundle' %}
 
-{% block body %}
-    {{ include('::header.html.twig') }}
+{% block page %}
+    {% if (app.security.token is not null) %}
+        {{ include('::header.html.twig') }}
+    {% else %}
+        <header id="header" role="banner">
+            <nav class="aui-header aui-dropdown2-trigger-group" role="navigation">
+                <div class="aui-header-primary">
+                    <h1 id="logo" class="aui-header-logo aui-header-logo-aui"><a href="#"><span class="aui-header-logo-device">RENT</span></a></h1>
+                </div>
+                <div class="aui-header-secondary">
+                    <ul class="aui-nav">
+                        <li><a href="#dropdown2-header7" aria-owns="dropdown2-header7" aria-haspopup="true" class="aui-dropdown2-trigger" aria-controls="dropdown2-header7"><span class="aui-icon aui-icon-small aui-iconfont-help">Help</span><span class="aui-icon-dropdown"></span></a>
+                          <div class="aui-dropdown2 aui-style-default aui-dropdown2-in-header" id="dropdown2-header7" style="display: none; top: 40px; min-width: 160px; left: 1213px; " aria-hidden="true">
+                              <div class="aui-dropdown2-section">
+                                  <ul>
+                                      <li><a href="http://example.com/" class="active">Online help</a></li>
+                                      <li><a href="{{ path('rentbundle_about') }}">About</a></li>
+                                  </ul>
+                              </div>
+                          </div>
+                        </li>
+                        <li><a href="#" class="aui-nav-imagelink">Log In</a></li>
+                    </ul>
+                </div>
+            </nav>
+
+            <br class="clear">
+        </header>
+    {% endif %}
+
+
+
 
     <section id="content" role="main">
         <header class="aui-page-header">
-                  {% block content_header %} {% endblock %}
+            {% block content_header %} {% endblock %}
         </header>
-
-        <section id="content" role="main">
-            <div class="aui-page-panel">
-                <div class="aui-page-panel-inner">
-                    <section class="aui-page-panel-content">
-                        {% block content %}{% endblock %}
-                    </section>
-                </div>
+        <div class="aui-page-panel">
+            <div class="aui-page-panel-inner">
+                <section class="aui-page-panel-content">
+                    {% block content %}{% endblock %}
+                </section>
             </div>
-        </section>
+        </div>
     </section>
+
+    <footer id="footer">
+                <section class="footer-body">
+                    <ul>
+                        <li>Copyright &copy; 2013 Oktolab</li>
+                        <li>Oktolab RENT pre-alpha 3.0</li>
+                        <li><a href="#" id="bugtracker">Bug</a></li>
+                        <li><a href="http://intern.okto.tv/display/RENT">Dokumentation</a></li>
+                    </ul>
+                </section>
+            </footer>
 {% endblock %}
