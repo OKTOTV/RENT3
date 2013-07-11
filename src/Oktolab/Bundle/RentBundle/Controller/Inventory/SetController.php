@@ -75,7 +75,8 @@ class SetController extends Controller
         $form   = $this->createForm(
             new SetType(),
             $entity,
-            array('action' => $this->generateUrl('inventory_set_create')));
+            array('action' => $this->generateUrl('inventory_set_create'))
+        );
 
         return array(
             'entity' => $entity,
