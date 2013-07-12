@@ -32,17 +32,32 @@
     <div class="rent-cal-column">
         {# kopfzeile zeitlinie - tage, zeitbloecke #}
         <div class="rent-cal-timeline">
-            {% for date in ["Mo, 08.07.", "Di, 09.07", "Mi, 10.07", "Do, 11.07", "Fr. 12.07", "Sa, 13.07", "So, 14.07", "Mo, 15.07"] %}
-            <div class="rent-cal-label-date">
-                <span class="label">{{ date }}</span>
-                <div class="rent-cal-label-time time-block"><span>09:00 - 12:00</span></div>
-                <div class="rent-cal-label-time time-block"><span>17:00 - 20:00</span></div>
-            </div>
+            {% set date = "now"|date("m/d/Y") %}
+            {% for i in 0..8 %}
+                <div class="rent-cal-label-date">
+                    <span class="label">{{ date|date("D, d.m") }}</span>
+                    <div class="rent-cal-label-time time-block"><span>09:00 - 12:00</span></div>
+                    <div class="rent-cal-label-time time-block"><span>17:00 - 20:00</span></div>
+                </div>
+                {% set date = date|date_modify('+1 day') %}
             {% endfor %}
         </div>
 
         {# calendar ansicht #}
-        <div class="rent-cal-wrapper">calendar follows</div>
+        <div class="rent-cal-wrapper">
+            <div class="rent-cal-calendar">
+                <div class="rent-cal-date rent-cal-today">
+                    <div class="rent-cal-time">asdf</div>
+                    <div class="rent-cal-time">asdf</div>
+                </div>
+                {% for i in 0..7 %}
+                    <div class="rent-cal-date">
+                        <div class="rent-cal-time">asdf</div>
+                        <div class="rent-cal-time">asdas</div>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
     </div>
 </div>
 

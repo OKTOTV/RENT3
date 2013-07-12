@@ -71,6 +71,7 @@
 .rent-cal-inventory {
     width: 200px;
     display: table-cell;
+    padding-right: 20px;
 }
 
 .rent-cal-inventory .rent-cal-spacer {
@@ -79,4 +80,22 @@
 
 .rent-cal-wrapper {
 
+}
+
+
+.rent-cal-calendar {
+    display: table;
+}
+
+.rent-cal-calendar .rent-cal-date {
+    height: 100%;
+    background-color: grey;
+    border-right: 1px solid white;
+    display: table-cell;
+    width: 179px;
+}
+
+.rent-cal-calendar .rent-cal-time {
+    width: 50%;
+    float: left;
 }
