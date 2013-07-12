@@ -151,7 +151,7 @@ class ItemController extends Controller
             array(
                 'action' => $this->generateUrl(
                     'inventory_item_update',
-                    array('id' => $id)
+                    array( 'id' => $id )
                 ),
                 'method' => 'PUT'
             )

@@ -50,7 +50,7 @@ class Set
 
     /**
      *
-     *@ORM\OneToMany(targetEntity="Item", mappedBy="set")
+     *@ORM\OneToMany(targetEntity="Item", mappedBy="set", cascade="detach")
      */
     private $items;
 

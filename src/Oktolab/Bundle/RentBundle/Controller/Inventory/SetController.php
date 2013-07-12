@@ -93,6 +93,8 @@ class SetController extends Controller
                     $Item->setSet($entity);
                     $em->persist($Item);
                     $em->flush();
+                } else {
+                    //TODO: no item found! Give the user a notice!
                 }
             }
 
@@ -181,10 +183,7 @@ class SetController extends Controller
                 'method' => 'PUT',
                 'action' => $this->generateUrl(
                     'inventory_set_update',
-                    array(
-                        'id' => $id,
-                        'items' => $items
-                    )
+                    array( 'id' => $id )
                 )
             )
         );
@@ -195,6 +194,7 @@ class SetController extends Controller
             'entity'      => $entity,
             'edit_form'   => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
+            'items' => $items
         );
     }
 
@@ -246,6 +246,10 @@ class SetController extends Controller
 
         if (!$entity) {
             throw $this->createNotFoundException('Unable to find Inventory\Set entity.');
+        }
+
+        foreach ($entity->getItems() as $Item) {
+            $Item->setSet();
         }
 
         $em->remove($entity);

@@ -30,10 +30,44 @@
 
             {{ form_row(edit_form.title) }}
             {{ form_row(edit_form.description, {'attr': {'placeholder': 'Description of the set'} }) }}
+            {{ form_row(edit_form.searchItems ) }}
 
             <div class="buttons-container">
                 <button class="button submit aui-primary" type="submit">{% trans %}Submit{% endtrans %}</button>
             </div>
+            <h3>{% trans %}Items{% endtrans %}</h3>
+                <table class="aui">
+                    <thead>
+                        <tr>
+                            <th id="name">{% trans %}Title{% endtrans %}</th>
+                            <th>{% trans %}Description{% endtrans %}</th>
+                            <th>{% trans %}Barcode{% endtrans %}</th>
+                            <th>{% trans %}Actions{% endtrans %}</th>
+                        </tr>
+                    </thead>
+                    <tbody class="appendable">
+                        {% for item in items %}
+                            <tr>
+                                <td headers="name">{{ item.title }}</td>
+                                <td>{{ item.description }}</td>
+                                <td>{{ item.barcode }}</td>
+                                <td>
+                                    <ul class="menu">
+                                        <li>
+                                            Von Set entfernen
+                                        </li>
+                                        <li>
+                                            <a href="{{ path('inventory_item_show', { 'id': item.id }) }}">{% trans %}show{% endtrans %}</a>
+                                        </li>
+                                        <li>
+                                            <a href="{{ path('inventory_item_edit', { 'id': item.id }) }}">{% trans %}edit{% endtrans %}</a>
+                                        </li>
+                                    </ul>
+                                </td
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
         </fieldset>
     {{ form_end(edit_form) }}
 {% endblock %}
