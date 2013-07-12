@@ -4,5 +4,47 @@
 {% block content_header %}<h1>{% trans %}Dashboard{% endtrans %}</h1>{% endblock %}
 
 {% block content %}
+<div id="calendar" class="rent-cal">
+
+    {# inventar auflistung #}
+    <div class="rent-cal-inventory">
+        <div class="rent-cal-spacer">&nbsp;</div>
+        <div class="rent-cal-inventory-group aui-navgroup aui-navgroup-vertical">
+            <div class="label aui-nav-heading">Sets</div>
+            <ul class="rent-cal-item aui-nav">
+            {% for item in ["Aphrodite", "Apollo", "Ares", "Hebe", "Herakles", "Hermes"] %}
+                <li><a href="#">{{ item }}</a></li>
+            {% endfor %}
+            </ul>
+        </div>
+
+        <div class="rent-cal-inventory-group aui-navgroup aui-navgroup-vertical">
+            <div class="label aui-nav-heading">Kopflichter</div>
+            <ul class="rent-cal-item aui-nav">
+            {% for item in ["Led KOLI 1", "Led KOLI 2", "Led KOLI 3", "Akkuguertel KOLI 7"] %}
+                <li><a href="#">{{ item }}</a></li>
+            {% endfor %}
+            </ul>
+        </div>
+
+    </div>
+
+    <div class="rent-cal-column">
+        {# kopfzeile zeitlinie - tage, zeitbloecke #}
+        <div class="rent-cal-timeline">
+            {% for date in ["Mo, 08.07.", "Di, 09.07", "Mi, 10.07", "Do, 11.07", "Fr. 12.07", "Sa, 13.07", "So, 14.07", "Mo, 15.07"] %}
+            <div class="rent-cal-label-date">
+                <span class="label">{{ date }}</span>
+                <div class="rent-cal-label-time time-block"><span>09:00 - 12:00</span></div>
+                <div class="rent-cal-label-time time-block"><span>17:00 - 20:00</span></div>
+            </div>
+            {% endfor %}
+        </div>
+
+        {# calendar ansicht #}
+        <div class="rent-cal-wrapper">calendar follows</div>
+    </div>
+</div>
+
     <div id="dashboard-calendar"></div>
 {% endblock %}

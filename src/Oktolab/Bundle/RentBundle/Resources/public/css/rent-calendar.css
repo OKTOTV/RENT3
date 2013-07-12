@@ -1,0 +1,82 @@
+/*
+    Document   : rent-calendar
+    Created on : Jul 12, 2013, 11:09:38 AM
+    Author     : meh
+    Description:
+        Styles the RENT-Calendar interface
+*/
+
+
+/* **********************************************
+/* ***************** colors *********************
+ ********************************************** */
+.rent-cal-timeline {
+    background-color: #205081;
+    color: #FFFFFF;
+}
+
+/* **********************************************
+/* ************* formatting *********************
+ ********************************************** */
+.rent-cal-label-date .label, .rent-cal-label-date .time-block {
+    text-align: center;
+}
+
+.rent-cal-timeline .rent-cal-label-date .time-block {
+    font-size: 0.8em;
+}
+
+/* **********************************************
+/* ***************** layout *********************
+ ********************************************** */
+
+.rent-cal {
+    width: 100%;
+    min-height: 300px;
+    display: table;
+    margin-bottom: 30px;
+}
+
+.rent-cal-column {
+    display: table-cell;
+    vertical-align: top;
+}
+
+.rent-cal-timeline {
+    width: 100%;
+    height: 40px;
+    padding: 2px 0;
+    overflow: hidden;
+}
+
+.rent-cal-timeline .rent-cal-label-date {
+    width: 180px;
+    height: 40px;
+    float: left;
+
+}
+
+.rent-cal-timeline .rent-cal-label-date .label {
+    display: block;
+    width: 100%;
+}
+
+.rent-cal-timeline .rent-cal-label-date .time-block {
+    width: 44%;
+    float: left;
+    margin: 0 3%;
+}
+
+
+.rent-cal-inventory {
+    width: 200px;
+    display: table-cell;
+}
+
+.rent-cal-inventory .rent-cal-spacer {
+    height: 44px;
+}
+
+.rent-cal-wrapper {
+
+}
