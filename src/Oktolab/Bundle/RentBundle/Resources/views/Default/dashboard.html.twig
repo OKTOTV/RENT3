@@ -29,7 +29,88 @@
 
     </div>
 
-    <div class="rent-cal-column">
+    <div class="rent-cal-wrapper">
+        <table>
+            <colgroup span="2" style="background-color: lightgrey">
+                <col />
+                <col />
+            </colgroup>
+            <colgroup span="2">
+                <col />
+                <col />
+            </colgroup>
+            <colgroup span="2">
+                <col />
+                <col />
+            </colgroup>
+            <colgroup span="2">
+                <col />
+                <col />
+            </colgroup>
+            <colgroup span="2">
+                <col />
+                <col />
+            </colgroup>
+            <colgroup span="2">
+                <col />
+                <col />
+            </colgroup>
+            <colgroup span="2">
+                <col />
+                <col />
+            </colgroup>
+            <thead>
+                <tr>
+                    <th colspan="2">Mo</th>
+                    <th colspan="2">Di</th>
+                    <th colspan="2">Mi</th>
+                    <th colspan="2">Do</th>
+                    <th colspan="2">Fr</th>
+                    <th colspan="2">Sa</th>
+                    <th colspan="2">So</th>
+                </tr>
+                <tr>
+                    <th>09-12</th><th>17-20</th>
+                    <th>09-12</th><th>17-20</th>
+                    <th>09-12</th><th>17-20</th>
+                    <th>09-12</th><th>17-20</th>
+                    <th>09-12</th><th>17-20</th>
+                    <th>09-12</th><th>17-20</th>
+                    <th>09-12</th><th>17-20</th>
+                </tr>
+            </thead>
+        </table>
+
+        <!--<div class="rent-cal-calendar">
+            <div class="rent-cal-calendar-header rent-cal-calendar-row">
+                {% set date = "now"|date("m/d/Y") %}
+                {% for i in 0..8 %}
+                    <div class="rent-cal-calendar-date rent-cal-calendar-column rent-cal-calendar-today">
+                        <div class="rent-cal-calendar-timeline-date">{{ date|date("D, d.m") }}</div>
+                        <div style="display: table-column-group"><div class="rent-cal-calendar-timeline-blocks">
+                            <div class="rent-cal-calendar-timeline-block">09:00-12:00</div>
+                            <div class="rent-cal-calendar-timeline-block">17:00-20:00</div>
+                        </div></div>
+                        {% set date = date|date_modify('+1 day') %}
+                    </div>
+                {% endfor %}
+            </div>-->
+            <!--<div class="rent-cal-calendar-row">
+                <div class="rent-cal-calendar-column rent-cal-calendar-today">
+                    <div class="rent-cal-calendar-timeline-blocks">
+                        <div class="rent-cal-calendar-timeline-block">09:00-12:00</div>
+                        <div class="rent-cal-calendar-timeline-block">17:00-20:00</div>
+                    </div>
+                </div>
+                <div class="rent-cal-calendar-column">17</div>
+                <div class="rent-cal-calendar-column">09</div>
+                <div class="rent-cal-calendar-column">17</div>
+                <div class="rent-cal-calendar-column">09</div>
+            </div>-->
+        </div>
+    </div>
+
+    <!--<div class="rent-cal-column">
         {# kopfzeile zeitlinie - tage, zeitbloecke #}
         <div class="rent-cal-timeline">
             {% set date = "now"|date("m/d/Y") %}
@@ -58,7 +139,7 @@
                 {% endfor %}
             </div>
         </div>
-    </div>
+    </div>-->
 </div>
 
     <div id="dashboard-calendar"></div>
