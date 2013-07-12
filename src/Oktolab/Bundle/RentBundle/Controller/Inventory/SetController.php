@@ -9,6 +9,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Oktolab\Bundle\RentBundle\Entity\Inventory\Set;
 use Oktolab\Bundle\RentBundle\Form\Inventory\SetType;
+use Symfony\Component\HttpFoundation\JsonResponse;
 
 /**
  * Inventory\Set controller.
@@ -17,7 +18,6 @@ use Oktolab\Bundle\RentBundle\Form\Inventory\SetType;
  */
 class SetController extends Controller
 {
-
     /**
      * Lists all Inventory\Set entities.
      *
@@ -35,6 +35,37 @@ class SetController extends Controller
             'entities' => $entities,
         );
     }
+
+
+    /**
+     * Creates a json with all items for typeahead suggestions and use
+     *
+     * @Route("/search.json", name="inventory_set_searchItems_json")
+     * @Method("GET")
+     * @Template()
+     */
+    public function searchItemsAction(Request $request)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $entities = $em->getRepository('OktolabRentBundle:Inventory\Item')->findAll();
+
+        $json = array();
+        //TODO: split the descripiton to single words. That helps the typeahead to be more usefull.
+        foreach ($entities as $entity) {
+            $json[] = array(
+                'name' => $entity->getId(),
+                'value' => $entity->getTitle(),
+                'tokens' => array(
+                    $entity->getBarcode(),
+                    $entity->getDescription(),
+                    $entity->getTitle()
+                )
+            );
+        }
+
+        return new JsonResponse($json);
+    }
+
     /**
      * Creates a new Inventory\Set entity.
      *

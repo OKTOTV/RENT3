@@ -12,7 +12,8 @@ class SetType extends AbstractType
     {
         $builder
             ->add('title')
-            ->add('description', 'textarea');
+            ->add('description', 'textarea')
+            ->add('searchItems', 'text', array('mapped' => false));
     }
 
     public function setDefaultOptions(OptionsResolverInterface $resolver)
