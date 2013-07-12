@@ -27,6 +27,7 @@
             <tr>
                 <th id="name">{% trans %}Title{% endtrans %}</th>
                 <th>{% trans %}Description{% endtrans %}</th>
+                <th>{% trans %}Items{% endtrans %}</th>
                 <th id="action">{% trans %}Actions{% endtrans %}</th>
             </tr>
         </thead>
@@ -35,6 +36,7 @@
             <tr>
                 <td headers="name">{{ entity.title }}</td>
                 <td>{{ entity.description }}</td>
+                <td>{{ entity.items | length }}<td>
                 <td class="action" headers="action">
                     <ul class="menu">
                         <li>

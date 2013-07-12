@@ -13,7 +13,17 @@ class SetType extends AbstractType
         $builder
             ->add('title')
             ->add('description', 'textarea')
-            ->add('searchItems', 'text', array('mapped' => false));
+            ->add('searchItems', 'text', array('mapped' => false))
+            ->add('itemsToAdd', 'collection', array(
+                'type' => new SetAddItemType(),
+                'required' => false,
+                'allow_add' => true,
+                'allow_delete' => true,
+                'prototype' => true,
+                'mapped' => false,
+                'attr' => array('hidden' => 'true')
+                )
+            );
     }
 
     public function setDefaultOptions(OptionsResolverInterface $resolver)

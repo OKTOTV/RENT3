@@ -34,6 +34,24 @@ class ItemController extends Controller
             'entities' => $entities,
         );
     }
+
+    /**
+     * Returns and Item as Tablerow for Set
+     * @Route("/getItem/{id}", name="inventory_getItem_row")
+     * @Method("GET")
+     * Template("OktolabRentBundle:Inventory\Item:row.html.twig")
+     */
+    public function getItemById($id)
+    {
+        $em = $this->getDoctrine()->getEntityManager();
+        $entity = $em->getRepository('OktolabRentBundle:Inventory\Item')->find($id);
+
+        return $this->render(
+            'OktolabRentBundle:Inventory\Item:row.html.twig',
+            array('entity' => $entity)
+        );
+    }
+
     /**
      * Creates a new Inventory\Item entity.
      *

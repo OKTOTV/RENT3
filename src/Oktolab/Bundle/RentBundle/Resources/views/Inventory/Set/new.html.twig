@@ -22,7 +22,7 @@
 </div>
 {% endblock %}
 
-{% block content -%}
+{% block content %}
     {{ form_start(form, {'attr': {'class': 'aui'}}) }}
         <fieldset>
             {{ form_errors(form) }}
@@ -31,9 +31,30 @@
             {{ form_row(form.description) }}
             {{ form_row(form.searchItems) }}
 
-                <div class="buttons-container">
-                    <button class="aui-button aui-button-primary" type="submit">{% trans %}Submit{% endtrans %}</button>
-                </div>
-        </fieldset>
+            <div class="buttons-container">
+                <button class="aui-button aui-button-primary" type="submit">{% trans %}Submit{% endtrans %}</button>
+            </div>
+
+            <h3>{% trans %}Items{% endtrans %}</h3>
+                <table class="aui">
+                    <thead>
+                        <tr>
+                            <th id="name">{% trans %}Title{% endtrans %}</th>
+                            <th>{% trans %}Description{% endtrans %}</th>
+                            <th>{% trans %}Barcode{% endtrans %}</th>
+                        </tr>
+                    </thead>
+                    <tbody class="appendable">
+                        {% for item in items %}
+                            <tr>
+                                {{ form_row(item) }}
+                                <td headers="name">{{ item.title }}</td>
+                                <td>{{ item.description }}</td>
+                                <td>{{ item.barcode }}</td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </fieldset>
     {{ form_end(form) }}
 {% endblock %}

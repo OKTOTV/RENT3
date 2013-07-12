@@ -81,12 +81,23 @@ class SetController extends Controller
 
         if ($form->isValid()) {
             $em = $this->getDoctrine()->getManager();
+
             $em->persist($entity);
             $em->flush();
 
-            return $this->redirect($this->generateUrl('inventory_set_show', array('id' => $entity->getId())));
-        }
+            foreach($form->get('itemsToAdd')->getData() as $key => $value) {
+//              add all items according to the id!
+                $Item = $em->getRepository('OktolabRentBundle:Inventory\Item')->find($key);
+                if ($Item) {
+                    //die(var_dump($entity));
+                    $Item->setSet($entity);
+                    $em->persist($Item);
+                    $em->flush();
+                }
+            }
 
+            return $this->redirect($this->generateUrl('inventory_set_show', array('id' => $entity->getId(), 'items' => $entity->getItems())));
+        }
         return array(
             'entity' => $entity,
             'form'   => $form->createView(),
@@ -112,6 +123,7 @@ class SetController extends Controller
         return array(
             'entity' => $entity,
             'form'   => $form->createView(),
+            'items'  => $entity->getItems()
         );
     }
 
