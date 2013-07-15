@@ -10,6 +10,6 @@ AJS.$(document).ready(function() {
 });
 
 AJS.$(document).ready(function() {
-    var calendar = new Oktolab.calendar('#calendar');
+    var calendar = new Oktolab.Calendar('#calendar');
     calendar.render();
 });

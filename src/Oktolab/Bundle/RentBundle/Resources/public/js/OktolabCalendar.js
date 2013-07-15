@@ -1,6 +1,6 @@
 var Oktolab = {};
 
-Oktolab.calendar = function calendar(container) {
+Oktolab.Calendar = function Calendar(container) {
 
     options = {
         'container': container,
@@ -16,14 +16,26 @@ Oktolab.calendar = function calendar(container) {
 
         // set height for wrapper
         var wrapperLength = $container.width() - $inventory.width();
-        $wrapper.height($inventory.height() + 40);
+        $wrapper.height($inventory.outerHeight(true));
+        console.log(wrapperLength);
 
         // draw calendar background
         var $date = options['startdate'];
-        for (var i = 0; i <= wrapperLength; i+= 100) {
-            $wrapper.append(this.getBlockForDate($date));
+        $blocks = '';
+        for (var i = 0; i <= (wrapperLength -300); i+= 100) {
+            $blocks = $blocks + this.getBlockForDate($date);
             $date.setDate($date.getDate() + 1);
         };
+        $wrapper.append($blocks);
+
+        // draw events (for and so on ...)
+        position = AJS.$('#test-element').offset();
+        console.log(position);
+        $wrapper.append('<div id="testevent" style="background-color: red;">aaaaaaa</div>');
+        $testevent = AJS.$('#testevent');
+        $testevent.offset({ top: position.top });
+        $testevent.width(300);
+        $testevent.height(20);
     };
 
     this.getBlockForDate = function(date) {
