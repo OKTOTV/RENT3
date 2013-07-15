@@ -15,72 +15,64 @@
     color: #FFFFFF;
 }
 
+.oktolab-calendar .calendar-date {
+    background-color: #F5F5F5;
+    border-right: 1px solid #CCCCCC;
+}
+
+.oktolab-calendar .calendar-headline {
+    background-color: #205081;
+    color: #FFFFFF;
+}
+
 /* **********************************************
 /* ************* formatting *********************
  ********************************************** */
-.rent-cal-label-date .label, .rent-cal-label-date .time-block {
+.oktolab-calendar .calendar-headline {
     text-align: center;
-}
-
-.rent-cal-timeline .rent-cal-label-date .time-block {
-    font-size: 0.8em;
-}
-
-.rent-cal-calendar-date .rent-cal-calendar-timeline-date {
-    text-align: center;
+    font-weight: bold;
 }
 
 /* **********************************************
 /* ***************** layout *********************
  ********************************************** */
-
-.rent-cal {
+.oktolab-calendar {
     width: 100%;
-    min-height: 300px;
-    display: table;
-    margin-bottom: 30px;
+    border: 1px solid black;
+
+    margin: 2em 0;
 }
 
-.rent-cal-inventory {
-    width: 200px;
-    display: table-cell;
-    padding-right: 20px;
+.oktolab-calendar .calendar-inventory {
+    margin-top: 40px;
+    width: 300px;
+    float: left;
+    position: absolute;
 }
 
-.rent-cal-inventory .rent-cal-spacer {
-    height: 44px;
-}
+.oktolab-calendar .calendar-wrapper {
+    margin-left: 300px;
+    height: 500px;
 
-.rent-cal-wrapper {
     overflow: hidden;
+}
+
+.oktolab-calendar .calendar-date {
+    float: left;
+    width: 100px;
+    height: 100%;
+    position: relative;
+}
+
+.oktolab-calendar .calendar-date .calendar-title {
+    display: block;
     width: 100%;
 }
 
-.rent-cal-calendar {
-    display: table;
+.oktolab-calendar .calendar-timeblock {
+    float: left;
 }
 
-.rent-cal-calendar-row {
-    display: table-row;
-}
-
-.rent-cal-calendar-column {
-    display: table-cell;
-}
-
-.rent-cal-calendar-date .rent-cal-calendar-timeline-date {
-    display: table-row;
-}
-
-.rent-cal-calendar-timeline-blocks {
-    display: table-row;
-}
-
-.rent-cal-calendar-timeline-block {
-    display: table-cell;
-}
-
-
-.rent-cal-calendar-header .rent-cal-calendar-column {
-    width: 180px;
+.oktolab-calendar .calendar-headline {
+    height: 40px;
 }

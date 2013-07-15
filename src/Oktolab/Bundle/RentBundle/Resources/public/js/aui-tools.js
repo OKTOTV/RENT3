@@ -8,3 +8,8 @@ AJS.$(document).ready(function() {
         gridincrement: '30 mins',
     });
 });
+
+AJS.$(document).ready(function() {
+    var calendar = new Oktolab.calendar('#calendar');
+    calendar.render();
+});
