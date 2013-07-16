@@ -35,7 +35,16 @@ Oktolab.Calendar = function Calendar(container) {
         $testevent = AJS.$('#testevent');
         $testevent.offset({ top: position.top });
         $testevent.width(300);
-        $testevent.height(20);
+        $testevent.height(29);
+
+        // draw events (for and so on ...)
+        position = AJS.$('#test-element2').offset();
+        console.log(position);
+        $wrapper.append('<div id="testevent2" style="background-color: red;">aaaaaaa</div>');
+        $testevent = AJS.$('#testevent2');
+        $testevent.offset({ top: position.top, left: 430 });
+        $testevent.width(300);
+        $testevent.height(29);
     };
 
     this.getBlockForDate = function(date) {
