@@ -1,18 +1,17 @@
-test( "hello test", function() {
-ok( 1 == "1", "Passed!" );
-});
+"use strict";
 
-/*test("Render Calendar", function() {
-   var cal = oktolab.calendar();
-   console.log(typeof cal);
-   ok("object" === typeof cal, "Can create Oktolab.calendar");
-});*/
-
-/*test("Renders Background Calendar", function() {
-    var calendar = new Oktolab.Calendar('#calendar');
+module('Oktolab Calendar');
+test('1.1 Renders calendar', function () {
+    var calendar = new Oktolab.Calendar('#qunit-calendar');
     calendar.render();
 
-    console.log(AJS.$('.calendar-date').length);
-    //console.log(calendar.getBlockForDate(new Date()));
+    equal(1, AJS.$('#qunit-calendar').length, "Calendar is rendered at #test-calendar");
+});
 
-});*/
+test('1.2 Renders inventory', function () {
+    var calendar = new Oktolab.Calendar('#qunit-calendar');
+    calendar.renderInventory();
+
+    equal(1, AJS.$('#qunit-calendar > .calendar-inventory').length, "Exactly one inventory is rendered");
+});
+
