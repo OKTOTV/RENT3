@@ -11,5 +11,8 @@ AJS.$(document).ready(function() {
 
 AJS.$(document).ready(function() {
     var calendar = new Oktolab.Calendar('#calendar');
+
+    console.time('rendercalendar');
     calendar.render();
+    console.timeEnd('rendercalendar');
 });

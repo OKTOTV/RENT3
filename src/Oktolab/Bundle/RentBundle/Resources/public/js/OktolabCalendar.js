@@ -14,23 +14,16 @@ Oktolab.Calendar = function Calendar(container) {
         container: AJS.$(this.options.container),
     };
 
+    /**
+     * renders the calendar
+     * @returns {undefined}
+     */
     this.render = function () {
         this.renderBasicCalendar();
         this.renderInventory();
+        this.renderCalendarBackground();
 
-        var wrapperLength = this.data.container.width() - this.data.inventory.width(), // set height for wrapper
-            $date = this.options.startdate,
-            $blocks = '',
-            i = 0;
-
-        /*$wrapper.height($inventory.outerHeight(true));
-
-        // draw calendar background
-        for (i; i <= (wrapperLength - 300); i += 100) {
-            $blocks = $blocks + this.getBlockForDate($date);
-            $date.setDate($date.getDate() + 1);
-        }
-        $wrapper.append($blocks); */
+        //this.renderEvents();
 
         /*/ draw events (for and so on ...)
         var position = AJS.$('#test-element').offset();
@@ -49,53 +42,77 @@ Oktolab.Calendar = function Calendar(container) {
         $testevent.height(29);*/
     };
 
+    /**
+     * Returns the HTML needed by rendering the background calendar
+     *
+     * @param {Date} date
+     * @returns {String}
+     */
     this.getBlockForDate = function (date) {
         return '<div class="calendar-date"><div class="calendar-headline"><span class="calendar-title">' + date.getDate() + '.' + (date.getMonth() + 1) + '</span><div class="calendar-timeblock">09-12</div><div class="calendar-timeblock">17-20</div></div></div>';
     };
 
+    /**
+     * Returns the Inventory as HTML
+     *
+     * @returns {String}
+     */
     this.getInventory = function () {
         var $json       = AJS.$.parseJSON('{"stuff":["item","item","item"],"some more stuff":["item bar","item foo","item baz"]}'),
             $key        = null, // will be used to iterate itemgroups
             $item       = null, // will be used to iterate items
             $inventory  = '';
 
+        // iterate through inventory information and build html
         for ($key in $json) {
-            //console.log($json[$key].length);
             $inventory = $inventory +
                     '<div class="calendar-inventory-group">' +
                         '<strong>' + $key + '</strong>' +
                         '<ul>';
 
             for ($item in $json[$key]) {
-                //console.log($json[$key][$item]);
                 $inventory = $inventory + '<li><a href="#">' + $json[$key][$item] + '</a></li>';
             }
-
-
             $inventory = $inventory + '</ul>' + '</div>';
-            /*<div class="calendar-inventory-group">
-            <strong>Stuff</strong>
-            <ul>
-                <li><a href="#">Item Foo</a></li>
-                <li><a href="#">Item Bar</a></li>
-                <li><a href="#">Item Baz</a></li>
-                <li><a href="#" id="test-element">Item Cool</a></li>
-                <li><a href="#" id="test-element2">Item Foo</a></li>
-            </ul>
-        </div>*/
         }
-
-        console.log($inventory);
 
         return $inventory;
     };
 
+    /**
+     * renders the full inventory
+     *
+     * @returns {undefined}
+     */
     this.renderInventory = function () {
         var $inventory = this.getInventory();
-        console.log($inventory);
         this.data.inventory.append($inventory);
     };
 
+    /**
+     * renders the background (formaly the dates) into the wrapper
+     *
+     * @returns {undefined}
+     */
+    this.renderCalendarBackground = function () {
+        var $wrapperLength = this.data.container.width() - this.data.inventory.width() - 300,
+            $date          = this.options.startdate,
+            $blocks        = '',
+            $i             = 0;
+
+        for ($i; $i <= $wrapperLength; $i += 100) {
+            $blocks = $blocks + this.getBlockForDate($date);
+            $date.setDate($date.getDate() + 1);
+        }
+
+        this.data.wrapper.append($blocks);
+    };
+
+    /**
+     * renders the basic html block, needed by OktolabCalendar
+     *
+     * @returns {undefined}
+     */
     this.renderBasicCalendar = function () {
         this.data.container.append('<div class="calendar-inventory"></div><div class="calendar-wrapper"></div>');
 
