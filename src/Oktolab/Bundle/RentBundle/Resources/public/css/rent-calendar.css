@@ -27,6 +27,7 @@
 
 .oktolab-calendar .calendar-event {
     background-color: #CCCCCC;
+    color: #333333;
 }
 
 .oktolab-calendar .calendar-inventory ul li a {
@@ -67,6 +68,8 @@
 
 .oktolab-calendar .calendar-event {
     text-align: center;
+    line-height: 15px;
+    font-weight: bold;
 }
 
 /* **********************************************
@@ -131,6 +134,8 @@
 }
 
 .oktolab-calendar .calendar-event {
-    height: 29px;
+    height: 15px;
+    padding: 7px 0;
     margin: 2px 0;
+    overflow: hidden;
 }

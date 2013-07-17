@@ -49,7 +49,7 @@ class EventController extends Controller
             ),
             '567' => array(
                 'id'        => 567,
-                'title'     => 'Michis Event',
+                'title'     => 'Michis Event ist super awesome great and greater yo dawg',
                 'item'      => 'item-foo',
                 'start'     => $date3->modify('+1 day')->format('c'),
                 'end'       => $date3->modify('+3 day')->format('c'),
