@@ -10,11 +10,6 @@
 /* **********************************************
 /* ***************** colors *********************
  ********************************************** */
-.rent-cal-calendar-header {
-    background-color: #205081;
-    color: #FFFFFF;
-}
-
 .oktolab-calendar .calendar-date {
     background-color: #F5F5F5;
     border-right: 1px solid #CCCCCC;
@@ -28,6 +23,10 @@
 .oktolab-calendar .calendar-inventory-group strong {
     color: #707070;
     border-top: 1px solid #CCCCCC;
+}
+
+.oktolab-calendar .calendar-event {
+    background-color: #CCCCCC;
 }
 
 .oktolab-calendar .calendar-inventory ul li a {
@@ -66,6 +65,10 @@
     list-style: none outside none;
 }
 
+.oktolab-calendar .calendar-event {
+    text-align: center;
+}
+
 /* **********************************************
 /* ***************** layout *********************
  ********************************************** */
@@ -75,11 +78,10 @@
 }
 
 .oktolab-calendar .calendar-inventory {
-    margin-top: 14px;
     width: 200px;
     float: left;
     position: absolute;
-    padding: 20px;
+    padding: 34px 20px 20px;
 }
 
 .oktolab-calendar .calendar-inventory-group strong {
@@ -126,4 +128,9 @@
 
 .oktolab-calendar .calendar-headline {
     height: 40px;
+}
+
+.oktolab-calendar .calendar-event {
+    height: 29px;
+    margin: 2px 0;
 }
