@@ -19,7 +19,7 @@ class SetType extends AbstractType
                 'required' => false,
                 'allow_add' => true,
                 'allow_delete' => true,
-                'prototype' => true,
+                'prototype' => false,
                 'mapped' => false,
                 'attr' => array('hidden' => 'true')
                 )

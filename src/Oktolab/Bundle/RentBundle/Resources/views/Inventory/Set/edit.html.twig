@@ -47,14 +47,14 @@
                     </thead>
                     <tbody class="appendable">
                         {% for item in items %}
-                            <tr>
+                            <tr id=row_{{ item.id }}>
                                 <td headers="name">{{ item.title }}</td>
                                 <td>{{ item.description }}</td>
                                 <td>{{ item.barcode }}</td>
                                 <td>
                                     <ul class="menu">
                                         <li>
-                                            Von Set entfernen
+                                            <a href="{{ path('inventory_set_remove_item', { 'id' : item.id }) }}" class="inventory_set_remove_item" id={{ item.id }} >{% trans %}remove from set{% endtrans %}</a>
                                         </li>
                                         <li>
                                             <a href="{{ path('inventory_item_show', { 'id': item.id }) }}">{% trans %}show{% endtrans %}</a>
@@ -68,6 +68,9 @@
                         {% endfor %}
                     </tbody>
                 </table>
+            {% for item in items %}
+                <input class="addableitem" type="hidden" id="oktolab_bundle_rentbundle_inventory_settype_itemsToAdd_{{ item.id }}_id" name="oktolab_bundle_rentbundle_inventory_settype[itemsToAdd][{{ item.id }}][id]" required="required" />
+            {% endfor %}
         </fieldset>
     {{ form_end(edit_form) }}
 {% endblock %}

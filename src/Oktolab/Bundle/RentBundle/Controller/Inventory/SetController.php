@@ -47,7 +47,7 @@ class SetController extends Controller
     public function searchItemsAction(Request $request)
     {
         $em = $this->getDoctrine()->getManager();
-        $entities = $em->getRepository('OktolabRentBundle:Inventory\Item')->findAll();
+        $entities = $em->getRepository('OktolabRentBundle:Inventory\Item')->findBy(array('set' => null)); //TODO:Find by ISNULL(set)
 
         $json = array();
         //TODO: split the descripiton to single words. That helps the typeahead to be more usefull.
@@ -67,6 +67,7 @@ class SetController extends Controller
     }
 
     /**
+     *
      * Creates a new Inventory\Set entity.
      *
      * @Route("/", name="inventory_set_create")
@@ -82,21 +83,21 @@ class SetController extends Controller
         if ($form->isValid()) {
             $em = $this->getDoctrine()->getManager();
 
-            $em->persist($entity);
-            $em->flush();
-
-            foreach($form->get('itemsToAdd')->getData() as $key => $value) {
-//              add all items according to the id!
+            foreach($editForm->get('itemsToAdd')->getData() as $key => $value) {
+                //add all items according to the id!
                 $Item = $em->getRepository('OktolabRentBundle:Inventory\Item')->find($key);
                 if ($Item) {
                     //die(var_dump($entity));
                     $Item->setSet($entity);
                     $em->persist($Item);
-                    $em->flush();
+
                 } else {
                     //TODO: no item found! Give the user a notice!
                 }
             }
+
+            $em->persist($entity);
+            $em->flush();
 
             return $this->redirect($this->generateUrl('inventory_set_show', array('id' => $entity->getId(), 'items' => $entity->getItems())));
         }
@@ -220,6 +221,32 @@ class SetController extends Controller
         $editForm->bind($request);
 
         if ($editForm->isValid()) {
+
+            $formItems = $editForm->get('itemsToAdd')->getData();
+
+            //iterate the form items to update set
+            foreach($entity->getItems() as $Item) {
+
+                if (!array_key_exists($Item->getId(), $formItems)) {
+                 //Item is in Database but not in form, remove it
+                    $Item->setSet();
+                    $em->persist($Item);
+                }
+                //Item is in Database and form, remove from form so you won't persist ist again
+                unset($formItems[$Item->getId()]);
+            }
+            //formItems contains only new items. Save them
+            foreach($formItems as $key => $value) {
+                $Item = $em->getRepository('OktolabRentBundle:Inventory\Item')->find($key);
+                if ($Item) {
+                    $Item->setSet($entity);
+                    $em->persist($Item);
+
+                } else {
+                    //TODO: no item found! Give the user a notice!
+                }
+            }
+
             $em->persist($entity);
             $em->flush();
 
@@ -233,11 +260,13 @@ class SetController extends Controller
             'items'       => $items
         );
     }
+
     /**
      * Deletes a Inventory\Set entity.
      *
      * @Route("/delete/{id}", name="inventory_set_delete")
      * @Method("GET")
+     * @Template()
      */
     public function deleteAction(Request $request, $id)
     {
@@ -255,6 +284,49 @@ class SetController extends Controller
         $em->remove($entity);
         $em->flush();
         return $this->redirect($this->generateUrl('inventory_set'));
+    }
+
+    /**
+     * Remove an Item from a set entity.
+     *
+     * @Route("/remove/item/{id}", name="inventory_set_remove_item")
+     * @Method("GET")
+     */
+    public function removeItemAction(Request $request, $id)
+    {
+
+        $em = $this->getDoctrine()->getManager();
+
+        $item = $em->getRepository('OktolabRentBundle:Inventory\Item')->find($id);
+
+        if ($request->isXmlHttpRequest()) {
+        if (!$item) {
+            return new JsonResponse(array('status' => 500));
+        }
+
+        $item->setSet();
+        $em->flush($item);
+
+        return new JsonResponse(array('status' => 200));
+        } else {
+            if (!$item) {
+                 $this->get('session')->getFlashBag()->add(
+                   'error',
+                   'Dieses Item konnte nicht gefunden werden.'
+                );
+            } else {
+                $item->setSet();
+                $em->flush($item);
+
+                //TODO: redirect back to Set edit.
+                $this->get('session')->getFlashBag()->add(
+                   'notice',
+                   sprintf('Item %s wurde erfolgreich aus Set entfernt.', $item->getTitle())
+                );
+            }
+
+            return $this->redirect($this->generateUrl('inventory_set'));
+        }
     }
 
     /**

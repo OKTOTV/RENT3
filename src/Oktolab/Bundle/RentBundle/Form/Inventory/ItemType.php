@@ -14,11 +14,27 @@ class ItemType extends AbstractType
             ->add('title')
             ->add('description', 'textarea')
             ->add('barcode')
-            ->add('buyDate', 'date', array('widget' => 'single_text', 'required' => false, 'empty_value' => ''))
+            ->add(
+                'buyDate',
+                'date',
+                array(
+                    'widget' => 'single_text',
+                    'required' => false,
+                    'empty_value' => ''
+                )
+            )
             ->add('serialNumber')
             ->add('vendor')
             ->add('modelNumber')
-            ->add('set', 'entity', array('class' => 'OktolabRentBundle:Inventory\Set', 'property' => 'title', 'required' => false));
+            ->add(
+                'set',
+                'entity',
+                array(
+                    'class' => 'OktolabRentBundle:Inventory\Set',
+                    'property' => 'title',
+                    'required' => false
+                )
+            );
     }
 
     public function setDefaultOptions(OptionsResolverInterface $resolver)
