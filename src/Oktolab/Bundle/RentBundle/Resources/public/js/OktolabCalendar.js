@@ -52,7 +52,6 @@ Oktolab.Calendar = function Calendar(container) {
         var $block = AJS.$('<div />').addClass('calendar-timeblock').html('17-20').appendTo($calendarHeadline);
         data.timeblocks.push({ 'date': $date, 'block': $block });
 
-        //console.log(data.timeblocks);
         return AJS.$('<div />').addClass('calendar-date').append($calendarHeadline);
     };
 
@@ -63,9 +62,7 @@ Oktolab.Calendar = function Calendar(container) {
 
     this.getEvents = function () {
         data.events = AJS.$.getJSON(options.eventSrcUrl);
-
         return data.events;
-        //console.log(this.data.events);
     };
 
     /**
@@ -89,7 +86,7 @@ Oktolab.Calendar = function Calendar(container) {
             for ($item in $json[$key]) {
                 $inventory = $inventory + '<li><a href="#" id="' + $json[$key][$item] + '">' + $json[$key][$item] + '</a></li>';
             }
-            $inventory = $inventory + '</ul>' + '</div>';
+            $inventory = $inventory + '</ul></div>';
         }
 
         return $inventory;
@@ -112,15 +109,12 @@ Oktolab.Calendar = function Calendar(container) {
     this.renderCalendarBackground = function () {
         var $wrapperLength = data.container.width() - data.inventoryContainer.width(),
             $date          = options.startdate,
-            $blocks        = [],
             $i             = 0;
 
         for ($i; $i <= $wrapperLength; $i += 100) {
             data.wrapperContainer.append(this.getBlockForDate($date));
             $date.setDate($date.getDate() + 1);
         }
-
-//        data.wrapperContainer.append($blocks);
     };
 
     /**
@@ -141,36 +135,33 @@ Oktolab.Calendar = function Calendar(container) {
 
             AJS.$.each(json, function(key, val) {
                 //items.push('<div>' + val.title + '</div>');
-                var $item = AJS.$('#' + val.item);
-//                console.log($item.offset().top, $item.offsetParent().offset().top, $item.position().top);
-//                console.log($item.offset().top - $item.offsetParent().offset().top);
-//                console.log($item.offset().top - $item.offsetParent().offset().top + 18)
-//                console.log($item.position().top + 20)
+                var $item = AJS.$('#' + val.item),
+                    $block = null,
+                    $start = null,
+                    $end = null;
 
-                //console.log(new Date('2013-07-17T11:00:00+02:00'));
-                var $block = null,
-                    $start = null;
                 for ($block in data.timeblocks) {
 //                    console.log(data.timeblocks[$block].date, new Date(val.start), data.timeblocks[$block].date >= new Date(val.start));
                     if (data.timeblocks[$block].date >= new Date(val.start)) {
                         $start = data.timeblocks[$block];
-                        //console.log();
-                        console.log(data.timeblocks[$block].date, new Date(val.start));
                         break;
                     }
                 }
 
-                console.log($start);
+                for ($block in data.timeblocks) {
+                    if (data.timeblocks[$block].date >= new Date(val.end)) {
+                        $end = data.timeblocks[$block];
+                        break;
+                    }
+                }
 
                 data.wrapperContainer.append(
                         AJS.$('<div class="calendar-event">' + val.title + '</div>')
                             .css('position', 'absolute')
                             .offset({ top: $item.position().top + 20, left: $start.block.offset().left})
-                            .width(val.length)
+                            .width($end.block.offset().left - $start.block.offset().left + $end.block.width())
                 );
             });
-
-//            data.wrapperContainer.append(items.join(''));
         });
 
     };

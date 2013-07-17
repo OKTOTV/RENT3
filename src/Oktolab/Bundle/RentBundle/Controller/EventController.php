@@ -16,6 +16,7 @@ class EventController extends Controller
     {
         $date = new \DateTime('now');
         $date2 = new \DateTime('now');
+        $date3 = new \DateTime('now');
 
         return new JsonResponse(array(
             '123' => array(
@@ -38,6 +39,20 @@ class EventController extends Controller
                 'item'      => 'itema',
                 'start'     => $date->modify('friday +1 week 11:00')->format('c'),
                 'end'       => $date->modify('+3 days 18:00')->format('c'),
+            ),
+            '456' => array(
+                'id'        => 456,
+                'title'     => 'Robins Event',
+                'item'      => 'item-foo',
+                'start'     => $date3->modify('today 17:00')->format('c'),
+                'end'       => $date3->modify('+2 days 11:00')->format('c'),
+            ),
+            '567' => array(
+                'id'        => 567,
+                'title'     => 'Michis Event',
+                'item'      => 'item-foo',
+                'start'     => $date3->modify('+1 day')->format('c'),
+                'end'       => $date3->modify('+3 day')->format('c'),
             ),
         ));
     }
