@@ -20,7 +20,8 @@
         "sensio/generator-bundle": "2.3.*",
         "incenteev/composer-parameter-handler": "~2.0",
 	"knplabs/knp-markdown-bundle": "1.2.*",
-        "frequence-web/calendr-bundle": "1.0.*"
+        "frequence-web/calendr-bundle": "1.0.*",
+        "willdurand/faker-bundle": "1.0.*"
     },
     "scripts": {
         "post-install-cmd": [
