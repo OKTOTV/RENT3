@@ -14,46 +14,47 @@ class EventController extends Controller
      */
     public function indexAction()
     {
-        $date = new \DateTime('now');
-        $date2 = new \DateTime('now');
-        $date3 = new \DateTime('now');
+        $faker = \Faker\Factory::create('de_DE');
+        $arr = array();
+        for ($i = 0; $i <= 50; $i++) {
+            $date = $faker->dateTimeBetween('-1 day', '+2 weeks');
 
-        return new JsonResponse(array(
-            '123' => array(
-                'id'        => 123,
-                'title'     => 'EventTest',
-                'item'      => 'items',
-                'start'     => $date->modify('tomorrow 17:00')->format('c'),
-                'end'       => $date2->modify('tomorrow +2 days 18:00')->format('c'),
-            ),
-            '234' => array(
-                'id'        => 234,
-                'title'     => 'Cool stuff',
-                'item'      => 'item-bar',
-                'start'     => $date->modify('tomorrow 11:00')->format('c'),
-                'end'       => $date2->modify('tomorrow +2 days 18:00')->format('c'),
-            ),
-            '345' => array(
-                'id'        => 345,
-                'title'     => 'Awesome',
-                'item'      => 'itema',
-                'start'     => $date->modify('friday +1 week 11:00')->format('c'),
-                'end'       => $date->modify('+3 days 18:00')->format('c'),
-            ),
-            '456' => array(
-                'id'        => 456,
-                'title'     => 'Robins Event',
-                'item'      => 'item-foo',
-                'start'     => $date3->modify('today 17:00')->format('c'),
-                'end'       => $date3->modify('+2 days 11:00')->format('c'),
-            ),
-            '567' => array(
-                'id'        => 567,
-                'title'     => 'Michis Event ist super awesome great and greater yo dawg',
-                'item'      => 'item-foo',
-                'start'     => $date3->modify('+1 day')->format('c'),
-                'end'       => $date3->modify('+3 day')->format('c'),
-            ),
-        ));
+            $arr[] = array(
+                'id'    => '',
+                'title' => $faker->company(),
+                'start' => $date->format('c'),
+                'end'   => $date->modify(sprintf('+ %d min', $faker->randomNumber(8 * 60, 48 * 60)))->format('c'),
+                'item'  => $faker->randomElement(array('items', 'item-bar', 'item-foo', 'item-baz', 'itema', 'itemb')),
+            );
+        }
+
+        return new JsonResponse($arr);
+    }
+
+    /**
+     * @Route("/api/v1/calendarConfiguration.{_format}", name="event_calendarConfiguration", defaults={"_format"="json"}, requirements={"_format"="json"})
+     * @return \Symfony\Component\HttpFoundation\JsonResponse
+     */
+    public function calendarConfigurationAction()
+    {
+        $arr = array();
+
+        $date = new \DateTime('now');
+        for ($i = 0; $i <= 21; $i++) {
+            switch ($date->format('w')) {
+                case 0: // sonntag
+                    $arr['dates'][] = array('date' => $date->format('d.m'), 'timeblocks' => array());
+                    break;
+                case 6: // samstag
+                    $arr['dates'][] = array('date' => $date->format('d.m'), 'timeblocks' => array('09-16'));
+                    break;
+                default:
+                    $arr['dates'][] = array('date' => $date->format('d.m'), 'timeblocks' => array('09-12', '17-20'));
+            }
+
+            $date->modify('+1 day');
+        }
+
+        return new JsonResponse($arr);
     }
 }

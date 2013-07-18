@@ -29,3 +29,13 @@ assetic:
 
 #swiftmailer:
 #    delivery_address: me@example.com
+bazinga_faker:
+    orm: doctrine
+    locale: de_DE
+    entities:
+        Oktolab\Bundle\RentBundle\Entity\Inventory\Item:
+            number: 5
+        Oktolab\Bundle\RentBundle\Entity\Event:
+            number: 20
+            custom_formatters:
+                name: { method: name }

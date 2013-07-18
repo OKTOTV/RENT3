@@ -68,9 +68,3 @@ swiftmailer:
     username:  %mailer_user%
     password:  %mailer_password%
     spool:     { type: memory }
-
-bazinga_faker:
-    orm: doctrine
-    entities:
-        Oktolab\Bundle\RentBundle\Entity\Inventory\Item:
-            number: 5
