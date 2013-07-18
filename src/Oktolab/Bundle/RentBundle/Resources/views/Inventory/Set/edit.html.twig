@@ -54,7 +54,7 @@
                                 <td>
                                     <ul class="menu">
                                         <li>
-                                            <a href="{{ path('inventory_set_remove_item', { 'id' : item.id }) }}" class="inventory_set_remove_item" id={{ item.id }} >{% trans %}remove from set{% endtrans %}</a>
+                                            <a href="{{ path('inventory_set_remove_item', { 'id' : item.id, 'setid' : entity.id}) }}" class="inventory_set_remove_item" id={{ item.id }} >{% trans %}remove from set{% endtrans %}</a>
                                         </li>
                                         <li>
                                             <a href="{{ path('inventory_item_show', { 'id': item.id }) }}">{% trans %}show{% endtrans %}</a>

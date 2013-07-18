@@ -83,7 +83,7 @@ class SetController extends Controller
         if ($form->isValid()) {
             $em = $this->getDoctrine()->getManager();
 
-            foreach($editForm->get('itemsToAdd')->getData() as $key => $value) {
+            foreach($form->get('itemsToAdd')->getData() as $key => $value) {
                 //add all items according to the id!
                 $Item = $em->getRepository('OktolabRentBundle:Inventory\Item')->find($key);
                 if ($Item) {
@@ -289,44 +289,31 @@ class SetController extends Controller
     /**
      * Remove an Item from a set entity.
      *
-     * @Route("/remove/item/{id}", name="inventory_set_remove_item")
+     * @Route("{setid}/remove/item/{id}", name="inventory_set_remove_item")
      * @Method("GET")
      */
-    public function removeItemAction(Request $request, $id)
+    public function removeItemAction(Request $request, $id, $setid)
     {
-
         $em = $this->getDoctrine()->getManager();
 
         $item = $em->getRepository('OktolabRentBundle:Inventory\Item')->find($id);
 
-        if ($request->isXmlHttpRequest()) {
         if (!$item) {
-            return new JsonResponse(array('status' => 500));
-        }
-
-        $item->setSet();
-        $em->flush($item);
-
-        return new JsonResponse(array('status' => 200));
+             $this->get('session')->getFlashBag()->add(
+               'error',
+               'Dieses Item konnte nicht gefunden werden.'
+            );
         } else {
-            if (!$item) {
-                 $this->get('session')->getFlashBag()->add(
-                   'error',
-                   'Dieses Item konnte nicht gefunden werden.'
-                );
-            } else {
-                $item->setSet();
-                $em->flush($item);
+            $item->setSet();
+            $em->flush($item);
 
-                //TODO: redirect back to Set edit.
-                $this->get('session')->getFlashBag()->add(
-                   'notice',
-                   sprintf('Item %s wurde erfolgreich aus Set entfernt.', $item->getTitle())
-                );
-            }
-
-            return $this->redirect($this->generateUrl('inventory_set'));
+            //TODO: redirect back to Set edit.
+            $this->get('session')->getFlashBag()->add(
+               'notice',
+               sprintf('Item %s wurde erfolgreich aus Set entfernt.', $item->getTitle())
+            );
         }
+        return $this->redirect($this->generateUrl('inventory_set_edit', array('id' => $setid)));
     }
 
     /**
