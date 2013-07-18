@@ -43,6 +43,9 @@
  ********************************************** */
 .oktolab-calendar .calendar-headline {
     text-align: center;
+}
+
+.oktolab-calendar .calendar-headline .calendar-title {
     font-weight: bold;
 }
 
@@ -69,7 +72,6 @@
 .oktolab-calendar .calendar-event {
     text-align: center;
     line-height: 15px;
-    font-weight: bold;
 }
 
 /* **********************************************
@@ -135,7 +137,8 @@
 
 .oktolab-calendar .calendar-event {
     height: 15px;
-    padding: 7px 0;
+    padding: 7px 0 7px 0;
     margin: 2px 0;
     overflow: hidden;
+    border-left: 2px solid black;
 }

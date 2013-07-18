@@ -7,7 +7,7 @@ Oktolab.Calendar = function Calendar(container) {
         'container':    container,
         'startdate':    new Date(),
         'eventSrcUrl':  'http://localhost/vhosts/rent/web/app_dev.php/api/v1/events.json',
-        'configSrcUrl': 'gone.json' // timeblocks and inventory
+        'configSrcUrl': 'http://localhost/vhosts/rent/web/app_dev.php/api/v1/calendarConfiguration.json' // timeblocks and inventory
     };
 
     var data = {
@@ -27,32 +27,6 @@ Oktolab.Calendar = function Calendar(container) {
         this.renderInventory();
         this.renderCalendarBackground();
         this.renderEvents();
-    };
-
-    /**
-     * Returns the HTML needed by rendering the background calendar
-     *
-     * @param {Date} date
-     * @returns {String}
-     */
-    this.getBlockForDate = function (date) {
-        var $calendarHeadline = AJS.$('<div />').addClass('calendar-headline').append(
-            AJS.$('<span />').addClass('calendar-title').html(date.getDate() + '.' + (date.getMonth() + 1))
-        );
-
-        var $date = new Date(date);
-            $date.setHours(12);
-            $date.setMinutes(0);
-        var $block = AJS.$('<div />').addClass('calendar-timeblock').html('09-12').appendTo($calendarHeadline);
-        data.timeblocks.push({ 'date': $date, 'block': $block });
-
-        var $date = new Date(date);
-            $date.setHours(20);
-            $date.setMinutes(0);
-        var $block = AJS.$('<div />').addClass('calendar-timeblock').html('17-20').appendTo($calendarHeadline);
-        data.timeblocks.push({ 'date': $date, 'block': $block });
-
-        return AJS.$('<div />').addClass('calendar-date').append($calendarHeadline);
     };
 
     this.getInventory = function () {
@@ -107,14 +81,28 @@ Oktolab.Calendar = function Calendar(container) {
      * @returns {undefined}
      */
     this.renderCalendarBackground = function () {
-        var $wrapperLength = data.container.width() - data.inventoryContainer.width(),
-            $date          = options.startdate,
-            $i             = 0;
+        AJS.$.getJSON(options.configSrcUrl).success(function (json) {
+            AJS.$.each(json.dates, function(key, val) { // iterate through each date
+                var $date = new Date(val.date),
+                    $calendarHeadline = AJS.$('<div />').addClass('calendar-headline').append(
+                        AJS.$('<span />').addClass('calendar-title').html($date.getDate() + '.' + ($date.getMonth() + 1))
+                    );
 
-        for ($i; $i <= $wrapperLength; $i += 100) {
-            data.wrapperContainer.append(this.getBlockForDate($date));
-            $date.setDate($date.getDate() + 1);
-        }
+                AJS.$.each(val.timeblocks, function(block) { // iterate all timeblocks on date
+                    var $startDate  = new Date(val.timeblocks[block][0]),
+                        $endDate    = new Date(val.timeblocks[block][1]),
+                        $block      = AJS.$('<div />')
+                            .addClass('calendar-timeblock')
+                            .css('width', (100 / val.timeblocks.length).toFixed(2) + '%')
+                            .html($startDate.getHours() + '-' + $endDate.getHours())
+                            .appendTo($calendarHeadline);
+                    console.log((100 / val.timeblocks.length).toFixed(2) + '%');
+                    data.timeblocks.push({ 'date': $endDate, 'block': $block });
+                });
+
+                data.wrapperContainer.append(AJS.$('<div />').addClass('calendar-date').append($calendarHeadline));
+            });
+        });
     };
 
     /**
@@ -127,21 +115,19 @@ Oktolab.Calendar = function Calendar(container) {
         data.wrapperContainer   = AJS.$('<div class="calendar-wrapper" />').appendTo(data.container);
     };
 
+    /**
+     * renders events on calendar
+     * @returns {undefined}
+     */
     this.renderEvents = function () {
-
         AJS.$.getJSON(options.eventSrcUrl, function(json) {
-//            var items = [],
-//                wrapperOffset = data.wrapperContainer.offset();
-
             AJS.$.each(json, function(key, val) {
-                //items.push('<div>' + val.title + '</div>');
-                var $item = AJS.$('#' + val.item),
-                    $block = null,
-                    $start = null,
-                    $end = null;
+                var $item   = AJS.$('#' + val.item),
+                    $block  = null,
+                    $start  = null,
+                    $end    = null;
 
                 for ($block in data.timeblocks) {
-//                    console.log(data.timeblocks[$block].date, new Date(val.start), data.timeblocks[$block].date >= new Date(val.start));
                     if (data.timeblocks[$block].date >= new Date(val.start)) {
                         $start = data.timeblocks[$block];
                         break;

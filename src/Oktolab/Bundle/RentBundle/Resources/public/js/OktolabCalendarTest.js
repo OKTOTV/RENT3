@@ -26,6 +26,10 @@ test('Renders Calendar Background (Date-Blocks)', function () {
     ok(1 <= AJS.$('.calendar-wrapper > .calendar-date').length, "Renders the dates");
 });
 
+test('Renders Calendar Events', function () {
+    // count events von json-api und rendered events
+});
+
 module('Oktolab Calendar JSON');
 test('getInventory() returns object', function () {
     var calendar = new Oktolab.Calendar('#qunit-calendar');

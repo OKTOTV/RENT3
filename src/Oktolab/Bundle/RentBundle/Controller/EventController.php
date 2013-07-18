@@ -23,7 +23,7 @@ class EventController extends Controller
                 'id'    => '',
                 'title' => $faker->company(),
                 'start' => $date->format('c'),
-                'end'   => $date->modify(sprintf('+ %d min', $faker->randomNumber(8 * 60, 48 * 60)))->format('c'),
+                'end'   => $date->modify(sprintf('+ %d min', $faker->randomNumber(10 * 60, 48 * 60)))->format('c'),
                 'item'  => $faker->randomElement(array('items', 'item-bar', 'item-foo', 'item-baz', 'itema', 'itemb')),
             );
         }
@@ -43,17 +43,36 @@ class EventController extends Controller
         for ($i = 0; $i <= 21; $i++) {
             switch ($date->format('w')) {
                 case 0: // sonntag
-                    $arr['dates'][] = array('date' => $date->format('d.m'), 'timeblocks' => array());
+                    $arr['dates'][] = array('date' => $date->format('c'), 'timeblocks' => array());
                     break;
                 case 6: // samstag
-                    $arr['dates'][] = array('date' => $date->format('d.m'), 'timeblocks' => array('09-16'));
+                    $arr['dates'][] = array(
+                        'date' => $date->format('c'),
+                        'timeblocks' => array(
+                            array(
+                                $date->modify('09:00')->format('c'), $date->modify('16:00')->format('c')
+                            ),
+                        ),
+                    );
                     break;
                 default:
-                    $arr['dates'][] = array('date' => $date->format('d.m'), 'timeblocks' => array('09-12', '17-20'));
+                    $arr['dates'][] = array(
+                        'date' => $date->format('c'),
+                        'timeblocks' => array(
+                            array(
+                                $date->modify('09:00')->format('c'), $date->modify('12:00')->format('c')
+                            ),
+                            array(
+                                $date->modify('17:00')->format('c'), $date->modify('20:00')->format('c')
+                            ),
+                        ),
+                    );
             }
 
             $date->modify('+1 day');
         }
+
+        $arr['items'] = array();
 
         return new JsonResponse($arr);
     }
