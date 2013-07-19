@@ -3,9 +3,27 @@
 namespace Oktolab\Bundle\RentBundle\Tests\Controller\Inventory;
 
 use Oktolab\Bundle\RentBundle\Tests\WebTestCase;
+use Oktolab\Bundle\RentBundle\DataFixtures\ORM\SetFixture;
+use Oktolab\Bundle\RentBundle\DataFixtures\ORM\ItemFixture;
+use Doctrine\Common\DataFixtures\Loader;
+use Doctrine\Common\DataFixtures\Executor\ORMExecutor;
+use Doctrine\Common\DataFixtures\Purger\ORMPurger;
 
 class SetControllerTest extends WebTestCase
 {
+    private $entityManager;
+    private $purger;
+
+    public function setUp() {
+        parent::setUp();
+        $this->entityManager = static::$kernel->getContainer()
+            ->get('doctrine')
+            ->getManager()
+        ;
+        $this->purger = new ORMPurger($this->entityManager);
+        $this->purger->purge();
+    }
+
     public function testShowEmptySetList()
     {
         $client = $this->client;
@@ -50,6 +68,9 @@ class SetControllerTest extends WebTestCase
 
     public function testEditSet()
     {
+        $setFixtureLoader = new SetFixture();
+        $setFixtureLoader->load($this->entityManager);
+
         $client = $this->client;
 
         $crawler = $client->request('GET', 'inventory/set/1/edit');
@@ -72,6 +93,9 @@ class SetControllerTest extends WebTestCase
 
     public function testEditErrorSet()
     {
+        $setFixtureLoader = new SetFixture();
+        $setFixtureLoader->load($this->entityManager);
+
         $client = $this->client;
 
         $crawler = $client->request('GET', 'inventory/set/1/edit');
@@ -89,6 +113,9 @@ class SetControllerTest extends WebTestCase
 
     public function testDeleteSet()
     {
+        $setFixtureLoader = new SetFixture();
+        $setFixtureLoader->load($this->entityManager);
+
         $client = $this->client;
         // Delete the entity,
         $crawler = $client->request('GET', 'inventory/set/1/edit');
@@ -101,9 +128,31 @@ class SetControllerTest extends WebTestCase
 
     public function testAddItemToSet()
     {
-        $this->markTestIncomplete(
-            'Implement test after action completion'
-        );
+        $setFixtureLoader = new SetFixture();
+        $setFixtureLoader->load($this->entityManager);
+
+        $itemFixtureLoader = new ItemFixture();
+        $itemFixtureLoader->load($this->entityManager);
+
+        //only possible with javascript. we use a modified Form and post it.
+        $client = $this->client;
+
+        $crawler = $client->request('GET', 'inventory/set/1/edit');
+
+        $form = $crawler->selectButton('Speichern')->form();
+        //die(var_dump($form['oktolab_bundle_rentbundle_inventory_settype[_token]']->getValue()));
+        $crawler = $client->request('PUT', $form->getUri(), array(
+            'oktolab_bundle_rentbundle_inventory_settype' => array(
+            '_token' => $form['oktolab_bundle_rentbundle_inventory_settype[_token]']->getValue(),
+            'title' => 'TestSet',
+            'description' => 'TestDescription',
+            'itemsToAdd' => array(1 => 'id')
+            )));
+
+        $crawler = $client->followRedirect();
+
+        $this->assertEquals(1, $crawler->filter('tbody tr')->count());
+
     }
 
     public function testRemoveItemFromSet()

@@ -21,9 +21,4 @@ AJS.$(document).ready(function (){
         AJS.$('#row_'+this.id).remove();
         AJS.$('#oktolab_bundle_rentbundle_inventory_settype_itemsToAdd_'+this.id+'_id').remove();
     });
-//
-//    AJS.$(document).on("click", '.inventory_set_remove_attached_item', function(event) {
-//        event.preventDefault();
-//        AJS.$('#row_'+this.id).remove();
-//    });
 });
