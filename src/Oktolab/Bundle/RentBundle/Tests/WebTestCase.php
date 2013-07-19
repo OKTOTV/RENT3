@@ -8,6 +8,9 @@ use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
 
 class WebTestCase extends SymfonyWebTestCase
 {
+    /**
+     * @var Symfony\Bundle\FrameworkBundle\Client
+     */
     protected $client = null;
 
     public function setUp()
@@ -16,12 +19,15 @@ class WebTestCase extends SymfonyWebTestCase
         $this->logIn();
     }
 
+    /**
+     * Logs the user "user" in.
+     */
     protected function logIn()
     {
         $session = $this->client->getContainer()->get('session');
 
-        $firewall   = 'secured_area';
-        $token      = new UsernamePasswordToken('user', null, $firewall, array('ROLE_USER'));
+        $firewall = 'secured_area';
+        $token    = new UsernamePasswordToken('user', null, $firewall, array('ROLE_USER'));
         $session->set('_security_'.$firewall, serialize($token));
         $session->save();
 

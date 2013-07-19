@@ -13,13 +13,13 @@ class ItemTest extends \PHPUnit_Framework_TestCase
         $this->item = new Item();
     }
 
-    public function testReturnsTrueIfWarrantyVoid()
+    public function testWarrantyIsVoid()
     {
         $this->item->setWarrantyDate(new \DateTime('-7 days'));
         $this->assertTrue($this->item->isWarrantyVoid());
     }
 
-    public function testReturnsFalseIfWarrantyIsGiven()
+    public function testWarrantyIsValid()
     {
         $this->item->setWarrantyDate(new \DateTime('+3 days'));
         $this->assertFalse($this->item->isWarrantyVoid());
