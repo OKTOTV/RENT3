@@ -53,7 +53,8 @@ class SetControllerTest extends WebTestCase
         $form = $crawler->selectButton('Speichern')->form(
             array(
             'oktolab_bundle_rentbundle_inventory_settype[title]' => 'TestSet',
-            'oktolab_bundle_rentbundle_inventory_settype[description]' => 'TestDescription'
+            'oktolab_bundle_rentbundle_inventory_settype[description]' => 'TestDescription',
+            'oktolab_bundle_rentbundle_inventory_settype[barcode]' => 'ASDF0'
             )
         );
 
@@ -150,6 +151,7 @@ class SetControllerTest extends WebTestCase
                     '_token' => $form['oktolab_bundle_rentbundle_inventory_settype[_token]']->getValue(),
                     'title' => 'TestSet',
                     'description' => 'TestDescription',
+                    'barcode' => 'ASDF0',
                     'itemsToAdd' => array(1 => 'id')
                 )
             )
@@ -179,7 +181,8 @@ class SetControllerTest extends WebTestCase
                 'oktolab_bundle_rentbundle_inventory_settype' => array(
                     '_token' => $form['oktolab_bundle_rentbundle_inventory_settype[_token]']->getValue(),
                     'title' => 'SetWithoutItem',
-                    'description' => 'SetWithoutItemDescription'
+                    'description' => 'SetWithoutItemDescription',
+                    'barcode' => 'ASDF0'
                     )
             )
         );

@@ -14,6 +14,7 @@ class SetType extends AbstractType
             ->add('title')
             ->add('description', 'textarea')
             ->add('searchItems', 'text', array('mapped' => false))
+            ->add('barcode')
             ->add(
                 'itemsToAdd',
                 'collection',

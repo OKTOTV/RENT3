@@ -49,6 +49,20 @@ class Set
     private $description;
 
     /**
+     * @var string
+     *
+     * @ORM\Column(name="barcode", type="string", length=20)
+     *
+     * @Assert\NotBlank(message = "Du musst einen Barcode angeben" )
+     * @Assert\Length
+     *      (
+     *      max = 20,
+     *      maxMessage = "Der Barcode darf maximal 20 Zeichen lang sein"
+     *      )
+     */
+    private $barcode;
+
+    /**
      *
      *@ORM\OneToMany(targetEntity="Item", mappedBy="set", cascade="detach")
      */
@@ -149,5 +163,28 @@ class Set
     public function getItems()
     {
         return $this->items;
+    }
+
+    /**
+     * Set barcode
+     *
+     * @param string $barcode
+     * @return Set
+     */
+    public function setBarcode($barcode)
+    {
+        $this->barcode = $barcode;
+    
+        return $this;
+    }
+
+    /**
+     * Get barcode
+     *
+     * @return string 
+     */
+    public function getBarcode()
+    {
+        return $this->barcode;
     }
 }

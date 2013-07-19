@@ -16,6 +16,7 @@ class SetFixture extends AbstractFixture implements OrderedFixtureInterface
             $set = new Set();
             $set->setTitle('SetTitle'.$index);
             $set->setDescription('SetDescription'.$index);
+            $set->setBarcode('ASDF'.$index);
 
             $manager->persist($set);
         }
@@ -33,6 +34,7 @@ class SetFixture extends AbstractFixture implements OrderedFixtureInterface
         $set = new Set();
         $set->setTitle('SetWithItemTitle');
         $set->setDescription('SetWithItemDescription');
+        $set->setBarcode('ASDF0');
 
         $manager->persist($set);
 
