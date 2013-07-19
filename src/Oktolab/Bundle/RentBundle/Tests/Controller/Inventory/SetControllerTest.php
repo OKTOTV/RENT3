@@ -157,15 +157,37 @@ class SetControllerTest extends WebTestCase
 
     public function testRemoveItemFromSet()
     {
-        $this->markTestIncomplete(
-            'Implement test after action completion'
-        );
+        $setFixtureLoader = new SetFixture();
+        $setFixtureLoader->SetWithItem($this->entityManager);
+
+        $client = $this->client;
+
+        $crawler = $client->request('GET', 'inventory/set/1/edit');
+
+        $form = $crawler->selectButton('Speichern')->form();
+        //die(var_dump($form['oktolab_bundle_rentbundle_inventory_settype[_token]']->getValue()));
+        $crawler = $client->request('PUT', $form->getUri(), array(
+            'oktolab_bundle_rentbundle_inventory_settype' => array(
+            '_token' => $form['oktolab_bundle_rentbundle_inventory_settype[_token]']->getValue(),
+            'title' => 'SetWithoutItem',
+            'description' => 'SetWithoutItemDescription',
+            )));
+
+        $crawler = $client->followRedirect();
+
+        $this->assertEquals(0, $crawler->filter('tbody tr')->count());
     }
 
     public function testDeleteSetWithAttachedItems()
     {
-        $this->markTestIncomplete(
-            'Implement test after action completion'
-        );
+        $setFixtureLoader = new SetFixture();
+        $setFixtureLoader->SetWithItem($this->entityManager);
+
+        $client = $this->client;
+
+        $crawler = $client->request('GET', 'inventory/set/1/edit');
+        $client->click($crawler->selectLink('Löschen')->link());
+
+        $this->assertNotRegExp('/SetWithItemTitle/', $client->getResponse()->getContent());
     }
 }

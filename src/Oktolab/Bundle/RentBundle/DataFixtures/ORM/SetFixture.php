@@ -6,6 +6,7 @@ use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
 use Oktolab\Bundle\RentBundle\Entity\Inventory\Set;
+use Oktolab\Bundle\RentBundle\Entity\Inventory\Item;
 
 class SetFixture extends AbstractFixture implements OrderedFixtureInterface
 {
@@ -25,6 +26,25 @@ class SetFixture extends AbstractFixture implements OrderedFixtureInterface
     public function getOrder()
     {
         return 2;
+    }
+
+    public function SetWithItem(ObjectManager $manager)
+    {
+        $set = new Set();
+        $set->setTitle('SetWithItemTitle');
+        $set->setDescription('SetWithItemDescription');
+
+        $manager->persist($set);
+
+        $item = new Item();
+        $item->setSet($set);
+        $item->setTitle('ItemForSetTitle');
+        $item->setDescription('ItemForSetDescription');
+        $item->setBarcode('YODAWG');
+
+        $manager->persist($item);
+
+        $manager->flush();
     }
 
 }
