@@ -14,14 +14,17 @@ class SetType extends AbstractType
             ->add('title')
             ->add('description', 'textarea')
             ->add('searchItems', 'text', array('mapped' => false))
-            ->add('itemsToAdd', 'collection', array(
-                'type' => new SetAddItemType(),
-                'required' => false,
-                'allow_add' => true,
-                'allow_delete' => true,
-                'prototype' => false,
-                'mapped' => false,
-                'attr' => array('hidden' => 'true')
+            ->add(
+                'itemsToAdd',
+                'collection',
+                array(
+                    'type' => new SetAddItemType(),
+                    'required' => false,
+                    'allow_add' => true,
+                    'allow_delete' => true,
+                    'prototype' => false,
+                    'mapped' => false,
+                    'attr' => array('hidden' => 'true')
                 )
             );
     }

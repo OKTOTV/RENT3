@@ -14,12 +14,13 @@ class SetControllerTest extends WebTestCase
     private $entityManager;
     private $purger;
 
-    public function setUp() {
+    public function setUp()
+    {
         parent::setUp();
         $this->entityManager = static::$kernel->getContainer()
             ->get('doctrine')
-            ->getManager()
-        ;
+            ->getManager();
+
         $this->purger = new ORMPurger($this->entityManager);
         $this->purger->purge();
     }
@@ -140,14 +141,19 @@ class SetControllerTest extends WebTestCase
         $crawler = $client->request('GET', 'inventory/set/1/edit');
 
         $form = $crawler->selectButton('Speichern')->form();
-        //die(var_dump($form['oktolab_bundle_rentbundle_inventory_settype[_token]']->getValue()));
-        $crawler = $client->request('PUT', $form->getUri(), array(
-            'oktolab_bundle_rentbundle_inventory_settype' => array(
-            '_token' => $form['oktolab_bundle_rentbundle_inventory_settype[_token]']->getValue(),
-            'title' => 'TestSet',
-            'description' => 'TestDescription',
-            'itemsToAdd' => array(1 => 'id')
-            )));
+
+        $crawler = $client->request(
+            'PUT',
+            $form->getUri(),
+            array(
+                'oktolab_bundle_rentbundle_inventory_settype' => array(
+                    '_token' => $form['oktolab_bundle_rentbundle_inventory_settype[_token]']->getValue(),
+                    'title' => 'TestSet',
+                    'description' => 'TestDescription',
+                    'itemsToAdd' => array(1 => 'id')
+                )
+            )
+        );
 
         $crawler = $client->followRedirect();
 
@@ -158,20 +164,25 @@ class SetControllerTest extends WebTestCase
     public function testRemoveItemFromSet()
     {
         $setFixtureLoader = new SetFixture();
-        $setFixtureLoader->SetWithItem($this->entityManager);
+        $setFixtureLoader->setWithItem($this->entityManager);
 
         $client = $this->client;
 
         $crawler = $client->request('GET', 'inventory/set/1/edit');
 
         $form = $crawler->selectButton('Speichern')->form();
-        //die(var_dump($form['oktolab_bundle_rentbundle_inventory_settype[_token]']->getValue()));
-        $crawler = $client->request('PUT', $form->getUri(), array(
-            'oktolab_bundle_rentbundle_inventory_settype' => array(
-            '_token' => $form['oktolab_bundle_rentbundle_inventory_settype[_token]']->getValue(),
-            'title' => 'SetWithoutItem',
-            'description' => 'SetWithoutItemDescription',
-            )));
+
+        $crawler = $client->request(
+            'PUT',
+            $form->getUri(),
+            array(
+                'oktolab_bundle_rentbundle_inventory_settype' => array(
+                    '_token' => $form['oktolab_bundle_rentbundle_inventory_settype[_token]']->getValue(),
+                    'title' => 'SetWithoutItem',
+                    'description' => 'SetWithoutItemDescription'
+                    )
+            )
+        );
 
         $crawler = $client->followRedirect();
 
@@ -181,13 +192,13 @@ class SetControllerTest extends WebTestCase
     public function testDeleteSetWithAttachedItems()
     {
         $setFixtureLoader = new SetFixture();
-        $setFixtureLoader->SetWithItem($this->entityManager);
+        $setFixtureLoader->setWithItem($this->entityManager);
 
         $client = $this->client;
 
         $crawler = $client->request('GET', 'inventory/set/1/edit');
         $client->click($crawler->selectLink('Löschen')->link());
 
-        $this->assertNotRegExp('/SetWithItemTitle/', $client->getResponse()->getContent());
+        $this->assertNotRegExp('/setWithItemTitle/', $client->getResponse()->getContent());
     }
 }

@@ -11,24 +11,20 @@ class ItemFixture extends AbstractFixture implements OrderedFixtureInterface
 {
     public function load(ObjectManager $manager, $number = 1)
     {
-     for ($index = 0; $index < $number; $index++) {
-         $item = new Item();
-         $item->setTitle('ItemTitle'.$index);
-         $item->setDescription('ItemDescription'.$index);
-         $item->setBarcode('ITEM'.$index);
+        for ($index = 0; $index < $number; $index++) {
+            $item = new Item();
+            $item->setTitle('ItemTitle'.$index);
+            $item->setDescription('ItemDescription'.$index);
+            $item->setBarcode('ITEM'.$index);
 
-         $manager->persist($item);
-     }
+            $manager->persist($item);
+        }
 
-     $manager->flush();
+        $manager->flush();
     }
 
     public function getOrder()
     {
         return 1;
     }
-
-
 }
-
-?>

@@ -14,12 +14,12 @@ class ItemControllerTest extends WebTestCase
     private $entityManager;
     private $purger;
 
-    public function setUp() {
+    public function setUp()
+    {
         parent::setUp();
         $this->entityManager = static::$kernel->getContainer()
             ->get('doctrine')
-            ->getManager()
-        ;
+            ->getManager();
         $this->purger = new ORMPurger($this->entityManager);
         $this->purger->purge();
     }
@@ -75,7 +75,6 @@ class ItemControllerTest extends WebTestCase
         $itemFixtureLoader = new ItemFixture();
         $itemFixtureLoader->load($this->entityManager);
 
-       //die(var_dump($item));
         $client = $this->client;
         // Edit the entity
         $crawler = $client->request('GET', 'inventory/item/1');

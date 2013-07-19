@@ -47,8 +47,7 @@ class SetController extends Controller
     public function searchItemsAction(Request $request)
     {
         $em = $this->getDoctrine()->getManager();
-        $entities = $em->getRepository('OktolabRentBundle:Inventory\Item')->findBy(array('set' => null)); //TODO:Find by ISNULL(set)
-
+        $entities = $em->getRepository('OktolabRentBundle:Inventory\Item')->findBy(array('set' => null));
         $json = array();
         //TODO: split the descripiton to single words. That helps the typeahead to be more usefull.
         foreach ($entities as $entity) {
@@ -83,7 +82,7 @@ class SetController extends Controller
         if ($form->isValid()) {
             $em = $this->getDoctrine()->getManager();
 
-            foreach($form->get('itemsToAdd')->getData() as $key => $value) {
+            foreach ($form->get('itemsToAdd')->getData() as $key => $value) {
                 //add all items according to the id!
                 $Item = $em->getRepository('OktolabRentBundle:Inventory\Item')->find($key);
                 if ($Item) {
@@ -99,7 +98,15 @@ class SetController extends Controller
             $em->persist($entity);
             $em->flush();
 
-            return $this->redirect($this->generateUrl('inventory_set_show', array('id' => $entity->getId(), 'items' => $entity->getItems())));
+            return $this->redirect(
+                $this->generateUrl(
+                    'inventory_set_show',
+                    array(
+                        'id' => $entity->getId(),
+                        'items' => $entity->getItems()
+                    )
+                )
+            );
         }
         return array(
             'entity' => $entity,
@@ -225,10 +232,10 @@ class SetController extends Controller
             $formItems = $editForm->get('itemsToAdd')->getData();
 
             //iterate the form items to update set
-            foreach($entity->getItems() as $Item) {
+            foreach ($entity->getItems() as $Item) {
 
                 if (!array_key_exists($Item->getId(), $formItems)) {
-                 //Item is in Database but not in form, remove it
+                    //Item is in Database but not in form, remove it
                     $Item->setSet();
                     $em->persist($Item);
                 }
@@ -236,7 +243,7 @@ class SetController extends Controller
                 unset($formItems[$Item->getId()]);
             }
             //formItems contains only new items. Save them
-            foreach($formItems as $key => $value) {
+            foreach ($formItems as $key => $value) {
                 $Item = $em->getRepository('OktolabRentBundle:Inventory\Item')->find($key);
                 if ($Item) {
                     $Item->setSet($entity);
@@ -299,9 +306,9 @@ class SetController extends Controller
         $item = $em->getRepository('OktolabRentBundle:Inventory\Item')->find($id);
 
         if (!$item) {
-             $this->get('session')->getFlashBag()->add(
-               'error',
-               'Dieses Item konnte nicht gefunden werden.'
+            $this->get('session')->getFlashBag()->add(
+                'error',
+                'Dieses Item konnte nicht gefunden werden.'
             );
         } else {
             $item->setSet();
@@ -309,8 +316,8 @@ class SetController extends Controller
 
             //TODO: redirect back to Set edit.
             $this->get('session')->getFlashBag()->add(
-               'notice',
-               sprintf('Item %s wurde erfolgreich aus Set entfernt.', $item->getTitle())
+                'notice',
+                sprintf('Item %s wurde erfolgreich aus Set entfernt.', $item->getTitle())
             );
         }
         return $this->redirect($this->generateUrl('inventory_set_edit', array('id' => $setid)));

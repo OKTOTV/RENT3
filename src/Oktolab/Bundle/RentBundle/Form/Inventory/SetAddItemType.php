@@ -10,18 +10,8 @@ class SetAddItemType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder
-            ->add('id', 'hidden',array('mapped' => false));
+        $builder->add('id', 'hidden', array('mapped' => false));
     }
-
-//    public function setDefaultOptions(OptionsResolverInterface $resolver)
-//    {
-//        $resolver->setDefaults(
-//            array(
-//                'data_class' => 'Oktolab\Bundle\RentBundle\Entity\Inventory\Set'
-//            )
-//        );
-//    }
 
     public function getName()
     {

@@ -12,15 +12,15 @@ class SetFixture extends AbstractFixture implements OrderedFixtureInterface
 {
     public function load(ObjectManager $manager, $number = 1)
     {
-     for ($index = 0; $index < $number; $index++) {
-         $set = new Set();
-         $set->setTitle('SetTitle'.$index);
-         $set->setDescription('SetDescription'.$index);
+        for ($index = 0; $index < $number; $index++) {
+            $set = new Set();
+            $set->setTitle('SetTitle'.$index);
+            $set->setDescription('SetDescription'.$index);
 
-         $manager->persist($set);
-     }
+            $manager->persist($set);
+        }
 
-     $manager->flush();
+        $manager->flush();
     }
 
     public function getOrder()
@@ -28,7 +28,7 @@ class SetFixture extends AbstractFixture implements OrderedFixtureInterface
         return 2;
     }
 
-    public function SetWithItem(ObjectManager $manager)
+    public function setWithItem(ObjectManager $manager)
     {
         $set = new Set();
         $set->setTitle('SetWithItemTitle');
@@ -46,7 +46,4 @@ class SetFixture extends AbstractFixture implements OrderedFixtureInterface
 
         $manager->flush();
     }
-
 }
-
-?>
