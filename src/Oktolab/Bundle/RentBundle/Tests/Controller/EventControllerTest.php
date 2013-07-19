@@ -17,7 +17,7 @@ class EventControllerTest extends WebTestCase
         );
 
         $response = $this->client->getResponse();
-        $this->assertTrue($response->isSuccessful(), 'Returns Status-Code 200');
+        $this->assertTrue($response->isSuccessful(), 'Response is successful');
         $this->assertTrue($response->headers->contains('Content-Type', 'application/json'), 'Returns application/json');
         $this->assertNotNull(json_decode($response->getContent()), 'Can decode JSON Array');
 
@@ -36,7 +36,7 @@ class EventControllerTest extends WebTestCase
         );
 
         $response = $this->client->getResponse();
-        $this->assertTrue($response->isSuccessful(), 'Returns Status-Code 200');
+        $this->assertTrue($response->isSuccessful(), 'Response is successful');
         $this->assertTrue($response->headers->contains('Content-Type', 'application/json'), 'Returns application/json');
         $this->assertNotNull(json_decode($response->getContent()), 'Can decode JSON Array');
     }
@@ -52,13 +52,13 @@ class EventControllerTest extends WebTestCase
         );
 
         $response = $this->client->getResponse();
-        $this->assertTrue($response->isSuccessful(), 'Returns Status-Code 200');
+        $this->assertTrue($response->isSuccessful(), 'Response is successful');
 
         $json = (array) json_decode($response->getContent());
         $this->assertArrayHasKey('dates', $json, 'Array has key "dates"');
         $this->assertArrayHasKey('items', $json, 'Array has key "items"');
 
-        foreach($json['dates'] as $date) {
+        foreach ($json['dates'] as $date) {
             $this->assertArrayHasKey('timeblocks', (array) $date);
             $this->assertArrayHasKey('date', (array) $date);
         }
