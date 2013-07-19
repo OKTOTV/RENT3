@@ -10,6 +10,19 @@ Oktolab.Calendar = function Calendar(container) {
         'configSrcUrl': 'http://localhost/vhosts/rent/web/app_dev.php/api/v1/calendarConfiguration.json' // timeblocks and inventory
     };
 
+    /*
+     * TODOS:
+     *  * srcUrls caching
+     *  * srcUrls parametizieren (baseUrls)
+     *  * jslint (bamboo!)
+     *  * moar tests
+     *  * scrolling
+     *  * items load
+     *  * mvc-pattern durchsetzen!
+     *  * jquery-plugin draus machen
+     *  * stabilize da stuff (zB event-rendering, json checks, ...)
+     */
+
     var data = {
         container:           AJS.$(options.container),
         wrapperContainer:   null,
@@ -23,6 +36,10 @@ Oktolab.Calendar = function Calendar(container) {
      * @returns {undefined}
      */
     this.render = function () {
+        if (0 === AJS.$(data.container).length) { // if no calendar found, give up
+            return;
+        }
+
         this.renderBasicCalendar();
         this.renderInventory();
         this.renderCalendarBackground();
@@ -96,7 +113,7 @@ Oktolab.Calendar = function Calendar(container) {
                             .css('width', (100 / val.timeblocks.length).toFixed(2) + '%')
                             .html($startDate.getHours() + '-' + $endDate.getHours())
                             .appendTo($calendarHeadline);
-                    console.log((100 / val.timeblocks.length).toFixed(2) + '%');
+
                     data.timeblocks.push({ 'date': $endDate, 'block': $block });
                 });
 
