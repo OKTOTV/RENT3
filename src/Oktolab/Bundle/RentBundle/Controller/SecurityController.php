@@ -32,6 +32,10 @@ class SecurityController extends Controller
     }
 
     /**
+     * The security layer will intercept this request
+     *
+     * @codeCoverageIgnore
+     *
      * @Route("/login_check", name="rentbundle_secure_check")
      */
     public function securityCheckAction()
@@ -40,6 +44,10 @@ class SecurityController extends Controller
     }
 
     /**
+     * The security layer will intercept this request
+     *
+     * @codeCoverageIgnore
+     *
      * @Route("/logout", name="rentbundle_secure_logout")
      */
     public function logoutAction()
