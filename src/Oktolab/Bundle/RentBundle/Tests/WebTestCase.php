@@ -9,7 +9,7 @@ use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
 class WebTestCase extends SymfonyWebTestCase
 {
     /**
-     * @var Symfony\Bundle\FrameworkBundle\Client
+     * @var \Symfony\Bundle\FrameworkBundle\Client
      */
     protected $client = null;
 

@@ -6,10 +6,19 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\JsonResponse;
 
+/**
+ * Event Controller.
+ */
 class EventController extends Controller
 {
+
     /**
-     * @Route("/api/v1/events.{_format}", name="event_getEvents", defaults={"_format"="json"}, requirements={"_format"="json"})
+     * @Route("/api/v1/events.{_format}",
+     *      name="event_getEvents",
+     *      defaults={"_format"="json"},
+     *      requirements={"_format"="json"})
+     *
+     * @return JsonResponse
      */
     public function indexAction()
     {
@@ -31,8 +40,12 @@ class EventController extends Controller
     }
 
     /**
-     * @Route("/api/v1/calendarConfiguration.{_format}", name="event_calendarConfiguration", defaults={"_format"="json"}, requirements={"_format"="json"})
-     * @return \Symfony\Component\HttpFoundation\JsonResponse
+     * @Route("/api/v1/calendarConfiguration.{_format}",
+     *      name="event_calendarConfiguration",
+     *      defaults={"_format"="json"},
+     *      requirements={"_format"="json"})
+     *
+     * @return JsonResponse
      */
     public function calendarConfigurationAction()
     {

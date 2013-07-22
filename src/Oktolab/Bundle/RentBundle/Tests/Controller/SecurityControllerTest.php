@@ -8,6 +8,9 @@ use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
 
 class SecurityControllerTest extends WebTestCase
 {
+    /**
+     * @var \Symfony\Bundle\FrameworkBundle\Client
+     */
     private $client = null;
 
     public function setUp()
@@ -62,7 +65,7 @@ class SecurityControllerTest extends WebTestCase
         );
     }
 
-    public function testFailedLoginWillThrowError()
+    public function testDisplayErrorOnFailedLogin()
     {
         $crawler = $this->client->request('GET', '/secure/login');
         $this->assertTrue($this->client->getResponse()->isSuccessful());
