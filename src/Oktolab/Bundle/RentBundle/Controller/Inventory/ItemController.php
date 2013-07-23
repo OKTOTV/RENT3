@@ -114,11 +114,8 @@ class ItemController extends Controller
                 throw $this->createNotFoundException('Unable to find Inventory\Item entity.');
             }
 
-            $deleteForm = $this->createDeleteForm($id);
-
             return array(
-                'entity'      => $entity,
-                'delete_form' => $deleteForm->createView(),
+                'entity' => $entity,
             );
         }
     }
@@ -195,13 +192,14 @@ class ItemController extends Controller
             'delete_form' => $deleteForm->createView(),
         );
     }
+
     /**
      * Deletes a Inventory\Item entity.
      *
      * @Route("/delete/{id}", name="inventory_item_delete")
      * @Method("GET")
      */
-    public function deleteAction(Request $request, $id)
+    public function deleteAction($id)
     {
         $em = $this->getDoctrine()->getManager();
         $entity = $em->getRepository('OktolabRentBundle:Inventory\Item')->find($id);
