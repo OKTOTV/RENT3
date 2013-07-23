@@ -2,8 +2,6 @@
 namespace Oktolab\Bundle\RentBundle\EventListener;
 
 use Doctrine\ORM\Event\LifecycleEventArgs;
-//use Oktolab\RentBundle\Entity\Inventory\Item;
-//use Symfony\Bridge\Monolog\Logger;
 use Symfony;
 
 class LogListener {
@@ -21,10 +19,10 @@ class LogListener {
             $entity = $args->getEntity();
 
             switch (\get_class($entity)) {
-             case 'Item':
+             case 'Oktolab\Bundle\RentBundle\Entity\Inventory\Item':
                  $this->logger->debug(sprintf('Try to persist a new item. (%s)', $entity->getTitle()));
                  break;
-             case 'Set':
+             case 'Oktolab\Bundle\RentBundle\Entity\Inventory\Set':
                  $this->logger->debug(sprintf('Try to persist a new set. (%s)', $entity->getTitle()));
                  break;
 
@@ -35,20 +33,20 @@ class LogListener {
         }
     }
 
-    public function postPersist(LifecycleEnventArgs $args)
+    public function postPersist(LifecycleEventArgs $args)
     {
         $entity = $args->getEntity();
 
         switch (\get_class($entity)) {
-         case 'Item':
-             $this->get('logger')->debug(sprintf('New item persisted. (%s)', $entity->getTitle()));
+         case 'Oktolab\Bundle\RentBundle\Entity\Inventory\Item':
+             $this->logger->info(sprintf('New item persisted. (%s)', $entity->getTitle()));
              break;
-         case 'Set':
-             $this->get('logger')->debug(sprintf('New set persisted. (%s)', $entity->getTitle()));
+         case 'Oktolab\Bundle\RentBundle\Entity\Inventory\Set':
+             $this->logger->info(sprintf('New set persisted. (%s)', $entity->getTitle()));
              break;
 
          default:
-             $this->get('logger')->debug('Unknown entity persisted!');
+             $this->logger->info('Unknown entity persisted!');
              break;
         }
     }
