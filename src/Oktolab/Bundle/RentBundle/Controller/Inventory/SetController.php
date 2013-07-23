@@ -42,27 +42,30 @@ class SetController extends Controller
      *
      * @Route("/search.json", name="inventory_set_searchItems_json")
      * @Method("GET")
-     * @Template()
      */
     public function searchItemsAction(Request $request)
     {
-        $em = $this->getDoctrine()->getManager();
-        $entities = $em->getRepository('OktolabRentBundle:Inventory\Item')->findBy(array('set' => null));
-        $json = array();
-        //TODO: split the descripiton to single words. That helps the typeahead to be more usefull.
-        foreach ($entities as $entity) {
-            $json[] = array(
-                'name' => $entity->getId(),
-                'value' => $entity->getTitle(),
-                'tokens' => array(
-                    $entity->getBarcode(),
-                    $entity->getDescription(),
-                    $entity->getTitle()
-                )
-            );
-        }
+        if ($request->isXmlHttpRequest()) {
+            $em = $this->getDoctrine()->getManager();
+            $entities = $em->getRepository('OktolabRentBundle:Inventory\Item')->findBy(array('set' => null));
+            $json = array();
+            //TODO: split the descripiton to single words. That helps the typeahead to be more usefull.
+            foreach ($entities as $entity) {
+                $json[] = array(
+                    'name' => $entity->getId(),
+                    'value' => $entity->getTitle(),
+                    'tokens' => array(
+                        $entity->getBarcode(),
+                        $entity->getDescription(),
+                        $entity->getTitle()
+                    )
+                );
+            }
 
-        return new JsonResponse($json);
+            return new JsonResponse($json);
+        } else {
+            return $this->redirect($this->generateUrl('inventory_set'));
+        }
     }
 
     /**
@@ -77,7 +80,7 @@ class SetController extends Controller
     {
         $entity  = new Set();
         $form = $this->createForm(new SetType(), $entity);
-        $form->bind($request);
+        $form->handleRequest($request);
         $em = $this->getDoctrine()->getManager();
 
         if ($form->isValid()) {
@@ -86,12 +89,11 @@ class SetController extends Controller
                 //add all items according to the id!
                 $Item = $em->getRepository('OktolabRentBundle:Inventory\Item')->find($key);
                 if ($Item) {
-                    //die(var_dump($entity));
                     $Item->setSet($entity);
                     $em->persist($Item);
 
                 } else {
-                    //TODO: no item found! Give the user a notice!
+                    throw $this->createNotFoundException('Unable to find Inventory\Item entity.');
                 }
             }
 
@@ -163,12 +165,10 @@ class SetController extends Controller
 
         $deleteForm = $this->createDeleteForm($id);
 
-        $items = $entity->getItems();
-
         return array(
             'entity'      => $entity,
             'delete_form' => $deleteForm->createView(),
-            'items'       => $items,
+            'items'       => $entity->getItems(),
         );
     }
 
@@ -189,8 +189,6 @@ class SetController extends Controller
             throw $this->createNotFoundException('Unable to find Inventory\Set entity.');
         }
 
-        $items = $entity->getItems();
-
         $editForm = $this->createForm(
             new SetType(),
             $entity,
@@ -209,7 +207,7 @@ class SetController extends Controller
             'entity'      => $entity,
             'edit_form'   => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
-            'items' => $items
+            'items'       => $entity->getItems()
         );
     }
 
@@ -232,7 +230,7 @@ class SetController extends Controller
         $items = $entity->getItems();
         $deleteForm = $this->createDeleteForm($id);
         $editForm = $this->createForm(new SetType(), $entity, array('method' => 'PUT'));
-        $editForm->bind($request);
+        $editForm->handleRequest($request);
 
         if ($editForm->isValid()) {
 
@@ -282,7 +280,7 @@ class SetController extends Controller
      * @Method("GET")
      * @Template()
      */
-    public function deleteAction(Request $request, $id)
+    public function deleteAction($id)
     {
         $em = $this->getDoctrine()->getManager();
         $entity = $em->getRepository('OktolabRentBundle:Inventory\Set')->find($id);
@@ -306,12 +304,12 @@ class SetController extends Controller
      * @Route("{setid}/remove/item/{id}", name="inventory_set_remove_item")
      * @Method("GET")
      */
-    public function removeItemAction(Request $request, $id, $setid)
+    public function removeItemAction($id, $setid)
     {
         $em = $this->getDoctrine()->getManager();
 
         $item = $em->getRepository('OktolabRentBundle:Inventory\Item')->find($id);
-
+        $set = $em->getRepository('OktolabRentBundle:Inventory\Set')->find($setid);
         if (!$item) {
             $this->get('session')->getFlashBag()->add(
                 'error',
@@ -326,6 +324,9 @@ class SetController extends Controller
                 'notice',
                 sprintf('Item %s wurde erfolgreich aus Set entfernt.', $item->getTitle())
             );
+        }
+        if(!$set) {
+            return $this->redirect($this->generateUrl('inventory_set'));
         }
         return $this->redirect($this->generateUrl('inventory_set_edit', array('id' => $setid)));
     }
