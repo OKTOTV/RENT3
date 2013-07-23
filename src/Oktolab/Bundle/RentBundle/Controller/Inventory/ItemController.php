@@ -34,6 +34,7 @@ class ItemController extends Controller
             'entities' => $entities,
         );
     }
+
     /**
      * Creates a new Inventory\Item entity.
      *
@@ -74,7 +75,9 @@ class ItemController extends Controller
         $form   = $this->createForm(
             new ItemType(),
             $entity,
-            array('action' => $this->generateUrl('inventory_item_create'))
+            array(
+                'action' => $this->generateUrl('inventory_item_create')
+                )
         );
 
         return array(
@@ -84,28 +87,37 @@ class ItemController extends Controller
     }
 
     /**
-     * Finds and displays a Inventory\Item entity.
+     * Finds and displays a Inventory\Item entity. If XMLHTTP Request, the Item will be displayed as tablerow.
+     * Is used in Sets for adding new items.
      *
      * @Route("/{id}", name="inventory_item_show")
      * @Method("GET")
      * @Template()
      */
-    public function showAction($id)
+    public function showAction(Request $request, $id)
     {
         $em = $this->getDoctrine()->getManager();
-
         $entity = $em->getRepository('OktolabRentBundle:Inventory\Item')->find($id);
 
-        if (!$entity) {
-            throw $this->createNotFoundException('Unable to find Inventory\Item entity.');
+        if ($request->isXmlHttpRequest()) {
+            if (!$entity) {
+                throw $this->createNotFoundException('Unable to find Inventory\Item entity.');
+            } else {
+                return $this->render(
+                    'OktolabRentBundle:Inventory\Item:row.html.twig',
+                    array('entity' => $entity)
+                );
+            }
+        } else {
+
+            if (!$entity) {
+                throw $this->createNotFoundException('Unable to find Inventory\Item entity.');
+            }
+
+            return array(
+                'entity' => $entity,
+            );
         }
-
-        $deleteForm = $this->createDeleteForm($id);
-
-        return array(
-            'entity'      => $entity,
-            'delete_form' => $deleteForm->createView(),
-        );
     }
 
     /**
@@ -131,10 +143,10 @@ class ItemController extends Controller
             array(
                 'action' => $this->generateUrl(
                     'inventory_item_update',
-                    array('id' => $id)
+                    array( 'id' => $id )
                 ),
                 'method' => 'PUT'
-                )
+            )
         );
 
         $deleteForm = $this->createDeleteForm($id);
@@ -164,7 +176,7 @@ class ItemController extends Controller
         }
 
         $deleteForm = $this->createDeleteForm($id);
-        $editForm = $this->createForm(new ItemType(), $entity);
+        $editForm = $this->createForm(new ItemType(), $entity, array('method' => 'PUT'));
         $editForm->bind($request);
 
         if ($editForm->isValid()) {
@@ -180,18 +192,15 @@ class ItemController extends Controller
             'delete_form' => $deleteForm->createView(),
         );
     }
+
     /**
      * Deletes a Inventory\Item entity.
      *
      * @Route("/delete/{id}", name="inventory_item_delete")
      * @Method("GET")
      */
-    public function deleteAction(Request $request, $id)
+    public function deleteAction($id)
     {
-        //$form = $this->createDeleteForm($id);
-        //$form->bind($request);
-        //
-        //if ($form->isValid()) {
         $em = $this->getDoctrine()->getManager();
         $entity = $em->getRepository('OktolabRentBundle:Inventory\Item')->find($id);
 
@@ -201,7 +210,7 @@ class ItemController extends Controller
 
         $em->remove($entity);
         $em->flush();
-        //}
+
         return $this->redirect($this->generateUrl('inventory_item'));
     }
 

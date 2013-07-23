@@ -1,0 +1,17 @@
+    <td>{{ entity.title }}</td>
+    <td>{{ entity.description }}</td>
+    <td>{{ entity.barcode }}</td>
+    <td>
+
+        <ul class="menu">
+            <li>
+                <a class="inventory_set_remove_item" id="{{ entity.id }}">{% trans %}remove from set{% endtrans %}</a>
+            </li>
+            <li>
+                <a href="{{ path('inventory_item_show', { 'id': entity.id }) }}">{% trans %}show{% endtrans %}</a>
+            </li>
+            <li>
+                <a href="{{ path('inventory_item_edit', { 'id': entity.id }) }}">{% trans %}edit{% endtrans %}</a>
+            </li>
+        </ul>
+    </td>

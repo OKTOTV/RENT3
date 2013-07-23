@@ -10,6 +10,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  *
  * @ORM\Table()
  * @ORM\Entity
+ * @ORM\HasLifecycleCallbacks()
  */
 class Item
 {
@@ -97,6 +98,31 @@ class Item
      * @ORM\Column(name="warranty_date", type="date", nullable=true)
      */
     private $warrantyDate;
+
+    /**
+     * @var integer
+     *
+     *
+     * @ORM\ManyToOne(targetEntity="Set", inversedBy="items")
+     *
+     */
+    private $set;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="created_at", type="datetime")
+     *
+     */
+    private $created_at;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="updated_at", type="datetime")
+     */
+    private $updated_at;
+
 
     /**
      * Get id
@@ -301,5 +327,75 @@ class Item
     {
         $now = new \DateTime();
         return ($this->warrantyDate <= $now);
+    }
+
+    /**
+     * Set set
+     *
+     * @param \Oktolab\Bundle\RentBundle\Entity\Inventory\Set $set
+     * @return Item
+     */
+    public function setSet(\Oktolab\Bundle\RentBundle\Entity\Inventory\Set $set = null)
+    {
+        $this->set = $set;
+
+        return $this;
+    }
+
+    /**
+     * Get set
+     *
+     * @return \Oktolab\Bundle\RentBundle\Entity\Inventory\Set
+     */
+    public function getSet()
+    {
+        return $this->set;
+    }
+
+    /**
+     * Set created_at
+     * @ORM\PrePersist
+     * @param \DateTime $createdAt
+     * @return Item
+     */
+    public function setCreatedAt()
+    {
+        $this->created_at = new \DateTime();
+
+        return $this;
+    }
+
+    /**
+     * Get created_at
+     *
+     * @return \DateTime
+     */
+    public function getCreatedAt()
+    {
+        return $this->created_at;
+    }
+
+    /**
+     * Set updated_at
+     * @ORM\PrePersist
+     * @ORM\PreUpdate
+     * @param \DateTime $updatedAt
+     * @return Item
+     */
+    public function setUpdatedAt()
+    {
+        $this->updated_at = new \DateTime();
+
+        return $this;
+    }
+
+    /**
+     * Get updated_at
+     *
+     * @return \DateTime
+     */
+    public function getUpdatedAt()
+    {
+        return $this->updated_at;
     }
 }

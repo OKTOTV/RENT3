@@ -3,9 +3,26 @@
 namespace Oktolab\Bundle\RentBundle\Tests\Controller\Inventory;
 
 use Oktolab\Bundle\RentBundle\Tests\WebTestCase;
+use Oktolab\Bundle\RentBundle\DataFixtures\ORM\ItemFixture;
+use Doctrine\Common\DataFixtures\Loader;
+use Doctrine\Common\DataFixtures\Executor\ORMExecutor;
+use Doctrine\Common\DataFixtures\Purger\ORMPurger;
 
 class ItemControllerTest extends WebTestCase
 {
+
+    private $entityManager;
+    private $purger;
+
+    public function setUp()
+    {
+        parent::setUp();
+        $this->entityManager = static::$kernel->getContainer()
+            ->get('doctrine')
+            ->getManager();
+        $this->purger = new ORMPurger($this->entityManager);
+        $this->purger->purge();
+    }
 
     public function testShowEmptyList()
     {
@@ -55,6 +72,9 @@ class ItemControllerTest extends WebTestCase
 
     public function testEditItem()
     {
+        $itemFixtureLoader = new ItemFixture();
+        $itemFixtureLoader->load($this->entityManager);
+
         $client = $this->client;
         // Edit the entity
         $crawler = $client->request('GET', 'inventory/item/1');
@@ -79,6 +99,9 @@ class ItemControllerTest extends WebTestCase
 
     public function testEditErrorItem()
     {
+        $itemFixtureLoader = new ItemFixture();
+        $itemFixtureLoader->load($this->entityManager);
+
         $client = $this->client;
 
         $crawler = $client->request('GET', 'inventory/item/1');
@@ -97,6 +120,9 @@ class ItemControllerTest extends WebTestCase
 
     public function testDeleteItem()
     {
+        $itemFixtureLoader = new ItemFixture();
+        $itemFixtureLoader->load($this->entityManager);
+
         $client = $this->client;
         // Delete the entity,
         $crawler = $client->request('GET', 'inventory/item/1');
@@ -106,8 +132,28 @@ class ItemControllerTest extends WebTestCase
         //$crawler = $client->followRedirect();
 
         // Check the entity has been delete on the list
-        $this->assertNotRegExp('/Foo/', $client->getResponse()->getContent());
+        $this->assertNotRegExp('/ItemTitle0/', $client->getResponse()->getContent());
     }
 
+    public function testShowListWith4Items()
+    {
+        $itemFixtureLoader = new ItemFixture();
+        $itemFixtureLoader->load($this->entityManager, 3);
 
+        $client = $this->client;
+
+        $client->request('GET', 'inventory/item');
+        $crawler = $client->followRedirect();
+
+        $this->assertEquals(
+            200,
+            $client->getResponse()->getStatusCode(),
+            "Unexpected HTTP status code for GET /inventory/item/"
+        );
+        $this->assertEquals(
+            4,
+            $crawler->filter('table tr')->count(),
+            "This List should NOT be empty"
+        );
+    }
 }

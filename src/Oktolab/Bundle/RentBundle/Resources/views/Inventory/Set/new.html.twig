@@ -1,0 +1,77 @@
+{% extends 'OktolabRentBundle::layout.html.twig' %}
+
+{% block content_header %}
+<div class="aui-page-header-inner">
+    <div class="aui-page-header-image">
+        <div class="aui-avatar aui-avatar-xlarge aui-avatar-project">
+            <div class="aui-avatar-inner">
+                <img src="static/img/none.png">
+            </div>
+        </div>
+    </div>
+    <div class="aui-page-header-main">
+        <h1>Inventory Set neu</h1>
+    </div>
+    <div class="aui-page-header-actions">
+        <div class="aui-buttons">
+            <div class="aui-buttons">
+                <a class="aui-button" href="{{ path('inventory_set') }}">{% trans %}Back to list{% endtrans %}</a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block content %}
+    {{ form_start(form, {'attr': {'class': 'aui'}}) }}
+        <fieldset>
+            {{ form_errors(form) }}
+
+            {{ form_row(form.title) }}
+            {{ form_row(form.description) }}
+            {{ form_row(form.barcode) }}
+            {{ form_row(form.searchItems) }}
+
+            <div class="buttons-container">
+                <button class="aui-button aui-button-primary" type="submit">{% trans %}Submit{% endtrans %}</button>
+            </div>
+
+            <h3>{% trans %}Items{% endtrans %}</h3>
+                <table class="aui">
+                    <thead>
+                        <tr>
+                            <th id="name">{% trans %}Title{% endtrans %}</th>
+                            <th>{% trans %}Description{% endtrans %}</th>
+                            <th>{% trans %}Barcode{% endtrans %}</th>
+                            <th>{% trans %}Actions{% endtrans %}</th>
+                        </tr>
+                    </thead>
+                    <tbody class="appendable">
+                        {% for item in items %}
+                            <tr>
+                                <td headers="name">{{ item.title }}</td>
+                                <td>{{ item.description }}</td>
+                                <td>{{ item.barcode }}</td>
+                                <td>
+                                    <ul class="menu">
+                                        <li>
+                                            <a href="" class="inventory_set_remove_item" id={{ item.id }} >{% trans %}remove from set{% endtrans %}</a>
+                                        </li>
+                                        <li>
+                                            <a href="{{ path('inventory_item_show', { 'id': item.id }) }}">{% trans %}show{% endtrans %}</a>
+                                        </li>
+                                        <li>
+                                            <a href="{{ path('inventory_item_edit', { 'id': item.id }) }}">{% trans %}edit{% endtrans %}</a>
+                                        </li>
+                                    </ul>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+                {% for item in items %}
+                    <input type="hidden" class="addableitem" id=​oktolab_bundle_rentbundle_inventory_settype_itemsToAdd_{{ item.id }}_id name=oktolab_bundle_rentbundle_inventory_settype[itemsToAdd]​[{{item.id}}]​[id]​ required=​"required" />
+                {% endfor %}
+            </fieldset>
+    {{ form_end(form) }}
+{% endblock %}

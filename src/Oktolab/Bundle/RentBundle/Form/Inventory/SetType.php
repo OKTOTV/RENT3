@@ -6,33 +6,26 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
-class ItemType extends AbstractType
+class SetType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
             ->add('title')
             ->add('description', 'textarea')
+            ->add('searchItems', 'text', array('mapped' => false))
             ->add('barcode')
             ->add(
-                'buyDate',
-                'date',
+                'itemsToAdd',
+                'collection',
                 array(
-                    'widget' => 'single_text',
+                    'type' => new SetAddItemType(),
                     'required' => false,
-                    'empty_value' => ''
-                )
-            )
-            ->add('serialNumber')
-            ->add('vendor')
-            ->add('modelNumber')
-            ->add(
-                'set',
-                'entity',
-                array(
-                    'class' => 'OktolabRentBundle:Inventory\Set',
-                    'property' => 'title',
-                    'required' => false
+                    'allow_add' => true,
+                    'allow_delete' => true,
+                    'prototype' => false,
+                    'mapped' => false,
+                    'attr' => array('hidden' => 'true')
                 )
             );
     }
@@ -41,13 +34,13 @@ class ItemType extends AbstractType
     {
         $resolver->setDefaults(
             array(
-                'data_class' => 'Oktolab\Bundle\RentBundle\Entity\Inventory\Item'
+                'data_class' => 'Oktolab\Bundle\RentBundle\Entity\Inventory\Set'
             )
         );
     }
 
     public function getName()
     {
-        return 'oktolab_bundle_rentbundle_inventory_itemtype';
+        return 'oktolab_bundle_rentbundle_inventory_settype';
     }
 }

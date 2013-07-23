@@ -46,6 +46,22 @@
                 <source>Password</source>
                 <target>Passwort</target>
             </trans-unit>
+            <trans-unit id="12">
+                <source>Delete</source>
+                <target>Löschen</target>
+            </trans-unit>
+            <trans-unit id="13">
+                <source>remove from set</source>
+                <target>Von Set entfernen</target>
+            </trans-unit>
+            <trans-unit id="14">
+                <source>show</source>
+                <target>Anzeigen</target>
+            </trans-unit>
+            <trans-unit id="15">
+                <source>edit</source>
+                <target>Bearbeiten</target>
+            </trans-unit>
         </body>
     </file>
 </xliff>
