@@ -196,7 +196,7 @@ class ItemController extends Controller
     /**
      * Deletes a Inventory\Item entity.
      *
-     * @Route("/delete/{id}", name="inventory_item_delete")
+     * @Route("/{id}/delete", name="inventory_item_delete")
      * @Method("GET")
      */
     public function deleteAction($id)
