@@ -78,9 +78,9 @@ class SetController extends Controller
         $entity  = new Set();
         $form = $this->createForm(new SetType(), $entity);
         $form->bind($request);
+        $em = $this->getDoctrine()->getManager();
 
         if ($form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
 
             foreach ($form->get('itemsToAdd')->getData() as $key => $value) {
                 //add all items according to the id!
@@ -108,9 +108,16 @@ class SetController extends Controller
                 )
             );
         }
+
+        $items = array();
+        foreach ($form->get('itemsToAdd')->getData() as $key => $value) {
+            $items[] = $em->getRepository('OktolabRentBundle:Inventory\Item')->find($key);
+        }
+
         return array(
             'entity' => $entity,
             'form'   => $form->createView(),
+            'items' => $items
         );
     }
 

@@ -10,6 +10,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  *
  * @ORM\Table()
  * @ORM\Entity
+ * @ORM\HasLifecycleCallbacks()
  */
 class Item
 {
@@ -106,6 +107,22 @@ class Item
      *
      */
     private $set;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="created_at", type="datetime")
+     *
+     */
+    private $created_at;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="updated_at", type="datetime")
+     */
+    private $updated_at;
+
 
     /**
      * Get id
@@ -333,5 +350,52 @@ class Item
     public function getSet()
     {
         return $this->set;
+    }
+
+    /**
+     * Set created_at
+     * @ORM\PrePersist
+     * @param \DateTime $createdAt
+     * @return Item
+     */
+    public function setCreatedAt()
+    {
+        $this->created_at = new \DateTime();
+
+        return $this;
+    }
+
+    /**
+     * Get created_at
+     *
+     * @return \DateTime
+     */
+    public function getCreatedAt()
+    {
+        return $this->created_at;
+    }
+
+    /**
+     * Set updated_at
+     * @ORM\PrePersist
+     * @ORM\PreUpdate
+     * @param \DateTime $updatedAt
+     * @return Item
+     */
+    public function setUpdatedAt()
+    {
+        $this->updated_at = new \DateTime();
+
+        return $this;
+    }
+
+    /**
+     * Get updated_at
+     *
+     * @return \DateTime
+     */
+    public function getUpdatedAt()
+    {
+        return $this->updated_at;
     }
 }

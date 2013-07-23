@@ -36,23 +36,6 @@ class ItemController extends Controller
     }
 
     /**
-     * Returns and Item as Tablerow for Set
-     * @Route("/getItem/{id}", name="inventory_getItem_row")
-     * @Method("GET")
-     * Template("OktolabRentBundle:Inventory\Item:row.html.twig")
-     */
-    public function getItemById($id)
-    {
-        $em = $this->getDoctrine()->getEntityManager();
-        $entity = $em->getRepository('OktolabRentBundle:Inventory\Item')->find($id);
-
-        return $this->render(
-            'OktolabRentBundle:Inventory\Item:row.html.twig',
-            array('entity' => $entity)
-        );
-    }
-
-    /**
      * Creates a new Inventory\Item entity.
      *
      * @Route("/", name="inventory_item_create")
@@ -104,28 +87,40 @@ class ItemController extends Controller
     }
 
     /**
-     * Finds and displays a Inventory\Item entity.
+     * Finds and displays a Inventory\Item entity. If XMLHTTP Request, the Item will be displayed as tablerow.
+     * Is used in Sets for adding new items.
      *
      * @Route("/{id}", name="inventory_item_show")
      * @Method("GET")
      * @Template()
      */
-    public function showAction($id)
+    public function showAction(Request $request, $id)
     {
         $em = $this->getDoctrine()->getManager();
-
         $entity = $em->getRepository('OktolabRentBundle:Inventory\Item')->find($id);
 
-        if (!$entity) {
-            throw $this->createNotFoundException('Unable to find Inventory\Item entity.');
+        if ($request->isXmlHttpRequest()) {
+            if (!$entity) {
+                throw $this->createNotFoundException('Unable to find Inventory\Item entity.');
+            } else {
+                return $this->render(
+                    'OktolabRentBundle:Inventory\Item:row.html.twig',
+                    array('entity' => $entity)
+                );
+            }
+        } else {
+
+            if (!$entity) {
+                throw $this->createNotFoundException('Unable to find Inventory\Item entity.');
+            }
+
+            $deleteForm = $this->createDeleteForm($id);
+
+            return array(
+                'entity'      => $entity,
+                'delete_form' => $deleteForm->createView(),
+            );
         }
-
-        $deleteForm = $this->createDeleteForm($id);
-
-        return array(
-            'entity'      => $entity,
-            'delete_form' => $deleteForm->createView(),
-        );
     }
 
     /**
