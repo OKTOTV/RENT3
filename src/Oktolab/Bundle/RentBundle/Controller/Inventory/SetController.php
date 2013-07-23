@@ -325,7 +325,7 @@ class SetController extends Controller
                 sprintf('Item %s wurde erfolgreich aus Set entfernt.', $item->getTitle())
             );
         }
-        if(!$set) {
+        if (!$set) {
             return $this->redirect($this->generateUrl('inventory_set'));
         }
         return $this->redirect($this->generateUrl('inventory_set_edit', array('id' => $setid)));
