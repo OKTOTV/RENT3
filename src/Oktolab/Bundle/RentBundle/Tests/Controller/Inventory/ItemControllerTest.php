@@ -4,92 +4,98 @@ namespace Oktolab\Bundle\RentBundle\Tests\Controller\Inventory;
 
 use Oktolab\Bundle\RentBundle\Tests\WebTestCase;
 use Oktolab\Bundle\RentBundle\DataFixtures\ORM\ItemFixture;
-use Doctrine\Common\DataFixtures\Loader;
-use Doctrine\Common\DataFixtures\Executor\ORMExecutor;
 use Doctrine\Common\DataFixtures\Purger\ORMPurger;
 
 class ItemControllerTest extends WebTestCase
 {
 
+    /**
+     * @var \Doctrine\ORM\EntityManager
+     */
     private $entityManager;
+
+    /**
+     * @var \Doctrine\Common\DataFixtures\Purger\ORMPurger;
+     */
     private $purger;
 
-    public function setUp()
+    /**
+     * {@inheritDoc}
+     */
+//    public function setUp()
+//    {
+//        parent::setUp();
+////        $this->entityManager = static::$kernel->getContainer()->get('doctrine.orm.entity_manager');
+////        $this->purger = new ORMPurger($this->entityManager);
+////        $this->purger->purge();
+//    }
+
+    /**
+     * {@inheritDoc}
+     */
+//    protected function tearDown()
+//    {
+//        parent::tearDown();
+////        $this->entityManager->close();
+//    }
+
+    public function testViewDisplaysEmptyList()
     {
-        parent::setUp();
-        $this->entityManager = static::$kernel->getContainer()
-            ->get('doctrine')
-            ->getManager();
-        $this->purger = new ORMPurger($this->entityManager);
-        $this->purger->purge();
+        $this->loadFixtures(array());
+        $crawler = $this->client->request('GET', '/inventory/item/');
+        $this->assertTrue($this->client->getResponse()->isSuccessful(), 'Response should be successful');
+        $this->assertEquals(0, $crawler->filter('table tbody tr')->count(), 'This list has to be empty');
     }
 
-    public function testShowEmptyList()
+    public function testSubmitFormToCreateAnItem()
     {
-        $client = $this->client;
+        $this->loadFixtures(array());
+        $crawler = $this->client->request('GET', '/inventory/item/');
+        $this->assertTrue($this->client->getResponse()->isSuccessful(), 'Response should be successful');
 
-        $crawler = $client->request('GET', 'inventory/item');
-        $client->followRedirect();
-        $this->assertEquals(
-            200,
-            $client->getResponse()->getStatusCode(),
-            "Unexpected HTTP status code for GET /inventory/item/"
-        );
-        $this->assertEquals(
-            0,
-            $crawler->filter('table tr')->count(),
-            "This List should be empty"
-        );
-    }
-
-    public function testCreateItem()
-    {
-        // Create a new client to browse the application
-        $client = $this->client;
-
-        // Create a new entry in the database
-        $crawler = $client->request('GET', '/inventory/item/');
-
-        $crawler = $client->click($crawler->selectLink('Neues Item')->link());
-        // Fill in the form and submit it
+        $crawler = $this->client->click($crawler->selectLink('Neues Item')->link());
         $form = $crawler->selectButton('Speichern')->form(
             array(
-            'oktolab_bundle_rentbundle_inventory_itemtype[title]'  => 'Test',
-            'oktolab_bundle_rentbundle_inventory_itemtype[description]' => 'Description',
-            'oktolab_bundle_rentbundle_inventory_itemtype[barcode]' => 'ASDF01'
+                'oktolab_bundle_rentbundle_inventory_itemtype[title]'       => 'Test',
+                'oktolab_bundle_rentbundle_inventory_itemtype[description]' => 'Description',
+                'oktolab_bundle_rentbundle_inventory_itemtype[barcode]'     => 'ASDF01',
             )
         );
 
-        $crawler = $client->submit($form);
-        $crawler = $client->followRedirect();
-        // Check data in the show view
+        $crawler = $this->client->submit($form);
+        $this->assertTrue($this->client->getResponse()->isRedirection(), 'Response should be a redirection');
+
+        $crawler = $this->client->followRedirect();
+        $this->assertTrue($this->client->getResponse()->isSuccessful(), 'Response should be successful');
         $this->assertGreaterThan(
             0,
-            $crawler->filter('.aui-page-header-main:contains("Test")')->count(),
+            $crawler->filter('header.aui-page-header:contains("Test")')->count(),
             'Missing element td:contains("Test")'
         );
     }
 
-    public function testEditItem()
+    public function testSubmitFormToEditAnItem()
     {
-        $itemFixtureLoader = new ItemFixture();
-        $itemFixtureLoader->load($this->entityManager);
+//        $itemFixtureLoader = new ItemFixture();
+//        $itemFixtureLoader->load($this->entityManager);
 
-        $client = $this->client;
-        // Edit the entity
-        $crawler = $client->request('GET', 'inventory/item/1');
-        $crawler = $client->click($crawler->selectLink('Editieren')->link());
+        $this->loadFixtures(array('Oktolab\Bundle\RentBundle\DataFixtures\ORM\ItemFixture'));
 
+        $crawler = $this->client->request('GET', '/inventory/item/1');
+        $this->assertTrue($this->client->getResponse()->isSuccessful(), 'Response should be successful');
+
+        $crawler = $this->client->click($crawler->selectLink('Editieren')->link());
         $form = $crawler->selectButton('Speichern')->form(
             array(
                 'oktolab_bundle_rentbundle_inventory_itemtype[title]'  => 'Foo',
             )
         );
 
-        $client->submit($form);
-        $crawler = $client->followRedirect();
+        $this->client->submit($form);
+        $this->assertTrue($this->client->getResponse()->isRedirection(), 'Response should be a redirection');
 
-        // Check the element contains an attribute with value equals "Foo"
+        $crawler = $this->client->followRedirect();
+        $this->assertTrue($this->client->getResponse()->isSuccessful(), 'Response should be successful');
         $this->assertGreaterThan(
             0,
             $crawler->filter('.aui-page-header-main:contains("Foo")')->count(),
@@ -99,8 +105,10 @@ class ItemControllerTest extends WebTestCase
 
     public function testEditErrorItem()
     {
-        $itemFixtureLoader = new ItemFixture();
-        $itemFixtureLoader->load($this->entityManager);
+//        $itemFixtureLoader = new ItemFixture();
+//        $itemFixtureLoader->load($this->entityManager);
+
+        $this->loadFixtures(array('Oktolab\Bundle\RentBundle\DataFixtures\ORM\ItemFixture'));
 
         $client = $this->client;
 
@@ -120,8 +128,10 @@ class ItemControllerTest extends WebTestCase
 
     public function testDeleteItem()
     {
-        $itemFixtureLoader = new ItemFixture();
-        $itemFixtureLoader->load($this->entityManager);
+//        $itemFixtureLoader = new ItemFixture();
+//        $itemFixtureLoader->load($this->entityManager);
+
+        $this->loadFixtures(array('Oktolab\Bundle\RentBundle\DataFixtures\ORM\ItemFixture'));
 
         $client = $this->client;
         // Delete the entity,
@@ -135,25 +145,25 @@ class ItemControllerTest extends WebTestCase
         $this->assertNotRegExp('/ItemTitle0/', $client->getResponse()->getContent());
     }
 
-    public function testShowListWith4Items()
-    {
-        $itemFixtureLoader = new ItemFixture();
-        $itemFixtureLoader->load($this->entityManager, 3);
-
-        $client = $this->client;
-
-        $client->request('GET', 'inventory/item');
-        $crawler = $client->followRedirect();
-
-        $this->assertEquals(
-            200,
-            $client->getResponse()->getStatusCode(),
-            "Unexpected HTTP status code for GET /inventory/item/"
-        );
-        $this->assertEquals(
-            4,
-            $crawler->filter('table tr')->count(),
-            "This List should NOT be empty"
-        );
-    }
+//    public function testShowListWith4Items()
+//    {
+//        $itemFixtureLoader = new ItemFixture();
+//        $itemFixtureLoader->load($this->entityManager, 3);
+//
+//        $client = $this->client;
+//
+//        $client->request('GET', 'inventory/item');
+//        $crawler = $client->followRedirect();
+//
+//        $this->assertEquals(
+//            200,
+//            $client->getResponse()->getStatusCode(),
+//            "Unexpected HTTP status code for GET /inventory/item/"
+//        );
+//        $this->assertEquals(
+//            4,
+//            $crawler->filter('table tr')->count(),
+//            "This List should NOT be empty"
+//        );
+//    }
 }
