@@ -27,28 +27,24 @@ class SetControllerTest extends WebTestCase
 
     public function testShowEmptySetList()
     {
-        $client = $this->client;
-
-        $crawler = $client->request('GET', 'inventory/set');
-        $client->followRedirect();
+        $crawler = $this->client->request('GET', '/inventory/set');
+        $this->client->followRedirect();
         $this->assertEquals(
             200,
-            $client->getResponse()->getStatusCode(),
-            "Unexpected HTTP status code for GET inventory/set/"
+            $this->client->getResponse()->getStatusCode(),
+            'Unexpected HTTP status code for GET inventory/set/'
         );
 
         $this->assertEquals(
             0,
             $crawler->filter('table tr')->count(),
-            "There should be no sets in this list"
+            'There should be no sets in this list'
         );
     }
 
     public function testCreateSet()
     {
-        $client = $this->client;
-
-        $crawler = $client->request('GET', 'inventory/set/new');
+        $crawler = $this->client->request('GET', '/inventory/set/new');
 
         $form = $crawler->selectButton('Speichern')->form(
             array(
@@ -58,8 +54,10 @@ class SetControllerTest extends WebTestCase
             )
         );
 
-        $crawler = $client->submit($form);
-        $crawler = $client->followRedirect();
+        $crawler = $this->client->submit($form);
+        $this->assertEquals(302, $this->client->getResponse()->getStatusCode());
+        $crawler = $this->client->followRedirect();
+        $this->assertEquals(200, $this->client->getResponse()->getStatusCode());
 
         $this->assertGreaterThan(
             0,
@@ -73,9 +71,7 @@ class SetControllerTest extends WebTestCase
         $setFixtureLoader = new SetFixture();
         $setFixtureLoader->load($this->entityManager);
 
-        $client = $this->client;
-
-        $crawler = $client->request('GET', 'inventory/set/1/edit');
+        $crawler = $this->client->request('GET', '/inventory/set/1/edit');
 
         $form = $crawler->selectButton('Speichern')->form(
             array(
@@ -83,8 +79,8 @@ class SetControllerTest extends WebTestCase
             )
         );
 
-        $client->submit($form);
-        $crawler = $client->followRedirect();
+        $this->client->submit($form);
+        $crawler = $this->client->followRedirect();
 
         $this->assertGreaterThan(
             0,
@@ -98,9 +94,7 @@ class SetControllerTest extends WebTestCase
         $setFixtureLoader = new SetFixture();
         $setFixtureLoader->load($this->entityManager);
 
-        $client = $this->client;
-
-        $crawler = $client->request('GET', 'inventory/set/1/edit');
+        $crawler = $this->client->request('GET', '/inventory/set/1/edit');
 
         $form = $crawler->selectButton('Speichern')->form(
             array(
@@ -108,8 +102,8 @@ class SetControllerTest extends WebTestCase
             )
         );
 
-        $crawler = $client->submit($form);
-        $this->assertEquals(200, $client->getResponse()->getStatusCode());
+        $crawler = $this->client->submit($form);
+        $this->assertEquals(200, $this->client->getResponse()->getStatusCode());
         $this->assertEquals(1, $crawler->filter('html:contains("Du musst einen Titel angeben")')->count());
     }
 
@@ -118,14 +112,12 @@ class SetControllerTest extends WebTestCase
         $setFixtureLoader = new SetFixture();
         $setFixtureLoader->load($this->entityManager);
 
-        $client = $this->client;
-        // Delete the entity,
-        $crawler = $client->request('GET', 'inventory/set/1/edit');
+        $crawler = $this->client->request('GET', '/inventory/set/1/edit');
 
-        $client->click($crawler->selectLink('Löschen')->link());
+        $this->client->click($crawler->selectLink('Löschen')->link());
 
         // Check the entity has been delete on the list
-        $this->assertNotRegExp('/Foo/', $client->getResponse()->getContent());
+        $this->assertNotRegExp('/Foo/', $this->client->getResponse()->getContent());
     }
 
     public function testAddItemToSet()
@@ -136,14 +128,11 @@ class SetControllerTest extends WebTestCase
         $itemFixtureLoader = new ItemFixture();
         $itemFixtureLoader->load($this->entityManager);
 
-        //only possible with javascript. we use a modified Form and post it.
-        $client = $this->client;
-
-        $crawler = $client->request('GET', 'inventory/set/1/edit');
+        $crawler = $this->client->request('GET', '/inventory/set/1/edit');
 
         $form = $crawler->selectButton('Speichern')->form();
-
-        $crawler = $client->request(
+        //only possible with javascript. we use a modified Form and post it.
+        $crawler = $this->client->request(
             'PUT',
             $form->getUri(),
             array(
@@ -157,7 +146,7 @@ class SetControllerTest extends WebTestCase
             )
         );
 
-        $crawler = $client->followRedirect();
+        $crawler = $this->client->followRedirect();
 
         $this->assertEquals(1, $crawler->filter('tbody tr')->count());
 
@@ -168,13 +157,11 @@ class SetControllerTest extends WebTestCase
         $setFixtureLoader = new SetFixture();
         $setFixtureLoader->setWithItem($this->entityManager);
 
-        $client = $this->client;
-
-        $crawler = $client->request('GET', 'inventory/set/1/edit');
+        $crawler = $this->client->request('GET', '/inventory/set/1/edit');
 
         $form = $crawler->selectButton('Speichern')->form();
 
-        $crawler = $client->request(
+        $crawler = $this->client->request(
             'PUT',
             $form->getUri(),
             array(
@@ -187,7 +174,7 @@ class SetControllerTest extends WebTestCase
             )
         );
 
-        $crawler = $client->followRedirect();
+        $crawler = $this->client->followRedirect();
 
         $this->assertEquals(0, $crawler->filter('tbody tr')->count());
     }
@@ -197,11 +184,9 @@ class SetControllerTest extends WebTestCase
         $setFixtureLoader = new SetFixture();
         $setFixtureLoader->setWithItem($this->entityManager);
 
-        $client = $this->client;
+        $crawler = $this->client->request('GET', '/inventory/set/1/edit');
+        $this->client->click($crawler->selectLink('Löschen')->link());
 
-        $crawler = $client->request('GET', 'inventory/set/1/edit');
-        $client->click($crawler->selectLink('Löschen')->link());
-
-        $this->assertNotRegExp('/setWithItemTitle/', $client->getResponse()->getContent());
+        $this->assertNotRegExp('/setWithItemTitle/', $this->client->getResponse()->getContent());
     }
 }

@@ -26,13 +26,11 @@ class ItemControllerTest extends WebTestCase
 
     public function testShowEmptyList()
     {
-        $client = $this->client;
-
-        $crawler = $client->request('GET', 'inventory/item');
-        $client->followRedirect();
+        $crawler = $this->client->request('GET', 'inventory/item');
+        $this->client->followRedirect();
         $this->assertEquals(
             200,
-            $client->getResponse()->getStatusCode(),
+            $this->client->getResponse()->getStatusCode(),
             "Unexpected HTTP status code for GET /inventory/item/"
         );
         $this->assertEquals(
@@ -48,9 +46,9 @@ class ItemControllerTest extends WebTestCase
         $client = $this->client;
 
         // Create a new entry in the database
-        $crawler = $client->request('GET', '/inventory/item/');
+        $crawler = $this->client->request('GET', '/inventory/item/');
 
-        $crawler = $client->click($crawler->selectLink('Neues Item')->link());
+        $crawler = $this->client->click($crawler->selectLink('Neues Item')->link());
         // Fill in the form and submit it
         $form = $crawler->selectButton('Speichern')->form(
             array(
@@ -60,8 +58,8 @@ class ItemControllerTest extends WebTestCase
             )
         );
 
-        $crawler = $client->submit($form);
-        $crawler = $client->followRedirect();
+        $crawler = $this->client->submit($form);
+        $crawler = $this->client->followRedirect();
         // Check data in the show view
         $this->assertGreaterThan(
             0,
@@ -75,10 +73,8 @@ class ItemControllerTest extends WebTestCase
         $itemFixtureLoader = new ItemFixture();
         $itemFixtureLoader->load($this->entityManager);
 
-        $client = $this->client;
-        // Edit the entity
-        $crawler = $client->request('GET', 'inventory/item/1');
-        $crawler = $client->click($crawler->selectLink('Editieren')->link());
+        $crawler = $this->client->request('GET', '/inventory/item/1');
+        $crawler = $this->client->click($crawler->selectLink('Editieren')->link());
 
         $form = $crawler->selectButton('Speichern')->form(
             array(
@@ -86,10 +82,9 @@ class ItemControllerTest extends WebTestCase
             )
         );
 
-        $client->submit($form);
-        $crawler = $client->followRedirect();
+        $this->client->submit($form);
+        $crawler = $this->client->followRedirect();
 
-        // Check the element contains an attribute with value equals "Foo"
         $this->assertGreaterThan(
             0,
             $crawler->filter('.aui-page-header-main:contains("Foo")')->count(),
@@ -97,15 +92,13 @@ class ItemControllerTest extends WebTestCase
         );
     }
 
-    public function testEditErrorItem()
+    public function testEditItemThrowsErrorOnInvalidFormData()
     {
         $itemFixtureLoader = new ItemFixture();
         $itemFixtureLoader->load($this->entityManager);
 
-        $client = $this->client;
-
-        $crawler = $client->request('GET', 'inventory/item/1');
-        $crawler = $client->click($crawler->selectLink('Editieren')->link());
+        $crawler = $this->client->request('GET', '/inventory/item/1');
+        $crawler = $this->client->click($crawler->selectLink('Editieren')->link());
 
         $form = $crawler->selectButton('Speichern')->form(
             array(
@@ -113,8 +106,8 @@ class ItemControllerTest extends WebTestCase
             )
         );
 
-        $crawler = $client->submit($form);
-        $this->assertEquals(200, $client->getResponse()->getStatusCode());
+        $crawler = $this->client->submit($form);
+        $this->assertEquals(200, $this->client->getResponse()->getStatusCode());
         $this->assertEquals(1, $crawler->filter('.error:contains("Du musst einen Titel angeben")')->count());
     }
 
@@ -123,16 +116,12 @@ class ItemControllerTest extends WebTestCase
         $itemFixtureLoader = new ItemFixture();
         $itemFixtureLoader->load($this->entityManager);
 
-        $client = $this->client;
-        // Delete the entity,
-        $crawler = $client->request('GET', 'inventory/item/1');
-        $crawler = $client->click($crawler->selectLink('Editieren')->link());
+        $crawler = $this->client->request('GET', '/inventory/item/1');
+        $crawler = $this->client->click($crawler->selectLink('Editieren')->link());
 
-        $client->click($crawler->selectLink('Löschen')->link());
-        //$crawler = $client->followRedirect();
+        $this->client->click($crawler->selectLink('Löschen')->link());
 
-        // Check the entity has been delete on the list
-        $this->assertNotRegExp('/ItemTitle0/', $client->getResponse()->getContent());
+        $this->assertNotRegExp('/ItemTitle0/', $this->client->getResponse()->getContent());
     }
 
     public function testShowListWith4Items()
@@ -140,14 +129,12 @@ class ItemControllerTest extends WebTestCase
         $itemFixtureLoader = new ItemFixture();
         $itemFixtureLoader->load($this->entityManager, 3);
 
-        $client = $this->client;
-
-        $client->request('GET', 'inventory/item');
-        $crawler = $client->followRedirect();
+        $this->client->request('GET', '/inventory/item');
+        $crawler = $this->client->followRedirect();
 
         $this->assertEquals(
             200,
-            $client->getResponse()->getStatusCode(),
+            $this->client->getResponse()->getStatusCode(),
             "Unexpected HTTP status code for GET /inventory/item/"
         );
         $this->assertEquals(
