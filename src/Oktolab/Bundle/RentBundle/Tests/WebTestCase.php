@@ -2,7 +2,6 @@
 
 namespace Oktolab\Bundle\RentBundle\Tests;
 
-use Symfony\Bundle\FrameworkBundle\Test\WebTestCase as SymfonyWebTestCase;
 use Liip\FunctionalTestBundle\Test\WebTestCase as LiipWebTestCase;
 use Symfony\Component\BrowserKit\Cookie;
 use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
