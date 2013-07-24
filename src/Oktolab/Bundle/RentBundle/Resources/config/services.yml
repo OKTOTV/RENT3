@@ -5,9 +5,17 @@ services:
       tags:
         - { name: logger, channel: main}
         - { name: doctrine.event_listener, event: prePersist }
+
     oktolab.postsavelistener:
       class: Oktolab\Bundle\RentBundle\EventListener\LogListener
       arguments: [@?logger]
       tags:
         - { name: logger, channel: main}
         - { name: doctrine.event_listener, event: postPersist }
+
+
+    oktolab.faker.provider.item:
+      class: Oktolab\Bundle\RentBundle\Util\Faker\Provider\Item
+      arguments: [@faker.generator]
+      tags:
+        - { name: bazinga_faker.provider }

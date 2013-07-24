@@ -35,6 +35,10 @@ bazinga_faker:
     entities:
         Oktolab\Bundle\RentBundle\Entity\Inventory\Item:
             number: 5
+            custom_formatters:
+                title: { method: itemTitle }
+                barcode: { method: itemBarcode }
+                vendor: { method: itemVendor }
         Oktolab\Bundle\RentBundle\Entity\Event:
             number: 20
             custom_formatters:
