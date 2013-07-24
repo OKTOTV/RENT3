@@ -124,10 +124,12 @@ class SetControllerTest extends WebTestCase
 
     public function testAddItemToSet()
     {
-        $this->loadFixtures(array(
-            'Oktolab\Bundle\RentBundle\DataFixtures\ORM\SetFixture',
-            'Oktolab\Bundle\RentBundle\DataFixtures\ORM\ItemFixture',
-        ));
+        $this->loadFixtures(
+            array(
+                'Oktolab\Bundle\RentBundle\DataFixtures\ORM\SetFixture',
+                'Oktolab\Bundle\RentBundle\DataFixtures\ORM\ItemFixture',
+            )
+        );
 
         $this->client->request('GET', '/inventory/set/1/edit');
         $this->assertTrue($this->client->getResponse()->isSuccessful(), 'Response should be successful');
@@ -160,10 +162,12 @@ class SetControllerTest extends WebTestCase
 
     public function testRemoveItemFromSet()
     {
-        $this->loadFixtures(array(
-            'Oktolab\Bundle\RentBundle\DataFixtures\ORM\SetFixture',
-            'Oktolab\Bundle\RentBundle\DataFixtures\ORM\ItemFixture',
-        ));
+        $this->loadFixtures(
+            array(
+                'Oktolab\Bundle\RentBundle\DataFixtures\ORM\SetFixture',
+                'Oktolab\Bundle\RentBundle\DataFixtures\ORM\ItemFixture',
+            )
+        );
 
         $this->client->request('GET', '/inventory/set/1/edit');
         $this->assertTrue($this->client->getResponse()->isSuccessful(), 'Response should be successful');
