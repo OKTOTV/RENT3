@@ -7,8 +7,15 @@ use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
 use Oktolab\Bundle\RentBundle\Entity\Inventory\Item;
 
+/**
+ *  Loads a fixture Item.
+ */
 class ItemFixture extends AbstractFixture implements OrderedFixtureInterface
 {
+
+    /**
+     * {@inheritDoc}
+     */
     public function load(ObjectManager $manager, $number = 1)
     {
         for ($index = 0; $index < $number; $index++) {
@@ -23,6 +30,9 @@ class ItemFixture extends AbstractFixture implements OrderedFixtureInterface
         $manager->flush();
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public function getOrder()
     {
         return 1;

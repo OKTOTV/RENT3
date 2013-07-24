@@ -81,7 +81,7 @@ class ItemControllerTest extends WebTestCase
         );
     }
 
-    public function testSubmitFormWithInvalidDataThrowsError()
+    public function testSubmitFormForEditWithInvalidDataThrowsError()
     {
         $this->loadFixtures(array('Oktolab\Bundle\RentBundle\DataFixtures\ORM\ItemFixture'));
 

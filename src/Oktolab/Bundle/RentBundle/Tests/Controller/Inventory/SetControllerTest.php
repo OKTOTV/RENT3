@@ -3,54 +3,40 @@
 namespace Oktolab\Bundle\RentBundle\Tests\Controller\Inventory;
 
 use Oktolab\Bundle\RentBundle\Tests\WebTestCase;
-use Oktolab\Bundle\RentBundle\DataFixtures\ORM\SetFixture;
-use Oktolab\Bundle\RentBundle\DataFixtures\ORM\ItemFixture;
-use Doctrine\Common\DataFixtures\Loader;
-use Doctrine\Common\DataFixtures\Executor\ORMExecutor;
-use Doctrine\Common\DataFixtures\Purger\ORMPurger;
 
 class SetControllerTest extends WebTestCase
 {
-    private $entityManager;
-    private $purger;
 
-    public function setUp()
+    public function testIndexDisplaysList()
     {
-        parent::setUp();
-        $this->entityManager = static::$kernel->getContainer()
-            ->get('doctrine')
-            ->getManager();
+        $this->loadFixtures(array());
 
-        $this->purger = new ORMPurger($this->entityManager);
-        $this->purger->purge();
+        $crawler = $this->client->request('GET', '/inventory/set/');
+        $this->assertTrue($this->client->getResponse()->isSuccessful(), 'Response should be successful');
+        $this->assertEquals(0, $crawler->filter('table tbody tr')->count(), 'There should be no sets in this list');
     }
 
-    public function testShowEmptySetList()
+    public function testIndexDisplaysSets()
     {
-        $client = $this->client;
+        $this->loadFixtures(array('Oktolab\Bundle\RentBundle\DataFixtures\ORM\SetFixture'));
 
-        $crawler = $client->request('GET', 'inventory/set');
-        $client->followRedirect();
-        $this->assertEquals(
-            200,
-            $client->getResponse()->getStatusCode(),
-            "Unexpected HTTP status code for GET inventory/set/"
-        );
-
-        $this->assertEquals(
+        $crawler = $this->client->request('GET', '/inventory/set/');
+        $this->assertTrue($this->client->getResponse()->isSuccessful(), 'Response should be successful');
+        $this->assertGreaterThan(
             0,
-            $crawler->filter('table tr')->count(),
-            "There should be no sets in this list"
+            $crawler->filter('table tbody tr')->count(),
+            'This list should contain at least 1 set'
         );
     }
 
-    public function testCreateSet()
+    public function testSubmitFormToCreateASet()
     {
-        $client = $this->client;
+        $this->loadFixtures(array());
 
-        $crawler = $client->request('GET', 'inventory/set/new');
+        $this->client->request('GET', '/inventory/set/new');
+        $this->assertTrue($this->client->getResponse()->isSuccessful(), 'Response should be successful');
 
-        $form = $crawler->selectButton('Speichern')->form(
+        $form = $this->client->getCrawler()->selectButton('Speichern')->form(
             array(
             'oktolab_bundle_rentbundle_inventory_settype[title]' => 'TestSet',
             'oktolab_bundle_rentbundle_inventory_settype[description]' => 'TestDescription',
@@ -58,150 +44,177 @@ class SetControllerTest extends WebTestCase
             )
         );
 
-        $crawler = $client->submit($form);
-        $crawler = $client->followRedirect();
+        $this->client->submit($form);
+        $this->assertTrue(
+            $this->client->getResponse()->isRedirect('/inventory/set/1'),
+            'Response should be a redirect to Set'
+        );
 
-        $this->assertGreaterThan(
-            0,
+        $crawler = $this->client->followRedirect();
+        $this->assertTrue($this->client->getResponse()->isSuccessful(), 'Response should be successful');
+
+        $this->assertEquals(
+            1,
             $crawler->filter('.aui-page-header-main:contains("TestSet")')->count(),
             'There should be the set name on this page header'
         );
     }
 
-    public function testEditSet()
+    public function testSubmitFormToEditASet()
     {
-        $setFixtureLoader = new SetFixture();
-        $setFixtureLoader->load($this->entityManager);
+        $this->loadFixtures(array('Oktolab\Bundle\RentBundle\DataFixtures\ORM\SetFixture'));
 
-        $client = $this->client;
+        $this->client->request('GET', '/inventory/set/1/edit');
+        $this->assertTrue($this->client->getResponse()->isSuccessful(), 'Response should be successful');
 
-        $crawler = $client->request('GET', 'inventory/set/1/edit');
-
-        $form = $crawler->selectButton('Speichern')->form(
+        $form = $this->client->getCrawler()->selectButton('Speichern')->form(
             array(
                 'oktolab_bundle_rentbundle_inventory_settype[title]'  => 'Foo'
             )
         );
 
-        $client->submit($form);
-        $crawler = $client->followRedirect();
+        $this->client->submit($form);
+        $this->assertTrue(
+            $this->client->getResponse()->isRedirect('/inventory/set/1'),
+            'Response should be a redirect to Set'
+        );
 
-        $this->assertGreaterThan(
-            0,
+        $crawler = $this->client->followRedirect();
+        $this->assertTrue($this->client->getResponse()->isSuccessful(), 'Response should be successful');
+
+        $this->assertEquals(
+            1,
             $crawler->filter('.aui-page-header-main:contains("Foo")')->count(),
             'The page header should contain the new name [value="Foo"]'
         );
     }
 
-    public function testEditErrorSet()
+    public function testSubmitFormForEditWithInvalidDataThrowsError()
     {
-        $setFixtureLoader = new SetFixture();
-        $setFixtureLoader->load($this->entityManager);
+        $this->loadFixtures(array('Oktolab\Bundle\RentBundle\DataFixtures\ORM\SetFixture'));
 
-        $client = $this->client;
+        $this->client->request('GET', '/inventory/set/1/edit');
+        $this->assertTrue($this->client->getResponse()->isSuccessful(), 'Response should be successful');
 
-        $crawler = $client->request('GET', 'inventory/set/1/edit');
-
-        $form = $crawler->selectButton('Speichern')->form(
+        $form = $this->client->getCrawler()->selectButton('Speichern')->form(
             array(
                 'oktolab_bundle_rentbundle_inventory_settype[title]' => ''
             )
         );
 
-        $crawler = $client->submit($form);
-        $this->assertEquals(200, $client->getResponse()->getStatusCode());
+        $crawler = $this->client->submit($form);
+        $this->assertTrue($this->client->getResponse()->isSuccessful(), 'Response should be successful');
         $this->assertEquals(1, $crawler->filter('html:contains("Du musst einen Titel angeben")')->count());
     }
 
-    public function testDeleteSet()
+    public function testDeleteASet()
     {
-        $setFixtureLoader = new SetFixture();
-        $setFixtureLoader->load($this->entityManager);
+        $this->loadFixtures(array('Oktolab\Bundle\RentBundle\DataFixtures\ORM\SetFixture'));
 
-        $client = $this->client;
-        // Delete the entity,
-        $crawler = $client->request('GET', 'inventory/set/1/edit');
+        $this->client->request('GET', '/inventory/set/1/delete');
+        $this->assertTrue(
+            $this->client->getResponse()->isRedirect('/inventory/set/'),
+            'Response should be a redirect to Set index'
+        );
 
-        $client->click($crawler->selectLink('Löschen')->link());
-
-        // Check the entity has been delete on the list
-        $this->assertNotRegExp('/Foo/', $client->getResponse()->getContent());
+        $crawler = $this->client->followRedirect();
+        $this->assertTrue($this->client->getResponse()->isSuccessful(), 'Response should be successful');
+        $this->assertEquals(0, $crawler->filter('table tbody tr')->count(), 'This list has to be empty');
     }
 
     public function testAddItemToSet()
     {
-        $setFixtureLoader = new SetFixture();
-        $setFixtureLoader->load($this->entityManager);
+        $this->loadFixtures(array(
+            'Oktolab\Bundle\RentBundle\DataFixtures\ORM\SetFixture',
+            'Oktolab\Bundle\RentBundle\DataFixtures\ORM\ItemFixture',
+        ));
 
-        $itemFixtureLoader = new ItemFixture();
-        $itemFixtureLoader->load($this->entityManager);
+        $this->client->request('GET', '/inventory/set/1/edit');
+        $this->assertTrue($this->client->getResponse()->isSuccessful(), 'Response should be successful');
 
-        //only possible with javascript. we use a modified Form and post it.
-        $client = $this->client;
-
-        $crawler = $client->request('GET', 'inventory/set/1/edit');
-
-        $form = $crawler->selectButton('Speichern')->form();
-
-        $crawler = $client->request(
+        $form = $this->client->getCrawler()->selectButton('Speichern')->form();
+        $this->client->request(
             'PUT',
             $form->getUri(),
             array(
                 'oktolab_bundle_rentbundle_inventory_settype' => array(
-                    '_token' => $form['oktolab_bundle_rentbundle_inventory_settype[_token]']->getValue(),
-                    'title' => 'TestSet',
+                    '_token'      => $form['oktolab_bundle_rentbundle_inventory_settype[_token]']->getValue(),
+                    'title'       => 'TestSet',
                     'description' => 'TestDescription',
-                    'barcode' => 'ASDF0',
-                    'itemsToAdd' => array(1 => 'id')
+                    'barcode'     => 'ASDF0',
+                    'itemsToAdd'  => array(1 => 'id'),
                 )
             )
         );
 
-        $crawler = $client->followRedirect();
+        $this->assertTrue(
+            $this->client->getResponse()->isRedirect('/inventory/set/1'),
+            'Response should be a redirect to Set'
+        );
 
-        $this->assertEquals(1, $crawler->filter('tbody tr')->count());
+        $this->client->followRedirect();
+        $this->assertTrue($this->client->getResponse()->isSuccessful(), 'Response should be successful');
 
+        $this->assertEquals(1, $this->client->getCrawler()->filter('tbody tr')->count());
     }
 
     public function testRemoveItemFromSet()
     {
-        $setFixtureLoader = new SetFixture();
-        $setFixtureLoader->setWithItem($this->entityManager);
+        $this->loadFixtures(array(
+            'Oktolab\Bundle\RentBundle\DataFixtures\ORM\SetFixture',
+            'Oktolab\Bundle\RentBundle\DataFixtures\ORM\ItemFixture',
+        ));
 
-        $client = $this->client;
+        $this->client->request('GET', '/inventory/set/1/edit');
+        $this->assertTrue($this->client->getResponse()->isSuccessful(), 'Response should be successful');
 
-        $crawler = $client->request('GET', 'inventory/set/1/edit');
-
-        $form = $crawler->selectButton('Speichern')->form();
-
-        $crawler = $client->request(
+        $form = $this->client->getCrawler()->selectButton('Speichern')->form();
+        $this->client->request(
             'PUT',
             $form->getUri(),
             array(
                 'oktolab_bundle_rentbundle_inventory_settype' => array(
-                    '_token' => $form['oktolab_bundle_rentbundle_inventory_settype[_token]']->getValue(),
-                    'title' => 'SetWithoutItem',
-                    'description' => 'SetWithoutItemDescription',
-                    'barcode' => 'ASDF0'
-                    )
+                    '_token'        => $form['oktolab_bundle_rentbundle_inventory_settype[_token]']->getValue(),
+                    'title'         => 'SetWithoutItem',
+                    'description'   => 'SetWithoutItemDescription',
+                    'barcode'       => 'ASDF0',
+                )
             )
         );
 
-        $crawler = $client->followRedirect();
+        $this->assertTrue(
+            $this->client->getResponse()->isRedirect('/inventory/set/1'),
+            'Response should be a redirect to Set'
+        );
 
-        $this->assertEquals(0, $crawler->filter('tbody tr')->count());
+        $this->client->followRedirect();
+        $this->assertTrue($this->client->getResponse()->isSuccessful(), 'Response should be successful');
     }
 
-    public function testDeleteSetWithAttachedItems()
+    public function testDeleteSetWithAttachedItem()
     {
-        $setFixtureLoader = new SetFixture();
-        $setFixtureLoader->setWithItem($this->entityManager);
+        $this->loadFixtures(array('Oktolab\Bundle\RentBundle\DataFixtures\ORM\SetWithItemFixture'));
 
-        $client = $this->client;
+        $this->client->request('GET', '/inventory/set/1/delete');
+        $this->assertTrue(
+            $this->client->getResponse()->isRedirect('/inventory/set/'),
+            'Expected to be redirected to Set index'
+        );
 
-        $crawler = $client->request('GET', 'inventory/set/1/edit');
-        $client->click($crawler->selectLink('Löschen')->link());
+        $this->client->followRedirect();
+        $this->assertTrue($this->client->getResponse()->isSuccessful(), 'Response should be successful');
+        $this->assertEquals(
+            0,
+            $this->client->getCrawler()->filter('table:contains("SetWithItemTitle")')->count(),
+            'Set should be deleted'
+        );
 
-        $this->assertNotRegExp('/setWithItemTitle/', $client->getResponse()->getContent());
+        $this->client->request('GET', '/inventory/item/1');
+        $this->assertTrue($this->client->getResponse()->isSuccessful(), 'Response should be successful');
+        $this->assertEquals(
+            1,
+            $this->client->getCrawler()->filter('header.aui-page-header:contains("SharedItem")')->count(),
+            'Page Header should contain Item title "SharedItem"'
+        );
     }
 }

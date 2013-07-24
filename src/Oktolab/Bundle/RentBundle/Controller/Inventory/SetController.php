@@ -276,7 +276,7 @@ class SetController extends Controller
     /**
      * Deletes a Inventory\Set entity.
      *
-     * @Route("/delete/{id}", name="inventory_set_delete")
+     * @Route("/{id}/delete", name="inventory_set_delete")
      * @Method("GET")
      * @Template()
      */
