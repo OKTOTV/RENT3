@@ -30,6 +30,10 @@ class Item extends Base
         return strtoupper(substr(md5($this->generator->randomNumber(3)), 0, 7));
     }
 
+    /**
+     * Returns a random vendor for Item
+     * @return string
+     */
     public function itemVendor()
     {
         return $this->generator->randomElement(array('JVC', 'Sony', 'Yamaha', 'Canon', 'Blackmagic', 'Aja'));

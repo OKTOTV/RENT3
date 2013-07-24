@@ -62,6 +62,14 @@
                 <source>edit</source>
                 <target>Bearbeiten</target>
             </trans-unit>
+            <trans-unit id="16">
+                <source>Inventory</source>
+                <target>Inventar</target>
+            </trans-unit>
+            <trans-unit id="17">
+                <source>Calendar</source>
+                <target>Kalendar</target>
+            </trans-unit>
         </body>
     </file>
 </xliff>
