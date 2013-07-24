@@ -5,6 +5,7 @@ namespace Oktolab\Bundle\RentBundle\Form\Inventory;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
+use Oktolab\Bundle\RentBundle\Form\Inventory\AttachmentType;
 
 class ItemType extends AbstractType
 {
@@ -34,7 +35,8 @@ class ItemType extends AbstractType
                     'property' => 'title',
                     'required' => false
                 )
-            );
+            )
+            ->add('attachment', new AttachmentType());
     }
 
     public function setDefaultOptions(OptionsResolverInterface $resolver)

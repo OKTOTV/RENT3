@@ -31,13 +31,6 @@
                         {{ form_errors(form) }}
 
                         {{ form_row(form.title) }}
-                        {{ form_row(form.description, {'attr': {'placeholder': 'Description of the item'} }) }}
-                        {{ form_row(form.barcode) }}
-                        {{ form_row(form.buyDate) }}
-                        {{ form_row(form.serialNumber) }}
-                        {{ form_row(form.vendor) }}
-                        {{ form_row(form.modelNumber) }}
-                        {{ form_row(form.attachment.file) }}
 
                         <div class="buttons-container">
                             <button class="aui-button aui-button-primary" type="submit">{% trans %}Submit{% endtrans %}</button>

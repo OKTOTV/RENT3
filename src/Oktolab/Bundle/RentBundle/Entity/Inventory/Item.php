@@ -3,6 +3,7 @@
 namespace Oktolab\Bundle\RentBundle\Entity\Inventory;
 
 use Doctrine\ORM\Mapping as ORM;
+
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
@@ -123,6 +124,13 @@ class Item
      */
     private $updated_at;
 
+    /**
+     *
+     * @Assert\Type(type="Oktolab\Bundle\RentBundle\Entity\Inventory\Attachment")
+     * @ORM\OneToOne(targetEntity="Attachment",cascade={"persist"})
+     * @ORM\JoinColumn(name="attachment_id", referencedColumnName="id")
+     */
+    private $attachment;
 
     /**
      * Get id
@@ -397,5 +405,28 @@ class Item
     public function getUpdatedAt()
     {
         return $this->updated_at;
+    }
+
+    /**
+     * Set attachment
+     *
+     * @param \Oktolab\Bundle\RentBundle\Entity\Inventory\Attachment $attachment
+     * @return Item
+     */
+    public function setAttachment(\Oktolab\Bundle\RentBundle\Entity\Inventory\Attachment $attachment = null)
+    {
+        $this->attachment = $attachment;
+
+        return $this;
+    }
+
+    /**
+     * Get attachment
+     *
+     * @return \Oktolab\Bundle\RentBundle\Entity\Inventory\Attachment
+     */
+    public function getAttachment()
+    {
+        return $this->attachment;
     }
 }

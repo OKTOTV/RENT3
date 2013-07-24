@@ -8,6 +8,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Oktolab\Bundle\RentBundle\Entity\Inventory\Item;
+use Oktolab\Bundle\RentBundle\Entity\Inventory\Attachment;
 use Oktolab\Bundle\RentBundle\Form\Inventory\ItemType;
 
 /**
@@ -47,7 +48,8 @@ class ItemController extends Controller
         $entity  = new Item();
         $form = $this->createForm(new ItemType(), $entity);
         $form->bind($request);
-
+        $entity->getAttachment()->setTitle('Item_'.$entity->getTitle());
+        $entity->getAttachment()->upload($this->get('kernel')->getRootDir().'/../web');
         if ($form->isValid()) {
             $em = $this->getDoctrine()->getManager();
             $em->persist($entity);

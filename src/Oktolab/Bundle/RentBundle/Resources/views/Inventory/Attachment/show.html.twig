@@ -1,0 +1,36 @@
+{% extends 'OktolabRentBundle::layout.html.twig' %}
+
+{% block content_header %}
+    <div class="aui-page-header-inner">
+        <div class="aui-page-header-image">
+            <div class="aui-avatar aui-avatar-xlarge aui-avatar-project">
+                <div class="aui-avatar-inner">
+                    <img src="static/img/none.png">
+                </div>
+            </div>
+        </div>
+        <div class="aui-page-header-main">
+            <h1>{{entity.title}}</h1>
+        </div>
+        <div class="aui-page-header-actions">
+            <div class="aui-buttons">
+                <div class="aui-buttons">
+                    <a class="aui-button" href="{{ path('inventory_attachment_edit', { 'id' : entity.id }) }}">Editieren</a>
+                    <a class="aui-button" href="{{ path('inventory_attachment') }}">{% trans %}Back to list{% endtrans %}</a>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block content %}
+    <div class="aui-page-panel">
+        <div class="aui-page-panel-inner">
+            <section class="aui-page-panel-content">
+                <h3>{% trans %}Title{% endtrans %}</h3>
+                <p>{{ entity.title }}</p>
+                <img src="{{ entity.webPath }}" />
+            </section>
+        </div>
+    </div>
+{% endblock %}
