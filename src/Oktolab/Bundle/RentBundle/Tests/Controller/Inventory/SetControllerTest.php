@@ -221,4 +221,46 @@ class SetControllerTest extends WebTestCase
             'Page Header should contain Item title "SharedItem"'
         );
     }
+
+    public function testShowInvalidSetReturns404()
+    {
+        $this->loadFixtures(array());
+
+        $this->client->request('GET', '/inventory/set/1');
+        $this->assertTrue($this->client->getResponse()->isNotFound(), 'Response should return 404');
+    }
+
+    public function testEditInvalidSetReturns404()
+    {
+        $this->loadFixtures(array());
+
+        $this->client->request('GET', '/inventory/set/1/edit');
+        $this->assertTrue($this->client->getResponse()->isNotFound(), 'Response should return 404');
+    }
+
+    public function testDeleteInvalidSetReturns404()
+    {
+        $this->loadFixtures(array());
+
+        $this->client->request('GET', '/inventory/set/1/delete');
+        $this->assertTrue($this->client->getResponse()->isNotFound(), 'Response should return 404');
+    }
+
+    public function testItemsSearchReturnsJson()
+    {
+        $this->loadFixtures(array('Oktolab\Bundle\RentBundle\DataFixtures\ORM\ItemFixture'));
+
+        $this->client->request(
+            'GET',
+            '/inventory/set/search.json',
+            array(),
+            array(),
+            array('CONTENT_TYPE' => 'application/json', 'HTTP_X-Requested-With' => 'XMLHttpRequest')
+        );
+
+        $response = $this->client->getResponse();
+        $this->assertTrue($response->isSuccessful(), 'Response should be successful');
+        $this->assertTrue($response->headers->contains('Content-Type', 'application/json'), 'Returns application/json');
+        $this->assertNotNull(json_decode($response->getContent()), 'Should be able to decode JSON');
+    }
 }

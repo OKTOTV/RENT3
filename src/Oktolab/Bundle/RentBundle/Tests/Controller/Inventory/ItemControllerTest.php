@@ -110,4 +110,28 @@ class ItemControllerTest extends WebTestCase
         $this->assertTrue($this->client->getResponse()->isSuccessful(), 'Response should be successful');
         $this->assertEquals(0, $crawler->filter('table tbody tr')->count(), 'This list has to be empty');
     }
+
+    public function testShowInvalidItemReturns404()
+    {
+        $this->loadFixtures(array());
+
+        $this->client->request('GET', '/inventory/item/1');
+        $this->assertTrue($this->client->getResponse()->isNotFound(), 'Response should return 404');
+    }
+
+    public function testEditInvalidItemReturns404()
+    {
+        $this->loadFixtures(array());
+
+        $this->client->request('GET', '/inventory/item/1/edit');
+        $this->assertTrue($this->client->getResponse()->isNotFound(), 'Response should return 404');
+    }
+
+    public function testDeleteInvalidItemReturns404()
+    {
+        $this->loadFixtures(array());
+
+        $this->client->request('GET', '/inventory/item/1/delete');
+        $this->assertTrue($this->client->getResponse()->isNotFound(), 'Response should return 404');
+    }
 }
