@@ -38,6 +38,7 @@ class EventManager
         $this->logger = $logger;
 
         $this->eventRepository = $this->om->getRepository('Oktolab\Bundle\RentBundle\Event');
+        var_dump($this->eventRepository);
     }
 
     /**
