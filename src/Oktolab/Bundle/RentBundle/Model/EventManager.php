@@ -89,7 +89,7 @@ class EventManager
     {
         $repository = $this->em->getRepository('OktolabRentBundle:Event');
         $qb = $repository->createQueryBuilder('e')
-            ->where('e.start >= :start')
+            ->where('e.begin >= :start')
             ->setParameter('start', $begin)
 //            ->andWhere('e.end >= :end')
 //

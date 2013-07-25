@@ -47,4 +47,5 @@ class EventManagerTest extends \PHPUnit_Framework_TestCase
         $this->em->addRepository($repository);
         $this->assertSame($repository, $this->em->getRepository('TestClass'));
     }
+
 }
