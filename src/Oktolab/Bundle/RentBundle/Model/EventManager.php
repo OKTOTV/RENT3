@@ -2,7 +2,7 @@
 
 namespace Oktolab\Bundle\RentBundle\Model;
 
-use Doctrine\Common\Persistence\ObjectManager;
+use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityRepository;
 use Symfony\Bridge\Monolog\Logger;
 
@@ -12,9 +12,9 @@ use Oktolab\Bundle\RentBundle\Entity\Event;
 class EventManager
 {
     /**
-     * @var \Doctrine\Common\Persistence\ObjectManager
+     * @var \Doctrine\Common\Persistence\EntityManager
      */
-    protected $om = null;
+    protected $em = null;
 
     /**
      * @var \Symfony\Bridge\Monolog\Logger
@@ -32,13 +32,12 @@ class EventManager
      * @param ObjectManager $om
      * @param Logger        $logger
      */
-    public function __construct(ObjectManager $om, Logger $logger = null)
+    public function __construct(EntityManager $em, Logger $logger = null)
     {
-        $this->om = $om;
+        $this->em = $em;
         $this->logger = $logger;
 
-        $this->eventRepository = $this->om->getRepository('Oktolab\Bundle\RentBundle\Event');
-        var_dump($this->eventRepository);
+        $this->eventRepository = $this->em->getRepository('OktolabRentBundle:Event');
     }
 
     /**
@@ -88,6 +87,28 @@ class EventManager
      */
     public function isAvailable(RentableInterface $object, \DateTime $begin, \DateTime $end)
     {
+        $repository = $this->em->getRepository('OktolabRentBundle:Event');
+        $qb = $repository->createQueryBuilder('e')
+            ->where('e.start >= :start')
+            ->setParameter('start', $begin)
+//            ->andWhere('e.end >= :end')
+//
+//            ->setParameter('end', $end)
+            ->getQuery()
+        ;
+
+        var_dump($qb->getResult());
+        //$object = $repository->findOneByName($object->getTitle());
+
+
+//            $query = $qb->getQuery();
+//
+//// Set additional Query options
+//$query->setQueryHint('foo', 'bar');
+//$query->useResultCache('my_cache_id');
+
+        print_r($object);
+
         return mt_rand(0, 1); // it depends
     }
 

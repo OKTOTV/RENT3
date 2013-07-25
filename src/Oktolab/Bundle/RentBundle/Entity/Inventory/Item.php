@@ -5,6 +5,8 @@ namespace Oktolab\Bundle\RentBundle\Entity\Inventory;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
+use Oktolab\Bundle\RentBundle\Model\RentableInterface;
+
 /**
  * Item
  *
@@ -12,7 +14,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  * @ORM\Entity
  * @ORM\HasLifecycleCallbacks()
  */
-class Item
+class Item implements RentableInterface
 {
     /**
      * @var integer
@@ -397,5 +399,21 @@ class Item
     public function getUpdatedAt()
     {
         return $this->updated_at;
+    }
+
+    /**
+     *  {@inheritDoc}
+     */
+    public function getType()
+    {
+        return 'item';
+    }
+
+    /**
+     *  {@inheritDoc}
+     */
+    public function getState()
+    {
+        return 0;
     }
 }

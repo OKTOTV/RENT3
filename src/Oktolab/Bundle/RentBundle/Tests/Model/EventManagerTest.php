@@ -16,7 +16,7 @@ class EventManagerTest extends \PHPUnit_Framework_TestCase
     {
         parent::setUp();
 
-        $objectManager = $this->getMockBuilder('\Doctrine\Common\Persistence\ObjectManager')
+        $objectManager = $this->getMockBuilder('\Doctrine\ORM\EntityManager')
             ->disableOriginalConstructor()
             ->getMock();
 

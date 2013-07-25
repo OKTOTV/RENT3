@@ -31,9 +31,9 @@ class Event
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="start", type="datetime")
+     * @ORM\Column(name="begin", type="datetime")
      */
-    private $start;
+    private $begin;
 
     /**
      * @var \DateTime
@@ -53,7 +53,7 @@ class Event
     /**
      * Get id
      *
-     * @return integer 
+     * @return integer
      */
     public function getId()
     {
@@ -69,14 +69,14 @@ class Event
     public function setName($name)
     {
         $this->name = $name;
-    
+
         return $this;
     }
 
     /**
      * Get name
      *
-     * @return string 
+     * @return string
      */
     public function getName()
     {
@@ -84,26 +84,26 @@ class Event
     }
 
     /**
-     * Set start
+     * Set Begin Date
      *
-     * @param \DateTime $start
+     * @param \DateTime $begin
      * @return Event
      */
-    public function setStart($start)
+    public function setBegin($begin)
     {
-        $this->start = $start;
-    
+        $this->begin = $begin;
+
         return $this;
     }
 
     /**
-     * Get start
+     * Get Begin Date
      *
-     * @return \DateTime 
+     * @return \DateTime
      */
-    public function getStart()
+    public function getBegin()
     {
-        return $this->start;
+        return $this->begin;
     }
 
     /**
@@ -112,17 +112,20 @@ class Event
      * @param \DateTime $end
      * @return Event
      */
-    public function setEnd($end)
+    public function setEnd(\DateTime $end)
     {
+        if (null !== $this->begin && $end < $this->begin) {
+            throw new \InvalidArgumentException('End must be greater than Begin time');
+        }
+
         $this->end = $end;
-    
         return $this;
     }
 
     /**
      * Get end
      *
-     * @return \DateTime 
+     * @return \DateTime
      */
     public function getEnd()
     {
@@ -138,14 +141,14 @@ class Event
     public function setItem($item)
     {
         $this->item = $item;
-    
+
         return $this;
     }
 
     /**
      * Get item
      *
-     * @return string 
+     * @return string
      */
     public function getItem()
     {

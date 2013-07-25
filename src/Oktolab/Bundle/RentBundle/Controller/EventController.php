@@ -88,4 +88,19 @@ class EventController extends Controller
 
         return new JsonResponse($arr);
     }
+
+    /**
+     * @Route("/api/foo/", name="asdf")
+     */
+    public function testAction()
+    {
+        $item = new \Oktolab\Bundle\RentBundle\Entity\Inventory\Item();
+
+        $item->setTitle('Tommy Striebitz');
+
+        $em = $this->get('oktolab.event_manager');
+        $ya = $em->isAvailable($item, new \DateTime('15:00'), new \DateTime('16:00'));
+
+        return new \Symfony\Component\HttpFoundation\Response($ya);
+    }
 }
