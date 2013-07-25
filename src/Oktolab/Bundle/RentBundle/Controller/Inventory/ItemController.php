@@ -7,6 +7,8 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Cache;
+
 use Oktolab\Bundle\RentBundle\Entity\Inventory\Item;
 use Oktolab\Bundle\RentBundle\Form\Inventory\ItemType;
 
@@ -22,6 +24,7 @@ class ItemController extends Controller
      *
      * @Route("/", name="inventory_item")
      * @Method("GET")
+     * @Cache(expires="+1 day", public="true")
      * @Template()
      */
     public function indexAction()

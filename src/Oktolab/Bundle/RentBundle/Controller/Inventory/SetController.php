@@ -39,13 +39,13 @@ class SetController extends Controller
 
     /**
      * Creates a json with all items for typeahead suggestions and use
-
+     *
+     * @Method("GET")
      * @Route("/search.{_format}",
      *      name="inventory_set_searchItems_json",
      *      defaults={"_format"="json"},
      *      requirements={"_format"="json"})
      *
-     * @Method("GET")
      *
      * @return JsonResponse
      */
