@@ -12,4 +12,29 @@ use Doctrine\ORM\EntityRepository;
  */
 class EventRepository extends EntityRepository
 {
+    /**
+     * Finds all Events in and within the given time range
+     *
+     * @param \DateTime $begin
+     * @param \DateTime $end
+     * @param int       $hydrationMode
+     *
+     * @return array
+     */
+    public function findAllFromBeginToEnd(\DateTime $begin, \DateTime $end, $hydrationMode = null)
+    {
+        return $this->getEntityManager()->createQuery('
+            SELECT COUNT(e.id)
+            FROM OktolabRentBundle:Event e
+            WHERE (
+                (e.begin <= :begin AND e.end > :begin) OR
+                (e.begin >= :begin AND e.end < :end) OR
+                (e.begin < :end AND e.end >= :end)
+            )
+        ')
+            ->setParameter('begin', $begin)
+            ->setParameter('end', $end)
+            ->getResult($hydrationMode)
+        ;
+    }
 }

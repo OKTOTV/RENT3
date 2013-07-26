@@ -87,17 +87,13 @@ class EventManager
      */
     public function isAvailable(RentableInterface $object, \DateTime $begin, \DateTime $end)
     {
-        $query = $this->em->createQuery('
-            SELECT COUNT(e.id)
-            FROM OktolabRentBundle:Event e
-            WHERE (
-                (e.begin <= :begin AND e.end > :begin) OR
-                (e.begin >= :begin AND e.end < :end) OR
-                (e.begin < :end AND e.end >= :end)
-            )
-        ')->setParameter('begin', $begin)->setParameter('end', $end);
+        $results = $this->eventRepository->findAllFromBeginToEnd(
+            $begin,
+            $end,
+            \Doctrine\ORM\Query::HYDRATE_SINGLE_SCALAR
+        );
 
-        return 0 === (int) $query->getSingleScalarResult() ? true : false;
+        return 0 === (int) $results ? true : false;
     }
 
     /**
@@ -137,7 +133,7 @@ class EventManager
             }
         }
 
-        
+
 
 
         return new Event();
