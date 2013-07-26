@@ -7,39 +7,18 @@ use Oktolab\Bundle\RentBundle\Tests\WebTestCase;
 class EventManagerFunctionalTest extends WebTestCase
 {
 
-    public function testObjectIsAvailable()
+    public function testItemIsAvailable()
     {
-        $this->loadFixtures(array('Oktolab\Bundle\RentBundle\DataFixtures\ORM\EventFixture'));
+        $this->loadFixtures(array('Oktolab\Bundle\RentBundle\DataFixtures\ORM\EventManagerFixture'));
+        $entityManager = static::$kernel->getContainer()->get('doctrine.orm.entity_manager');
+        $em = static::$kernel->getContainer()->get('oktolab.event_manager');
 
-        // testcase: object 14:00 -> 15:00, db-event 13:00 -> 15:00
-        //$this->assertTrue()
+        $item = $entityManager->getRepository('OktolabRentBundle:Inventory\Item')->findOneByTitle('eventItem');
 
-        // testcase: object 14:00 -> 15:00, db-event 14:00 -> 14:30
-
-        // testcase: object 14:00 -> 15:00, db-event 15:00 -> 16:00
-
-        // testcase: object 14:00 -> 15:00, db-event 14:10 -> 14:50
+        $this->assertTrue($em->isAvailable($item, new \DateTime('14:00'), new \DateTime('14:30')), '14:00 - 14:30');
+        $this->assertFalse($em->isAvailable($item, new \DateTime('11:00'), new \DateTime('17:00')), '11:00 - 17:00');
+        $this->assertFalse($em->isAvailable($item, new \DateTime('12:30'), new \DateTime('14:00')), '12:30 - 14:00');
+        $this->assertFalse($em->isAvailable($item, new \DateTime('12:00'), new \DateTime('13:00')), '12:00 - 13:00');
+        $this->assertFalse($em->isAvailable($item, new \DateTime('14:00'), new \DateTime('15:30')), '14:00 - 15:30');
     }
-
-//    public function testIndexDisplaysEmptyList()
-//    {
-//        $this->loadFixtures(array());
-//
-//        $crawler = $this->client->request('GET', '/inventory/item/');
-//        $this->assertTrue($this->client->getResponse()->isSuccessful(), 'Response should be successful');
-//        $this->assertEquals(0, $crawler->filter('table tbody tr')->count(), 'This list has to be empty');
-//    }
-//
-//    public function testIndexDisplaysItems()
-//    {
-//        $this->loadFixtures(array('Oktolab\Bundle\RentBundle\DataFixtures\ORM\ItemFixture'));
-//
-//        $crawler = $this->client->request('GET', '/inventory/item/');
-//        $this->assertTrue($this->client->getResponse()->isSuccessful(), 'Response should be successful');
-//        $this->assertGreaterThan(
-//            0,
-//            $crawler->filter('table tbody tr')->count(),
-//            'This list should contain at least 1 item'
-//        );
-//    }
 }

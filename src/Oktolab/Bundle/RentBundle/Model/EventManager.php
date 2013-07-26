@@ -87,29 +87,17 @@ class EventManager
      */
     public function isAvailable(RentableInterface $object, \DateTime $begin, \DateTime $end)
     {
-        $repository = $this->em->getRepository('OktolabRentBundle:Event');
-        $qb = $repository->createQueryBuilder('e')
-            ->where('e.begin >= :start')
-            ->setParameter('start', $begin)
-//            ->andWhere('e.end >= :end')
-//
-//            ->setParameter('end', $end)
-            ->getQuery()
-        ;
+        $query = $this->em->createQuery('
+            SELECT COUNT(e.id)
+            FROM OktolabRentBundle:Event e
+            WHERE (
+                (e.begin <= :begin AND e.end > :begin) OR
+                (e.begin >= :begin AND e.end < :end) OR
+                (e.begin < :end AND e.end >= :end)
+            )
+        ')->setParameter('begin', $begin)->setParameter('end', $end);
 
-        var_dump($qb->getResult());
-        //$object = $repository->findOneByName($object->getTitle());
-
-
-//            $query = $qb->getQuery();
-//
-//// Set additional Query options
-//$query->setQueryHint('foo', 'bar');
-//$query->useResultCache('my_cache_id');
-
-        print_r($object);
-
-        return mt_rand(0, 1); // it depends
+        return 0 === (int) $query->getSingleScalarResult() ? true : false;
     }
 
     /**
@@ -139,15 +127,18 @@ class EventManager
      */
     public function rent(array $objects, \DateTime $begin, \DateTime $end)
     {
-        foreach ($objects as $rentable) {
-            if (!$rentable instanceof RentableInterface) {
+        foreach ($objects as $rentableObject) {
+            if (!$rentableObject instanceof RentableInterface) {
                 throw new \BadMethodCallException('Object must implement RentableInterface');
+            }
+
+            if (!$this->isAvailable($rentableObject, $begin, $end)) {
+                throw new \Exception('Object is not available in given time period.');
             }
         }
 
-        if (!$this->isAvailable($objects, $begin, $end)) {
-            throw new \Exception('todo: add custom exception');
-        }
+        
+
 
         return new Event();
     }
