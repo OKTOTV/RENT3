@@ -108,14 +108,14 @@ class EventObject
     public function setObject($object)
     {
         $this->object = $object;
-    
+
         return $this;
     }
 
     /**
      * Get object
      *
-     * @return integer 
+     * @return integer
      */
     public function getObject()
     {

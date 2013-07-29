@@ -42,7 +42,8 @@ class ItemTypeTest extends TypeTestCase
         $type->setDefaultOptions($resolver);
         $options = $resolver->resolve();
 
-        var_dump($options); die();
+        var_dump($options);
+        die();
 
         //$form = $this->factory->create($type, $item);
 

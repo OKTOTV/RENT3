@@ -29,8 +29,7 @@ class SetWithItemFixture extends AbstractFixture implements OrderedFixtureInterf
         $set
             ->setTitle('SetWithItemTitle')
             ->setDescription('SetWithItemDescription')
-            ->setBarcode('ASDF0')
-        ;
+            ->setBarcode('ASDF0');
 
         $set->addItem($item);
         $manager->persist($set);

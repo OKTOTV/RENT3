@@ -44,10 +44,12 @@ class EventRepository extends EntityRepository
         return (int) $this->getAllFromBeginToEndQuery($begin, $end)
             ->select('COUNT(e.id)')
             ->join('OktolabRentBundle:EventObject', 'o')
-            ->andWhere(Expr::andX(
-                Expr::eq('o.type', ':objectType'),
-                Expr::eq('o.object', ':objectId')
-            ))
+            ->andWhere(
+                Expr::andX(
+                    Expr::eq('o.type', ':objectType'),
+                    Expr::eq('o.object', ':objectId')
+                )
+            )
             ->setParameter('objectType', $object->getType())
             ->setParameter('objectId', $object->getId())
             ->getQuery()->getSingleScalarResult();
@@ -64,11 +66,13 @@ class EventRepository extends EntityRepository
     {
         $qb = $this->getEntityManager()->createQueryBuilder()
             ->select('e.id')->from('OktolabRentBundle:Event', 'e')
-            ->where(Expr::orX(
-                Expr::andX(Expr::lte('e.begin', ':begin'), Expr::gt('e.end', ':begin')),
-                Expr::andX(Expr::gte('e.begin', ':begin'), Expr::lt('e.end', ':end')),
-                Expr::andX(Expr::lt('e.begin', ':end'), Expr::gte('e.end', ':end'))
-            ));
+            ->where(
+                Expr::orX(
+                    Expr::andX(Expr::lte('e.begin', ':begin'), Expr::gt('e.end', ':begin')),
+                    Expr::andX(Expr::gte('e.begin', ':begin'), Expr::lt('e.end', ':end')),
+                    Expr::andX(Expr::lt('e.begin', ':end'), Expr::gte('e.end', ':end'))
+                )
+            );
 
         $qb->setParameter('begin', $begin);
         $qb->setParameter('end', $end);
