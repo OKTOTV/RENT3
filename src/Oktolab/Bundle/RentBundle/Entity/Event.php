@@ -3,6 +3,8 @@
 namespace Oktolab\Bundle\RentBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\Common\Collections\ArrayCollection;
+use Oktolab\Bundle\RentBundle\Entity\EventObject;
 
 /**
  * Event
@@ -43,12 +45,18 @@ class Event
     private $end;
 
     /**
-     * @var string
      *
-     * @ORM\Column(name="item", type="string", length=255)
+     * @ORM\OneToMany(targetEntity="EventObject", mappedBy="event")
      */
-    private $item;
+    private $objects;
 
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->objects = new ArrayCollection();
+    }
 
     /**
      * Get id
@@ -133,25 +141,35 @@ class Event
     }
 
     /**
-     * Set item
+     * Add objects
      *
-     * @param string $item
+     * @param \Oktolab\Bundle\RentBundle\Entity\EventObject $objects
      * @return Event
      */
-    public function setItem($item)
+    public function addObject(EventObject $objects)
     {
-        $this->item = $item;
+        $this->objects[] = $objects;
 
         return $this;
     }
 
     /**
-     * Get item
+     * Remove objects
      *
-     * @return string
+     * @param \Oktolab\Bundle\RentBundle\Entity\EventObject $objects
      */
-    public function getItem()
+    public function removeObject(EventObject $objects)
     {
-        return $this->item;
+        $this->objects->removeElement($objects);
+    }
+
+    /**
+     * Get objects
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getObjects()
+    {
+        return $this->objects;
     }
 }

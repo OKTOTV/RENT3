@@ -21,4 +21,9 @@ class EventManagerFunctionalTest extends WebTestCase
         $this->assertFalse($em->isAvailable($item, new \DateTime('12:00'), new \DateTime('13:00')), '12:00 - 13:00');
         $this->assertFalse($em->isAvailable($item, new \DateTime('14:00'), new \DateTime('15:30')), '14:00 - 15:30');
     }
+
+    public function testBookEventWithItems()
+    {
+        $this->markTestIncomplete('Events can not be booked without objects!');
+    }
 }

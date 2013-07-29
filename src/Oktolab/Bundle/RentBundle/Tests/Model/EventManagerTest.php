@@ -41,8 +41,7 @@ class EventManagerTest extends \PHPUnit_Framework_TestCase
     {
         $repository = $this->getMockBuilder('\Doctrine\ORM\EntityRepository')
             ->disableOriginalConstructor()
-            ->getMock()
-        ;
+            ->getMock();
         $repository->expects($this->once())->method('getClassName')->will($this->returnValue('TestClass'));
 
         $this->em->addRepository($repository);
@@ -54,9 +53,12 @@ class EventManagerTest extends \PHPUnit_Framework_TestCase
         $eventRepository = $this->getMockBuilder('Oktolab\Bundle\RentBundle\Entity\EventRepository')
             ->disableOriginalConstructor()
             ->getMock();
-        $eventRepository->expects($this->once())
-            ->method('findAllFromBeginToEnd')
-            ->will($this->returnValue('0'));
+        $eventRepository->expects($this->at(0))
+            ->method('findAllForObjectCount')
+            ->will($this->returnValue(0));
+        $eventRepository->expects($this->at(1))
+            ->method('findAllForObjectCount')
+            ->will($this->returnValue(1));
 
         $entityManager = $this->getMockBuilder('\Doctrine\ORM\EntityManager')
             ->disableOriginalConstructor()
@@ -66,27 +68,7 @@ class EventManagerTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue($eventRepository));
 
         $em = new EventManager($entityManager);
-        $this->assertTrue($em->isAvailable(new Item(), new \DateTime(), new \DateTime));
+        $this->assertTrue($em->isAvailable(new Item(), new \DateTime(), new \DateTime()));
+        $this->assertFalse($em->isAvailable(new Item(), new \DateTime(), new \DateTime()));
     }
-
-    public function testIsObjectNotAvailable()
-    {
-        $eventRepository = $this->getMockBuilder('Oktolab\Bundle\RentBundle\Entity\EventRepository')
-            ->disableOriginalConstructor()
-            ->getMock();
-        $eventRepository->expects($this->once())
-            ->method('findAllFromBeginToEnd')
-            ->will($this->returnValue('1'));
-
-        $entityManager = $this->getMockBuilder('\Doctrine\ORM\EntityManager')
-            ->disableOriginalConstructor()
-            ->getMock();
-        $entityManager->expects($this->once())
-            ->method('getRepository')
-            ->will($this->returnValue($eventRepository));
-
-        $em = new EventManager($entityManager);
-        $this->assertFalse($em->isAvailable(new Item(), new \DateTime(), new \DateTime));
-    }
-
 }

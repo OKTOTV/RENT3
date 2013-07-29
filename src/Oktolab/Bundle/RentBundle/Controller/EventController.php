@@ -101,6 +101,7 @@ class EventController extends Controller
         $em = $this->get('oktolab.event_manager');
         $ya = $em->isAvailable($item, new \DateTime('15:00'), new \DateTime('16:00'));
 
-        return new \Symfony\Component\HttpFoundation\Response($ya);
+        var_dump($ya);
+        return new \Symfony\Component\HttpFoundation\Response();
     }
 }

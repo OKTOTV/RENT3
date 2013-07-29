@@ -21,14 +21,12 @@ class EventManagerFixture extends AbstractFixture
         $event1->setName('12:00 - 13:00')
             ->setBegin(new \DateTime('12:00'))
             ->setEnd(new \DateTime('13:00'))
-            ->setItem('asdf')
         ;
 
         $event2 = new Event();
         $event2->setName('15:00 - 16:00')
             ->setBegin(new \DateTime('15:00'))
             ->setEnd(new \DateTime('16:00'))
-            ->setItem('asdf')
         ;
 
         $item = new Item();

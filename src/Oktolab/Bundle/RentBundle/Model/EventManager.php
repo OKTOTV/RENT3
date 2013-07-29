@@ -27,6 +27,11 @@ class EventManager
     protected $repositories = array();
 
     /**
+     * @var \Oktolab\Bundle\RentBundle\Entity\EventRepository
+     */
+    protected $eventRepository = null;
+
+    /**
      * Constructor.
      *
      * @param ObjectManager $om
@@ -87,13 +92,8 @@ class EventManager
      */
     public function isAvailable(RentableInterface $object, \DateTime $begin, \DateTime $end)
     {
-        $results = $this->eventRepository->findAllFromBeginToEnd(
-            $begin,
-            $end,
-            \Doctrine\ORM\Query::HYDRATE_SINGLE_SCALAR
-        );
-
-        return 0 === (int) $results ? true : false;
+        $results = $this->eventRepository->findAllForObjectCount($object, $begin, $end);
+        return 0 === $results;
     }
 
     /**
@@ -133,6 +133,30 @@ class EventManager
             }
         }
 
+        return;
+
+
+        // theoretical code -> acutally missing database connection to events/rentableObjects
+        // event (id, begin, end, type=room|set|item, objects=id,id,id)
+        //
+        // linktable: event(id, begin, end, objects=id,id,id), eventObjects(id, type, object)
+        // eventObjects ist eine "softlink"-table und muss manuell per type das object hydrieren.
+//        $this->em->getConnection()->beginTransaction(); // suspend auto-commit
+//        try {
+//
+//            // new event(begin, end)
+//            foreach($objects as $object) {
+//                //new eventObject(event, object)
+//            }
+//
+////            $em->persist();
+////            $em->flush();
+////            $em->getConnection()->commit();
+//        } catch (Exception $e) {
+////            $em->getConnection()->rollback();
+////            $em->close();
+////            throw $e;
+//        }
 
 
 
