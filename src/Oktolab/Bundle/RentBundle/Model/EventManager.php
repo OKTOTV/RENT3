@@ -8,6 +8,7 @@ use Symfony\Bridge\Monolog\Logger;
 
 use Oktolab\Bundle\RentBundle\Model\RentableInterface;
 use Oktolab\Bundle\RentBundle\Entity\Event;
+use Oktolab\Bundle\RentBundle\Entity\EventObject;
 
 class EventManager
 {
@@ -82,7 +83,7 @@ class EventManager
     }
 
     /**
-     * Checks if objects are available for given time range.
+     * Checks if object is available for given time range.
      *
      * @param RentableInterface $object
      * @param DateTime          $begin
@@ -118,11 +119,16 @@ class EventManager
      * @param \DateTime $end
      *
      * @throws \BadMethodCallException on invalid $objects array
+     * @throws \Exception on not available object
      *
      * @return Event
      */
     public function rent(array $objects, \DateTime $begin, \DateTime $end)
     {
+        if (0 === count($objects)) {
+            throw new \BadMethodCallException('Expected array with RentableInterface objects, empty array given');
+        }
+
         foreach ($objects as $rentableObject) {
             if (!$rentableObject instanceof RentableInterface) {
                 throw new \BadMethodCallException('Object must implement RentableInterface');
@@ -133,33 +139,37 @@ class EventManager
             }
         }
 
-        return;
+        $event = new Event();
+        $event->setName('asdfasdf');
+        $event->setBegin($begin)->setEnd($end);
 
+        return $this->createEventObjects(&$event, $objects);
+    }
 
-        // theoretical code -> acutally missing database connection to events/rentableObjects
-        // event (id, begin, end, type=room|set|item, objects=id,id,id)
-        //
-        // linktable: event(id, begin, end, objects=id,id,id), eventObjects(id, type, object)
-        // eventObjects ist eine "softlink"-table und muss manuell per type das object hydrieren.
-//        $this->em->getConnection()->beginTransaction(); // suspend auto-commit
-//        try {
-//
-//            // new event(begin, end)
-//            foreach($objects as $object) {
-//                //new eventObject(event, object)
-//            }
-//
-////            $em->persist();
-////            $em->flush();
-////            $em->getConnection()->commit();
-//        } catch (Exception $e) {
-////            $em->getConnection()->rollback();
-////            $em->close();
-////            throw $e;
-//        }
+    protected function createEventObjects(Event $event, array $objects)
+    {
+        $this->em->getConnection()->beginTransaction();
+        try {
+            foreach ($objects as $object) {
+                $eventObject = new EventObject();
+                $eventObject->setEvent($event)
+                    ->setType($object->getType())
+                    ->setObject($object->getId());
 
+                $event->addObject($eventObject);
+                $this->em->persist($eventObject);
+            }
 
+            $this->em->persist($event);
+            $this->em->flush();
+            $this->em->getConnection()->commit();
 
-        return new Event();
+        } catch (Exception $e) {
+            $this->em->getConnection()->rollback();
+            $this->em->close();
+            throw $e;
+        }
+
+        return $event;
     }
 }

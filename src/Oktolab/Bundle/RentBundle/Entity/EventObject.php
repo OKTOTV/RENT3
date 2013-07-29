@@ -98,4 +98,27 @@ class EventObject
     {
         return $this->event;
     }
+
+    /**
+     * Set object
+     *
+     * @param integer $object
+     * @return EventObject
+     */
+    public function setObject($object)
+    {
+        $this->object = $object;
+    
+        return $this;
+    }
+
+    /**
+     * Get object
+     *
+     * @return integer 
+     */
+    public function getObject()
+    {
+        return $this->object;
+    }
 }

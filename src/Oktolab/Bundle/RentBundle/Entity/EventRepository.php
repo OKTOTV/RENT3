@@ -3,6 +3,7 @@
 namespace Oktolab\Bundle\RentBundle\Entity;
 
 use Doctrine\ORM\EntityRepository;
+use Doctrine\ORM\Query\Expr;
 use Oktolab\Bundle\RentBundle\Model\RentableInterface;
 
 /**
@@ -15,7 +16,7 @@ class EventRepository extends EntityRepository
 {
 
     /**
-     * Finds all Events in and within the given time range
+     * Finds all Events in and within the given time period
      *
      * @param \DateTime $begin
      * @param \DateTime $end
@@ -42,11 +43,18 @@ class EventRepository extends EntityRepository
     {
         return (int) $this->getAllFromBeginToEndQuery($begin, $end)
             ->select('COUNT(e.id)')
+            ->join('OktolabRentBundle:EventObject', 'o')
+            ->andWhere(Expr::andX(
+                Expr::eq('o.type', ':objectType'),
+                Expr::eq('o.object', ':objectId')
+            ))
+            ->setParameter('objectType', $object->getType())
+            ->setParameter('objectId', $object->getId())
             ->getQuery()->getSingleScalarResult();
     }
 
     /**
-     *
+     * Returns QueryBuilder for all Events in and within the given time period
      * @param \DateTime $begin
      * @param \DateTime $end
      *
@@ -54,12 +62,12 @@ class EventRepository extends EntityRepository
      */
     public function getAllFromBeginToEndQuery(\DateTime $begin, \DateTime $end)
     {
-        $qb = $this->getEntityManager()->createQueryBuilder();
-        $qb->select('e.id')->from('OktolabRentBundle:Event', 'e')
-            ->where($qb->expr()->orX(
-                $qb->expr()->andX($qb->expr()->lte('e.begin', ':begin'), $qb->expr()->gt('e.end', ':begin')),
-                $qb->expr()->andX($qb->expr()->gte('e.begin', ':begin'), $qb->expr()->lt('e.end', ':end')),
-                $qb->expr()->andX($qb->expr()->lt('e.begin', ':end'), $qb->expr()->gte('e.end', ':end'))
+        $qb = $this->getEntityManager()->createQueryBuilder()
+            ->select('e.id')->from('OktolabRentBundle:Event', 'e')
+            ->where(Expr::orX(
+                Expr::andX(Expr::lte('e.begin', ':begin'), Expr::gt('e.end', ':begin')),
+                Expr::andX(Expr::gte('e.begin', ':begin'), Expr::lt('e.end', ':end')),
+                Expr::andX(Expr::lt('e.begin', ':end'), Expr::gte('e.end', ':end'))
             ));
 
         $qb->setParameter('begin', $begin);
