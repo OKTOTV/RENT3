@@ -110,13 +110,13 @@ class EventManager
     }
 
     /**
-     * Rents Objects and returns the Event
+     * Rents Objects and returns the rented Event
      *
      * @TODO: Kostenstellen management
      *
-     * @param array     $objects
-     * @param \DateTime $begin
-     * @param \DateTime $end
+     * @param array     $objects Array of RentableInterface Objects.
+     * @param \DateTime $begin   Begin time of the Event.
+     * @param \DateTime $end     End time of the Event.
      *
      * @throws \BadMethodCallException on invalid $objects array
      * @throws \Exception on not available object
@@ -142,6 +142,7 @@ class EventManager
         $event = new Event();
         $event->setName('asdfasdf');
         $event->setBegin($begin)->setEnd($end);
+        $event->setState(Event::STATE_RENTED);
 
         return $this->createEventObjects(&$event, $objects);
     }

@@ -14,6 +14,12 @@ use Oktolab\Bundle\RentBundle\Entity\EventObject;
  */
 class Event
 {
+    const STATE_RENTED      = 0;
+    const STATE_CANCELED    = 1;
+    const STATE_PREPARED    = 2;
+    const STATE_LENT        = 3;
+    const STATE_RETURNED    = 4;
+
     /**
      * @var integer
      *
@@ -31,6 +37,13 @@ class Event
     private $name;
 
     /**
+     * @var string
+     *
+     * @ORM\Column(name="description", type="string", length=500, nullable=true)
+     */
+    private $description;
+
+    /**
      * @var \DateTime
      *
      * @ORM\Column(name="begin", type="datetime")
@@ -43,6 +56,13 @@ class Event
      * @ORM\Column(name="end", type="datetime")
      */
     private $end;
+
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="state", type="integer")
+     */
+    private $state;
 
     /**
      *
@@ -171,5 +191,61 @@ class Event
     public function getObjects()
     {
         return $this->objects;
+    }
+
+    /**
+     * Set state
+     *
+     * @param integer $state
+     * @return Event
+     */
+    public function setState($state)
+    {
+        $this->state = $state;
+
+        return $this;
+    }
+
+    /**
+     * Get state
+     *
+     * @return integer
+     */
+    public function getState()
+    {
+        return $this->state;
+    }
+
+    /**
+     * Set description
+     *
+     * @param string $description
+     * @return Event
+     */
+    public function setDescription($description)
+    {
+        $this->description = $description;
+
+        return $this;
+    }
+
+    /**
+     * Get description
+     *
+     * @return string
+     */
+    public function getDescription()
+    {
+        return $this->description;
+    }
+
+    /**
+     * Returns true if Event has STATE_RENTED
+     *
+     * @return boolean
+     */
+    public function isRented()
+    {
+        return self::STATE_RENTED == $this->getState();
     }
 }

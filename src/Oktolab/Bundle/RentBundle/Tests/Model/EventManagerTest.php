@@ -71,4 +71,9 @@ class EventManagerTest extends \PHPUnit_Framework_TestCase
         $this->assertTrue($em->isAvailable(new Item(), new \DateTime(), new \DateTime()));
         $this->assertFalse($em->isAvailable(new Item(), new \DateTime(), new \DateTime()));
     }
+
+    public function testRentObject()
+    {
+        $this->markTestIncomplete('Rent an Object');
+    }
 }

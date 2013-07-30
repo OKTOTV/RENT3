@@ -22,7 +22,7 @@ class EventManagerFunctionalTest extends WebTestCase
         $this->assertFalse($em->isAvailable($item, new \DateTime('14:00'), new \DateTime('15:30')), '14:00 - 15:30');
     }
 
-    public function testBookEventWithItem()
+    public function testRentAnItem()
     {
         $this->loadFixtures(array('Oktolab\Bundle\RentBundle\DataFixtures\ORM\ItemFixture'));
         $item = static::$kernel->getContainer()->get('doctrine.orm.entity_manager')
@@ -34,10 +34,11 @@ class EventManagerFunctionalTest extends WebTestCase
 
         $this->assertEquals(new \DateTime('15:00'), $event->getBegin());
         $this->assertEquals(new \DateTime('17:00'), $event->getEnd());
+        $this->assertTrue($event->isRented());
         $this->assertFalse($em->isAvailable($item, new \DateTime('15:00'), new \DateTime('17:00')));
     }
 
-    public function testBookEventWithOutItems()
+    public function testRentWithOutItems()
     {
         $this->loadFixtures(array());
         $em = static::$kernel->getContainer()->get('oktolab.event_manager');

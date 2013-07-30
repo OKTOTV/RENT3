@@ -36,7 +36,8 @@ class EventManagerFixture extends AbstractFixture
         $event1->setName('12:00 - 13:00')
             ->setBegin(new \DateTime('12:00'))
             ->setEnd(new \DateTime('13:00'))
-            ->addObject($eventObject);
+            ->addObject($eventObject)
+            ->setState(Event::STATE_RENTED);
 
 
         $eventObject = new EventObject();
@@ -49,7 +50,8 @@ class EventManagerFixture extends AbstractFixture
         $event2->setName('15:00 - 16:00')
             ->setBegin(new \DateTime('15:00'))
             ->setEnd(new \DateTime('16:00'))
-            ->addObject($eventObject);
+            ->addObject($eventObject)
+            ->setState(Event::STATE_RENTED);
 
         $manager->persist($event1);
         $manager->persist($event2);
