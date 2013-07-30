@@ -13,3 +13,25 @@ AJS.$(document).ready(function() {
         console.timeEnd('rendercalendar');
     }
 });
+
+AJS.$(document).ready(function() {
+    var createRentForm = new AJS.Dialog({
+        id:                     'create-rent-form-dialog',
+        closeOnOutsideClick:    false,
+        width:                  700,
+        height:                 700,
+    });
+
+    createRentForm.addHeader('Neue Reservierung');
+    createRentForm.addPanel('Inventar', '#rent-inventory-form');
+    createRentForm.addPanel('R&auml;ume', '#rent-room-form');
+    createRentForm.addButton('Submit');
+    createRentForm.addButton('Cancel', function(dialog) {
+        dialog.hide();
+    });
+
+    AJS.$("#create-button").click(function() {
+        createRentForm.gotoPanel(0);
+        createRentForm.show();
+    });
+});

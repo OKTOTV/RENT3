@@ -5,7 +5,8 @@
           <ul class="aui-nav">
               <li><a href="{{ path('rentbundle_dashboard') }}" class="aui-nav-imagelink">{% trans %}Calendar{% endtrans %}</a></li>
               <li><a href="{{ path('inventory_item') }}" class="aui-nav-imagelink">{% trans %}Inventory{% endtrans %}</a></li>
-              <li><a href="{{ path('inventory_set') }}" class="aui-nav-imagelink">{% trans %}Set{% endtrans %}</a></li>
+              <li><a href="{{ path('inventory_set') }}" class="aui-nav-imagelink">{% trans %}Sets{% endtrans %}</a></li>
+              <li><a href="#" class="aui-nav-imagelink">{% trans %}Rooms{% endtrans %}</a></li>
               <li><button id="create-button" class="aui-button aui-button-primary aui-style">{% trans %}Book{% endtrans %}</button></li>
           </ul>
       </div>
@@ -55,8 +56,6 @@
 <!-- App Header goes inside #header -->
 </header>
 
-
-{# include('AcmeDemoBundle:Demo:create/contact.html.twig') #}
-{# include('AcmeDemoBundle:Demo:create/user.html.twig') #}
-{# include('AcmeDemoBundle:Demo:create/list.html.twig') #}
-{# include('AcmeDemoBundle:Demo:create/mailinglist.html.twig') #}
+{# include'OktolabRentBundle:Default:EventForm.html.twig' #}
+{{ render(controller('OktolabRentBundle:Default:RentInventoryForm')) }}
+{{ render(controller('OktolabRentBundle:Default:RentRoomForm')) }}

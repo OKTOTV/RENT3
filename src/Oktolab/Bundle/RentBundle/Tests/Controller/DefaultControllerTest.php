@@ -9,14 +9,31 @@ class DefaultControllerTest extends WebTestCase
     public function testDashboardPageRendersCorrectly()
     {
         $this->client->request('GET', '/');
-        $this->assertTrue($this->client->getResponse()->isSuccessful(), 'Response is successful');
+        $this->assertTrue($this->client->getResponse()->isSuccessful(), 'Response should be successful');
         $this->assertRegExp('/Dashboard/', $this->client->getResponse()->getContent());
+        $this->assertTrue($this->client->getResponse()->isCacheable(), 'Response should be cacheable');
+        $this->assertLessThan(24*60*60, $this->client->getResponse()->getTtl());
     }
 
     public function testAboutPageRendersCorrectly()
     {
         $this->client->request('GET', '/about');
-        $this->assertTrue($this->client->getResponse()->isSuccessful(), 'Response is successful');
+        $this->assertTrue($this->client->getResponse()->isSuccessful(), 'Response should be successful');
         $this->assertRegExp('/Lizenzen/', $this->client->getResponse()->getContent());
+        $this->assertTrue($this->client->getResponse()->isCacheable(), 'Response should be cacheable');
+    }
+
+    public function testRenderRentInventoryFormRendersCorrectly()
+    {
+        $this->client->request('GET', '/rent/inventory');
+        $this->assertTrue($this->client->getResponse()->isSuccessful(), 'Response should be successful');
+        $this->assertTrue($this->client->getResponse()->isCacheable(), 'Response should be cacheable');
+    }
+
+    public function testRenderRentRoomFormRendersCorrectly()
+    {
+        $this->client->request('GET', '/rent/room');
+        $this->assertTrue($this->client->getResponse()->isSuccessful(), 'Response should be successful');
+        $this->assertTrue($this->client->getResponse()->isCacheable(), 'Response should be cacheable');
     }
 }

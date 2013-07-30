@@ -1,0 +1,52 @@
+<div id="rent-inventory-form">
+    {{ form_start(form, {'attr': {'class': 'aui'}}) }}
+        <fieldset>
+            {{ form_errors(form) }}
+
+            {{ form_row(form.name) }}
+            {{ form_row(form.description) }}
+            {{ form_row(form.begin) }}
+            {{ form_row(form.end) }}
+        </fieldset>
+
+        <h3>{% trans %}Rentable Objects{% endtrans %}</h3>
+        <fieldset>
+            <div class="field-group">
+                <label for="d-lname">Suche</label>
+                <input class="text long-field" type="text" id="d-lname" name="d-lname" title="last name">
+                <div class="description">{% trans %}Search for Barcodes, Items, Sets, ...{% endtrans %}</div>
+            </div>
+
+            <table class="aui">
+                <thead>
+                    <tr>
+                        <th id="basic-number"><abbr title="Number">#</abbr></th>
+                        <th id="basic-fname">Name</th>
+                        <th id="basic-lname">Barcode</th>
+                        <th id="basic-username">Description</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td headers="basic-number">1</td>
+                        <td headers="basic-fname">JVC Kamera</td>
+                        <td headers="basic-lname">4SDF0B</td>
+                        <td headers="basic-username">Kamera der Firma JVC</td>
+                    </tr>
+                    <tr>
+                        <td headers="basic-number">2</td>
+                        <td headers="basic-fname">LIKO2</td>
+                        <td headers="basic-lname">L1K02ASD</td>
+                        <td headers="basic-username">Lichtkoffer</td>
+                    </tr>
+                    <tr>
+                        <td headers="basic-number">3</td>
+                        <td headers="basic-fname">Mikro</td>
+                        <td headers="basic-lname">M1KR02A</td>
+                        <td headers="basic-username">Mikrophon</td>
+                    </tr>
+                </tbody>
+            </table>
+        </fieldset>
+    {{ form_end(form) }}
+</div>

@@ -70,6 +70,10 @@
                 <source>Calendar</source>
                 <target>Kalendar</target>
             </trans-unit>
+            <trans-unit id="18">
+                <source>Book</source>
+                <target>Reservieren</target>
+            </trans-unit>
         </body>
     </file>
 </xliff>
