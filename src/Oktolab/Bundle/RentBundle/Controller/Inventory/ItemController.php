@@ -48,8 +48,6 @@ class ItemController extends Controller
         $entity  = new Item();
         $form = $this->createForm(new ItemType(), $entity);
         $form->bind($request);
-        $entity->getAttachment()->setTitle('Item_'.$entity->getTitle());
-        $entity->getAttachment()->upload($this->get('kernel')->getRootDir().'/../web');
         if ($form->isValid()) {
             $em = $this->getDoctrine()->getManager();
             $em->persist($entity);
@@ -182,6 +180,13 @@ class ItemController extends Controller
         $editForm->bind($request);
 
         if ($editForm->isValid()) {
+
+            $manager = $this->get('oneup_uploader.orphanage_manager')->get('gallery');
+            $files = $manager->uploadFiles();
+
+            $uploader = $this->get('oktolab.upload_manager');
+            $uploader->saveAttachmentsToEntity($entity, $files);
+
             $em->persist($entity);
             $em->flush();
 

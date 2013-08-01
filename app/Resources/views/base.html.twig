@@ -25,7 +25,10 @@
 
         {% javascripts
             'aui-5.1/js/aui-all.js'
-            '@OktolabRentBundle/Resources/public/js/*' %}
+            '@OktolabRentBundle/Resources/public/js/*'
+            '@OktolabRentBundle/Resources/public/js/plupload/plupload.full.js'
+            '@OktolabRentBundle/Resources/public/js/plupload/customPlupload.js'
+        %}
             <script type="text/javascript" src="{{ asset_url }}"></script>
         {% endjavascripts %}
         {% block javascripts %}{% endblock %}

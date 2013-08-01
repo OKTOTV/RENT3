@@ -30,7 +30,10 @@
     <div class="aui-page-panel">
         <div class="aui-page-panel-inner">
             <section class="aui-page-panel-content">
-                <img src="{{ entity.attachment.webPath | default('Kein Bild') }}" />
+
+                {% for attachment in entity.attachments %}
+                    <img src="{{ sauce(attachment) }}" />
+                {% endfor %}
                 <h3>{% trans %}Description{% endtrans %}</h3>
                 <p>{{ entity.description }}</p>
 

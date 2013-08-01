@@ -3,3 +3,6 @@ oktolab_rent:
     type:     annotation
     prefix:   /
 
+oneup_uploader:
+    resource: .
+    type: uploader

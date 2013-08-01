@@ -36,9 +36,14 @@
             {{ form_row(edit_form.serialNumber) }}
             {{ form_row(edit_form.vendor) }}
             {{ form_row(edit_form.modelNumber) }}
+            <div id="container" class= "field-group">
+                <div id="filelist">No runtime found.</div>
+                <br />
+                <a id="pickfiles" href="#">[Select files]</a>
+            </div>
 
             <div class="buttons-container">
-                <button class="button submit aui-primary" type="submit">{% trans %}Submit{% endtrans %}</button>
+                <button class="aui-button aui-button-primary" id="uploadfiles" type="submit">{% trans %}Submit{% endtrans %}</button>
             </div>
         </fieldset>
     {{ form_end(edit_form) }}

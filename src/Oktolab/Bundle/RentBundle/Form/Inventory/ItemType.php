@@ -35,8 +35,7 @@ class ItemType extends AbstractType
                     'property' => 'title',
                     'required' => false
                 )
-            )
-            ->add('attachment', new AttachmentType());
+            );
     }
 
     public function setDefaultOptions(OptionsResolverInterface $resolver)
