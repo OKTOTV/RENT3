@@ -13,7 +13,7 @@ class SetControllerTest extends WebTestCase
 
         $crawler = $this->client->request('GET', '/inventory/set/');
         $this->assertTrue($this->client->getResponse()->isSuccessful(), 'Response should be successful');
-        $this->assertEquals(0, $crawler->filter('table tbody tr')->count(), 'There should be no sets in this list');
+        $this->assertEquals(0, $crawler->filter('#content table tbody tr')->count(), 'There should be no sets in this list');
     }
 
     public function testIndexDisplaysSets()
@@ -24,7 +24,7 @@ class SetControllerTest extends WebTestCase
         $this->assertTrue($this->client->getResponse()->isSuccessful(), 'Response should be successful');
         $this->assertGreaterThan(
             0,
-            $crawler->filter('table tbody tr')->count(),
+            $crawler->filter('#content table tbody tr')->count(),
             'This list should contain at least 1 set'
         );
     }
@@ -119,7 +119,7 @@ class SetControllerTest extends WebTestCase
 
         $crawler = $this->client->followRedirect();
         $this->assertTrue($this->client->getResponse()->isSuccessful(), 'Response should be successful');
-        $this->assertEquals(0, $crawler->filter('table tbody tr')->count(), 'This list has to be empty');
+        $this->assertEquals(0, $crawler->filter('#content table tbody tr')->count(), 'This list has to be empty');
     }
 
     public function testAddItemToSet()
@@ -157,7 +157,7 @@ class SetControllerTest extends WebTestCase
         $this->client->followRedirect();
         $this->assertTrue($this->client->getResponse()->isSuccessful(), 'Response should be successful');
 
-        $this->assertEquals(1, $this->client->getCrawler()->filter('tbody tr')->count());
+        $this->assertEquals(1, $this->client->getCrawler()->filter('#content tbody tr')->count());
     }
 
     public function testRemoveItemFromSet()
@@ -209,7 +209,7 @@ class SetControllerTest extends WebTestCase
         $this->assertTrue($this->client->getResponse()->isSuccessful(), 'Response should be successful');
         $this->assertEquals(
             0,
-            $this->client->getCrawler()->filter('table:contains("SetWithItemTitle")')->count(),
+            $this->client->getCrawler()->filter('#content table:contains("SetWithItemTitle")')->count(),
             'Set should be deleted'
         );
 

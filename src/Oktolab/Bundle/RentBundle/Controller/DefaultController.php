@@ -31,23 +31,4 @@ class DefaultController extends Controller
         return array('licenses' => file_get_contents($this->get('kernel')->getRootDir().'/../LICENSE'));
     }
 
-    /**
-     * @Route("/rent/inventory", name="rentbundle_create_rent_inventory")
-     * @Template("OktolabRentBundle:Default:rentInventoryForm.html.twig")
-     */
-    public function rentInventoryFormAction()
-    {
-        $form = $this->createForm(new \Oktolab\Bundle\RentBundle\Form\EventType());
-        return array('form' => $form->createView());
-    }
-
-    /**
-     * @Route("/rent/room", name="rentbundle_create_rent_room")
-     * @Template("OktolabRentBundle:Default:rentRoomForm.html.twig")
-     */
-    public function rentRoomFormAction()
-    {
-        $form = $this->createForm(new \Oktolab\Bundle\RentBundle\Form\EventType());
-        return array('form' => $form->createView());
-    }
 }

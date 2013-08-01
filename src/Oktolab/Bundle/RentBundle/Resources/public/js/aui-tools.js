@@ -25,12 +25,24 @@ var createRentForm = new AJS.Dialog({
 createRentForm.addHeader('Neue Reservierung');
 createRentForm.addPanel('Inventar', '#rent-inventory-form');
 createRentForm.addPanel('R&auml;ume', '#rent-room-form');
-createRentForm.addButton('Submit');
-createRentForm.addButton('Cancel', function(dialog) {
+createRentForm.addButton('Reservieren', function (dialog, page) {
+    console.log(dialog);
+    console.log(page);
+    console.log(dialog.getCurrentPanel());
+
+    AJS.$('#rent-inventory-form > form').submit();
+});
+
+createRentForm.addLink('Abbrechen', function(dialog) {
     dialog.hide();
 });
 
 AJS.$("#create-button").click(function() {
     createRentForm.gotoPanel(0);
     createRentForm.show();
+});
+
+$('#target').submit(function() {
+    alert('Handler for .submit() called.');
+    return false;
 });

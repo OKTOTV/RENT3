@@ -4,7 +4,9 @@ namespace Oktolab\Bundle\RentBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Request;
 
 /**
  * Event Controller.
@@ -37,6 +39,16 @@ class EventController extends Controller
         }
 
         return new JsonResponse($arr);
+    }
+
+    /**
+     * @Route("/event", name="event_create")
+     * @Method("POST")
+     *
+     */
+    public function createAction(Request $request)
+    {
+        return new \Symfony\Component\HttpFoundation\Response("asdf");
     }
 
     /**

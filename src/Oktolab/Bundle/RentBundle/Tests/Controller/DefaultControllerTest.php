@@ -22,18 +22,4 @@ class DefaultControllerTest extends WebTestCase
         $this->assertRegExp('/Lizenzen/', $this->client->getResponse()->getContent());
         $this->assertTrue($this->client->getResponse()->isCacheable(), 'Response should be cacheable');
     }
-
-    public function testRenderRentInventoryFormRendersCorrectly()
-    {
-        $this->client->request('GET', '/rent/inventory');
-        $this->assertTrue($this->client->getResponse()->isSuccessful(), 'Response should be successful');
-        $this->assertTrue($this->client->getResponse()->isCacheable(), 'Response should be cacheable');
-    }
-
-    public function testRenderRentRoomFormRendersCorrectly()
-    {
-        $this->client->request('GET', '/rent/room');
-        $this->assertTrue($this->client->getResponse()->isSuccessful(), 'Response should be successful');
-        $this->assertTrue($this->client->getResponse()->isCacheable(), 'Response should be cacheable');
-    }
 }

@@ -13,7 +13,7 @@ class ItemControllerTest extends WebTestCase
 
         $crawler = $this->client->request('GET', '/inventory/item/');
         $this->assertTrue($this->client->getResponse()->isSuccessful(), 'Response should be successful');
-        $this->assertEquals(0, $crawler->filter('table tbody tr')->count(), 'This list has to be empty');
+        $this->assertEquals(0, $crawler->filter('#content table tbody tr')->count(), 'This list has to be empty');
     }
 
     public function testIndexDisplaysItems()
@@ -24,7 +24,7 @@ class ItemControllerTest extends WebTestCase
         $this->assertTrue($this->client->getResponse()->isSuccessful(), 'Response should be successful');
         $this->assertGreaterThan(
             0,
-            $crawler->filter('table tbody tr')->count(),
+            $crawler->filter('#content table tbody tr')->count(),
             'This list should contain at least 1 item'
         );
     }
@@ -108,7 +108,7 @@ class ItemControllerTest extends WebTestCase
 
         $crawler = $this->client->followRedirect();
         $this->assertTrue($this->client->getResponse()->isSuccessful(), 'Response should be successful');
-        $this->assertEquals(0, $crawler->filter('table tbody tr')->count(), 'This list has to be empty');
+        $this->assertEquals(0, $crawler->filter('#content table tbody tr')->count(), 'This list has to be empty');
     }
 
     public function testShowInvalidItemReturns404()
