@@ -9,7 +9,7 @@ use Symfony\Component\HttpFoundation\File\File;
 /**
  * Attachment
  *
- * @ORM\Table()
+ * @ORM\Table(name="attachment")
  * @ORM\Entity
  */
 class Attachment
