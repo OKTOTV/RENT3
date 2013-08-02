@@ -49,6 +49,14 @@ class ItemController extends Controller
         $form = $this->createForm(new ItemType(), $entity);
         $form->bind($request);
         if ($form->isValid()) {
+            //TODO: create service --------
+            $manager = $this->get('oneup_uploader.orphanage_manager')->get('gallery');
+            $files = $manager->uploadFiles();
+
+            $uploader = $this->get('oktolab.upload_manager');
+            $uploader->saveAttachmentsToEntity($entity, $files);
+            // ----------------------------
+
             $em = $this->getDoctrine()->getManager();
             $em->persist($entity);
             $em->flush();
@@ -214,8 +222,15 @@ class ItemController extends Controller
         if (!$entity) {
             throw $this->createNotFoundException('Unable to find Inventory\Item entity.');
         }
+        //TODO: create service ----------
+        $fileManager = $this->get('oktolab.upload_manager');
 
         $em->remove($entity);
+        foreach ($entity->getAttachments() as $attachment) {
+            $fileManager->removeUpload($attachment);
+            $em->remove($attachment);
+        }
+        //-------------------------------
         $em->flush();
 
         return $this->redirect($this->generateUrl('inventory_item'));

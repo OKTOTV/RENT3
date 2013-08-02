@@ -17,8 +17,10 @@ class LogListener
     public function prePersist(LifecycleEventArgs $args)
     {
         if ($this->logger) {
+            for ($i =0; $i < 100; $i++) {
+                $this->logger->info('========================= LOG ============================');
+            }
             $entity = $args->getEntity();
-
             switch (\get_class($entity)) {
                 case 'Oktolab\Bundle\RentBundle\Entity\Inventory\Item':
                     $this->logger->debug(sprintf('Try to persist a new item. (%s)', $entity->getTitle()));
@@ -36,7 +38,9 @@ class LogListener
     public function postPersist(LifecycleEventArgs $args)
     {
         $entity = $args->getEntity();
-
+        for ($i =0; $i < 100; $i++) {
+            $this->logger->info('========================= LOG ============================');
+        }
         switch (\get_class($entity)) {
             case 'Oktolab\Bundle\RentBundle\Entity\Inventory\Item':
                 $this->logger->info(sprintf('New item persisted. (%s)', $entity->getTitle()));

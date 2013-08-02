@@ -125,7 +125,7 @@ class Item implements UploadableInterface
     private $updated_at;
 
     /**
-     * @ORM\ManyToMany(targetEntity="Attachment", cascade={"persist", "remove"})
+     * @ORM\ManyToMany(targetEntity="Attachment", cascade={"persist"} )
      * @ORM\JoinTable(
      *      name="item_attachment",
      *      joinColumns={@ORM\JoinColumn(name="item_id", referencedColumnName="id")},
@@ -423,7 +423,7 @@ class Item implements UploadableInterface
      */
     public function __construct()
     {
-        $this->attachment = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->attachments = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
     /**

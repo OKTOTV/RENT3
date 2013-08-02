@@ -32,8 +32,13 @@
             {{ form_row(form.barcode) }}
             {{ form_row(form.searchItems) }}
 
+            <div id="container" class= "field-group">
+            <div id="filelist">No runtime found.</div>
+                <br />
+                <a id="pickfiles" href="#">[Select files]</a>
+            </div>
             <div class="buttons-container">
-                <button class="aui-button aui-button-primary" type="submit">{% trans %}Submit{% endtrans %}</button>
+                <button class="aui-button aui-button-primary" id="uploadfiles" type="submit">{% trans %}Submit{% endtrans %}</button>
             </div>
 
             <h3>{% trans %}Items{% endtrans %}</h3>

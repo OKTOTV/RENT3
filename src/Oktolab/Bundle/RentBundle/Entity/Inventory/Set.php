@@ -4,15 +4,16 @@ namespace Oktolab\Bundle\RentBundle\Entity\Inventory;
 
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
+use Oktolab\Bundle\RentBundle\Model\UploadableInterface;
 
 /**
  * Set
  *
- * @ORM\Table(name="Item_Set")
+ * @ORM\Table(name="item_set")
  * @ORM\Entity
  * @ORM\HasLifecycleCallbacks()
  */
-class Set
+class Set implements UploadableInterface
 {
     /**
      * @var integer
@@ -83,6 +84,17 @@ class Set
      * @ORM\Column(name="updated_at", type="datetime")
      */
     private $updated_at;
+
+    /**
+     * @ORM\ManyToMany(targetEntity="Attachment", cascade={"persist"} )
+     * @ORM\JoinTable(
+     *      name="set_attachment",
+     *      joinColumns={@ORM\JoinColumn(name="set_id", referencedColumnName="id")},
+     *      inverseJoinColumns={@ORM\JoinColumn(name="attachment_id", referencedColumnName="id", unique=true)}
+     * )
+     *
+     */
+    private $attachments;
 
     /**
      * Get id
@@ -248,5 +260,47 @@ class Set
     public function getUpdatedAt()
     {
         return $this->updated_at;
+    }
+
+    /**
+     * Get Subfoldername for Attachments
+     * @return string
+     */
+    public function getUploadFolder()
+    {
+        return '/set';
+    }
+
+    /**
+     * Add attachments
+     *
+     * @param \Oktolab\Bundle\RentBundle\Entity\Inventory\Attachment $attachments
+     * @return Set
+     */
+    public function addAttachment(\Oktolab\Bundle\RentBundle\Entity\Inventory\Attachment $attachments)
+    {
+        $this->attachments[] = $attachments;
+
+        return $this;
+    }
+
+    /**
+     * Remove attachments
+     *
+     * @param \Oktolab\Bundle\RentBundle\Entity\Inventory\Attachment $attachments
+     */
+    public function removeAttachment(\Oktolab\Bundle\RentBundle\Entity\Inventory\Attachment $attachments)
+    {
+        $this->attachments->removeElement($attachments);
+    }
+
+    /**
+     * Get attachments
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getAttachments()
+    {
+        return $this->attachments;
     }
 }

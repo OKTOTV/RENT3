@@ -96,7 +96,13 @@ class SetController extends Controller
                     throw $this->createNotFoundException('Unable to find Inventory\Item entity.');
                 }
             }
+            //TODO: move to service -------------
+            $manager = $this->get('oneup_uploader.orphanage_manager')->get('gallery');
+            $files = $manager->uploadFiles();
 
+            $uploader = $this->get('oktolab.upload_manager');
+            $uploader->saveAttachmentsToEntity($entity, $files);
+            //-----------------------------------
             $em->persist($entity);
             $em->flush();
 
@@ -259,6 +265,13 @@ class SetController extends Controller
                 }
             }
 
+            //TODO: create service --------
+            $manager = $this->get('oneup_uploader.orphanage_manager')->get('gallery');
+            $files = $manager->uploadFiles();
+
+            $uploader = $this->get('oktolab.upload_manager');
+            $uploader->saveAttachmentsToEntity($entity, $files);
+            //-----------------------------
             $em->persist($entity);
             $em->flush();
 
@@ -294,6 +307,15 @@ class SetController extends Controller
         }
 
         $em->remove($entity);
+
+        //TODO: create service --------
+        $fileManager = $this->get('oktolab.upload_manager');
+        foreach ($entity->getAttachments() as $attachment) {
+            $fileManager->removeUpload($attachment);
+            $em->remove($attachment);
+        }
+        //-----------------------------
+
         $em->flush();
         return $this->redirect($this->generateUrl('inventory_set'));
     }

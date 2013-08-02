@@ -71,7 +71,6 @@ class UploadManager
             $attachment->setTitle($file->getFileName());
 
             $entity->addAttachment($attachment);
-//            $this->entityManager->persist($attachment);
 
             $this->upload($attachment);
         }

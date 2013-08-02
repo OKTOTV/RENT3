@@ -3,15 +3,15 @@ services:
         class: Oktolab\Bundle\RentBundle\EventListener\LogListener
         arguments: [@?logger]
         tags:
-          - { name: logger, channel: main}
-          - { name: doctrine.event_listener, event: prePersist }
+            - { name: logger, channel: main}
+            - { name: doctrine.event_listener, event: prePersist, method: prePersist }
 
     oktolab.postsavelistener:
         class: Oktolab\Bundle\RentBundle\EventListener\LogListener
         arguments: [@?logger]
         tags:
-          - { name: logger, channel: main}
-          - { name: doctrine.event_listener, event: postPersist }
+            - { name: logger, channel: main}
+            - { name: doctrine.event_listener, event: postPersist, method: postPersist }
 
     oktolab.upload_manager:
         class: Oktolab\Bundle\RentBundle\Model\UploadManager
@@ -20,42 +20,16 @@ services:
             - %oktolab.web_dir%
             - @doctrine.orm.entity_manager
 
-#    oktolab.presave_upload_listener:
+#    oktolab.upload_listener:
 #        class: Oktolab\Bundle\RentBundle\EventListener\UploadListener
-#        calls:
-#          - [setUploadManager, [@oktolab.upload_manager]]
+#        arguments:
+#            - @oneup_uploader.orphanage_manager
+#            - @oktolab.upload_manager
 #        tags:
-#          - { name: doctrine.event_listener, event:prePersist }
-#
-#    oktolab.preupdate_upload_listener:
-#        class: Oktolab\Bundle\RentBundle\EventListener\UploadListener
-#        calls:
-#          - [setUploadManager, [@oktolab.upload_manager]]
-#        tags:
-#          - { name: doctrine.event_listener, event:preUpdate }
-#
-#    oktolab.preremove_Upload_listener:
-#        class: Oktolab\Bundle\RentBundle\EventListener\UploadListener
-#        calls:
-#          - [setUploadManager, [@oktolab.upload_manager]]
-#        tags:
-#          - { name: doctrine.event_listener, event:preRemove }
+#            - { name: doctrine.event_listener, event: prePersist }
 
     oktolab.twig.attachment.extension:
         class:  Oktolab\Bundle\RentBundle\Extension\AttachmentExtension
         arguments: [@service_container]
         tags:
             - { name: twig.extension }
-
-    oktolab.plupload:
-        class: Oktolab\Bundle\RentBundle\Model\PluploadManager
-        arguments: [doctrine.orm]
-        tags:
-            - { name: kernel.event_listener, event: oneup_uploader.post_persist, method: onPersist}
-
-    oktolab.plupload:
-        class: Oktolab\Bundle\RentBundle\Model\PluploadManager
-        arguments:
-          - doctrine.orm
-        tags:
-            - { name: kernel.event_listener, event: oneup_uploader.post_upload, method: onUpload}

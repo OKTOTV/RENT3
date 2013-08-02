@@ -1,60 +1,31 @@
 <?php
 namespace Oktolab\Bundle\RentBundle\EventListener;
 
+use Oktolab\Bundle\RentBundle\Model\UploadManager;
+use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\Event\LifecycleEventArgs;
-use Doctrine\ORM\Event\PreFlushEventArgs;
-use \Oktolab\Bundle\RentBundle\Model\UploadableInterface;
-use Symfony;
+use Oktolab\Bundle\RentBundle\Model\UploadableInterface;
 
 class UploadListener
 {
-    private $uploadManager = null;
 
-    public function setUploadManager($uploadManager)
+    private $uploadManager;
+    private $orphanageManager;
+
+    public function __construct(UploadManager $uploadManager, array $orphanageManager)
     {
-        $this->uploadManager = $uploadManager;
+        $this->$uploadManager = $uploadManager;
+        $this->$orphanageManager = $orphanageManager;
     }
 
     public function prePersist(LifecycleEventArgs $args)
     {
         $entity = $args->getEntity();
         if ($entity instanceof UploadableInterface) {
-            if ($entity->getAttachment() && $entity->getAttachment()->getFile()) {
-                $entity->getAttachment()->setTitle($entity->getTitle().'.'.$entity->getAttachment()->getFile()->getExtension());
-                $entity->getAttachment()->setPath($entity->getUploadFolder());
-                $this->uploadManager->upload($entity->getAttachment());
-            } else {
-                $entity->setAttachment();
-            }
-        }
-    }
+            $manager = $this->orphanageManager->get('gallery');
+            $files = $manager->uploadFiles();
 
-    public function preUpdate(LifecycleEventArgs $args)
-    {
-//        die('FUSRODAH');
-        $entity = $args->getEntity();
-        if ($entity instanceof UploadableInterface) {
-
-            if ($entity->getAttachment() && $entity->getAttachment()->getFile()) {
-                $entity->getAttachment()->setTitle($entity->getTitle().'.'.$entity->getAttachment()->getFile()->getExtension());
-                $entity->getAttachment()->setPath($entity->getUploadFolder());
-                $this->uploadManager->upload($entity->getAttachment());
-            } else {
-                $entity->setAttachment();
-            }
-        }
-    }
-
-    public function preRemove(LifecycleEventArgs $args)
-    {
-        $entity = $args->getEntity();
-
-        switch (\get_class($entity)) {
-            case 'Oktolab\Bundle\RentBundle\Entity\Inventory\Item':
-                $this->uploadManager->removeUpload($entity->getAttachment());
-                break;
-            default:
-                break;
+            $this->uploadManager->saveAttachmentsToEntity($args->getEntity(), $files);
         }
     }
 }
