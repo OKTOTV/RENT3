@@ -12,11 +12,10 @@
         <h3>{% trans %}Rentable Objects{% endtrans %}</h3>
         <fieldset>
             <div class="field-group">
-                <label for="d-lname">Suche</label>
-                <input class="text long-field" type="text" id="d-lname" name="d-lname" title="last name">
+                <label for="inventory-search-field">Suche</label>
+                <input class="text long-field" type="text" id="inventory-search-field" name="inventory-search-field" title="{% trans %}Search for Barcodes, Items, Sets, ...{% endtrans %}">
                 <div class="description">{% trans %}Search for Barcodes, Items, Sets, ...{% endtrans %}</div>
             </div>
-
             <table class="aui">
                 <thead>
                     <tr>
@@ -24,29 +23,40 @@
                         <th id="basic-fname">Name</th>
                         <th id="basic-lname">Barcode</th>
                         <th id="basic-username">Description</th>
+                        <th id="basic-ussame">Action</th>
                     </tr>
                 </thead>
-                <tbody>
-                    <tr>
+                <tbody id="oktolabrentbundle_event_objects" class="event-objects" data-prototype="{% filter escape %}{% include 'OktolabRentBundle:Default:eventObjectTemplate.html.twig' %}{% endfilter %}">
+                    {% for object in form.objects %}
+                        <tr>
+                            {{ form_row(object) }}
+
+                            <td>1</td>
+                            <td>Name</td>
+                            <td>Barcode</td>
+                            <td>Descr</td>
+                            <td>X</td>
+                        </tr>
+                    {% endfor %}
+                    {#<tr>
                         <td headers="basic-number">1</td>
                         <td headers="basic-fname">JVC Kamera</td>
                         <td headers="basic-lname">4SDF0B</td>
                         <td headers="basic-username">Kamera der Firma JVC</td>
-                    </tr>
-                    <tr>
-                        <td headers="basic-number">2</td>
-                        <td headers="basic-fname">LIKO2</td>
-                        <td headers="basic-lname">L1K02ASD</td>
-                        <td headers="basic-username">Lichtkoffer</td>
-                    </tr>
-                    <tr>
-                        <td headers="basic-number">3</td>
-                        <td headers="basic-fname">Mikro</td>
-                        <td headers="basic-lname">M1KR02A</td>
-                        <td headers="basic-username">Mikrophon</td>
-                    </tr>
+                    </tr>#}
                 </tbody>
             </table>
+
+
+            {#<ul class="event-objects" data-prototype="{{ form_widget(form.objects.vars.prototype)|e }}">#}
+            {#<ul >#}
+                {# form_widget(form.objects.vars.prototype)|e #}
+
+                {# iterate over each existing tag and render its only field: name #}
+                {# for object in form.objects %}
+                    <li>{{ form_row(object.type) }} - {{ form_row(object.object) }}</li>
+                {% endfor #}
+            {#</ul>#}
         </fieldset>
     {{ form_end(form) }}
 </div>

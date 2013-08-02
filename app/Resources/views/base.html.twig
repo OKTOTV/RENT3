@@ -24,6 +24,17 @@
             {% block page_footer %}{% endblock%}
         </div>
 
+
+        <script type="text/javascript">
+            if (!oktolab) {
+                var oktolab = {
+                    baseUrl: window.location.protocol + '//' + window.location.host + '{{ app.request.getBaseURL() }}',
+                };
+            }
+        </script>
+
+        <script src="http://twitter.github.com/hogan.js/builds/2.0.0/hogan-2.0.0.js"></script>
+
         {% javascripts
             'aui-5.1/js/aui-all.js'
             '@OktolabRentBundle/Resources/public/js/qunit-1.12.0.js'

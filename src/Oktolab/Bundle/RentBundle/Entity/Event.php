@@ -4,6 +4,7 @@ namespace Oktolab\Bundle\RentBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Component\Validator\Constraints as Assert;
 use Oktolab\Bundle\RentBundle\Entity\EventObject;
 
 /**
@@ -11,6 +12,8 @@ use Oktolab\Bundle\RentBundle\Entity\EventObject;
  *
  * @ORM\Table()
  * @ORM\Entity(repositoryClass="Oktolab\Bundle\RentBundle\Entity\EventRepository")
+ *
+ * @Assert\GroupSequence({"Event", "Logic"})
  */
 class Event
 {
@@ -33,6 +36,8 @@ class Event
      * @var string
      *
      * @ORM\Column(name="name", type="string", length=255)
+     *
+     * @Assert\NotBlank()
      */
     private $name;
 
@@ -47,6 +52,9 @@ class Event
      * @var \DateTime
      *
      * @ORM\Column(name="begin", type="datetime")
+     *
+     * @Assert\NotBlank()
+     * @Assert\Type("\DateTime")
      */
     private $begin;
 
@@ -54,6 +62,9 @@ class Event
      * @var \DateTime
      *
      * @ORM\Column(name="end", type="datetime")
+     *
+     * @Assert\NotBlank()
+     * @Assert\Type("\DateTime")
      */
     private $end;
 
@@ -142,10 +153,6 @@ class Event
      */
     public function setEnd(\DateTime $end)
     {
-        if (null !== $this->begin && $end < $this->begin) {
-            throw new \InvalidArgumentException('End must be greater than Begin time');
-        }
-
         $this->end = $end;
         return $this;
     }
@@ -247,5 +254,17 @@ class Event
     public function isRented()
     {
         return self::STATE_RENTED == $this->getState();
+    }
+
+    /**
+     * Begin must not after end.
+     *
+     * @Assert\True(message="Begin must not after end", groups={"Logic"})
+     *
+     * @return boolean
+     */
+    public function isEndAfterBegin()
+    {
+        return (null !== $this->begin && $this->end > $this->begin);
     }
 }

@@ -40,7 +40,7 @@ bazinga_faker:
                 description:    { method: sentence, parameters: [ 6 ] }
                 serialNumber:   { method: randomNumber, parameters: [ 12 ] }
                 modelNumber:    { method: randomNumber, parameters: [ 12 ] }
-        Oktolab\Bundle\RentBundle\Entity\Event:
-            number: 20
-            custom_formatters:
-                name: { method: name }
+#        Oktolab\Bundle\RentBundle\Entity\Event:
+#            number: 20
+#            custom_formatters:
+#                name: { method: name }

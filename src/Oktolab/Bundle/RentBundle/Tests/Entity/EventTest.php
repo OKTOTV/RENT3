@@ -7,13 +7,12 @@ use Oktolab\Bundle\RentBundle\Entity\Event;
 class EventTest extends \PHPUnit_Framework_TestCase
 {
 
-    /**
-     *  @expectedException \InvalidArgumentException
-     */
     public function testEndDateMustBeGreaterThanStartDate()
     {
         $event = new Event();
         $event->setBegin(new \DateTime('now'));
         $event->setEnd(new \DateTime('-3 hours'));
+
+        $this->assertFalse($event->isEndAfterBegin());
     }
 }

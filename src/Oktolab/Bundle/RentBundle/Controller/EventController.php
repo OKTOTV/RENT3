@@ -3,10 +3,13 @@
 namespace Oktolab\Bundle\RentBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
+
+use Oktolab\Bundle\RentBundle\Entity\Event;
+use Oktolab\Bundle\RentBundle\Form\EventType;
 
 /**
  * Event Controller.
@@ -48,7 +51,26 @@ class EventController extends Controller
      */
     public function createAction(Request $request)
     {
-        return new \Symfony\Component\HttpFoundation\Response("asdf");
+        $form = $this->createForm(
+            new EventType(),
+            new Event(),
+            array(
+                'action' => $this->generateUrl('event_create'),
+                'method' => 'POST',
+                'em'     => $this->getDoctrine()->getManager(),
+            )
+        );
+
+        $form->handleRequest($request);
+        if ($form->isValid()) {
+
+            var_dump($form->getNormData());
+            return new \Symfony\Component\HttpFoundation\Response("valid");
+        }
+
+        var_dump($form->getErrorsAsString());
+
+        return new \Symfony\Component\HttpFoundation\Response("invalid");
     }
 
     /**
