@@ -69,6 +69,13 @@ AJS.$(document).ready(function() {
                 'tokens': [ 'A5DF1', 'JVC Kamera', 'Kamera' ]
             },
             {
+                'name': 'JVC Kamera22',
+                'description': 'Kamera zum filmen',
+                'barcode': 'A5DF122',
+                'value': 'item:3',
+                'tokens': [ 'A5DF122', 'JVC Kamera', 'Kamera' ]
+            },
+            {
                 'name': 'Blackmagic Kamera',
                 'description': 'Kamera auch zum filmen',
                 'barcode': 'BCDEF',
@@ -77,9 +84,9 @@ AJS.$(document).ready(function() {
             },
         ],
          template: [
-            '<p class="repo-language">{{barcode}}</p>',
-            '<p class="repo-name">{{name}}</p>',
-            '<p class="repo-description">{{description}}</p>'
+            '<span class="aui-icon aui-icon-small aui-iconfont-devtools-file">Object</span>',
+            '<p class="tt-object-name">{{name}}</p>',
+            '<p class="tt-object-addon">{{barcode}}</p>'
         ].join(''),
         engine: Hogan
     });
@@ -98,4 +105,7 @@ AJS.$(document).ready(function() {
     });
 
     collectionHolder.on('click', '.remove-object', oktolab.removeEventObjectFromEventForm);
+
+createRentForm.gotoPanel(0);
+    createRentForm.show();
 });

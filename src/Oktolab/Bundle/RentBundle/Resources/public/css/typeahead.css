@@ -1,0 +1,94 @@
+
+
+/*<span class="tt-dropdown-menu">
+  {{#dataset}}
+    <div class="tt-dataset-{{name}}">
+      {{{header}}}
+      <span class="tt-suggestions">
+        {{#suggestions}}
+          <div class="tt-suggestion">{{{html}}}</div>
+        {{/suggestions}}
+      </span>
+      {{{footer}}}
+    </div>
+  {{/dataset}}
+</span>*/
+
+/*
+    Document   : typeahead.css
+    Author     : meh
+    Description:
+        Styles typeahead according to AUI
+*/
+
+/* **********************************************
+/* ***************** colors *********************
+ ********************************************** */
+.tt-dropdown-menu {
+    background-color: #FFFFFF;
+    border: 1px solid #CCCCCC;
+}
+
+.tt-suggestions .aui-icon {
+    background-color: #FFFFFF;
+}
+
+.tt-is-under-cursor {
+    background-color: #999999;
+}
+
+.tt-suggestions .tt-object-addon {
+    color: #666666;
+}
+
+.tt-is-under-cursor .tt-object-name, .tt-is-under-cursor .tt-object-addon {
+    color: #FFFFFF;
+}
+
+
+/* **********************************************
+/* ************* formatting *********************
+ ********************************************** */
+.tt-suggestions .tt-object-addon {
+    font-size: 11px;
+    line-height: 13px;
+}
+
+.tt-suggestions .tt-object-name {
+    line-height: 25px;
+}
+
+
+/* **********************************************
+/* ***************** layout *********************
+ ********************************************** */
+.tt-dropdown-menu {
+    width: 250px;
+    padding: 3px 0;
+
+    border-bottom-left-radius: 3px;
+    border-bottom-right-radius: 3px;
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.2);
+}
+
+.tt-suggestion {
+    padding: 3px 0;
+}
+
+.tt-suggestions p {
+    margin-left: 30px;
+}
+
+.tt-suggestions .tt-object-name {
+    margin-top: 0;
+}
+
+.tt-suggestions .tt-object-addon {
+    height: 13px;
+    margin-top: 2px;
+}
+
+.tt-suggestions .aui-icon {
+    float: left;
+    margin: 5px 2px 0 4px;
+}
