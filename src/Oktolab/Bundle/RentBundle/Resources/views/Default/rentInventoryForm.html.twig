@@ -23,11 +23,11 @@
                         <th id="basic-fname">Name</th>
                         <th id="basic-lname">Barcode</th>
                         <th id="basic-username">Description</th>
-                        <th id="basic-ussame">Action</th>
+                        <th id="basic-ussame"><span class="aui-icon aui-icon-small aui-iconfont-configure">Action</span></th>
                     </tr>
                 </thead>
                 <tbody id="oktolabrentbundle_event_objects" class="event-objects" data-prototype="{% filter escape %}{% include 'OktolabRentBundle:Default:eventObjectTemplate.html.twig' %}{% endfilter %}">
-                    {% for object in form.objects %}
+                    {# for object in form.objects %}
                         <tr>
                             {{ form_row(object) }}
 
@@ -37,7 +37,7 @@
                             <td>Descr</td>
                             <td>X</td>
                         </tr>
-                    {% endfor %}
+                    {% endfor #}
                     {#<tr>
                         <td headers="basic-number">1</td>
                         <td headers="basic-fname">JVC Kamera</td>
@@ -58,5 +58,6 @@
                 {% endfor #}
             {#</ul>#}
         </fieldset>
+        {% do form.objects.setRendered %}
     {{ form_end(form) }}
 </div>

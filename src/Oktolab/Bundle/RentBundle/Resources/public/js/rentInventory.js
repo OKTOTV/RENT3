@@ -1,6 +1,45 @@
-oktolab.addTypeaheadObjectToEventForm = function(form, datum) {
-    form.append('asdfasdf - ' + datum.value);
+var collectionHolder = AJS.$('.event-objects');
+
+
+/**
+ * Adds EventObjects to an event form
+ *
+ * @param jQueryObject   collectionHolder
+ * @param TypeaheadDatum datum
+ * @returns {undefined}
+ */
+oktolab.addTypeaheadObjectToEventForm = function(collectionHolder, datum) {
+    var index     = collectionHolder.data('index');
+
+    var template = Hogan.compile(collectionHolder.data('prototype'));
+    var output = template.render(AJS.$.extend(datum, { index: index +1 }));
+
+    var form = collectionHolder.closest('form');
+    var value = datum.value.split(':');
+
+    form.append(
+            AJS.$('<input />', {
+                class: 'hidden',
+                id: 'oktolabrentbundle_event_objects_' + index + '_type',
+                name: 'oktolabrentbundle_event[objects][' + index + '][type]',
+                value: value[0],
+            })
+    );
+
+    form.append(
+            AJS.$('<input />', {
+                class: 'hidden',
+                id: 'oktolabrentbundle_event_objects_' + index + '_object',
+                name: 'oktolabrentbundle_event[objects][' + index + '][object]',
+                value: value[1],
+            })
+    );
+
+    collectionHolder.data('index', index + 1);
+    collectionHolder.data('objects').push(datum.value);
+    collectionHolder.append(output);
 };
+
 
 AJS.$(document).ready(function() {
     AJS.$('#inventory-search-field').typeahead({
@@ -30,10 +69,16 @@ AJS.$(document).ready(function() {
         engine: Hogan
     });
 
-
+    collectionHolder.data('index', collectionHolder.find(':input').length);
+    collectionHolder.data('objects', []);
 
     AJS.$('#inventory-search-field').on('typeahead:selected', function (e, datum) {
-        oktolab.addTypeaheadObjectToEventForm(AJS.$('.event-objects'), datum);
-//        console.log(e, datum);
+        var objects = collectionHolder.data('objects');
+
+        if (-1 === AJS.$.inArray(datum.value, objects)) {
+            oktolab.addTypeaheadObjectToEventForm(AJS.$('.event-objects'), datum);
+        } else {
+            console.log(AJS.format('Already added element "{0}"!', datum.value));
+        }
     });
 });

@@ -42,7 +42,7 @@ AJS.$("#create-button").click(function() {
     createRentForm.show();
 });
 
-
+/*
 var collectionHolder = AJS.$('.event-objects');
 var $addTagLink = AJS.$('<a href="#" class="add_tag_link">Add a tag</a>');
 var $newLinkLi = AJS.$('#rent-inventory-form').append($addTagLink);
@@ -58,7 +58,7 @@ function addTagFormDeleteLink($tagFormLi) {
         // remove the li for the tag form
         $tagFormLi.remove();
     });
-}*/
+}* /
 
 function addTagForm(collectionHolder, $newLinkLi) {
     // Get the data-prototype explained earlier
@@ -103,4 +103,4 @@ AJS.$(document).ready(function() {
         // add a new tag form (see next code block)
         addTagForm(collectionHolder, $newLinkLi);
     });
-});
+});*/

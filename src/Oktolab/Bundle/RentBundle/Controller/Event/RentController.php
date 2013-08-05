@@ -30,11 +30,11 @@ class RentController extends Controller
         $event->setBegin(new \DateTime('-3 days'));
         $event->setEnd(new \DateTime('now'));
 
-        $eventObject = new \Oktolab\Bundle\RentBundle\Entity\EventObject();
-        $eventObject->setType('Item');
-        $eventObject->setObject(1);
+//        $eventObject = new \Oktolab\Bundle\RentBundle\Entity\EventObject();
+//        $eventObject->setType('Item');
+//        $eventObject->setObject(1);
 
-        $event->addObject($eventObject);
+//        $event->addObject($eventObject);
 
         $form = $this->createForm(
             new EventType(),
