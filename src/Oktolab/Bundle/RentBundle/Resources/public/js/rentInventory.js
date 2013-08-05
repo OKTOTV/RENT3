@@ -84,7 +84,7 @@ AJS.$(document).ready(function() {
         engine: Hogan
     });
 
-    collectionHolder.data('index', collectionHolder.find(':input').length);
+    collectionHolder.data('index', collectionHolder.find(':tr').length);
     collectionHolder.data('objects', []);
 
     AJS.$('#inventory-search-field').on('typeahead:selected', function (e, datum) {
