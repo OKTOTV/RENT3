@@ -1,23 +1,24 @@
 var collectionHolder = AJS.$('.event-objects');
 
-
 /**
  * Adds EventObjects to an event form
  *
  * @param jQueryObject   collectionHolder
  * @param TypeaheadDatum datum
- * @returns {undefined}
  */
 oktolab.addTypeaheadObjectToEventForm = function(collectionHolder, datum) {
-    var index     = collectionHolder.data('index');
-
+    var index    = collectionHolder.data('index');
     var template = Hogan.compile(collectionHolder.data('prototype'));
-    var output = template.render(AJS.$.extend(datum, { index: index +1 }));
+    var output   = template.render(AJS.$.extend(datum, { index: index + 1 }));
+    var form     = collectionHolder.closest('form');
+    var value    = datum.value.split(':');
 
-    var form = collectionHolder.closest('form');
-    var value = datum.value.split(':');
+    var fieldGroup = AJS.$('<div />', {
+        class: 'field-group',
+        'data-object': datum.value
+    }).appendTo(form);
 
-    form.append(
+    fieldGroup.append(
             AJS.$('<input />', {
                 class: 'hidden',
                 id: 'oktolabrentbundle_event_objects_' + index + '_type',
@@ -26,7 +27,7 @@ oktolab.addTypeaheadObjectToEventForm = function(collectionHolder, datum) {
             })
     );
 
-    form.append(
+    fieldGroup.append(
             AJS.$('<input />', {
                 class: 'hidden',
                 id: 'oktolabrentbundle_event_objects_' + index + '_object',
@@ -36,8 +37,22 @@ oktolab.addTypeaheadObjectToEventForm = function(collectionHolder, datum) {
     );
 
     collectionHolder.data('index', index + 1);
-    collectionHolder.data('objects').push(datum.value);
     collectionHolder.append(output);
+};
+
+/**
+ * Removes EventObject from Event Form
+ *
+ * @param jQueryEvent event
+ */
+oktolab.removeEventObjectFromEventForm = function(event) {
+    var object = AJS.$(this).data('value');
+    var form   = collectionHolder.closest('form');
+    var index  = collectionHolder.data('index');
+
+    AJS.$(event.target).closest('tr').remove();
+    form.find('div[data-object="' + object + '"]').remove();
+    collectionHolder.data('index', index - 1);
 };
 
 
@@ -73,12 +88,14 @@ AJS.$(document).ready(function() {
     collectionHolder.data('objects', []);
 
     AJS.$('#inventory-search-field').on('typeahead:selected', function (e, datum) {
-        var objects = collectionHolder.data('objects');
+        var form = collectionHolder.closest('form');
 
-        if (-1 === AJS.$.inArray(datum.value, objects)) {
+        if (0 === form.find('div[data-object="' + datum.value + '"]').length) {
             oktolab.addTypeaheadObjectToEventForm(AJS.$('.event-objects'), datum);
-        } else {
-            console.log(AJS.format('Already added element "{0}"!', datum.value));
         }
+
+        jQuery(this).typeahead('setQuery', '');
     });
+
+    collectionHolder.on('click', '.remove-object', oktolab.removeEventObjectFromEventForm);
 });

@@ -1,9 +1,8 @@
 {% spaceless %}
 <tr>
-    <td>{{ '{{index}}' }}</td>
-    <td>{{ '{{name}}' }}</td>
     <td>{{ '{{barcode}}' }}</td>
+    <td>{{ '{{name}}' }}</td>
     <td>{{ '{{description}}' }}</td>
-    <td><span class="aui-icon aui-icon-small aui-iconfont-remove">{{ 'Remove'|trans }}</span></td>
+    <td><a href="#"><span class="aui-icon aui-icon-small aui-iconfont-remove remove-object" data-value="{{ '{{value}}' }}">{{ 'Remove'|trans }}</span></a></td>
 </tr>
 {% endspaceless %}
