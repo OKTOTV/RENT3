@@ -15,7 +15,7 @@ class ItemApiController extends Controller
 {
 
     /**
-     * Creates a json with all items for typeahead suggestions and use
+     * Returns a JSON formatted Dataset for typeahead.js
      *
      * @Cache(expires="+1 week", public="yes")
      * @Method("GET")
@@ -29,7 +29,7 @@ class ItemApiController extends Controller
     public function typeaheadPrefetchAction()
     {
         $em = $this->getDoctrine()->getManager();
-        $items = $em->getRepository('OktolabRentBundle:Inventory\Item')->findBy(array());
+        $items = $em->getRepository('OktolabRentBundle:Inventory\Item')->findBy(array('set' => null));
         $json = array();
 
         foreach ($items as $item) {
