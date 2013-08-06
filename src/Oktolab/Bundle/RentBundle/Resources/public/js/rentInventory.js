@@ -10,13 +10,12 @@ oktolab.addTypeaheadObjectToEventForm = function(collectionHolder, datum) {
     var index    = collectionHolder.data('index');
     var template = Hogan.compile(collectionHolder.data('prototype'));
     var output   = template.render(AJS.$.extend(datum, { index: index + 1 }));
-    var form     = collectionHolder.closest('form');
     var value    = datum.value.split(':');
 
     var fieldGroup = AJS.$('<div />', {
         class: 'field-group',
         'data-object': datum.value
-    }).appendTo(form);
+    }).appendTo(collectionHolder.closest('form'));
 
     fieldGroup.append(
             AJS.$('<input />', {
@@ -55,35 +54,12 @@ oktolab.removeEventObjectFromEventForm = function(event) {
     collectionHolder.data('index', index - 1);
 };
 
-
 AJS.$(document).ready(function() {
     AJS.$('#inventory-search-field').typeahead({
-        name: 'items',
+        name: 'rent-items',
         valueKey: 'name',
-        local: [
-            {
-                'name': 'JVC Kamera',
-                'description': 'Kamera zum filmen',
-                'barcode': 'A5DF1',
-                'value': 'item:1',
-                'tokens': [ 'A5DF1', 'JVC Kamera', 'Kamera' ]
-            },
-            {
-                'name': 'JVC Kamera22',
-                'description': 'Kamera zum filmen',
-                'barcode': 'A5DF122',
-                'value': 'item:3',
-                'tokens': [ 'A5DF122', 'JVC Kamera', 'Kamera' ]
-            },
-            {
-                'name': 'Blackmagic Kamera',
-                'description': 'Kamera auch zum filmen',
-                'barcode': 'BCDEF',
-                'value': 'item:2',
-                'tokens': [ 'BCDEF', 'Blackmagic Kamera', 'Kamera' ]
-            },
-        ],
-         template: [
+        prefetch: { url: oktolab.typeahead.itemPrefetchUrl, ttl: 60000 },
+        template: [
             '<span class="aui-icon aui-icon-small aui-iconfont-devtools-file">Object</span>',
             '<p class="tt-object-name">{{name}}</p>',
             '<p class="tt-object-addon">{{barcode}}</p>'
@@ -105,7 +81,4 @@ AJS.$(document).ready(function() {
     });
 
     collectionHolder.on('click', '.remove-object', oktolab.removeEventObjectFromEventForm);
-
-createRentForm.gotoPanel(0);
-    createRentForm.show();
 });

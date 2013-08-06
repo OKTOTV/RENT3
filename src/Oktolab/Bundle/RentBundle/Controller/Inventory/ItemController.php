@@ -19,6 +19,7 @@ use Oktolab\Bundle\RentBundle\Form\Inventory\ItemType;
  */
 class ItemController extends Controller
 {
+
     /**
      * Lists all Inventory\Item entities.
      *
