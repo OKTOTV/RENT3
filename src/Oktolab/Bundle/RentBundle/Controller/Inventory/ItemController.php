@@ -6,11 +6,11 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Oktolab\Bundle\RentBundle\Entity\Inventory\Item;
-use Oktolab\Bundle\RentBundle\Entity\Inventory\Attachment;
 use Oktolab\Bundle\RentBundle\Form\Inventory\ItemType;
-
+use Oktolab\Bundle\RentBundle\Form\Inventory\PictureType;
 /**
  * Inventory\Item controller.
  *
@@ -99,32 +99,17 @@ class ItemController extends Controller
      * Is used in Sets for adding new items.
      *
      * @Route("/{id}", name="inventory_item_show")
+     * @ParamConverter("item", class="OktolabRentBundle:Inventory\Item")
      * @Method("GET")
-     * @Template()
+     * @Template("OktolabRentBundle:Inventory\Item:show.html.twig", vars={"item"})
      */
-    public function showAction(Request $request, $id)
+    public function showAction(Request $request, Item $item)
     {
-        $em = $this->getDoctrine()->getManager();
-        $entity = $em->getRepository('OktolabRentBundle:Inventory\Item')->find($id);
-
         if ($request->isXmlHttpRequest()) {
-            if (!$entity) {
-                throw $this->createNotFoundException('Unable to find Inventory\Item entity.');
-            } else {
                 return $this->render(
                     'OktolabRentBundle:Inventory\Item:row.html.twig',
-                    array('entity' => $entity)
+                    array('entity' => $item)
                 );
-            }
-        } else {
-
-            if (!$entity) {
-                throw $this->createNotFoundException('Unable to find Inventory\Item entity.');
-            }
-
-            return array(
-                'entity' => $entity,
-            );
         }
     }
 
@@ -132,73 +117,56 @@ class ItemController extends Controller
      * Displays a form to edit an existing Inventory\Item entity.
      *
      * @Route("/{id}/edit", name="inventory_item_edit")
+     * @ParamConverter("item", class="OktolabRentBundle:Inventory\Item")
      * @Method("GET")
-     * @Template()
+     * @Template
      */
-    public function editAction($id)
+    public function editAction(Item $item)
     {
-        $em = $this->getDoctrine()->getManager();
-
-        $entity = $em->getRepository('OktolabRentBundle:Inventory\Item')->find($id);
-
-        if (!$entity) {
-            throw $this->createNotFoundException('Unable to find Inventory\Item entity.');
-        }
-
         $editForm = $this->createForm(
             new ItemType(),
-            $entity,
+            $item,
             array(
                 'action' => $this->generateUrl(
                     'inventory_item_update',
-                    array( 'id' => $id )
+                    array( 'id' => $item->getId() )
                 ),
                 'method' => 'PUT'
             )
         );
 
-        return array(
-            'entity'      => $entity,
-            'edit_form'   => $editForm->createView(),
-        );
+        return array('edit_form' => $editForm->createView(), 'item' => $item);
     }
 
     /**
      * Edits an existing Inventory\Item entity.
      *
      * @Route("/{id}", name="inventory_item_update")
+     * @ParamConverter("item", class="OktolabRentBundle:Inventory\Item")
      * @Method("PUT")
      * @Template("OktolabRentBundle:Inventory\Item:edit.html.twig")
      */
-    public function updateAction(Request $request, $id)
+    public function updateAction(Request $request, Item $item)
     {
-        $em = $this->getDoctrine()->getManager();
-
-        $entity = $em->getRepository('OktolabRentBundle:Inventory\Item')->find($id);
-
-        if (!$entity) {
-            throw $this->createNotFoundException('Unable to find Inventory\Item entity.');
-        }
-
         $editForm = $this->createForm(new ItemType(), $entity, array('method' => 'PUT'));
         $editForm->bind($request);
 
         if ($editForm->isValid()) {
-
+            //TODO: move to service -------
             $manager = $this->get('oneup_uploader.orphanage_manager')->get('gallery');
             $files = $manager->uploadFiles();
 
             $uploader = $this->get('oktolab.upload_manager');
-            $uploader->saveAttachmentsToEntity($entity, $files);
-
-            $em->persist($entity);
+            $uploader->saveAttachmentsToEntity($item, $files);
+            //-----------------------------
+            $em->persist($item);
             $em->flush();
 
-            return $this->redirect($this->generateUrl('inventory_item_show', array('id' => $id)));
+            return $this->redirect($this->generateUrl('inventory_item_show', array('id' => $item->getId())));
         }
 
         return array(
-            'entity'      => $entity,
+            'entity'      => $item,
             'edit_form'   => $editForm->createView(),
         );
     }
@@ -207,21 +175,16 @@ class ItemController extends Controller
      * Deletes a Inventory\Item entity.
      *
      * @Route("/delete/{id}", name="inventory_item_delete")
+     * @ParamConverter("item", class="OktolabRentBundle:Inventory\Item")
      * @Method("GET")
      */
-    public function deleteAction($id)
+    public function deleteAction($item)
     {
-        $em = $this->getDoctrine()->getManager();
-        $entity = $em->getRepository('OktolabRentBundle:Inventory\Item')->find($id);
-
-        if (!$entity) {
-            throw $this->createNotFoundException('Unable to find Inventory\Item entity.');
-        }
         //TODO: create service ----------
         $fileManager = $this->get('oktolab.upload_manager');
 
-        $em->remove($entity);
-        foreach ($entity->getAttachments() as $attachment) {
+        $em->remove($item);
+        foreach ($item->getAttachments() as $attachment) {
             $fileManager->removeUpload($attachment);
             $em->remove($attachment);
         }
@@ -229,5 +192,27 @@ class ItemController extends Controller
         $em->flush();
 
         return $this->redirect($this->generateUrl('inventory_item'));
+    }
+
+    /**
+     * Deletes an attachment from the entity
+     *
+     * @Route("/{entity_id}/{attachment_id}/delete", name="inventory_item_attachment_delete")
+     * @ParamConverter("item", class="OktolabRentBundle:Inventory\Item", options={"id" = "entity_id"})
+     * @ParamConverter("attachment", class="OktolabRentBundle:Inventory\Attachment", options={"id" = "attachment_id"})
+     * @Method("GET")
+     */
+    public function deleteAttachment($attachment_id, $entity_id)
+    {
+        $fileManager = $this->get('oktolab.upload_manager');
+//        if ($attachment === $entity->getPicture()) {
+//          TODO: remove picture instead of attachment
+//        }
+
+        $entity->removeAttachment($attachment);
+        $fileManager->removeUpload($attachment);
+        $em->flush();
+
+        return $this->redirect($this->generateUrl('inventory_item_edit', array('id' => $item->getId())));
     }
 }
