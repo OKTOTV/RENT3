@@ -31,14 +31,18 @@
         <div class="aui-page-panel-inner">
             <section class="aui-page-panel-content">
 
-                {% for attachment in entity.attachments %}
-                    <img src="{{ sauce(attachment) }}" />
-                {% endfor %}
+                <p>{{ entity.set }}<//p>
+
+
                 <h3>{% trans %}Description{% endtrans %}</h3>
+                {% if entity.description is defined %}
                 <p>{{ entity.description }}</p>
+                {% else %}
+                <p>{% trans%}Not Defined{%endtrans%}</p>
+                {% endif %}
 
                 <h3>{% trans %}Buy date{% endtrans %}</h3>
-                <p>{{ entity.buyDate|date('Y-m-d') }}</p>
+                <p>{{ entity.buyDate|date('d.m.Y') }}</p>
 
                 <h3>{% trans %}Serial number{% endtrans %}</h3>
                 <p>{{ entity.serialNumber }}</p>
@@ -48,6 +52,14 @@
 
                 <h3>{% trans %}Modelnumber{% endtrans %}</h3>
                 <p>{{ entity.modelNumber }}</p>
+
+                <h3>{% trans %}Attachments{% endtrans%} <a id="replace-text-trigger" data-replace-text="({%trans%}close{%endtrans%})" class="aui-expander-trigger" aria-controls="expander-with-replace-text-content">({%trans%}open{%endtrans%})</a></h3>
+                <div id="expander-with-replace-text-content" class="aui-expander-content">
+                    {% for attachment in entity.attachments %}
+                        <img src="{{ sauce(attachment) }}" />
+                    {% endfor %}
+                </div>
+
             </section>
         </div>
     </div>

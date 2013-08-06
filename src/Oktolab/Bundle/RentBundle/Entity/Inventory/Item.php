@@ -136,6 +136,16 @@ class Item implements UploadableInterface
     private $attachments;
 
     /**
+     * @ORM\OneToOne(targetEntity="Attachment", cascade={"persist", "remove"} )
+     * @ORM\JoinColumn(
+     *      name="picture_id", referencedColumnName="id"
+     * )
+     *
+     * @var type
+     */
+    private $picture;
+
+    /**
      * Get id
      *
      * @return integer

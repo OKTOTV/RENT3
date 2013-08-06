@@ -15,7 +15,7 @@
         <div class="aui-page-header-actions">
             <div class="aui-buttons">
                 <div class="aui-buttons">
-                    <a class="aui-button" href="{{ path('inventory_attachment_edit', { 'id' : entity.id }) }}">Editieren</a>
+                    <a class="aui-button" href="{{ path('inventory_attachment_delete', { 'id' : entity.id }) }}">{% trans %}Delete{% endtrans %}</a>
                     <a class="aui-button" href="{{ path('inventory_attachment') }}">{% trans %}Back to list{% endtrans %}</a>
                 </div>
             </div>
@@ -27,9 +27,7 @@
     <div class="aui-page-panel">
         <div class="aui-page-panel-inner">
             <section class="aui-page-panel-content">
-                <h3>{% trans %}Title{% endtrans %}</h3>
-                <p>{{ entity.title }}</p>
-                <img src="{{ entity.webPath }}" />
+                <img src="{{ sauce(entity)}}" />
             </section>
         </div>
     </div>

@@ -15,6 +15,7 @@
     <div class="aui-page-header-actions">
         <div class="aui-buttons">
             <div class="aui-buttons">
+                <a class="aui-button" href="{{ path('inventory_item_show', { 'id': entity.id }) }}">{% trans %}Zurück{% endtrans %}</a>
                 <a class="aui-button" href="{{ path('inventory_item') }}">{% trans %}Back to list{% endtrans %}</a>
                 <a class="aui-button" href="{{ path('inventory_item_delete', { 'id': entity.id }) }}">{% trans %}Löschen{% endtrans %}</a>
             </div>
@@ -36,10 +37,10 @@
             {{ form_row(edit_form.serialNumber) }}
             {{ form_row(edit_form.vendor) }}
             {{ form_row(edit_form.modelNumber) }}
-            <div id="container" class= "field-group">
-                <div id="filelist">No runtime found.</div>
+            <div id="container" class="field-group">
+                <div id="filelist">Engine wird geladen...</div>
                 <br />
-                <a id="pickfiles" href="#">[Select files]</a>
+                <a id="pickfiles" href="#">[{% trans %}Select files{% endtrans %}]</a>
             </div>
 
             <div class="buttons-container">
@@ -47,4 +48,13 @@
             </div>
         </fieldset>
     {{ form_end(edit_form) }}
+{% endblock %}
+
+{% block sidebar %}
+    <aside class="aui-page-panel-sidebar">
+        {% for attachment in entity.attachments %}
+            <img src="{{ sauce(attachment) }}" />
+            <a href="#">{% trans %}Anhang entfernen{% endtrans %}</a>
+        {% endfor %}
+    </aside>
 {% endblock %}
