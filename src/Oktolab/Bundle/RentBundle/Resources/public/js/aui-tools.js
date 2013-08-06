@@ -3,7 +3,6 @@ AJS.$(document).on('typeahead:initialized', function(e) {
     AJS.$(e.target).siblings('.tt-hint').addClass('text'); // add aui-class "text" to hint-input
 });
 
-
 AJS.$(document).ready(function() {
     AJS.$('.aui-date-picker').each(function() {
         AJS.$(this).datePicker({'overrideBrowserDefault': true, 'firstDay': -1, 'languageCode': 'de'});

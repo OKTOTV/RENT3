@@ -6,8 +6,8 @@ Oktolab.Calendar = function Calendar(container) {
     var options = {
         'container':    container,
         'startdate':    new Date(),
-        'eventSrcUrl':  'http://localhost/vhosts/rent/web/app_dev.php/api/v1/events.json',
-        'configSrcUrl': 'http://localhost/vhosts/rent/web/app_dev.php/api/v1/calendarConfiguration.json' // timeblocks and inventory
+        'eventSrcUrl':  oktolab.baseUrl + '/api/v1/events.json',
+        'configSrcUrl': oktolab.baseUrl + '/api/v1/calendarConfiguration.json' // timeblocks and inventory
     };
 
     /*

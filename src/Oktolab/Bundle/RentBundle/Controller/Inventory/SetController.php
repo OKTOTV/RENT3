@@ -27,12 +27,9 @@ class SetController extends Controller
     public function indexAction()
     {
         $em = $this->getDoctrine()->getManager();
-
         $entities = $em->getRepository('OktolabRentBundle:Inventory\Set')->findAll();
 
-        return array(
-            'entities' => $entities,
-        );
+        return array('entities' => $entities);
     }
 
     /**
@@ -54,10 +51,10 @@ class SetController extends Controller
 
             foreach ($form->get('itemsToAdd')->getData() as $key => $value) {
                 //add all items according to the id!
-                $Item = $em->getRepository('OktolabRentBundle:Inventory\Item')->find($key);
-                if ($Item) {
-                    $Item->setSet($entity);
-                    $em->persist($Item);
+                $item = $em->getRepository('OktolabRentBundle:Inventory\Item')->find($key);
+                if ($item) {
+                    $item->setSet($entity);
+                    $em->persist($item);
 
                 } else {
                     throw $this->createNotFoundException('Unable to find Inventory\Item entity.');

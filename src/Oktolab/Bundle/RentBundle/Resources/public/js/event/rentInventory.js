@@ -47,11 +47,9 @@ oktolab.addTypeaheadObjectToEventForm = function(collectionHolder, datum) {
 oktolab.removeEventObjectFromEventForm = function(event) {
     var object = AJS.$(this).data('value');
     var form   = collectionHolder.closest('form');
-    var index  = collectionHolder.data('index');
 
     AJS.$(event.target).closest('tr').remove();
     form.find('div[data-object="' + object + '"]').remove();
-    collectionHolder.data('index', index - 1);
 };
 
 AJS.$(document).ready(function() {
@@ -68,9 +66,9 @@ AJS.$(document).ready(function() {
     });
 
     collectionHolder.data('index', collectionHolder.find(':tr').length);
-    collectionHolder.data('objects', []);
+//    collectionHolder.data('objects', []);
 
-    AJS.$('#inventory-search-field').on('typeahead:selected', function (e, datum) {
+    jQuery('#inventory-search-field').on('typeahead:selected', function (e, datum) {
         var form = collectionHolder.closest('form');
 
         if (0 === form.find('div[data-object="' + datum.value + '"]').length) {

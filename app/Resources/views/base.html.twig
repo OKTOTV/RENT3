@@ -8,7 +8,6 @@
 
         {% stylesheets filter='cssrewrite'
             'aui-5.1/css/aui-all.css'
-            '@OktolabRentBundle/Resources/public/css/jquery.calendar.css'
             '@OktolabRentBundle/Resources/public/css/*' %}
             <link rel="stylesheet" href="{{ asset_url }}" type="text/css" />
         {% endstylesheets %}
@@ -37,12 +36,19 @@
 
         {% javascripts
             'aui-5.1/js/aui-all.js'
-            '@OktolabRentBundle/Resources/public/js/qunit-1.12.0.js'
-            '@OktolabRentBundle/Resources/public/js/OktolabCalendar.js'
-            '@OktolabRentBundle/Resources/public/js/OktolabCalendarTest.js'
+            '@OktolabRentBundle/Resources/public/js/vendor/*'
+            '@OktolabRentBundle/Resources/public/js/event/*'
+            '@OktolabRentBundle/Resources/public/js/inventory/*'
             '@OktolabRentBundle/Resources/public/js/*' %}
             <script type="text/javascript" src="{{ asset_url }}"></script>
         {% endjavascripts %}
         {% block javascripts %}{% endblock %}
+
+        {% if app.environment in ['dev', 'test'] %}
+            {% javascripts
+                '@OktolabRentBundle/Resources/public/js/test/*' %}
+                <script type="text/javascript" src="{{ asset_url }}"></script>
+            {% endjavascripts %}
+        {% endif %}
     </body>
 </html>
