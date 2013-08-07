@@ -20,7 +20,7 @@ class RentController extends Controller
 
     /**
      * @Route("/inventory", name="rentbundle_create_rent_inventory")
-     * @Template("OktolabRentBundle:Default:rentInventoryForm.html.twig")
+     * @Template("OktolabRentBundle:Event:rentInventoryForm.html.twig")
      * @Cache(expires="next year", public="true")
      */
     public function rentInventoryFormAction()
@@ -51,7 +51,7 @@ class RentController extends Controller
 
     /**
      * @Route("/room", name="rentbundle_create_rent_room")
-     * @Template("OktolabRentBundle:Default:rentRoomForm.html.twig")
+     * @Template("OktolabRentBundle:Event:rentRoomForm.html.twig")
      * @Cache(expires="next year", public="true")
      */
     public function rentRoomFormAction()

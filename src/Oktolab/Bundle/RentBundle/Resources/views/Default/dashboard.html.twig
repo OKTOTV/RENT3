@@ -4,27 +4,24 @@
 {% block content_header %}
     <div class="aui-page-header-inner">
         <div class="aui-page-header-main">
-            <h1>{% trans %}Dashboard{% endtrans %}</h1>
+            <h1>{{ 'Dashboard' | trans }}</h1>
         </div>
         <div class="aui-page-header-actions">
             <div class="aui-buttons">
-                <button class="aui-button">Today</button>
+                <button class="aui-button">{{ 'Today' | trans }}</button>
             </div>
             <div class="aui-buttons">
-                <button class="aui-button">Previous Week</button>
-                <button class="aui-button">Next Week</button>
+                <button class="aui-button">{{ 'Previous Week' | trans }}</button>
+                <button class="aui-button">{{ 'Next Week' | trans }}</button>
             </div>
         </div>
     </div>
 {% endblock %}
 
 {% block content %}
+    <div id="calendar" class="oktolab-calendar"></div>
 
-<div id="calendar" class="oktolab-calendar"></div>
-
-
-{#
-    <div id="qunit"></div>
+    {#<div id="qunit"></div>
     <div id="qunit-fixture">
         <div id="qunit-calendar"></div>
     </div>#}

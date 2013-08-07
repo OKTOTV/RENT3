@@ -2,30 +2,28 @@
     {{ form_start(form, {'attr': {'class': 'aui'} }) }}
         <fieldset>
             {{ form_errors(form) }}
-
             {{ form_row(form.name) }}
             {{ form_row(form.description) }}
             {{ form_row(form.begin) }}
             {{ form_row(form.end) }}
         </fieldset>
 
-        <h3>{% trans %}Rentable Objects{% endtrans %}</h3>
+        <h3>{{ 'Rentable Objects' | trans }}</h3>
         <fieldset>
             <div class="field-group">
                 <label for="inventory-search-field">Suche</label>
                 <input class="text long-field" type="text" id="inventory-search-field" name="inventory-search-field" title="{% trans %}Search for Barcodes, Items, Sets, ...{% endtrans %}">
-                <div class="description">{% trans %}Search for Barcodes, Items, Sets, ...{% endtrans %}</div>
+                <div class="description">{{ 'Search for Barcodes, Items, Sets, ...' | trans }}</div>
             </div>
             <table class="aui">
                 <thead>
                     <tr>
-                        <th id="basic-lname">Barcode</th>
-                        <th id="basic-fname">Name</th>
-                        <th id="basic-ussame"><span class="aui-icon aui-icon-small aui-iconfont-configure">Action</span></th>
+                        <th id="basic-barcode">{{ 'Barcode' | trans }}</th>
+                        <th id="basic-name">{{ 'Name' | trans }}</th>
+                        <th id="basic-action"><span class="aui-icon aui-icon-small aui-iconfont-configure">{{ 'Action' | trans }}</span></th>
                     </tr>
                 </thead>
-                <tbody id="oktolabrentbundle_event_objects" class="event-objects" data-prototype="{% filter escape %}{% include 'OktolabRentBundle:Default:eventObjectTemplate.html.twig' %}{% endfilter %}">
-
+                <tbody id="oktolabrentbundle_event_objects" class="event-objects" data-prototype="{% filter escape %}{% include 'OktolabRentBundle:Event:eventObjectPrototype.html.twig' %}{% endfilter %}">
                 </tbody>
             </table>
 
