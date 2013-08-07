@@ -5,15 +5,18 @@
         <div class="aui-page-header-image">
             <div class="aui-avatar aui-avatar-xlarge aui-avatar-project">
                 <div class="aui-avatar-inner">
-                    {% if item.picture is defined%}
+                    {% if item.picture is not null %}
                         <img src="{{ item.picture.getRelativePath | apply_filter('page_avatar') }}" />
-                    {% endif%}
+                    {% endif %}
                 </div>
             </div>
         </div>
         <div class="aui-page-header-main">
             <h1>{{item.title }} bearbeiten</h1>
             <a href="{{ path('inventory_item_picture_upload', { 'id': item.id}) }}">{{ "Upload Picture" | trans }}</a>
+            {% if item.picture is not null %}
+                <a href="{{ path('inventory_item_attachment_delete', { 'entity_id': item.id, 'attachment_id': item.picture.getId }) }}">{{"Delete Picture" | trans }}</a>
+            {% endif %}
         </div>
         <div class="aui-page-header-actions">
             <div class="aui-buttons">
@@ -58,7 +61,7 @@
     <aside class="aui-page-panel-sidebar">
         {% for attachment in item.attachments %}
             <img src="{{ sauce(attachment) }}" />
-            <a href="{{ path('inventory_item_attachment_delete', {'entity_id' : item.id, 'attachment_id' : attachment.id }) }}">{% trans %}Anhang entfernen{% endtrans %}</a>
+            <a href="{{ path('inventory_item_attachment_delete', {'entity_id' : item.id, 'attachment_id' : attachment.id }) }}">{{"Delete Attachment" | trans }}</a>
         {% endfor %}
     </aside>
 {% endblock %}

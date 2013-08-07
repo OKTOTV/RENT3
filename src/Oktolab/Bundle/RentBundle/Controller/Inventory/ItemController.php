@@ -207,11 +207,12 @@ class ItemController extends Controller
     public function deleteAttachment(Item $item, Attachment $attachment)
     {
         $fileManager = $this->get('oktolab.upload_manager');
-//        if ($attachment === $entity->getPicture()) {
-//          TODO: remove picture instead of attachment
-//        }
+        if ($attachment === $item->getPicture()) {
+            $item->setPicture();
+        } else {
+            $item->removeAttachment($attachment);
+        }
 
-        $item->removeAttachment($attachment);
         $fileManager->removeUpload($attachment);
 
         $em = $this->getDoctrine()->getEntityManager();

@@ -80,16 +80,4 @@ class UploadManager
             $this->upload($attachment);
         }
     }
-
-//    public function saveAttachmentAsPicture(UploadableInterface $entity, $file)
-//    {
-//        $attachment = new Attachment();
-//        $attachment->setFile($file);
-//        $attachment->setPath($entity->getUploadFolder());
-//        $attachment->setTitle($file->getFileName());
-//
-//        $entity->setPicture($attachment);
-//
-//        $this->upload($attachment);
-//    }
 }
