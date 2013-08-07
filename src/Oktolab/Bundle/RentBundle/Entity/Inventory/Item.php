@@ -467,4 +467,27 @@ class Item implements UploadableInterface
     {
         return $this->attachments;
     }
+
+    /**
+     * Set picture
+     *
+     * @param Attachment $picture
+     * @return Item
+     */
+    public function setPicture(\Oktolab\Bundle\RentBundle\Entity\Inventory\Attachment $picture = null)
+    {
+        $this->picture = $picture;
+
+        return $this;
+    }
+
+    /**
+     * Get picture
+     *
+     * @return Attachment
+     */
+    public function getPicture()
+    {
+        return $this->picture;
+    }
 }

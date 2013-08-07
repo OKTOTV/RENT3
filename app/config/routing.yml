@@ -6,3 +6,7 @@ oktolab_rent:
 oneup_uploader:
     resource: .
     type: uploader
+
+_imagine:
+    resource: .
+    type:     imagine

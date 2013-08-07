@@ -149,7 +149,7 @@ class ItemController extends Controller
      */
     public function updateAction(Request $request, Item $item)
     {
-        $editForm = $this->createForm(new ItemType(), $entity, array('method' => 'PUT'));
+        $editForm = $this->createForm(new ItemType(), $item, array('method' => 'PUT'));
         $editForm->bind($request);
 
         if ($editForm->isValid()) {
@@ -160,6 +160,7 @@ class ItemController extends Controller
             $uploader = $this->get('oktolab.upload_manager');
             $uploader->saveAttachmentsToEntity($item, $files);
             //-----------------------------
+            $em = $this->getDoctrine()->getEntityManager();
             $em->persist($item);
             $em->flush();
 
@@ -203,15 +204,18 @@ class ItemController extends Controller
      * @ParamConverter("attachment", class="OktolabRentBundle:Inventory\Attachment", options={"id" = "attachment_id"})
      * @Method("GET")
      */
-    public function deleteAttachment($attachment_id, $entity_id)
+    public function deleteAttachment(Item $item, Attachment $attachment)
     {
         $fileManager = $this->get('oktolab.upload_manager');
 //        if ($attachment === $entity->getPicture()) {
 //          TODO: remove picture instead of attachment
 //        }
 
-        $entity->removeAttachment($attachment);
+        $item->removeAttachment($attachment);
         $fileManager->removeUpload($attachment);
+
+        $em = $this->getDoctrine()->getEntityManager();
+        $em->persist($item);
         $em->flush();
 
         return $this->redirect($this->generateUrl('inventory_item_edit', array('id' => $item->getId())));
@@ -223,14 +227,14 @@ class ItemController extends Controller
      * @Method("GET")
      * @Template("OktolabRentBundle:Inventory\Item:edit_picture.html.twig")
      */
-    public function upladPictureAction(Item $item)
+    public function uploadPictureAction(Item $item)
     {
         $picture = new Attachment();
         $form   = $this->createForm(
             new PictureType(),
             $picture,
             array(
-                'action' => $this->generateUrl('inventory_item_picture_upload', array('id' => $item->getId())),
+                'action' => $this->generateUrl('inventory_item_picture_update', array('id' => $item->getId())),
                 'method' => 'PUT'
                 )
         );
@@ -239,5 +243,27 @@ class ItemController extends Controller
             'entity' => $item,
             'edit_form'   => $form->createView(),
         );
+    }
+
+    /**
+     * @Route("/{id}/picture/upload", name="inventory_item_picture_update")
+     * @ParamConverter("item", class="OktolabRentBundle:Inventory\Item")
+     * @Method("PUT")
+     */
+    public function updatePictureAction(Item $item)
+    {
+        //TODO: move to service? -------
+        $manager = $this->get('oneup_uploader.orphanage_manager')->get('gallery');
+        $files = $manager->uploadFiles();
+
+        $uploader = $this->get('oktolab.upload_manager');
+        $uploader->saveAttachmentsToEntity($item, $files, true);
+        //-----------------------------
+
+        $em = $this->getDoctrine()->getEntityManager();
+        $em->persist($item);
+        $em->flush();
+
+        return $this->redirect($this->generateUrl('inventory_item_show', array('id' => $item->getId())));
     }
 }

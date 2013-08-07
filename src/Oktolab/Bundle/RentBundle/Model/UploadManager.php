@@ -59,10 +59,11 @@ class UploadManager
      *
      * @param UploadableInterface $entity
      * @param array $files
+     * @param bool picture
      *
      * @return bool true if successful
      */
-    public function saveAttachmentsToEntity(UploadableInterface $entity, array $files)
+    public function saveAttachmentsToEntity(UploadableInterface $entity, array $files, $picture = false)
     {
         foreach ( $files as $file ) {
             $attachment = new Attachment();
@@ -70,9 +71,25 @@ class UploadManager
             $attachment->setPath($entity->getUploadFolder());
             $attachment->setTitle($file->getFileName());
 
-            $entity->addAttachment($attachment);
+            if ($picture) {
+                $entity->setPicture($attachment);
+            } else {
+                $entity->addAttachment($attachment);
+            }
 
             $this->upload($attachment);
         }
     }
+
+//    public function saveAttachmentAsPicture(UploadableInterface $entity, $file)
+//    {
+//        $attachment = new Attachment();
+//        $attachment->setFile($file);
+//        $attachment->setPath($entity->getUploadFolder());
+//        $attachment->setTitle($file->getFileName());
+//
+//        $entity->setPicture($attachment);
+//
+//        $this->upload($attachment);
+//    }
 }

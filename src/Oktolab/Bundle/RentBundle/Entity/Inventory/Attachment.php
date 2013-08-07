@@ -98,7 +98,7 @@ class Attachment
         return $this->path;
     }
 
-    public function getWebPath()
+    public function getRelativePath()
     {
         return null === $this->path
             ? null

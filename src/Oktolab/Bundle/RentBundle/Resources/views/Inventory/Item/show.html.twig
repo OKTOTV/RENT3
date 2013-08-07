@@ -2,10 +2,13 @@
 
 {% block content_header %}
     <div class="aui-page-header-inner">
-        <div class="aui-page-header-image">
+        <div class="aui-page-header-image"~>
             <div class="aui-avatar aui-avatar-xlarge aui-avatar-project">
                 <div class="aui-avatar-inner">
-                    <img src="static/img/none.png">
+                    {% if item.picture is defined%}
+                        <img src="{{ item.picture.getRelativePath | apply_filter('page_avatar') }}" />
+                    {% endif%}
+
                 </div>
             </div>
         </div>

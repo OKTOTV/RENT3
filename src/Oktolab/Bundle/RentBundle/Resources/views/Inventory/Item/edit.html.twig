@@ -6,7 +6,7 @@
             <div class="aui-avatar aui-avatar-xlarge aui-avatar-project">
                 <div class="aui-avatar-inner">
                     {% if item.picture is defined%}
-                        <img src={{ sauce(item.picture) }}
+                        <img src="{{ item.picture.getRelativePath | apply_filter('page_avatar') }}" />
                     {% endif%}
                 </div>
             </div>
@@ -58,7 +58,7 @@
     <aside class="aui-page-panel-sidebar">
         {% for attachment in item.attachments %}
             <img src="{{ sauce(attachment) }}" />
-            <a href="{{ path('inventory_item_attachment_delete', {'item_id' : item.id, 'attachment_id' : attachment.id }) }}">{% trans %}Anhang entfernen{% endtrans %}</a>
+            <a href="{{ path('inventory_item_attachment_delete', {'entity_id' : item.id, 'attachment_id' : attachment.id }) }}">{% trans %}Anhang entfernen{% endtrans %}</a>
         {% endfor %}
     </aside>
 {% endblock %}
