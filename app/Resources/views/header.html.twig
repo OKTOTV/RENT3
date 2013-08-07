@@ -9,8 +9,9 @@
                 <div class="aui-dropdown2 aui-style-default aui-dropdown2-in-header" id="dropdown2-lists" style="display: none; top: 40px; min-width: 160px; left: 1213px; " aria-hidden="true">
                     <div class="aui-dropdown2-section">
                         <ul>
-                          <li><a href="#">R&auml;ume</a></li>
-                          <li><a href="#">Inventar</a></li>
+                          <li><a href="{{ path('inventory_room')}}">{{"Rooms" | trans}}</a></li>
+                          <li><a href="{{ path('inventory_item')}}">{{"Items" | trans}}</a></li>
+                          <li><a href="{{ path('inventory_set')}}">{{"Sets" | trans}}</a></li>
                         </ul>
                     </div>
                 </div>

@@ -10,16 +10,14 @@
             </div>
         </div>
         <div class="aui-page-header-main">
-            <h1>{{entity.title}}</h1>
-            <h3>Barcode: {{entity.barcode}}</h3>
+            <h1>{{room.title}}</h1>
+            <h3>Barcode: {{room.barcode}}</h3>
         </div>
         <div class="aui-page-header-actions">
             <div class="aui-buttons">
                 <div class="aui-buttons">
-                    <a class="aui-button" href="{{ path('inventory_room_edit', { 'id' : entity.id }) }}">Editieren</a>
+                    <a class="aui-button" href="{{ path('inventory_room_edit', { 'id' : room.id }) }}">Editieren</a>
                     <a class="aui-button" href="{{ path('inventory_room') }}">{% trans %}Back to list{% endtrans %}</a>
-                    <button class="aui-button" aria-disabled="true">Zu Set hinzufügen</button>
-                    <button class="aui-button" aria-disabled="true">Ausmustern</button>
                 </div>
             </div>
         </div>
@@ -31,11 +29,11 @@
         <div class="aui-page-panel-inner">
             <section class="aui-page-panel-content">
 
-                {% for attachment in entity.attachments %}
+                {% for attachment in room.attachments %}
                     <img src="{{ sauce(attachment) }}" />
                 {% endfor %}
                 <h3>{% trans %}Description{% endtrans %}</h3>
-                <p>{{ entity.description }}</p>
+                <p>{{ room.description }}</p>
 
             </section>
         </div>

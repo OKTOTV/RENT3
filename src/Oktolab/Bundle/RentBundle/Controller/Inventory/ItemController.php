@@ -160,7 +160,7 @@ class ItemController extends Controller
             $uploader = $this->get('oktolab.upload_manager');
             $uploader->saveAttachmentsToEntity($item, $files);
             //-----------------------------
-            $em = $this->getDoctrine()->getEntityManager();
+            $em = $this->getDoctrine()->getManager();
             $em->persist($item);
             $em->flush();
 
@@ -168,7 +168,7 @@ class ItemController extends Controller
         }
 
         return array(
-            'entity'      => $item,
+            'item'      => $item,
             'edit_form'   => $editForm->createView(),
         );
     }
@@ -182,10 +182,11 @@ class ItemController extends Controller
      */
     public function deleteAction($item)
     {
+        $em = $this->getDoctrine()->getManager();
+        $em->remove($item);
+
         //TODO: create service ----------
         $fileManager = $this->get('oktolab.upload_manager');
-
-        $em->remove($item);
         foreach ($item->getAttachments() as $attachment) {
             $fileManager->removeUpload($attachment);
             $em->remove($attachment);
@@ -215,7 +216,7 @@ class ItemController extends Controller
 
         $fileManager->removeUpload($attachment);
 
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getDoctrine()->getManager();
         $em->persist($item);
         $em->flush();
 
@@ -261,7 +262,7 @@ class ItemController extends Controller
         $uploader->saveAttachmentsToEntity($item, $files, true);
         //-----------------------------
 
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getDoctrine()->getManager();
         $em->persist($item);
         $em->flush();
 

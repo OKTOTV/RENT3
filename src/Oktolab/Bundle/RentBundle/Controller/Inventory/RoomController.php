@@ -6,6 +6,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Oktolab\Bundle\RentBundle\Entity\Inventory\Room;
 use Oktolab\Bundle\RentBundle\Form\Inventory\RoomType;
@@ -97,55 +98,38 @@ class RoomController extends Controller
      * Finds and displays a Inventory\Room entity.
      *
      * @Route("/{id}", name="inventory_room_show")
+     * @ParamConverter("room", class="OktolabRentBundle:Inventory\Room")
      * @Method("GET")
-     * @Template()
+     * @Template("OktolabRentBundle:Inventory\Room:show.html.twig", vars={"room"})
      */
     public function showAction($id)
     {
-        $em = $this->getDoctrine()->getManager();
-
-        $entity = $em->getRepository('OktolabRentBundle:Inventory\Room')->find($id);
-
-        if (!$entity) {
-            throw $this->createNotFoundException('Unable to find Inventory\Room entity.');
-        }
-
-        return array(
-            'entity' => $entity,
-        );
     }
 
     /**
      * Displays a form to edit an existing Inventory\Room entity.
      *
      * @Route("/{id}/edit", name="inventory_room_edit")
+     * @ParamConverter("room", class="OktolabRentBundle:Inventory\Room")
      * @Method("GET")
-     * @Template()
+     * @Template
      */
-    public function editAction($id)
+    public function editAction(Room $room)
     {
-        $em = $this->getDoctrine()->getManager();
-
-        $entity = $em->getRepository('OktolabRentBundle:Inventory\Room')->find($id);
-
-        if (!$entity) {
-            throw $this->createNotFoundException('Unable to find Inventory\Room entity.');
-        }
-
         $editForm = $this->createForm(
             new RoomType(),
-            $entity,
+            $room,
             array(
                 'method' => 'PUT',
                 'action' => $this->generateUrl(
                     'inventory_room_update',
-                    array( 'id' => $id )
+                    array( 'id' => $room->getId() )
                 )
             )
         );
 
         return array(
-            'entity'      => $entity,
+            'entity'      => $room,
             'edit_form'   => $editForm->createView()
         );
     }
@@ -154,20 +138,13 @@ class RoomController extends Controller
      * Edits an existing Inventory\Room entity.
      *
      * @Route("/{id}", name="inventory_room_update")
+     * @ParamConverter("room", class="OktolabRentBundle:Inventory\Room")
      * @Method("PUT")
      * @Template("OktolabRentBundle:Inventory\Room:edit.html.twig")
      */
-    public function updateAction(Request $request, $id)
+    public function updateAction(Request $request, Room $room)
     {
-        $em = $this->getDoctrine()->getManager();
-
-        $entity = $em->getRepository('OktolabRentBundle:Inventory\Room')->find($id);
-
-        if (!$entity) {
-            throw $this->createNotFoundException('Unable to find Inventory\Room entity.');
-        }
-
-        $editForm = $this->createForm(new RoomType(), $entity);
+        $editForm = $this->createForm(new RoomType(), $room);
         $editForm->bind($request);
 
         if ($editForm->isValid()) {
@@ -177,17 +154,17 @@ class RoomController extends Controller
             $files = $manager->uploadFiles();
 
             $uploader = $this->get('oktolab.upload_manager');
-            $uploader->saveAttachmentsToEntity($entity, $files);
+            $uploader->saveAttachmentsToEntity($room, $files);
             //-----------------------------------
 
-            $em->persist($entity);
+            $em->persist($room);
             $em->flush();
 
-            return $this->redirect($this->generateUrl('inventory_room_show', array('id' => $id)));
+            return $this->redirect($this->generateUrl('inventory_room_show', array('id' => $room->getId())));
         }
 
         return array(
-            'entity'      => $entity,
+            'entity'      => $room,
             'edit_form'   => $editForm->createView(),
         );
     }
@@ -196,22 +173,17 @@ class RoomController extends Controller
      * Deletes a Inventory\Room entity.
      *
      * @Route("/{id}/delete", name="inventory_room_delete")
+     * @ParamConverter("room", class="OktolabRentBundle:Inventory\Room")
      * @Method("GET")
      */
-    public function deleteAction($id)
+    public function deleteAction(Room $room)
     {
-        $em = $this->getDoctrine()->getManager();
-        $entity = $em->getRepository('OktolabRentBundle:Inventory\Room')->find($id);
-
-        if (!$entity) {
-            throw $this->createNotFoundException('Unable to find Inventory\Room entity.');
-        }
-
-        $em->remove($entity);
+        $em = $this->getDoctrine()->getEntityManager();
+        $em->remove($room);
 
         //TODO: create service --------
         $fileManager = $this->get('oktolab.upload_manager');
-        foreach ($entity->getAttachments() as $attachment) {
+        foreach ($room->getAttachments() as $attachment) {
             $fileManager->removeUpload($attachment);
             $em->remove($attachment);
         }
