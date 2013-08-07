@@ -15,6 +15,9 @@
         <div class="aui-page-panel">
             <div class="aui-page-panel-inner">
                 <section class="aui-page-panel-content">
+                    {% if app.environment in ['dev', 'test'] %}
+                        <div class="beta-ribbon-wrapper"><div class="beta-ribbon"><a href="http://de.wikipedia.org/wiki/Entwicklungsstadium_%28Software%29#Beta-Version">Beta</a></div></div>
+                    {% endif %}
                     {% block content %}{% endblock %}
                 </section>
             </div>

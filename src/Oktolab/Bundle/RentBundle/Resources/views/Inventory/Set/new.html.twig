@@ -10,12 +10,12 @@
         </div>
     </div>
     <div class="aui-page-header-main">
-        <h1>Inventory Set neu</h1>
+        <h1>{{ 'Add a new set' | trans }}</h1>
     </div>
     <div class="aui-page-header-actions">
         <div class="aui-buttons">
             <div class="aui-buttons">
-                <a class="aui-button" href="{{ path('inventory_set') }}">{% trans %}Back to list{% endtrans %}</a>
+                <a class="aui-button" href="{{ path('inventory_set') }}">{{ 'Back to list' | trans }}</a>
             </div>
         </div>
     </div>
@@ -32,23 +32,26 @@
             {{ form_row(form.barcode) }}
             {{ form_row(form.searchItems) }}
 
-            <div class="buttons-container">
-                <button class="aui-button aui-button-primary" type="submit">{% trans %}Submit{% endtrans %}</button>
-            </div>
+        </fieldset>
 
-            <h3>{% trans %}Items{% endtrans %}</h3>
+        <h3>{{ 'Items' | trans }}</h3>
+            <fieldset>
                 <table class="aui">
                     <thead>
                         <tr>
-                            <th id="name">{% trans %}Title{% endtrans %}</th>
-                            <th>{% trans %}Description{% endtrans %}</th>
-                            <th>{% trans %}Barcode{% endtrans %}</th>
-                            <th>{% trans %}Actions{% endtrans %}</th>
+                            <th id="name">{{ 'Barcode' | trans }}</th>
+                            <th>{{ 'Name' | trans }}</th>
+                            <th id="basic-action"><span class="aui-icon aui-icon-small aui-iconfont-configure">{{ 'Actions' | trans }}</span></th>
                         </tr>
                     </thead>
-                    <tbody class="appendable">
-                        {% for item in items %}
+                    <tbody class="set-items" data-prototype="{% filter escape %}{% include 'OktolabRentBundle:Inventory/Set:itemRowPrototype.html.twig' %}{% endfilter %}">
+                        {# for item in items %}
                             <tr>
+                                <td>{{ '{{barcode}}' }}</td>
+                                <td>{{ '{{name}}' }}</td>
+                                <td><a href="#"><span class="aui-icon aui-icon-small aui-iconfont-remove remove-object" data-value="{{ '{{value}}' }}">{{ 'Remove'|trans }}</span></a></td>
+
+                            {#<tr>
                                 <td headers="name">{{ item.title }}</td>
                                 <td>{{ item.description }}</td>
                                 <td>{{ item.barcode }}</td>
@@ -64,14 +67,18 @@
                                             <a href="{{ path('inventory_item_edit', { 'id': item.id }) }}">{% trans %}edit{% endtrans %}</a>
                                         </li>
                                     </ul>
-                                </td>
+                                </td># }
                             </tr>
-                        {% endfor %}
+                        {% endfor #}
                     </tbody>
                 </table>
-                {% for item in items %}
+                {# for item in items %}
                     <input type="hidden" class="addableitem" id=​oktolab_bundle_rentbundle_inventory_settype_itemsToAdd_{{ item.id }}_id name=oktolab_bundle_rentbundle_inventory_settype[itemsToAdd]​[{{item.id}}]​[id]​ required=​"required" />
-                {% endfor %}
+                {% endfor #}
+
+                <div class="buttons-container">
+                    <button class="aui-button aui-button-primary" type="submit">{{ 'Submit' | trans }}</button>
+                </div>
             </fieldset>
     {{ form_end(form) }}
 {% endblock %}

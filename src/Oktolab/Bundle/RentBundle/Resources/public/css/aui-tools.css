@@ -16,58 +16,38 @@
 }
 
 
-
-/* styles for jquery.calendar */
-#dashboard-calendar {
-    min-height: 600px;
-    min-width: 600px;
-    position: relative;
+.beta-ribbon-wrapper {
+    height: 88px;
+    overflow: hidden;
+    position: absolute;
+    right: 0;
+    top: 0;
+    width: 85px;
+    z-index: 10;
+    font: 15px/22.5px "Helvetica Neue",HelveticaNeue,Helvetica,Arial,sans-serif;
 }
-
-.ui-cal-dateline-fill, .ui-cal-dateline {
-    height: 32px !important;
-}
-
-.ui-cal-week .ui-cal-timeline {
-    background-color: #F0F0F0;
-}
-
-.ui-cal-week .ui-cal-time[past="00"] {
-    border-color: #CCCCCC;
-}
-.ui-cal-week .ui-cal-timeline {
-    border-color: #CCCCCC;
-}
-
-.ui-cal .ui-cal-date.ui-cal-today {
-    background-color: #F3F9F4;
-}
-
-.ui-cal .ui-cal-date {
-    background-color: #FCFCFC;
-}
-
-.ui-cal-label-time p {
+.beta-ribbon {
+    background-color: #FFEA94;
+    background-image: -moz-linear-gradient(center top , #FFEA94, #FFEA5E);
+    box-shadow: 0 0 3px rgba(0, 0, 0, 0.3);
+    color: #6A6340;
+    cursor: pointer;
     font-weight: bold;
+    left: -5px;
+    padding: 7px 0;
+    position: relative;
+    text-align: center;
+    text-shadow: 0 1px 0 rgba(255, 255, 255, 0.5);
+    top: 11px;
+    transform: rotate(45deg);
+    width: 120px;
+
+}
+.beta-ribbon a {
+    color: #393939;
+    text-decoration: none;
 }
 
-.ui-cal .ui-cal-dateline, .ui-cal .ui-cal-dateline-fill, .ui-cal .ui-cal-event, .ui-cal .ui-cal-event.selected {
-    background: none repeat scroll 0 0 #205081;
-}
-
-.ui-cal-week .ui-cal-dateline, .ui-cal .ui-cal-resourceline {
-    color: #ffffff;
-}
-
-.ui-cal .ui-cal-label-date p, .ui-cal .ui-cal-label-resource p {
-    text-shadow: none;
-    text-overflow: string;
-}
-
-.ui-cal .ui-cal-label-date .delimiter {
-    display: none;
-}
-
-.ui-cal-week .ui-cal-dateline, .ui-cal .ui-cal-resourceline {
-    border: 0 none;
+.beta-ribbon a:hover {
+    text-decoration: underline;
 }

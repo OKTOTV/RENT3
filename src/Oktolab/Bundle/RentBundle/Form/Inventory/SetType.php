@@ -41,6 +41,6 @@ class SetType extends AbstractType
 
     public function getName()
     {
-        return 'oktolab_bundle_rentbundle_inventory_settype';
+        return 'oktolab_rentbundle_inventory_set';
     }
 }

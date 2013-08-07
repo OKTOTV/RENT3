@@ -2,7 +2,11 @@
 //var loadItemRowUrl = "http://localhost/rent3/web/app_dev.php/inventory/item/";
 //var removeItemFromSetUrl = "http://localhost/rent3/web/app_dev.php/inventory/set/remove/item/";
 
-oktolab.typeahead = {
+(function() {
+    oktolab.typeahead = {
     itemPrefetchUrl: oktolab.baseUrl + '/api/item/typeahead.json',
-//    itemSearchUrl: oktolab.baseUrl + '/inventory/item/search/%QUERY',
-};
+    //    itemSearchUrl: oktolab.baseUrl + '/inventory/item/search/%QUERY',
+    };
+
+})();
+

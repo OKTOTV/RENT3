@@ -1,4 +1,4 @@
-var Oktolab = {};
+//var Oktolab = {};
 
 Oktolab.Calendar = function Calendar(container) {
     'use strict';
