@@ -10,15 +10,14 @@
             </div>
         </div>
         <div class="aui-page-header-main">
-            <h1>{{entity.title}}</h1>
-            <h3>Barcode: {{entity.barcode}}</h3>
+            <h1>{{item.title}}</h1>
+            <h3>Barcode: {{item.barcode}}</h3>
         </div>
         <div class="aui-page-header-actions">
             <div class="aui-buttons">
                 <div class="aui-buttons">
-                    <a class="aui-button" href="{{ path('inventory_item_edit', { 'id' : entity.id }) }}">Editieren</a>
+                    <a class="aui-button" href="{{ path('inventory_item_edit', { 'id' : item.id }) }}">Editieren</a>
                     <a class="aui-button" href="{{ path('inventory_item') }}">{% trans %}Back to list{% endtrans %}</a>
-                    <button class="aui-button" aria-disabled="true">Zu Set hinzufügen</button>
                     <button class="aui-button" aria-disabled="true">Ausmustern</button>
                 </div>
             </div>
@@ -31,31 +30,31 @@
         <div class="aui-page-panel-inner">
             <section class="aui-page-panel-content">
 
-                <p>{{ entity.set }}<//p>
+                <p>{{ item.set }}<//p>
 
 
                 <h3>{% trans %}Description{% endtrans %}</h3>
-                {% if entity.description is defined %}
-                <p>{{ entity.description }}</p>
+                {% if item.description is defined %}
+                <p>{{ item.description }}</p>
                 {% else %}
                 <p>{% trans%}Not Defined{%endtrans%}</p>
                 {% endif %}
 
                 <h3>{% trans %}Buy date{% endtrans %}</h3>
-                <p>{{ entity.buyDate|date('d.m.Y') }}</p>
+                <p>{{ item.buyDate|date('d.m.Y') }}</p>
 
                 <h3>{% trans %}Serial number{% endtrans %}</h3>
-                <p>{{ entity.serialNumber }}</p>
+                <p>{{ item.serialNumber }}</p>
 
                 <h3>{% trans %}Vendor{% endtrans %}</h3>
-                <p>{{ entity.vendor }}</p>
+                <p>{{ item.vendor }}</p>
 
                 <h3>{% trans %}Modelnumber{% endtrans %}</h3>
-                <p>{{ entity.modelNumber }}</p>
+                <p>{{ item.modelNumber }}</p>
 
-                <h3>{% trans %}Attachments{% endtrans%} <a id="replace-text-trigger" data-replace-text="({%trans%}close{%endtrans%})" class="aui-expander-trigger" aria-controls="expander-with-replace-text-content">({%trans%}open{%endtrans%})</a></h3>
+                <h3>{% trans %}Attachments{% endtrans%} <a id="replace-text-trigger" data-replace-text="({%trans%}hide{%endtrans%})" class="aui-expander-trigger" aria-controls="expander-with-replace-text-content">({%trans%}show{%endtrans%})</a></h3>
                 <div id="expander-with-replace-text-content" class="aui-expander-content">
-                    {% for attachment in entity.attachments %}
+                    {% for attachment in item.attachments %}
                         <img src="{{ sauce(attachment) }}" />
                     {% endfor %}
                 </div>

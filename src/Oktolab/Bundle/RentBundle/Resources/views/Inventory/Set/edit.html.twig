@@ -32,8 +32,8 @@
             {{ form_row(edit_form.description, {'attr': {'placeholder': 'Description of the set'} }) }}
             {{ form_row(edit_form.barcode) }}
             {{ form_row(edit_form.searchItems ) }}
-
-                <div id="container" class= "field-group">
+            <field class="plupload" data-plupload="multiple"></field>
+            <div id="container" class= "field-group">
             <div id="filelist">No runtime found.</div>
                 <br />
                 <a id="pickfiles" href="#">[Select files]</a>

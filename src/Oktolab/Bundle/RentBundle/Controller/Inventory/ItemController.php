@@ -11,6 +11,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Oktolab\Bundle\RentBundle\Entity\Inventory\Item;
 use Oktolab\Bundle\RentBundle\Form\Inventory\ItemType;
 use Oktolab\Bundle\RentBundle\Form\Inventory\PictureType;
+use Oktolab\Bundle\RentBundle\Entity\Inventory\Attachment;
 /**
  * Inventory\Item controller.
  *
@@ -214,5 +215,29 @@ class ItemController extends Controller
         $em->flush();
 
         return $this->redirect($this->generateUrl('inventory_item_edit', array('id' => $item->getId())));
+    }
+
+    /**
+     * @Route("/{id}/picture/upload", name="inventory_item_picture_upload")
+     * @ParamConverter("item", class="OktolabRentBundle:Inventory\Item")
+     * @Method("GET")
+     * @Template("OktolabRentBundle:Inventory\Item:edit_picture.html.twig")
+     */
+    public function upladPictureAction(Item $item)
+    {
+        $picture = new Attachment();
+        $form   = $this->createForm(
+            new PictureType(),
+            $picture,
+            array(
+                'action' => $this->generateUrl('inventory_item_picture_upload', array('id' => $item->getId())),
+                'method' => 'PUT'
+                )
+        );
+
+        return array(
+            'entity' => $item,
+            'edit_form'   => $form->createView(),
+        );
     }
 }

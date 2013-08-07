@@ -72,5 +72,6 @@ swiftmailer:
 oneup_uploader:
     mappings:
         gallery:
-            frontend: plupload
+            frontend:      plupload
             use_orphanage: true
+            namer:         oktolab.upload_name_manager
