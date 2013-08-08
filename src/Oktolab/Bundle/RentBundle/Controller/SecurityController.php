@@ -7,6 +7,7 @@ use Symfony\Component\Security\Core\SecurityContext;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Cache;
 
 /**
  * @Route("/secure")
@@ -15,6 +16,7 @@ class SecurityController extends Controller
 {
     /**
      * @Route("/login", name="rentbundle_secure_login")
+     * @Cache(expires="+1 day", public="true")
      * @Template()
      */
     public function loginAction(Request $request)
@@ -32,6 +34,10 @@ class SecurityController extends Controller
     }
 
     /**
+     * The security layer will intercept this request
+     *
+     * @codeCoverageIgnore
+     *
      * @Route("/login_check", name="rentbundle_secure_check")
      */
     public function securityCheckAction()
@@ -40,6 +46,10 @@ class SecurityController extends Controller
     }
 
     /**
+     * The security layer will intercept this request
+     *
+     * @codeCoverageIgnore
+     *
      * @Route("/logout", name="rentbundle_secure_logout")
      */
     public function logoutAction()

@@ -1,0 +1,144 @@
+/*
+    Document   : rent-calendar
+    Created on : Jul 12, 2013, 11:09:38 AM
+    Author     : meh
+    Description:
+        Styles the RENT-Calendar interface
+*/
+
+
+/* **********************************************
+/* ***************** colors *********************
+ ********************************************** */
+.oktolab-calendar .calendar-date {
+    background-color: #F5F5F5;
+    border-right: 1px solid #CCCCCC;
+}
+
+.oktolab-calendar .calendar-headline {
+    background-color: #205081;
+    color: #FFFFFF;
+}
+
+.oktolab-calendar .calendar-inventory-group strong {
+    color: #707070;
+    border-top: 1px solid #CCCCCC;
+}
+
+.oktolab-calendar .calendar-event {
+    background-color: #CCCCCC;
+    color: #333333;
+}
+
+.oktolab-calendar .calendar-inventory ul li a {
+    color: #3B73AF;
+}
+
+.oktolab-calendar .calendar-inventory ul li a:hover, .oktolab-calendar .calendar-inventory ul li a:focus {
+    background-color: #E6E6E6;
+}
+
+/* **********************************************
+/* ************* formatting *********************
+ ********************************************** */
+.oktolab-calendar .calendar-headline {
+    text-align: center;
+}
+
+.oktolab-calendar .calendar-headline .calendar-title {
+    font-weight: bold;
+}
+
+.oktolab-calendar .calendar-inventory-group strong {
+    text-transform: uppercase;
+    line-height: 1.6666;
+    font-size: 12px;
+}
+
+.oktolab-calendar .calendar-inventory ul li a {
+    word-wrap: break-word;
+    line-height: 15px;
+    height: 15px;
+}
+
+.oktolab-calendar .calendar-inventory ul li a:hover, .oktolab-calendar .calendar-inventory ul li a:focus {
+    text-decoration: none;
+}
+
+.oktolab-calendar .calendar-inventory li {
+    list-style: none outside none;
+}
+
+.oktolab-calendar .calendar-event {
+    text-align: center;
+    line-height: 15px;
+}
+
+/* **********************************************
+/* ***************** layout *********************
+ ********************************************** */
+.oktolab-calendar {
+    width: 100%;
+    margin-bottom: 2em;
+}
+
+.oktolab-calendar .calendar-inventory {
+    width: 200px;
+    float: left;
+    position: absolute;
+    padding: 34px 20px 20px;
+}
+
+.oktolab-calendar .calendar-inventory-group strong {
+    margin-top: 5px;
+    padding: 10px 10px 4px;
+    display: block;
+}
+
+.oktolab-calendar .calendar-inventory ul li a {
+    display: block;
+    padding: 7px 10px;
+    margin: 2px 0;
+}
+
+.oktolab-calendar .calendar-inventory ul {
+    margin: 0;
+    padding: 0;
+}
+
+
+
+.oktolab-calendar .calendar-wrapper {
+    margin-left: 240px;
+    height: 500px;
+
+    overflow: hidden;
+}
+
+.oktolab-calendar .calendar-date {
+    float: left;
+    width: 100px;
+    height: 100%;
+    position: relative;
+}
+
+.oktolab-calendar .calendar-date .calendar-title {
+    display: block;
+    width: 100%;
+}
+
+.oktolab-calendar .calendar-timeblock {
+    float: left;
+}
+
+.oktolab-calendar .calendar-headline {
+    height: 40px;
+}
+
+.oktolab-calendar .calendar-event {
+    height: 15px;
+    padding: 7px 0 7px 0;
+    margin: 2px 0;
+    overflow: hidden;
+    border-left: 2px solid black;
+}

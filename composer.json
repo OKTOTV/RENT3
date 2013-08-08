@@ -23,7 +23,10 @@
         "incenteev/composer-parameter-handler": "~2.0",
         "knplabs/knp-markdown-bundle": "1.2.*",
         "oneup/uploader-bundle": "dev-master",
-        "avalanche123/imagine-bundle": "2.1.*"
+        "avalanche123/imagine-bundle": "2.1.*",
+        "frequence-web/calendr-bundle": "1.0.*",
+        "willdurand/faker-bundle": "1.0.*",
+        "liip/functional-test-bundle": "1.0.*@dev"
     },
     "scripts": {
         "post-install-cmd": [

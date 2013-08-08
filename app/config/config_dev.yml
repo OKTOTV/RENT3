@@ -27,5 +27,20 @@ monolog:
 assetic:
     use_controller: true
 
-#swiftmailer:
-#    delivery_address: me@example.com
+bazinga_faker:
+    orm: doctrine
+    locale: de_DE
+    entities:
+        Oktolab\Bundle\RentBundle\Entity\Inventory\Item:
+            number: 20
+            custom_formatters:
+                title:          { method: itemTitle }
+                barcode:        { method: itemBarcode }
+                vendor:         { method: itemVendor }
+                description:    { method: sentence, parameters: [ 6 ] }
+                serialNumber:   { method: randomNumber, parameters: [ 12 ] }
+                modelNumber:    { method: randomNumber, parameters: [ 12 ] }
+        Oktolab\Bundle\RentBundle\Entity\Event:
+            number: 20
+            custom_formatters:
+                name: { method: name }

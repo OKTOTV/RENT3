@@ -43,32 +43,34 @@ class SetController extends Controller
     /**
      * Creates a json with all items for typeahead suggestions and use
      *
-     * @Route("/search.json", name="inventory_set_searchItems_json")
      * @Method("GET")
+     * @Route("/search.{_format}",
+     *      name="inventory_set_searchItems_json",
+     *      defaults={"_format"="json"},
+     *      requirements={"_format"="json"})
+     *
+     *
+     * @return JsonResponse
      */
     public function searchItemsAction(Request $request)
     {
-        if ($request->isXmlHttpRequest()) {
-            $em = $this->getDoctrine()->getManager();
-            $entities = $em->getRepository('OktolabRentBundle:Inventory\Item')->findBy(array('set' => null));
-            $json = array();
-            //TODO: split the descripiton to single words. That helps the typeahead to be more usefull.
-            foreach ($entities as $entity) {
-                $json[] = array(
-                    'name' => $entity->getId(),
-                    'value' => $entity->getTitle(),
-                    'tokens' => array(
-                        $entity->getBarcode(),
-                        $entity->getDescription(),
-                        $entity->getTitle()
-                    )
-                );
-            }
-
-            return new JsonResponse($json);
-        } else {
-            return $this->redirect($this->generateUrl('inventory_set'));
+        $em = $this->getDoctrine()->getManager();
+        $entities = $em->getRepository('OktolabRentBundle:Inventory\Item')->findBy(array('set' => null));
+        $json = array();
+        //TODO: split the descripiton to single words. That helps the typeahead to be more usefull.
+        foreach ($entities as $entity) {
+            $json[] = array(
+                'name' => $entity->getId(),
+                'value' => $entity->getTitle(),
+                'tokens' => array(
+                    $entity->getBarcode(),
+                    $entity->getDescription(),
+                    $entity->getTitle()
+                )
+            );
         }
+
+        return new JsonResponse($json);
     }
 
     /**

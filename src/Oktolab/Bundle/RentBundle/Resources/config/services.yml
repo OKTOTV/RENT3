@@ -1,3 +1,6 @@
+parameters:
+    oktolab.event_manager.class: Oktolab\Bundle\RentBundle\Model\EventManager
+
 services:
     oktolab.presavelistener:
         class: Oktolab\Bundle\RentBundle\EventListener\LogListener
@@ -36,3 +39,9 @@ services:
         arguments: [@service_container]
         tags:
             - { name: twig.extension }
+
+    oktolab.event_manager:
+      class: %oktolab.event_manager.class%
+      arguments:  [ @doctrine.orm.entity_manager, @?logger ]
+      tags:
+        - { name: logger, channel: main }

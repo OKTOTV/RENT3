@@ -8,6 +8,8 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Cache;
+
 use Oktolab\Bundle\RentBundle\Entity\Inventory\Item;
 use Oktolab\Bundle\RentBundle\Form\Inventory\ItemType;
 use Oktolab\Bundle\RentBundle\Form\Inventory\PictureType;
@@ -24,6 +26,7 @@ class ItemController extends Controller
      *
      * @Route("/", name="inventory_item")
      * @Method("GET")
+     * @Cache(expires="+1 day", public="true")
      * @Template()
      */
     public function indexAction()
@@ -175,8 +178,7 @@ class ItemController extends Controller
 
     /**
      * Deletes a Inventory\Item entity.
-     *
-     * @Route("/delete/{id}", name="inventory_item_delete")
+     * @Route("/{id}/delete", name="inventory_item_delete")
      * @ParamConverter("item", class="OktolabRentBundle:Inventory\Item")
      * @Method("GET")
      */

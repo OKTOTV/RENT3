@@ -33,7 +33,7 @@ class ItemType extends AbstractType
                 array(
                     'class' => 'OktolabRentBundle:Inventory\Set',
                     'property' => 'title',
-                    'required' => false
+                    'required' => false,
                 )
             );
     }

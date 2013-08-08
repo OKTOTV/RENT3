@@ -78,11 +78,9 @@ oneup_uploader:
 
 avalanche_imagine:
     source_root: %oktolab.web_dir%%oktolab.upload_dir%
-#    source_root: /
-#    web_root: /
     filters:
         page_avatar:
             type:    thumbnail
             options: { size: [64, 64], mode: outbound }
 
-#            /Library/Server/Web/Data/Sites/rent3/app/../web/ rent3/web/uploads/item/52023293c5689_phpOyzJsp.jpeg"
+

@@ -8,8 +8,9 @@
 
         {% stylesheets filter='cssrewrite'
             'aui-5.1/css/aui-all.css'
+            '@OktolabRentBundle/Resources/public/css/jquery.calendar.css'
             '@OktolabRentBundle/Resources/public/css/*' %}
-            <link rel="stylesheet" href="{{ asset_url }}" />
+            <link rel="stylesheet" href="{{ asset_url }}" type="text/css" />
         {% endstylesheets %}
 
         {% block stylesheets %}{% endblock %}
@@ -25,10 +26,10 @@
 
         {% javascripts
             'aui-5.1/js/aui-all.js'
-            '@OktolabRentBundle/Resources/public/js/*'
-            '@OktolabRentBundle/Resources/public/js/plupload/plupload.full.js'
-            '@OktolabRentBundle/Resources/public/js/plupload/customPlupload.js'
-        %}
+            '@OktolabRentBundle/Resources/public/js/qunit-1.12.0.js'
+            '@OktolabRentBundle/Resources/public/js/OktolabCalendar.js'
+            '@OktolabRentBundle/Resources/public/js/OktolabCalendarTest.js'
+            '@OktolabRentBundle/Resources/public/js/*' %}
             <script type="text/javascript" src="{{ asset_url }}"></script>
         {% endjavascripts %}
         {% block javascripts %}{% endblock %}

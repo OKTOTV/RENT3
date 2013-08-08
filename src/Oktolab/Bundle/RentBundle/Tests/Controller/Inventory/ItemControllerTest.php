@@ -4,25 +4,20 @@ namespace Oktolab\Bundle\RentBundle\Tests\Controller\Inventory;
 
 use Oktolab\Bundle\RentBundle\Tests\WebTestCase;
 use Oktolab\Bundle\RentBundle\DataFixtures\ORM\ItemFixture;
-use Doctrine\Common\DataFixtures\Purger\ORMPurger;
 
 class ItemControllerTest extends WebTestCase
 {
 
-    private $entityManager;
-    private $purger;
-
-    public function setUp()
+    public function testIndexDisplaysEmptyList()
     {
-        parent::setUp();
-        $this->entityManager = static::$kernel->getContainer()
-            ->get('doctrine')
-            ->getManager();
-        $this->purger = new ORMPurger($this->entityManager);
-        $this->purger->purge();
+        $this->loadFixtures(array());
+
+        $crawler = $this->client->request('GET', '/inventory/item/');
+        $this->assertTrue($this->client->getResponse()->isSuccessful(), 'Response should be successful');
+        $this->assertEquals(0, $crawler->filter('table tbody tr')->count(), 'This list has to be empty');
     }
 
-    public function testShowEmptyList()
+    public function testIndexDisplaysItems()
     {
         $crawler = $this->client->request('GET', 'inventory/item');
         $this->client->followRedirect();
@@ -33,53 +28,59 @@ class ItemControllerTest extends WebTestCase
         );
         $this->assertEquals(
             0,
-            $crawler->filter('table tr')->count(),
-            "This List should be empty"
+            $crawler->filter('table tbody tr')->count(),
+            'This list should contain at least 1 item'
         );
     }
 
-    public function testCreateItem()
+    public function testSubmitFormToCreateAnItem()
     {
-        // Create a new entry in the database
-        $crawler = $this->client->request('GET', '/inventory/item/');
+        $this->loadFixtures(array());
 
-        $crawler = $this->client->click($crawler->selectLink('Neues Item')->link());
-        // Fill in the form and submit it
-        $form = $crawler->selectButton('Speichern')->form(
+        $this->client->request('GET', '/inventory/item/new');
+        $this->assertTrue($this->client->getResponse()->isSuccessful(), 'Response should be successful');
+
+        $form = $this->client->getCrawler()->selectButton('Speichern')->form(
             array(
-            'oktolab_bundle_rentbundle_inventory_itemtype[title]'  => 'Test',
-            'oktolab_bundle_rentbundle_inventory_itemtype[description]' => 'Description',
-            'oktolab_bundle_rentbundle_inventory_itemtype[barcode]' => 'ASDF01'
+                'oktolab_bundle_rentbundle_inventory_itemtype[title]'       => 'Test',
+                'oktolab_bundle_rentbundle_inventory_itemtype[description]' => 'Description',
+                'oktolab_bundle_rentbundle_inventory_itemtype[barcode]'     => 'ASDF01',
             )
         );
 
-        $crawler = $this->client->submit($form);
+        $this->client->submit($form);
+        $this->assertTrue($this->client->getResponse()->isRedirection(), 'Response should be a redirection');
+
         $crawler = $this->client->followRedirect();
-        // Check data in the show view
+        $this->assertTrue($this->client->getResponse()->isSuccessful(), 'Response should be successful');
         $this->assertGreaterThan(
             0,
-            $crawler->filter('.aui-page-header-main:contains("Test")')->count(),
+            $crawler->filter('header.aui-page-header:contains("Test")')->count(),
             'Missing element td:contains("Test")'
         );
     }
 
-    public function testEditItem()
+    public function testSubmitFormToEditAnItem()
     {
-        $itemFixtureLoader = new ItemFixture();
-        $itemFixtureLoader->load($this->entityManager);
+        $this->loadFixtures(array('Oktolab\Bundle\RentBundle\DataFixtures\ORM\ItemFixture'));
 
         $crawler = $this->client->request('GET', '/inventory/item/1');
         $crawler = $this->client->click($crawler->selectLink('Editieren')->link());
 
-        $form = $crawler->selectButton('Speichern')->form(
+        $this->client->request('GET', '/inventory/item/1/edit');
+        $this->assertTrue($this->client->getResponse()->isSuccessful(), 'Response should be successful');
+
+
+        $form = $this->client->getCrawler()->selectButton('Speichern')->form(
             array(
                 'oktolab_bundle_rentbundle_inventory_itemtype[title]'  => 'Foo',
             )
         );
 
         $this->client->submit($form);
+        $this->assertTrue($this->client->getResponse()->isRedirection(), 'Response should be a redirection');
         $crawler = $this->client->followRedirect();
-
+        $this->assertTrue($this->client->getResponse()->isSuccessful(), 'Response should be successful');
         $this->assertGreaterThan(
             0,
             $crawler->filter('.aui-page-header-main:contains("Foo")')->count(),
@@ -95,21 +96,23 @@ class ItemControllerTest extends WebTestCase
         $crawler = $this->client->request('GET', '/inventory/item/1');
         $crawler = $this->client->click($crawler->selectLink('Editieren')->link());
 
-        $form = $crawler->selectButton('Speichern')->form(
+        $form = $this->client->getCrawler()->selectButton('Speichern')->form(
             array(
                 'oktolab_bundle_rentbundle_inventory_itemtype[title]' => ''
             )
         );
 
         $crawler = $this->client->submit($form);
+
         $this->assertEquals(200, $this->client->getResponse()->getStatusCode());
+        $this->assertTrue($this->client->getResponse()->isSuccessful(), 'Response should be successful');
         $this->assertEquals(1, $crawler->filter('.error:contains("Du musst einen Titel angeben")')->count());
     }
 
-    public function testDeleteItem()
+    public function testDeleteAnItem()
     {
-        $itemFixtureLoader = new ItemFixture();
-        $itemFixtureLoader->load($this->entityManager);
+        $this->loadFixtures(array('Oktolab\Bundle\RentBundle\DataFixtures\ORM\ItemFixture'));
+
 
         $crawler = $this->client->request('GET', '/inventory/item/1');
         $crawler = $this->client->click($crawler->selectLink('Editieren')->link());
@@ -117,26 +120,33 @@ class ItemControllerTest extends WebTestCase
         $this->client->click($crawler->selectLink('Löschen')->link());
 
         $this->assertNotRegExp('/ItemTitle0/', $this->client->getResponse()->getContent());
+
+        $crawler = $this->client->followRedirect();
+        $this->assertTrue($this->client->getResponse()->isSuccessful(), 'Response should be successful');
+        $this->assertEquals(0, $crawler->filter('table tbody tr')->count(), 'This list has to be empty');
     }
 
-    public function testShowListWith4Items()
+    public function testShowInvalidItemReturns404()
     {
-        $itemFixtureLoader = new ItemFixture();
-        $itemFixtureLoader->load($this->entityManager, 3);
+        $this->loadFixtures(array());
 
-        $this->client->request('GET', '/inventory/item');
-        $crawler = $this->client->followRedirect();
+        $this->client->request('GET', '/inventory/item/1');
+        $this->assertTrue($this->client->getResponse()->isNotFound(), 'Response should return 404');
+    }
 
-        $this->assertEquals(
-            200,
-            $this->client->getResponse()->getStatusCode(),
-            "Unexpected HTTP status code for GET /inventory/item/"
-        );
-        $this->assertEquals(
-            4,
-            $crawler->filter('table tr')->count(),
-            "This List should NOT be empty"
-        );
+    public function testEditInvalidItemReturns404()
+    {
+        $this->loadFixtures(array());
+        $this->client->request('GET', '/inventory/item/1/edit');
+        $this->assertTrue($this->client->getResponse()->isNotFound(), 'Response should return 404');
+    }
+
+    public function testDeleteInvalidItemReturns404()
+    {
+        $this->loadFixtures(array());
+
+        $this->client->request('GET', '/inventory/item/1/delete');
+        $this->assertTrue($this->client->getResponse()->isNotFound(), 'Response should return 404');
     }
 
     public function testNewItemWithAttachments()

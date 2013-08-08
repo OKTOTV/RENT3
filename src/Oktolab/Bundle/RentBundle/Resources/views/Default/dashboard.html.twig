@@ -1,11 +1,31 @@
 {% extends "OktolabRentBundle::layout.html.twig" %}
 
 {% block title 'Dashboard' %}
-{% block content_header %}<h1>{% trans %}Dashboard{% endtrans %}</h1>{% endblock %}
+{% block content_header %}
+    <div class="aui-page-header-inner">
+        <div class="aui-page-header-main">
+            <h1>{% trans %}Dashboard{% endtrans %}</h1>
+        </div>
+        <div class="aui-page-header-actions">
+            <div class="aui-buttons">
+                <button class="aui-button">Today</button>
+            </div>
+            <div class="aui-buttons">
+                <button class="aui-button">Previous Week</button>
+                <button class="aui-button">Next Week</button>
+            </div>
+        </div>
+    </div>
+{% endblock %}
 
 {% block content %}
-    <div class="aui-message info">
-        <span class="aui-icon aui-icon-info">Info</span>
-        This screen has not been built. This is a placeholder.
+
+<div id="calendar" class="oktolab-calendar"></div>
+
+
+
+    <div id="qunit"></div>
+    <div id="qunit-fixture">
+        <div id="qunit-calendar"></div>
     </div>
 {% endblock %}

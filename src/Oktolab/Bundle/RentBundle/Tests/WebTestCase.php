@@ -2,12 +2,15 @@
 
 namespace Oktolab\Bundle\RentBundle\Tests;
 
-use Symfony\Bundle\FrameworkBundle\Test\WebTestCase as SymfonyWebTestCase;
+use Liip\FunctionalTestBundle\Test\WebTestCase as LiipWebTestCase;
 use Symfony\Component\BrowserKit\Cookie;
 use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
 
-class WebTestCase extends SymfonyWebTestCase
+class WebTestCase extends LiipWebTestCase
 {
+    /**
+     * @var \Symfony\Bundle\FrameworkBundle\Client
+     */
     protected $client = null;
 
     public function setUp()
@@ -16,12 +19,15 @@ class WebTestCase extends SymfonyWebTestCase
         $this->logIn();
     }
 
+    /**
+     * Logs the user "user" in.
+     */
     protected function logIn()
     {
         $session = $this->client->getContainer()->get('session');
 
-        $firewall   = 'secured_area';
-        $token      = new UsernamePasswordToken('user', null, $firewall, array('ROLE_USER'));
+        $firewall = 'secured_area';
+        $token    = new UsernamePasswordToken('user', null, $firewall, array('ROLE_USER'));
         $session->set('_security_'.$firewall, serialize($token));
         $session->save();
 

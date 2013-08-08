@@ -5,6 +5,7 @@ namespace Oktolab\Bundle\RentBundle\Entity\Inventory;
 use Doctrine\ORM\Mapping as ORM;
 use Oktolab\Bundle\RentBundle\Model\UploadableInterface;
 use Symfony\Component\Validator\Constraints as Assert;
+use Oktolab\Bundle\RentBundle\Model\RentableInterface;
 
 /**
  * Item
@@ -13,7 +14,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  * @ORM\Entity
  * @ORM\HasLifecycleCallbacks()
  */
-class Item implements UploadableInterface
+class Item implements RentableInterface, RentableInterface
 {
     /**
      * @var integer
@@ -428,6 +429,7 @@ class Item implements UploadableInterface
     {
         return '/item';
     }
+
     /**
      * Constructor
      */
@@ -489,5 +491,21 @@ class Item implements UploadableInterface
     public function getPicture()
     {
         return $this->picture;
+    }
+
+    /**
+     *   {@inheritDoc}
+     */
+    public function getType()
+    {
+        return 'item';
+    }
+
+    /**
+     *  {@inheritDoc}
+     */
+    public function getState()
+    {
+        return 0;
     }
 }
