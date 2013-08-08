@@ -28,6 +28,9 @@ services:
 #        tags:
 #            - { name: doctrine.event_listener, event: prePersist }
 
+    oktolab.upload_name_manager:
+        class: Oktolab\Bundle\RentBundle\Model\UploadNameManager
+
     oktolab.twig.attachment.extension:
         class:  Oktolab\Bundle\RentBundle\Extension\AttachmentExtension
         arguments: [@service_container]

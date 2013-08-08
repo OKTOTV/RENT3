@@ -4,10 +4,7 @@ namespace Oktolab\Bundle\RentBundle\Tests\Controller\Inventory;
 
 use Oktolab\Bundle\RentBundle\Tests\WebTestCase;
 use Oktolab\Bundle\RentBundle\DataFixtures\ORM\ItemFixture;
-use Doctrine\Common\DataFixtures\Loader;
-use Doctrine\Common\DataFixtures\Executor\ORMExecutor;
 use Doctrine\Common\DataFixtures\Purger\ORMPurger;
-use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 class ItemControllerTest extends WebTestCase
 {
@@ -142,36 +139,10 @@ class ItemControllerTest extends WebTestCase
         );
     }
 
-    public function testNewItemWithPicture()
+    public function testNewItemWithAttachments()
     {
-        $crawler = $this->client->request('GET', '/inventory/item/');
-
-        $photo = new UploadedFile(
-            '/path/to/photo.jpg',
-            'photo.jpg',
-            'image/jpeg',
-            123
+        $this->markTestIncomplete(
+            'This test has not been implemented yet.'
         );
-
-        $crawler = $this->client->click($crawler->selectLink('Neues Item')->link());
-        // Fill in the form and submit it
-        $form = $crawler->selectButton('Speichern')->form(
-            array(
-            'oktolab_bundle_rentbundle_inventory_itemtype[title]'  => 'Test',
-            'oktolab_bundle_rentbundle_inventory_itemtype[description]' => 'Description',
-            'oktolab_bundle_rentbundle_inventory_itemtype[barcode]' => 'ASDF01',
-            'oktolab_bundle_rentbundle_inventory_itemtype[attachment][file]' => $photo
-            )
-        );
-
-        $crawler = $this->client->submit($form);
-        $crawler = $this->client->followRedirect();
-        // Check data in the show view
-        $this->assertGreaterThan(
-            0,
-            $crawler->filter('.aui-page-header-main:contains("Test")')->count(),
-            'Missing element td:contains("Test")'
-        );
-
     }
 }

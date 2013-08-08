@@ -97,6 +97,20 @@ class Set implements UploadableInterface
     private $attachments;
 
     /**
+     * @ORM\OneToOne(targetEntity="Attachment", cascade={"persist", "remove"} )
+     * @ORM\JoinColumn(
+     *      name="picture_id", referencedColumnName="id"
+     * )
+     * @var Attachment
+     */
+    private $picture;
+
+    public function __toString()
+    {
+        return $this->title;
+    }
+
+    /**
      * Get id
      *
      * @return integer
@@ -302,5 +316,28 @@ class Set implements UploadableInterface
     public function getAttachments()
     {
         return $this->attachments;
+    }
+
+    /**
+     * Set picture
+     *
+     * @param \Oktolab\Bundle\RentBundle\Entity\Inventory\Attachment $picture
+     * @return Set
+     */
+    public function setPicture(\Oktolab\Bundle\RentBundle\Entity\Inventory\Attachment $picture = null)
+    {
+        $this->picture = $picture;
+    
+        return $this;
+    }
+
+    /**
+     * Get picture
+     *
+     * @return \Oktolab\Bundle\RentBundle\Entity\Inventory\Attachment 
+     */
+    public function getPicture()
+    {
+        return $this->picture;
     }
 }

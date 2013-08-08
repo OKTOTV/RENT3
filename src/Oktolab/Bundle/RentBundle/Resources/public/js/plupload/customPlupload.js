@@ -7,71 +7,123 @@
 //<script type="text/javascript">
 AJS.$(document).ready(function()
 {
-//    AJS.$("#fileupload").plupload(
-//    {
-//        runtimes: "html5",
-//        url: uploadAttachmentUrl
-//    });
+        if (jQuery('.plupload').data('plupload') === 'single') {
+            var pictureloader = new plupload.Uploader({
+                runtimes: 'html5',
+                browse_button : 'pickfile',
+                container : 'containerfile',
+                max_file_size : '10mb',
+                multi_selection: false,
+                max_file_count: 1,
+                url : uploadAttachmentUrl,
+                filters : [
+                    {title : "Image files", extensions : "jpg,jpeg,gif,png"}
+                ]
+             });
 
-// Custom example logic
-    AJS.$(function() {
-        var uploader = new plupload.Uploader({
-            runtimes : 'html5',
-            browse_button : 'pickfiles',
-            container : 'container',
-            max_file_size : '10mb',
-            url : uploadAttachmentUrl,
-            filters : [
-                {title : "Image files", extensions : "jpg,gif,png"},
-            ],
-            resize : {width : 320, height : 240, quality : 90}
-        });
+             pictureloader.bind('Init', function(up, params) {
+                 AJS.$('#file').html("<div>Bereit: " + params.runtime + "</div>");
+             });
 
-        uploader.bind('Init', function(up, params) {
-            AJS.$('#filelist').html("<div>Current runtime: " + params.runtime + "</div>");
-        });
+             AJS.$('#uploadfile').click(function(e) {
+                 if (pictureloader.files.length > 0) {
+                     pictureloader.start();
+                     e.preventDefault();
+                 }
+             });
 
-        AJS.$('#uploadfiles').click(function(e) {
-            if (uploader.files.length > 0) {
-                uploader.start();
-                e.preventDefault();
-            }
-        });
+             pictureloader.bind('FilesAdded', function(up, files) {
+                 $.each(files, function(i, file) {
+                     $('#file').append(
+                         '<div id="' + file.id + '">' +
+                         file.name + ' (' + plupload.formatSize(file.size) + ') <b></b>' +
+                     '</div>');
+                 });
 
-        uploader.init();
+                 up.refresh(); // Reposition Flash/Silverlight
+             });
 
-        uploader.bind('FilesAdded', function(up, files) {
-            $.each(files, function(i, file) {
-                $('#filelist').append(
-                    '<div id="' + file.id + '">' +
-                    file.name + ' (' + plupload.formatSize(file.size) + ') <b></b>' +
-                '</div>');
+             pictureloader.bind('UploadProgress', function(up, file) {
+                 $('#' + file.id + " b").html(file.percent + "%");
+             });
+
+             pictureloader.bind('Error', function(up, err) {
+                 $('#file').append("<div>Error: " + err.code +
+                     ", Message: " + err.message +
+                     (err.file ? ", File: " + err.file.name : "") +
+                     "</div>"
+                 );
+
+                 up.refresh(); // Reposition Flash/Silverlight
+             });
+
+             pictureloader.bind('FileUploaded', function(up, file) {
+                 $('#' + file.id + " b").html("100%");
+             });
+
+             pictureloader.bind('UploadComplete', function(uploader, file) {
+                 $('form').submit();
+             });
+
+             pictureloader.init();
+        }
+
+        if (jQuery('.plupload').data('plupload') === 'multiple') {
+            var uploader = new plupload.Uploader({
+                runtimes : 'html5',
+                browse_button : 'pickfiles',
+                container : 'container',
+                max_file_size : '10mb',
+                url : uploadAttachmentUrl,
+                filters : [
+                    {title : "Image files", extensions : "jpg,jpeg,gif,png"}
+                ]
             });
 
-            up.refresh(); // Reposition Flash/Silverlight
-        });
+            uploader.bind('Init', function(up, params) {
+                AJS.$('#filelist').html("<div>Bereit: " + params.runtime + "</div>");
+            });
 
-        uploader.bind('UploadProgress', function(up, file) {
-            $('#' + file.id + " b").html(file.percent + "%");
-        });
+            AJS.$('#uploadfiles').click(function(e) {
+                if (uploader.files.length > 0) {
+                    uploader.start();
+                    e.preventDefault();
+                }
+            });
 
-        uploader.bind('Error', function(up, err) {
-            $('#filelist').append("<div>Error: " + err.code +
-                ", Message: " + err.message +
-                (err.file ? ", File: " + err.file.name : "") +
-                "</div>"
-            );
+            uploader.bind('FilesAdded', function(up, files) {
+                $.each(files, function(i, file) {
+                    $('#filelist').append(
+                        '<div id="' + file.id + '">' +
+                        file.name + ' (' + plupload.formatSize(file.size) + ') <b></b>' +
+                    '</div>');
+                });
 
-            up.refresh(); // Reposition Flash/Silverlight
-        });
+                up.refresh(); // Reposition Flash/Silverlight
+            });
 
-        uploader.bind('FileUploaded', function(up, file) {
-            $('#' + file.id + " b").html("100%");
-        });
+            uploader.bind('UploadProgress', function(up, file) {
+                $('#' + file.id + " b").html(file.percent + "%");
+            });
 
-        uploader.bind('UploadComplete', function(uploader, file) {
-            console.log(uploader);
-            $('form').submit();
-        });
-    });
+            uploader.bind('Error', function(up, err) {
+                $('#filelist').append("<div>Error: " + err.code +
+                    ", Message: " + err.message +
+                    (err.file ? ", File: " + err.file.name : "") +
+                    "</div>"
+                );
+
+                up.refresh(); // Reposition Flash/Silverlight
+            });
+
+            uploader.bind('FileUploaded', function(up, file) {
+                $('#' + file.id + " b").html("100%");
+            });
+
+            uploader.bind('UploadComplete', function(uploader, file) {
+                $('form').submit();
+            });
+
+            uploader.init();
+        }
 });
