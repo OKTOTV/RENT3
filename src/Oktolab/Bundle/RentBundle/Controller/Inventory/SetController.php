@@ -205,7 +205,8 @@ class SetController extends Controller
     {
         $editForm = $this->createForm(new SetType(), $set, array('method' => 'PUT'));
         $editForm->handleRequest($request);
-
+        $em = $this->getDoctrine()->getManager();
+        
         if ($editForm->isValid()) {
 
             $formItems = $editForm->get('itemsToAdd')->getData();
@@ -240,6 +241,7 @@ class SetController extends Controller
             $uploader = $this->get('oktolab.upload_manager');
             $uploader->saveAttachmentsToEntity($set, $files);
             //-----------------------------
+            $em = $this->getDoctrine()->getManager();
             $em->persist($set);
             $em->flush();
 
@@ -265,7 +267,7 @@ class SetController extends Controller
         foreach ($set->getItems() as $Item) {
             $Item->setSet();
         }
-
+        $em = $this->getDoctrine()->getManager();
         $em->remove($set);
 
         //TODO: create service --------
