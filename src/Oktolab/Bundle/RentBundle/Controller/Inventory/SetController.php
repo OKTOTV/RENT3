@@ -260,7 +260,7 @@ class SetController extends Controller
     /**
      * Deletes a Inventory\Set entity.
      *
-     * @Route("/delete/{id}", name="inventory_set_delete")
+     * @Route("/{id}/delete", name="inventory_set_delete")
      * @ParamConverter("set", class="OktolabRentBundle:Inventory\Set")
      * @Method("GET")
      * @Template()
@@ -288,7 +288,7 @@ class SetController extends Controller
     /**
      * Remove an Item from a set entity.
      *
-     * @Route("{setid}/remove/item/{id}", name="inventory_set_remove_item")
+     * @Route("/{setid}/remove/item/{id}", name="inventory_set_remove_item")
      * @ParamConverter("set", class="OktolabRentBundle:Inventory\Set", options={"id" = "setid"})
      * @ParamConverter("item", class="OktolabRentBundle:Inventory\Item", options={"id" = "id"})
      * @Method("GET")
