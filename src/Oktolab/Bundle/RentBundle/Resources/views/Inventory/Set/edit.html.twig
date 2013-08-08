@@ -5,18 +5,24 @@
     <div class="aui-page-header-image">
         <div class="aui-avatar aui-avatar-xlarge aui-avatar-project">
             <div class="aui-avatar-inner">
-                <img src="static/img/none.png">
+                {% if set.picture is not null %}
+                    <img src="{{ set.picture.getRelativePath | apply_filter('page_avatar') }}" />
+                {% endif %}
             </div>
         </div>
     </div>
     <div class="aui-page-header-main">
-        <h1>{{entity.title }} bearbeiten</h1>
+        <h1>{{set.title }} bearbeiten</h1>
+        <a href="{{ path('inventory_set_picture_upload', { 'id': set.id}) }}">{{ "Upload Picture" | trans }}</a>
+        {% if set.picture is not null %}
+            <a href="{{ path('inventory_set_attachment_delete', { 'entity_id': set.id, 'attachment_id': set.picture.getId }) }}">{{"Delete Picture" | trans }}</a>
+        {% endif %}
     </div>
     <div class="aui-page-header-actions">
         <div class="aui-buttons">
             <div class="aui-buttons">
                 <a class="aui-button" href="{{ path('inventory_set') }}">{% trans %}Back to list{% endtrans %}</a>
-                <a class="aui-button" href="{{ path('inventory_set_delete', { 'id': entity.id }) }}">{% trans %}Delete{% endtrans %}</a>
+                <a class="aui-button" href="{{ path('inventory_set_delete', { 'id': set.id }) }}">{% trans %}Delete{% endtrans %}</a>
             </div>
         </div>
     </div>
@@ -53,7 +59,7 @@
                         </tr>
                     </thead>
                     <tbody class="appendable">
-                        {% for item in items %}
+                        {% for item in set.getItems %}
                             <tr id=row_{{ item.id }}>
                                 <td headers="name">{{ item.title }}</td>
                                 <td>{{ item.description }}</td>
@@ -61,7 +67,7 @@
                                 <td>
                                     <ul class="menu">
                                         <li>
-                                            <a href="{{ path('inventory_set_remove_item', { 'id' : item.id, 'setid' : entity.id}) }}" class="inventory_set_remove_item" id={{ item.id }} >{% trans %}remove from set{% endtrans %}</a>
+                                            <a href="{{ path('inventory_set_remove_item', { 'id' : item.id, 'setid' : set.id}) }}" class="inventory_set_remove_item" id={{ item.id }} >{% trans %}remove from set{% endtrans %}</a>
                                         </li>
                                         <li>
                                             <a href="{{ path('inventory_item_show', { 'id': item.id }) }}">{% trans %}show{% endtrans %}</a>
@@ -75,7 +81,7 @@
                         {% endfor %}
                     </tbody>
                 </table>
-            {% for item in items %}
+            {% for item in set.getItems %}
                 <input class="addableitem" type="hidden" id="oktolab_bundle_rentbundle_inventory_settype_itemsToAdd_{{ item.id }}_id" name="oktolab_bundle_rentbundle_inventory_settype[itemsToAdd][{{ item.id }}][id]" required="required" />
             {% endfor %}
         </fieldset>
