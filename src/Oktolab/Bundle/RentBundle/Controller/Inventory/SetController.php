@@ -13,6 +13,7 @@ use Oktolab\Bundle\RentBundle\Form\Inventory\SetType;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Oktolab\Bundle\RentBundle\Entity\Inventory\Attachment;
 use Oktolab\Bundle\RentBundle\Form\Inventory\PictureType;
+
 /**
  * Inventory\Set controller.
  *
@@ -206,7 +207,7 @@ class SetController extends Controller
         $editForm = $this->createForm(new SetType(), $set, array('method' => 'PUT'));
         $editForm->handleRequest($request);
         $em = $this->getDoctrine()->getManager();
-        
+
         if ($editForm->isValid()) {
 
             $formItems = $editForm->get('itemsToAdd')->getData();

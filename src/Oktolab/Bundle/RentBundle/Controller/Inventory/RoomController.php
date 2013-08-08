@@ -12,6 +12,7 @@ use Oktolab\Bundle\RentBundle\Entity\Inventory\Room;
 use Oktolab\Bundle\RentBundle\Form\Inventory\RoomType;
 use Oktolab\Bundle\RentBundle\Entity\Inventory\Attachment;
 use Oktolab\Bundle\RentBundle\Form\Inventory\PictureType;
+
 /**
  * Inventory\Room controller.
  *
