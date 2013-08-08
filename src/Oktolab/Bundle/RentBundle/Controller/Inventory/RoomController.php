@@ -10,7 +10,8 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Oktolab\Bundle\RentBundle\Entity\Inventory\Room;
 use Oktolab\Bundle\RentBundle\Form\Inventory\RoomType;
-
+use Oktolab\Bundle\RentBundle\Entity\Inventory\Attachment;
+use Oktolab\Bundle\RentBundle\Form\Inventory\PictureType;
 /**
  * Inventory\Room controller.
  *
@@ -191,5 +192,77 @@ class RoomController extends Controller
 
         $em->flush();
         return $this->redirect($this->generateUrl('inventory_room'));
+    }
+
+    /**
+     * Deletes an attachment from the entity
+     *
+     * @Route("/{entity_id}/{attachment_id}/delete", name="inventory_room_attachment_delete")
+     * @ParamConverter("room", class="OktolabRentBundle:Inventory\Room", options={"id" = "entity_id"})
+     * @ParamConverter("attachment", class="OktolabRentBundle:Inventory\Attachment", options={"id" = "attachment_id"})
+     * @Method("GET")
+     */
+    public function deleteAttachment(Room $room, Attachment $attachment)
+    {
+        $fileManager = $this->get('oktolab.upload_manager');
+        if ($attachment === $room->getPicture()) {
+            $room->setPicture();
+        } else {
+            $room->removeAttachment($attachment);
+        }
+
+        $fileManager->removeUpload($attachment);
+
+        $em = $this->getDoctrine()->getManager();
+        $em->persist($room);
+        $em->flush();
+
+        return $this->redirect($this->generateUrl('inventory_room_edit', array('id' => $room->getId())));
+    }
+
+    /**
+     * @Route("/{id}/picture/upload", name="inventory_room_picture_upload")
+     * @ParamConverter("room", class="OktolabRentBundle:Inventory\Room")
+     * @Method("GET")
+     * @Template("OktolabRentBundle:Inventory\Room:edit_picture.html.twig")
+     */
+    public function uploadPictureAction(Room $room)
+    {
+        $picture = new Attachment();
+        $form   = $this->createForm(
+            new PictureType(),
+            $picture,
+            array(
+                'action' => $this->generateUrl('inventory_room_picture_update', array('id' => $room->getId())),
+                'method' => 'PUT'
+                )
+        );
+
+        return array(
+            'entity' => $room,
+            'edit_form'   => $form->createView(),
+        );
+    }
+
+    /**
+     * @Route("/{id}/picture/upload", name="inventory_room_picture_update")
+     * @ParamConverter("room", class="OktolabRentBundle:Inventory\Room")
+     * @Method("PUT")
+     */
+    public function updatePictureAction(Room $room)
+    {
+        //TODO: move to service? -------
+        $manager = $this->get('oneup_uploader.orphanage_manager')->get('gallery');
+        $files = $manager->uploadFiles();
+
+        $uploader = $this->get('oktolab.upload_manager');
+        $uploader->saveAttachmentsToEntity($room, $files, true);
+        //-----------------------------
+
+        $em = $this->getDoctrine()->getManager();
+        $em->persist($room);
+        $em->flush();
+
+        return $this->redirect($this->generateUrl('inventory_room_show', array('id' => $room->getId())));
     }
 }

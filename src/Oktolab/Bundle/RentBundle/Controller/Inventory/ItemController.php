@@ -11,7 +11,6 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Oktolab\Bundle\RentBundle\Entity\Inventory\Item;
 use Oktolab\Bundle\RentBundle\Form\Inventory\ItemType;
 use Oktolab\Bundle\RentBundle\Form\Inventory\PictureType;
-use Oktolab\Bundle\RentBundle\Entity\Inventory\Attachment;
 /**
  * Inventory\Item controller.
  *

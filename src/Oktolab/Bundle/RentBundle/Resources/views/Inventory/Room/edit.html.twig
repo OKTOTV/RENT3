@@ -5,12 +5,18 @@
     <div class="aui-page-header-image">
         <div class="aui-avatar aui-avatar-xlarge aui-avatar-project">
             <div class="aui-avatar-inner">
-                <img src="static/img/none.png">
+                {% if entity.picture is not null %}
+                    <img src="{{ item.picture.getRelativePath | apply_filter('page_avatar') }}" />
+                {% endif %}
             </div>
         </div>
     </div>
     <div class="aui-page-header-main">
         <h1>{{entity.title }} bearbeiten</h1>
+        <a href="{{ path('inventory_room_picture_upload', { 'id': entity.id}) }}">{{ "Upload Picture" | trans }}</a>
+            {% if entity.picture is not null %}
+                <a href="{{ path('inventory_room_attachment_delete', { 'entity_id': entity.id, 'attachment_id': entity.picture.getId }) }}">{{"Delete Picture" | trans }}</a>
+            {% endif %}
     </div>
     <div class="aui-page-header-actions">
         <div class="aui-buttons">

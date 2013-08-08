@@ -71,6 +71,15 @@ class Room implements UploadableInterface
     private $attachments;
 
     /**
+     * @ORM\OneToOne(targetEntity="Attachment", cascade={"persist", "remove"} )
+     * @ORM\JoinColumn(
+     *      name="picture_id", referencedColumnName="id"
+     * )
+     * @var Attachment
+     */
+    private $picture;
+
+    /**
      * Get id
      *
      * @return integer
@@ -244,5 +253,28 @@ class Room implements UploadableInterface
     public function getAttachments()
     {
         return $this->attachments;
+    }
+
+    /**
+     * Set picture
+     *
+     * @param \Oktolab\Bundle\RentBundle\Entity\Inventory\Attachment $picture
+     * @return Room
+     */
+    public function setPicture(\Oktolab\Bundle\RentBundle\Entity\Inventory\Attachment $picture = null)
+    {
+        $this->picture = $picture;
+    
+        return $this;
+    }
+
+    /**
+     * Get picture
+     *
+     * @return \Oktolab\Bundle\RentBundle\Entity\Inventory\Attachment 
+     */
+    public function getPicture()
+    {
+        return $this->picture;
     }
 }
