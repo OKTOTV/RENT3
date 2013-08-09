@@ -3,15 +3,15 @@
 {% block content_header %}
     <div class="aui-page-header-inner">
         <div class="aui-page-header-image">
-            <div class="aui-avatar aui-avatar-xlarge aui-avatar-project">
-                <div class="aui-avatar-inner">
-                    {% if set.picture is not null %}
-                        <a href="{{ set.picture.getRelativePath | apply_filter('page_avatar_full') }}" class="fancybox">
+            {% if set.picture is not null %}
+                <a href="{{ set.picture.getRelativePath | apply_filter('page_avatar_full') }}" class="fancybox" title="{{ set.picture.title }}">
+                    <div class="aui-avatar aui-avatar-xlarge aui-avatar-project">
+                        <div class="aui-avatar-inner">
                             <img src="{{ set.picture.getRelativePath | apply_filter('page_avatar') }}" />
-                        </a>
-                    {% endif %}
-                </div>
-            </div>
+                        </div>
+                    </div>
+                </a>
+            {% endif %}
         </div>
         <div class="aui-page-header-main">
             <h1>{{set.title}}</h1>
