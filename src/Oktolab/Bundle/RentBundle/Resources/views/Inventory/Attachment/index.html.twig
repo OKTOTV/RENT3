@@ -1,0 +1,48 @@
+{% extends 'OktolabRentBundle::layout.html.twig' %}
+
+{% block content_header %}
+    <div class="aui-page-header-inner">
+        <div class="aui-page-header-image">
+            <div class="aui-avatar aui-avatar-xlarge aui-avatar-project">
+                <div class="aui-avatar-inner">
+                    <img src="static/img/none.png">
+                </div>
+            </div>
+        </div>
+        <div class="aui-page-header-main">
+            <h1>{% trans %}Attachment list{% endtrans %}</h1>
+        </div>
+        <div class="aui-page-header-actions">
+            <div class="aui-buttons">
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block content %}
+    <table class="aui">
+        <thead>
+            <tr>
+                <th id="name">{% trans %}Title{% endtrans %}</th>
+                <th id="action">{% trans %}Actions{% endtrans %}</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for entity in entities %}
+            <tr>
+                <td headers="name">{{ entity.title }}</td>
+                <td class="action" headers="action">
+                    <ul class="menu">
+                        <li>
+                            <a href="{{ path('inventory_attachment_show', { 'id': entity.id }) }}">{% trans %}show{% endtrans %}</a>
+                        </li>
+                        <li>
+                            <a href="{{ path('inventory_attachment_delete', { 'id': entity.id }) }}">{% trans %}delete{% endtrans %}</a>
+                        </li>
+                    </ul>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

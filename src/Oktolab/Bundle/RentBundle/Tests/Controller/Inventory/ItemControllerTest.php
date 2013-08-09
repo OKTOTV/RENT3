@@ -3,6 +3,8 @@
 namespace Oktolab\Bundle\RentBundle\Tests\Controller\Inventory;
 
 use Oktolab\Bundle\RentBundle\Tests\WebTestCase;
+use Oktolab\Bundle\RentBundle\DataFixtures\ORM\ItemFixture;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 class ItemControllerTest extends WebTestCase
 {
@@ -18,11 +20,14 @@ class ItemControllerTest extends WebTestCase
 
     public function testIndexDisplaysItems()
     {
-        $this->loadFixtures(array('Oktolab\Bundle\RentBundle\DataFixtures\ORM\ItemFixture'));
-
-        $crawler = $this->client->request('GET', '/inventory/item/');
-        $this->assertTrue($this->client->getResponse()->isSuccessful(), 'Response should be successful');
-        $this->assertGreaterThan(
+        $crawler = $this->client->request('GET', 'inventory/item');
+        $this->client->followRedirect();
+        $this->assertEquals(
+            200,
+            $this->client->getResponse()->getStatusCode(),
+            "Unexpected HTTP status code for GET /inventory/item/"
+        );
+        $this->assertEquals(
             0,
             $crawler->filter('#content table tbody tr')->count(),
             'This list should contain at least 1 item'
@@ -60,8 +65,12 @@ class ItemControllerTest extends WebTestCase
     {
         $this->loadFixtures(array('Oktolab\Bundle\RentBundle\DataFixtures\ORM\ItemFixture'));
 
+        $crawler = $this->client->request('GET', '/inventory/item/1');
+        $crawler = $this->client->click($crawler->selectLink('Editieren')->link());
+
         $this->client->request('GET', '/inventory/item/1/edit');
         $this->assertTrue($this->client->getResponse()->isSuccessful(), 'Response should be successful');
+
 
         $form = $this->client->getCrawler()->selectButton('Speichern')->form(
             array(
@@ -71,7 +80,6 @@ class ItemControllerTest extends WebTestCase
 
         $this->client->submit($form);
         $this->assertTrue($this->client->getResponse()->isRedirection(), 'Response should be a redirection');
-
         $crawler = $this->client->followRedirect();
         $this->assertTrue($this->client->getResponse()->isSuccessful(), 'Response should be successful');
         $this->assertGreaterThan(
@@ -81,7 +89,7 @@ class ItemControllerTest extends WebTestCase
         );
     }
 
-    public function testSubmitFormForEditWithInvalidDataThrowsError()
+    public function testEditItemThrowsErrorOnInvalidFormData()
     {
         $this->loadFixtures(array('Oktolab\Bundle\RentBundle\DataFixtures\ORM\ItemFixture'));
 
@@ -103,8 +111,13 @@ class ItemControllerTest extends WebTestCase
     {
         $this->loadFixtures(array('Oktolab\Bundle\RentBundle\DataFixtures\ORM\ItemFixture'));
 
-        $this->client->request('GET', '/inventory/item/1/delete');
-        $this->assertTrue($this->client->getResponse()->isRedirect(), 'Response should be a redirect');
+
+        $crawler = $this->client->request('GET', '/inventory/item/1');
+        $crawler = $this->client->click($crawler->selectLink('Editieren')->link());
+
+        $this->client->click($crawler->selectLink('Löschen')->link());
+
+        $this->assertNotRegExp('/ItemTitle0/', $this->client->getResponse()->getContent());
 
         $crawler = $this->client->followRedirect();
         $this->assertTrue($this->client->getResponse()->isSuccessful(), 'Response should be successful');
@@ -122,7 +135,6 @@ class ItemControllerTest extends WebTestCase
     public function testEditInvalidItemReturns404()
     {
         $this->loadFixtures(array());
-
         $this->client->request('GET', '/inventory/item/1/edit');
         $this->assertTrue($this->client->getResponse()->isNotFound(), 'Response should return 404');
     }
@@ -133,5 +145,49 @@ class ItemControllerTest extends WebTestCase
 
         $this->client->request('GET', '/inventory/item/1/delete');
         $this->assertTrue($this->client->getResponse()->isNotFound(), 'Response should return 404');
+    }
+
+    public function testNewItemWithAttachments()
+    {
+        $this->loadFixtures(array());
+
+        // post new attachment
+        copy(__DIR__.'/../../DataFixtures/logo_okto.png', $filename = tempnam(sys_get_temp_dir(), 'OktolabRentBundle'));
+        $file = new UploadedFile($filename, basename($filename), 'image/png', filesize($filename), null, true);
+
+        $this->client->request(
+            'POST',
+            '/_uploader/gallery/upload',
+            array(
+                'Content-Length' => $file->getSize(),
+                'Content-Type' => 'multipart/form-data',
+            ),
+            array($file));
+        // - - - - - - - - - -
+
+
+        $this->client->request('GET', '/inventory/item/new');
+        $this->assertTrue($this->client->getResponse()->isSuccessful(), 'Response should be successful');
+
+        $form = $this->client->getCrawler()->selectButton('Speichern')->form(
+            array(
+                'oktolab_bundle_rentbundle_inventory_itemtype[title]'       => 'Test',
+                'oktolab_bundle_rentbundle_inventory_itemtype[description]' => 'Description',
+                'oktolab_bundle_rentbundle_inventory_itemtype[barcode]'     => 'ASDF01',
+            )
+        );
+
+        $this->client->submit($form);
+        $this->assertTrue($this->client->getResponse()->isRedirection(), 'Response should be a redirection');
+
+        $crawler = $this->client->followRedirect();
+
+        $this->assertTrue($this->client->getResponse()->isSuccessful(), 'Response should be successful');
+        $this->assertGreaterThan(
+            0,
+            $crawler->filter('header.aui-page-header:contains("Test")')->count(),
+            'Missing element td:contains("Test")'
+        );
+        $this->assertEquals(1, $crawler->filter('.aui-expander-content > img')->count(), 'Contains no Attachment');
     }
 }

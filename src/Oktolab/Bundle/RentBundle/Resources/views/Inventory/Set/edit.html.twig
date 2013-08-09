@@ -5,18 +5,24 @@
     <div class="aui-page-header-image">
         <div class="aui-avatar aui-avatar-xlarge aui-avatar-project">
             <div class="aui-avatar-inner">
-                <img src="static/img/none.png">
+                {% if set.picture is not null %}
+                    <img src="{{ set.picture.getRelativePath | apply_filter('page_avatar') }}" />
+                {% endif %}
             </div>
         </div>
     </div>
     <div class="aui-page-header-main">
-        <h1>{{ entity.title }} bearbeiten</h1>
+        <h1>{{ set.title }} bearbeiten</h1>
+        <a href="{{ path('inventory_set_picture_upload', { 'id': set.id }) }}">{{ "Upload Picture" | trans }}</a>
+        {% if set.picture is not null %}
+            <a href="{{ path('inventory_set_attachment_delete', { 'entity_id': set.id, 'attachment_id': set.picture.getId }) }}">{{"Delete Picture" | trans }}</a>
+        {% endif %}
     </div>
     <div class="aui-page-header-actions">
         <div class="aui-buttons">
             <div class="aui-buttons">
                 <a class="aui-button" href="{{ path('inventory_set') }}">{{ 'Back to list' | trans }}</a>
-                <a class="aui-button" href="{{ path('inventory_set_delete', { 'id': entity.id }) }}">{{ 'Delete' | trans }}</a>
+                <a class="aui-button" href="{{ path('inventory_set_delete', { 'id': set.id }) }}">{{ 'Delete' | trans }}</a>
             </div>
         </div>
     </div>

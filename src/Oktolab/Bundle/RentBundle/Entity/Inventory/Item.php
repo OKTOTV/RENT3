@@ -3,18 +3,18 @@
 namespace Oktolab\Bundle\RentBundle\Entity\Inventory;
 
 use Doctrine\ORM\Mapping as ORM;
+use Oktolab\Bundle\RentBundle\Model\UploadableInterface;
 use Symfony\Component\Validator\Constraints as Assert;
-
 use Oktolab\Bundle\RentBundle\Model\RentableInterface;
 
 /**
  * Item
  *
- * @ORM\Table()
+ * @ORM\Table(name="item")
  * @ORM\Entity
  * @ORM\HasLifecycleCallbacks()
  */
-class Item implements RentableInterface
+class Item implements RentableInterface, UploadableInterface
 {
     /**
      * @var integer
@@ -124,6 +124,27 @@ class Item implements RentableInterface
      * @ORM\Column(name="updated_at", type="datetime")
      */
     private $updated_at;
+
+    /**
+     * @ORM\ManyToMany(targetEntity="Attachment", cascade={"persist"} )
+     * @ORM\JoinTable(
+     *      name="item_attachment",
+     *      joinColumns={@ORM\JoinColumn(name="item_id", referencedColumnName="id")},
+     *      inverseJoinColumns={@ORM\JoinColumn(name="attachment_id", referencedColumnName="id", unique=true)}
+     * )
+     *
+     */
+    private $attachments;
+
+    /**
+     * @ORM\OneToOne(targetEntity="Attachment", cascade={"persist", "remove"} )
+     * @ORM\JoinColumn(
+     *      name="picture_id", referencedColumnName="id"
+     * )
+     *
+     * @var type
+     */
+    private $picture;
 
     /**
      * Get id
@@ -402,7 +423,79 @@ class Item implements RentableInterface
     }
 
     /**
-     *  {@inheritDoc}
+     * Get Subfoldername for Attachments
+     * @return string
+     */
+    public function getUploadFolder()
+    {
+        return '/item';
+    }
+
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->attachments = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+
+    /**
+     * Add attachment
+     *
+     * @param Attachment $attachment
+     * @return Item
+     */
+    public function addAttachment(\Oktolab\Bundle\RentBundle\Entity\Inventory\Attachment $attachment)
+    {
+        $this->attachments[] = $attachment;
+        return $this;
+    }
+
+    /**
+     * Remove attachment
+     *
+     * @param Attachment $attachment
+     */
+    public function removeAttachment(\Oktolab\Bundle\RentBundle\Entity\Inventory\Attachment $attachment)
+    {
+        $this->attachments->removeElement($attachment);
+    }
+
+    /**
+     * Get attachments
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getAttachments()
+    {
+        return $this->attachments;
+    }
+
+    /**
+     * Set picture
+     *
+     * @param Attachment $picture
+     * @return Item
+     */
+    public function setPicture(\Oktolab\Bundle\RentBundle\Entity\Inventory\Attachment $picture = null)
+    {
+        $this->picture = $picture;
+
+        return $this;
+    }
+
+    /**
+     * Get picture
+     *
+     * @return Attachment
+     */
+    public function getPicture()
+    {
+        return $this->picture;
+    }
+
+    /**
+     *   {@inheritDoc}
      */
     public function getType()
     {

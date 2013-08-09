@@ -10,7 +10,7 @@
             </div>
         </div>
         <div class="aui-page-header-main">
-            <h1>Inventar Item Liste</h1>
+            <h1>Inventar Gegenstand Liste</h1>
         </div>
         <div class="aui-page-header-actions">
             <div class="aui-buttons">
@@ -42,7 +42,7 @@
                 <td headers="name">{{ entity.title }}</td>
                 <td>{{ entity.description }}</td>
                 <td>{{ entity.barcode }}</td>
-                <td>{% if entity.buyDate %}{{ entity.buyDate|date('Y-m-d') }}{% endif %}</td>
+                <td>{% if entity.buyDate %}{{ entity.buyDate|date('d.m.Y') }}{% endif %}</td>
                 <td>{{ entity.serialNumber }}</td>
                 <td>{{ entity.vendor }}</td>
                 <td>{{ entity.modelNumber }}</td>

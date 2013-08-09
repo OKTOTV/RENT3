@@ -37,7 +37,7 @@ class SetControllerTest extends WebTestCase
     {
         $this->loadFixtures(array());
 
-        $this->client->request('GET', '/inventory/set/new');
+        $crawler = $this->client->request('GET', '/inventory/set/new');
         $this->assertTrue($this->client->getResponse()->isSuccessful(), 'Response should be successful');
 
         $form = $this->client->getCrawler()->selectButton('Speichern')->form(
@@ -48,15 +48,10 @@ class SetControllerTest extends WebTestCase
             )
         );
 
-        $this->client->submit($form);
-        $this->assertTrue(
-            $this->client->getResponse()->isRedirect('/inventory/set/1'),
-            'Response should be a redirect to Set'
-        );
-
+        $crawler = $this->client->submit($form);
+        $this->assertEquals(302, $this->client->getResponse()->getStatusCode());
         $crawler = $this->client->followRedirect();
-        $this->assertTrue($this->client->getResponse()->isSuccessful(), 'Response should be successful');
-
+        $this->assertEquals(200, $this->client->getResponse()->getStatusCode());
         $this->assertEquals(
             1,
             $crawler->filter('.aui-page-header-main:contains("TestSet")')->count(),
@@ -82,10 +77,8 @@ class SetControllerTest extends WebTestCase
             $this->client->getResponse()->isRedirect('/inventory/set/1'),
             'Response should be a redirect to Set'
         );
-
         $crawler = $this->client->followRedirect();
         $this->assertTrue($this->client->getResponse()->isSuccessful(), 'Response should be successful');
-
         $this->assertEquals(
             1,
             $crawler->filter('.aui-page-header-main:contains("Foo")')->count(),
@@ -96,13 +89,11 @@ class SetControllerTest extends WebTestCase
     public function testSubmitFormForEditWithInvalidDataThrowsError()
     {
         $this->loadFixtures(array('Oktolab\Bundle\RentBundle\DataFixtures\ORM\SetFixture'));
+        $crawler = $this->client->request('GET', '/inventory/set/1/edit');
 
-        $this->client->request('GET', '/inventory/set/1/edit');
-        $this->assertTrue($this->client->getResponse()->isSuccessful(), 'Response should be successful');
-
-        $form = $this->client->getCrawler()->selectButton('Speichern')->form(
+        $form = $crawler->selectButton('Speichern')->form(
             array(
-                'oktolab_rentbundle_inventory_set[title]' => ''
+                'oktolab_rentbundle_inventory_set[title]' => '',
             )
         );
 
@@ -128,6 +119,7 @@ class SetControllerTest extends WebTestCase
 
     public function testAddItemToSet()
     {
+        //only possible with javascript. we use a modified Form and post it.
         $this->loadFixtures(
             array(
                 'Oktolab\Bundle\RentBundle\DataFixtures\ORM\SetFixture',
@@ -152,7 +144,6 @@ class SetControllerTest extends WebTestCase
                 )
             )
         );
-
         $this->assertTrue(
             $this->client->getResponse()->isRedirect('/inventory/set/1'),
             'Response should be a redirect to Set'
@@ -175,9 +166,8 @@ class SetControllerTest extends WebTestCase
 
         $this->client->request('GET', '/inventory/set/1/edit');
         $this->assertTrue($this->client->getResponse()->isSuccessful(), 'Response should be successful');
-
         $form = $this->client->getCrawler()->selectButton('Speichern')->form();
-        $this->client->request(
+        $crawler = $this->client->request(
             'PUT',
             $form->getUri(),
             array(
@@ -189,7 +179,6 @@ class SetControllerTest extends WebTestCase
                 )
             )
         );
-
         $this->assertTrue(
             $this->client->getResponse()->isRedirect('/inventory/set/1'),
             'Response should be a redirect to Set'
@@ -234,19 +223,11 @@ class SetControllerTest extends WebTestCase
         $this->assertTrue($this->client->getResponse()->isNotFound(), 'Response should return 404');
     }
 
-    public function testEditInvalidSetReturns404()
-    {
-        $this->loadFixtures(array());
-
-        $this->client->request('GET', '/inventory/set/1/edit');
-        $this->assertTrue($this->client->getResponse()->isNotFound(), 'Response should return 404');
-    }
-
     public function testDeleteInvalidSetReturns404()
     {
         $this->loadFixtures(array());
 
-        $this->client->request('GET', '/inventory/set/1/delete');
+        $this->client->request('GET', '/inventory/set/1/edit');
         $this->assertTrue($this->client->getResponse()->isNotFound(), 'Response should return 404');
     }
 

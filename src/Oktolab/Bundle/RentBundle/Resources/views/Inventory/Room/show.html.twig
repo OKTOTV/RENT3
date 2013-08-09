@@ -1,0 +1,43 @@
+{% extends 'OktolabRentBundle::layout.html.twig' %}
+
+{% block content_header %}
+    <div class="aui-page-header-inner">
+        <div class="aui-page-header-image">
+            <div class="aui-avatar aui-avatar-xlarge aui-avatar-project">
+                <div class="aui-avatar-inner">
+                    {% if room.picture is not null %}
+                        <img src="{{ room.picture.getRelativePath | apply_filter('page_avatar') }}" />
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        <div class="aui-page-header-main">
+            <h1>{{room.title}}</h1>
+            <h3>Barcode: {{room.barcode}}</h3>
+        </div>
+        <div class="aui-page-header-actions">
+            <div class="aui-buttons">
+                <div class="aui-buttons">
+                    <a class="aui-button" href="{{ path('inventory_room_edit', { 'id' : room.id }) }}">Editieren</a>
+                    <a class="aui-button" href="{{ path('inventory_room') }}">{% trans %}Back to list{% endtrans %}</a>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block content %}
+    <div class="aui-page-panel">
+        <div class="aui-page-panel-inner">
+            <section class="aui-page-panel-content">
+
+                {% for attachment in room.attachments %}
+                    <img src="{{ sauce(attachment) }}" />
+                {% endfor %}
+                <h3>{% trans %}Description{% endtrans %}</h3>
+                <p>{{ room.description }}</p>
+
+            </section>
+        </div>
+    </div>
+{% endblock %}

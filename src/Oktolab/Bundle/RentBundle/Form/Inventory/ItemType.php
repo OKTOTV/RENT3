@@ -5,6 +5,7 @@ namespace Oktolab\Bundle\RentBundle\Form\Inventory;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
+use Oktolab\Bundle\RentBundle\Form\Inventory\AttachmentType;
 
 class ItemType extends AbstractType
 {

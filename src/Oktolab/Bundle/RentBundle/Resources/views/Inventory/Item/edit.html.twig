@@ -1,26 +1,33 @@
 {% extends 'OktolabRentBundle::layout.html.twig' %}
 
 {% block content_header %}
-<div class="aui-page-header-inner">
-    <div class="aui-page-header-image">
-        <div class="aui-avatar aui-avatar-xlarge aui-avatar-project">
-            <div class="aui-avatar-inner">
-                <img src="static/img/none.png">
+    <div class="aui-page-header-inner">
+        <div class="aui-page-header-image">
+            <div class="aui-avatar aui-avatar-xlarge aui-avatar-project">
+                <div class="aui-avatar-inner">
+                    {% if item.picture is not null %}
+                        <img src="{{ item.picture.getRelativePath | apply_filter('page_avatar') }}" />
+                    {% endif %}
+                </div>
             </div>
         </div>
-    </div>
-    <div class="aui-page-header-main">
-        <h1>{{entity.title }} bearbeiten</h1>
-    </div>
-    <div class="aui-page-header-actions">
-        <div class="aui-buttons">
+        <div class="aui-page-header-main">
+            <h1>{{item.title }} bearbeiten</h1>
+            <a href="{{ path('inventory_item_picture_upload', { 'id': item.id}) }}">{{ "Upload Picture" | trans }}</a>
+            {% if item.picture is not null %}
+                <a href="{{ path('inventory_item_attachment_delete', { 'entity_id': item.id, 'attachment_id': item.picture.getId }) }}">{{"Delete Picture" | trans }}</a>
+            {% endif %}
+        </div>
+        <div class="aui-page-header-actions">
             <div class="aui-buttons">
-                <a class="aui-button" href="{{ path('inventory_item') }}">{% trans %}Back to list{% endtrans %}</a>
-                <a class="aui-button" href="{{ path('inventory_item_delete', { 'id': entity.id }) }}">{% trans %}Löschen{% endtrans %}</a>
+                <div class="aui-buttons">
+                    <a class="aui-button" href="{{ path('inventory_item_show', { 'id': item.id }) }}">{% trans %}Zurück{% endtrans %}</a>
+                    <a class="aui-button" href="{{ path('inventory_item') }}">{% trans %}Back to list{% endtrans %}</a>
+                    <a class="aui-button" href="{{ path('inventory_item_delete', { 'id': item.id }) }}">{% trans %}Löschen{% endtrans %}</a>
+                </div>
             </div>
         </div>
     </div>
-</div>
 {% endblock %}
 
 {% block content%}
@@ -36,10 +43,25 @@
             {{ form_row(edit_form.serialNumber) }}
             {{ form_row(edit_form.vendor) }}
             {{ form_row(edit_form.modelNumber) }}
+            <field class="plupload" data-plupload="multiple"></field>
+            <div id="container" class="field-group">
+                <div id="filelist">Engine wird geladen...</div>
+                <br />
+                <a id="pickfiles" href="#">[{% trans %}Select files{% endtrans %}]</a>
+            </div>
 
             <div class="buttons-container">
-                <button class="button submit aui-primary" type="submit">{% trans %}Submit{% endtrans %}</button>
+                <button class="aui-button aui-button-primary" id="uploadfiles" type="submit">{% trans %}Submit{% endtrans %}</button>
             </div>
         </fieldset>
     {{ form_end(edit_form) }}
+{% endblock %}
+
+{% block sidebar %}
+    <aside class="aui-page-panel-sidebar">
+        {% for attachment in item.attachments %}
+            <img src="{{ sauce(attachment) }}" />
+            <a href="{{ path('inventory_item_attachment_delete', {'entity_id' : item.id, 'attachment_id' : attachment.id }) }}">{{"Delete Attachment" | trans }}</a>
+        {% endfor %}
+    </aside>
 {% endblock %}

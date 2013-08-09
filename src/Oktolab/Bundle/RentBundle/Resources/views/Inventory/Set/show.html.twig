@@ -5,18 +5,20 @@
         <div class="aui-page-header-image">
             <div class="aui-avatar aui-avatar-xlarge aui-avatar-project">
                 <div class="aui-avatar-inner">
-                    <img src="static/img/none.png">
+                    {% if set.picture is not null %}
+                        <img src="{{ set.picture.getRelativePath | apply_filter('page_avatar') }}" />
+                    {% endif %}
                 </div>
             </div>
         </div>
         <div class="aui-page-header-main">
-            <h1>{{entity.title}}</h1>
+            <h1>{{set.title}}</h1>
             <h3>Barcode: </h3>
         </div>
         <div class="aui-page-header-actions">
             <div class="aui-buttons">
                 <div class="aui-buttons">
-                    <a class="aui-button" href="{{ path('inventory_set_edit', { 'id' : entity.id }) }}">Editieren</a>
+                    <a class="aui-button" href="{{ path('inventory_set_edit', { 'id' : set.id }) }}">Editieren</a>
                     <a class="aui-button" href="{{ path('inventory_set') }}">{% trans %}Back to list{% endtrans %}</a>
                 </div>
             </div>
@@ -28,8 +30,11 @@
     <div class="aui-page-panel">
         <div class="aui-page-panel-inner">
             <section class="aui-page-panel-content">
+                {% for attachment in set.attachments %}
+                    <img src="{{ sauce(attachment) }}" />
+                {% endfor %}
                 <h3>{% trans %}Description{% endtrans %}</h3>
-                <p>{{ entity.description }}</p>
+                <p>{{ set.description }}</p>
 
                 <h3>{% trans %}Items{% endtrans %}</h3>
                 <table class="aui">
@@ -45,7 +50,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        {% for item in items %}
+                        {% for item in set.getItems %}
                             <tr>
                                 <td headers="name">{{ item.title }}</td>
                                 <td>{{ item.description }}</td>

@@ -36,7 +36,6 @@
                 <input class="text long-field" type="text" id="oktolab_rentbundle_inventory_set_searchItems" name="oktolab_rentbundle_inventory_set_searchItems" title="{{ 'Search for Items' | trans }}">
                 <div class="description">{{ 'Search for Items: Name, Description, Barcode' | trans }}</div>
             </div>
-
         </fieldset>
 
         <h3>{{ 'Items' | trans }}</h3>
@@ -55,12 +54,18 @@
                                 <tr>
                                     <td>{{ item.barcode }}</td>
                                     <td>{{ item.title }}</td>
-                                    <td><a href="#"><span class="aui-icon aui-icon-small aui-iconfont-remove remove-object" data-value="item:{{ item.id }}' }}">{{ 'Remove'|trans }}</span></a></td>
+                                    <td><a href="#"><span class="aui-icon aui-icon-small aui-iconfont-remove remove-object" data-value="item:{{ item.id }}' }}">{{ 'Remove' | trans }}</span></a></td>
                                 </tr>
                             {% endfor %}
                         {% endif %}
                     </tbody>
                 </table>
+
+                <div id="container" class= "field-group">
+                    <div id="filelist">No runtime found.</div>
+                        <br />
+                        <a id="pickfiles" href="#">[Select files]</a>
+                </div>
 
                 <div class="buttons-container">
                     <button class="aui-button aui-button-primary" type="submit">{{ 'Submit' | trans }}</button>

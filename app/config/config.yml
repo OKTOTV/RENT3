@@ -68,3 +68,19 @@ swiftmailer:
     username:  %mailer_user%
     password:  %mailer_password%
     spool:     { type: memory }
+
+oneup_uploader:
+    mappings:
+        gallery:
+            frontend:      plupload
+            use_orphanage: true
+            namer:         oktolab.upload_name_manager
+
+avalanche_imagine:
+    source_root: %oktolab.web_dir%%oktolab.upload_dir%
+    filters:
+        page_avatar:
+            type:    thumbnail
+            options: { size: [64, 64], mode: outbound }
+
+

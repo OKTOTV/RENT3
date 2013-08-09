@@ -8,6 +8,7 @@
 
         {% stylesheets filter='cssrewrite'
             'aui-5.1/css/aui-all.css'
+            '@OktolabRentBundle/Resources/public/css/aui-tools.css'
             '@OktolabRentBundle/Resources/public/css/*' %}
             <link rel="stylesheet" href="{{ asset_url }}" type="text/css" />
         {% endstylesheets %}
@@ -22,7 +23,6 @@
             {% block page_main %}{% endblock %}
             {% block page_footer %}{% endblock%}
         </div>
-
 
         <script type="text/javascript">
             if (!oktolab) {
@@ -41,6 +41,8 @@
             '@OktolabRentBundle/Resources/public/js/vendor/*'
             '@OktolabRentBundle/Resources/public/js/event/*'
             '@OktolabRentBundle/Resources/public/js/inventory/*'
+            '@OktolabRentBundle/Resources/public/js/plupload/plupload.full.js'
+            '@OktolabRentBundle/Resources/public/js/plupload/customPlupload.js'
             '@OktolabRentBundle/Resources/public/js/*' %}
             <script type="text/javascript" src="{{ asset_url }}"></script>
         {% endjavascripts %}

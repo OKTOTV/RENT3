@@ -1,0 +1,53 @@
+{% extends 'OktolabRentBundle::layout.html.twig' %}
+
+{% block content_header %}
+<div class="aui-page-header-inner">
+    <div class="aui-page-header-image">
+        <div class="aui-avatar aui-avatar-xlarge aui-avatar-project">
+            <div class="aui-avatar-inner">
+                {% if entity.picture is not null %}
+                    <img src="{{ item.picture.getRelativePath | apply_filter('page_avatar') }}" />
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    <div class="aui-page-header-main">
+        <h1>{{entity.title }} bearbeiten</h1>
+        <a href="{{ path('inventory_room_picture_upload', { 'id': entity.id}) }}">{{ "Upload Picture" | trans }}</a>
+            {% if entity.picture is not null %}
+                <a href="{{ path('inventory_room_attachment_delete', { 'entity_id': entity.id, 'attachment_id': entity.picture.getId }) }}">{{"Delete Picture" | trans }}</a>
+            {% endif %}
+    </div>
+    <div class="aui-page-header-actions">
+        <div class="aui-buttons">
+            <div class="aui-buttons">
+                <a class="aui-button" href="{{ path('inventory_room_show', { 'id': entity.id }) }}">{% trans %}Zurück{% endtrans %}</a>
+                <a class="aui-button" href="{{ path('inventory_room') }}">{% trans %}Back to list{% endtrans %}</a>
+                <a class="aui-button" href="{{ path('inventory_room_delete', { 'id': entity.id }) }}">{% trans %}Löschen{% endtrans %}</a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block content%}
+    {{ form_start(edit_form, {'attr': {'class': 'aui'}}) }}
+        <fieldset>
+            {{ form_errors(edit_form) }}
+
+            {{ form_row(edit_form.title) }}
+            {{ form_row(edit_form.description, {'attr': {'placeholder': 'Description of the room'} }) }}
+            {{ form_row(edit_form.barcode) }}
+
+            <div id="container" class= "field-group">
+                <div id="filelist">No runtime found.</div>
+                <br />
+                <a id="pickfiles" href="#">[Select files]</a>
+            </div>
+
+            <div class="buttons-container">
+                <button class="aui-button aui-button-primary" id="uploadfiles" type="submit">{% trans %}Submit{% endtrans %}</button>
+            </div>
+        </fieldset>
+    {{ form_end(edit_form) }}
+{% endblock %}
