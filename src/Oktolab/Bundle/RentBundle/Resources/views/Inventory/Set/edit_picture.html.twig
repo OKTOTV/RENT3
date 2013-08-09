@@ -25,9 +25,16 @@
 </div>
 {% endblock %}
 
-{% block content%}
-    <p>Achtung: Bestehendes Bild wird ersetzt und kann nicht rückgängig gemacht werden!</p>
-    {{ form_start(edit_form, {'attr': {'class': 'aui'}}) }}
+{% block content %}
+    <div class="aui-message warning shadowed">
+        <p class="title">
+            <span class="aui-icon icon-warning"></span>
+            <strong>Das bestehende Bild wird ersetzt.</strong>
+        </p>
+        <p>Dieser Vorgang kann nicht rückgängig gemacht werden!</p>
+    </div>
+
+    {{ form_start(edit_form, {'attr': {'class': 'aui' } }) }}
         <fieldset>
             <field class="plupload" data-plupload="single"></field>
             <div id="containerfile" class="field-group">

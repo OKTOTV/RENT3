@@ -6,7 +6,7 @@
             <div class="aui-avatar aui-avatar-xlarge aui-avatar-project">
                 <div class="aui-avatar-inner">
                     {% if set.picture is not null %}
-                        <img src="{{ set.picture.getRelativePath | apply_filter('page_avatar') }}" />
+                        <img src="{{ set.picture.getRelativePath | apply_filter('page_avatar') }}" class="fancybox" />
                     {% endif %}
                 </div>
             </div>

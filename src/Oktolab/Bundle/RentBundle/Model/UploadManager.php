@@ -11,7 +11,7 @@ class UploadManager
     private $uploadPath;
     private $entityManager;
 
-    public function __construct($uploadPath, $webPath,  EntityManager $entityManager)
+    public function __construct($uploadPath, $webPath, EntityManager $entityManager)
     {
         $this->uploadPath = $webPath.$uploadPath;
         $this->entityManager = $entityManager;
@@ -65,17 +65,13 @@ class UploadManager
      */
     public function saveAttachmentsToEntity(UploadableInterface $entity, array $files, $picture = false)
     {
-        foreach ( $files as $file ) {
+        foreach ($files as $file) {
             $attachment = new Attachment();
             $attachment->setFile($file);
             $attachment->setPath($entity->getUploadFolder());
             $attachment->setTitle($file->getFileName());
 
-            if ($picture) {
-                $entity->setPicture($attachment);
-            } else {
-                $entity->addAttachment($attachment);
-            }
+            $picture ? $entity->setPicture($attachment) : $entity->addAttachment($attachment);
 
             $this->upload($attachment);
         }

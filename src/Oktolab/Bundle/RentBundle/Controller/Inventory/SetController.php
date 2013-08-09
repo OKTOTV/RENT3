@@ -9,9 +9,9 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
+
 use Oktolab\Bundle\RentBundle\Entity\Inventory\Set;
 use Oktolab\Bundle\RentBundle\Form\Inventory\SetType;
-use Symfony\Component\HttpFoundation\JsonResponse;
 use Oktolab\Bundle\RentBundle\Entity\Inventory\Attachment;
 use Oktolab\Bundle\RentBundle\Form\Inventory\PictureType;
 
@@ -267,26 +267,25 @@ class SetController extends Controller
      */
     public function uploadPictureAction(Set $set)
     {
-        $picture = new Attachment();
-        $form   = $this->createForm(
+        $form = $this->createForm(
             new PictureType(),
-            $picture,
+            new Attachment(),
             array(
                 'action' => $this->generateUrl('inventory_set_picture_update', array('id' => $set->getId())),
-                'method' => 'PUT'
-                )
+                'method' => 'POST',
+            )
         );
 
         return array(
-            'entity' => $set,
-            'edit_form'   => $form->createView(),
+            'entity'    => $set,
+            'edit_form' => $form->createView(),
         );
     }
 
     /**
      * @Route("/{id}/picture/upload", name="inventory_set_picture_update")
      * @ParamConverter("set", class="OktolabRentBundle:Inventory\Set")
-     * @Method("PUT")
+     * @Method("POST")
      */
     public function updatePictureAction(Set $set)
     {

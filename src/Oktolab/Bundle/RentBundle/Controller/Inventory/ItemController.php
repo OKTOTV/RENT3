@@ -11,6 +11,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Cache;
 
 use Oktolab\Bundle\RentBundle\Entity\Inventory\Item;
+use Oktolab\Bundle\RentBundle\Entity\Inventory\Attachment;
 use Oktolab\Bundle\RentBundle\Form\Inventory\ItemType;
 use Oktolab\Bundle\RentBundle\Form\Inventory\PictureType;
 
@@ -234,10 +235,9 @@ class ItemController extends Controller
      */
     public function uploadPictureAction(Item $item)
     {
-        $picture = new Attachment();
-        $form   = $this->createForm(
+        $form = $this->createForm(
             new PictureType(),
-            $picture,
+            new Attachment(),
             array(
                 'action' => $this->generateUrl('inventory_item_picture_update', array('id' => $item->getId())),
                 'method' => 'PUT'

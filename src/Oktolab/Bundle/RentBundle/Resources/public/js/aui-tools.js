@@ -17,4 +17,6 @@ AJS.$(document).ready(function() {
         calendar.render();
         console.timeEnd('rendercalendar');
     }
+
+    AJS.$('.fancybox').fancybox();
 });
