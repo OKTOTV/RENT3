@@ -4,6 +4,7 @@ namespace Oktolab\Bundle\RentBundle\Tests\Controller\Inventory;
 
 use Oktolab\Bundle\RentBundle\Tests\WebTestCase;
 use Oktolab\Bundle\RentBundle\DataFixtures\ORM\ItemFixture;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 class ItemControllerTest extends WebTestCase
 {
@@ -90,11 +91,10 @@ class ItemControllerTest extends WebTestCase
 
     public function testEditItemThrowsErrorOnInvalidFormData()
     {
-        $itemFixtureLoader = new ItemFixture();
-        $itemFixtureLoader->load($this->entityManager);
+        $this->loadFixtures(array('Oktolab\Bundle\RentBundle\DataFixtures\ORM\ItemFixture'));
 
-        $crawler = $this->client->request('GET', '/inventory/item/1');
-        $crawler = $this->client->click($crawler->selectLink('Editieren')->link());
+        $this->client->request('GET', '/inventory/item/1/edit');
+        $this->assertTrue($this->client->getResponse()->isSuccessful(), 'Response should be successful');
 
         $form = $this->client->getCrawler()->selectButton('Speichern')->form(
             array(
@@ -103,8 +103,6 @@ class ItemControllerTest extends WebTestCase
         );
 
         $crawler = $this->client->submit($form);
-
-        $this->assertEquals(200, $this->client->getResponse()->getStatusCode());
         $this->assertTrue($this->client->getResponse()->isSuccessful(), 'Response should be successful');
         $this->assertEquals(1, $crawler->filter('.error:contains("Du musst einen Titel angeben")')->count());
     }
@@ -151,8 +149,45 @@ class ItemControllerTest extends WebTestCase
 
     public function testNewItemWithAttachments()
     {
-        $this->markTestIncomplete(
-            'This test has not been implemented yet.'
+        $this->loadFixtures(array());
+
+        // post new attachment
+        copy(__DIR__.'/../../DataFixtures/logo_okto.png', $filename = tempnam(sys_get_temp_dir(), 'OktolabRentBundle'));
+        $file = new UploadedFile($filename, basename($filename), 'image/png', filesize($filename), null, true);
+
+        $this->client->request(
+            'POST',
+            '/_uploader/gallery/upload',
+            array(
+                'Content-Length' => $file->getSize(),
+                'Content-Type' => 'multipart/form-data',
+            ),
+            array($file));
+        // - - - - - - - - - -
+
+
+        $this->client->request('GET', '/inventory/item/new');
+        $this->assertTrue($this->client->getResponse()->isSuccessful(), 'Response should be successful');
+
+        $form = $this->client->getCrawler()->selectButton('Speichern')->form(
+            array(
+                'oktolab_bundle_rentbundle_inventory_itemtype[title]'       => 'Test',
+                'oktolab_bundle_rentbundle_inventory_itemtype[description]' => 'Description',
+                'oktolab_bundle_rentbundle_inventory_itemtype[barcode]'     => 'ASDF01',
+            )
         );
+
+        $this->client->submit($form);
+        $this->assertTrue($this->client->getResponse()->isRedirection(), 'Response should be a redirection');
+
+        $crawler = $this->client->followRedirect();
+
+        $this->assertTrue($this->client->getResponse()->isSuccessful(), 'Response should be successful');
+        $this->assertGreaterThan(
+            0,
+            $crawler->filter('header.aui-page-header:contains("Test")')->count(),
+            'Missing element td:contains("Test")'
+        );
+        $this->assertEquals(1, $crawler->filter('.aui-expander-content > img')->count(), 'Contains no Attachment');
     }
 }
