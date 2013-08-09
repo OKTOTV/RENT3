@@ -18,5 +18,5 @@ AJS.$(document).ready(function() {
         console.timeEnd('rendercalendar');
     }
 
-    AJS.$('.fancybox').fancybox();
+    AJS.$('a.fancybox').fancybox();
 });
