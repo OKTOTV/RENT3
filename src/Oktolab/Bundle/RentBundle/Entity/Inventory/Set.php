@@ -64,8 +64,9 @@ class Set
     private $barcode;
 
     /**
+     * var \Doctrine\Common\Collections\ArrayCollection
      *
-     *@ORM\OneToMany(targetEntity="Item", mappedBy="set", cascade="detach")
+     * @ORM\OneToMany(targetEntity="Item", mappedBy="set", cascade="detach")
      */
     private $items;
 
@@ -153,8 +154,9 @@ class Set
      * @param \Oktolab\Bundle\RentBundle\Entity\Inventory\Item $items
      * @return Set
      */
-    public function addItem(\Oktolab\Bundle\RentBundle\Entity\Inventory\Item $items)
+    public function addItem(/*\Oktolab\Bundle\RentBundle\Entity\Inventory\Item*/ $items)
     {
+//        var_dump($items); die("asdfasdf");
         $this->items[] = $items;
 
         return $this;

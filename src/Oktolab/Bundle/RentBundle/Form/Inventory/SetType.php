@@ -13,30 +13,24 @@ class SetType extends AbstractType
         $builder
             ->add('title')
             ->add('description', 'textarea')
-            ->add('searchItems', 'text', array('mapped' => false))
             ->add('barcode')
             ->add(
-                'itemsToAdd',
+                'items',
                 'collection',
                 array(
-                    'type' => new SetAddItemType(),
-                    'required' => false,
-                    'allow_add' => true,
-                    'allow_delete' => true,
-                    'prototype' => false,
-                    'mapped' => false,
-                    'attr' => array('hidden' => 'true')
-                )
-            );
+                    'type'          => 'entity',
+                    'options'       => array('class' => 'OktolabRentBundle:Inventory\Item', 'property' => 'id'),
+                    'allow_add'     => true,
+                    'allow_delete'  => true,
+            ));
     }
 
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
-        $resolver->setDefaults(
-            array(
-                'data_class' => 'Oktolab\Bundle\RentBundle\Entity\Inventory\Set'
-            )
-        );
+        $resolver->setDefaults(array(
+            'data_class'            => 'Oktolab\Bundle\RentBundle\Entity\Inventory\Set',
+            'cascade_validation'    => true,
+        ));
     }
 
     public function getName()

@@ -23,14 +23,19 @@
 {% endblock %}
 
 {% block content %}
-    {{ form_start(form, {'attr': {'class': 'aui'}}) }}
+    {{ form_start(form, {'attr': { 'class': 'aui', 'novalidate': 'novalidate' } }) }}
         <fieldset>
             {{ form_errors(form) }}
 
             {{ form_row(form.title) }}
             {{ form_row(form.description) }}
             {{ form_row(form.barcode) }}
-            {{ form_row(form.searchItems) }}
+
+            <div class="field-group">
+                <label for="oktolab_rentbundle_inventory_set_searchItems">{{ 'Search' | trans }}</label>
+                <input class="text long-field" type="text" id="oktolab_rentbundle_inventory_set_searchItems" name="oktolab_rentbundle_inventory_set_searchItems" title="{{ 'Search for Items' | trans }}">
+                <div class="description">{{ 'Search for Items: Name, Description, Barcode' | trans }}</div>
+            </div>
 
         </fieldset>
 
@@ -44,41 +49,28 @@
                             <th id="basic-action"><span class="aui-icon aui-icon-small aui-iconfont-configure">{{ 'Actions' | trans }}</span></th>
                         </tr>
                     </thead>
-                    <tbody class="set-items" data-prototype="{% filter escape %}{% include 'OktolabRentBundle:Inventory/Set:itemRowPrototype.html.twig' %}{% endfilter %}">
-                        {# for item in items %}
-                            <tr>
-                                <td>{{ '{{barcode}}' }}</td>
-                                <td>{{ '{{name}}' }}</td>
-                                <td><a href="#"><span class="aui-icon aui-icon-small aui-iconfont-remove remove-object" data-value="{{ '{{value}}' }}">{{ 'Remove'|trans }}</span></a></td>
-
-                            {#<tr>
-                                <td headers="name">{{ item.title }}</td>
-                                <td>{{ item.description }}</td>
-                                <td>{{ item.barcode }}</td>
-                                <td>
-                                    <ul class="menu">
-                                        <li>
-                                            <a href="" class="inventory_set_remove_item" id={{ item.id }} >{% trans %}remove from set{% endtrans %}</a>
-                                        </li>
-                                        <li>
-                                            <a href="{{ path('inventory_item_show', { 'id': item.id }) }}">{% trans %}show{% endtrans %}</a>
-                                        </li>
-                                        <li>
-                                            <a href="{{ path('inventory_item_edit', { 'id': item.id }) }}">{% trans %}edit{% endtrans %}</a>
-                                        </li>
-                                    </ul>
-                                </td># }
-                            </tr>
-                        {% endfor #}
+                    <tbody class="set-items" data-index="0" data-prototype="{% filter escape %}{% include 'OktolabRentBundle:Inventory/Set:itemRowPrototype.html.twig' %}{% endfilter %}">
+                        {% if items is defined %}
+                            {% for item in items %}
+                                <tr>
+                                    <td>{{ item.barcode }}</td>
+                                    <td>{{ item.title }}</td>
+                                    <td><a href="#"><span class="aui-icon aui-icon-small aui-iconfont-remove remove-object" data-value="item:{{ item.id }}' }}">{{ 'Remove'|trans }}</span></a></td>
+                                </tr>
+                            {% endfor %}
+                        {% endif %}
                     </tbody>
                 </table>
-                {# for item in items %}
-                    <input type="hidden" class="addableitem" id=​oktolab_bundle_rentbundle_inventory_settype_itemsToAdd_{{ item.id }}_id name=oktolab_bundle_rentbundle_inventory_settype[itemsToAdd]​[{{item.id}}]​[id]​ required=​"required" />
-                {% endfor #}
 
                 <div class="buttons-container">
                     <button class="aui-button aui-button-primary" type="submit">{{ 'Submit' | trans }}</button>
                 </div>
+            </fieldset>
+
+            <fieldset class="hidden-items" style="display:none" data-index="0" data-prototype="{{ '<input type="hidden" id="oktolab_rentbundle_inventory_set_items_{{index}}" name="oktolab_rentbundle_inventory_set[items][{{index}}]" value="{{id}}" />'|e }}">
+                {% for item in form.items %}
+                    {{ form_row(item) }}
+                {% endfor %}
             </fieldset>
     {{ form_end(form) }}
 {% endblock %}

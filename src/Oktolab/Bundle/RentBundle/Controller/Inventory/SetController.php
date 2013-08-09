@@ -42,48 +42,32 @@ class SetController extends Controller
      */
     public function createAction(Request $request)
     {
-        $entity  = new Set();
-        $form = $this->createForm(new SetType(), $entity);
-        $form->handleRequest($request);
+        $set = new Set();
         $em = $this->getDoctrine()->getManager();
+        $form = $this->createForm(new SetType(), $set);
+        $form->handleRequest($request);
 
         if ($form->isValid()) {
-
-            foreach ($form->get('itemsToAdd')->getData() as $key => $value) {
-                //add all items according to the id!
-                $item = $em->getRepository('OktolabRentBundle:Inventory\Item')->find($key);
-                if ($item) {
-                    $item->setSet($entity);
-                    $em->persist($item);
-
-                } else {
-                    throw $this->createNotFoundException('Unable to find Inventory\Item entity.');
-                }
+            foreach ($form->get('items')->getData() as $item) {
+                $item->setSet($set);
+                $em->persist($item);
             }
 
-            $em->persist($entity);
+            $em->persist($set);
             $em->flush();
 
-            return $this->redirect(
-                $this->generateUrl(
-                    'inventory_set_show',
-                    array(
-                        'id' => $entity->getId(),
-                        'items' => $entity->getItems()
-                    )
-                )
-            );
+            return $this->redirect($this->generateUrl('inventory_set_show', array('id' => $set->getId())));
         }
 
-        $items = array();
-        foreach ($form->get('itemsToAdd')->getData() as $key => $value) {
-            $items[] = $em->getRepository('OktolabRentBundle:Inventory\Item')->find($key);
-        }
+//        $items = array();
+//        foreach ($form->get('itemsToAdd')->getData() as $key => $value) {
+//            $items[] = $em->getRepository('OktolabRentBundle:Inventory\Item')->find($key);
+//        }
 
         return array(
-            'entity' => $entity,
+//            'entity' => $entity,
             'form'   => $form->createView(),
-            'items' => $items
+            'items' => $form->get('items')->getData(),
         );
     }
 
@@ -96,18 +80,13 @@ class SetController extends Controller
      */
     public function newAction()
     {
-        $entity = new Set();
-        $form   = $this->createForm(
+        $form = $this->createForm(
             new SetType(),
-            $entity,
+            new Set(),
             array('action' => $this->generateUrl('inventory_set_create'))
         );
 
-        return array(
-            'entity' => $entity,
-            'form'   => $form->createView(),
-            'items'  => $entity->getItems()
-        );
+        return array('form' => $form->createView());
     }
 
     /**
@@ -248,6 +227,8 @@ class SetController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
         $entity = $em->getRepository('OktolabRentBundle:Inventory\Set')->find($id);
+
+        $this->get('logger')->debug('TODO: Set message to avoid @$!#* with users');
 
         if (!$entity) {
             throw $this->createNotFoundException('Unable to find Inventory\Set entity.');
