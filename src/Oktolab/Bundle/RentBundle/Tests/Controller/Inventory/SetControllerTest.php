@@ -38,9 +38,9 @@ class SetControllerTest extends WebTestCase
 
         $form = $this->client->getCrawler()->selectButton('Speichern')->form(
             array(
-            'oktolab_bundle_rentbundle_inventory_settype[title]' => 'TestSet',
-            'oktolab_bundle_rentbundle_inventory_settype[description]' => 'TestDescription',
-            'oktolab_bundle_rentbundle_inventory_settype[barcode]' => 'ASDF0'
+            'oktolab_rentbundle_inventory_set[title]' => 'TestSet',
+            'oktolab_rentbundle_inventory_set[description]' => 'TestDescription',
+            'oktolab_rentbundle_inventory_set[barcode]' => 'ASDF0'
             )
         );
 
@@ -69,7 +69,7 @@ class SetControllerTest extends WebTestCase
 
         $form = $this->client->getCrawler()->selectButton('Speichern')->form(
             array(
-                'oktolab_bundle_rentbundle_inventory_settype[title]'  => 'Foo'
+                'oktolab_rentbundle_inventory_set[title]'  => 'Foo'
             )
         );
 
@@ -98,7 +98,7 @@ class SetControllerTest extends WebTestCase
 
         $form = $this->client->getCrawler()->selectButton('Speichern')->form(
             array(
-                'oktolab_bundle_rentbundle_inventory_settype[title]' => ''
+                'oktolab_rentbundle_inventory_set[title]' => ''
             )
         );
 
@@ -139,15 +139,18 @@ class SetControllerTest extends WebTestCase
             'PUT',
             $form->getUri(),
             array(
-                'oktolab_bundle_rentbundle_inventory_settype' => array(
-                    '_token'      => $form['oktolab_bundle_rentbundle_inventory_settype[_token]']->getValue(),
+                'oktolab_rentbundle_inventory_set' => array(
+                    '_token'      => $form['oktolab_rentbundle_inventory_set[_token]']->getValue(),
                     'title'       => 'TestSet',
                     'description' => 'TestDescription',
                     'barcode'     => 'ASDF0',
-                    'itemsToAdd'  => array(1 => 'id'),
+                    'items'       => array(0 => '1'),
                 )
             )
         );
+
+//        echo $this->client->getResponse()->getContent();
+//        var_dump($this->client->getResponse()->getStatusCode()); die();
 
         $this->assertTrue(
             $this->client->getResponse()->isRedirect('/inventory/set/1'),
@@ -177,8 +180,8 @@ class SetControllerTest extends WebTestCase
             'PUT',
             $form->getUri(),
             array(
-                'oktolab_bundle_rentbundle_inventory_settype' => array(
-                    '_token'        => $form['oktolab_bundle_rentbundle_inventory_settype[_token]']->getValue(),
+                'oktolab_rentbundle_inventory_set' => array(
+                    '_token'        => $form['oktolab_rentbundle_inventory_set[_token]']->getValue(),
                     'title'         => 'SetWithoutItem',
                     'description'   => 'SetWithoutItemDescription',
                     'barcode'       => 'ASDF0',
@@ -252,7 +255,7 @@ class SetControllerTest extends WebTestCase
 
         $this->client->request(
             'GET',
-            '/inventory/set/search.json',
+            '/api/item/typeahead.json',
             array(),
             array(),
             array('CONTENT_TYPE' => 'application/json', 'HTTP_X-Requested-With' => 'XMLHttpRequest')
