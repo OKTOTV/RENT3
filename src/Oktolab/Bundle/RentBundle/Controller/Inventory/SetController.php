@@ -4,6 +4,7 @@ namespace Oktolab\Bundle\RentBundle\Controller\Inventory;
 
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Cache;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
@@ -43,11 +44,11 @@ class SetController extends Controller
     public function createAction(Request $request)
     {
         $set = new Set();
-        $em = $this->getDoctrine()->getManager();
         $form = $this->createForm(new SetType(), $set);
         $form->handleRequest($request);
 
         if ($form->isValid()) {
+            $em = $this->getDoctrine()->getManager();
             foreach ($form->get('items')->getData() as $item) {
                 $item->setSet($set);
                 $em->persist($item);
@@ -59,15 +60,9 @@ class SetController extends Controller
             return $this->redirect($this->generateUrl('inventory_set_show', array('id' => $set->getId())));
         }
 
-//        $items = array();
-//        foreach ($form->get('itemsToAdd')->getData() as $key => $value) {
-//            $items[] = $em->getRepository('OktolabRentBundle:Inventory\Item')->find($key);
-//        }
-
         return array(
-//            'entity' => $entity,
             'form'   => $form->createView(),
-            'items' => $form->get('items')->getData(),
+            'items'  => $form->get('items')->getData(),
         );
     }
 
@@ -76,6 +71,7 @@ class SetController extends Controller
      *
      * @Route("/new", name="inventory_set_new")
      * @Method("GET")
+     * @Cache(expires="next year", public="true")
      * @Template()
      */
     public function newAction()
@@ -126,31 +122,23 @@ class SetController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
 
-        $entity = $em->getRepository('OktolabRentBundle:Inventory\Set')->find($id);
-
-        if (!$entity) {
+        if (!$set = $em->getRepository('OktolabRentBundle:Inventory\Set')->find($id)) {
             throw $this->createNotFoundException('Unable to find Inventory\Set entity.');
         }
 
-        $editForm = $this->createForm(
+        $form = $this->createForm(
             new SetType(),
-            $entity,
+            $set,
             array(
                 'method' => 'PUT',
-                'action' => $this->generateUrl(
-                    'inventory_set_update',
-                    array( 'id' => $id )
-                )
+                'action' => $this->generateUrl('inventory_set_update', array('id' => $set->getId())),
             )
         );
 
-        $deleteForm = $this->createDeleteForm($id);
-
         return array(
-            'entity'      => $entity,
-            'edit_form'   => $editForm->createView(),
-            'delete_form' => $deleteForm->createView(),
-            'items'       => $entity->getItems()
+            'entity' => $set,
+            'form'   => $form->createView(),
+            'items'  => $set->getItems(),
         );
     }
 
@@ -164,55 +152,44 @@ class SetController extends Controller
     public function updateAction(Request $request, $id)
     {
         $em = $this->getDoctrine()->getManager();
-
-        $entity = $em->getRepository('OktolabRentBundle:Inventory\Set')->find($id);
-
-        if (!$entity) {
+        if (!$set = $em->getRepository('OktolabRentBundle:Inventory\Set')->find($id)) {
             throw $this->createNotFoundException('Unable to find Inventory\Set entity.');
         }
-        $items = $entity->getItems();
-        $deleteForm = $this->createDeleteForm($id);
-        $editForm = $this->createForm(new SetType(), $entity, array('method' => 'PUT'));
-        $editForm->handleRequest($request);
 
-        if ($editForm->isValid()) {
+        $form = $this->createForm(
+            new SetType(),
+            $set,
+            array(
+                'method' => 'PUT',
+                'action' => $this->generateUrl('inventory_set_update', array('id' => $set->getId())),
+            )
+        );
 
-            $formItems = $editForm->get('itemsToAdd')->getData();
-
-            //iterate the form items to update set
-            foreach ($entity->getItems() as $Item) {
-
-                if (!array_key_exists($Item->getId(), $formItems)) {
-                    //Item is in Database but not in form, remove it
-                    $Item->setSet();
-                    $em->persist($Item);
-                }
-                //Item is in Database and form, remove from form so you won't persist ist again
-                unset($formItems[$Item->getId()]);
-            }
-            //formItems contains only new items. Save them
-            foreach ($formItems as $key => $value) {
-                $Item = $em->getRepository('OktolabRentBundle:Inventory\Item')->find($key);
-                if ($Item) {
-                    $Item->setSet($entity);
-                    $em->persist($Item);
-
-                } else {
-                    //TODO: no item found! Give the user a notice!
+        $form->handleRequest($request);
+        if ($form->isValid()) {
+            $formItems = $form->get('items')->getData();
+            foreach ($set->getItems() as $item) {
+                if (!array_key_exists($item->getId(), $formItems)) {
+                    $item->setSet(null);
+                    $em->persist($item);
                 }
             }
 
-            $em->persist($entity);
+            foreach ($formItems as $item) {
+                $item->setSet($set);
+                $em->persist($item);
+            }
+
+            $em->persist($set);
             $em->flush();
 
-            return $this->redirect($this->generateUrl('inventory_set_show', array('id' => $id, 'items' => $items)));
+            return $this->redirect($this->generateUrl('inventory_set_show', array('id' => $id)));
         }
 
         return array(
-            'entity'      => $entity,
-            'edit_form'   => $editForm->createView(),
-            'delete_form' => $deleteForm->createView(),
-            'items'       => $items
+            'entity' => $set,
+            'form'   => $form->createView(),
+            'items'  => $set->getItems(),
         );
     }
 

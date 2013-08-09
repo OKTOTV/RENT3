@@ -23,7 +23,7 @@
 {% endblock %}
 
 {% block content %}
-    {{ form_start(form, {'attr': { 'class': 'aui', 'novalidate': 'novalidate' } }) }}
+    {{ form_start(form, {'attr': { 'class': 'aui' } }) }}
         <fieldset>
             {{ form_errors(form) }}
 
@@ -67,7 +67,7 @@
                 </div>
             </fieldset>
 
-            <fieldset class="hidden-items" style="display:none" data-index="0" data-prototype="{{ '<input type="hidden" id="oktolab_rentbundle_inventory_set_items_{{index}}" name="oktolab_rentbundle_inventory_set[items][{{index}}]" value="{{id}}" />'|e }}">
+            <fieldset class="hidden-items" style="display:none" data-index="{{ form.items | length }}" data-prototype="{{ '<input type="hidden" id="oktolab_rentbundle_inventory_set_items_{{index}}" name="oktolab_rentbundle_inventory_set[items][{{index}}]" value="{{id}}" />'|e }}">
                 {% for item in form.items %}
                     {{ form_row(item) }}
                 {% endfor %}
