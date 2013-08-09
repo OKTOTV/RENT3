@@ -13,7 +13,11 @@ class SetControllerTest extends WebTestCase
 
         $crawler = $this->client->request('GET', '/inventory/set/');
         $this->assertTrue($this->client->getResponse()->isSuccessful(), 'Response should be successful');
-        $this->assertEquals(0, $crawler->filter('#content table tbody tr')->count(), 'There should be no sets in this list');
+        $this->assertEquals(
+            0,
+            $crawler->filter('#content table tbody tr')->count(),
+            'There should be no sets in this list'
+        );
     }
 
     public function testIndexDisplaysSets()
@@ -148,9 +152,6 @@ class SetControllerTest extends WebTestCase
                 )
             )
         );
-
-//        echo $this->client->getResponse()->getContent();
-//        var_dump($this->client->getResponse()->getStatusCode()); die();
 
         $this->assertTrue(
             $this->client->getResponse()->isRedirect('/inventory/set/1'),

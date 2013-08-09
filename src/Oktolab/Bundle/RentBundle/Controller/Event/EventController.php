@@ -66,6 +66,7 @@ class EventController extends Controller
 
             var_dump($form->getNormData());
             var_dump($form->getData()->getObjects());
+
             return new \Symfony\Component\HttpFoundation\Response("valid");
         }
 

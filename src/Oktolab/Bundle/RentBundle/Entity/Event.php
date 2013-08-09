@@ -102,7 +102,7 @@ class Event
     /**
      * Set name
      *
-     * @param string $name
+     * @param  string $name
      * @return Event
      */
     public function setName($name)
@@ -125,7 +125,7 @@ class Event
     /**
      * Set Begin Date
      *
-     * @param \DateTime $begin
+     * @param  \DateTime $begin
      * @return Event
      */
     public function setBegin($begin)
@@ -148,12 +148,13 @@ class Event
     /**
      * Set end
      *
-     * @param \DateTime $end
+     * @param  \DateTime $end
      * @return Event
      */
     public function setEnd(\DateTime $end)
     {
         $this->end = $end;
+
         return $this;
     }
 
@@ -170,7 +171,7 @@ class Event
     /**
      * Add objects
      *
-     * @param \Oktolab\Bundle\RentBundle\Entity\EventObject $objects
+     * @param  \Oktolab\Bundle\RentBundle\Entity\EventObject $objects
      * @return Event
      */
     public function addObject(EventObject $objects)
@@ -203,7 +204,7 @@ class Event
     /**
      * Set state
      *
-     * @param integer $state
+     * @param  integer $state
      * @return Event
      */
     public function setState($state)
@@ -226,7 +227,7 @@ class Event
     /**
      * Set description
      *
-     * @param string $description
+     * @param  string $description
      * @return Event
      */
     public function setDescription($description)

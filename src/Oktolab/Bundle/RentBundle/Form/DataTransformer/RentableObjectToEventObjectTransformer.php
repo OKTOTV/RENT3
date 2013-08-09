@@ -34,7 +34,7 @@ class RentableObjectToEventObjectTransformer implements DataTransformerInterface
     /**
      * Transforms an object that implements RentableInterface to an EventObject.
      *
-     * @param  RentableInterface|null $object
+     * @param RentableInterface|null $object
      *
      * @return EventObject
      *
@@ -46,13 +46,13 @@ class RentableObjectToEventObjectTransformer implements DataTransformerInterface
             return '';
         }
 
-        var_dump($object); die();
-
         if (!$object instanceof RentableInterface) {
-            throw new TransformationFailedException(sprintf(
-               'Object must be implement RentableInterface, Object of type "%s" given.',
-                \gettype($object) == 'object' ? \get_class($object) : \gettype($object)
-            ));
+            throw new TransformationFailedException(
+                sprintf(
+                    'Object must be implement RentableInterface, Object of type "%s" given.',
+                    \gettype($object) == 'object' ? \get_class($object) : \gettype($object)
+                )
+            );
         }
 
         $eventObject = new EventObject();
@@ -66,7 +66,7 @@ class RentableObjectToEventObjectTransformer implements DataTransformerInterface
     /**
      * Transforms an EventObject to an individual RentableInterface Object
      *
-     * @param  EventObject $eventObject
+     * @param EventObject $eventObject
      *
      * @return RentableInterface|null
      *
@@ -81,26 +81,28 @@ class RentableObjectToEventObjectTransformer implements DataTransformerInterface
 
         // fail if there is an wrong object given
         if (!$eventObject instanceof EventObject) {
-            throw new TransformationFailedException(sprintf(
-               'Object must be instance of EventObject, Object of type "%s" given.',
-                \get_type($eventObject) == 'object' ? \get_class($eventObject) : \get_type($eventObject)
-            ));
+            throw new TransformationFailedException(
+                sprintf(
+                    'Object must be instance of EventObject, Object of type "%s" given.',
+                    \get_type($eventObject) == 'object' ? \get_class($eventObject) : \get_type($eventObject)
+                )
+            );
         }
 
         // search object in repository
         $object = $this->em
-            ->getRepository(sprintf(
-                'OktolabRentBundle:Inventory\%s',
-                $eventObject->getType()
-            ))->findOneBy(array('id' => $eventObject->getObject()));
+            ->getRepository(sprintf('OktolabRentBundle:Inventory\%s', $eventObject->getType()))
+            ->findOneBy(array('id' => $eventObject->getObject()));
 
         // fail if no object were found
         if (null === $object) {
-            throw new TransformationFailedException(sprintf(
-                'An "%s" with id "%d" does not exist!',
-                $eventObject->getType(),
-                $eventObject->getObject()
-            ));
+            throw new TransformationFailedException(
+                sprintf(
+                    'An "%s" with id "%d" does not exist!',
+                    $eventObject->getType(),
+                    $eventObject->getObject()
+                )
+            );
         }
 
         return $object;

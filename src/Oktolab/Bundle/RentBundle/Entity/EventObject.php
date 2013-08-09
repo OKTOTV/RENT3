@@ -41,7 +41,6 @@ class EventObject
      */
     private $object;
 
-
     /**
      * Get id
      *
@@ -52,11 +51,10 @@ class EventObject
         return $this->id;
     }
 
-
     /**
      * Set type
      *
-     * @param string $type
+     * @param  string      $type
      * @return EventObject
      */
     public function setType($type)
@@ -79,7 +77,7 @@ class EventObject
     /**
      * Set event
      *
-     * @param \Oktolab\Bundle\RentBundle\Entity\Event $event
+     * @param  \Oktolab\Bundle\RentBundle\Entity\Event $event
      * @return EventObject
      */
     public function setEvent(Event $event = null)
@@ -102,7 +100,7 @@ class EventObject
     /**
      * Set object
      *
-     * @param integer $object
+     * @param  integer     $object
      * @return EventObject
      */
     public function setObject($object)

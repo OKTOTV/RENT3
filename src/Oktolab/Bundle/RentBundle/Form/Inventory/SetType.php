@@ -22,15 +22,18 @@ class SetType extends AbstractType
                     'options'       => array('class' => 'OktolabRentBundle:Inventory\Item', 'property' => 'id'),
                     'allow_add'     => true,
                     'allow_delete'  => true,
-            ));
+                )
+            );
     }
 
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
-        $resolver->setDefaults(array(
-            'data_class'            => 'Oktolab\Bundle\RentBundle\Entity\Inventory\Set',
-            'cascade_validation'    => true,
-        ));
+        $resolver->setDefaults(
+            array(
+                'data_class'         => 'Oktolab\Bundle\RentBundle\Entity\Inventory\Set',
+                'cascade_validation' => true,
+            )
+        );
     }
 
     public function getName()

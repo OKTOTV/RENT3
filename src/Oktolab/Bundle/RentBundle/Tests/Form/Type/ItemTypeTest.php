@@ -47,8 +47,6 @@ class ItemTypeTest extends TypeTestCase
 
         //$form = $this->factory->create($type, $item);
 
-
-
         $form->submit($formData);
         $this->assertTrue($form->isSynchronized(), 'No data transformer exception expected');
         $this->assertEquals($item, $form->getData(), 'Form Data should contain same information as Item');

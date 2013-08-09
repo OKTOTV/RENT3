@@ -30,12 +30,6 @@ class RentController extends Controller
         $event->setBegin(new \DateTime('-3 days'));
         $event->setEnd(new \DateTime('now'));
 
-//        $eventObject = new \Oktolab\Bundle\RentBundle\Entity\EventObject();
-//        $eventObject->setType('Item');
-//        $eventObject->setObject(1);
-
-//        $event->addObject($eventObject);
-
         $form = $this->createForm(
             new EventType(),
             $event,
@@ -57,6 +51,7 @@ class RentController extends Controller
     public function rentRoomFormAction()
     {
         $form = $this->createForm(new EventType(), null, array('em' => $this->getDoctrine()->getManager()));
+
         return array('form' => $form->createView());
     }
 }

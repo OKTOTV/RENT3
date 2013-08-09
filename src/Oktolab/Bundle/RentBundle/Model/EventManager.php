@@ -94,6 +94,7 @@ class EventManager
     public function isAvailable(RentableInterface $object, \DateTime $begin, \DateTime $end)
     {
         $results = $this->eventRepository->findAllForObjectCount($object, $begin, $end);
+
         return 0 === $results;
     }
 
@@ -102,7 +103,7 @@ class EventManager
      *
      * @param Event $event
      *
-     * @return boolean  true if successful
+     * @return boolean true if successful
      */
     public function cancel(Event $event)
     {
@@ -119,7 +120,7 @@ class EventManager
      * @param \DateTime $end     End time of the Event.
      *
      * @throws \BadMethodCallException on invalid $objects array
-     * @throws \Exception on not available object
+     * @throws \Exception              on not available object
      *
      * @return Event
      */

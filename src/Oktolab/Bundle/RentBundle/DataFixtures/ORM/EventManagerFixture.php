@@ -39,7 +39,6 @@ class EventManagerFixture extends AbstractFixture
             ->addObject($eventObject)
             ->setState(Event::STATE_RENTED);
 
-
         $eventObject = new EventObject();
         $eventObject->setType($item->getType())
             ->setObject($item->getId());

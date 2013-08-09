@@ -98,7 +98,7 @@ class Set
     /**
      * Set title
      *
-     * @param string $title
+     * @param  string $title
      * @return Set
      */
     public function setTitle($title)
@@ -121,7 +121,7 @@ class Set
     /**
      * Set description
      *
-     * @param string $description
+     * @param  string $description
      * @return Set
      */
     public function setDescription($description)
@@ -151,12 +151,11 @@ class Set
     /**
      * Add items
      *
-     * @param \Oktolab\Bundle\RentBundle\Entity\Inventory\Item $items
+     * @param  \Oktolab\Bundle\RentBundle\Entity\Inventory\Item $items
      * @return Set
      */
-    public function addItem(/*\Oktolab\Bundle\RentBundle\Entity\Inventory\Item*/ $items)
+    public function addItem(\Oktolab\Bundle\RentBundle\Entity\Inventory\Item $items)
     {
-//        var_dump($items); die("asdfasdf");
         $this->items[] = $items;
 
         return $this;
@@ -185,7 +184,7 @@ class Set
     /**
      * Set barcode
      *
-     * @param string $barcode
+     * @param  string $barcode
      * @return Set
      */
     public function setBarcode($barcode)
@@ -208,7 +207,7 @@ class Set
     /**
      * Set created_at
      * @ORM\PrePersist
-     * @param \DateTime $createdAt
+     * @param  \DateTime $createdAt
      * @return Set
      */
     public function setCreatedAt()
@@ -232,7 +231,7 @@ class Set
      * Set updated_at
      * @ORM\PrePersist
      * @ORM\PreUpdate
-     * @param \DateTime $updatedAt
+     * @param  \DateTime $updatedAt
      * @return Set
      */
     public function setUpdatedAt()

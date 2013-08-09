@@ -30,5 +30,4 @@ class DefaultController extends Controller
     {
         return array('licenses' => file_get_contents($this->get('kernel')->getRootDir().'/../LICENSE'));
     }
-
 }

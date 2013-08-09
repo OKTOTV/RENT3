@@ -125,7 +125,6 @@ class Item implements RentableInterface
      */
     private $updated_at;
 
-
     /**
      * Get id
      *
@@ -328,13 +327,14 @@ class Item implements RentableInterface
     public function isWarrantyVoid()
     {
         $now = new \DateTime();
+
         return ($this->warrantyDate <= $now);
     }
 
     /**
      * Set set
      *
-     * @param \Oktolab\Bundle\RentBundle\Entity\Inventory\Set $set
+     * @param  \Oktolab\Bundle\RentBundle\Entity\Inventory\Set $set
      * @return Item
      */
     public function setSet(\Oktolab\Bundle\RentBundle\Entity\Inventory\Set $set = null)
@@ -357,7 +357,7 @@ class Item implements RentableInterface
     /**
      * Set created_at
      * @ORM\PrePersist
-     * @param \DateTime $createdAt
+     * @param  \DateTime $createdAt
      * @return Item
      */
     public function setCreatedAt()
@@ -381,7 +381,7 @@ class Item implements RentableInterface
      * Set updated_at
      * @ORM\PrePersist
      * @ORM\PreUpdate
-     * @param \DateTime $updatedAt
+     * @param  \DateTime $updatedAt
      * @return Item
      */
     public function setUpdatedAt()

@@ -23,7 +23,7 @@ class EventFactory
     /**
      * Create a new Event with $objects
      *
-     * @param array $objects
+     * @param  array                                   $objects
      * @return \Oktolab\Bundle\RentBundle\Entity\Event
      */
     public function create(array $objects = null)

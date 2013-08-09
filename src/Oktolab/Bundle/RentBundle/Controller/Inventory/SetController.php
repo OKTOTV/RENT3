@@ -217,6 +217,7 @@ class SetController extends Controller
 
         $em->remove($entity);
         $em->flush();
+
         return $this->redirect($this->generateUrl('inventory_set'));
     }
 
@@ -250,6 +251,7 @@ class SetController extends Controller
         if (!$set) {
             return $this->redirect($this->generateUrl('inventory_set'));
         }
+
         return $this->redirect($this->generateUrl('inventory_set_edit', array('id' => $setid)));
     }
 
