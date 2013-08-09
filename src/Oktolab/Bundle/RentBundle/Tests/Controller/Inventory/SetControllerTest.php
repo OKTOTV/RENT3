@@ -116,15 +116,6 @@ class SetControllerTest extends WebTestCase
 
     public function testAddItemToSet()
     {
-        $setFixtureLoader = new SetFixture();
-        $setFixtureLoader->load($this->entityManager);
-
-        $itemFixtureLoader = new ItemFixture();
-        $itemFixtureLoader->load($this->entityManager);
-
-        $crawler = $this->client->request('GET', '/inventory/set/1/edit');
-
-        $form = $crawler->selectButton('Speichern')->form();
         //only possible with javascript. we use a modified Form and post it.
         $this->loadFixtures(
             array(
@@ -172,6 +163,7 @@ class SetControllerTest extends WebTestCase
 
         $this->client->request('GET', '/inventory/set/1/edit');
         $this->assertTrue($this->client->getResponse()->isSuccessful(), 'Response should be successful');
+        $form = $this->client->getCrawler()->selectButton('Speichern')->form();
         $crawler = $this->client->request(
             'PUT',
             $form->getUri(),
@@ -232,12 +224,7 @@ class SetControllerTest extends WebTestCase
     {
         $this->loadFixtures(array());
 
-        $crawler = $this->client->request('GET', '/inventory/set/1/edit');
-        $this->client->click($crawler->selectLink('Löschen')->link());
-
-        $this->assertNotRegExp('/setWithItemTitle/', $this->client->getResponse()->getContent());
-
-        $this->client->request('GET', '/inventory/set/1/delete');
+        $this->client->request('GET', '/inventory/set/1/edit');
         $this->assertTrue($this->client->getResponse()->isNotFound(), 'Response should return 404');
     }
 

@@ -55,7 +55,9 @@
                 <h3>{% trans %}Modelnumber{% endtrans %}</h3>
                 <p>{{ item.modelNumber }}</p>
 
-                <h3>{% trans %}Attachments{% endtrans%} <a id="replace-text-trigger" data-replace-text="({%trans%}hide{%endtrans%})" class="aui-expander-trigger" aria-controls="expander-with-replace-text-content">({%trans%}show{%endtrans%})</a></h3>
+                <h3>
+                    {% trans %}Attachments{% endtrans%} {{ item.attachments | length }} <a id="replace-text-trigger" data-replace-text="({%trans%}hide{%endtrans%})" class="aui-expander-trigger" aria-controls="expander-with-replace-text-content">({%trans%}show{%endtrans%})</a>
+                </h3>
                 <div id="expander-with-replace-text-content" class="aui-expander-content">
                     {% for attachment in item.attachments %}
                         <img src="{{ sauce(attachment) }}" />

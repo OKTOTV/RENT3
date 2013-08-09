@@ -14,7 +14,7 @@ use Oktolab\Bundle\RentBundle\Model\RentableInterface;
  * @ORM\Entity
  * @ORM\HasLifecycleCallbacks()
  */
-class Item implements RentableInterface, RentableInterface
+class Item implements RentableInterface, UploadableInterface
 {
     /**
      * @var integer
