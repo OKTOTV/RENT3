@@ -57,13 +57,7 @@ class SetController extends Controller
                 $item->setSet($set);
                 $em->persist($item);
             }
-            //TODO: move to service -------------
-            $manager = $this->get('oneup_uploader.orphanage_manager')->get('gallery');
-            $files = $manager->uploadFiles();
-
-            $uploader = $this->get('oktolab.upload_manager');
-            $uploader->saveAttachmentsToEntity($set, $files);
-            //-----------------------------------
+            $this->get('oktolab.upload_manager')->saveAttachmentsToEntity($set);
             $em->persist($set);
             $em->flush();
 
@@ -289,13 +283,7 @@ class SetController extends Controller
      */
     public function updatePictureAction(Set $set)
     {
-        //TODO: move to service? -------
-        $manager = $this->get('oneup_uploader.orphanage_manager')->get('gallery');
-        $files = $manager->uploadFiles();
-
-        $uploader = $this->get('oktolab.upload_manager');
-        $uploader->saveAttachmentsToEntity($set, $files, true);
-        //-----------------------------
+        $this->get('oktolab.upload_manager')->saveAttachmentsToEntity($set, true);
 
         $em = $this->getDoctrine()->getManager();
         $em->persist($set);

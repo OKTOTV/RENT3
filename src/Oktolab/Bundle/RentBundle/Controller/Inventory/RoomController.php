@@ -52,14 +52,7 @@ class RoomController extends Controller
         $form->bind($request);
 
         if ($form->isValid()) {
-
-            //TODO: move to service -------------
-            $manager = $this->get('oneup_uploader.orphanage_manager')->get('gallery');
-            $files = $manager->uploadFiles();
-
-            $uploader = $this->get('oktolab.upload_manager');
-            $uploader->saveAttachmentsToEntity($entity, $files);
-            //-----------------------------------
+            $this->get('oktolab.upload_manager')->saveAttachmentsToEntity($entity);
 
             $em = $this->getDoctrine()->getManager();
             $em->persist($entity);
@@ -151,13 +144,7 @@ class RoomController extends Controller
 
         if ($editForm->isValid()) {
 
-            //TODO: move to service -------------
-            $manager = $this->get('oneup_uploader.orphanage_manager')->get('gallery');
-            $files = $manager->uploadFiles();
-
-            $uploader = $this->get('oktolab.upload_manager');
-            $uploader->saveAttachmentsToEntity($room, $files);
-            //-----------------------------------
+            $this->get('oktolab.upload_manager')->saveAttachmentsToEntity($room);
 
             $em = $this->getDoctrine()->getManager();
             $em->persist($room);
@@ -253,13 +240,7 @@ class RoomController extends Controller
      */
     public function updatePictureAction(Room $room)
     {
-        //TODO: move to service? -------
-        $manager = $this->get('oneup_uploader.orphanage_manager')->get('gallery');
-        $files = $manager->uploadFiles();
-
-        $uploader = $this->get('oktolab.upload_manager');
-        $uploader->saveAttachmentsToEntity($room, $files, true);
-        //-----------------------------
+        $this->get('oktolab.upload_manager')->saveAttachmentsToEntity($room, true);
 
         $em = $this->getDoctrine()->getManager();
         $em->persist($room);

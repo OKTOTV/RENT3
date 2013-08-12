@@ -55,7 +55,7 @@ class ItemController extends Controller
         $form = $this->createForm(new ItemType(), $entity);
         $form->bind($request);
         if ($form->isValid()) {
-            $this->get('oktolab.upload_manager')->saveAttachmentsToEntity($item);
+            $this->get('oktolab.upload_manager')->saveAttachmentsToEntity($entity);
 
             $em = $this->getDoctrine()->getManager();
             $em->persist($entity);
