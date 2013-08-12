@@ -30,10 +30,14 @@
     <div class="aui-page-panel">
         <div class="aui-page-panel-inner">
             <section class="aui-page-panel-content">
-
-                {% for attachment in room.attachments %}
-                    <img src="{{ sauce(attachment) }}" />
-                {% endfor %}
+               <h3>
+                    {% trans %}Attachments{% endtrans%} {{ room.attachments | length }} <a id="replace-text-trigger" data-replace-text="({%trans%}hide{%endtrans%})" class="aui-expander-trigger" aria-controls="expander-with-replace-text-content">({%trans%}show{%endtrans%})</a>
+                </h3>
+                <div id="expander-with-replace-text-content" class="aui-expander-content">
+                    {% for attachment in room.attachments %}
+                        <img src="{{ sauce(attachment) }}" />
+                    {% endfor %}
+                </div>
                 <h3>{% trans %}Description{% endtrans %}</h3>
                 <p>{{ room.description }}</p>
 
