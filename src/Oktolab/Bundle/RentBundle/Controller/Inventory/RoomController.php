@@ -159,6 +159,7 @@ class RoomController extends Controller
             $uploader->saveAttachmentsToEntity($room, $files);
             //-----------------------------------
 
+            $em = $this->getDoctrine()->getManager();
             $em->persist($room);
             $em->flush();
 
@@ -180,7 +181,7 @@ class RoomController extends Controller
      */
     public function deleteAction(Room $room)
     {
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getDoctrine()->getManager();
         $em->remove($room);
 
         //TODO: create service --------

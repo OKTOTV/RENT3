@@ -28,6 +28,12 @@ class Room implements UploadableInterface
      * @var string
      *
      * @ORM\Column(name="title", type="string", length=255)
+     *
+     * @Assert\NotBlank(message = "Du musst einen Titel angeben" )
+     * @Assert\Length(
+     *      max = 255,
+     *      maxMessage = "Der Titel darf maximal 255 Zeichen lang sein"
+     *      )
      */
     private $title;
 
@@ -35,6 +41,13 @@ class Room implements UploadableInterface
      * @var string
      *
      * @ORM\Column(name="description", type="string", length=500)
+     *
+     * @Assert\NotBlank(message = "Du musst eine Beschreibung angeben" )
+     * @Assert\Length
+     *      (
+     *      max = 500,
+     *      maxMessage = "Die Beschreibung darf maximal 500 Zeichen lang sein"
+     *      )
      */
     private $description;
 
@@ -42,6 +55,13 @@ class Room implements UploadableInterface
      * @var string
      *
      * @ORM\Column(name="barcode", type="string", length=20)
+     *
+     * @Assert\NotBlank(message = "Du musst einen Barcode angeben" )
+     * @Assert\Length
+     *      (
+     *      max = 20,
+     *      maxMessage = "Der Barcode darf maximal 20 Zeichen lang sein"
+     *      )
      */
     private $barcode;
 
@@ -264,14 +284,14 @@ class Room implements UploadableInterface
     public function setPicture(\Oktolab\Bundle\RentBundle\Entity\Inventory\Attachment $picture = null)
     {
         $this->picture = $picture;
-    
+
         return $this;
     }
 
     /**
      * Get picture
      *
-     * @return \Oktolab\Bundle\RentBundle\Entity\Inventory\Attachment 
+     * @return \Oktolab\Bundle\RentBundle\Entity\Inventory\Attachment
      */
     public function getPicture()
     {

@@ -18,22 +18,6 @@ class ItemControllerTest extends WebTestCase
         $this->assertEquals(0, $crawler->filter('#content table tbody tr')->count(), 'This list has to be empty');
     }
 
-    public function testIndexDisplaysItems()
-    {
-        $crawler = $this->client->request('GET', 'inventory/item');
-        $this->client->followRedirect();
-        $this->assertEquals(
-            200,
-            $this->client->getResponse()->getStatusCode(),
-            "Unexpected HTTP status code for GET /inventory/item/"
-        );
-        $this->assertEquals(
-            0,
-            $crawler->filter('#content table tbody tr')->count(),
-            'This list should contain at least 1 item'
-        );
-    }
-
     public function testSubmitFormToCreateAnItem()
     {
         $this->loadFixtures(array());

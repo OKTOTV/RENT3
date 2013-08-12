@@ -7,11 +7,13 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 class RoomControllerTest extends WebTestCase
 {
-    public function testListAllRooms()
+    public function testIndexDisplaysEmptyList()
     {
-        $this->markTestIncomplete(
-            'This test has not been implemented yet.'
-        );
+        $this->loadFixtures(array());
+
+        $crawler = $this->client->request('GET', '/inventory/room/');
+        $this->assertTrue($this->client->getResponse()->isSuccessful(), 'Response should be successful');
+        $this->assertEquals(0, $crawler->filter('#content table tbody tr')->count(), 'This list has to be empty');
     }
 
     public function testCreateNewRoom()
@@ -35,32 +37,67 @@ class RoomControllerTest extends WebTestCase
         );
     }
 
-    public function testEditRoom()
+    public function testSubmitFormToEditARoom()
     {
-        $this->markTestIncomplete(
-            'This test has not been implemented yet.'
-        );
-    }
+        $this->loadFixtures(array('Oktolab\Bundle\RentBundle\DataFixtures\ORM\RoomFixture'));
 
-    public function testUpdateRoom()
-    {
-        $this->markTestIncomplete(
-            'This test has not been implemented yet.'
+        $crawler = $this->client->request('GET', '/inventory/room/1');
+        $crawler = $this->client->click($crawler->selectLink('Editieren')->link());
+
+        $this->client->request('GET', '/inventory/room/1/edit');
+        $this->assertTrue($this->client->getResponse()->isSuccessful(), 'Response should be successful');
+
+
+        $form = $this->client->getCrawler()->selectButton('Speichern')->form(
+            array(
+                'oktolab_bundle_rentbundle_inventory_roomtype[title]'  => 'Foo',
+            )
+        );
+
+        $this->client->submit($form);
+        $this->assertTrue($this->client->getResponse()->isRedirection(), 'Response should be a redirection');
+        $crawler = $this->client->followRedirect();
+        $this->assertTrue($this->client->getResponse()->isSuccessful(), 'Response should be successful');
+        $this->assertGreaterThan(
+            0,
+            $crawler->filter('.aui-page-header-main:contains("Foo")')->count(),
+            'Missing element [value="Foo"]'
         );
     }
 
     public function testDeleteRoom()
     {
-        $this->markTestIncomplete(
-            'This test has not been implemented yet.'
-        );
+        $this->loadFixtures(array('Oktolab\Bundle\RentBundle\DataFixtures\ORM\RoomFixture'));
+
+
+        $crawler = $this->client->request('GET', '/inventory/room/1');
+        $crawler = $this->client->click($crawler->selectLink('Editieren')->link());
+
+        $this->client->click($crawler->selectLink('Löschen')->link());
+
+        $this->assertNotRegExp('/RoomTitle0/', $this->client->getResponse()->getContent());
+
+        $crawler = $this->client->followRedirect();
+        $this->assertTrue($this->client->getResponse()->isSuccessful(), 'Response should be successful');
+        $this->assertEquals(0, $crawler->filter('#content table tbody tr')->count(), 'This list has to be empty');
     }
 
     public function testEditRoomThrowsErrorOnInvalidFormData()
     {
-        $this->markTestIncomplete(
-            'This test has not been implemented yet.'
+        $this->loadFixtures(array('Oktolab\Bundle\RentBundle\DataFixtures\ORM\RoomFixture'));
+
+        $this->client->request('GET', '/inventory/room/1/edit');
+        $this->assertTrue($this->client->getResponse()->isSuccessful(), 'Response should be successful');
+
+        $form = $this->client->getCrawler()->selectButton('Speichern')->form(
+            array(
+                'oktolab_bundle_rentbundle_inventory_roomtype[title]' => ''
+            )
         );
+
+        $crawler = $this->client->submit($form); 
+        $this->assertTrue($this->client->getResponse()->isSuccessful(), 'Response should be successful');
+        $this->assertEquals(1, $crawler->filter('.error:contains("Du musst einen Titel angeben")')->count());
     }
 
     public function testNewSetWithAttachment()
