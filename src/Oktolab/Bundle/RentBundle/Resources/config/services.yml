@@ -22,14 +22,15 @@ services:
             - %oktolab.upload_dir%
             - %oktolab.web_dir%
             - @doctrine.orm.entity_manager
+            - @oneup_uploader.orphanage_manager
 
-#    oktolab.upload_listener:
-#        class: Oktolab\Bundle\RentBundle\EventListener\UploadListener
-#        arguments:
-#            - @oneup_uploader.orphanage_manager
-#            - @oktolab.upload_manager
-#        tags:
-#            - { name: doctrine.event_listener, event: prePersist }
+    oktolab.upload_listener:
+        class: Oktolab\Bundle\RentBundle\EventListener\UploadListener
+        arguments:
+            - @oneup_uploader.orphanage_manager
+            - @oktolab.upload_manager
+        tags:
+            - { name: doctrine.event_listener, event: preUpdate, method: prePersist }
 
     oktolab.upload_name_manager:
         class: Oktolab\Bundle\RentBundle\Model\UploadNameManager

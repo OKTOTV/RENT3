@@ -55,13 +55,7 @@ class ItemController extends Controller
         $form = $this->createForm(new ItemType(), $entity);
         $form->bind($request);
         if ($form->isValid()) {
-            //TODO: create service --------
-            $manager = $this->get('oneup_uploader.orphanage_manager')->get('gallery');
-            $files = $manager->uploadFiles();
-
-            $uploader = $this->get('oktolab.upload_manager');
-            $uploader->saveAttachmentsToEntity($entity, $files);
-            // ----------------------------
+            $this->get('oktolab.upload_manager')->saveAttachmentsToEntity($item);
 
             $em = $this->getDoctrine()->getManager();
             $em->persist($entity);
@@ -158,13 +152,8 @@ class ItemController extends Controller
         $editForm->bind($request);
 
         if ($editForm->isValid()) {
-            //TODO: move to service -------
-            $manager = $this->get('oneup_uploader.orphanage_manager')->get('gallery');
-            $files = $manager->uploadFiles();
+            $this->get('oktolab.upload_manager')->saveAttachmentsToEntity($item);
 
-            $uploader = $this->get('oktolab.upload_manager');
-            $uploader->saveAttachmentsToEntity($item, $files);
-            //-----------------------------
             $em = $this->getDoctrine()->getManager();
             $em->persist($item);
             $em->flush();
@@ -233,14 +222,14 @@ class ItemController extends Controller
      * @Method("GET")
      * @Template("OktolabRentBundle:Inventory\Item:edit_picture.html.twig")
      */
-    public function uploadPictureAction(Item $item)
+    public function editPictureAction(Item $item)
     {
         $form = $this->createForm(
             new PictureType(),
             new Attachment(),
             array(
                 'action' => $this->generateUrl('inventory_item_picture_update', array('id' => $item->getId())),
-                'method' => 'PUT'
+                'method' => 'POST'
                 )
         );
 
@@ -253,17 +242,11 @@ class ItemController extends Controller
     /**
      * @Route("/{id}/picture/upload", name="inventory_item_picture_update")
      * @ParamConverter("item", class="OktolabRentBundle:Inventory\Item")
-     * @Method("PUT")
+     * @Method("POST")
      */
     public function updatePictureAction(Item $item)
     {
-        //TODO: move to service? -------
-        $manager = $this->get('oneup_uploader.orphanage_manager')->get('gallery');
-        $files = $manager->uploadFiles();
-
-        $uploader = $this->get('oktolab.upload_manager');
-        $uploader->saveAttachmentsToEntity($item, $files, true);
-        //-----------------------------
+        $this->get('oktolab.upload_manager')->saveAttachmentsToEntity($item, true);
 
         $em = $this->getDoctrine()->getManager();
         $em->persist($item);

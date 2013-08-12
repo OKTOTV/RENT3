@@ -10,11 +10,13 @@ class UploadManager
 {
     private $uploadPath;
     private $entityManager;
+    private $orphanManager;
 
-    public function __construct($uploadPath, $webPath, EntityManager $entityManager)
+    public function __construct($uploadPath, $webPath, EntityManager $entityManager, $orphanManager)
     {
         $this->uploadPath = $webPath.$uploadPath;
         $this->entityManager = $entityManager;
+        $this->orphanManager = $orphanManager;
     }
 
     /**
@@ -63,8 +65,10 @@ class UploadManager
      *
      * @return bool true if successful
      */
-    public function saveAttachmentsToEntity(UploadableInterface $entity, array $files, $picture = false)
+    public function saveAttachmentsToEntity(UploadableInterface $entity, $picture = false)
     {
+        $files = $this->orphanManager->get('gallery')->uploadFiles();
+
         foreach ($files as $file) {
             $attachment = new Attachment();
             $attachment->setFile($file);

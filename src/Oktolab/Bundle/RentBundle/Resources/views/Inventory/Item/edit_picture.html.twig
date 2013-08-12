@@ -5,8 +5,8 @@
     <div class="aui-page-header-image">
         <div class="aui-avatar aui-avatar-xlarge aui-avatar-project">
             <div class="aui-avatar-inner">
-                {% if item.picture is not null %}
-                    <img src="{{ item.picture.getRelativePath | apply_filter('page_avatar') }}" />
+                {% if entity.picture is not null %}
+                    <img src="{{ entity.picture.getRelativePath | apply_filter('page_avatar') }}" />
                 {% endif%}
             </div>
         </div>
