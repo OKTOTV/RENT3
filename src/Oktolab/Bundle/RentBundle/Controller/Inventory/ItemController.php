@@ -246,6 +246,7 @@ class ItemController extends Controller
      */
     public function updatePictureAction(Item $item)
     {
+        $this->get('oktolab.upload_manager')->removeUpload($item->getPicture());
         $this->get('oktolab.upload_manager')->saveAttachmentsToEntity($item, true);
 
         $em = $this->getDoctrine()->getManager();

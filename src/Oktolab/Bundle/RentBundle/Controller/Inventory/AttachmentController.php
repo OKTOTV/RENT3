@@ -57,25 +57,4 @@ class AttachmentController extends Controller
             'entity' => $entity
         );
     }
-
-    /**
-     * Deletes a Inventory\Attachment entity.
-     *
-     * @Route("/{id}/delete", name="inventory_attachment_delete")
-     * @Method("GET")
-     */
-    public function deleteAction($attachment_id, $entity_id)
-    {
-        $em = $this->getDoctrine()->getManager();
-        $entity = $em->getRepository('OktolabRentBundle:Inventory\Attachment')->find($id);
-
-        if (!$entity) {
-            throw $this->createNotFoundException('Unable to find Inventory\Attachment entity.');
-        }
-
-        $em->remove($entity);
-        $em->flush();
-
-        return $this->redirect($this->generateUrl('inventory_attachment'));
-    }
 }

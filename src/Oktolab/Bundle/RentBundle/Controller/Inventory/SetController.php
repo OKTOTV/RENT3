@@ -283,6 +283,7 @@ class SetController extends Controller
      */
     public function updatePictureAction(Set $set)
     {
+        $this->get('oktolab.upload_manager')->removeUpload($set->getPicture());
         $this->get('oktolab.upload_manager')->saveAttachmentsToEntity($set, true);
 
         $em = $this->getDoctrine()->getManager();

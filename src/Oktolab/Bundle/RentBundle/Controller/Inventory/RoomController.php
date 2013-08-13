@@ -240,6 +240,7 @@ class RoomController extends Controller
      */
     public function updatePictureAction(Room $room)
     {
+        $this->get('oktolab.upload_manager')->removeUpload($room->getPicture());
         $this->get('oktolab.upload_manager')->saveAttachmentsToEntity($room, true);
 
         $em = $this->getDoctrine()->getManager();

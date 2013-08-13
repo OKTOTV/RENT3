@@ -9,6 +9,6 @@ class UploadNameManager implements NamerInterface
 {
     public function name(UploadedFile $file)
     {
-        return sprintf('%s_%s.%s', uniqid(), $file->getFilename(), $file->guessExtension());
+        return sprintf('%s_%s.%s', date('Y-m-d_H:i:s'), uniqid(), $file->guessExtension());
     }
 }
