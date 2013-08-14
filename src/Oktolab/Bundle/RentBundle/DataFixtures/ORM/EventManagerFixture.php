@@ -7,6 +7,7 @@ use Doctrine\Common\Persistence\ObjectManager;
 use Oktolab\Bundle\RentBundle\Entity\Event;
 use Oktolab\Bundle\RentBundle\Entity\EventObject;
 use Oktolab\Bundle\RentBundle\Entity\Inventory\Item;
+use Oktolab\Bundle\RentBundle\Entity\Inventory\Place;
 
 /**
  *  Loads a fixture Events
@@ -18,10 +19,16 @@ class EventManagerFixture extends AbstractFixture
      */
     public function load(ObjectManager $manager)
     {
+        $place = new Place();
+        $place->setTitle('Test Place');
+
+        $manager->persist($place);
+
         $item = new Item();
         $item->setTitle('eventItem')
             ->setDescription('bar')
-            ->setBarcode('ASDF');
+            ->setBarcode('ASDF')
+            ->setPlace($place);
 
         $manager->persist($item);
         $manager->flush();

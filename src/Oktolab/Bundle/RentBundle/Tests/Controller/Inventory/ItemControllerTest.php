@@ -20,7 +20,7 @@ class ItemControllerTest extends WebTestCase
 
     public function testSubmitFormToCreateAnItem()
     {
-        $this->loadFixtures(array());
+        $this->loadFixtures(array('Oktolab\Bundle\RentBundle\DataFixtures\ORM\PlaceFixture'));
 
         $this->client->request('GET', '/inventory/item/new');
         $this->assertTrue($this->client->getResponse()->isSuccessful(), 'Response should be successful');
@@ -30,6 +30,7 @@ class ItemControllerTest extends WebTestCase
                 'oktolab_bundle_rentbundle_inventory_itemtype[title]'       => 'Test',
                 'oktolab_bundle_rentbundle_inventory_itemtype[description]' => 'Description',
                 'oktolab_bundle_rentbundle_inventory_itemtype[barcode]'     => 'ASDF01',
+                'oktolab_bundle_rentbundle_inventory_itemtype[place]'       => 1
             )
         );
 
@@ -133,7 +134,7 @@ class ItemControllerTest extends WebTestCase
 
     public function testNewItemWithAttachments()
     {
-        $this->loadFixtures(array());
+        $this->loadFixtures(array('Oktolab\Bundle\RentBundle\DataFixtures\ORM\PlaceFixture'));
 
         // post new attachment
         copy(__DIR__.'/../../DataFixtures/logo_okto.png', $filename = tempnam(sys_get_temp_dir(), 'OktolabRentBundle'));
@@ -158,6 +159,7 @@ class ItemControllerTest extends WebTestCase
                 'oktolab_bundle_rentbundle_inventory_itemtype[title]'       => 'Test',
                 'oktolab_bundle_rentbundle_inventory_itemtype[description]' => 'Description',
                 'oktolab_bundle_rentbundle_inventory_itemtype[barcode]'     => 'ASDF01',
+                'oktolab_bundle_rentbundle_inventory_itemtype[place]'       => 1
             )
         );
 

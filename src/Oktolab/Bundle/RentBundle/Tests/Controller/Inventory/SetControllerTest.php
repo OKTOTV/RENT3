@@ -36,16 +36,17 @@ class SetControllerTest extends WebTestCase
 
     public function testSubmitFormToCreateASet()
     {
-        $this->loadFixtures(array());
+        $this->loadFixtures(array('Oktolab\Bundle\RentBundle\DataFixtures\ORM\PlaceFixture'));
 
         $crawler = $this->client->request('GET', '/inventory/set/new');
         $this->assertTrue($this->client->getResponse()->isSuccessful(), 'Response should be successful');
 
         $form = $this->client->getCrawler()->selectButton('Speichern')->form(
             array(
-            'oktolab_rentbundle_inventory_set[title]' => 'TestSet',
-            'oktolab_rentbundle_inventory_set[description]' => 'TestDescription',
-            'oktolab_rentbundle_inventory_set[barcode]' => 'ASDF0'
+                'oktolab_rentbundle_inventory_set[title]'       => 'TestSet',
+                'oktolab_rentbundle_inventory_set[description]' => 'TestDescription',
+                'oktolab_rentbundle_inventory_set[barcode]'     => 'ASDF0',
+                'oktolab_rentbundle_inventory_set[place]'       => 1
             )
         );
 
@@ -125,6 +126,7 @@ class SetControllerTest extends WebTestCase
             array(
                 'Oktolab\Bundle\RentBundle\DataFixtures\ORM\SetFixture',
                 'Oktolab\Bundle\RentBundle\DataFixtures\ORM\ItemFixture',
+                'Oktolab\Bundle\RentBundle\DataFixtures\ORM\PlaceFixture'
             )
         );
 
@@ -142,6 +144,7 @@ class SetControllerTest extends WebTestCase
                     'description' => 'TestDescription',
                     'barcode'     => 'ASDF0',
                     'items'       => array(0 => '1'),
+                    'place'       => 1
                 )
             )
         );
@@ -177,6 +180,7 @@ class SetControllerTest extends WebTestCase
                     'title'         => 'SetWithoutItem',
                     'description'   => 'SetWithoutItemDescription',
                     'barcode'       => 'ASDF0',
+                    'place'         => 1
                 )
             )
         );
@@ -252,7 +256,7 @@ class SetControllerTest extends WebTestCase
 
     public function testNewSetWithAttachment()
     {
-        $this->loadFixtures(array());
+        $this->loadFixtures(array('Oktolab\Bundle\RentBundle\DataFixtures\ORM\PlaceFixture'));
 
         // post new attachment
         copy(__DIR__.'/../../DataFixtures/logo_okto.png', $filename = tempnam(sys_get_temp_dir(), 'OktolabRentBundle'));
@@ -277,6 +281,7 @@ class SetControllerTest extends WebTestCase
                 'oktolab_rentbundle_inventory_set[title]'       => 'Test',
                 'oktolab_rentbundle_inventory_set[description]' => 'Description',
                 'oktolab_rentbundle_inventory_set[barcode]'     => 'ASDF01',
+                'oktolab_rentbundle_inventory_set[place]'       => 1
 
             )
         );

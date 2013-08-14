@@ -20,18 +20,21 @@ class WebTestCase extends LiipWebTestCase
     }
 
     /**
-     * Logs the user "user" in.
+     * Logs the user  in.
+     * @param type $role (ROLE_USER, ROLE_ADMIN)
      */
-    protected function logIn()
+    protected function logIn($role = 'ROLE_USER')
     {
-        $session = $this->client->getContainer()->get('session');
+        if (in_array($role, array('ROLE_USER', 'ROLE_ADMIN'))) {
+            $session = $this->client->getContainer()->get('session');
 
-        $firewall = 'secured_area';
-        $token    = new UsernamePasswordToken('user', null, $firewall, array('ROLE_USER'));
-        $session->set('_security_'.$firewall, serialize($token));
-        $session->save();
+            $firewall = 'secured_area';
+            $token    = new UsernamePasswordToken('user', null, $firewall, array($role));
+            $session->set('_security_'.$firewall, serialize($token));
+            $session->save();
 
-        $cookie = new Cookie($session->getName(), $session->getId());
-        $this->client->getCookieJar()->set($cookie);
+            $cookie = new Cookie($session->getName(), $session->getId());
+            $this->client->getCookieJar()->set($cookie);
+        }
     }
 }
