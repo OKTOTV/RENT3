@@ -2,54 +2,32 @@
 
 namespace Oktolab\Bundle\RentBundle\Tests\Controller\Inventory;
 
-use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
+use Oktolab\Bundle\RentBundle\Tests\WebTestCase;
 
 class CategoryControllerTest extends WebTestCase
 {
-    /*
-    public function testCompleteScenario()
+    public function testSubmitFormToCreateNewPlace()
     {
-        // Create a new client to browse the application
-        $client = static::createClient();
+        $this->logIn('ROLE_ADMIN');
+        $this->loadFixtures(array());
 
-        // Create a new entry in the database
-        $crawler = $client->request('GET', '/admin/inventory/category/');
-        $this->assertEquals(200, $client->getResponse()->getStatusCode(), "Unexpected HTTP status code for GET /admin/inventory/category/");
-        $crawler = $client->click($crawler->selectLink('Create a new entry')->link());
+        $crawler = $this->client->request('GET', '/admin/inventory/category/new');
+        $this->assertTrue($this->client->getResponse()->isSuccessful(), 'Response should be successful');
 
-        // Fill in the form and submit it
-        $form = $crawler->selectButton('Create')->form(array(
-            'oktolab_bundle_rentbundle_inventory_categorytype[field_name]'  => 'Test',
-            // ... other fields to fill
-        ));
+        $form = $this->client->getCrawler()->selectButton('Speichern')->form(
+            array(
+                'oktolab_bundle_rentbundle_inventory_categorytype[title]' => 'Testplace'
+            )
+        );
 
-        $client->submit($form);
-        $crawler = $client->followRedirect();
-
-        // Check data in the show view
-        $this->assertGreaterThan(0, $crawler->filter('td:contains("Test")')->count(), 'Missing element td:contains("Test")');
-
-        // Edit the entity
-        $crawler = $client->click($crawler->selectLink('Edit')->link());
-
-        $form = $crawler->selectButton('Edit')->form(array(
-            'oktolab_bundle_rentbundle_inventory_categorytype[field_name]'  => 'Foo',
-            // ... other fields to fill
-        ));
-
-        $client->submit($form);
-        $crawler = $client->followRedirect();
-
-        // Check the element contains an attribute with value equals "Foo"
-        $this->assertGreaterThan(0, $crawler->filter('[value="Foo"]')->count(), 'Missing element [value="Foo"]');
-
-        // Delete the entity
-        $client->submit($crawler->selectButton('Delete')->form());
-        $crawler = $client->followRedirect();
-
-        // Check the entity has been delete on the list
-        $this->assertNotRegExp('/Foo/', $client->getResponse()->getContent());
+        $crawler = $this->client->submit($form);
+        $this->assertEquals(302, $this->client->getResponse()->getStatusCode());
+        $crawler = $this->client->followRedirect();
+        $this->assertEquals(200, $this->client->getResponse()->getStatusCode());
+        $this->assertEquals(
+            1,
+            $crawler->filter('.aui-page-header-main:contains("Testplace")')->count(),
+            'There should be the place name on this page header'
+        );
     }
-
-    */
 }
