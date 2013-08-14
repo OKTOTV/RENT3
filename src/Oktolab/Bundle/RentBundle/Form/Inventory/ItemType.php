@@ -35,6 +35,15 @@ class ItemType extends AbstractType
                     'property' => 'title',
                     'required' => false,
                 )
+            )
+            ->add(
+                'place',
+                'entity',
+                array(
+                    'class' => 'OktolabRentBundle:Inventory\Place',
+                    'property' => 'title',
+                    'required' => true,
+                )
             );
     }
 

@@ -147,6 +147,13 @@ class Item implements RentableInterface, UploadableInterface
     private $picture;
 
     /**
+     * @ORM\ManyToOne(targetEntity="Place", inversedBy="items")
+     * @ORM\JoinColumn(name="place_id", referencedColumnName="id")
+     *
+     */
+    private $place;
+
+    /**
      * Get id
      *
      * @return integer
@@ -508,5 +515,28 @@ class Item implements RentableInterface, UploadableInterface
     public function getState()
     {
         return 0;
+    }
+
+    /**
+     * Set place
+     *
+     * @param \Oktolab\Bundle\RentBundle\Entity\Inventory\Place $place
+     * @return Item
+     */
+    public function setPlace(\Oktolab\Bundle\RentBundle\Entity\Inventory\Place $place = null)
+    {
+        $this->place = $place;
+    
+        return $this;
+    }
+
+    /**
+     * Get place
+     *
+     * @return \Oktolab\Bundle\RentBundle\Entity\Inventory\Place 
+     */
+    public function getPlace()
+    {
+        return $this->place;
     }
 }
