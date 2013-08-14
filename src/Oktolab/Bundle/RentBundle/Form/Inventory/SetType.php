@@ -23,6 +23,15 @@ class SetType extends AbstractType
                     'allow_add'     => true,
                     'allow_delete'  => true,
                 )
+            )
+            ->add(
+                'place',
+                'entity',
+                array(
+                    'class' => 'OktolabRentBundle:Inventory\Place',
+                    'property' => 'title',
+                    'required' => true,
+                )
             );
     }
 

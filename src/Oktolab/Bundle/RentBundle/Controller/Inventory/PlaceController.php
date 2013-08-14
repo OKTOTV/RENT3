@@ -156,7 +156,7 @@ class PlaceController extends Controller
      */
     public function deleteAction(Place $place)
     {
-        if (count($place->getItems()) != 0) {
+        if (count($place->getItems()) != 0 || count($place->getSets() != 0)) {
             $this->get('session')->getFlashBag()->add(
               'notice',
               'Kann nicht gelöscht werden! Besitzt noch Gegenstände!'

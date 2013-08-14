@@ -35,6 +35,11 @@ class Place
     private $items;
 
     /**
+     * @ORM\OneToMany(targetEntity="Set", mappedBy="place")
+     */
+    private $sets;
+
+    /**
      * Get id
      *
      * @return integer
@@ -73,7 +78,7 @@ class Place
     {
         $this->items = new \Doctrine\Common\Collections\ArrayCollection();
     }
-    
+
     /**
      * Add items
      *
@@ -83,7 +88,7 @@ class Place
     public function addItem(\Oktolab\Bundle\RentBundle\Entity\Inventory\Item $items)
     {
         $this->items[] = $items;
-    
+
         return $this;
     }
 
@@ -100,10 +105,43 @@ class Place
     /**
      * Get items
      *
-     * @return \Doctrine\Common\Collections\Collection 
+     * @return \Doctrine\Common\Collections\Collection
      */
     public function getItems()
     {
         return $this->items;
+    }
+
+    /**
+     * Add sets
+     *
+     * @param \Oktolab\Bundle\RentBundle\Entity\Inventory\Set $sets
+     * @return Place
+     */
+    public function addSet(\Oktolab\Bundle\RentBundle\Entity\Inventory\Set $sets)
+    {
+        $this->sets[] = $sets;
+    
+        return $this;
+    }
+
+    /**
+     * Remove sets
+     *
+     * @param \Oktolab\Bundle\RentBundle\Entity\Inventory\Set $sets
+     */
+    public function removeSet(\Oktolab\Bundle\RentBundle\Entity\Inventory\Set $sets)
+    {
+        $this->sets->removeElement($sets);
+    }
+
+    /**
+     * Get sets
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getSets()
+    {
+        return $this->sets;
     }
 }

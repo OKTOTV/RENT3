@@ -106,6 +106,13 @@ class Set implements UploadableInterface
      */
     private $picture;
 
+    /**
+     * @ORM\ManyToOne(targetEntity="Place", inversedBy="sets")
+     * @ORM\JoinColumn(name="place_id", referencedColumnName="id")
+     *
+     */
+    private $place;
+
     public function __toString()
     {
         return $this->title;
@@ -328,17 +335,40 @@ class Set implements UploadableInterface
     public function setPicture(\Oktolab\Bundle\RentBundle\Entity\Inventory\Attachment $picture = null)
     {
         $this->picture = $picture;
-    
+
         return $this;
     }
 
     /**
      * Get picture
      *
-     * @return \Oktolab\Bundle\RentBundle\Entity\Inventory\Attachment 
+     * @return \Oktolab\Bundle\RentBundle\Entity\Inventory\Attachment
      */
     public function getPicture()
     {
         return $this->picture;
+    }
+
+    /**
+     * Set place
+     *
+     * @param \Oktolab\Bundle\RentBundle\Entity\Inventory\Place $place
+     * @return Set
+     */
+    public function setPlace(\Oktolab\Bundle\RentBundle\Entity\Inventory\Place $place = null)
+    {
+        $this->place = $place;
+    
+        return $this;
+    }
+
+    /**
+     * Get place
+     *
+     * @return \Oktolab\Bundle\RentBundle\Entity\Inventory\Place 
+     */
+    public function getPlace()
+    {
+        return $this->place;
     }
 }
