@@ -99,16 +99,23 @@ class PlaceController extends Controller
      * @Route("/{id}/edit", name="inventory_place_edit")
      * @ParamConverter("place", class="OktolabRentBundle:Inventory\Place")
      * @Method("GET")
-     * @Template()
+     * @Template
      */
     public function editAction(Place $place)
     {
-        $em = $this->getDoctrine()->getManager();
-
-        $editForm = $this->createForm(new PlaceType(), $place);
+        $editForm = $this->createForm(
+            new PlaceType(),
+            $place,
+            array(
+                'action' => $this->generateUrl(
+                    'inventory_place_update',
+                    array('id' => $place->getId())),
+                'method' => 'PUT'
+            )
+        );
 
         return array(
-            'entity'      => $place,
+            'place'      => $place,
             'edit_form'   => $editForm->createView(),
         );
     }
@@ -132,7 +139,7 @@ class PlaceController extends Controller
             $em->persist($place);
             $em->flush();
 
-            return $this->redirect($this->generateUrl('inventory_place_edit', array('id' => $place->getId())));
+            return $this->redirect($this->generateUrl('inventory_place_show', array('id' => $place->getId())));
         }
 
         return array(
@@ -149,6 +156,14 @@ class PlaceController extends Controller
      */
     public function deleteAction(Place $place)
     {
+        if (count($place->getItems()) != 0) {
+            $this->get('session')->getFlashBag()->add(
+              'notice',
+              'Kann nicht gelöscht werden! Besitzt noch Gegenstände!'
+            );
+            return $this->redirect($this->generateUrl('inventory_place_edit', array('id' => $place->getId())));
+        }
+
         $em = $this->getDoctrine()->getManager();
         $em->remove($place);
         $em->flush();
