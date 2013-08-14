@@ -154,6 +154,14 @@ class Item implements RentableInterface, UploadableInterface
     private $place;
 
     /**
+     * @ORM\ManyToOne(targetEntity="Category", inversedBy="items")
+     * @ORM\JoinColumn(name="category_id", referencedColumnName="id", nullable=true)
+     *
+     */
+    private $category;
+
+
+    /**
      * Get id
      *
      * @return integer
@@ -538,5 +546,28 @@ class Item implements RentableInterface, UploadableInterface
     public function getPlace()
     {
         return $this->place;
+    }
+
+    /**
+     * Set category
+     *
+     * @param \Oktolab\Bundle\RentBundle\Entity\Inventory\Category $category
+     * @return Item
+     */
+    public function setCategory(\Oktolab\Bundle\RentBundle\Entity\Inventory\Category $category = null)
+    {
+        $this->category = $category;
+    
+        return $this;
+    }
+
+    /**
+     * Get category
+     *
+     * @return \Oktolab\Bundle\RentBundle\Entity\Inventory\Category 
+     */
+    public function getCategory()
+    {
+        return $this->category;
     }
 }

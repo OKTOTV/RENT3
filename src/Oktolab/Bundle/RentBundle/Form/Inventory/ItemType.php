@@ -44,6 +44,15 @@ class ItemType extends AbstractType
                     'property' => 'title',
                     'required' => true,
                 )
+            )
+            ->add(
+                'category',
+                'entity',
+                array(
+                    'class' => 'OktolabRentBundle:Inventory\Category',
+                    'property' => 'title',
+                    'required' => false,
+                )
             );
     }
 

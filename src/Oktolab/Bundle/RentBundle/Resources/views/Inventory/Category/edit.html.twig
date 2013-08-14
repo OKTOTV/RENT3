@@ -1,0 +1,37 @@
+{% extends 'OktolabRentBundle::layout.html.twig' %}
+
+{% block content_header %}
+    <div class="aui-page-header-inner">
+        <div class="aui-page-header-image">
+            <div class="aui-avatar aui-avatar-xlarge aui-avatar-project">
+                <div class="aui-avatar-inner">
+                </div>
+            </div>
+        </div>
+        <div class="aui-page-header-main">
+            <h1>{{category.title }} bearbeiten</h1>
+        </div>
+        <div class="aui-page-header-actions">
+            <div class="aui-buttons">
+                <div class="aui-buttons">
+                    <a class="aui-button" href="{{ path('inventory_category_show', { 'id': category.id }) }}">{% trans %}Back{% endtrans %}</a>
+                    <a class="aui-button" href="{{ path('inventory_category') }}">{% trans %}Back to list{% endtrans %}</a>
+                    <a class="aui-button" href="{{ path('inventory_category_delete', { 'id': category.id }) }}">{% trans %}Delete{% endtrans %}</a>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block content%}
+    {{ form_start(edit_form, {'attr': {'class': 'aui'}}) }}
+        <fieldset>
+            {{ form_errors(edit_form) }}
+
+            {{ form_row(edit_form.title) }}
+            <div class="buttons-container">
+                <button class="aui-button aui-button-primary" type="submit">{% trans %}Submit{% endtrans %}</button>
+            </div>
+        </fieldset>
+    {{ form_end(edit_form) }}
+{% endblock %}

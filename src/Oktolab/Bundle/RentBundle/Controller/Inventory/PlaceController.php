@@ -150,13 +150,13 @@ class PlaceController extends Controller
     /**
      * Deletes a Inventory\Place entity.
      *
-     * @Route("/{id}", name="inventory_place_delete")
+     * @Route("/{id}/delete", name="inventory_place_delete")
      * @ParamConverter("place", class="OktolabRentBundle:Inventory\Place")
      * @Method("GET")
      */
     public function deleteAction(Place $place)
     {
-        if (count($place->getItems()) != 0 || count($place->getSets() != 0)) {
+        if ($place->getItems()->count() != 0 || $place->getSets()->count() != 0) {
             $this->get('session')->getFlashBag()->add(
               'notice',
               'Kann nicht gelöscht werden! Besitzt noch Gegenstände!'
