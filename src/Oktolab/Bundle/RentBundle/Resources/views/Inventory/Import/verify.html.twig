@@ -1,0 +1,71 @@
+{% block script%}
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.9/jquery-ui.min.js"></script>
+{% endblock%}
+{% extends 'OktolabRentBundle::layout.html.twig' %}
+
+{% block content_header %}
+<div class="aui-page-header-inner">
+    <div class="aui-page-header-image">
+        <div class="aui-avatar aui-avatar-xlarge aui-avatar-project">
+            <div class="aui-avatar-inner">
+                <img src="static/img/none.png">
+            </div>
+        </div>
+    </div>
+    <div class="aui-page-header-main">
+        <h1>{{"Inventory importer verify" | trans}}</h1>
+    </div>
+    <div class="aui-page-header-actions">
+        <div class="aui-buttons">
+            <div class="aui-buttons">
+                <a class="aui-button" href="{{ path('inventory_import') }}">{% trans %}Zurück{% endtrans %}</a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block content %}
+<div class="aui-page-panel">
+    <div class="aui-page-panel-inner">
+        <section class="aui-page-panel-content">
+            <table class="aui">
+                <thead>
+                    <tr>
+                        <th id="name">{% trans %}Title{% endtrans %}</th>
+                        <th>{% trans %}Description{% endtrans %}</th>
+                        <th>{% trans %}Barcode{% endtrans %}</th>
+                        <th>{% trans %}Buydate{% endtrans %}</th>
+                        <th>{% trans %}Serialnumber{% endtrans %}</th>
+                        <th>{% trans %}Vendor{% endtrans %}</th>
+                        <th>{% trans %}Modelnumber{% endtrans %}</th>
+                    </tr>
+                </thead>
+                <tbody>
+                {% for item in items %}
+                    <tr>
+                        <td headers="name">{{ item.title }}</td>
+                        <td>{{ item.description }}</td>
+                        <td>{{ item.barcode }}</td>
+                        <td>{% if item.buyDate %}{{ item.buyDate|date('d.m.Y') }}{% endif %}</td>
+                        <td>{{ item.serialNumber }}</td>
+                        <td>{{ item.vendor }}</td>
+                        <td>{{ item.modelNumber }}</td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+
+            {{ form_start(form, {'attr': {'class': 'aui'}}) }}
+                <fieldset>
+                    {{ form_errors(form) }}
+
+                    <div class="buttons-container">
+                        <button class="aui-button aui-button-primary" type="submit">{% trans %}Submit{% endtrans %}</button>
+                    </div>
+                </fieldset>
+            {{ form_end(form) }}
+        </section>
+    </div>
+</div>
+{% endblock %}
