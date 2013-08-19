@@ -2,22 +2,28 @@
 
 namespace Oktolab\Bundle\RentBundle\Extension;
 
-use Symfony\Component\HttpKernel\KernelInterface;
-use Oktolab\Bundle\RentBundle\Entity\Inventory\Attachment;
-
+/**
+ * AttachmentExtension
+ */
 class AttachmentExtension extends \Twig_Extension
 {
+    /**
+     * @var string
+     */
     private $uploadDir;
 
+    /**
+     * Constructor.
+     *
+     * @param type $container
+     */
     public function __construct($container)
     {
-        $this->uploadDir = dirname(
-            $container
-                ->get('router')
-                ->getContext()
-                ->getBaseUrl()
-            ).$container
-                ->getParameter('oktolab.upload_dir');
+        $this->uploadDir = sprintf(
+            '%s%s',
+            dirname($container->get('router')->getContext()->getBaseUrl()),
+            $container->getParameter('oktolab.upload_dir')
+        );
     }
 
     /**
@@ -31,16 +37,18 @@ class AttachmentExtension extends \Twig_Extension
     }
 
     /**
-     * Converts a string to time
+     * Returns the Upload Path
      *
      * @param string $string
-     * @return int
+     * @return string
      */
     public function getUploadPath ($attachment)
-    {   //TODO: get UploadPath
+    {
+        //TODO: get UploadPath
         if (!$attachment) {
             return 'http://placekitten.com/g/200/300';
         }
+
         return $this->uploadDir.$attachment->getPath().'/'.$attachment->getTitle();
     }
 
