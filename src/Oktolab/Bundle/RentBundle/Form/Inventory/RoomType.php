@@ -13,15 +13,12 @@ class RoomType extends AbstractType
         $builder
             ->add('title')
             ->add('description', 'textarea')
-            ->add('barcode')
-        ;
+            ->add('barcode');
     }
 
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
-        $resolver->setDefaults(array(
-            'data_class' => 'Oktolab\Bundle\RentBundle\Entity\Inventory\Room'
-        ));
+        $resolver->setDefaults(array('data_class' => 'Oktolab\Bundle\RentBundle\Entity\Inventory\Room'));
     }
 
     public function getName()

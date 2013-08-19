@@ -11,17 +11,18 @@ class CategoryControllerTest extends WebTestCase
         $this->logIn('ROLE_ADMIN');
         $this->loadFixtures(array());
 
-        $crawler = $this->client->request('GET', '/admin/inventory/category/new');
+        $this->client->request('GET', '/admin/inventory/category/new');
         $this->assertTrue($this->client->getResponse()->isSuccessful(), 'Response should be successful');
 
         $form = $this->client->getCrawler()->selectButton('Speichern')->form(
             array(
-                'oktolab_bundle_rentbundle_inventory_categorytype[title]' => 'Testplace'
+                'oktolab_bundle_rentbundle_inventory_categorytype[title]' => 'Testplace',
             )
         );
 
-        $crawler = $this->client->submit($form);
+        $this->client->submit($form);
         $this->assertEquals(302, $this->client->getResponse()->getStatusCode());
+
         $crawler = $this->client->followRedirect();
         $this->assertEquals(200, $this->client->getResponse()->getStatusCode());
         $this->assertEquals(

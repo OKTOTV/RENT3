@@ -121,7 +121,7 @@ class Place
     public function addSet(\Oktolab\Bundle\RentBundle\Entity\Inventory\Set $sets)
     {
         $this->sets[] = $sets;
-    
+
         return $this;
     }
 
@@ -138,7 +138,7 @@ class Place
     /**
      * Get sets
      *
-     * @return \Doctrine\Common\Collections\Collection 
+     * @return \Doctrine\Common\Collections\Collection
      */
     public function getSets()
     {

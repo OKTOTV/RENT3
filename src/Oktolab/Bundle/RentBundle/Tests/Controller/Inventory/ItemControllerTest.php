@@ -3,7 +3,6 @@
 namespace Oktolab\Bundle\RentBundle\Tests\Controller\Inventory;
 
 use Oktolab\Bundle\RentBundle\Tests\WebTestCase;
-use Oktolab\Bundle\RentBundle\DataFixtures\ORM\ItemFixture;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 class ItemControllerTest extends WebTestCase
@@ -136,7 +135,6 @@ class ItemControllerTest extends WebTestCase
     {
         $this->loadFixtures(array('Oktolab\Bundle\RentBundle\DataFixtures\ORM\PlaceFixture'));
 
-        // post new attachment
         copy(__DIR__.'/../../DataFixtures/logo_okto.png', $filename = tempnam(sys_get_temp_dir(), 'OktolabRentBundle'));
         $file = new UploadedFile($filename, basename($filename), 'image/png', filesize($filename), null, true);
 
@@ -147,9 +145,8 @@ class ItemControllerTest extends WebTestCase
                 'Content-Length' => $file->getSize(),
                 'Content-Type' => 'multipart/form-data',
             ),
-            array($file));
-        // - - - - - - - - - -
-
+            array($file)
+        );
 
         $this->client->request('GET', '/inventory/item/new');
         $this->assertTrue($this->client->getResponse()->isSuccessful(), 'Response should be successful');
@@ -167,7 +164,6 @@ class ItemControllerTest extends WebTestCase
         $this->assertTrue($this->client->getResponse()->isRedirection(), 'Response should be a redirection');
 
         $crawler = $this->client->followRedirect();
-
         $this->assertTrue($this->client->getResponse()->isSuccessful(), 'Response should be successful');
         $this->assertGreaterThan(
             0,

@@ -10,13 +10,12 @@ class PictureType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
+
     }
 
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
-        $resolver->setDefaults(array(
-            'data_class' => 'Oktolab\Bundle\RentBundle\Entity\Inventory\Attachment'
-        ));
+        $resolver->setDefaults(array('data_class' => 'Oktolab\Bundle\RentBundle\Entity\Inventory\Attachment'));
     }
 
     public function getName()

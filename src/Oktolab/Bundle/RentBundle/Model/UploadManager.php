@@ -3,7 +3,6 @@
 namespace Oktolab\Bundle\RentBundle\Model;
 
 use Oktolab\Bundle\RentBundle\Entity\Inventory\Attachment;
-use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Doctrine\ORM\EntityManager;
 
 class UploadManager
