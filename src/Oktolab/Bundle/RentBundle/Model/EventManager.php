@@ -145,7 +145,7 @@ class EventManager
         $event->setBegin($begin)->setEnd($end);
         $event->setState(Event::STATE_RENTED);
 
-        return $this->createEventObjects(&$event, $objects);
+        return $this->createEventObjects($event, $objects);
     }
 
     protected function createEventObjects(Event $event, array $objects)

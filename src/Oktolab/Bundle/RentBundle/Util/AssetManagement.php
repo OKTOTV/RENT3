@@ -50,7 +50,7 @@ class AssetManagement
      */
     protected static function createDirectory($directory)
     {
-        if(!mkdir($directory)) {
+        if (!mkdir($directory)) {
             echo sprintf('ERROR: Unable to create directory %s %s', $directory, PHP_EOL);
             return;
         }
