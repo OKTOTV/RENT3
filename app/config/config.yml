@@ -73,7 +73,7 @@ oneup_uploader:
     mappings:
         gallery:
             frontend:        plupload
-            use_orphanage:  true
+            use_orphanage:   true
             namer:           oktolab.upload_name_manager
 
 avalanche_imagine:
