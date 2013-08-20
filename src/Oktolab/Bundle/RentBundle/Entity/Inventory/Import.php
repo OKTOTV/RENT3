@@ -2,10 +2,6 @@
 
 namespace Oktolab\Bundle\RentBundle\Entity\Inventory;
 
-use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\Validator\Constraints as Assert;
-use Oktolab\Bundle\RentBundle\Model\UploadableInterface;
-
 /**
  * Import
  */

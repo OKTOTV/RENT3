@@ -6,9 +6,10 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Cache;
+use Symfony\Component\Validator\Constraints\NotNull;
+use Symfony\Component\Validator\Constraints\File;
 use Symfony\Component\HttpFoundation\Response;
 
 use Oktolab\Bundle\RentBundle\Entity\Inventory\Item;
@@ -27,35 +28,40 @@ class ImportController extends Controller
      *
      * @Route("/", name="inventory_import")
      * @Method("GET")
-     * @Cache(expires="+1 day", public="true")
-     * @Template
+     * @Cache(expires="+1 year", public="true")
+     * @Template()
      */
     public function indexAction()
     {
         $form = $this->createFormBuilder()->add('csv', 'file')->getForm();
-
-        return array(
-            'form' => $form->createView()
-        );
+        return array('form' => $form->createView());
     }
 
     /**
      * @Route("/", name="inventory_import_upload")
      * @Method("POST")
-     * @Template("OktolabRentBundle:Inventory\Import:index.html.twig")
+     * @Template("OktolabRentBundle:Inventory\Import:verify.html.twig")
      */
     public function uploadAction(Request $request)
     {
-        $form = $this->createFormBuilder()->add('csv', 'file')->getForm();
+        $form = $this->createFormBuilder()
+            ->add('csv', 'file', array(
+                    'constraints' => array(
+                        new NotNull(),
+                        new File(array('mimeTypes' => array('text/plain', 'text/csv')))
+                    )
+                )
+            )
+            ->getForm();
+
         $form->handleRequest($request);
+        $items = array();
+
         if($form->isValid()) {
             // save file in temp dir
             $file = $form->getData('csv');
-            move_uploaded_file($file['csv']->getRealPath(),$filename = tempnam(sys_get_temp_dir(), 'Import'));
 
-
-            $items = array();
-            $handle = fopen($filename, 'r');
+            $handle = fopen($file['csv']->getRealPath(), 'r');
             $import = new Import();
 
             $validator = $this->get('validator');
@@ -81,35 +87,41 @@ class ImportController extends Controller
             }
             fclose($handle);
 
-            if (count($errors) == 0) {
-                $form = $this->createForm(
-                    new ImportType(),
-                    $import,
-                    array(
-                        'action' => $this->generateUrl('inventory_import_create')
-                    )
-                );
-            } else {
-                $this->get('session')->getFlashBag()->add(
-                    'error',
-                    'CSV enthält ungültige Daten!'
-                );
+            foreach ($errors as $error) {
+                if (count($error) != 0) {
+                    $this->get('session')->getFlashBag()->add(
+                        'error',
+                        'CSV enthält ungültige Daten!'
+                    );
+                    return $this->redirect($this->generateUrl('inventory_import'));
+                }
             }
-        }
 
-        return new Response($this->renderView(
-            'OktolabRentBundle:Inventory\Import:verify.html.twig',
-            array(
+            $form = $this->createForm(
+                new ImportType(),
+                $import,
+                array(
+                    'action' => $this->generateUrl('inventory_import_create')
+                )
+            );
+            return array(
                 'items' => $items,
                 'form' => $form->createView()
+            );
+        }
+        return new Response(
+            $this->renderView(
+                'OktolabRentBundle:Inventory\Import:index.html.twig',
+                array(
+                    'form'  => $form->createView()
+                )
             )
-        ));
+        );
     }
 
     /**
      * @Route("/create", name="inventory_import_create")
      * @Method("POST")
-     * @Template("OktolabRentBundle:Inventory\Import:index.html.twig")
      */
     public function createAction(Request $request)
     {

@@ -22,15 +22,6 @@ class ImportType extends AbstractType
             );
     }
 
-//    public function setDefaultOptions(OptionsResolverInterface $resolver)
-//    {
-//        $resolver->setDefaults(
-//            array(
-//                'data_class' => 'Oktolab\Bundle\RentBundle\Entity\Inventory\Item'
-//            )
-//        );
-//    }
-
     public function getName()
     {
         return 'oktolab_bundle_rentbundle_inventory_import';
