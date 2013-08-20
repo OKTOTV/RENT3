@@ -14,8 +14,7 @@ class PlaceType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder
-            ->add('title');
+        $builder->add('title');
     }
 
     /**
@@ -23,9 +22,7 @@ class PlaceType extends AbstractType
      */
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
-        $resolver->setDefaults(array(
-            'data_class' => 'Oktolab\Bundle\RentBundle\Entity\Inventory\Place'
-        ));
+        $resolver->setDefaults(array('data_class' => 'Oktolab\Bundle\RentBundle\Entity\Inventory\Place'));
     }
 
     /**

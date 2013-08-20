@@ -557,14 +557,14 @@ class Item implements RentableInterface, UploadableInterface
     public function setCategory(\Oktolab\Bundle\RentBundle\Entity\Inventory\Category $category = null)
     {
         $this->category = $category;
-    
+
         return $this;
     }
 
     /**
      * Get category
      *
-     * @return \Oktolab\Bundle\RentBundle\Entity\Inventory\Category 
+     * @return \Oktolab\Bundle\RentBundle\Entity\Inventory\Category
      */
     public function getCategory()
     {

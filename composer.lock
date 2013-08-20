@@ -3,7 +3,7 @@
         "This file locks the dependencies of your project to a known state",
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file"
     ],
-    "hash": "cf5be91244edea3537853d928a20019c",
+    "hash": "64c4b35d9c5e067a7ead9af1f3658bcd",
     "packages": [
         {
             "name": "avalanche123/imagine-bundle",
@@ -983,31 +983,26 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/1up-lab/OneupUploaderBundle.git",
-                "reference": "156f67be4e81d80c5da18050b14bf91dfaa6c7cf"
+                "reference": "bbb79f2228e70a4845c60d32f125cfda1905667e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/1up-lab/OneupUploaderBundle/zipball/156f67be4e81d80c5da18050b14bf91dfaa6c7cf",
-                "reference": "156f67be4e81d80c5da18050b14bf91dfaa6c7cf",
+                "url": "https://api.github.com/repos/1up-lab/OneupUploaderBundle/zipball/bbb79f2228e70a4845c60d32f125cfda1905667e",
+                "reference": "bbb79f2228e70a4845c60d32f125cfda1905667e",
                 "shasum": ""
             },
             "require": {
-                "symfony/finder": ">=2.0.16,<2.4-dev",
+                "symfony/finder": ">=2.2.0,<2.4-dev",
                 "symfony/framework-bundle": "2.*"
             },
             "require-dev": {
                 "amazonwebservices/aws-sdk-for-php": "1.5.*",
-                "jms/serializer-bundle": "dev-master",
                 "knplabs/gaufrette": "0.2.*@dev",
                 "phpunit/phpunit": "3.7.*",
                 "sensio/framework-extra-bundle": "2.*",
                 "symfony/browser-kit": "2.*",
                 "symfony/class-loader": "2.*",
-                "symfony/form": "2.*",
-                "symfony/monolog-bundle": "2.*",
-                "symfony/security-bundle": "2.*",
-                "symfony/twig-bundle": "2.*",
-                "symfony/yaml": "2.*"
+                "symfony/security-bundle": "2.*"
             },
             "suggest": {
                 "knplabs/knp-gaufrette-bundle": "0.1.*"
@@ -1044,7 +1039,7 @@
                 "plupload",
                 "upload"
             ],
-            "time": "2013-08-09 14:55:24"
+            "time": "2013-08-16 09:47:55"
         },
         {
             "name": "psr/log",
@@ -1339,21 +1334,20 @@
         },
         {
             "name": "symfony/icu",
-            "version": "v1.2.0",
+            "version": "v1.0.0",
             "target-dir": "Symfony/Component/Icu",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/Icu.git",
-                "reference": "v1.2.0"
+                "reference": "v1.0.0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/Icu/zipball/v1.2.0",
-                "reference": "v1.2.0",
+                "url": "https://api.github.com/repos/symfony/Icu/zipball/v1.0.0",
+                "reference": "v1.0.0",
                 "shasum": ""
             },
             "require": {
-                "lib-icu": ">=4.4",
                 "php": ">=5.3.3",
                 "symfony/intl": ">=2.3,<3.0"
             },
@@ -1383,7 +1377,7 @@
                 "icu",
                 "intl"
             ],
-            "time": "2013-06-03 18:32:58"
+            "time": "2013-06-03 18:32:07"
         },
         {
             "name": "symfony/monolog-bundle",
@@ -1704,21 +1698,21 @@
         },
         {
             "name": "willdurand/faker-bundle",
-            "version": "1.0.0",
+            "version": "1.0.1",
             "target-dir": "Bazinga/Bundle/FakerBundle",
             "source": {
                 "type": "git",
                 "url": "https://github.com/willdurand/BazingaFakerBundle.git",
-                "reference": "1.0.0"
+                "reference": "1.0.1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/willdurand/BazingaFakerBundle/zipball/1.0.0",
-                "reference": "1.0.0",
+                "url": "https://api.github.com/repos/willdurand/BazingaFakerBundle/zipball/1.0.1",
+                "reference": "1.0.1",
                 "shasum": ""
             },
             "require": {
-                "fzaninotto/faker": ">=1.1,<2.0",
+                "fzaninotto/faker": "~1.1",
                 "symfony/framework-bundle": ">=2.0,<2.4-dev"
             },
             "type": "symfony-bundle",
@@ -1744,7 +1738,7 @@
                 "faker",
                 "fixtures"
             ],
-            "time": "2013-06-09 19:20:22"
+            "time": "2013-08-13 21:29:58"
         },
         {
             "name": "yohang/calendr",

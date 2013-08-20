@@ -258,7 +258,6 @@ class SetControllerTest extends WebTestCase
     {
         $this->loadFixtures(array('Oktolab\Bundle\RentBundle\DataFixtures\ORM\PlaceFixture'));
 
-        // post new attachment
         copy(__DIR__.'/../../DataFixtures/logo_okto.png', $filename = tempnam(sys_get_temp_dir(), 'OktolabRentBundle'));
         $file = new UploadedFile($filename, basename($filename), 'image/png', filesize($filename), null, true);
 
@@ -269,9 +268,8 @@ class SetControllerTest extends WebTestCase
                 'Content-Length' => $file->getSize(),
                 'Content-Type' => 'multipart/form-data',
             ),
-            array($file));
-        // - - - - - - - - - -
-
+            array($file)
+        );
 
         $this->client->request('GET', '/inventory/set/new');
         $this->assertTrue($this->client->getResponse()->isSuccessful(), 'Response should be successful');

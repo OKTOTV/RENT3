@@ -1,3 +1,3 @@
 parameters:
     oktolab.web_dir:    "%kernel.root_dir%/../web"
-    oktolab.upload_dir: "/uploads"
+    oktolab.upload_dir: "/uploads"	# be sure to also check composer.json (extras)

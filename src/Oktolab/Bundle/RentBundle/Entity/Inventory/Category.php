@@ -73,7 +73,7 @@ class Category
     {
         $this->items = new \Doctrine\Common\Collections\ArrayCollection();
     }
-    
+
     /**
      * Add items
      *
@@ -83,7 +83,7 @@ class Category
     public function addItem(\Oktolab\Bundle\RentBundle\Entity\Inventory\Item $items)
     {
         $this->items[] = $items;
-    
+
         return $this;
     }
 
@@ -100,7 +100,7 @@ class Category
     /**
      * Get items
      *
-     * @return \Doctrine\Common\Collections\Collection 
+     * @return \Doctrine\Common\Collections\Collection
      */
     public function getItems()
     {

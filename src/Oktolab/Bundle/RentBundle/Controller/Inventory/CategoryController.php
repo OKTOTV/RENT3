@@ -29,13 +29,13 @@ class CategoryController extends Controller
     public function indexAction()
     {
         $em = $this->getDoctrine()->getManager();
-
         $entities = $em->getRepository('OktolabRentBundle:Inventory\Category')->findAll();
 
         return array(
             'entities' => $entities,
         );
     }
+
     /**
      * Creates a new Inventory\Category entity.
      *
@@ -72,7 +72,7 @@ class CategoryController extends Controller
      */
     public function newAction()
     {
-        $form   = $this->createForm(
+        $form = $this->createForm(
             new CategoryType(),
             new Category(),
             array('action' => $this->generateUrl('inventory_category_create'))
@@ -115,8 +115,8 @@ class CategoryController extends Controller
         );
 
         return array(
-            'category'      => $category,
-            'edit_form'   => $editForm->createView()
+            'category'  => $category,
+            'edit_form' => $editForm->createView()
         );
     }
 
@@ -128,7 +128,7 @@ class CategoryController extends Controller
      * @Method("PUT")
      * @Template("OktolabRentBundle:Inventory\Category:edit.html.twig")
      */
-    public function updateAction(Request $request,Category $category)
+    public function updateAction(Request $request, Category $category)
     {
         $em = $this->getDoctrine()->getManager();
 
@@ -147,6 +147,7 @@ class CategoryController extends Controller
             'edit_form'   => $editForm->createView()
         );
     }
+
     /**
      * Deletes a Inventory\Category entity.
      *
@@ -158,8 +159,8 @@ class CategoryController extends Controller
     {
         if ($category->getItems()->count() != 0) {
             $this->get('session')->getFlashBag()->add(
-              'notice',
-              'Kann nicht gelöscht werden! Besitzt noch Gegenstände!'
+                'notice',
+                'Kann nicht gelöscht werden! Besitzt noch Gegenstände!'
             );
             return $this->redirect($this->generateUrl('inventory_category_edit', array('id' => $category->getId())));
         }

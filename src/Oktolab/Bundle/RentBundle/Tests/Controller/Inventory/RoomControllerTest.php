@@ -95,7 +95,7 @@ class RoomControllerTest extends WebTestCase
             )
         );
 
-        $crawler = $this->client->submit($form); 
+        $crawler = $this->client->submit($form);
         $this->assertTrue($this->client->getResponse()->isSuccessful(), 'Response should be successful');
         $this->assertEquals(1, $crawler->filter('.error:contains("Du musst einen Titel angeben")')->count());
     }
@@ -104,7 +104,6 @@ class RoomControllerTest extends WebTestCase
     {
         $this->loadFixtures(array());
 
-        // post new attachment
         copy(__DIR__.'/../../DataFixtures/logo_okto.png', $filename = tempnam(sys_get_temp_dir(), 'OktolabRentBundle'));
         $file = new UploadedFile($filename, basename($filename), 'image/png', filesize($filename), null, true);
 
@@ -115,9 +114,8 @@ class RoomControllerTest extends WebTestCase
                 'Content-Length' => $file->getSize(),
                 'Content-Type' => 'multipart/form-data',
             ),
-            array($file));
-        // - - - - - - - - - -
-
+            array($file)
+        );
 
         $this->client->request('GET', '/inventory/room/new');
         $this->assertTrue($this->client->getResponse()->isSuccessful(), 'Response should be successful');
@@ -127,15 +125,13 @@ class RoomControllerTest extends WebTestCase
                 'oktolab_bundle_rentbundle_inventory_roomtype[title]'       => 'Test',
                 'oktolab_bundle_rentbundle_inventory_roomtype[description]' => 'Description',
                 'oktolab_bundle_rentbundle_inventory_roomtype[barcode]'     => 'ASDF01',
-
             )
         );
 
         $this->client->submit($form);
-
         $this->assertTrue($this->client->getResponse()->isRedirection(), 'Response should be a redirection');
+        
         $crawler = $this->client->followRedirect();
-
         $this->assertTrue($this->client->getResponse()->isSuccessful(), 'Response should be successful');
         $this->assertGreaterThan(
             0,

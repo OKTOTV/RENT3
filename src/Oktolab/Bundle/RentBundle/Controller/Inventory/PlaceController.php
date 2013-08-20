@@ -31,11 +31,9 @@ class PlaceController extends Controller
         $em = $this->getDoctrine()->getManager();
 
         $entities = $em->getRepository('OktolabRentBundle:Inventory\Place')->findAll();
-
-        return array(
-            'entities' => $entities,
-        );
+        return array('entities' => $entities);
     }
+
     /**
      * Creates a new Inventory\Place entity.
      *
@@ -72,7 +70,7 @@ class PlaceController extends Controller
      */
     public function newAction()
     {
-        $form   = $this->createForm(
+        $form = $this->createForm(
             new PlaceType(),
             new Place(),
             array('action' => $this->generateUrl('inventory_place_create'))
@@ -91,6 +89,7 @@ class PlaceController extends Controller
      */
     public function showAction(Place $place)
     {
+
     }
 
     /**
@@ -109,14 +108,15 @@ class PlaceController extends Controller
             array(
                 'action' => $this->generateUrl(
                     'inventory_place_update',
-                    array('id' => $place->getId())),
-                'method' => 'PUT'
+                    array('id' => $place->getId())
+                ),
+                'method' => 'PUT',
             )
         );
 
         return array(
-            'place'      => $place,
-            'edit_form'   => $editForm->createView(),
+            'place'     => $place,
+            'edit_form' => $editForm->createView(),
         );
     }
 
@@ -128,7 +128,7 @@ class PlaceController extends Controller
      * @Method("PUT")
      * @Template("OktolabRentBundle:Inventory\Place:edit.html.twig")
      */
-    public function updateAction(Request $request,Place $place)
+    public function updateAction(Request $request, Place $place)
     {
         $em = $this->getDoctrine()->getManager();
 
@@ -147,6 +147,7 @@ class PlaceController extends Controller
             'edit_form'   => $editForm->createView(),
         );
     }
+
     /**
      * Deletes a Inventory\Place entity.
      *
@@ -158,8 +159,8 @@ class PlaceController extends Controller
     {
         if ($place->getItems()->count() != 0 || $place->getSets()->count() != 0) {
             $this->get('session')->getFlashBag()->add(
-              'notice',
-              'Kann nicht gelöscht werden! Besitzt noch Gegenstände!'
+                'notice',
+                'Kann nicht gelöscht werden! Besitzt noch Gegenstände!'
             );
             return $this->redirect($this->generateUrl('inventory_place_edit', array('id' => $place->getId())));
         }
