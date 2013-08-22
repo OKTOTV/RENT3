@@ -94,10 +94,6 @@ class EventManager
     public function isAvailable(RentableInterface $object, \DateTime $begin, \DateTime $end)
     {
         $results = $this->eventRepository->findAllForObjectCount($object, $begin, $end);
-
-        if(!(0 === $results)) {
-            var_dump($results, 0 == $results); die();
-        }
         return 0 === $results;
     }
 
