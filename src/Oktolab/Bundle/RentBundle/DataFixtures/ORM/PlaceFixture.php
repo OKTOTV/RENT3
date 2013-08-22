@@ -18,7 +18,7 @@ class PlaceFixture extends AbstractFixture implements OrderedFixtureInterface
     public function load(ObjectManager $manager)
     {
         $place = new Place();
-        $place->setTitle('Test Place');
+        $place->setTitle('Testplace');
         $manager->persist($place);
         $manager->flush();
     }

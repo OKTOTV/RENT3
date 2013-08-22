@@ -60,41 +60,19 @@ class ImportController extends Controller
         if($form->isValid()) {
             // save file in temp dir
             $file = $form->getData('csv');
+            $items = $this->get('oktolab.item_import_manager')->parse($file['csv']);
 
-            $handle = fopen($file['csv']->getRealPath(), 'r');
-            $import = new Import();
-
-            $validator = $this->get('validator');
-            $errors = array();
-            //parse file with fgetcsv
-            while (($data = fgetcsv($handle)) !== FALSE) {
-                if ($data[0] == "Titel") {
-                    continue;
-                }
-                $item = new Item();
-                $item->setTitle($data[0]);
-                $item->setDescription($data[1]);
-                $item->setBarcode($data[2]);
-                $item->setBuyDate(new \DateTime($data[3]));
-                $item->setSerialNumber($data[4]);
-                $item->setVendor($data[5]);
-                $item->setModelNumber($data[6]);
-
-                $errors[] = $validator->validate($item);
-
-                $import->addItem($item);
-                $items[] = $item;
+            if (!$this->get('oktolab.item_import_manager')->validate($items) || count($items) == 0) {
+                $this->get('session')->getFlashBag()->add(
+                    'error',
+                    'CSV enthält ungültige Daten!'
+                );
+                return $this->redirect($this->generateUrl('inventory_import'));
             }
-            fclose($handle);
 
-            foreach ($errors as $error) {
-                if (count($error) != 0) {
-                    $this->get('session')->getFlashBag()->add(
-                        'error',
-                        'CSV enthält ungültige Daten!'
-                    );
-                    return $this->redirect($this->generateUrl('inventory_import'));
-                }
+            $import = new Import();
+            foreach ($items as $item) {
+                $import->addItem($item);
             }
 
             $form = $this->createForm(
@@ -104,6 +82,7 @@ class ImportController extends Controller
                     'action' => $this->generateUrl('inventory_import_create')
                 )
             );
+
             return array(
                 'items' => $items,
                 'form' => $form->createView()

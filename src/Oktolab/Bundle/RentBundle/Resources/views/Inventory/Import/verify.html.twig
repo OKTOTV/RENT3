@@ -39,6 +39,7 @@
                         <th>{% trans %}Serialnumber{% endtrans %}</th>
                         <th>{% trans %}Vendor{% endtrans %}</th>
                         <th>{% trans %}Modelnumber{% endtrans %}</th>
+                        <th>{{ "Place" | trans }}</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -51,6 +52,7 @@
                         <td>{{ item.serialNumber }}</td>
                         <td>{{ item.vendor }}</td>
                         <td>{{ item.modelNumber }}</td>
+                        <td>{{ item.place.title }}</td>
                     </tr>
                 {% endfor %}
                 </tbody>

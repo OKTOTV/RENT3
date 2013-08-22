@@ -10,7 +10,7 @@ class ImportControllerTest extends WebTestCase
     public function testImportCsvWithItems()
     {
         $this->logIn('ROLE_ADMIN');
-        $this->loadFixtures(array());
+        $this->loadFixtures(array('Oktolab\Bundle\RentBundle\DataFixtures\ORM\PlaceFixture'));
 
         $file = new UploadedFile(__DIR__.'/../../DataFixtures/items.csv', 'items.csv', 'text/csv', 399);
 
@@ -19,13 +19,11 @@ class ImportControllerTest extends WebTestCase
         $form['form[csv]'] = $file;
         $crawler = $this->client->submit($form);
 
-        $this->assertTrue($this->client->getResponse()->isSuccessful());
+        $this->assertTrue($this->client->getResponse()->isSuccessful(), 'Form submit was not successful');
         $this->assertEquals(4, $crawler->filter('section.aui-page-panel-content table.aui tbody tr')->count(), 'Contains no Item');
 
-//        die(var_dump($this->client->getCrawler()->selectButton('Speichern')->form()));
         $this->client->submit($this->client->getCrawler()->selectButton('Speichern')->form());
-        echo $this->client->getResponse()->getContent(); die();
-        $this->assertTrue($this->client->getResponse()->isSuccessful());
+        
         $this->assertTrue($this->client->getResponse()->isRedirect(), 'Response should be a redirect');
         $crawler = $this->client->followRedirect();
 

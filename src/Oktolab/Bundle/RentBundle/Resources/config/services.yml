@@ -46,3 +46,9 @@ services:
       arguments:  [ @doctrine.orm.entity_manager, @?logger ]
       tags:
         - { name: logger, channel: main }
+
+    oktolab.item_import_manager:
+      class: Oktolab\Bundle\RentBundle\Model\ItemImportManager
+      arguments:
+          - @doctrine.orm.entity_manager
+          - @validator
