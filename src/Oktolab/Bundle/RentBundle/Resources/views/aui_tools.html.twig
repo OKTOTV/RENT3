@@ -1,0 +1,8 @@
+{% macro aui_message(message, type) %}
+    <div class="aui-message {{ type|default('info') }}">
+        <p class="title">
+            <span class="aui-icon icon-{{ type|default('info') }}"></span>
+            <strong>{{ message }}</strong>
+        </p>
+    </div>
+{% endmacro %}

@@ -1,0 +1,17 @@
+{% extends 'OktolabRentBundle:Admin:Place\\base.html.twig' %}
+
+{% block content %}
+    {{ parent() }}
+
+    {{ form_start(form, {'attr': {'class': 'aui'} }) }}
+        <h3>{{ 'Add new Place' | trans }}</h3>
+        <fieldset>
+            {{ form_errors(form) }}
+            {{ form_row(form.title) }}
+
+            <div class="buttons-container">
+                <button class="aui-button aui-button-primary" type="submit">{% trans %}Submit{% endtrans %}</button>
+            </div>
+        </fieldset>
+    {{ form_end(form) }}
+{% endblock %}

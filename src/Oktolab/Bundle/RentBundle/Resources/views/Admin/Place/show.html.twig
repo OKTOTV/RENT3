@@ -1,0 +1,59 @@
+{% extends 'OktolabRentBundle:Admin:Place\\base.html.twig' %}
+
+{% block content %}
+    {{ parent() }}
+
+    <h3>{% trans %}Items in place{% endtrans %}</h3>
+    <table class="aui">
+        <thead>
+            <tr>
+                <th id="name">{% trans %}Title{% endtrans %}</th>
+                <th>{% trans %}Description{% endtrans %}</th>
+                <th>{% trans %}Barcode{% endtrans %}</th>
+                <th id="action">{% trans %}Actions{% endtrans %}</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for item in place.items %}
+                <tr>
+                    <td headers="name">{{ item.title }}</td>
+                    <td>{{ item.description }}</td>
+                    <td>{{ item.barcode }}</td>
+                    <td class="action" headers="action">
+                        <ul class="menu">
+                            <li><a href="{{ path('inventory_item_show', { 'id': item.id }) }}">{% trans %}show{% endtrans %}</a></li>
+                            <li><a href="{{ path('inventory_item_edit', { 'id': item.id }) }}">{% trans %}edit{% endtrans %}</a></li>
+                        </ul>
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <h3>{% trans %}Sets in place{% endtrans %}</h3>
+    <table class="aui">
+        <thead>
+            <tr>
+                <th id="name">{% trans %}Title{% endtrans %}</th>
+                <th>{% trans %}Description{% endtrans %}</th>
+                <th>{% trans %}Barcode{% endtrans %}</th>
+                <th id="action">{% trans %}Actions{% endtrans %}</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for set in place.sets %}
+                <tr>
+                    <td headers="name">{{ set.title }}</td>
+                    <td>{{ set.description }}</td>
+                    <td>{{ set.barcode }}</td>
+                    <td class="action" headers="action">
+                        <ul class="menu">
+                            <li><a href="{{ path('inventory_set_show', { 'id': set.id }) }}">{% trans %}show{% endtrans %}</a></li>
+                            <li><a href="{{ path('inventory_set_edit', { 'id': set.id }) }}">{% trans %}edit{% endtrans %}</a></li>
+                        </ul>
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

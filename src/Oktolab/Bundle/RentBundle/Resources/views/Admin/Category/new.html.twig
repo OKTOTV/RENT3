@@ -1,0 +1,18 @@
+{% extends 'OktolabRentBundle:Admin\\Category:base.html.twig' %}
+
+{% block content %}
+    {{ parent() }}
+
+    {{ form_start(form, {'attr': {'class': 'aui'} }) }}
+        <h3>{{ 'Add new Category' | trans }}</h3>
+        <fieldset>
+            <legend><span>{{ 'Add new Category' | trans }}</span></legend>
+            {{ form_errors(form) }}
+            {{ form_row(form.title) }}
+
+            <div class="buttons-container">
+                <button class="aui-button aui-button-primary" type="submit">{{ 'Submit' | trans }}</button>
+            </div>
+        </fieldset>
+    {{ form_end(form) }}
+{% endblock %}
