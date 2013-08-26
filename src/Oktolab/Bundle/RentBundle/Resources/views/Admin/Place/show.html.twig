@@ -1,103 +1,59 @@
-{% extends 'OktolabRentBundle::layout.html.twig' %}
-
-{% block content_header %}
-    <div class="aui-page-header-inner">
-        <div class="aui-page-header-image"~>
-            <div class="aui-avatar aui-avatar-xlarge aui-avatar-project">
-                <div class="aui-avatar-inner">
-                </div>
-            </div>
-        </div>
-        <div class="aui-page-header-main">
-            <h1>{{place.title}}</h1>
-        </div>
-        <div class="aui-page-header-actions">
-            <div class="aui-buttons">
-                <div class="aui-buttons">
-                    <a class="aui-button" href="{{ path('inventory_place_edit', { 'id' : place.id }) }}">Editieren</a>
-                    <a class="aui-button" href="{{ path('inventory_place') }}">{% trans %}Back to list{% endtrans %}</a>
-                    <button class="aui-button" aria-disabled="true">Ausmustern</button>
-                </div>
-            </div>
-        </div>
-    </div>
-{% endblock %}
+{% extends 'OktolabRentBundle:Admin:Place\\base.html.twig' %}
 
 {% block content %}
-    <div class="aui-page-panel">
-        <div class="aui-page-panel-inner">
-            <section class="aui-page-panel-content">
+    {{ parent() }}
 
-                <h3>{% trans %}Items in place{% endtrans %}</h3>
-                <table class="aui">
-                    <thead>
-                        <tr>
-                            <th id="name">{% trans %}Title{% endtrans %}</th>
-                            <th>{% trans %}Description{% endtrans %}</th>
-                            <th>{% trans %}Barcode{% endtrans %}</th>
-                            <th>{% trans %}Buydate{% endtrans %}</th>
-                            <th>{% trans %}Serialnumber{% endtrans %}</th>
-                            <th>{% trans %}Vendor{% endtrans %}</th>
-                            <th>{% trans %}Modelnumber{% endtrans %}</th>
-                            <th id="action">{% trans %}Actions{% endtrans %}</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {% for item in place.items %}
-                            <tr>
-                                <td headers="name">{{ item.title }}</td>
-                                <td>{{ item.description }}</td>
-                                <td>{{ item.barcode }}</td>
-                                <td>{% if item.buyDate %}{{ item.buyDate|date('Y-m-d') }}{% endif %}</td>
-                                <td>{{ item.serialNumber }}</td>
-                                <td>{{ item.vendor }}</td>
-                                <td>{{ item.modelNumber }}</td>
-                                <td class="action" headers="action">
-                                    <ul class="menu">
-                                        <li>
-                                            <a href="{{ path('inventory_item_show', { 'id': item.id }) }}">{% trans %}show{% endtrans %}</a>
-                                        </li>
-                                        <li>
-                                            <a href="{{ path('inventory_item_edit', { 'id': item.id }) }}">{% trans %}edit{% endtrans %}</a>
-                                        </li>
-                                    </ul>
-                                </td>
-                            </tr>
-                        {% endfor %}
-                    </tbody>
-                </table>
-                <h3>{% trans %}Sets in place{% endtrans %}</h3>
-                <table class="aui">
-                    <thead>
-                        <tr>
-                            <th id="name">{% trans %}Title{% endtrans %}</th>
-                            <th>{% trans %}Description{% endtrans %}</th>
-                            <th>{% trans %}Barcode{% endtrans %}</th>
-                            <th id="action">{% trans %}Actions{% endtrans %}</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {% for set in place.sets %}
-                            <tr>
-                                <td headers="name">{{ set.title }}</td>
-                                <td>{{ set.description }}</td>
-                                <td>{{ set.barcode }}</td>
-                                <td class="action" headers="action">
-                                    <ul class="menu">
-                                        <li>
-                                            <a href="{{ path('inventory_set_show', { 'id': set.id }) }}">{% trans %}show{% endtrans %}</a>
-                                        </li>
-                                        <li>
-                                            <a href="{{ path('inventory_set_edit', { 'id': set.id }) }}">{% trans %}edit{% endtrans %}</a>
-                                        </li>
-                                    </ul>
-                                </td>
-                            </tr>
-                        {% endfor %}
-                    </tbody>
-                </table>
+    <h3>{% trans %}Items in place{% endtrans %}</h3>
+    <table class="aui">
+        <thead>
+            <tr>
+                <th id="name">{% trans %}Title{% endtrans %}</th>
+                <th>{% trans %}Description{% endtrans %}</th>
+                <th>{% trans %}Barcode{% endtrans %}</th>
+                <th id="action">{% trans %}Actions{% endtrans %}</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for item in place.items %}
+                <tr>
+                    <td headers="name">{{ item.title }}</td>
+                    <td>{{ item.description }}</td>
+                    <td>{{ item.barcode }}</td>
+                    <td class="action" headers="action">
+                        <ul class="menu">
+                            <li><a href="{{ path('inventory_item_show', { 'id': item.id }) }}">{% trans %}show{% endtrans %}</a></li>
+                            <li><a href="{{ path('inventory_item_edit', { 'id': item.id }) }}">{% trans %}edit{% endtrans %}</a></li>
+                        </ul>
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
 
-            </section>
-        </div>
-    </div>
+    <h3>{% trans %}Sets in place{% endtrans %}</h3>
+    <table class="aui">
+        <thead>
+            <tr>
+                <th id="name">{% trans %}Title{% endtrans %}</th>
+                <th>{% trans %}Description{% endtrans %}</th>
+                <th>{% trans %}Barcode{% endtrans %}</th>
+                <th id="action">{% trans %}Actions{% endtrans %}</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for set in place.sets %}
+                <tr>
+                    <td headers="name">{{ set.title }}</td>
+                    <td>{{ set.description }}</td>
+                    <td>{{ set.barcode }}</td>
+                    <td class="action" headers="action">
+                        <ul class="menu">
+                            <li><a href="{{ path('inventory_set_show', { 'id': set.id }) }}">{% trans %}show{% endtrans %}</a></li>
+                            <li><a href="{{ path('inventory_set_edit', { 'id': set.id }) }}">{% trans %}edit{% endtrans %}</a></li>
+                        </ul>
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
 {% endblock %}

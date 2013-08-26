@@ -16,7 +16,7 @@ class PlaceControllerTest extends WebTestCase
 
         $form = $this->client->getCrawler()->selectButton('Speichern')->form(
             array(
-                'oktolab_bundle_rentbundle_inventory_placetype[title]' => 'Testplace'
+                'oktolab_bundle_rentbundle_inventory_placetype[title]' => 'Testplace',
             )
         );
 
@@ -27,8 +27,8 @@ class PlaceControllerTest extends WebTestCase
         $this->assertTrue($this->client->getResponse()->isSuccessful(), 'Response should be successful');
         $this->assertEquals(
             1,
-            $crawler->filter('.aui-page-header-main:contains("Testplace")')->count(),
-            'There should be the place name on this page header'
+            $crawler->filter('.aui-page-panel-content:contains("Testplace")')->count(),
+            'The Place title should appear on this page.'
         );
     }
 }

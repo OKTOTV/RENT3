@@ -31,7 +31,6 @@ class CategoryController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
         $entities = $em->getRepository('OktolabRentBundle:Inventory\Category')->findAll();
-
         return array('entities' => $entities);
     }
 

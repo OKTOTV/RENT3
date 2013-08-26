@@ -1,0 +1,28 @@
+{% extends 'OktolabRentBundle:Admin:layout.html.twig' %}
+{% import 'OktolabRentBundle::aui_tools.html.twig' as macro %}
+
+{% set highlight_action = "place" %}
+
+{% block content %}
+    {% for flashMessage in app.session.flashbag.get('error') %}
+        {{ macro.aui_message(flashMessage, 'error') }}
+    {% endfor %}
+
+    {% for flashMessage in app.session.flashbag.get('success') %}
+        {{ macro.aui_message(flashMessage, 'success') }}
+    {% endfor %}
+
+    <h1 class="admin-heading">{{ 'Places' | trans }}</h1>
+    <p class="admin-subtitle">Ein Ort wird in Oktolab RENT eingesetzt um die Zugehörigkeit zu Stellen/Orten zu klassifizieren.</p>
+
+    <div class="aui-toolbar2">
+        <div class="aui-toolbar2-inner">
+            <div class="aui-toolbar2-primary">
+                <div id="button-set1" class="aui-buttons">
+                    <a class="aui-button" href="{{ path('inventory_place') }}">{{ 'Overview' | trans }}</a>
+                    <a class="aui-button" href="{{ path('inventory_place_new') }}">{{ 'Add new Place' | trans }}</a>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

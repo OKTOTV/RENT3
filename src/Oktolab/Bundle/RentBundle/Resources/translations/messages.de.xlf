@@ -102,6 +102,14 @@
                 <source>Items in Category</source>
                 <target>Gegenstände in dieser Kategorie</target>
             </trans-unit>
+            <trans-unit id="26">
+                <source>Add new Place</source>
+                <target>Neuen Ort hinzufügen</target>
+            </trans-unit>
+            <trans-unit id="27">
+                <source>Places</source>
+                <target>Orte</target>
+            </trans-unit>
         </body>
     </file>
 </xliff>

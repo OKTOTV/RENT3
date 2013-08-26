@@ -8,6 +8,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Cache;
 use Oktolab\Bundle\RentBundle\Entity\Inventory\Place;
 use Oktolab\Bundle\RentBundle\Form\Inventory\PlaceType;
 
@@ -29,7 +30,6 @@ class PlaceController extends Controller
     public function indexAction()
     {
         $em = $this->getDoctrine()->getManager();
-
         $entities = $em->getRepository('OktolabRentBundle:Inventory\Place')->findAll();
         return array('entities' => $entities);
     }
@@ -43,18 +43,19 @@ class PlaceController extends Controller
      */
     public function createAction(Request $request)
     {
-        $entity  = new Place();
-        $form = $this->createForm(new PlaceType(), $entity);
-        $form->submit($request);
+        $form = $this->createForm(new PlaceType(), $entity = new Place());
+        $form->handleRequest($request);
 
         if ($form->isValid()) {
             $em = $this->getDoctrine()->getManager();
             $em->persist($entity);
             $em->flush();
 
-            return $this->redirect($this->generateUrl('inventory_place_show', array('id' => $entity->getId())));
+            $this->get('session')->getFlashBag()->add('success', 'Successfully added new Place.');
+            return $this->redirect($this->generateUrl('inventory_place'));
         }
 
+        $this->get('session')->getFlashBag()->add('error', 'There was an error while saving the form.');
         return array(
             'entity' => $entity,
             'form'   => $form->createView(),
@@ -66,6 +67,7 @@ class PlaceController extends Controller
      *
      * @Route("/new", name="inventory_place_new")
      * @Method("GET")
+     * @Cache(expires="next year")
      * @Template()
      */
     public function newAction()
@@ -105,10 +107,7 @@ class PlaceController extends Controller
             new PlaceType(),
             $place,
             array(
-                'action' => $this->generateUrl(
-                    'inventory_place_update',
-                    array('id' => $place->getId())
-                ),
+                'action' => $this->generateUrl('inventory_place_update', array('id' => $place->getId())),
                 'method' => 'PUT',
             )
         );
@@ -129,18 +128,26 @@ class PlaceController extends Controller
      */
     public function updateAction(Request $request, Place $place)
     {
-        $em = $this->getDoctrine()->getManager();
+        $editForm = $this->createForm(
+            new PlaceType(),
+            $place,
+            array(
+                'action' => $this->generateUrl('inventory_place_update', array('id' => $place->getId())),
+                'method' => 'PUT',
+            )
+        );
 
-        $editForm = $this->createForm(new PlaceType(), $place);
-        $editForm->submit($request);
-
+        $editForm->handleRequest($request);
         if ($editForm->isValid()) {
+            $em = $this->getDoctrine()->getManager();
             $em->persist($place);
             $em->flush();
 
-            return $this->redirect($this->generateUrl('inventory_place_show', array('id' => $place->getId())));
+            $this->get('session')->getFlashBag()->add('success', 'Successfully updated Place.');
+            return $this->redirect($this->generateUrl('inventory_place'));
         }
 
+        $this->get('session')->getFlashBag()->add('error', 'There was an error while saving the form.');
         return array(
             'entity'      => $place,
             'edit_form'   => $editForm->createView(),
@@ -158,16 +165,20 @@ class PlaceController extends Controller
     {
         if ($place->getItems()->count() != 0 || $place->getSets()->count() != 0) {
             $this->get('session')->getFlashBag()->add(
-                'notice',
-                'Kann nicht gelöscht werden! Besitzt noch Gegenstände!'
+                'error',
+                sprintf('More than 1 Item and/or Set found, Place "%s" can not be deleted.', $place->getTitle())
             );
-            return $this->redirect($this->generateUrl('inventory_place_edit', array('id' => $place->getId())));
+            return $this->redirect($this->generateUrl('inventory_place'));
         }
 
         $em = $this->getDoctrine()->getManager();
         $em->remove($place);
         $em->flush();
 
+        $this->get('session')->getFlashBag()->add(
+            'success',
+            sprintf('Successfully deleted Place "%s"', $place->getTitle())
+        );
         return $this->redirect($this->generateUrl('inventory_place'));
     }
 }

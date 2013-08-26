@@ -1,33 +1,37 @@
-{% extends 'OktolabRentBundle:Admin:layout.html.twig' %}
-
-{% set highlight_action = "place" %}
+{% extends 'OktolabRentBundle:Admin:Place\\base.html.twig' %}
 
 {% block content %}
-    <h1 class="admin-heading">{{ 'Places' | trans }}</h1>
+    {{ parent() }}
 
-    <table class="aui">
-        <thead>
-            <tr>
-                <th id="title">{{ 'Title' | trans }}</th>
-                <th id="items">{{ '#. Items' | trans}}</th>
-                <th id="sets">{{ '#. Sets' | trans}}</th>
-                <th id="action">{{ 'Actions' | trans }}</th>
-            </tr>
-        </thead>
-        <tbody>
-        {% for entity in entities %}
-            <tr>
-                <td headers="title">{{ entity.title }}</td>
-                <td headers="items">{{ entity.items | length }}</td>
-                <td header="sets">{{ entity.sets | length }}</td>
-                <td class="action" headers="action">
-                    <ul class="menu">
-                        <li><a href="{{ path('inventory_place_show', { 'id': entity.id }) }}">{{ 'show' | trans }}</a></li>
-                        <li><a href="{{ path('inventory_place_edit', { 'id': entity.id }) }}">{{ 'edit' | trans }}</a></li>
-                    </ul>
-                </td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
+    {% if entities|length == 0 %}
+        <br />
+        {{ 'No Places found.' | trans }}
+    {% else %}
+        <table class="aui">
+            <thead>
+                <tr>
+                    <th id="title">{{ 'Title' | trans }}</th>
+                    <th id="items">{{ '#. Items' | trans}}</th>
+                    <th id="sets">{{ '#. Sets' | trans}}</th>
+                    <th id="action">{{ 'Actions' | trans }}</th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for entity in entities %}
+                <tr>
+                    <td headers="title">{{ entity.title }}</td>
+                    <td headers="items">{{ entity.items | length }}</td>
+                    <td header="sets">{{ entity.sets | length }}</td>
+                    <td class="action" headers="action">
+                        <ul class="menu">
+                            <li><a href="{{ path('inventory_place_show', { 'id': entity.id }) }}">{{ 'show' | trans }}</a></li>
+                            <li><a href="{{ path('inventory_place_edit', { 'id': entity.id }) }}">{{ 'edit' | trans }}</a></li>
+                            <li><a href="{{ path('inventory_place_delete', { 'id': entity.id }) }}">{{ 'delete' | trans }}</a></li>
+                        </ul>
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    {% endif %}
 {% endblock %}
