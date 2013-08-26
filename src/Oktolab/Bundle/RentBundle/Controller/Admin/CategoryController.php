@@ -8,6 +8,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Cache;
 use Oktolab\Bundle\RentBundle\Entity\Inventory\Category;
 use Oktolab\Bundle\RentBundle\Form\Inventory\CategoryType;
 
@@ -43,18 +44,20 @@ class CategoryController extends Controller
      */
     public function createAction(Request $request)
     {
-        $entity  = new Category();
+        $entity = new Category();
         $form = $this->createForm(new CategoryType(), $entity);
-        $form->submit($request);
+        $form->handleRequest($request);
 
         if ($form->isValid()) {
             $em = $this->getDoctrine()->getManager();
             $em->persist($entity);
             $em->flush();
 
-            return $this->redirect($this->generateUrl('inventory_category_show', array('id' => $entity->getId())));
+            $this->get('session')->getFlashBag()->add('success', 'Successfully created Category');
+            return $this->redirect($this->generateUrl('inventory_category'));
         }
 
+        $this->get('session')->getFlashBag()->add('error', 'There was an error saving the form');
         return array(
             'entity' => $entity,
             'form'   => $form->createView(),
@@ -66,6 +69,7 @@ class CategoryController extends Controller
      *
      * @Route("/new", name="inventory_category_new")
      * @Method("GET")
+     * @Cache(expires="next year")
      * @Template()
      */
     public function newAction()
@@ -76,7 +80,7 @@ class CategoryController extends Controller
             array('action' => $this->generateUrl('inventory_category_create'))
         );
 
-        return array('form'   => $form->createView());
+        return array('form' => $form->createView());
     }
 
     /**
@@ -126,21 +130,29 @@ class CategoryController extends Controller
      */
     public function updateAction(Request $request, Category $category)
     {
-        $em = $this->getDoctrine()->getManager();
+        $editForm = $this->createForm(
+            new CategoryType(),
+            $category,
+            array(
+                'method' => 'PUT',
+                'action' => $this->generateUrl('inventory_category_update', array('id' => $category->getId()))
+            )
+        );
 
-        $editForm = $this->createForm(new CategoryType(), $category);
-        $editForm->submit($request);
-
+        $editForm->handleRequest($request);
         if ($editForm->isValid()) {
+            $em = $this->getDoctrine()->getManager();
             $em->persist($category);
             $em->flush();
 
-            return $this->redirect($this->generateUrl('inventory_category_show', array('id' => $category->getId())));
+            $this->get('session')->getFlashBag()->add('success', 'Successfully updated Category');
+            return $this->redirect($this->generateUrl('inventory_category'));
         }
 
+        $this->get('session')->getFlashBag()->add('error', 'There was an error saving the form');
         return array(
-            'category'    => $category,
-            'edit_form'   => $editForm->createView()
+            'category'  => $category,
+            'edit_form' => $editForm->createView(),
         );
     }
 
@@ -153,17 +165,22 @@ class CategoryController extends Controller
      */
     public function deleteAction(Category $category)
     {
-        if ($category->getItems()->count() != 0) {
+        if ($category->getItems()->count() !== 0) {
             $this->get('session')->getFlashBag()->add(
-                'notice',
-                'Kann nicht gelöscht werden! Besitzt noch Gegenstände!'
+                'error',
+                sprintf('More than 1 Item found, Category "%s" can not be deleted.', $category->getTitle())
             );
-            return $this->redirect($this->generateUrl('inventory_category_edit', array('id' => $category->getId())));
+            return $this->redirect($this->generateUrl('inventory_category'));
         }
 
         $em = $this->getDoctrine()->getManager();
         $em->remove($category);
         $em->flush();
+
+        $this->get('session')->getFlashBag()->add(
+            'success',
+            sprintf('Category "%s" successfully deleted!', $category->getTitle())
+        );
 
         return $this->redirect($this->generateUrl('inventory_category'));
     }

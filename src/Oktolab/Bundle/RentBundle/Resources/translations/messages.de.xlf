@@ -74,6 +74,34 @@
                 <source>Book</source>
                 <target>Reservieren</target>
             </trans-unit>
+            <trans-unit id="19">
+                <source>delete</source>
+                <target>Entfernen</target>
+            </trans-unit>
+            <trans-unit id="20">
+                <source>Overview</source>
+                <target>Übersicht</target>
+            </trans-unit>
+            <trans-unit id="21">
+                <source>Categories</source>
+                <target>Kategorien</target>
+            </trans-unit>
+            <trans-unit id="22">
+                <source>Add new Category</source>
+                <target>Neue Kategorie hinzufügen</target>
+            </trans-unit>
+            <trans-unit id="23">
+                <source>Actions</source>
+                <target>Aktionen</target>
+            </trans-unit>
+            <trans-unit id="24">
+                <source>#. Items</source>
+                <target>#. Gegenstände</target>
+            </trans-unit>
+            <trans-unit id="25">
+                <source>Items in Category</source>
+                <target>Gegenstände in dieser Kategorie</target>
+            </trans-unit>
         </body>
     </file>
 </xliff>
