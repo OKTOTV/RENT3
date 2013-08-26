@@ -1,22 +1,22 @@
 <?php
 
-namespace Oktolab\Bundle\RentBundle\Tests\Controller\Inventory;
+namespace Oktolab\Bundle\RentBundle\Tests\Controller\Admin;
 
 use Oktolab\Bundle\RentBundle\Tests\WebTestCase;
 
-class PlaceControllerTest extends WebTestCase
+class CategoryControllerTest extends WebTestCase
 {
-    public function testSubmitFormToCreateNewPlace()
+    public function testSubmitFormToCreateNewCategory()
     {
         $this->logIn('ROLE_ADMIN');
         $this->loadFixtures(array());
 
-        $this->client->request('GET', '/admin/inventory/place/new');
+        $this->client->request('GET', '/admin/inventory/category/new');
         $this->assertTrue($this->client->getResponse()->isSuccessful(), 'Response should be successful');
 
         $form = $this->client->getCrawler()->selectButton('Speichern')->form(
             array(
-                'oktolab_bundle_rentbundle_inventory_placetype[title]' => 'Testplace'
+                'oktolab_bundle_rentbundle_inventory_categorytype[title]' => 'Testcategory',
             )
         );
 
@@ -27,7 +27,7 @@ class PlaceControllerTest extends WebTestCase
         $this->assertTrue($this->client->getResponse()->isSuccessful(), 'Response should be successful');
         $this->assertEquals(
             1,
-            $crawler->filter('.aui-page-header-main:contains("Testplace")')->count(),
+            $crawler->filter('.aui-page-header-main:contains("Testcategory")')->count(),
             'There should be the place name on this page header'
         );
     }
