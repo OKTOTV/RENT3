@@ -27,8 +27,8 @@ class CategoryControllerTest extends WebTestCase
         $this->assertTrue($this->client->getResponse()->isSuccessful(), 'Response should be successful');
         $this->assertEquals(
             1,
-            $crawler->filter('.aui-page-header-main:contains("Testcategory")')->count(),
-            'There should be the place name on this page header'
+            $crawler->filter('.aui-page-panel-content:contains("Testcategory")')->count(),
+            'The Category title should appear on this page.'
         );
     }
 }
