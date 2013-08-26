@@ -52,3 +52,8 @@ services:
       arguments:
           - @doctrine.orm.entity_manager
           - @validator
+          - @oktolab.item_csv_importer
+
+    oktolab.item_csv_importer:
+      class: Oktolab\Bundle\RentBundle\Model\ItemCsvParser
+      arguments:  [ @doctrine.orm.entity_manager ]

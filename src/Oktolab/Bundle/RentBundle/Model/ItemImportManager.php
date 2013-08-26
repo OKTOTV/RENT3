@@ -5,70 +5,63 @@ namespace Oktolab\Bundle\RentBundle\Model;
 use Doctrine\ORM\EntityManager;
 use Oktolab\Bundle\RentBundle\Entity\Inventory\Item;
 use Symfony\Component\Validator\Validator;
-use Doctrine\Common\Collections\Collection;
+use Oktolab\Bundle\RentBundle\Model\ItemCsvParser;
+use Oktolab\Bundle\RentBundle\Model\ItemParserInterface;
 
 class ItemImportManager
 {
     private $entityManager;
     private $validator;
+    private $parser;
+    private $csvParser;
+    private $mode;
 
-    public function __construct(EntityManager $manager, Validator $validator)
+    public function __construct(EntityManager $manager, Validator $validator, ItemCsvParser $csvParser)
     {
         $this->entityManager = $manager;
         $this->validator = $validator;
+        $this->csvParser = $csvParser;
     }
 
     /**
-     * Reads file and parses it into items
-     * returns an array of unchecked items
+     * Sets the parsermode and defaultparser
+     * Current available options: csv
+     * throws an exception if mode doesn't exist
      *
-     *
-     * @param SplFileInfo $file
-     * @return array items
+     * @param string $mode
      */
-    public function parse(\SplFileInfo $file)
-    {
-        $handle = fopen($file->getRealPath(), 'r');
-        $items = array();
-        //parse file with fgetcsv
-        while (($data = fgetcsv($handle)) !== FALSE) {
-            if ($data[0] == "Titel") {
-                continue;
-            }
-            if (count($data) != 8) {
-                return array();
-            }
+    public function setParserMode($mode) {
 
-            $item = new Item();
-            $item->setTitle($data[0]);
-            $item->setDescription($data[1]);
-            $item->setBarcode($data[2]);
-            $item->setBuyDate(new \DateTime($data[3]));
-            $item->setSerialNumber($data[4]);
-            $item->setVendor($data[5]);
-            $item->setModelNumber($data[6]);
+        $haystack = array('csv');
 
-            $place = $this->entityManager->getRepository('OktolabRentBundle:Inventory\Place')->findOneByTitle($data[7]);
-            if (!$place) {
-                return array();
+        if (in_array($mode, $haystack)) {
+            $this->mode = $mode;
+            switch ($mode) {
+                case 'csv':
+                    $this->parser = $this->csvParser;
             }
-            $item->setPlace($place);
-            $items[] = $item;
+        } else {
+            throw new \Exception("No Valid Parsermode for ItemImportManager given.");
         }
-        fclose($handle);
+    }
 
-        return $items;
+    /**
+     * Returns current Parsermode.
+     * @return string
+     */
+    public function getParserMode() {
+        return $this->mode;
     }
 
     /**
      * Validates the items like implemented in entity
      *
-     * returns true if validation is succesfull, false otherwise.
+     * returns true if validation is succesfull
      *
      * @param array $items
      * @return bool
      */
-    public function validate(array $items)
+    public function validateItems(array $items)
     {
         foreach($items as $item) {
             if (count($this->validator->validate($item))) {
@@ -82,28 +75,53 @@ class ItemImportManager
      * Persists an array of items.
      *
      * @param array $items
-     * @return bool
      */
     public function persistItems(array $items)
     {
-        foreach($items as $item) {
-            $this->entityManager->persist($item);
+        $this->entityManager->getConnection()->beginTransaction();
+        try {
+            foreach($items as $item) {
+                $this->entityManager->persist($item);
+            }
+            $this->entityManager->flush();
+            $this->entityManager->getConnection()->commit();
+
+        } catch (\Exception $e) {
+            $this->entityManager->getConnection()->rollBack();
+            $this->entityManager->close();
+            throw $e;
         }
     }
 
     /**
-     * Persists an file
+     * Validates depending on Parsermode the given file
+     * Throws an exception if parsermode is invalid
      *
      * @param \SplFileInfo $file
-     * @return boolean
+     * @return type
+     * @throws \Exception
      */
-    public function persistItemCsv(\SplFileInfo $file)
+    public function validateFile(\SplFileInfo $file)
     {
-        $items = $this->parse($file);
-        if ($this->validate($items)) {
-            $this->persistItems($items);
-            return true;
+        if ($this->mode === null) {
+            throw new \Exception("No Valid Parsermode for ItemImportManager given. Can't validate file");
         }
-        return false;
+        return $this->parser->validateFile($file);
+    }
+
+    /**
+     * Reads file and parses it into items
+     * returns an array of unchecked items
+     *
+     *
+     * @param SplFileInfo $file
+     * @return array items
+     */
+    public function parse(\SplFileInfo $file)
+    {
+        if ($this->mode === null) {
+            throw new \Exception("No Valid Parsermode for ItemImportManager given. Can't parse file.");
+        }
+        return $this->parser->parse($file);
     }
 }

@@ -58,35 +58,53 @@ class ImportController extends Controller
         $items = array();
 
         if($form->isValid()) {
-            // save file in temp dir
             $file = $form->getData('csv');
-            $items = $this->get('oktolab.item_import_manager')->parse($file['csv']);
+            $importManager = $this->get('oktolab.item_import_manager');
+            $importManager->setParserMode('csv');
+            //check file
+            if ($importManager->validateFile($file['csv'], 1)) {
+                //parse file
+                $items = $importManager->parse($file['csv']);
+                //validate items
+                if ($importManager->validateItems($items)) {
+                    //everything seems fine.
+                    $import = new Import();
+                    foreach ($items as $item) {
+                        $import->addItem($item);
+                    }
 
-            if (!$this->get('oktolab.item_import_manager')->validate($items) || count($items) == 0) {
-                $this->get('session')->getFlashBag()->add(
+                    $form = $this->createForm(
+                        new ImportType(),
+                        $import,
+                        array(
+                            'action' => $this->generateUrl('inventory_import_create')
+                        )
+                    );
+
+                    return array(
+                        'items' => $items,
+                        'form' => $form->createView()
+                    );
+
+                } else {
+                    //items invalid
+                    $this->get('session')->getFlashBag()->add(
                     'error',
                     'CSV enthält ungültige Daten!'
+                    );
+                }
+
+            } else {
+                //file is invalid
+                $this->get('session')->getFlashBag()->add(
+                    'error',
+                    'CSV kann nicht eingelesen werden!'
                 );
-                return $this->redirect($this->generateUrl('inventory_import'));
+
             }
+            return $this->redirect($this->generateUrl('inventory_import'));
 
-            $import = new Import();
-            foreach ($items as $item) {
-                $import->addItem($item);
-            }
 
-            $form = $this->createForm(
-                new ImportType(),
-                $import,
-                array(
-                    'action' => $this->generateUrl('inventory_import_create')
-                )
-            );
-
-            return array(
-                'items' => $items,
-                'form' => $form->createView()
-            );
         }
         return new Response(
             $this->renderView(

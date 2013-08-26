@@ -165,7 +165,7 @@ class EventManager
             $this->em->flush();
             $this->em->getConnection()->commit();
 
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $this->em->getConnection()->rollback();
             $this->em->close();
             throw $e;
