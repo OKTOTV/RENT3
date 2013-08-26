@@ -1,6 +1,6 @@
 <?php
 
-namespace Oktolab\Bundle\RentBundle\Controller\Inventory;
+namespace Oktolab\Bundle\RentBundle\Controller\Admin;
 
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -31,9 +31,7 @@ class CategoryController extends Controller
         $em = $this->getDoctrine()->getManager();
         $entities = $em->getRepository('OktolabRentBundle:Inventory\Category')->findAll();
 
-        return array(
-            'entities' => $entities,
-        );
+        return array('entities' => $entities);
     }
 
     /**
@@ -41,7 +39,7 @@ class CategoryController extends Controller
      *
      * @Route("/", name="inventory_category_create")
      * @Method("POST")
-     * @Template("OktolabRentBundle:Inventory\Category:new.html.twig")
+     * @Template("OktolabRentBundle:Admin\Category:new.html.twig")
      */
     public function createAction(Request $request)
     {
@@ -78,9 +76,7 @@ class CategoryController extends Controller
             array('action' => $this->generateUrl('inventory_category_create'))
         );
 
-        return array(
-            'form'   => $form->createView(),
-        );
+        return array('form'   => $form->createView());
     }
 
     /**
@@ -89,7 +85,7 @@ class CategoryController extends Controller
      * @Route("/{id}", name="inventory_category_show")
      * @ParamConverter("category", class="OktolabRentBundle:Inventory\Category")
      * @Method("GET")
-     * @Template("OktolabRentBundle:Inventory\Category:show.html.twig", vars={"category"})
+     * @Template("OktolabRentBundle:Admin\Category:show.html.twig", vars={"category"})
      */
     public function showAction(Category $category)
     {
@@ -101,7 +97,7 @@ class CategoryController extends Controller
      * @Route("/{id}/edit", name="inventory_category_edit")
      * @ParamConverter("category", class="OktolabRentBundle:Inventory\Category")
      * @Method("GET")
-     * @Template
+     * @Template()
      */
     public function editAction(Category $category)
     {
@@ -126,7 +122,7 @@ class CategoryController extends Controller
      * @Route("/{id}", name="inventory_category_update")
      * @ParamConverter("category", class="OktolabRentBundle:Inventory\Category")
      * @Method("PUT")
-     * @Template("OktolabRentBundle:Inventory\Category:edit.html.twig")
+     * @Template("OktolabRentBundle:Admin\Category:edit.html.twig")
      */
     public function updateAction(Request $request, Category $category)
     {

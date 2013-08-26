@@ -1,6 +1,6 @@
 <?php
 
-namespace Oktolab\Bundle\RentBundle\Controller\Inventory;
+namespace Oktolab\Bundle\RentBundle\Controller\Admin;
 
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -39,7 +39,7 @@ class PlaceController extends Controller
      *
      * @Route("/", name="inventory_place_create")
      * @Method("POST")
-     * @Template("OktolabRentBundle:Inventory\Place:new.html.twig")
+     * @Template("OktolabRentBundle:Admin\Place:new.html.twig")
      */
     public function createAction(Request $request)
     {
@@ -76,7 +76,7 @@ class PlaceController extends Controller
             array('action' => $this->generateUrl('inventory_place_create'))
         );
 
-        return array('form'   => $form->createView());
+        return array('form' => $form->createView());
     }
 
     /**
@@ -84,12 +84,11 @@ class PlaceController extends Controller
      *
      * @Route("/{id}", name="inventory_place_show")
      * @ParamConverter("place", class="OktolabRentBundle:Inventory\Place")
-     * @Template("OktolabRentBundle:Inventory\Place:show.html.twig", vars={"place"})
+     * @Template("OktolabRentBundle:Admin\Place:show.html.twig", vars={"place"})
      * @Method("GET")
      */
     public function showAction(Place $place)
     {
-
     }
 
     /**
@@ -98,7 +97,7 @@ class PlaceController extends Controller
      * @Route("/{id}/edit", name="inventory_place_edit")
      * @ParamConverter("place", class="OktolabRentBundle:Inventory\Place")
      * @Method("GET")
-     * @Template
+     * @Template()
      */
     public function editAction(Place $place)
     {
@@ -126,7 +125,7 @@ class PlaceController extends Controller
      * @Route("/{id}", name="inventory_place_update")
      * @ParamConverter("place", class="OktolabRentBundle:Inventory\Place")
      * @Method("PUT")
-     * @Template("OktolabRentBundle:Inventory\Place:edit.html.twig")
+     * @Template("OktolabRentBundle:Admin\Place:edit.html.twig")
      */
     public function updateAction(Request $request, Place $place)
     {

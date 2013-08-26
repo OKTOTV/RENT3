@@ -11,7 +11,7 @@ class PlaceControllerTest extends WebTestCase
         $this->logIn('ROLE_ADMIN');
         $this->loadFixtures(array());
 
-        $crawler = $this->client->request('GET', '/admin/inventory/place/new');
+        $this->client->request('GET', '/admin/inventory/place/new');
         $this->assertTrue($this->client->getResponse()->isSuccessful(), 'Response should be successful');
 
         $form = $this->client->getCrawler()->selectButton('Speichern')->form(
@@ -20,10 +20,11 @@ class PlaceControllerTest extends WebTestCase
             )
         );
 
-        $crawler = $this->client->submit($form);
-        $this->assertEquals(302, $this->client->getResponse()->getStatusCode());
+        $this->client->submit($form);
+        $this->assertTrue($this->client->getResponse()->isRedirect(), 'Response should be a redirect');
+
         $crawler = $this->client->followRedirect();
-        $this->assertEquals(200, $this->client->getResponse()->getStatusCode());
+        $this->assertTrue($this->client->getResponse()->isSuccessful(), 'Response should be successful');
         $this->assertEquals(
             1,
             $crawler->filter('.aui-page-header-main:contains("Testplace")')->count(),
