@@ -1,49 +1,27 @@
-{% extends 'OktolabRentBundle::layout.html.twig' %}
+{% extends 'OktolabRentBundle:Admin:layout.html.twig' %}
 
-{% block content_header %}
-    <div class="aui-page-header-inner">
-        <div class="aui-page-header-image">
-            <div class="aui-avatar aui-avatar-xlarge aui-avatar-project">
-                <div class="aui-avatar-inner">
-                    <img src="static/img/none.png">
-                </div>
-            </div>
-        </div>
-        <div class="aui-page-header-main">
-            <h1>{{ "Inventory category list" | trans }}</h1>
-        </div>
-        <div class="aui-page-header-actions">
-            <div class="aui-buttons">
-                <div class="aui-buttons">
-                    <a class="aui-button" href="{{ path('inventory_category_new') }}">{{"New category" | trans}}</a>
-                </div>
-            </div>
-        </div>
-    </div>
-{% endblock %}
+{% set highlight_action = "category" %}
 
 {% block content %}
+    <h1 class="admin-heading">{{ 'Categories' | trans }}</h1>
+
     <table class="aui">
         <thead>
             <tr>
-                <th id="name">{% trans %}Title{% endtrans %}</th>
-                <th id="items">{{"Items" | trans}}</th>
-                <th id="action">{% trans %}Actions{% endtrans %}</th>
+                <th id="title">{{ 'Title' | trans }}</th>
+                <th id="items">{{ 'Items' | trans}}</th>
+                <th id="action">{{ 'Actions' | trans }}</th>
             </tr>
         </thead>
         <tbody>
         {% for entity in entities %}
             <tr>
-                <td headers="name">{{ entity.title }}</td>
+                <td headers="title">{{ entity.title }}</td>
                 <td headers="items">{{ entity.items | length }}</td>
                 <td class="action" headers="action">
                     <ul class="menu">
-                        <li>
-                            <a href="{{ path('inventory_category_show', { 'id': entity.id }) }}">show</a>
-                        </li>
-                        <li>
-                            <a href="{{ path('inventory_category_edit', { 'id': entity.id }) }}">edit</a>
-                        </li>
+                        <li><a href="{{ path('inventory_category_show', { 'id': entity.id }) }}">{{ 'show' | trans }}</a></li>
+                        <li><a href="{{ path('inventory_category_edit', { 'id': entity.id }) }}">{{ 'edit' | trans }}</a></li>
                     </ul>
                 </td>
             </tr>
