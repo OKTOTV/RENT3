@@ -30,5 +30,3 @@ class AdminControllerTest extends WebTestCase
         $this->assertTrue($this->client->getResponse()->isSuccessful(), 'ROLE_ADMIN must have access to this page.');
     }
 }
-
-?>

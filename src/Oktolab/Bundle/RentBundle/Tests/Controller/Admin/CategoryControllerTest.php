@@ -57,5 +57,56 @@ class CategoryControllerTest extends WebTestCase
             'The new Category title should appear on this page.'
         );
     }
-    
+
+    public function testDeleteCategoryWithItemWillFail()
+    {
+        $this->logIn('ROLE_ADMIN');
+        $this->loadFixtures(
+            array(
+                'Oktolab\Bundle\RentBundle\Tests\DataFixtures\ORM\CategoryFixture',
+                'Oktolab\Bundle\RentBundle\DataFixtures\ORM\ItemFixture',
+            )
+        );
+
+        // prepare fixtures
+        $em       = $this->getContainer()->get('doctrine.orm.entity_manager');
+        $category = $em->getRepository('OktolabRentBundle:Inventory\Category')->findOneBy(array('id' => 1));
+        $item     = $em->getRepository('OktolabRentBundle:Inventory\Item')->findOneBy(array('id' => 1));
+
+        $item->setCategory($category);
+        $em->persist($item);
+        $em->flush();
+
+        // load page
+        $this->client->request('GET', '/admin/inventory/category/1/delete');
+        $this->assertTrue($this->client->getResponse()->isRedirect(), 'Response should be a redirect.');
+
+        // check redirect and page content
+        $crawler = $this->client->followRedirect();
+        $this->assertTrue($this->client->getResponse()->isSuccessful(), 'Response should be successful.');
+        $this->assertEquals(
+            1,
+            $crawler->filter('.aui-message.error:contains("can not be deleted")')->count(),
+            'A aui-message should appear with an error message.'
+        );
+    }
+
+    public function testSuccessfullyDeleteACategory()
+    {
+        $this->logIn('ROLE_ADMIN');
+        $this->loadFixtures(array('Oktolab\Bundle\RentBundle\Tests\DataFixtures\ORM\CategoryFixture'));
+
+        // load page
+        $this->client->request('GET', '/admin/inventory/category/1/delete');
+        $this->assertTrue($this->client->getResponse()->isRedirect(), 'Response should be a redirect.');
+
+        // check redirect and page content
+        $crawler = $this->client->followRedirect();
+        $this->assertTrue($this->client->getResponse()->isSuccessful(), 'Response should be successful.');
+        $this->assertEquals(
+            1,
+            $crawler->filter('.aui-message.success:contains("successfully deleted")')->count(),
+            'A aui-message should appear with a success message.'
+        );
+    }
 }
