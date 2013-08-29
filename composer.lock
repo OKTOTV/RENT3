@@ -3,7 +3,7 @@
         "This file locks the dependencies of your project to a known state",
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file"
     ],
-    "hash": "64c4b35d9c5e067a7ead9af1f3658bcd",
+    "hash": "f03bb0b39878b25551898d1957e37c51",
     "packages": [
         {
             "name": "avalanche123/imagine-bundle",
@@ -582,6 +582,98 @@
             "time": "2013-06-09 17:55:57"
         },
         {
+            "name": "guzzle/guzzle",
+            "version": "v3.7.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/guzzle/guzzle.git",
+                "reference": "eaef90d27bb1d682e1f6ab2d77606dc0159049e6"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/guzzle/guzzle/zipball/eaef90d27bb1d682e1f6ab2d77606dc0159049e6",
+                "reference": "eaef90d27bb1d682e1f6ab2d77606dc0159049e6",
+                "shasum": ""
+            },
+            "require": {
+                "ext-curl": "*",
+                "php": ">=5.3.2",
+                "symfony/event-dispatcher": ">=2.1"
+            },
+            "replace": {
+                "guzzle/batch": "self.version",
+                "guzzle/cache": "self.version",
+                "guzzle/common": "self.version",
+                "guzzle/http": "self.version",
+                "guzzle/inflection": "self.version",
+                "guzzle/iterator": "self.version",
+                "guzzle/log": "self.version",
+                "guzzle/parser": "self.version",
+                "guzzle/plugin": "self.version",
+                "guzzle/plugin-async": "self.version",
+                "guzzle/plugin-backoff": "self.version",
+                "guzzle/plugin-cache": "self.version",
+                "guzzle/plugin-cookie": "self.version",
+                "guzzle/plugin-curlauth": "self.version",
+                "guzzle/plugin-error-response": "self.version",
+                "guzzle/plugin-history": "self.version",
+                "guzzle/plugin-log": "self.version",
+                "guzzle/plugin-md5": "self.version",
+                "guzzle/plugin-mock": "self.version",
+                "guzzle/plugin-oauth": "self.version",
+                "guzzle/service": "self.version",
+                "guzzle/stream": "self.version"
+            },
+            "require-dev": {
+                "doctrine/cache": "*",
+                "monolog/monolog": "1.*",
+                "phpunit/phpunit": "3.7.*",
+                "psr/log": "1.0.*",
+                "symfony/class-loader": "*",
+                "zendframework/zend-cache": "2.0.*",
+                "zendframework/zend-log": "2.0.*"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "3.7-dev"
+                }
+            },
+            "autoload": {
+                "psr-0": {
+                    "Guzzle\\Tests": "tests/",
+                    "Guzzle": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Michael Dowling",
+                    "email": "mtdowling@gmail.com",
+                    "homepage": "https://github.com/mtdowling"
+                },
+                {
+                    "name": "Guzzle Community",
+                    "homepage": "https://github.com/guzzle/guzzle/contributors"
+                }
+            ],
+            "description": "Guzzle is a PHP HTTP client library and framework for building RESTful web service clients",
+            "homepage": "http://guzzlephp.org/",
+            "keywords": [
+                "client",
+                "curl",
+                "framework",
+                "http",
+                "http client",
+                "rest",
+                "web service"
+            ],
+            "time": "2013-08-02 18:31:05"
+        },
+        {
             "name": "imagine/imagine",
             "version": "v0.4.1",
             "source": {
@@ -983,26 +1075,31 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/1up-lab/OneupUploaderBundle.git",
-                "reference": "bbb79f2228e70a4845c60d32f125cfda1905667e"
+                "reference": "893d73a76c83e72888b67617b34451e47f69ce02"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/1up-lab/OneupUploaderBundle/zipball/bbb79f2228e70a4845c60d32f125cfda1905667e",
-                "reference": "bbb79f2228e70a4845c60d32f125cfda1905667e",
+                "url": "https://api.github.com/repos/1up-lab/OneupUploaderBundle/zipball/893d73a76c83e72888b67617b34451e47f69ce02",
+                "reference": "893d73a76c83e72888b67617b34451e47f69ce02",
                 "shasum": ""
             },
             "require": {
-                "symfony/finder": ">=2.2.0,<2.4-dev",
+                "symfony/finder": ">=2.0.16,<2.4-dev",
                 "symfony/framework-bundle": "2.*"
             },
             "require-dev": {
                 "amazonwebservices/aws-sdk-for-php": "1.5.*",
+                "jms/serializer-bundle": "dev-master",
                 "knplabs/gaufrette": "0.2.*@dev",
                 "phpunit/phpunit": "3.7.*",
                 "sensio/framework-extra-bundle": "2.*",
                 "symfony/browser-kit": "2.*",
                 "symfony/class-loader": "2.*",
-                "symfony/security-bundle": "2.*"
+                "symfony/form": "2.*",
+                "symfony/monolog-bundle": "2.*",
+                "symfony/security-bundle": "2.*",
+                "symfony/twig-bundle": "2.*",
+                "symfony/yaml": "2.*"
             },
             "suggest": {
                 "knplabs/knp-gaufrette-bundle": "0.1.*"
@@ -1039,7 +1136,7 @@
                 "plupload",
                 "upload"
             ],
-            "time": "2013-08-16 09:47:55"
+            "time": "2013-08-08 09:32:45"
         },
         {
             "name": "psr/log",
@@ -1703,12 +1800,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/willdurand/BazingaFakerBundle.git",
-                "reference": "1.0.1"
+                "reference": "aaf7f15e2d96c5ffdd1c322c9edc041768adfb92"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/willdurand/BazingaFakerBundle/zipball/1.0.1",
-                "reference": "1.0.1",
+                "url": "https://api.github.com/repos/willdurand/BazingaFakerBundle/zipball/aaf7f15e2d96c5ffdd1c322c9edc041768adfb92",
+                "reference": "aaf7f15e2d96c5ffdd1c322c9edc041768adfb92",
                 "shasum": ""
             },
             "require": {
@@ -1738,7 +1835,7 @@
                 "faker",
                 "fixtures"
             ],
-            "time": "2013-08-13 21:29:58"
+            "time": "2013-08-13 21:37:42"
         },
         {
             "name": "yohang/calendr",
