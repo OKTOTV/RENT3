@@ -35,8 +35,12 @@ class HubUserProvider implements UserProviderInterface {
         $serializedString = str_replace('O:11:"ContactCard"', sprintf('O:%d:"%s\ContactCard"', strlen(__NAMESPACE__)+12, __NAMESPACE__), $serializedString);
 
         $contactcard = unserialize($serializedString);
+
+        if ($contactcard[0] == null) {
+            throw new UsernameNotFoundException();
+        }
         $user = new User();
-        $user->setRoles('ROLE_USER');
+        $user->setRole('ROLE_USER');
         $user->setUsername($contactcard[0]->getGuid());
 
         return $user;
@@ -63,7 +67,7 @@ class HubUserProvider implements UserProviderInterface {
     public function loadUserByUsername($username)
     {
         if ($username == '') {
-                throw new UsernameNotFoundException();
+                return new User();
             }
 
             $user = $this->entityManager->getRepository('OktolabRentBundle:Security\User')->findOneBy(array('username' => $username));
@@ -77,8 +81,6 @@ class HubUserProvider implements UserProviderInterface {
                 $this->addUserToRent($user);
             }
         }
-        //throw new \Exception(var_dump($user));
-//        die(var_dump($user));
         return $user;
     }
 
@@ -99,11 +101,7 @@ class HubUserProvider implements UserProviderInterface {
      */
     public function supportsClass($class)
     {
-        if ($class) {
-        //allow class Oktolab\Bundle\RentBundle\Entity\Security\User
-            return true;
-        }
-        return false;
+        return $class === 'Oktolab\Bundle\RentBundle\Entity\Security\User';
     }
 
 

@@ -23,24 +23,30 @@ class SecurityListener implements ListenerInterface {
      {
          $request = $event->getRequest();
 
-         $token = new UserToken();
-         $token->setAttribute('username', $request->get('_username'));
-         $token->setAttribute('password', $request->get('_password'));
+         //Check if usertoken exists.
+         if ($this->securityContext->getToken() === null) {
+//            die(var_dump($this->securityContext));
+//die('kein token');
+            $token = new UserToken();
+            $token->setAttribute('username', $request->get('_username'));
+            $token->setAttribute('password', $request->get('_password'));
 
-         $token = $this->authProvider->authenticate($token);
+            $token = $this->authProvider->authenticate($token);
 
-         //TODO:
-         //1: authenticate User (username/password)
-         //2: add user to Token
-         //3: add token to securityContext
+            //TODO:
+            //1: authenticate User (username/password)
+            //2: add user to Token
+            //3: add token to securityContext
 
-         //TODO: if auth is not succesfull, return 403
-//            $response = new Response();
-//            $response->setStatusCode(403);
-//            $event->setResponse($response);
+            //TODO: if auth is not succesfull, return 403
+   //            $response = new Response();
+   //            $response->setStatusCode(403);
+   //            $event->setResponse($response);
 
-         $this->securityContext->setToken($token);
-         die(var_dump($this->securityContext->isGranted($token->getAttributes())));
+            $this->securityContext->setToken($token);
+         }
+//         die(var_dump($this->securityContext));
+         return;
 
      }
 }

@@ -9,6 +9,8 @@ security:
     providers:
         hub_authenticator:
             id: oktolab.hub_user_provider
+#        hub_authenticator2:
+#            entity: { class: OktolabRentBundle:Security\User, property: username }
 
     firewalls:
         dev:
@@ -23,9 +25,9 @@ security:
 
         secured_area:
             pattern:    ^/
-            form_login:
-                check_path: rentbundle_secure_check
-                login_path: rentbundle_secure_login
+#            form_login:
+#                check_path: rentbundle_secure_check
+#                login_path: rentbundle_secure_login
             logout:
                 path:   rentbundle_secure_logout
                 target: rentbundle_secure_login

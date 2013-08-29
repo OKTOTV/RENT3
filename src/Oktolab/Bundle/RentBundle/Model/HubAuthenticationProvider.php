@@ -5,6 +5,7 @@ namespace Oktolab\Bundle\RentBundle\Model;
 use Symfony\Component\Security\Core\Authentication\Provider\AuthenticationProviderInterface;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Oktolab\Bundle\RentBundle\Model\HubUserProvider;
+use Symfony\Component\Security\Core\Role\Role;
 
 class HubAuthenticationProvider implements AuthenticationProviderInterface {
 
@@ -23,7 +24,7 @@ class HubAuthenticationProvider implements AuthenticationProviderInterface {
      public function authenticate(TokenInterface $token)
      {
          $user = $this->userProvider->loadUserByUsername($token->getAttribute('username'));
-         $token = new UserToken($user->getRoles());
+         $token = new UserToken(array(new Role($user->getRoles())));
          $token->setUser($user);
          $token->setAuthenticated(true);
 
