@@ -60,7 +60,7 @@ services:
 
     oktolab.hub_user_provider:
       class: Oktolab\Bundle\RentBundle\Model\HubUserProvider
-      arguments:  [ @doctrine.orm.entity_manager ]
+      arguments:  [ @doctrine.orm.entity_manager, %oktolab.hub_api_url% ]
 
     oktolab.hub_authentication_provider:
       class:  Oktolab\Bundle\RentBundle\Model\HubAuthenticationProvider

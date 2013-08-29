@@ -14,10 +14,12 @@ use Oktolab\Bundle\RentBundle\Entity\Security\ContactCard;
 class HubUserProvider implements UserProviderInterface {
 
     private $entityManager;
+    private $hubApiUrl;
 
-    public function __construct(EntityManager $entityManager)
+    public function __construct(EntityManager $entityManager, $hubApiUrl)
     {
         $this->entityManager = $entityManager;
+        $this->hubApiUrl = $hubApiUrl;
     }
 
     /**
@@ -28,7 +30,7 @@ class HubUserProvider implements UserProviderInterface {
      */
     private function getContactCardUserByUsername($username)
     {
-        $client = new Client('http://localhost/hubTIDE/web/interface.php/api/');
+        $client = new Client($this->hubApiUrl);
         $response = $client->get('contactcardsearch?name='.$username.'&type=user&uidonly=1')->send();
         $serializedString = $response->getBody(true);
 
@@ -42,6 +44,7 @@ class HubUserProvider implements UserProviderInterface {
         $user = new User();
         $user->setRoles('ROLE_USER');
         $user->setUsername($contactcard[0]->getGuid());
+        $user->setDisplayname($contactcard[0]->getDisplayName());
 
         return $user;
     }
@@ -87,7 +90,7 @@ class HubUserProvider implements UserProviderInterface {
     public function authenticateUserByUsernameAndPassword($username, $password)
     {
         try {
-            $client = new Client('http://localhost/hubTIDE/web/interface.php/api/');
+            $client = new Client($this->hubApiUrl);
             $response = $client->get(sprintf('auth?action=auth&username=%s&password=%s', $username, $password))->send();
         } catch (\Guzzle\Http\Exception\BadResponseException $e){
             return false;

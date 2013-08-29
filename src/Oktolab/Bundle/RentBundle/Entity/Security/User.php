@@ -32,6 +32,14 @@ class User implements UserInterface
     /**
      * @var string
      *
+     * @ORM\Column(name="displayname", type="string", length=255)
+     */
+    private $displayname;
+
+
+    /**
+     * @var string
+     *
      * @ORM\Column(name="role", type="string", length=30)
      */
     private $roles;
@@ -108,5 +116,17 @@ class User implements UserInterface
     public function eraseCredentials()
     {
 
+    }
+
+    public function setDisplayname($displayname)
+    {
+        $this->displayname = $displayname;
+
+        return $this;
+    }
+
+    public function getDisplayname()
+    {
+        return $this->displayname;
     }
 }
