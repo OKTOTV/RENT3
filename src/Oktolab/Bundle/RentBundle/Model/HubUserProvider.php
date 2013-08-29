@@ -40,7 +40,7 @@ class HubUserProvider implements UserProviderInterface {
             throw new UsernameNotFoundException();
         }
         $user = new User();
-        $user->setRole('ROLE_USER');
+        $user->setRoles('ROLE_USER');
         $user->setUsername($contactcard[0]->getGuid());
 
         return $user;
@@ -82,6 +82,27 @@ class HubUserProvider implements UserProviderInterface {
             }
         }
         return $user;
+    }
+
+    public function authenticateUserByUsernameAndPassword($username, $password)
+    {
+        try {
+            $client = new Client('http://localhost/hubTIDE/web/interface.php/api/');
+            $response = $client->get(sprintf('auth?action=auth&username=%s&password=%s', $username, $password))->send();
+        } catch (\Guzzle\Http\Exception\BadResponseException $e){
+            return false;
+        }
+
+        $serializedString = $response->getBody(true);
+
+        $serializedString = str_replace('O:11:"ContactCard"', sprintf('O:%d:"%s\ContactCard"', strlen(__NAMESPACE__)+12, __NAMESPACE__), $serializedString);
+
+        $contactcard = unserialize($serializedString);
+
+        if ($contactcard['uid'][0] != $username) {
+            return false;
+        }
+        return true;
     }
 
     public function refreshUser(UserInterface $user)
