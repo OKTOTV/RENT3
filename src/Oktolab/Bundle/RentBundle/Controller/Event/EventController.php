@@ -27,20 +27,38 @@ class EventController extends Controller
      */
     public function indexAction()
     {
-        $faker = \Faker\Factory::create('de_DE');
-        $arr = array();
-        for ($i = 0; $i <= 50; $i++) {
-            $date = $faker->dateTimeBetween('-1 day', '+2 weeks');
+//        $faker = \Faker\Factory::create('de_DE');
+//        $arr = array();
+//        for ($i = 0; $i <= 50; $i++) {
+//            $date = $faker->dateTimeBetween('-1 day', '+2 weeks');
+//
+//            $arr[] = array(
+//                'id'    => '',
+//                'title' => $faker->company(),
+//                'start' => $date->format('c'),
+//                'end'   => $date->modify(sprintf('+ %d min', $faker->randomNumber(10 * 60, 48 * 60)))->format('c'),
+//                'item'  => $faker->randomElement(array('items', 'item-bar', 'item-foo', 'item-baz', 'itema', 'itemb')),
+//            );
+//        }
 
+        $events = $this->getDoctrine()->getEntityManager()->createQueryBuilder()
+                ->select('e')->from('OktolabRentBundle:Event', 'e')
+                ->where('e.begin >= :now')
+                ->setParameter('now', new \DateTime('today 00:00'))
+                ->getQuery()->getResult();
+
+        foreach ($events as $event) {
+            $objects = $event->getObjects();
             $arr[] = array(
-                'id'    => '',
-                'title' => $faker->company(),
-                'start' => $date->format('c'),
-                'end'   => $date->modify(sprintf('+ %d min', $faker->randomNumber(10 * 60, 48 * 60)))->format('c'),
-                'item'  => $faker->randomElement(array('items', 'item-bar', 'item-foo', 'item-baz', 'itema', 'itemb')),
+                'id'    => $event->getId(),
+                'title' => $event->getName(),
+                'start' => $event->getBegin()->format('c'),
+                'end'   => $event->getEnd()->format('c'),
+                'item'  => sprintf('%s%d', $objects[0]->getType(), $objects[0]->getObject()),
             );
         }
 
+//        var_dump($arr); die();
         return new JsonResponse($arr);
     }
 
@@ -63,11 +81,22 @@ class EventController extends Controller
 
         $form->handleRequest($request);
         if ($form->isValid()) {
+//            var_dump($form->getNormData());
+//            var_dump($form->getData()->getObjects());
+            $em = $this->getDoctrine()->getManager();
 
-            var_dump($form->getNormData());
-            var_dump($form->getData()->getObjects());
+            $event = $form->getData();
+            $event->setState(Event::STATE_RENTED);
+            foreach ($event->getObjects() as $object) {
+                $object->setEvent($event);
+                $em->persist($object);
+            }
 
-            return new \Symfony\Component\HttpFoundation\Response("valid");
+            $em->persist($event);
+            $em->flush();
+
+            return $this->redirect($this->generateUrl('rentbundle_dashboard'));
+//            return new \Symfony\Component\HttpFoundation\Response("valid");
         }
 
         var_dump($form->getErrorsAsString());
@@ -85,6 +114,19 @@ class EventController extends Controller
      */
     public function calendarConfigurationAction()
     {
+        $items = $this->getDoctrine()->getEntityManager()->createQueryBuilder()
+                ->select('i, c.title AS category')->from('OktolabRentBundle:Inventory\Item', 'i')
+                ->join('i.category', 'c')
+                ->getQuery()->getArrayResult();
+
+        $serializedItems = array();
+        foreach ($items as $item) {
+            $serializedItems[$item['category']][sprintf('%s:%d', 'Item', $item[0]['id'])] = $item[0];
+        }
+
+//        var_dump($serializedItems);
+//        return new JsonResponse($serializedItems);
+
         $arr = array();
 
         $date = new \DateTime('now');
@@ -120,7 +162,7 @@ class EventController extends Controller
             $date->modify('+1 day');
         }
 
-        $arr['items'] = array();
+        $arr['items'] = $serializedItems;
 
         return new JsonResponse($arr);
     }

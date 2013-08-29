@@ -46,41 +46,32 @@ Oktolab.Calendar = function Calendar(container) {
         this.renderEvents();
     };
 
-    this.getInventory = function () {
-        data.inventory = AJS.$.parseJSON('{"stuff":["items","itema","itemb"],"some more stuff":["item-bar","item-foo","item-baz"]}')
-        return data.inventory;
-    };
-
-    this.getEvents = function () {
-        data.events = AJS.$.getJSON(options.eventSrcUrl);
-        return data.events;
-    };
-
     /**
      * Returns the Inventory as HTML
      *
      * @returns {String}
      */
     this.getInventoryHtml = function () {
-        var $json       = this.getInventory(),
-            $key        = null, // will be used to iterate itemgroups
-            $item       = null, // will be used to iterate items
-            $inventory  = '';
+        var $inventory = null;
+        var inventoryContainer = AJS.$('.calendar-inventory');
+        var list = null;
 
-        // iterate through inventory information and build html
-        for ($key in $json) {
-            $inventory = $inventory +
-                    '<div class="calendar-inventory-group">' +
-                        '<strong>' + $key + '</strong>' +
-                        '<ul>';
+        AJS.$.getJSON(options.configSrcUrl, function(data) {
+            AJS.$.each(data.items, function(key, items) {
+                $inventory = AJS.$('<div />', { class: 'calendar-inventory-group' })
+                    .append(AJS.$('<strong>').text(key));
 
-            for ($item in $json[$key]) {
-                $inventory = $inventory + '<li><a href="#" id="' + $json[$key][$item] + '">' + $json[$key][$item] + '</a></li>';
-            }
-            $inventory = $inventory + '</ul></div>';
-        }
+                list = AJS.$('<ul />');
+                AJS.$.each(items, function(key, item) {
+                    var li = AJS.$('<li />');
+                    li.append(AJS.$('<a />', { href: '#', id: 'Item' + item.id }).text(item.title));
+                    list.append(li);
+                });
 
-        return $inventory;
+                $inventory.append(list);
+                $inventory.appendTo(inventoryContainer);
+            });
+        });
     };
 
     /**
@@ -89,7 +80,8 @@ Oktolab.Calendar = function Calendar(container) {
      * @returns {undefined}
      */
     this.renderInventory = function () {
-        data.inventoryContainer.append(this.getInventoryHtml());
+        this.getInventoryHtml();
+//        data.inventoryContainer.append(this.getInventoryHtml());
     };
 
     /**
@@ -139,7 +131,7 @@ Oktolab.Calendar = function Calendar(container) {
     this.renderEvents = function () {
         AJS.$.getJSON(options.eventSrcUrl, function(json) {
             AJS.$.each(json, function(key, val) {
-                var $item   = AJS.$('#' + val.item),
+                var $item   = AJS.$('a#' + val.item),
                     $block  = null,
                     $start  = null,
                     $end    = null;
@@ -157,6 +149,9 @@ Oktolab.Calendar = function Calendar(container) {
                         break;
                     }
                 }
+
+//                console.log(AJS.$('#Item-1'));
+                console.log($item, val.start);
 
                 data.wrapperContainer.append(
                         AJS.$('<div class="calendar-event">' + val.title + '</div>')
