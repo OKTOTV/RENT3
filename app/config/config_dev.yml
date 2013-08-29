@@ -31,6 +31,8 @@ bazinga_faker:
     orm: doctrine
     locale: de_DE
     entities:
+        Oktolab\Bundle\RentBundle\Entity\Inventory\Place:
+            number: 1
         Oktolab\Bundle\RentBundle\Entity\Inventory\Item:
             number: 20
             custom_formatters:
