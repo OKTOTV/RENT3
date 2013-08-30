@@ -47,6 +47,7 @@ class EventController extends Controller
                 ->setParameter('now', new \DateTime('today 00:00'))
                 ->getQuery()->getResult();
 
+        $arr = array();
         foreach ($events as $event) {
             $objects = $event->getObjects();
             $arr[] = array(
@@ -54,7 +55,7 @@ class EventController extends Controller
                 'title' => $event->getName(),
                 'start' => $event->getBegin()->format('c'),
                 'end'   => $event->getEnd()->format('c'),
-                'item'  => sprintf('%s%d', $objects[0]->getType(), $objects[0]->getObject()),
+                'item'  => sprintf('%s-%d', $objects[0]->getType(), $objects[0]->getObject()),
             );
         }
 
@@ -69,24 +70,22 @@ class EventController extends Controller
      */
     public function createAction(Request $request)
     {
+        $em = $this->getDoctrine()->getManager();
         $form = $this->createForm(
             new EventType(),
             new Event(),
             array(
                 'action' => $this->generateUrl('event_create'),
                 'method' => 'POST',
-                'em'     => $this->getDoctrine()->getManager(),
+                'em'     => $em,
             )
         );
 
         $form->handleRequest($request);
         if ($form->isValid()) {
-//            var_dump($form->getNormData());
-//            var_dump($form->getData()->getObjects());
-            $em = $this->getDoctrine()->getManager();
-
             $event = $form->getData();
             $event->setState(Event::STATE_RENTED);
+
             foreach ($event->getObjects() as $object) {
                 $object->setEvent($event);
                 $em->persist($object);
@@ -96,7 +95,6 @@ class EventController extends Controller
             $em->flush();
 
             return $this->redirect($this->generateUrl('rentbundle_dashboard'));
-//            return new \Symfony\Component\HttpFoundation\Response("valid");
         }
 
         var_dump($form->getErrorsAsString());
@@ -117,15 +115,13 @@ class EventController extends Controller
         $items = $this->getDoctrine()->getEntityManager()->createQueryBuilder()
                 ->select('i, c.title AS category')->from('OktolabRentBundle:Inventory\Item', 'i')
                 ->join('i.category', 'c')
-                ->getQuery()->getArrayResult();
+                ->getQuery()
+                ->getArrayResult();
 
         $serializedItems = array();
         foreach ($items as $item) {
-            $serializedItems[$item['category']][sprintf('%s:%d', 'Item', $item[0]['id'])] = $item[0];
+            $serializedItems[$item['category']][sprintf('%s-%d', 'Item', $item[0]['id'])] = $item[0];
         }
-
-//        var_dump($serializedItems);
-//        return new JsonResponse($serializedItems);
 
         $arr = array();
 
@@ -139,9 +135,7 @@ class EventController extends Controller
                     $arr['dates'][] = array(
                         'date' => $date->format('c'),
                         'timeblocks' => array(
-                            array(
-                                $date->modify('09:00')->format('c'), $date->modify('16:00')->format('c')
-                            ),
+                            array($date->modify('09:00')->format('c'), $date->modify('16:00')->format('c')),
                         ),
                     );
                     break;
@@ -149,12 +143,8 @@ class EventController extends Controller
                     $arr['dates'][] = array(
                         'date' => $date->format('c'),
                         'timeblocks' => array(
-                            array(
-                                $date->modify('09:00')->format('c'), $date->modify('12:00')->format('c')
-                            ),
-                            array(
-                                $date->modify('17:00')->format('c'), $date->modify('20:00')->format('c')
-                            ),
+                            array($date->modify('09:00')->format('c'), $date->modify('12:00')->format('c')),
+                            array($date->modify('17:00')->format('c'), $date->modify('20:00')->format('c')),
                         ),
                     );
             }

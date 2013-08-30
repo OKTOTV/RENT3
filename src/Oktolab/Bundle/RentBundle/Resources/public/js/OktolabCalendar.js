@@ -56,7 +56,7 @@ Oktolab.Calendar = function Calendar(container) {
         var inventoryContainer = AJS.$('.calendar-inventory');
         var list = null;
 
-        AJS.$.getJSON(options.configSrcUrl, function(data) {
+        AJS.$.getJSON(options.configSrcUrl).success(function(data) {
             AJS.$.each(data.items, function(key, items) {
                 $inventory = AJS.$('<div />', { class: 'calendar-inventory-group' })
                     .append(AJS.$('<strong>').text(key));
@@ -64,7 +64,7 @@ Oktolab.Calendar = function Calendar(container) {
                 list = AJS.$('<ul />');
                 AJS.$.each(items, function(key, item) {
                     var li = AJS.$('<li />');
-                    li.append(AJS.$('<a />', { href: '#', id: 'Item' + item.id }).text(item.title));
+                    li.append(AJS.$('<a />', { href: '#', id: key }).text(item.title));
                     list.append(li);
                 });
 
@@ -131,8 +131,13 @@ Oktolab.Calendar = function Calendar(container) {
     this.renderEvents = function () {
         AJS.$.getJSON(options.eventSrcUrl, function(json) {
             AJS.$.each(json, function(key, val) {
-                var $item   = AJS.$('a#' + val.item),
-                    $block  = null,
+                var $item   = data.container.find('#' + val.item);
+                AJS.$.when($item).then(function(item) {
+                    console.log(item);
+                })
+
+
+                var $block  = null,
                     $start  = null,
                     $end    = null;
 

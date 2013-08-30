@@ -25,8 +25,8 @@ class EventType extends AbstractType
         $builder
             ->add('name')
             ->add('description', 'textarea', array('required' => false))
-            ->add('begin', 'date', array('widget' => 'single_text', 'required' => true, 'empty_value' => ''))
-            ->add('end', 'date', array('widget' => 'single_text', 'required' => true, 'empty_value' => ''))
+            ->add('begin', 'datetime', array('widget' => 'single_text', 'required' => true, 'empty_value' => ''))
+            ->add('end', 'datetime', array('widget' => 'single_text', 'required' => true, 'empty_value' => ''))
             ->add('objects', 'collection', array('type' => new EventObjectType(), 'allow_add' => true));
     }
 
