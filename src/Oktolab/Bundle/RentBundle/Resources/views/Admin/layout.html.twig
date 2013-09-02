@@ -24,7 +24,7 @@
                             </ul>
                             <div class="aui-nav-heading"><strong>{{ 'Administration' | trans }}</strong></div>
                             <ul class="aui-nav">
-                                <li><a href="#">User Management</a></li>
+                                <li{% if highlight_action == "user" %} class="aui-nav-selected"{% endif %}><a href="{{ path('security_user') }}">{{ 'User Management' | trans }}</a></li>
                                 <li><a href="#">Application links</a></li>
                                 <li><a href="#">Licensing</a></li>
                                 <li><a href="#">Oktolab Support</a></li>

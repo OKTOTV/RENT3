@@ -1,0 +1,17 @@
+{% extends 'OktolabRentBundle:Admin:User\\base.html.twig' %}
+
+{% block content %}
+    {{ parent() }}
+
+    {{ form_start(edit_form, {'attr': {'class': 'aui'} }) }}
+    <h3>{{ 'Edit User' | trans }} {{user.displayname}}</h3>
+        <fieldset>
+            {{ form_errors(edit_form) }}
+            {{ form_row(edit_form.role) }}
+
+            <div class="buttons-container">
+                <button class="aui-button aui-button-primary" type="submit">{% trans %}Submit{% endtrans %}</button>
+            </div>
+        </fieldset>
+    {{ form_end(edit_form) }}
+{% endblock %}
