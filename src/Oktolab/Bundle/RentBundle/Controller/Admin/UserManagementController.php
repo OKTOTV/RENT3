@@ -63,6 +63,12 @@ class UserManagementController extends Controller{
      */
     public function updateAction (Request $request, User $user)
     {
+        //Admins can edit themselves
+        if ($user->getUsername() == $this->get('security.context')->getToken()->getUser()->getUsername()) {
+            $this->get('session')->getFlashBag()->add('error', "Admins can't edit themselves");
+            return $this->redirect($this->generateUrl('security_user'));
+        }
+
         $editForm = $this->createForm(
             new UserType(),
             $user,
@@ -81,7 +87,7 @@ class UserManagementController extends Controller{
             $this->get('session')->getFlashBag()->add('success', 'Successfully updated User.');
             return $this->redirect($this->generateUrl('security_user'));
         }
-        
+
         $this->get('session')->getFlashBag()->add('error', 'There was an error while saving the form.');
         return array(
             'user'      => $user,
