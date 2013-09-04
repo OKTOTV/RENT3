@@ -31,6 +31,12 @@
                     baseUrl: window.location.protocol + '//' + window.location.host + '{{ app.request.getBaseURL() }}',
                 };
             }
+
+            Oktolab = {
+                baseUrl: window.location.protocol + '//' + window.location.host + '{{ app.request.getBaseURL() }}',
+            };
+
+            window.Oktolab = Oktolab;
         </script>
 
         <script src="http://twitter.github.com/hogan.js/builds/2.0.0/hogan-2.0.0.js"></script>

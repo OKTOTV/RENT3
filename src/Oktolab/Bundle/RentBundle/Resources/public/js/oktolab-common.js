@@ -1,5 +1,4 @@
 (function(window) {
-    var Oktolab = Oktolab || {};
 
     /**
      * Appends a data-prototype (from collection) to the collection by using Hogan templating engine
@@ -31,7 +30,4 @@
 
         return collection;
     };
-
-    // Define global namespace Oktolab
-    window.Oktolab = Oktolab;
 })(window);

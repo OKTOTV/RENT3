@@ -27,8 +27,8 @@ class RentController extends Controller
     {
         $event = new Event();
         $event->setName("Michaels Test");
-        $event->setBegin(new \DateTime('-3 days'));
-        $event->setEnd(new \DateTime('now'));
+        $event->setBegin(new \DateTime('today 11:00'));
+        $event->setEnd(new \DateTime('tomorrow 17:00'));
 
         $form = $this->createForm(
             new EventType(),
