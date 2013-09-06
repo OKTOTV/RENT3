@@ -18,7 +18,7 @@
         {% block head %}{% endblock %}
     </head>
 
-    <body class="aui-layout aui-theme-default">
+    <body class="aui-layout aui-theme-default {% block body_classes '' %}">
         <div id="page">
             {% block page_header %}{% endblock %}
             {% block page_main %}{% endblock %}

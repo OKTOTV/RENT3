@@ -4,9 +4,12 @@ namespace Oktolab\Bundle\RentBundle\Controller\Event;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 
 use Oktolab\Bundle\RentBundle\Entity\Event;
 use Oktolab\Bundle\RentBundle\Form\EventType;
@@ -21,35 +24,25 @@ class EventController extends Controller
      * @Route("/api/v1/events.{_format}",
      *      name="event_getEvents",
      *      defaults={"_format"="json"},
-     *      requirements={"_format"="json"})
+     *      requirements={"_format"="json|html"})
      *
      * @return JsonResponse
      */
     public function indexAction()
     {
-//        $faker = \Faker\Factory::create('de_DE');
-//        $arr = array();
-//        for ($i = 0; $i <= 50; $i++) {
-//            $date = $faker->dateTimeBetween('-1 day', '+2 weeks');
-//
-//            $arr[] = array(
-//                'id'    => '',
-//                'title' => $faker->company(),
-//                'start' => $date->format('c'),
-//                'end'   => $date->modify(sprintf('+ %d min', $faker->randomNumber(10 * 60, 48 * 60)))->format('c'),
-//                'item'  => $faker->randomElement(array('items', 'item-bar', 'item-foo', 'item-baz', 'itema', 'itemb')),
-//            );
-//        }
-
         $events = $this->getDoctrine()->getEntityManager()->createQueryBuilder()
                 ->select('e')->from('OktolabRentBundle:Event', 'e')
                 ->where('e.begin >= :now')
                 ->setParameter('now', new \DateTime('today 00:00'))
                 ->getQuery()->getResult();
 
+        $events = $this->getDoctrine()->getEntityManager()->getRepository('OktolabRentBundle:Event')->findActiveUntilEnd(new \DateTime('+3 weeks'));
+
         $arr = array();
         foreach ($events as $event) {
             $objects = $event->getObjects();
+            if (count($objects) === 0) { continue; }
+
             $arr[] = array(
                 'id'    => $event->getId(),
                 'title' => $event->getName(),
@@ -59,30 +52,24 @@ class EventController extends Controller
             );
         }
 
-//        var_dump($arr); die();
         return new JsonResponse($arr);
     }
 
     /**
+     * Creates a new Event.
+     *
      * @Route("/event", name="event_create")
      * @Method("POST")
      *
+     * @return Response
      */
     public function createAction(Request $request)
     {
-        $em = $this->getDoctrine()->getManager();
-        $form = $this->createForm(
-            new EventType(),
-            new Event(),
-            array(
-                'action' => $this->generateUrl('event_create'),
-                'method' => 'POST',
-                'em'     => $em,
-            )
-        );
-
+        $form = $this->getEventForm(array('action' => $this->generateUrl('event_create')));
         $form->handleRequest($request);
+
         if ($form->isValid()) {
+            $em = $this->getDoctrine()->getManager();
             $event = $form->getData();
             $event->setState(Event::STATE_RENTED);
 
@@ -98,8 +85,67 @@ class EventController extends Controller
         }
 
         var_dump($form->getErrorsAsString());
+        return new Response("invalid");
+    }
 
-        return new \Symfony\Component\HttpFoundation\Response("invalid");
+    /**
+     * Edit an existing Event.
+     *
+     * @Route("/event/{id}/edit", name="event_edit")
+     * @Method("GET")
+     * @ParamConverter("event", class="OktolabRentBundle:Event")
+     * @Template()
+     *
+     * @param Request $request
+     * @param Event $event
+     *
+     * @return array
+     */
+    public function editAction(Request $request, Event $event)
+    {
+        $form = $this->getEventForm(
+            array('action' => $this->generateUrl('event_edit', array('id' => $event->getId()))),
+            $event
+        );
+
+        return array('form' => $form->createView());
+    }
+
+    /**
+     * Updates an existing Event.
+     *
+     * @Route("/event/{id}/update", name="event_update")
+     * @Method("POST")
+     * @ParamConverter("event", class="OktolabRentBundle:Event")
+     *
+     * @param Request $request
+     * @param Event $event
+     *
+     * @return Response
+     */
+    public function updateAction(Request $request, Event $event)
+    {
+
+        $em = $this->getDoctrine()->getManager();
+        $form = $this->createForm(
+            new EventType(),
+            new Event(),
+            array(
+                'action' => $this->generateUrl('event_create'),
+                'method' => 'POST',
+                'em'     => $em,
+            )
+        );
+    }
+
+    /**
+     * @Route("/event/{id}/rent", name="event_rent")
+     * @param \Symfony\Component\HttpFoundation\Request $request
+     * @param \Oktolab\Bundle\RentBundle\Entity\Event $event
+     */
+    public function rentAction(Request $request, Event $event)
+    {
+        // this action "rents" the event. STATE_RENTED
     }
 
     /**
@@ -155,5 +201,27 @@ class EventController extends Controller
         $arr['items'] = $serializedItems;
 
         return new JsonResponse($arr);
+    }
+
+    /**
+     * Creates an Event Form.
+     *
+     * @param Event $event
+     * @return \Symfony\Component\Form\Form
+     */
+    protected function getEventForm(array $options = array(), Event $event = null)
+    {
+        $event = $event ?: new Event();
+        $options = array_merge(array(
+            'action' => $this->generateUrl('event_create'),
+            'method' => 'POST',
+            'em'     => $this->getDoctrine()->getManager(),
+        ), $options);
+
+        return $this->createForm(
+            new EventType(),
+            $event,
+            $options
+        );
     }
 }

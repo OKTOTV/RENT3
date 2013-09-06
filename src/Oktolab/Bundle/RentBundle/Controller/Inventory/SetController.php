@@ -107,7 +107,7 @@ class SetController extends Controller
      * @Route("/{id}/edit", name="inventory_set_edit")
      * @ParamConverter("set", class="OktolabRentBundle:Inventory\Set")
      * @Method("GET")
-     * @Template
+     * @Template()
      */
     public function editAction(Set $set)
     {

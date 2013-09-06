@@ -16,7 +16,7 @@
          * Initializes the Calendar settings
          *
          * @this Calendar
-         * @param {array} settings  Key-Value Settings for Calendar
+         * @param {array} settings Key-Value Settings for Calendar
          */
         init: function (settings) {
             Calendar.config = {

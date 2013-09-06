@@ -15,6 +15,32 @@ class EventRepository extends EntityRepository
 {
 
     /**
+     * Finds all active Events until $end.
+     *
+     * @param \DateTime $end
+     * @param mixed $hydrationMode
+     *
+     * @return array
+     */
+    public function findActiveUntilEnd(\DateTime $end, $hydrationMode = null)
+    {
+        $qb = $this->getEntityManager()->createQueryBuilder();
+        $qb->select('e')
+            ->from('OktolabRentBundle:Event', 'e')
+            ->where(
+                $qb->expr()->orX(
+                    $qb->expr()->andX($qb->expr()->gte('e.begin', ':begin'), $qb->expr()->lt('e.end', ':end')),
+                    $qb->expr()->andX($qb->expr()->lte('e.begin', ':begin'), $qb->expr()->gt('e.end', ':begin'))
+            ))
+            ->orderBy('e.begin', 'ASC');
+
+        $qb->setParameter(':begin', new \DateTime('now')); // "'OR 1=1";
+        $qb->setParameter(':end', $end);
+
+        return $qb->getQuery()->getResult($hydrationMode);
+    }
+
+    /**
      * Finds all Events in and within the given time period
      *
      * @param \DateTime $begin
