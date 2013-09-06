@@ -6,28 +6,28 @@ use Symfony\Bundle\SecurityBundle\DependencyInjection\Security\Factory\SecurityF
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\Config\Definition\Builder\NodeDefinition;
 
-class HubFactory implements SecurityFactoryInterface {
-
-     public function create(ContainerBuilder $container, $id, $config, $userProvider, $defaultEntryPoint)
-     {
+class HubFactory implements SecurityFactoryInterface
+{
+    public function create(ContainerBuilder $container, $id, $config, $userProvider, $defaultEntryPoint)
+    {
          $providerid = 'oktolab.hub_authentication_provider';
          $listenerid = 'oktolab.hub_security_listener';
 
          return array($providerid, $listenerid, $defaultEntryPoint);
-     }
+    }
 
-     public function getKey()
-     {//I have no idea what i'm doing
+    public function getKey()
+    {
          return 'oktolab';
-     }
+    }
 
-     public function getPosition()
-     {
+    public function getPosition()
+    {
          return 'pre_auth';
-     }
+    }
 
-     public function addConfiguration(NodeDefinition $builder)
-     {
+    public function addConfiguration(NodeDefinition $builder)
+    {
          ;
-     }
+    }
 }

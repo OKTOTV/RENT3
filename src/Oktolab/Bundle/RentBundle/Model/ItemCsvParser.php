@@ -1,11 +1,9 @@
 <?php
-
 namespace Oktolab\Bundle\RentBundle\Model;
 
 use Oktolab\Bundle\RentBundle\Entity\Inventory\Item;
 use Oktolab\Bundle\RentBundle\Model\ItemParserInterface;
 use Doctrine\ORM\EntityManager;
-
 
 class ItemCsvParser implements ItemParserInterface
 {
@@ -33,10 +31,11 @@ class ItemCsvParser implements ItemParserInterface
      * @param SplFileInfo $file
      * @return bool
      */
-    public function validateFile(\SplFileInfo $file) {
+    public function validateFile(\SplFileInfo $file)
+    {
         $handle = fopen($file->getRealPath(), 'r');
 
-        if ( ($data = fgetcsv($handle)) !== false ) {
+        if (($data = fgetcsv($handle)) !== false) {
 
             //todo: translate headers
 
@@ -69,7 +68,7 @@ class ItemCsvParser implements ItemParserInterface
         $headers = array();
 
         //parse file with fgetcsv
-        while (($data = fgetcsv($handle)) !== FALSE) {
+        while (($data = fgetcsv($handle)) !== false) {
             if (in_array('title', $data)) {
                 $headers = $this->getOrderOfHeaders($data);
                 continue;
@@ -84,7 +83,9 @@ class ItemCsvParser implements ItemParserInterface
             $item->setVendor($data[$headers['vendor']]);
             $item->setModelNumber($data[$headers['modelnumber']]);
 
-            $place = $this->entityManager->getRepository('OktolabRentBundle:Inventory\Place')->findOneByTitle($data[$headers['place']]);
+            $place = $this->entityManager
+                ->getRepository('OktolabRentBundle:Inventory\Place')->findOneByTitle($data[$headers['place']]);
+
             if (!$place) {
                 return array();
             }
@@ -97,7 +98,8 @@ class ItemCsvParser implements ItemParserInterface
         return $items;
     }
 
-    private function getOrderOfHeaders(array $csvRows) {
+    private function getOrderOfHeaders(array $csvRows)
+    {
         $rows = array(
             'title' => 0,
             'description' => 1,

@@ -11,7 +11,8 @@ use Doctrine\ORM\EntityManager;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Oktolab\Bundle\RentBundle\Entity\Security\ContactCard;
 
-class HubUserProvider implements UserProviderInterface {
+class HubUserProvider implements UserProviderInterface
+{
 
     private $entityManager;
     private $hubApiSearchUrl;
@@ -36,7 +37,15 @@ class HubUserProvider implements UserProviderInterface {
         $response = $client->get('?name='.$username.'&type=user&uidonly=1')->send();
         $serializedString = $response->getBody(true);
 
-        $serializedString = str_replace('O:11:"ContactCard"', sprintf('O:%d:"%s\ContactCard"', strlen(__NAMESPACE__)+12, __NAMESPACE__), $serializedString);
+        $serializedString = str_replace(
+            'O:11:"ContactCard"',
+            sprintf(
+                'O:%d:"%s\ContactCard"',
+                strlen(__NAMESPACE__)+12,
+                __NAMESPACE__
+            ),
+            $serializedString
+        );
 
         $contactcard = unserialize($serializedString);
 
@@ -73,9 +82,10 @@ class HubUserProvider implements UserProviderInterface {
     {
         if ($username == '') {
                 return new User();
-            }
+        }
 
-            $user = $this->entityManager->getRepository('OktolabRentBundle:Security\User')->findOneBy(array('username' => $username));
+            $user = $this->entityManager->getRepository('OktolabRentBundle:Security\User')
+                ->findOneBy(array('username' => $username));
 
         if (!$user) {
 
@@ -94,12 +104,20 @@ class HubUserProvider implements UserProviderInterface {
         try {
             $client = new Client($this->hubApiAuthUrl);
             $response = $client->get(sprintf('?action=auth&username=%s&password=%s', $username, $password))->send();
-        } catch (\Guzzle\Http\Exception\BadResponseException $e){
+        } catch (\Guzzle\Http\Exception\BadResponseException $e) {
             return false;
         }
 
         $serializedString = $response->getBody(true);
-        $serializedString = str_replace('O:11:"ContactCard"', sprintf('O:%d:"%s\ContactCard"', strlen(__NAMESPACE__)+12, __NAMESPACE__), $serializedString);
+        $serializedString = str_replace(
+            'O:11:"ContactCard"',
+            sprintf(
+                'O:%d:"%s\ContactCard"',
+                strlen(__NAMESPACE__)+12,
+                __NAMESPACE__
+            ),
+            $serializedString
+        );
 
         $contactcard = unserialize($serializedString);
 
@@ -128,7 +146,4 @@ class HubUserProvider implements UserProviderInterface {
     {
         return $class === 'Oktolab\Bundle\RentBundle\Entity\Security\User';
     }
-
-
-
 }

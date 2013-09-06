@@ -10,13 +10,14 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Oktolab\Bundle\RentBundle\Entity\Security\User;
 use Oktolab\Bundle\RentBundle\Form\Security\UserType;
+
 /**
  * Security\User controller
  *
  * @Route("/admin/user")
  */
-class UserManagementController extends Controller{
-
+class UserManagementController extends Controller
+{
     /**
      * Lists all Users
      *

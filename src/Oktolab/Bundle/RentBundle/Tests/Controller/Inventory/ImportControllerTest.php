@@ -20,10 +20,14 @@ class ImportControllerTest extends WebTestCase
         $crawler = $this->client->submit($form);
 
         $this->assertTrue($this->client->getResponse()->isSuccessful(), 'Form submit was not successful');
-        $this->assertEquals(4, $crawler->filter('section.aui-page-panel-content table.aui tbody tr')->count(), 'Contains no Item');
+        $this->assertEquals(
+            4,
+            $crawler->filter('section.aui-page-panel-content table.aui tbody tr')->count(),
+            'Contains no Item'
+        );
 
         $this->client->submit($this->client->getCrawler()->selectButton('Speichern')->form());
-        
+
         $this->assertTrue($this->client->getResponse()->isRedirect(), 'Response should be a redirect');
         $crawler = $this->client->followRedirect();
 
