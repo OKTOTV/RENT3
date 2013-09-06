@@ -1,4 +1,6 @@
 parameters:
-    oktolab.web_dir:    "%kernel.root_dir%/../web"
-    oktolab.upload_dir: "/uploads"	# be sure to also check composer.json (extras)
-    oktolab.hub_api_url: "http://localhost/hubTIDE/web/interface.php/api/"
+    oktolab.web_dir:            "%kernel.root_dir%/../web"
+    oktolab.upload_dir:         "/uploads"	# be sure to also check composer.json (extras)
+
+    oktolab.hub_api_search_url: "http://localhost/hubTIDE/web/interface.php/api/contactcardsearch"
+    oktolab.hub_api_auth_url:   "http://localhost/hubTIDE/web/interface.php/api/auth"

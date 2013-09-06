@@ -14,12 +14,14 @@ use Oktolab\Bundle\RentBundle\Entity\Security\ContactCard;
 class HubUserProvider implements UserProviderInterface {
 
     private $entityManager;
-    private $hubApiUrl;
+    private $hubApiSearchUrl;
+    private $hubApiAuthUrl;
 
-    public function __construct(EntityManager $entityManager, $hubApiUrl)
+    public function __construct(EntityManager $entityManager, $hubApiSearchUrl, $hubApiAuthUrl)
     {
         $this->entityManager = $entityManager;
-        $this->hubApiUrl = $hubApiUrl;
+        $this->hubApiSearchUrl = $hubApiSearchUrl;
+        $this->hubApiAuthUrl = $hubApiAuthUrl;
     }
 
     /**
@@ -30,8 +32,8 @@ class HubUserProvider implements UserProviderInterface {
      */
     private function getContactCardUserByUsername($username)
     {
-        $client = new Client($this->hubApiUrl);
-        $response = $client->get('contactcardsearch?name='.$username.'&type=user&uidonly=1')->send();
+        $client = new Client($this->hubApiSearchUrl);
+        $response = $client->get('?name='.$username.'&type=user&uidonly=1')->send();
         $serializedString = $response->getBody(true);
 
         $serializedString = str_replace('O:11:"ContactCard"', sprintf('O:%d:"%s\ContactCard"', strlen(__NAMESPACE__)+12, __NAMESPACE__), $serializedString);
@@ -90,14 +92,13 @@ class HubUserProvider implements UserProviderInterface {
     public function authenticateUserByUsernameAndPassword($username, $password)
     {
         try {
-            $client = new Client($this->hubApiUrl);
-            $response = $client->get(sprintf('auth?action=auth&username=%s&password=%s', $username, $password))->send();
+            $client = new Client($this->hubApiAuthUrl);
+            $response = $client->get(sprintf('?action=auth&username=%s&password=%s', $username, $password))->send();
         } catch (\Guzzle\Http\Exception\BadResponseException $e){
             return false;
         }
 
         $serializedString = $response->getBody(true);
-
         $serializedString = str_replace('O:11:"ContactCard"', sprintf('O:%d:"%s\ContactCard"', strlen(__NAMESPACE__)+12, __NAMESPACE__), $serializedString);
 
         $contactcard = unserialize($serializedString);

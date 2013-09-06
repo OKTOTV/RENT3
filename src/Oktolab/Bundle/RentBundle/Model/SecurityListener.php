@@ -7,6 +7,7 @@ use Symfony\Component\HttpKernel\Event\GetResponseEvent;
 use Oktolab\Bundle\RentBundle\Model\UserToken;
 use Oktolab\Bundle\RentBundle\Model\HubAuthenticationProvider;
 use Symfony\Component\Security\Core\SecurityContext;
+use Symfony\Component\HttpFoundation\Response;
 
 class SecurityListener implements ListenerInterface {
 
@@ -23,19 +24,20 @@ class SecurityListener implements ListenerInterface {
      {
          $request = $event->getRequest();
 
-//         die(var_dump($this->securityContext->getToken()));
-
          if ($this->securityContext->getToken() === null) {
 
-            $token = new UserToken();
-            $token->setAttribute('username', $request->get('_username'));
-            $token->setAttribute('password', $request->get('_password'));
+            try {
+                $token = new UserToken();
+                $token->setAttribute('username', $request->get('_username'));
+                $token->setAttribute('password', $request->get('_password'));
 
-            //die(var_dump($token));
+                $token = $this->authProvider->authenticate($token);
 
-            $token = $this->authProvider->authenticate($token);
-
-            $this->securityContext->setToken($token);
+                $this->securityContext->setToken($token);
+            } catch (\Exception $e) {
+                $request->attributes->set(SecurityContext::AUTHENTICATION_ERROR, 'Username/Passwort ungültig');
+                $request->getSession()->set(SecurityContext::AUTHENTICATION_ERROR, array('message' =>'Username/Passwort ungültig'));
+            }
          }
      }
 }

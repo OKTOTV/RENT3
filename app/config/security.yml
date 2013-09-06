@@ -27,6 +27,8 @@ security:
                 target: rentbundle_secure_login
             oktolab: true
             provider: hub_authenticator
+            form_login:
+                login_path: rentbundle_secure_login
 
     access_control:
         - { path: ^/admin, roles: ROLE_ADMIN }
