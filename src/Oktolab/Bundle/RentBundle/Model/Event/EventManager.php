@@ -1,14 +1,16 @@
 <?php
 
-namespace Oktolab\Bundle\RentBundle\Model;
+namespace Oktolab\Bundle\RentBundle\Model\Event;
 
-use Doctrine\ORM\EntityManager;
+//use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityRepository;
-use Symfony\Bridge\Monolog\Logger;
+//use Symfony\Bridge\Monolog\Logger;
 
 use Oktolab\Bundle\RentBundle\Model\RentableInterface;
 use Oktolab\Bundle\RentBundle\Entity\Event;
 use Oktolab\Bundle\RentBundle\Entity\EventObject;
+
+use Exception\RepositoryNotFoundException;
 
 class EventManager
 {
@@ -28,58 +30,43 @@ class EventManager
     protected $repositories = array();
 
     /**
-     * @var \Oktolab\Bundle\RentBundle\Entity\EventRepository
-     */
-    protected $eventRepository = null;
-
-    /**
-     * Constructor.
-     *
-     * @param ObjectManager $om
-     * @param Logger        $logger
-     */
-    public function __construct(EntityManager $em, Logger $logger = null)
-    {
-        $this->em = $em;
-        $this->logger = $logger;
-
-        $this->eventRepository = $this->em->getRepository('OktolabRentBundle:Event');
-    }
-
-    /**
      * Register a Repository, so the EventManager can use it.
      *
-     * @param EntityRepository $repository
+     * @param string           $name        The Class Name used by RentableInterface::getType
+     * @param EntityRepository $repository  The Repository class
+     *
+     * @return \Doctrine\ORM\EntityRepository
      */
-    public function addRepository(EntityRepository $repository)
+    public function addRepository($name, EntityRepository $repository)
     {
-        $this->repositories[$repository->getClassName()] = $repository;
+        $this->repositories[strtolower($name)] = $repository;
     }
 
     /**
-     * Returns the Repository by Class Name.
+     * Returns the Repository by Name.
      *
-     * @param string $className
+     * @param string $name
      *
-     * @return EntityRepository|false
+     * @throws RepositoryNotFoundException
+     * @return EntityRepository
      */
-    public function getRepository($className)
+    public function getRepository($name)
     {
-        if (isset($this->repositories[$className])) {
-            return $this->repositories[$className];
+        if (!isset($this->repositories[strtolower($name)])) {
+            throw new Exception\RepositoryNotFoundException(sprintf('The Repository "%s" can not be found.', $name));
         }
 
-        return false;
+        return $this->repositories[strtolower($name)];
     }
 
     /**
-     * Returns all registered Repositories.
+     * Returns the Event Repository.
      *
-     * @return array
+     * @return \Oktolab\Bundle\RentBundle\Entity\EventRepository
      */
-    public function getRepositories()
+    public function getEventRepository()
     {
-        return $this->repositories;
+        return $this->getRepository('event');
     }
 
     /**
@@ -93,8 +80,25 @@ class EventManager
      */
     public function isAvailable(RentableInterface $object, \DateTime $begin, \DateTime $end)
     {
-        $results = $this->eventRepository->findAllForObjectCount($object, $begin, $end);
+        $results = $this->getEventRepository()->findAllForObjectCount($object, $begin, $end);
         return 0 === $results;
+    }
+
+    public function getObjects(Event $event)
+    {
+        $objects = array();
+        foreach ($event->getObjects() as $object) {
+//            var_dump(\Doctrine\Common\Util\ClassUtils::getRealClass(get_class($object))); die();
+//            var_dump($this->getRepositories());
+            if ($repository = $this->getRepository($object->getType())) {
+                $objects = $this->getRepository($object->getType())->findOneBy(array('id' => $object->getId()));
+            }
+//            var_dump($this->getRepositories());
+//            var_dump($this->getRepository($object->getType())); die();
+
+        }
+
+        return $objects;
     }
 
     /**
@@ -142,7 +146,7 @@ class EventManager
         $event = new Event();
         $event->setName('asdfasdf');
         $event->setBegin($begin)->setEnd($end);
-        $event->setState(Event::STATE_RENTED);
+        $event->setState(Event::STATE_LENT);
 
         return $this->createEventObjects($event, $objects);
     }

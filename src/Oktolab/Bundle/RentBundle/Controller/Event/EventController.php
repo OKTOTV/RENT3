@@ -108,7 +108,14 @@ class EventController extends Controller
             $event
         );
 
-        return array('form' => $form->createView());
+        $eventManager = $this->get('oktolab.event_manager');
+        $eventManager->addRepository($this->getDoctrine()->getManager()->getRepository('OktolabRentBundle:Inventory\Item'));
+        $objects = $eventManager->getObjects($event);
+        var_dump($objects); die();
+        return array(
+            'form'      => $form->createView(),
+            'objects'   => $objects,
+        );
     }
 
     /**

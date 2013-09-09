@@ -8,7 +8,9 @@ use Symfony\Component\Validator\Constraints as Assert;
 use Oktolab\Bundle\RentBundle\Entity\EventObject;
 
 /**
- * Event
+ * Event Entity.
+ *
+ * @see http://intern.okto.tv/x/MQOm
  *
  * @ORM\Table()
  * @ORM\Entity(repositoryClass="Oktolab\Bundle\RentBundle\Entity\EventRepository")
@@ -17,11 +19,15 @@ use Oktolab\Bundle\RentBundle\Entity\EventObject;
  */
 class Event
 {
-    const STATE_RENTED      = 0;
-    const STATE_CANCELED    = 1;
-    const STATE_PREPARED    = 2;
-    const STATE_LENT        = 3;
-    const STATE_RETURNED    = 4;
+
+    const STATE_PREPARED  = 0;    // The Event is only prepared. All is open. The Event can be deleted.
+    const STATE_RESERVED  = 1;    // The Event is reserved. The Event is "fixed" and can only be canceled.
+    const STATE_LENT      = 2;    // The Event is confirmed and EventObjects are lent.
+    const STATE_DELIVERED = 3;    // The EventObjects are delivered and are back again.
+    const STATE_CHECKED   = 4;    // Each EventObjects is being checked against Checklists.
+    const STATE_COMPLETED = 5;    // The Event is finished and completed.
+    const STATE_CANCELED  = 6;    // The Event was canceled.
+    const STATE_DEFERRED  = 7;    // On or more EventObjects are deferred.
 
     /**
      * @var integer
