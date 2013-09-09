@@ -27,7 +27,8 @@
         "avalanche123/imagine-bundle": "2.1.*",
         "frequence-web/calendr-bundle": "1.0.*",
         "willdurand/faker-bundle": "1.0.*",
-        "liip/functional-test-bundle": "1.0.*@dev"
+        "liip/functional-test-bundle": "1.0.*@dev",
+        "guzzle/guzzle": "3.7.*"
     },
     "scripts": {
         "post-install-cmd": [

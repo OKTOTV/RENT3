@@ -1,0 +1,18 @@
+{% extends 'OktolabRentBundle:Admin:layout.html.twig' %}
+{% import 'OktolabRentBundle::aui_tools.html.twig' as macro %}
+
+{% set highlight_action = "user" %}
+
+{% block content %}
+    {% for flashMessage in app.session.flashbag.get('error') %}
+        {{ macro.aui_message(flashMessage, 'error') }}
+    {% endfor %}
+
+    {% for flashMessage in app.session.flashbag.get('success') %}
+        {{ macro.aui_message(flashMessage, 'success') }}
+    {% endfor %}
+
+    <h1 class="admin-heading">{{ 'User' | trans }}</h1>
+    <p class="admin-subtitle">User und deren Rechte werden verwendet, um das Verleihtool bedienen zu können.</p>
+
+{% endblock %}

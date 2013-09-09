@@ -155,8 +155,13 @@ class RoomControllerTest extends WebTestCase
         $this->assertTrue($this->client->getResponse()->isSuccessful(), 'Response should be successful');
         $this->assertEquals(1, $crawler->filter('.aui-expander-content > img')->count(), 'Contains no Attachment');
 
-        $attachment = $this->getContainer()->get('doctrine.orm.entity_manager')->getRepository('OktolabRentBundle:Inventory\Attachment')->findOneBy(array('id' => 1));
-        $uploadpath = $this->getContainer()->getParameter('oktolab.web_dir').$this->getContainer()->getParameter('oktolab.upload_dir');
+        $attachment = $this->getContainer()
+            ->get('doctrine.orm.entity_manager')
+            ->getRepository('OktolabRentBundle:Inventory\Attachment')
+            ->findOneBy(array('id' => 1));
+
+        $uploadpath = $this->getContainer()
+            ->getParameter('oktolab.web_dir').$this->getContainer()->getParameter('oktolab.upload_dir');
 
         $this->assertTrue(file_exists($uploadpath.$attachment->getPath().'/'.$attachment->getTitle()));
 
