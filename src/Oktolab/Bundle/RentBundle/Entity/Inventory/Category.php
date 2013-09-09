@@ -3,6 +3,7 @@
 namespace Oktolab\Bundle\RentBundle\Entity\Inventory;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Category
@@ -25,6 +26,11 @@ class Category
      * @var string
      *
      * @ORM\Column(name="title", type="string", length=255)
+     * @Assert\NotBlank(message = "category.title.notblank" )
+     * @Assert\Length(
+     *      max = 255,
+     *      maxMessage = "category.title.lengthMax"
+     *      )
      */
     private $title;
 

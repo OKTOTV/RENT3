@@ -110,6 +110,48 @@
                 <source>Places</source>
                 <target>Orte</target>
             </trans-unit>
+
+            <trans-unit id="28">
+                <source>item.message.savesuccessful</source>
+                <target>Der Gegenstand wurde erfolgreich gespeichert</target>
+            </trans-unit>
+            <trans-unit id="29">
+                <source>item.message.savefailure</source>
+                <target>Der Gegenstand konnte nicht gespeichert werden</target>
+            </trans-unit>
+            <trans-unit id="30">
+                <source>item.message.changessuccessful</source>
+                <target>Die Änderungen wurden erfolgreich gespeichert</target>
+            </trans-unit>
+            <trans-unit id="31">
+                <source>item.message.changefailure</source>
+                <target>Die Änderungen konnten nicht übernommen werden</target>
+            </trans-unit>
+            <trans-unit id="36">
+                <source>item.message.deletesuccess</source>
+                <target>Der Gegenstand "%title%" wurde erfolgreich gelöscht</target>
+            </trans-unit>
+
+            <trans-unit id="32">
+                <source>set.message.savesuccessful</source>
+                <target>Das Set wurde erfolgreich gespeichert</target>
+            </trans-unit>
+            <trans-unit id="33">
+                <source>set.message.savefailure</source>
+                <target>Das Set konnte nicht gespeichert werden</target>
+            </trans-unit>
+            <trans-unit id="34">
+                <source>set.message.changessuccessful</source>
+                <target>Die Änderungen wurden erfolgreich gespeichert</target>
+            </trans-unit>
+            <trans-unit id="35">
+                <source>set.message.changefailure</source>
+                <target>Die Änderungen konnten nicht übernommen werden</target>
+            </trans-unit>
+            <trans-unit id="37">
+                <source>set.message.deletesuccess</source>
+                <target>Das Set "%title%" wurde erfolgreich gelöscht</target>
+            </trans-unit>
         </body>
     </file>
 </xliff>

@@ -61,8 +61,24 @@ class ItemController extends Controller
             $em->persist($entity);
             $em->flush();
 
+            $this
+                ->get('session')
+                ->getFlashBag()
+                ->add(
+                    'success',
+                    $this->get('translator')->trans('item.message.savesuccessful')
+                );
+
             return $this->redirect($this->generateUrl('inventory_item_show', array('id' => $entity->getId())));
         }
+
+        $this
+            ->get('session')
+            ->getFlashBag()
+            ->add(
+                'warning',
+                $this->get('translator')->trans('item.message.savefailure')
+            );
 
         return array(
             'entity' => $entity,
@@ -158,8 +174,24 @@ class ItemController extends Controller
             $em->persist($item);
             $em->flush();
 
+            $this
+                ->get('session')
+                ->getFlashBag()
+                ->add(
+                    'success',
+                    $this->get('translator')->trans('item.message.changessuccessful')
+                );
+
             return $this->redirect($this->generateUrl('inventory_item_show', array('id' => $item->getId())));
         }
+
+        $this
+            ->get('session')
+            ->getFlashBag()
+            ->add(
+                'warning',
+                $this->get('translator')->trans('item.message.changefailure')
+            );
 
         return array(
             'item'      => $item,
@@ -173,7 +205,7 @@ class ItemController extends Controller
      * @ParamConverter("item", class="OktolabRentBundle:Inventory\Item")
      * @Method("GET")
      */
-    public function deleteAction($item)
+    public function deleteAction(Item $item)
     {
         $em = $this->getDoctrine()->getManager();
         $em->remove($item);
@@ -186,7 +218,13 @@ class ItemController extends Controller
         }
         //-------------------------------
         $em->flush();
-
+        $this
+            ->get('session')
+            ->getFlashBag()
+            ->add(
+                'success',
+                $this->get('translator')->trans('item.message.deletesuccess', array('%title%' => $item->getTitle()))
+            );
         return $this->redirect($this->generateUrl('inventory_item'));
     }
 
