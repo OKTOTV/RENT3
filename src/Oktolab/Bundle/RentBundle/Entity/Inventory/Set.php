@@ -5,6 +5,7 @@ namespace Oktolab\Bundle\RentBundle\Entity\Inventory;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 use Oktolab\Bundle\RentBundle\Model\UploadableInterface;
+use Oktolab\Bundle\RentBundle\Model\RentableInterface;
 
 /**
  * Set
@@ -13,7 +14,7 @@ use Oktolab\Bundle\RentBundle\Model\UploadableInterface;
  * @ORM\Entity
  * @ORM\HasLifecycleCallbacks()
  */
-class Set implements UploadableInterface
+class Set implements UploadableInterface, RentableInterface
 {
     /**
      * @var integer
@@ -370,5 +371,21 @@ class Set implements UploadableInterface
     public function getPlace()
     {
         return $this->place;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getState()
+    {
+        return 0;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getType()
+    {
+        return 'set';
     }
 }

@@ -23,4 +23,13 @@ interface RentableInterface
      * @return int
      */
     public function getState();
+
+    /**
+     * Returns the Identifier.
+     *
+     * @see Confluence Documentation
+     *
+     * @return int
+     */
+    public function getId();
 }

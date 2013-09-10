@@ -172,6 +172,18 @@ class Item implements RentableInterface, UploadableInterface
     }
 
     /**
+     * Set Id
+     * 
+     * @param int $id
+     * @return Item
+     */
+    public function setId($id)
+    {
+        $this->id = $id;
+        return $this;
+    }
+
+    /**
      * Set title
      *
      * @param  string $title
