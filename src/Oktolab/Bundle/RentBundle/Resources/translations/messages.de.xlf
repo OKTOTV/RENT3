@@ -3,154 +3,192 @@
     <file source-language="de" datatype="plaintext" original="file.ext">
         <body>
             <trans-unit id="1">
-                <source>Title</source>
+                <source>generic.title</source>
                 <target>Titel</target>
             </trans-unit>
             <trans-unit id="2">
-                <source>Description</source>
+                <source>generic.description</source>
                 <target>Beschreibung</target>
             </trans-unit>
             <trans-unit id="3">
-                <source>Buy date</source>
-                <target>Kaufdatum</target>
-            </trans-unit>
-            <trans-unit id="4">
-                <source>Serial number</source>
-                <target>Seriennummer</target>
-            </trans-unit>
-            <trans-unit id="5">
-                <source>Vendor</source>
-                <target>Hersteller</target>
-            </trans-unit>
-            <trans-unit id="6">
-                <source>Model number</source>
-                <target>Modellnummer</target>
-            </trans-unit>
-            <trans-unit id="7">
-                <source>Back to list</source>
+                <source>generic.backToList</source>
                 <target>Zurück zur Liste</target>
             </trans-unit>
-            <trans-unit id="8">
-                <source>Submit</source>
+            <trans-unit id="4">
+                <source>generic.submit</source>
                 <target>Speichern</target>
             </trans-unit>
-            <trans-unit id="9">
-                <source>Documentation</source>
+            <trans-unit id="5">
+                <source>generic.documentation</source>
                 <target>Dokumentation</target>
             </trans-unit>
-            <trans-unit id="10">
-                <source>Username</source>
+            <trans-unit id="6">
+                <source>generic.username</source>
                 <target>Benutzername</target>
             </trans-unit>
-            <trans-unit id="11">
-                <source>Password</source>
+            <trans-unit id="7">
+                <source>generic.password</source>
                 <target>Passwort</target>
             </trans-unit>
-            <trans-unit id="12">
-                <source>Delete</source>
+            <trans-unit id="8">
+                <source>generic.delete</source>
                 <target>Löschen</target>
             </trans-unit>
-            <trans-unit id="13">
-                <source>remove from set</source>
-                <target>Von Set entfernen</target>
-            </trans-unit>
-            <trans-unit id="14">
-                <source>show</source>
+            <trans-unit id="9">
+                <source>generic.show</source>
                 <target>Anzeigen</target>
             </trans-unit>
-            <trans-unit id="15">
-                <source>edit</source>
+            <trans-unit id="10">
+                <source>generic.edit</source>
                 <target>Bearbeiten</target>
             </trans-unit>
-            <trans-unit id="16">
-                <source>Inventory</source>
+            <trans-unit id="11">
+                <source>generic.inventory</source>
                 <target>Inventar</target>
             </trans-unit>
-            <trans-unit id="17">
-                <source>Calendar</source>
+            <trans-unit id="12">
+                <source>generic.calendar</source>
                 <target>Kalendar</target>
             </trans-unit>
-            <trans-unit id="18">
-                <source>Book</source>
+            <trans-unit id="13">
+                <source>generic.book</source>
                 <target>Reservieren</target>
             </trans-unit>
-            <trans-unit id="19">
-                <source>delete</source>
+            <trans-unit id="14">
+                <source>generic.delete</source>
                 <target>Entfernen</target>
             </trans-unit>
-            <trans-unit id="20">
-                <source>Overview</source>
+            <trans-unit id="15">
+                <source>generic.overview</source>
                 <target>Übersicht</target>
             </trans-unit>
-            <trans-unit id="21">
-                <source>Categories</source>
-                <target>Kategorien</target>
-            </trans-unit>
-            <trans-unit id="22">
-                <source>Add new Category</source>
-                <target>Neue Kategorie hinzufügen</target>
-            </trans-unit>
-            <trans-unit id="23">
-                <source>Actions</source>
+            <trans-unit id="16">
+                <source>generic.actions</source>
                 <target>Aktionen</target>
             </trans-unit>
-            <trans-unit id="24">
-                <source>#. Items</source>
-                <target>#. Gegenstände</target>
-            </trans-unit>
-            <trans-unit id="25">
-                <source>Items in Category</source>
-                <target>Gegenstände in dieser Kategorie</target>
-            </trans-unit>
-            <trans-unit id="26">
-                <source>Add new Place</source>
-                <target>Neuen Ort hinzufügen</target>
-            </trans-unit>
-            <trans-unit id="27">
-                <source>Places</source>
-                <target>Orte</target>
+            <trans-unit id="17">
+                <source>generic.barcode</source>
+                <target>Barcode</target>
             </trans-unit>
 
-            <trans-unit id="28">
+            <trans-unit id="100">
+                <source>inventory.item.title</source>
+                <target>Titel</target>
+            </trans-unit>
+            <trans-unit id="101">
+                <source>inventory.item.buydate</source>
+                <target>Kaufdatum</target>
+            </trans-unit>
+            <trans-unit id="102">
+                <source>inventory.item.serialnumber</source>
+                <target>Seriennummer</target>
+            </trans-unit>
+            <trans-unit id="103">
+                <source>inventory.item.vendor</source>
+                <target>Hersteller</target>
+            </trans-unit>
+            <trans-unit id="104">
+                <source>inventory.item.modelnumber</source>
+                <target>Modellnummer</target>
+            </trans-unit>
+            <trans-unit id="105">
                 <source>item.message.savesuccessful</source>
                 <target>Der Gegenstand wurde erfolgreich gespeichert</target>
             </trans-unit>
-            <trans-unit id="29">
+            <trans-unit id="106">
                 <source>item.message.savefailure</source>
                 <target>Der Gegenstand konnte nicht gespeichert werden</target>
             </trans-unit>
-            <trans-unit id="30">
+            <trans-unit id="107">
                 <source>item.message.changessuccessful</source>
                 <target>Die Änderungen wurden erfolgreich gespeichert</target>
             </trans-unit>
-            <trans-unit id="31">
+            <trans-unit id="108">
                 <source>item.message.changefailure</source>
                 <target>Die Änderungen konnten nicht übernommen werden</target>
             </trans-unit>
-            <trans-unit id="36">
+            <trans-unit id="109">
                 <source>item.message.deletesuccess</source>
                 <target>Der Gegenstand "%title%" wurde erfolgreich gelöscht</target>
             </trans-unit>
+            <trans-unit id="110">
+                <source>inventory.item.discharge</source>
+                <target>Ausmustern</target>
+            </trans-unit>
+            <trans-unit id="111">
+                <source>inventory.item.description</source>
+                <target>Beschreibung</target>
+            </trans-unit>
+            <trans-unit id="112">
+                <source>inventory.item.attachments</source>
+                <target>Anhänge</target>
+            </trans-unit>
+            <trans-unit id="113">
+                <source>inventory.item.new</source>
+                <target>Neues Item</target>
+            </trans-unit>
+            <trans-unit id="114">
+                <source>inventory.item.barcode</source>
+                <target>Barcode</target>
+            </trans-unit>
+            <trans-unit id="115">
+                <source>inventory.item.set</source>
+                <target>Set</target>
+            </trans-unit>
+            <trans-unit id="116">
+                <source>inventory.item.place</source>
+                <target>Ort</target>
+            </trans-unit>
+            <trans-unit id="117">
+                <source>inventory.item.category</source>
+                <target>Kategorie</target>
+            </trans-unit>
 
-            <trans-unit id="32">
+            <trans-unit id="201">
+                <source>inventory.set.removeFromSet</source>
+                <target>Von Set entfernen</target>
+            </trans-unit>
+            <trans-unit id="202">
                 <source>set.message.savesuccessful</source>
                 <target>Das Set wurde erfolgreich gespeichert</target>
             </trans-unit>
-            <trans-unit id="33">
+            <trans-unit id="203">
                 <source>set.message.savefailure</source>
                 <target>Das Set konnte nicht gespeichert werden</target>
             </trans-unit>
-            <trans-unit id="34">
+            <trans-unit id="204">
                 <source>set.message.changessuccessful</source>
                 <target>Die Änderungen wurden erfolgreich gespeichert</target>
             </trans-unit>
-            <trans-unit id="35">
+            <trans-unit id="205">
                 <source>set.message.changefailure</source>
                 <target>Die Änderungen konnten nicht übernommen werden</target>
             </trans-unit>
-            <trans-unit id="37">
+            <trans-unit id="206">
                 <source>set.message.deletesuccess</source>
                 <target>Das Set "%title%" wurde erfolgreich gelöscht</target>
+            </trans-unit>
+
+            <trans-unit id="300">
+                <source>inventory.place</source>
+                <target>Orte</target>
+            </trans-unit>
+            <trans-unit id="301">
+                <source>inventory.place.addNewPlace</source>
+                <target>Neuen Ort hinzufügen</target>
+            </trans-unit>
+
+            <trans-unit id="400">
+                <source>inventory.category</source>
+                <target>Kategorien</target>
+            </trans-unit>
+            <trans-unit id="401">
+                <source>inventory.category.create</source>
+                <target>Neue Kategorie hinzufügen</target>
+            </trans-unit>
+            <trans-unit id="402">
+                <source>inventory.category.itemsInCategory</source>
+                <target>Gegenstände in dieser Kategorie</target>
             </trans-unit>
         </body>
     </file>

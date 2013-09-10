@@ -8,7 +8,6 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Cache;
 
 use Oktolab\Bundle\RentBundle\Entity\Inventory\Item;
 use Oktolab\Bundle\RentBundle\Entity\Inventory\Attachment;
@@ -28,7 +27,6 @@ class ItemController extends Controller
      *
      * @Route("/", name="inventory_item")
      * @Method("GET")
-     * @Cache(expires="+1 day", public="true")
      * @Template()
      */
     public function indexAction()
@@ -88,7 +86,7 @@ class ItemController extends Controller
 
     /**
      * Displays a form to create a new Inventory\Item entity.
-     *
+     * TODO: cache me
      * @Route("/new", name="inventory_item_new")
      * @Method("GET")
      * @Template()

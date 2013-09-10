@@ -8,20 +8,19 @@
                     {% if item.picture is not null %}
                         <img src="{{ item.picture.getRelativePath | apply_filter('page_avatar') }}" />
                     {% endif%}
-
                 </div>
             </div>
         </div>
         <div class="aui-page-header-main">
             <h1>{{item.title}}</h1>
-            <h3>Barcode: {{item.barcode}}</h3>
+            <h3>{{ 'generic.barcode' | trans }}: {{item.barcode}}</h3>
         </div>
         <div class="aui-page-header-actions">
             <div class="aui-buttons">
                 <div class="aui-buttons">
-                    <a class="aui-button" href="{{ path('inventory_item_edit', { 'id' : item.id }) }}">Editieren</a>
-                    <a class="aui-button" href="{{ path('inventory_item') }}">{% trans %}Back to list{% endtrans %}</a>
-                    <button class="aui-button" aria-disabled="true">Ausmustern</button>
+                    <a class="aui-button" href="{{ path('inventory_item_edit', { 'id' : item.id }) }}">{{ 'generic.edit' | trans }}</a>
+                    <a class="aui-button" href="{{ path('inventory_item') }}">{{ 'generic.backToList' | trans }}</a>
+                    <button class="aui-button" aria-disabled="true">{{ 'inventory.item.discharge' | trans }}</button>
                 </div>
             </div>
         </div>
@@ -33,30 +32,25 @@
         <div class="aui-page-panel-inner">
             <section class="aui-page-panel-content">
 
-                <p>{{ item.set }}<//p>
+                <p>{{ item.set }}</p>
 
-
-                <h3>{% trans %}Description{% endtrans %}</h3>
-                {% if item.description is defined %}
+                <h3>{{ 'inventory.item.description' | trans }}</h3>
                 <p>{{ item.description }}</p>
-                {% else %}
-                <p>{% trans%}Not Defined{%endtrans%}</p>
-                {% endif %}
 
-                <h3>{% trans %}Buy date{% endtrans %}</h3>
+                <h3>{{ 'inventory.item.buydate' | trans}}</h3>
                 <p>{{ item.buyDate|date('d.m.Y') }}</p>
 
-                <h3>{% trans %}Serial number{% endtrans %}</h3>
+                <h3>{{ 'inventory.item.serialnumber' | trans}}</h3>
                 <p>{{ item.serialNumber }}</p>
 
-                <h3>{% trans %}Vendor{% endtrans %}</h3>
+                <h3>{{ 'inventory.item.vendor' | trans }}</h3>
                 <p>{{ item.vendor }}</p>
 
-                <h3>{% trans %}Modelnumber{% endtrans %}</h3>
+                <h3>{{ 'inventory.item.modelnumber' | trans }}</h3>
                 <p>{{ item.modelNumber }}</p>
 
                 <h3>
-                    {% trans %}Attachments{% endtrans%} {{ item.attachments | length }} <a id="replace-text-trigger" data-replace-text="({%trans%}hide{%endtrans%})" class="aui-expander-trigger" aria-controls="expander-with-replace-text-content">({%trans%}show{%endtrans%})</a>
+                    {{ 'inventory.item.attachments' | trans}} {{ item.attachments | length }} <a id="replace-text-trigger" data-replace-text="({%trans%}hide{%endtrans%})" class="aui-expander-trigger" aria-controls="expander-with-replace-text-content">({{ 'generic.show' | trans }})</a>
                 </h3>
                 <div id="expander-with-replace-text-content" class="aui-expander-content">
                     {% for attachment in item.attachments %}
