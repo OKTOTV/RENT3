@@ -12,7 +12,7 @@ class ItemType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('title')
+            ->add('title', 'text', array('label' => 'stuff'))
             ->add('description', 'textarea')
             ->add('barcode')
             ->add(

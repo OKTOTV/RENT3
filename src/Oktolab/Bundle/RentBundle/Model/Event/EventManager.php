@@ -101,7 +101,14 @@ class EventManager
         if (0 === count($event->getObjects())) {
             throw new Exception\MissingEventObjectsException('No EventObjects given.');
         }
-        
+
+        foreach ($event->getObjects() as $object) {
+            if (!$this->isAvailable($object, $event->getBegin(), $event->getEnd())) {
+                throw new \Exception();
+            }
+        }
+
+        $event->setState(Event::STATE_LENT);
         return $event;
     }
 

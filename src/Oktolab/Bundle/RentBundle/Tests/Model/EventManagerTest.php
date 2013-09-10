@@ -71,11 +71,8 @@ class EventManagerTest extends \PHPUnit_Framework_TestCase
 
     public function testCreateEventWithRentableObjects()
     {
-        $set = new Set();
-        $item = new Item();
-
         $eventManager = new EventManager();
-        $event = $eventManager->create(array($set, $item));
+        $event = $eventManager->create(array(new Set(), new Item()));
         $this->assertCount(2, $event->getObjects());
     }
 
@@ -95,21 +92,15 @@ class EventManagerTest extends \PHPUnit_Framework_TestCase
 
     public function testCreateEventWithEventObjects()
     {
-        $object1 = new EventObject();
-        $object2 = new EventObject();
-
         $eventManager = new EventManager();
-        $event = $eventManager->create(array($object1, $object2));
+        $event = $eventManager->create(array(new EventObject(), new EventObject()));
         $this->assertCount(2, $event->getObjects());
     }
 
     public function testCreateEventAssignsCorrectEvent()
     {
-        $object1 = new EventObject();
-        $object2 = new EventObject();
-
         $eventManager = new EventManager();
-        $event = $eventManager->create(array($object1, $object2));
+        $event = $eventManager->create(array(new EventObject(), new EventObject()));
 
         foreach ($event->getObjects() as $object) {
             $this->assertSame($event, $object->getEvent(), 'EventObject has correct Event mapped.');
@@ -137,17 +128,15 @@ class EventManagerTest extends \PHPUnit_Framework_TestCase
     public function testCreateEventThrowsExceptionOnInvalidObject()
     {
         $this->setExpectedException('\BadMethodCallException');
-        $object = new \stdClass();
 
         $eventManager = new EventManager();
-        $event = $eventManager->create(array($object));
+        $event = $eventManager->create(array(new \stdClass()));
     }
 
     public function testRentEventReturnsTypeOfEvent()
     {
-        $item = new Item();
         $eventManager = new EventManager();
-        $event = $eventManager->create(array($item));
+        $event = $eventManager->create(array(new Item()));
         $event = $eventManager->rent($event);
 
         $this->assertInstanceOf('\Oktolab\Bundle\RentBundle\Entity\Event', $event);
@@ -156,6 +145,7 @@ class EventManagerTest extends \PHPUnit_Framework_TestCase
     public function testRentEventThrowsExceptionWithZeroObjects()
     {
         $this->setExpectedException('\Oktolab\Bundle\RentBundle\Model\Event\Exception\MissingEventObjectsException');
+
         $eventManager = new EventManager();
         $event = $eventManager->create(array());
         $event = $eventManager->rent($event);
@@ -163,8 +153,32 @@ class EventManagerTest extends \PHPUnit_Framework_TestCase
 
     public function testRentEventSetsStateToLent()
     {
-        // event objects (two items)
-        // event is "lent"
+        $eventManager = new EventManager();
+        $event = $eventManager->create(array(new Item()));
+        $event = $eventManager->rent($event);
+
+        $this->assertSame(Event::STATE_LENT, $event->getState());
+    }
+
+    public function testRentEventChecksAvailabilityOfObjects()
+    {
+        $eventManager = $this->getMock('\Oktolab\Bundle\RentBundle\Model\Event\EventManager', array('isAvailable'));
+        $eventManager->expects($this->once())->method('isAvailable')->will($this->returnValue(true));
+
+        $event = $eventManager->create(array(new Item()));
+        $event = $eventManager->rent($event);
+
+        $this->assertCount(1, $event->getObjects());
+    }
+
+    /*
+     * Tests:
+     *  - Test isAvailable RentableInterface
+     *  - Test isAvailable EventObject 
+     */
+
+    public function testRentEventThrowsExceptionIfObjectIsNotAvailable()
+    {
         $this->markTestIncomplete();
     }
 
