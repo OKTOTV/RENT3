@@ -12,7 +12,7 @@
             </div>
         </div>
         <div class="aui-page-header-main">
-            <h1>{{item.title }} bearbeiten</h1>
+            <h1>{{'inventory.item.edit'|trans({'%itemTitle%': item.title})}}</h1>
             <a href="{{ path('inventory_item_picture_upload', { 'id': item.id}) }}">{{ "Upload Picture" | trans }}</a>
             {% if item.picture is not null %}
                 <a href="{{ path('inventory_item_attachment_delete', { 'entity_id': item.id, 'attachment_id': item.picture.getId }) }}">{{"Delete Picture" | trans }}</a>
@@ -45,7 +45,7 @@
             {{ form_row(edit_form.modelNumber) }}
             <field class="plupload" data-plupload="multiple"></field>
             <div id="container" class="field-group">
-                <div id="filelist">Engine wird geladen...</div>
+                <div id="filelist">{{ 'generic.loadEngine' | trans }}</div>
                 <br />
                 <a id="pickfiles" href="#">[{% trans %}Select files{% endtrans %}]</a>
             </div>

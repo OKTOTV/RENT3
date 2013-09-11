@@ -12,17 +12,17 @@
         </div>
     </div>
     <div class="aui-page-header-main">
-        <h1>{{ set.title }} bearbeiten</h1>
-        <a href="{{ path('inventory_set_picture_upload', { 'id': set.id }) }}">{{ "Upload Picture" | trans }}</a>
+        <h1>{{'inventory.set.edit'|trans({'%setTitle%': set.title})}}</h1>
+        <a href="{{ path('inventory_set_picture_upload', { 'id': set.id }) }}">{{ "inventory.set.uploadPicture" | trans }}</a>
         {% if set.picture is not null %}
-            <a href="{{ path('inventory_set_attachment_delete', { 'entity_id': set.id, 'attachment_id': set.picture.getId }) }}">{{"Delete Picture" | trans }}</a>
+            <a href="{{ path('inventory_set_attachment_delete', { 'entity_id': set.id, 'attachment_id': set.picture.getId }) }}">{{"inventory.set.deletePicture" | trans }}</a>
         {% endif %}
     </div>
     <div class="aui-page-header-actions">
         <div class="aui-buttons">
             <div class="aui-buttons">
-                <a class="aui-button" href="{{ path('inventory_set') }}">{{ 'Back to list' | trans }}</a>
-                <a class="aui-button" href="{{ path('inventory_set_delete', { 'id': set.id }) }}">{{ 'Delete' | trans }}</a>
+                <a class="aui-button" href="{{ path('inventory_set') }}">{{ 'generic.backToList' | trans }}</a>
+                <a class="aui-button" href="{{ path('inventory_set_delete', { 'id': set.id }) }}">{{ 'generic.delete' | trans }}</a>
             </div>
         </div>
     </div>

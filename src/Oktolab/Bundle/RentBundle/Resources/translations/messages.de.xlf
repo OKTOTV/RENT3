@@ -56,7 +56,7 @@
             </trans-unit>
             <trans-unit id="14">
                 <source>generic.delete</source>
-                <target>Entfernen</target>
+                <target>Löschen</target>
             </trans-unit>
             <trans-unit id="15">
                 <source>generic.overview</source>
@@ -86,6 +86,19 @@
                 <source>generic.selectFiles</source>
                 <target>Dateien auswählen</target>
             </trans-unit>
+            <trans-unit id="22">
+                <source>generic.search</source>
+                <target>Suche</target>
+            </trans-unit>
+            <trans-unit id="23">
+                <source>generic.remove</source>
+                <target>Entfernen</target>
+            </trans-unit>
+            <trans-unit id="24">
+                <source>generic.loadEngine</source>
+                <target>Engine wird geladen...</target>
+            </trans-unit>
+
 
             <trans-unit id="100">
                 <source>inventory.item.title</source>
@@ -163,6 +176,10 @@
                 <source>inventory.items</source>
                 <target>Inventar Gegenstände</target>
             </trans-unit>
+            <trans-unit id="119">
+                <source>inventory.item.edit</source>
+                <target>%itemTitle% bearbeiten</target>
+            </trans-unit>
 
             <trans-unit id="201">
                 <source>inventory.set.removeFromSet</source>
@@ -188,6 +205,55 @@
                 <source>set.message.deletesuccess</source>
                 <target>Das Set "%title%" wurde erfolgreich gelöscht</target>
             </trans-unit>
+            <trans-unit id="207">
+                <source>inventory.set.barcode</source>
+                <target>Barcode</target>
+            </trans-unit>
+            <trans-unit id="208">
+                <source>inventory.set.attachments</source>
+                <target>Anhänge</target>
+            </trans-unit>
+            <trans-unit id="209">
+                <source>inventory.set.description</source>
+                <target>Beschreibung</target>
+            </trans-unit>
+            <trans-unit id="210">
+                <source>inventory.set.items</source>
+                <target>Gegenstände</target>
+            </trans-unit>
+            <trans-unit id="211">
+                <source>inventory.set.edit</source>
+                <target>%setTitle% bearbeiten</target>
+            </trans-unit>
+            <trans-unit id="212">
+                <source>inventory.set.uploadPicture</source>
+                <target>Bild hochladen</target>
+            </trans-unit>
+            <trans-unit id="213">
+                <source>inventory.set.deletePicture</source>
+                <target>Bild löschen</target>
+            </trans-unit>
+            <trans-unit id="214">
+                <source>inventory.set.new</source>
+                <target>Neues Set</target>
+            </trans-unit>
+            <trans-unit id="215">
+                <source>inventory.set.searchForItems</source>
+                <target>Suche nach Gegenständen</target>
+            </trans-unit>
+            <trans-unit id="216">
+                <source>inventory.set.title</source>
+                <target>Titel</target>
+            </trans-unit>
+            <trans-unit id="217">
+                <source>inventory.set.place</source>
+                <target>Ort</target>
+            </trans-unit>
+            <trans-unit id="218">
+                <source>inventory.sets</source>
+                <target>Inventar Sets</target>
+            </trans-unit>
+
 
             <trans-unit id="300">
                 <source>inventory.place</source>

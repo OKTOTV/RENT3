@@ -10,12 +10,12 @@
         </div>
     </div>
     <div class="aui-page-header-main">
-        <h1>{{ 'Add a new set' | trans }}</h1>
+        <h1>{{ 'inventory.set.new' | trans }}</h1>
     </div>
     <div class="aui-page-header-actions">
         <div class="aui-buttons">
             <div class="aui-buttons">
-                <a class="aui-button" href="{{ path('inventory_set') }}">{{ 'Back to list' | trans }}</a>
+                <a class="aui-button" href="{{ path('inventory_set') }}">{{ 'generic.backToList' | trans }}</a>
             </div>
         </div>
     </div>
@@ -32,20 +32,20 @@
             {{ form_row(form.barcode) }}
 
             <div class="field-group">
-                <label for="oktolab_rentbundle_inventory_set_searchItems">{{ 'Search' | trans }}</label>
+                <label for="oktolab_rentbundle_inventory_set_searchItems">{{ 'generic.search' | trans }}</label>
                 <input class="text long-field" type="text" id="oktolab_rentbundle_inventory_set_searchItems" name="oktolab_rentbundle_inventory_set_searchItems" title="{{ 'Search for Items' | trans }}">
-                <div class="description">{{ 'Search for Items: Name, Description, Barcode' | trans }}</div>
+                <div class="description">{{ 'inventory.set.searchForItems' | trans}}: {{'inventory.item.title' |trans}}, {{'inventory.item.description' |trans}}, {{'inventory.item.barcode' |trans}}</div>
             </div>
         </fieldset>
 
-        <h3>{{ 'Items' | trans }}</h3>
+        <h3>{{ 'inventory.set.items' | trans }}</h3>
             <fieldset>
                 <table class="aui">
                     <thead>
                         <tr>
-                            <th id="name">{{ 'Barcode' | trans }}</th>
-                            <th>{{ 'Name' | trans }}</th>
-                            <th id="basic-action"><span class="aui-icon aui-icon-small aui-iconfont-configure">{{ 'Actions' | trans }}</span></th>
+                            <th id="name">{{ 'inventory.item.barcode' | trans }}</th>
+                            <th>{{ 'inventory.item.title' | trans }}</th>
+                            <th id="basic-action"><span class="aui-icon aui-icon-small aui-iconfont-configure">{{ 'generic.actions' | trans }}</span></th>
                         </tr>
                     </thead>
                     <tbody class="set-items" data-index="0" data-prototype="{% filter escape %}{% include 'OktolabRentBundle:Inventory/Set:itemRowPrototype.html.twig' %}{% endfilter %}">
@@ -54,7 +54,7 @@
                                 <tr>
                                     <td>{{ item.barcode }}</td>
                                     <td>{{ item.title }}</td>
-                                    <td><a href="#"><span class="aui-icon aui-icon-small aui-iconfont-remove remove-object" data-value="item:{{ item.id }}' }}">{{ 'Remove' | trans }}</span></a></td>
+                                    <td><a href="#"><span class="aui-icon aui-icon-small aui-iconfont-remove remove-object" data-value="item:{{ item.id }}' }}">{{ 'generic.remove' | trans }}</span></a></td>
                                 </tr>
                             {% endfor %}
                         {% endif %}
@@ -62,13 +62,13 @@
                 </table>
 
                 <div id="container" class= "field-group">
-                    <div id="filelist">No runtime found.</div>
+                    <div id="filelist">{{ 'generic.loadEngine' | trans }}</div>
                         <br />
-                        <a id="pickfiles" href="#">[Select files]</a>
+                        <a id="pickfiles" href="#">[{{'generic.selectFiles'|trans}}]</a>
                 </div>
 
                 <div class="buttons-container">
-                    <button class="aui-button aui-button-primary" type="submit">{{ 'Submit' | trans }}</button>
+                    <button class="aui-button aui-button-primary" type="submit">{{ 'generic.submit' | trans }}</button>
                 </div>
             </fieldset>
 
