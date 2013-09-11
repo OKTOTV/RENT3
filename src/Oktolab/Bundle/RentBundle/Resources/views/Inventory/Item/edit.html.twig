@@ -13,17 +13,17 @@
         </div>
         <div class="aui-page-header-main">
             <h1>{{'inventory.item.edit'|trans({'%itemTitle%': item.title})}}</h1>
-            <a href="{{ path('inventory_item_picture_upload', { 'id': item.id}) }}">{{ "Upload Picture" | trans }}</a>
+            <a href="{{ path('inventory_item_picture_upload', { 'id': item.id}) }}">{{ "inventory.item.uploadPicture" | trans }}</a>
             {% if item.picture is not null %}
-                <a href="{{ path('inventory_item_attachment_delete', { 'entity_id': item.id, 'attachment_id': item.picture.getId }) }}">{{"Delete Picture" | trans }}</a>
+                <a href="{{ path('inventory_item_attachment_delete', { 'entity_id': item.id, 'attachment_id': item.picture.getId }) }}">{{"inventory.item.deletePicture" | trans }}</a>
             {% endif %}
         </div>
         <div class="aui-page-header-actions">
             <div class="aui-buttons">
                 <div class="aui-buttons">
-                    <a class="aui-button" href="{{ path('inventory_item_show', { 'id': item.id }) }}">{% trans %}Zurück{% endtrans %}</a>
-                    <a class="aui-button" href="{{ path('inventory_item') }}">{% trans %}Back to list{% endtrans %}</a>
-                    <a class="aui-button" href="{{ path('inventory_item_delete', { 'id': item.id }) }}">{% trans %}Löschen{% endtrans %}</a>
+                    <a class="aui-button" href="{{ path('inventory_item_show', { 'id': item.id }) }}">{{'generic.back'|trans}}</a>
+                    <a class="aui-button" href="{{ path('inventory_item') }}">{{'generic.backToList'|trans}}</a>
+                    <a class="aui-button" href="{{ path('inventory_item_delete', { 'id': item.id }) }}">{{'generic.delete'|trans}}</a>
                 </div>
             </div>
         </div>
@@ -51,7 +51,7 @@
             </div>
 
             <div class="buttons-container">
-                <button class="aui-button aui-button-primary" id="uploadfiles" type="submit">{% trans %}Submit{% endtrans %}</button>
+                <button class="aui-button aui-button-primary" id="uploadfiles" type="submit">{{'generic.submit'|trans}}</button>
             </div>
         </fieldset>
     {{ form_end(edit_form) }}

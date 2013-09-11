@@ -98,6 +98,10 @@
                 <source>generic.loadEngine</source>
                 <target>Engine wird geladen...</target>
             </trans-unit>
+            <trans-unit id="25">
+                <source>generic.back</source>
+                <target>Zurück</target>
+            </trans-unit>
 
 
             <trans-unit id="100">
@@ -180,6 +184,14 @@
                 <source>inventory.item.edit</source>
                 <target>%itemTitle% bearbeiten</target>
             </trans-unit>
+            <trans-unit id="120">
+                <source>inventory.item.uploadPicture</source>
+                <target>Bild hochladen</target>
+            </trans-unit>
+            <trans-unit id="121">
+                <source>inventory.item.deletePicture</source>
+                <target>Bild löschen</target>
+            </trans-unit>
 
             <trans-unit id="201">
                 <source>inventory.set.removeFromSet</source>
@@ -254,7 +266,6 @@
                 <target>Inventar Sets</target>
             </trans-unit>
 
-
             <trans-unit id="300">
                 <source>inventory.place</source>
                 <target>Orte</target>
@@ -275,6 +286,39 @@
             <trans-unit id="402">
                 <source>inventory.category.itemsInCategory</source>
                 <target>Gegenstände in dieser Kategorie</target>
+            </trans-unit>
+
+            <trans-unit id="500">
+                <source>inventory.room.barcode</source>
+                <target>Barcode</target>
+            </trans-unit>
+            <trans-unit id="501">
+                <source>inventory.room.title</source>
+                <target>Titel</target>
+            </trans-unit>
+            <trans-unit id="502">
+                <source>inventory.room.description</source>
+                <target>Beschreibung</target>
+            </trans-unit>
+            <trans-unit id="503">
+                <source>inventory.room.attachments</source>
+                <target>Anhänge</target>
+            </trans-unit>
+            <trans-unit id="504">
+                <source>inventory.rooms</source>
+                <target>Inventar Räume</target>
+            </trans-unit>
+            <trans-unit id="505">
+                <source>inventory.room.new</source>
+                <target>Neuer Raum</target>
+            </trans-unit>
+            <trans-unit id="506">
+                <source>inventory.room.edit</source>
+                <target>%roomTitle% bearbeiten</target>
+            </trans-unit>
+            <trans-unit id="507">
+                <source>inventory.room.uploadPicture</source>
+                <target>Bild hochladen</target>
             </trans-unit>
         </body>
     </file>
