@@ -50,7 +50,7 @@
                 <p>{{ item.modelNumber }}</p>
 
                 <h3>
-                    {{ 'inventory.item.attachments' | trans}} {{ item.attachments | length }} <a id="replace-text-trigger" data-replace-text="({%trans%}hide{%endtrans%})" class="aui-expander-trigger" aria-controls="expander-with-replace-text-content">({{ 'generic.show' | trans }})</a>
+                    {{ 'inventory.item.attachments' | trans}} {{ item.attachments | length }} <a id="replace-text-trigger" data-replace-text="({{ 'generic.hide' | trans}})" class="aui-expander-trigger" aria-controls="expander-with-replace-text-content">({{ 'generic.show' | trans }})</a>
                 </h3>
                 <div id="expander-with-replace-text-content" class="aui-expander-content">
                     {% for attachment in item.attachments %}

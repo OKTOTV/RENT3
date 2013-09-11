@@ -27,7 +27,7 @@ class ItemType extends AbstractType
             )
             ->add('serialNumber', 'text', array('label' => 'inventory.item.serialnumber'))
             ->add('vendor', 'text', array('label' => 'inventory.item.vendor'))
-            ->add('modelNumber')
+            ->add('modelNumber', 'text', array('label' => 'inventory.item.modelnumber'))
             ->add(
                 'set',
                 'entity',

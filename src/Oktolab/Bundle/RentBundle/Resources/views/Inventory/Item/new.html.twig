@@ -42,12 +42,12 @@
                         {{ form_row(form.vendor) }}
                         {{ form_row(form.modelNumber) }}
                         <div id="container" class= "field-group">
-                            <div id="filelist">No runtime found.</div>
+                            <div id="filelist">{{ 'generic.runtimeError' | trans }}</div>
                             <br />
-                            <a id="pickfiles" href="#">[Select files]</a>
+                            <a id="pickfiles" href="#">[{{'generic.selectFiles' | trans}}]</a>
                         </div>
                         <div class="buttons-container">
-                            <button class="aui-button aui-button-primary" id="uploadfiles" type="submit">{% trans %}Submit{% endtrans %}</button>
+                            <button class="aui-button aui-button-primary" id="uploadfiles" type="submit">{{'generic.submit' | trans}}</button>
                         </div>
                     </fieldset>
                 {{ form_end(form) }}

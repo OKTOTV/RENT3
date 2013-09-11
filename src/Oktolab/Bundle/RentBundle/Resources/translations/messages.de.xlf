@@ -70,6 +70,22 @@
                 <source>generic.barcode</source>
                 <target>Barcode</target>
             </trans-unit>
+            <trans-unit id="18">
+                <source>generic.runtimeError</source>
+                <target>Allgemeiner Ladefehler</target>
+            </trans-unit>
+            <trans-unit id="19">
+                <source>generic.barcode</source>
+                <target>Barcode</target>
+            </trans-unit>
+            <trans-unit id="20">
+                <source>generic.hide</source>
+                <target>Verbergen</target>
+            </trans-unit>
+            <trans-unit id="21">
+                <source>generic.selectFiles</source>
+                <target>Dateien auswählen</target>
+            </trans-unit>
 
             <trans-unit id="100">
                 <source>inventory.item.title</source>
@@ -125,7 +141,7 @@
             </trans-unit>
             <trans-unit id="113">
                 <source>inventory.item.new</source>
-                <target>Neues Item</target>
+                <target>Neuer Gegenstand</target>
             </trans-unit>
             <trans-unit id="114">
                 <source>inventory.item.barcode</source>
@@ -142,6 +158,10 @@
             <trans-unit id="117">
                 <source>inventory.item.category</source>
                 <target>Kategorie</target>
+            </trans-unit>
+            <trans-unit id="118">
+                <source>inventory.items</source>
+                <target>Inventar Gegenstände</target>
             </trans-unit>
 
             <trans-unit id="201">
