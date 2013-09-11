@@ -260,7 +260,7 @@ class Event
      */
     public function isRented()
     {
-        return self::STATE_RENTED == $this->getState();
+        return self::STATE_LENT == $this->getState();
     }
 
     /**

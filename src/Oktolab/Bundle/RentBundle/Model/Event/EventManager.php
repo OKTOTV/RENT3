@@ -20,6 +20,20 @@ class EventManager
     protected $repositories = array();
 
     /**
+     * @var Doctrine\ORM\EntityManager
+     */
+    protected $em = null;
+
+    /**
+     * Sets the Entity Manager
+     * @param \Doctrine\ORM\EntityManager $em
+     */
+    public function setEntityManager(\Doctrine\ORM\EntityManager $em)
+    {
+        $this->em = $em;
+    }
+
+    /**
      * Register a Repository, so the EventManager can use it.
      *
      * @param string           $name        The Class Name used by RentableInterface::getType
@@ -160,68 +174,25 @@ class EventManager
         return $eventObjects;
     }
 
-    /**
-     * Rents Objects and returns the rented Event
-     *
-     * @TODO: Kostenstellen management
-     *
-     * @param array     $objects Array of RentableInterface Objects.
-     * @param \DateTime $begin   Begin time of the Event.
-     * @param \DateTime $end     End time of the Event.
-     *
-     * @throws \BadMethodCallException on invalid $objects array
-     * @throws \Exception              on not available object
-     *
-     * @return Event
-     */
-//    public function rent(array $objects, \DateTime $begin, \DateTime $end)
-//    {
-//        if (0 === count($objects)) {
-//            throw new \BadMethodCallException('Expected array with RentableInterface objects, empty array given');
-//        }
-//
-//        foreach ($objects as $rentableObject) {
-//            if (!$rentableObject instanceof RentableInterface) {
-//                throw new \BadMethodCallException('Object must implement RentableInterface');
-//            }
-//
-//            if (!$this->isAvailable($rentableObject, $begin, $end)) {
-//                throw new \Exception('Object is not available in given time period.');
-//            }
-//        }
-//
-//        $event = new Event();
-//        $event->setName('asdfasdf');
-//        $event->setBegin($begin)->setEnd($end);
-//        $event->setState(Event::STATE_LENT);
-//
-//        return $this->createEventObjects($event, $objects);
-//    }
-//
-//    protected function createEventObjects(Event $event, array $objects)
-//    {
-//        $this->em->getConnection()->beginTransaction();
-//        try {
-//            foreach ($objects as $object) {
-//                $eventObject = new EventObject();
-//                $eventObject->setEvent($event)
-//                    ->setType($object->getType())
-//                    ->setObject($object->getId());
-//
-//                $event->addObject($eventObject);
-//                $this->em->persist($eventObject);
-//            }
-//
-//            $this->em->persist($event);
-//            $this->em->flush();
-//            $this->em->getConnection()->commit();
-//
-//        } catch (\Exception $e) {
-//            $this->em->getConnection()->rollback();
-//            $this->em->close();
-//            throw $e;
-//        }
-//
-//        return $event;
-//    }
+    public function save(Event $event)
+    {
+        $this->em->getConnection()->beginTransaction();
+        try {
+            foreach ($event->getObjects() as $object) {
+                $event->addObject($object);
+                $this->em->persist($object);
+            }
+
+            $this->em->persist($event);
+            $this->em->flush();
+            $this->em->getConnection()->commit();
+
+        } catch (\Exception $e) {
+            $this->em->getConnection()->rollback();
+            $this->em->close();
+            throw $e;
+        }
+
+        return $event;
+    }
 }

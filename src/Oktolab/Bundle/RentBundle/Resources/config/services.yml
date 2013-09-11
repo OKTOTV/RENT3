@@ -1,5 +1,5 @@
 parameters:
-    oktolab.event_manager.class: Oktolab\Bundle\RentBundle\Model\EventManager
+    oktolab.event_manager.class: Oktolab\Bundle\RentBundle\Model\Event\EventManager
 
 services:
     oktolab.presavelistener:
@@ -41,11 +41,18 @@ services:
         tags:
             - { name: twig.extension }
 
+    oktolab.orm.event_repository:
+        class: Doctrine\Common\Persistence\ObjectRepository
+        factory_service: doctrine
+        factory_method: getRepository
+        arguments: [ OktolabRentBundle:Event ]
+
     oktolab.event_manager:
-      class: %oktolab.event_manager.class%
-      arguments:  [ @doctrine.orm.entity_manager, @?logger ]
-      tags:
-        - { name: logger, channel: main }
+        class: %oktolab.event_manager.class%
+        arguments:  [ @doctrine.orm.entity_manager, @?logger ]
+        calls:
+            - [ addRepository, [ "Event", @oktolab.orm.event_repository ] ]
+            - [ setEntityManager, [ @doctrine.orm.entity_manager ] ]
 
     oktolab.item_import_manager:
       class: Oktolab\Bundle\RentBundle\Model\ItemImportManager

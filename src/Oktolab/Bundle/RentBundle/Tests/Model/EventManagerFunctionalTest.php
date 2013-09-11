@@ -41,31 +41,16 @@ class EventManagerFunctionalTest extends WebTestCase
             ->findOneById(1);
 
         $em = static::$kernel->getContainer()->get('oktolab.event_manager');
-        $event = $em->rent(array($item), new \DateTime('15:00'), new \DateTime('17:00'));
+        $event = $em->create(array($item));
 
-        $this->assertEquals(new \DateTime('15:00'), $event->getBegin());
-        $this->assertEquals(new \DateTime('17:00'), $event->getEnd());
-        $this->assertTrue($event->isRented());
+        $event->setBegin(new \DateTime('15:00'))->setEnd(new \DateTime('17:00'))->setName('Test Event');
+        $rentedEvent = $em->rent($event);
+
+        $em->save($event);
+
+        $this->assertEquals(new \DateTime('15:00'), $rentedEvent->getBegin());
+        $this->assertEquals(new \DateTime('17:00'), $rentedEvent->getEnd());
+        $this->assertTrue($rentedEvent->isRented());
         $this->assertFalse($em->isAvailable($item, new \DateTime('15:00'), new \DateTime('17:00')));
-    }
-
-    public function testRentWithOutItems()
-    {
-        $this->loadFixtures(array());
-        $em = static::$kernel->getContainer()->get('oktolab.event_manager');
-
-        try {
-            $em->rent(array(), new \DateTime('15:00'), new \DateTime('17:00'));
-        } catch (\BadMethodCallException $e) {
-            $entityManager = static::$kernel->getContainer()->get('doctrine.orm.entity_manager');
-            $events = $entityManager->getRepository('OktolabRentBundle:Event')->findAll();
-
-            $this->assertSame(0, count($events));
-            $this->assertSame('Expected array with RentableInterface objects, empty array given', $e->getMessage());
-
-            return;
-        }
-
-        $this->fail('EventManager should not allow rent empty array of objects.');
     }
 }
