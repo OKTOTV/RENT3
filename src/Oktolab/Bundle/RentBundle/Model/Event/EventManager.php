@@ -2,15 +2,14 @@
 
 namespace Oktolab\Bundle\RentBundle\Model\Event;
 
-//use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityRepository;
-//use Symfony\Bridge\Monolog\Logger;
 
+use Oktolab\Bundle\RentBundle\Model\Event\Exception\RepositoryNotFoundException;
+use Oktolab\Bundle\RentBundle\Model\Event\Exception\MissingEventObjectsException;
+use Oktolab\Bundle\RentBundle\Model\Event\Exception\ObjectNotAvailableException;
 use Oktolab\Bundle\RentBundle\Model\RentableInterface;
 use Oktolab\Bundle\RentBundle\Entity\Event;
 use Oktolab\Bundle\RentBundle\Entity\EventObject;
-
-use Exception\RepositoryNotFoundException;
 
 class EventManager
 {
@@ -44,7 +43,7 @@ class EventManager
     public function getRepository($name)
     {
         if (!isset($this->repositories[strtolower($name)])) {
-            throw new Exception\RepositoryNotFoundException(sprintf('The Repository "%s" can not be found.', $name));
+            throw new RepositoryNotFoundException(sprintf('The Repository "%s" can not be found.', $name));
         }
 
         return $this->repositories[strtolower($name)];
@@ -63,15 +62,16 @@ class EventManager
     /**
      * Checks if object is available for given time range.
      *
-     * @param RentableInterface $object
-     * @param DateTime          $begin
-     * @param DateTime          $end
+     * @param mixed     $object
+     * @param DateTime  $begin
+     * @param DateTime  $end
      *
      * @return boolean
      */
-    public function isAvailable(RentableInterface $object, \DateTime $begin, \DateTime $end)
+    public function isAvailable($object, \DateTime $begin, \DateTime $end)
     {
-        $results = $this->getEventRepository()->findAllForObjectCount($object, $begin, $end);
+        $eventObjects = $this->prepareEventObjects(array($object));
+        $results = $this->getEventRepository()->findAllForObjectCount($eventObjects[0], $begin, $end);
         return 0 === $results;
     }
 
@@ -99,12 +99,16 @@ class EventManager
     public function rent(Event $event)
     {
         if (0 === count($event->getObjects())) {
-            throw new Exception\MissingEventObjectsException('No EventObjects given.');
+            throw new MissingEventObjectsException('No EventObjects given.');
+        }
+
+        if (null === $event->getBegin() || null === $event->getEnd() || $event->getBegin() > $event->getEnd()) {
+            throw new \LogicException('End of Event must be greather then Begin.');
         }
 
         foreach ($event->getObjects() as $object) {
             if (!$this->isAvailable($object, $event->getBegin(), $event->getEnd())) {
-                throw new \Exception();
+                throw new ObjectNotAvailableException('The Object is not available');
             }
         }
 

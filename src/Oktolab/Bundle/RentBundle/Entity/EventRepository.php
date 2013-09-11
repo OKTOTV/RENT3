@@ -64,7 +64,7 @@ class EventRepository extends EntityRepository
      *
      * @return integer
      */
-    public function findAllForObjectCount(RentableInterface $object, \DateTime $begin = null, \DateTime $end = null)
+    public function findAllForObjectCount(EventObject $object, \DateTime $begin = null, \DateTime $end = null)
     {
         $qb = $this->getAllFromBeginToEndQuery($begin, $end);
         return (int) $qb->select('COUNT(e.id)')
@@ -76,7 +76,7 @@ class EventRepository extends EntityRepository
                 )
             )
             ->setParameter('objectType', $object->getType())
-            ->setParameter('objectId', $object->getId())
+            ->setParameter('objectId', $object->getObject())
             ->getQuery()->getSingleScalarResult();
     }
 

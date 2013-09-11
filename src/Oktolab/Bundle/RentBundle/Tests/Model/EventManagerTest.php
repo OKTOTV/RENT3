@@ -37,7 +37,7 @@ class EventManagerTest extends \PHPUnit_Framework_TestCase
         $eventManager->getRepository('invalid');
     }
 
-    public function testIsObjectAvailable()
+    public function testIsRentableObjectAvailable()
     {
         $repository = $this->getMockBuilder('\Doctrine\ORM\EntityRepository')
             ->setMethods(array('findAllForObjectCount'))
@@ -51,6 +51,25 @@ class EventManagerTest extends \PHPUnit_Framework_TestCase
         $this->assertTrue($eventManager->isAvailable($object, new \DateTime(), new \DateTime()));
         $this->assertFalse($eventManager->isAvailable($object, new \DateTime(), new \DateTime()));
         $this->assertFalse($eventManager->isAvailable($object, new \DateTime(), new \DateTime()));
+    }
+
+    public function testIsEventObjectAvailable()
+    {
+        $eventObject = new EventObject();
+        $eventObject->setType('item')->setObject(5);
+
+        $repository = $this->getMockBuilder('\Doctrine\ORM\EntityRepository')
+            ->setMethods(array('findAllForObjectCount'))
+            ->disableOriginalConstructor()
+            ->getMock();
+        $repository->expects($this->once())
+            ->method('findAllForObjectCount')
+            ->with($this->equalTo($eventObject), $this->anything(), $this->anything())
+            ->will($this->returnValue(0));
+
+        $eventManager = new EventManager();
+        $eventManager->addRepository('Event', $repository);
+        $this->assertTrue($eventManager->isAvailable($eventObject, new \DateTime(), new \DateTime()));
     }
 
     public function testCreateEventReturnsTypeOfEvent()
@@ -130,16 +149,18 @@ class EventManagerTest extends \PHPUnit_Framework_TestCase
         $this->setExpectedException('\BadMethodCallException');
 
         $eventManager = new EventManager();
-        $event = $eventManager->create(array(new \stdClass()));
+        $eventManager->create(array(new \stdClass()));
     }
 
-    public function testRentEventReturnsTypeOfEvent()
+    public function testRentEventReturnsInstanceOfEvent()
     {
-        $eventManager = new EventManager();
+        $eventManager = $this->getMock('\Oktolab\Bundle\RentBundle\Model\Event\EventManager', array('isAvailable'));
+        $eventManager->expects($this->once())->method('isAvailable')->will($this->returnValue(true));
         $event = $eventManager->create(array(new Item()));
-        $event = $eventManager->rent($event);
 
-        $this->assertInstanceOf('\Oktolab\Bundle\RentBundle\Entity\Event', $event);
+        $event->setBegin(new \DateTime())->setEnd(new \DateTime());
+        $rentedEvent = $eventManager->rent($event);
+        $this->assertInstanceOf('\Oktolab\Bundle\RentBundle\Entity\Event', $rentedEvent);
     }
 
     public function testRentEventThrowsExceptionWithZeroObjects()
@@ -148,16 +169,52 @@ class EventManagerTest extends \PHPUnit_Framework_TestCase
 
         $eventManager = new EventManager();
         $event = $eventManager->create(array());
-        $event = $eventManager->rent($event);
+        $eventManager->rent($event);
+    }
+
+    public function testRentEventThrowsExceptionWithEmptyBegin()
+    {
+        $this->setExpectedException('\LogicException');
+
+        $eventManager = new EventManager();
+        $event = $eventManager->create(array(new Item()));
+
+        $event->setEnd(new \DateTime());
+        $eventManager->rent($event);
+    }
+
+    public function testRentEventThrowsExceptionWithEmptyEnd()
+    {
+        $this->setExpectedException('\LogicException');
+
+        $eventManager = new EventManager();
+        $event = $eventManager->create(array(new Item()));
+
+        $event->setBegin(new \DateTime());
+        $eventManager->rent($event);
+    }
+
+    public function testRentEventThrowsExceptionWhenBeginIsGreatherThendEnd()
+    {
+        $this->setExpectedException('\LogicException');
+
+        $eventManager = new EventManager();
+        $event = $eventManager->create(array(new Item()));
+
+        $event->setBegin(new \DateTime('2013-10-11 13:00:00'))->setEnd(new \DateTime('2013-10-11 12:00:00'));
+        $eventManager->rent($event);
     }
 
     public function testRentEventSetsStateToLent()
     {
-        $eventManager = new EventManager();
-        $event = $eventManager->create(array(new Item()));
-        $event = $eventManager->rent($event);
+        $eventManager = $this->getMock('\Oktolab\Bundle\RentBundle\Model\Event\EventManager', array('isAvailable'));
+        $eventManager->expects($this->once())->method('isAvailable')->will($this->returnValue(true));
 
-        $this->assertSame(Event::STATE_LENT, $event->getState());
+        $event = $eventManager->create(array(new Item()));
+        $event->setBegin(new \DateTime())->setEnd(new \DateTime());
+
+        $rentedEvent = $eventManager->rent($event);
+        $this->assertSame(Event::STATE_LENT, $rentedEvent->getState());
     }
 
     public function testRentEventChecksAvailabilityOfObjects()
@@ -166,29 +223,41 @@ class EventManagerTest extends \PHPUnit_Framework_TestCase
         $eventManager->expects($this->once())->method('isAvailable')->will($this->returnValue(true));
 
         $event = $eventManager->create(array(new Item()));
-        $event = $eventManager->rent($event);
+        $event->setBegin(new \DateTime())->setEnd(new \DateTime());
+        $rentedEvent = $eventManager->rent($event);
 
-        $this->assertCount(1, $event->getObjects());
+        $this->assertCount(1, $rentedEvent->getObjects());
     }
-
-    /*
-     * Tests:
-     *  - Test isAvailable RentableInterface
-     *  - Test isAvailable EventObject 
-     */
 
     public function testRentEventThrowsExceptionIfObjectIsNotAvailable()
     {
-        $this->markTestIncomplete();
+        $this->setExpectedException('\Oktolab\Bundle\RentBundle\Model\Event\Exception\ObjectNotAvailableException');
+
+        $repository = $this->getMockBuilder('\Doctrine\ORM\EntityRepository')
+            ->setMethods(array('findAllForObjectCount'))
+            ->disableOriginalConstructor()
+            ->getMock();
+        $repository->expects($this->at(0))->method('findAllForObjectCount')->will($this->returnValue(0));
+        $repository->expects($this->at(1))->method('findAllForObjectCount')->will($this->returnValue(2));
+
+        $eventManager = new EventManager();
+        $eventManager->addRepository('Event', $repository);
+
+        $event = $eventManager->create(array(new Item(), new Item()));
+        $event->setBegin(new \DateTime())->setEnd(new \DateTime());
+
+        $eventManager->rent($event);
     }
 
-    /*
-     * Tests:
-     *  - Rent isAvailable checks
-     *  - Rent checks dates (begin / end)
-     *  - Rent checks cost_unit
-     *  - Rent checks states of items/sets/rooms
-     */
+    public function testRentEventChecksCostUnit()
+    {
+        $this->markTestIncomplete('CostUnits currently not build-in.');
+    }
+
+    public function testRentEventCheckStateOfObject()
+    {
+        $this->markTestIncomplete('Ready-State currently not build-in.');
+    }
 
     public function testDeliverEvent()
     {
@@ -237,65 +306,4 @@ class EventManagerTest extends \PHPUnit_Framework_TestCase
     {
         $this->markTestIncomplete('Functional Test');
     }
-
-//
-//    /**
-//     * @expectedException \BadMethodCallException
-//     */
-//    public function testRentThrowsExceptionOnInvalidObjects()
-//    {
-//        $objects = array(
-//            'invalid object',
-//            $this->getMock('\Oktolab\Bundle\RentBundle\Model\RentableInterface'),
-//        );
-//
-//        $this->em->rent($objects, new \DateTime(), new \DateTime());
-//    }
-//
-//    public function testTransformEventObject()
-//    {
-//        $item = new Item();
-//        $event = new Event();
-//        $eventObject = new EventObject();
-//        $eventObject->setEvent($event)->setObject($item->getId())->setType($item->getType());
-//        $event->addObject($eventObject);
-//
-//        $repository = $this->getMockBuilder('\Doctrine\ORM\EntityRepository')
-//            ->disableOriginalConstructor()
-//            ->getMock();
-//        $repository->expects($this->once())->method('getClassName')->will($this->returnValue('Item'));
-//        $repository->expects($this->once())->method('findOneBy')->will($this->returnValue(array($item)));
-//
-//        $this->em->addRepository($repository);
-//        $this->assertEquals(array($item), $this->em->getObjects($event));
-//    }
-//
-//    public function testIsObjectAvailable()
-//    {
-//        $eventRepository = $this->getMockBuilder('Oktolab\Bundle\RentBundle\Entity\EventRepository')
-//            ->disableOriginalConstructor()
-//            ->getMock();
-//        $eventRepository->expects($this->at(0))
-//            ->method('findAllForObjectCount')
-//            ->will($this->returnValue(0));
-//        $eventRepository->expects($this->at(1))
-//            ->method('findAllForObjectCount')
-//            ->will($this->returnValue(1));
-//
-//        $entityManager = $this->getMockBuilder('\Doctrine\ORM\EntityManager')
-//            ->disableOriginalConstructor()
-//            ->getMock();
-//        $entityManager->expects($this->once())
-//            ->method('getRepository')
-//            ->will($this->returnValue($eventRepository));
-//
-//        $em = new EventManager($entityManager);
-//        $this->assertTrue($em->isAvailable(new Item(), new \DateTime(), new \DateTime()));
-//        $this->assertFalse($em->isAvailable(new Item(), new \DateTime(), new \DateTime()));
-//    }
-//
-//    public function testRentObject()
-//    {
-//        $this->markTestIncomplete('Rent an Object');
-//    }
 }
