@@ -66,15 +66,24 @@
             </div>
         </fieldset>
 
+        <fieldset class="hidden">
+            {% if objects %}
+                {% for object in form.objects %}
+                    {{ form_row(object) }}
+                {% endfor %}
+            {% endif %}
+        </fieldset>
+
         <div class="buttons-container">
             <div class="buttons">
-                <input type="submit" value="{{ 'Cancel' | trans }}" name="submit" id="" class="aui-button aui-button-link">
-                <input type="submit" value="{{ 'Delete' | trans }}" name="submit" id="" class="aui-button">
-                <input type="submit" value="{{ 'Save' | trans }}" name="submit" id="" class="aui-button">
-                <input type="submit" value="{{ 'Rent' | trans }}" name="submit" id="submit" class="aui-button aui-button-primary">
+                {{ form_widget(form.rent, {'attr': { 'class': 'aui-button aui-button-primary' } }) }}
+                {{ form_widget(form.update, {'attr': { 'class': 'aui-button' } }) }}
+                {# form_widget(form.delete, {'attr': { 'class': 'aui-button' } }) #}
+                {{ form_widget(form.cancel, {'attr': { 'class': 'aui-button aui-button-link' } }) }}
             </div>
         </div>
         {% do form.objects.setRendered %}
+        {% do form.delete.setRendered %}
     {{ form_end(form) }}
 
 {% endblock %}

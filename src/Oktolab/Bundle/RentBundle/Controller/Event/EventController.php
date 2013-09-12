@@ -92,7 +92,7 @@ class EventController extends Controller
     public function editAction(Request $request, Event $event)
     {
         $form = $this->getEventForm(
-            array('action' => $this->generateUrl('event_edit', array('id' => $event->getId()))),
+            array('action' => $this->generateUrl('event_update', array('id' => $event->getId()))),
             $event
         );
 
@@ -120,17 +120,36 @@ class EventController extends Controller
      */
     public function updateAction(Request $request, Event $event)
     {
-
-        $em = $this->getDoctrine()->getManager();
-        $form = $this->createForm(
-            new EventType(),
-            new Event(),
-            array(
-                'action' => $this->generateUrl('event_create'),
-                'method' => 'POST',
-                'em'     => $em,
-            )
+        $form = $this->getEventForm(
+            array('action' => $this->generateUrl('event_update', array('id' => $event->getId()))),
+            $event
         );
+
+        $form->handleRequest($request);
+        if ($form->isValid()) {
+            if ($form->get('rent')->isClicked()) {
+                // do something ...
+            }
+
+            if ($form->get('cancel')->isClicked()) {
+                $this->get('session')->getFlashBag()->add('success', 'Successfully canceled editing Event.');
+            }
+
+            if ($form->get('update')->isClicked()) {
+                $this->get('oktolab.event_manager')->save($form->getData());
+                $this->get('session')->getFlashBag()->add('success', 'Successfully updated Event.');
+            }
+
+            return $this->redirect($this->generateUrl('rentbundle_dashboard'));
+        }
+
+        var_dump(sprintf('cancel: %s', $form->get('cancel')->isClicked()));
+        var_dump(sprintf('delete: %s', $form->get('delete')->isClicked()));
+        var_dump(sprintf('update: %s', $form->get('update')->isClicked()));
+        var_dump(sprintf('rent: %s', $form->get('rent')->isClicked()));
+        return new Symfony\Component\HttpFoundation\Response();
+
+        return $this->redirect($this->generateUrl('event_edit', array('id' => $event->getId())));
     }
 
     /**
@@ -200,6 +219,8 @@ class EventController extends Controller
 
     /**
      * Creates an Event Form.
+     *
+     * TODO: make a Service of EventForm
      *
      * @param Event $event
      * @return \Symfony\Component\Form\Form

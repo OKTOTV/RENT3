@@ -1,9 +1,10 @@
 {% extends "::base.html.twig" %}
+{% import 'OktolabRentBundle::aui_tools.html.twig' as macro %}
 
 {% block title 'Demo Bundle' %}
 
 {% block page_header %}
-        {{ include('::header.html.twig') }}
+    {{ include('::header.html.twig') }}
 {% endblock page_header %}
 
 {% block page_main %}
@@ -18,6 +19,14 @@
                     {% if app.environment in ['dev', 'test'] %}
                         <div class="beta-ribbon-wrapper"><div class="beta-ribbon"><a href="http://de.wikipedia.org/wiki/Entwicklungsstadium_%28Software%29#Beta-Version">Beta</a></div></div>
                     {% endif %}
+
+                    {% for flashMessage in app.session.flashbag.get('error') %}
+                        {{ macro.aui_message(flashMessage, 'error') }}
+                    {% endfor %}
+
+                    {% for flashMessage in app.session.flashbag.get('success') %}
+                        {{ macro.aui_message(flashMessage, 'success') }}
+                    {% endfor %}
                     {% block content %}{% endblock %}
                 </section>
                 {% block sidebar %}{% endblock %}
