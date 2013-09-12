@@ -340,7 +340,7 @@
             </trans-unit>
 
             <trans-unit id="300">
-                <source>inventory.place</source>
+                <source>inventory.places</source>
                 <target>Orte</target>
             </trans-unit>
             <trans-unit id="301">
@@ -349,7 +349,7 @@
             </trans-unit>
 
             <trans-unit id="400">
-                <source>inventory.category</source>
+                <source>inventory.categories</source>
                 <target>Kategorien</target>
             </trans-unit>
             <trans-unit id="401">
@@ -405,6 +405,36 @@
                 <source>inventory.room.rooms</source>
                 <target>Räume</target>
             </trans-unit>
+
+            <trans-unit id="600">
+                <source>admin.adminConsole</source>
+                <target>Administationsbereich</target>
+            </trans-unit>
+            <trans-unit id="601">
+                <source>admin.adminConsole.about</source>
+                <target>Der Administationsbereich dient zur Verwaltung des Verleihtools. Mit den Menüpunken links lassen sich alle Bereiche auswählen.</target>
+            </trans-unit>
+            <trans-unit id="602">
+                <source>admin.admin</source>
+                <target>Administation Oktolab Verleihtool</target>
+            </trans-unit>
+            <trans-unit id="603">
+                <source>admin.userManagement</source>
+                <target>Benutzerverwaltung</target>
+            </trans-unit>
+            <trans-unit id="604">
+                <source>admin.applicationLinks</source>
+                <target>Programmverknüpfungen</target>
+            </trans-unit>
+            <trans-unit id="605">
+                <source>admin.licensing</source>
+                <target>Lizenzierungen</target>
+            </trans-unit>
+            <trans-unit id="606">
+                <source>admin.oktolabSupport</source>
+                <target>Oktolab Hilfestellung</target>
+            </trans-unit>
+
         </body>
     </file>
 </xliff>
