@@ -182,7 +182,7 @@
             </trans-unit>
             <trans-unit id="119">
                 <source>inventory.item.edit</source>
-                <target>%itemTitle% bearbeiten</target>
+                <target>Gegenstand %itemTitle% bearbeiten</target>
             </trans-unit>
             <trans-unit id="120">
                 <source>inventory.item.uploadPicture</source>
@@ -235,7 +235,7 @@
             </trans-unit>
             <trans-unit id="211">
                 <source>inventory.set.edit</source>
-                <target>%setTitle% bearbeiten</target>
+                <target>Set %setTitle% bearbeiten</target>
             </trans-unit>
             <trans-unit id="212">
                 <source>inventory.set.uploadPicture</source>
@@ -314,11 +314,19 @@
             </trans-unit>
             <trans-unit id="506">
                 <source>inventory.room.edit</source>
-                <target>%roomTitle% bearbeiten</target>
+                <target>Raum %roomTitle% bearbeiten</target>
             </trans-unit>
             <trans-unit id="507">
                 <source>inventory.room.uploadPicture</source>
                 <target>Bild hochladen</target>
+            </trans-unit>
+            <trans-unit id="508">
+                <source>inventory.room.deletePicture</source>
+                <target>Bild löschen</target>
+            </trans-unit>
+            <trans-unit id="509">
+                <source>inventory.room.descriptionPlaceholder</source>
+                <target>Beschreibung des Raums</target>
             </trans-unit>
         </body>
     </file>

@@ -21,9 +21,9 @@
     <div class="aui-page-header-actions">
         <div class="aui-buttons">
             <div class="aui-buttons">
-                <a class="aui-button" href="{{ path('inventory_room_show', { 'id': entity.id }) }}">{% trans %}Zurück{% endtrans %}</a>
-                <a class="aui-button" href="{{ path('inventory_room') }}">{% trans %}Back to list{% endtrans %}</a>
-                <a class="aui-button" href="{{ path('inventory_room_delete', { 'id': entity.id }) }}">{% trans %}Löschen{% endtrans %}</a>
+                <a class="aui-button" href="{{ path('inventory_room_show', { 'id': entity.id }) }}">{{'generic.back'|trans}}</a>
+                <a class="aui-button" href="{{ path('inventory_room') }}">{{'generic.backToList'|trans}}</a>
+                <a class="aui-button" href="{{ path('inventory_room_delete', { 'id': entity.id }) }}">{{'generic.delete'|trans}}</a>
             </div>
         </div>
     </div>
@@ -40,13 +40,13 @@
             {{ form_row(edit_form.barcode) }}
 
             <div id="container" class= "field-group">
-                <div id="filelist">No runtime found.</div>
+                <div id="filelist">{{'generic.runtimeError'|trans}}</div>
                 <br />
-                <a id="pickfiles" href="#">[Select files]</a>
+                <a id="pickfiles" href="#">[{{'generic.selectFiles'|trans}}]</a>
             </div>
 
             <div class="buttons-container">
-                <button class="aui-button aui-button-primary" id="uploadfiles" type="submit">{% trans %}Submit{% endtrans %}</button>
+                <button class="aui-button aui-button-primary" id="uploadfiles" type="submit">{{'generic.submit'|trans}}</button>
             </div>
         </fieldset>
     {{ form_end(edit_form) }}

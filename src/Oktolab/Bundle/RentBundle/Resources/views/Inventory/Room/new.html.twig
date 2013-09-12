@@ -18,7 +18,7 @@
     <div class="aui-page-header-actions">
         <div class="aui-buttons">
             <div class="aui-buttons">
-                <a class="aui-button" href="{{ path('inventory_room') }}">{% trans %}Back to list{% endtrans %}</a>
+                <a class="aui-button" href="{{ path('inventory_room') }}">{{'generic.backToList'|trans}}</a>
             </div>
         </div>
     </div>
@@ -34,15 +34,15 @@
                         {{ form_errors(form) }}
 
                         {{ form_row(form.title) }}
-                        {{ form_row(form.description, {'attr': {'placeholder': 'Description of the room'} }) }}
+                        {{ form_row(form.description, {'attr': {'placeholder': 'inventory.room.descriptionPlaceholder'|trans} }) }}
                         {{ form_row(form.barcode) }}
                         <div id="container" class= "field-group">
-                            <div id="filelist">No runtime found.</div>
+                            <div id="filelist">{{'generic.runtimeError'|trans}}</div>
                             <br />
-                            <a id="pickfiles" href="#">[Select files]</a>
+                            <a id="pickfiles" href="#">[{{'generic.selectFiles'|trans}}]</a>
                         </div>
                         <div class="buttons-container">
-                            <button class="aui-button aui-button-primary" id="uploadfiles" type="submit">{% trans %}Submit{% endtrans %}</button>
+                            <button class="aui-button aui-button-primary" id="uploadfiles" type="submit">{{'generic.submit'|trans}}</button>
                         </div>
                     </fieldset>
                 {{ form_end(form) }}
