@@ -346,8 +346,16 @@
                 <target>Orte</target>
             </trans-unit>
             <trans-unit id="301">
-                <source>inventory.place.addNewPlace</source>
+                <source>inventory.place.new</source>
                 <target>Neuen Ort hinzufügen</target>
+            </trans-unit>
+            <trans-unit id="302">
+                <source>inventory.place.edit</source>
+                <target>Ort %placeTitle% bearbeiten</target>
+            </trans-unit>
+            <trans-unit id="303">
+                <source>inventory.place.title</source>
+                <target>Titel</target>
             </trans-unit>
 
             <trans-unit id="400">

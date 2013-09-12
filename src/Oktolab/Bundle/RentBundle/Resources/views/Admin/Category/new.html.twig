@@ -1,5 +1,8 @@
 {% extends 'OktolabRentBundle:Admin\\Category:base.html.twig' %}
 
+{%block buttons%}
+    <a class="aui-button" href="{{ path('inventory_category') }}">{{ 'generic.back' | trans }}</a>
+{%endblock%}
 {% block content %}
     {{ parent() }}
 

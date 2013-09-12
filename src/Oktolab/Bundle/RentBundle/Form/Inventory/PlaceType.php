@@ -14,7 +14,7 @@ class PlaceType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('title');
+        $builder->add('title', 'text', array('label' => 'inventory.place.title'));
     }
 
     /**
