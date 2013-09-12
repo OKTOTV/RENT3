@@ -48,7 +48,7 @@
             </trans-unit>
             <trans-unit id="12">
                 <source>generic.calendar</source>
-                <target>Kalendar</target>
+                <target>Kalender</target>
             </trans-unit>
             <trans-unit id="13">
                 <source>generic.book</source>
@@ -102,6 +102,71 @@
                 <source>generic.back</source>
                 <target>Zurück</target>
             </trans-unit>
+            <trans-unit id="26">
+                <source>generic.bugReport</source>
+                <target>Fehler melden</target>
+            </trans-unit>
+            <trans-unit id="27">
+                <source>generic.login</source>
+                <target>Anmelden</target>
+            </trans-unit>
+            <trans-unit id="28">
+                <source>generic.username</source>
+                <target>Benutzername</target>
+            </trans-unit>
+            <trans-unit id="29">
+                <source>generic.password</source>
+                <target>Kennwort</target>
+            </trans-unit>
+            <trans-unit id="30">
+                <source>generic.loginTitle</source>
+                <target>Benutzeranmeldung</target>
+            </trans-unit>
+            <trans-unit id="31">
+                <source>generic.loginError</source>
+                <target>Authentifizierung fehlgeschlagen</target>
+            </trans-unit>
+            <trans-unit id="32">
+                <source>generic.inventory</source>
+                <target>Inventar</target>
+            </trans-unit>
+            <trans-unit id="33">
+                <source>generic.onlineHelp</source>
+                <target>Online Hilfe</target>
+            </trans-unit>
+            <trans-unit id="34">
+                <source>generic.about</source>
+                <target>Lizenzen</target>
+            </trans-unit>
+            <trans-unit id="35">
+                <source>generic.administration</source>
+                <target>Administration</target>
+            </trans-unit>
+            <trans-unit id="36">
+                <source>generic.logout</source>
+                <target>Abmelden</target>
+            </trans-unit>
+            <trans-unit id="37">
+                <source>generic.profile</source>
+                <target>Profil</target>
+            </trans-unit>
+            <trans-unit id="38">
+                <source>generic.today</source>
+                <target>Heute</target>
+            </trans-unit>
+            <trans-unit id="39">
+                <source>generic.previousWeek</source>
+                <target>Letzte Woche</target>
+            </trans-unit>
+            <trans-unit id="40">
+                <source>generic.nextWeek</source>
+                <target>Nächste Woche</target>
+            </trans-unit>
+            <trans-unit id="41">
+                <source>generic.dashboard</source>
+                <target>Dashboard</target>
+            </trans-unit>
+
 
 
             <trans-unit id="100">
@@ -192,6 +257,10 @@
                 <source>inventory.item.deletePicture</source>
                 <target>Bild löschen</target>
             </trans-unit>
+            <trans-unit id="122">
+                <source>inventory.item.items</source>
+                <target>Gegenstände</target>
+            </trans-unit>
 
             <trans-unit id="201">
                 <source>inventory.set.removeFromSet</source>
@@ -265,6 +334,10 @@
                 <source>inventory.sets</source>
                 <target>Inventar Sets</target>
             </trans-unit>
+            <trans-unit id="219">
+                <source>inventory.set.sets</source>
+                <target>Sets</target>
+            </trans-unit>
 
             <trans-unit id="300">
                 <source>inventory.place</source>
@@ -327,6 +400,10 @@
             <trans-unit id="509">
                 <source>inventory.room.descriptionPlaceholder</source>
                 <target>Beschreibung des Raums</target>
+            </trans-unit>
+            <trans-unit id="510">
+                <source>inventory.room.rooms</source>
+                <target>Räume</target>
             </trans-unit>
         </body>
     </file>
