@@ -4,16 +4,8 @@
 {% set highlight_action = "place" %}
 
 {% block content %}
-    {% for flashMessage in app.session.flashbag.get('error') %}
-        {{ macro.aui_message(flashMessage, 'error') }}
-    {% endfor %}
-
-    {% for flashMessage in app.session.flashbag.get('success') %}
-        {{ macro.aui_message(flashMessage, 'success') }}
-    {% endfor %}
-
-    <h1 class="admin-heading">{{ 'Places' | trans }}</h1>
-    <p class="admin-subtitle">Ein Ort wird in Oktolab RENT eingesetzt um die Zugehörigkeit zu Stellen/Orten zu klassifizieren.</p>
+    <h1 class="admin-heading">{{ 'inventory.places' | trans }}</h1>
+    <p class="admin-subtitle">{{'inventory.place.about'|trans}}</p>
 
     <div class="aui-toolbar2">
         <div class="aui-toolbar2-inner">

@@ -357,6 +357,14 @@
                 <source>inventory.place.title</source>
                 <target>Titel</target>
             </trans-unit>
+            <trans-unit id="304">
+                <source>inventory.place.noneFound</source>
+                <target>Keine Plätze gefunden</target>
+            </trans-unit>
+            <trans-unit id="305">
+                <source>inventory.place.about</source>
+                <target>Ein Ort wird in Oktolab RENT dazu verwendet, Gegenstände zu gruppieren.</target>
+            </trans-unit>
 
             <trans-unit id="400">
                 <source>inventory.categories</source>
@@ -377,6 +385,10 @@
             <trans-unit id="404">
                 <source>inventory.category.edit</source>
                 <target>Kategorie %categoryTitle% bearbeiten</target>
+            </trans-unit>
+            <trans-unit id="405">
+                <source>inventory.category.noneFound</source>
+                <target>Keine Kategorien gefunden</target>
             </trans-unit>
 
             <trans-unit id="500">

@@ -34,6 +34,15 @@
 
                 </div>
                 <section class="aui-page-panel-content">
+                    {% for flashMessage in app.session.flashbag.get('error') %}
+                        {{ macro.aui_message(flashMessage, 'error') }}
+                    {% endfor %}
+                    {% for flashMessage in app.session.flashbag.get('success') %}
+                        {{ macro.aui_message(flashMessage, 'success') }}
+                    {% endfor %}
+                    {% for flashMessage in app.session.flashbag.get('warning') %}
+                        {{ macro.aui_message(flashMessage, 'warning') }}
+                    {% endfor %}
                     {% block content %}{% endblock %}
                 </section>
             </div>
