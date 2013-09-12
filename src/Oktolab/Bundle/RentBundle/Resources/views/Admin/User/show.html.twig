@@ -1,12 +1,16 @@
 {% extends 'OktolabRentBundle:Admin:User\\base.html.twig' %}
 
+{%block buttons%}
+    <a class="aui-button" href="{{ path('security_user') }}">{{'generic.overview'|trans}}</a>
+    <a class="aui-button" href="{{ path('security_user_edit', { 'id': user.id }) }}">{{ 'generic.edit' | trans }}</a>
+{%endblock%}
 {% block content %}
     {{ parent() }}
 
-    <h3>{% trans %}User{% endtrans %}</h3>
+    <h3>{{'admin.user'|trans}}</h3>
     <p>{{ user.displayname }}</p>
-    <h3>{{"Role" | trans }}</h3>
-    <p>{{ user.roles }}</p>
-    <h3>{{"Bookings" | trans}}</h3>
+    <h3>{{"admin.user.role" | trans }}</h3>
+    <p>{{ user.roles|trans }}</p>
+    <h3>{{"event.bookings" | trans}}</h3>
 
 {% endblock %}

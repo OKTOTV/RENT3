@@ -136,7 +136,7 @@
             </trans-unit>
             <trans-unit id="34">
                 <source>generic.about</source>
-                <target>Lizenzen</target>
+                <target>Über Oktolab RENT</target>
             </trans-unit>
             <trans-unit id="35">
                 <source>generic.administration</source>
@@ -166,8 +166,10 @@
                 <source>generic.dashboard</source>
                 <target>Dashboard</target>
             </trans-unit>
-
-
+            <trans-unit id="42">
+                <source>generic.numberThings</source>
+                <target>Anzahl %thing%</target>
+            </trans-unit>
 
             <trans-unit id="100">
                 <source>inventory.item.title</source>
@@ -353,12 +355,16 @@
                 <target>Kategorien</target>
             </trans-unit>
             <trans-unit id="401">
-                <source>inventory.category.create</source>
+                <source>inventory.category.new</source>
                 <target>Neue Kategorie hinzufügen</target>
             </trans-unit>
             <trans-unit id="402">
                 <source>inventory.category.itemsInCategory</source>
                 <target>Gegenstände in dieser Kategorie</target>
+            </trans-unit>
+            <trans-unit id="403">
+                <source>inventory.category.title</source>
+                <target>Titel</target>
             </trans-unit>
 
             <trans-unit id="500">
@@ -412,11 +418,11 @@
             </trans-unit>
             <trans-unit id="601">
                 <source>admin.adminConsole.about</source>
-                <target>Der Administationsbereich dient zur Verwaltung des Verleihtools. Mit den Menüpunken links lassen sich alle Bereiche auswählen.</target>
+                <target>Der Administationsbereich dient zur Verwaltung des Oktolab RENTs. Mit den Menüpunken links lassen sich alle Bereiche auswählen.</target>
             </trans-unit>
             <trans-unit id="602">
                 <source>admin.admin</source>
-                <target>Administation Oktolab Verleihtool</target>
+                <target>Administation Oktolab Oktolab RENT</target>
             </trans-unit>
             <trans-unit id="603">
                 <source>admin.userManagement</source>
@@ -428,13 +434,54 @@
             </trans-unit>
             <trans-unit id="605">
                 <source>admin.licensing</source>
-                <target>Lizenzierungen</target>
+                <target>Lizenzen</target>
             </trans-unit>
             <trans-unit id="606">
                 <source>admin.oktolabSupport</source>
                 <target>Oktolab Hilfestellung</target>
             </trans-unit>
+            <trans-unit id="607">
+                <source>admin.category.about</source>
+                <target>Eine Kategorie wird im Oktolab RENT dazu genutzt, Gegenstände zusammenzufassen.</target>
+            </trans-unit>
 
+            <trans-unit id="608">
+                <source>admin.user.name</source>
+                <target>Name</target>
+            </trans-unit>
+            <trans-unit id="609">
+                <source>admin.user.role</source>
+                <target>Rechte</target>
+            </trans-unit>
+            <trans-unit id="610">
+                <source>ROLE_USER</source>
+                <target>Benutzer</target>
+            </trans-unit>
+            <trans-unit id="611">
+                <source>ROLE_ADMIN</source>
+                <target>Administrator</target>
+            </trans-unit>
+            <trans-unit id="612">
+                <source>admin.user</source>
+                <target>Benutzer</target>
+            </trans-unit>
+            <trans-unit id="613">
+                <source>admin.user.about</source>
+                <target>Benutzer und deren Rechte werden verwendet, Oktolab RENT zu Verwalten.</target>
+            </trans-unit>
+            <trans-unit id="614">
+                <source>admin.user.edit</source>
+                <target>Benutzer %username% bearbeiten</target>
+            </trans-unit>
+
+            <trans-unit id="700">
+                <source>event.book</source>
+                <target>Buchen</target>
+            </trans-unit>
+            <trans-unit id="701">
+                <source>event.bookings</source>
+                <target>Buchungen</target>
+            </trans-unit>
         </body>
     </file>
 </xliff>
