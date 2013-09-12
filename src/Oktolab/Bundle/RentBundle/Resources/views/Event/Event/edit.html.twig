@@ -36,32 +36,43 @@
         <h3>{{ 'Rentable Objects' | trans }}</h3>
         <fieldset>
             <div class="field-group">
-                <label for="inventory-search-field">Suche</label>
+                <label for="inventory-search-field">{{ 'Search' | trans }}</label>
                 <input class="text long-field" type="text" id="inventory-search-field" name="inventory-search-field" title="{% trans %}Search for Barcodes, Items, Sets, ...{% endtrans %}">
                 <div class="description">{{ 'Search for Barcodes, Items, Sets, ...' | trans }}</div>
             </div>
-            <table class="aui">
-                <thead>
-                    <tr>
-                        <th id="basic-barcode">{{ 'Barcode' | trans }}</th>
-                        <th id="basic-name">{{ 'Name' | trans }}</th>
-                        <th id="basic-action"><span class="aui-icon aui-icon-small aui-iconfont-configure">{{ 'Actions' | trans }}</span></th>
-                    </tr>
-                </thead>
-                <tbody id="oktolabrentbundle_event_objects" class="event-objects" data-prototype="{% filter escape %}{% include 'OktolabRentBundle:Event:eventObjectPrototype.html.twig' %}{% endfilter %}">
-                    {% if objects %}
-                        {% for object in objects %}
-                            <tr>
-                                <td>{{ object.barcode }}</td>
-                                <td>{{ object.name }}</td>
-                                <td><a href="#"><span class="aui-icon aui-icon-small aui-iconfont-remove remove-object" data-value="{{ object.type ~ object.id }}">{{ 'Remove'|trans }}</span></a></td>
-                            </tr>
-                        {% endfor %}
-                    {% endif %}
-                </tbody>
-            </table>
 
+            <div class="field-group aui-oktolab-form-table">
+                <label>{{ 'Objects' | trans }}</label>
+                <table class="aui">
+                    <thead>
+                        <tr>
+                            <th id="basic-barcode">{{ 'Barcode' | trans }}</th>
+                            <th id="basic-name">{{ 'Name' | trans }}</th>
+                            <th id="basic-action"><span class="aui-icon aui-icon-small aui-iconfont-configure">{{ 'Actions' | trans }}</span></th>
+                        </tr>
+                    </thead>
+                    <tbody id="oktolabrentbundle_event_objects" class="event-objects" data-prototype="{% filter escape %}{% include 'OktolabRentBundle:Event:eventObjectPrototype.html.twig' %}{% endfilter %}">
+                        {% if objects %}
+                            {% for object in objects %}
+                                <tr>
+                                    <td>{{ object.barcode }}</td>
+                                    <td>{{ object.title }}</td>
+                                    <td><a href="#"><span class="aui-icon aui-icon-small aui-iconfont-remove remove-object" data-value="{{ object.type ~ object.id }}">{{ 'Remove'|trans }}</span></a></td>
+                                </tr>
+                            {% endfor %}
+                        {% endif %}
+                    </tbody>
+                </table>
+            </div>
         </fieldset>
+
+        <div class="buttons-container">
+            <div class="buttons">
+                <input type="submit" value="{{ 'Cancel' | trans }}" name="submit" id="" class="aui-button aui-button-link">
+                <input type="submit" value="{{ 'Delete' | trans }}" name="submit" id="" class="aui-button">
+                <input type="submit" value="{{ 'Save' | trans }}" name="submit" id="submit" class="aui-button aui-button-primary">
+            </div>
+        </div>
         {% do form.objects.setRendered %}
     {{ form_end(form) }}
 

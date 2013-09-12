@@ -30,13 +30,9 @@ class EventController extends Controller
      */
     public function indexAction()
     {
-        $events = $this->getDoctrine()->getEntityManager()->createQueryBuilder()
-                ->select('e')->from('OktolabRentBundle:Event', 'e')
-                ->where('e.begin >= :now')
-                ->setParameter('now', new \DateTime('today 00:00'))
-                ->getQuery()->getResult();
-
-        $events = $this->getDoctrine()->getEntityManager()->getRepository('OktolabRentBundle:Event')->findActiveUntilEnd(new \DateTime('+3 weeks'));
+        $events = $this->getDoctrine()->getEntityManager()
+            ->getRepository('OktolabRentBundle:Event')
+            ->findActiveUntilEnd(new \DateTime('+3 weeks'));
 
         $arr = array();
         foreach ($events as $event) {
@@ -45,7 +41,7 @@ class EventController extends Controller
 
             $arr[] = array(
                 'id'    => $event->getId(),
-                'title' => $event->getName(),
+                'title' => sprintf('%s - %s', $event->getName(), $event->getId()),
                 'start' => $event->getBegin()->format('c'),
                 'end'   => $event->getEnd()->format('c'),
                 'item'  => sprintf('%s-%d', $objects[0]->getType(), $objects[0]->getObject()),
@@ -69,17 +65,9 @@ class EventController extends Controller
         $form->handleRequest($request);
 
         if ($form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
             $event = $form->getData();
-            $event->setState(Event::STATE_RENTED);
-
-            foreach ($event->getObjects() as $object) {
-                $object->setEvent($event);
-                $em->persist($object);
-            }
-
-            $em->persist($event);
-            $em->flush();
+            $event->setState(Event::STATE_PREPARED);
+            $this->get('oktolab.event_manager')->save($event);
 
             return $this->redirect($this->generateUrl('rentbundle_dashboard'));
         }
@@ -109,9 +97,9 @@ class EventController extends Controller
         );
 
         $eventManager = $this->get('oktolab.event_manager');
-        $eventManager->addRepository($this->getDoctrine()->getManager()->getRepository('OktolabRentBundle:Inventory\Item'));
-        $objects = $eventManager->getObjects($event);
-        var_dump($objects); die();
+        $eventManager->addRepository('Item', $this->getDoctrine()->getManager()->getRepository('OktolabRentBundle:Inventory\Item'));
+        $objects = $eventManager->convertEventObjectsToEntites($event->getObjects());
+
         return array(
             'form'      => $form->createView(),
             'objects'   => $objects,

@@ -143,6 +143,38 @@ class EventManager
     }
 
     /**
+     * Saves the Event.
+     *
+     * @param Event $event
+     *
+     * @throws \Exception if Event could not be saved.
+     *
+     * @return Event
+     */
+    public function save(Event $event)
+    {
+        $this->em->getConnection()->beginTransaction();
+        try {
+            foreach ($event->getObjects() as $object) {
+                $event->addObject($object);
+                $object->setEvent($event);
+                $this->em->persist($object);
+            }
+
+            $this->em->persist($event);
+            $this->em->flush();
+            $this->em->getConnection()->commit();
+
+        } catch (\Exception $e) {
+            $this->em->getConnection()->rollback();
+            $this->em->close();
+            throw $e;
+        }
+
+        return $event;
+    }
+
+    /**
      * Prepares EventObjects and returns them.
      *
      * @param array $objects mixed array of RentableInterface-Objects and/or EventObjects
@@ -174,25 +206,13 @@ class EventManager
         return $eventObjects;
     }
 
-    public function save(Event $event)
+    public function convertEventObjectsToEntites($eventObjects)
     {
-        $this->em->getConnection()->beginTransaction();
-        try {
-            foreach ($event->getObjects() as $object) {
-                $event->addObject($object);
-                $this->em->persist($object);
-            }
-
-            $this->em->persist($event);
-            $this->em->flush();
-            $this->em->getConnection()->commit();
-
-        } catch (\Exception $e) {
-            $this->em->getConnection()->rollback();
-            $this->em->close();
-            throw $e;
+        $entities = array();
+        foreach ($eventObjects as $object) {
+            $entities[] = $this->getRepository($object->getType())->findOneBy(array('id' => $object->getObject()));
         }
 
-        return $event;
+        return $entities;
     }
 }

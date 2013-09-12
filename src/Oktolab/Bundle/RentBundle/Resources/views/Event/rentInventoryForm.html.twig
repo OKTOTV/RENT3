@@ -15,18 +15,21 @@
                 <input class="text long-field" type="text" id="inventory-search-field" name="inventory-search-field" title="{% trans %}Search for Barcodes, Items, Sets, ...{% endtrans %}">
                 <div class="description">{{ 'Search for Barcodes, Items, Sets, ...' | trans }}</div>
             </div>
-            <table class="aui">
-                <thead>
-                    <tr>
-                        <th id="basic-barcode">{{ 'Barcode' | trans }}</th>
-                        <th id="basic-name">{{ 'Name' | trans }}</th>
-                        <th id="basic-action"><span class="aui-icon aui-icon-small aui-iconfont-configure">{{ 'Actions' | trans }}</span></th>
-                    </tr>
-                </thead>
-                <tbody id="oktolabrentbundle_event_objects" class="event-objects" data-prototype="{% filter escape %}{% include 'OktolabRentBundle:Event:eventObjectPrototype.html.twig' %}{% endfilter %}">
-                </tbody>
-            </table>
 
+            <div class="field-group aui-oktolab-form-table">
+                <label>{{ 'Objects' | trans }}</label>
+                <table class="aui">
+                    <thead>
+                        <tr>
+                            <th id="basic-barcode">{{ 'Barcode' | trans }}</th>
+                            <th id="basic-name">{{ 'Name' | trans }}</th>
+                            <th id="basic-action"><span class="aui-icon aui-icon-small aui-iconfont-configure">{{ 'Actions' | trans }}</span></th>
+                        </tr>
+                    </thead>
+                    <tbody id="oktolabrentbundle_event_objects" class="event-objects" data-prototype="{% filter escape %}{% include 'OktolabRentBundle:Event:eventObjectPrototype.html.twig' %}{% endfilter %}">
+                    </tbody>
+                </table>
+            </div>
         </fieldset>
         {% do form.objects.setRendered %}
     {{ form_end(form) }}
