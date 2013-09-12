@@ -1,17 +1,21 @@
 {% extends 'OktolabRentBundle:Admin\\Category:base.html.twig' %}
 
+{%block buttons%}
+    <a class="aui-button" href="{{ path('inventory_category') }}">{{'generic.overview'|trans}}</a>
+    <a class="aui-button" href="{{ path('inventory_category_show', { 'id': category.id }) }}">{{ 'generic.show' | trans }}</a>
+{%endblock%}
 {% block content %}
     {{ parent() }}
 
     {{ form_start(edit_form, {'attr': {'class': 'aui'} }) }}
-        <h3>{{ 'Edit category' | trans }}</h3>
+        <h3>{{ 'inventory.category.edit' | trans({'%categoryTitle%': category.title}) }}</h3>
         <fieldset>
             <legend><span>{{ 'Category' | trans }}</span></legend>
             {{ form_errors(edit_form) }}
             {{ form_row(edit_form.title) }}
 
             <div class="buttons-container">
-                <button class="aui-button aui-button-primary" type="submit">{{ 'Submit' | trans }}</button>
+                <button class="aui-button aui-button-primary" type="submit">{{ 'generic.submit' | trans }}</button>
             </div>
         </fieldset>
     {{ form_end(edit_form) }}

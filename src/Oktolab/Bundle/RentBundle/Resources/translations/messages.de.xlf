@@ -366,6 +366,10 @@
                 <source>inventory.category.title</source>
                 <target>Titel</target>
             </trans-unit>
+            <trans-unit id="404">
+                <source>inventory.category.edit</source>
+                <target>Kategorie %categoryTitle% bearbeiten</target>
+            </trans-unit>
 
             <trans-unit id="500">
                 <source>inventory.room.barcode</source>
