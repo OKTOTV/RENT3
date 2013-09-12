@@ -5,8 +5,8 @@
 var createRentForm = new AJS.Dialog({
     id:                     'create-rent-form-dialog',
     closeOnOutsideClick:    false,
-    width:                  800,
-    height:                 800,
+    width:                  730,
+    height:                 700,
 });
 
 createRentForm.addHeader('Neue Reservierung');
