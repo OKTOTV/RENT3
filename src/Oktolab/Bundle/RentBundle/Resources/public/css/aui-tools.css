@@ -50,3 +50,13 @@
 .beta-ribbon a:hover {
     text-decoration: underline;
 }
+
+/** Custom AUI Additions **/
+.aui-oktolab-form-table table {
+    margin-top: 0;
+    max-width: 450px;
+}
+
+.aui-oktolab-form-table.viewMode table {
+    max-width: inherit;
+}
