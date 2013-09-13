@@ -17,7 +17,7 @@
         {% endif %}
         <label {% if compound == false %} for="{{ id }}"{% endif %}>
             {{ label|trans }}
-            {% if required %}<span class="aui-icon icon-required"> required</span>{% endif %}
+            {% if required %}<span class="aui-icon icon-required">required</span>{% endif %}
         </label>
     {% endspaceless %}
 {% endblock %}
@@ -68,6 +68,16 @@
     {% spaceless %}
         <input
             class="aui-date-picker" type="date" {{ block('widget_attributes') }}
+            {% if value is not empty %} value="{{ value }}"{% endif %}
+        />
+    {% endspaceless %}
+{% endblock %}
+
+{# override file_widget #}
+{% block file_widget %}
+    {% spaceless %}
+        <input
+            class="upfile" type="file" {{ block('widget_attributes') }}
             {% if value is not empty %} value="{{ value }}"{% endif %}
         />
     {% endspaceless %}

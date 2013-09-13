@@ -17,7 +17,8 @@ class ImportType extends AbstractType
                 array(
                     'type'          => new ItemType(),
                     'allow_add'     => true,
-                    'attr'          => array('style'=>'display:none;')
+                    'attr'          => array('style'=>'display:none;'),
+                    'label'         => 'inventory.item.items'
                 )
             );
     }

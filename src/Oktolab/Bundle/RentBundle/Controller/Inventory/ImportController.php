@@ -33,7 +33,7 @@ class ImportController extends Controller
      */
     public function indexAction()
     {
-        $form = $this->createFormBuilder()->add('csv', 'file')->getForm();
+        $form = $this->createFormBuilder()->add('csv', 'file', array('label' => 'inventory.import.data'))->getForm();
         return array('form' => $form->createView());
     }
 
@@ -50,8 +50,15 @@ class ImportController extends Controller
                 'file',
                 array(
                     'constraints' => array(
-                        new NotNull(),
-                        new File(array('mimeTypes' => array('text/plain', 'text/csv')))
+                        new NotNull(array(
+                            'message' => $this->get('translator')->trans('message.import.noFileSelected')
+                            )
+                        ),
+                        new File(array(
+                            'mimeTypes' => array('text/plain', 'text/csv'),
+                            'mimeTypesMessage' => $this->get('translator')->trans('message.import.filetypeInvalid', array('%fileType%' => '".csv"')),
+                            )
+                        )
                     )
                 )
             )
@@ -93,7 +100,7 @@ class ImportController extends Controller
                     //items invalid
                     $this->get('session')->getFlashBag()->add(
                         'error',
-                        'CSV enthält ungültige Daten!'
+                        'message.import.fileContainsError'
                     );
                 }
 
@@ -101,7 +108,7 @@ class ImportController extends Controller
                 //file is invalid
                 $this->get('session')->getFlashBag()->add(
                     'error',
-                    'CSV kann nicht eingelesen werden!'
+                    'message.import.fileInvalid'
                 );
 
             }

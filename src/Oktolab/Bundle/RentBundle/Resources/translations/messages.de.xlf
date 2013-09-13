@@ -170,6 +170,10 @@
                 <source>generic.numberThings</source>
                 <target>Anzahl %thing%</target>
             </trans-unit>
+            <trans-unit id="43">
+                <source>generic.upload</source>
+                <target>Hochladen</target>
+            </trans-unit>
 
             <trans-unit id="100">
                 <source>inventory.item.title</source>
@@ -578,7 +582,6 @@
                 <target>Die Änderungen konnten nicht übernommen werden</target>
             </trans-unit>
 
-
             <trans-unit id="700">
                 <source>event.book</source>
                 <target>Buchen</target>
@@ -586,6 +589,43 @@
             <trans-unit id="701">
                 <source>event.bookings</source>
                 <target>Buchungen</target>
+            </trans-unit>
+
+            <trans-unit id="800">
+                <source>inventory.import</source>
+                <target>Import</target>
+            </trans-unit>
+            <trans-unit id="801">
+                <source>inventory.importer</source>
+                <target>Inventar Import</target>
+            </trans-unit>
+            <trans-unit id="802">
+                <source>inventory.import.data</source>
+                <target>Import</target>
+            </trans-unit>
+            <trans-unit id="803">
+                <source>message.import.fileContainsError</source>
+                <target>Datei enthält ungültige Daten</target>
+            </trans-unit>
+            <trans-unit id="804">
+                <source>message.import.fileInvalid</source>
+                <target>Datei kann nicht eingelesen werden</target>
+            </trans-unit>
+            <trans-unit id="805">
+                <source>message.import.noFileSelected</source>
+                <target>Es muss eine Datei angegeben werden</target>
+            </trans-unit>
+            <trans-unit id="806">
+                <source>message.import.filetypeInvalid</source>
+                <target>Die Datei muss vom Typ %fileType% sein</target>
+            </trans-unit>
+            <trans-unit id="807">
+                <source>inventory.import.verify</source>
+                <target>Gegenstände prüfen</target>
+            </trans-unit>
+            <trans-unit id="808">
+                <source>inventory.import.noBuyDate</source>
+                <target>Kein Kaufdatum angegeben</target>
             </trans-unit>
         </body>
     </file>
