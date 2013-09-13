@@ -9,8 +9,10 @@
 
     <h3>{{ 'Title' | trans }}</h3>
     <p>{{ category.title }}</p>
-
-    <h3>{{ 'Items in Category' | trans }}</h3>
+    <h3>{{ 'inventory.category.items' | trans }}</h3>
+    {% if category.items|length == 0 %}
+        {{'inventory.category.zeroItems'|trans}}
+    {% else %}
     <table class="aui">
         <thead>
             <tr>
@@ -35,4 +37,5 @@
             {% endfor %}
         </tbody>
     </table>
+    {% endif %}
 {% endblock %}

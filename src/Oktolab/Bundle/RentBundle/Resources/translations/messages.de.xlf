@@ -414,6 +414,38 @@
                 <source>inventory.category.noneFound</source>
                 <target>Keine Kategorien gefunden</target>
             </trans-unit>
+            <trans-unit id="406">
+                <source>message.category.createSuccessful</source>
+                <target>Kategorie "%placeTitle%" erfolgreich angelegt</target>
+            </trans-unit>
+            <trans-unit id="407">
+                <source>message.category.createFailure</source>
+                <target>Die Kategorie konnte nicht gespeichert werden</target>
+            </trans-unit>
+            <trans-unit id="408">
+                <source>message.category.changeSuccessful</source>
+                <target>Änderungen an "%categoryTitle%" erfolgreich gespeichert</target>
+            </trans-unit>
+            <trans-unit id="409">
+                <source>message.category.changeFailure</source>
+                <target>Die Änderungen konnten nicht übernommen werden</target>
+            </trans-unit>
+            <trans-unit id="410">
+                <source>message.category.deleteSuccessful</source>
+                <target>Kategorie "%categoryTitle%" erfolgreich gelöscht</target>
+            </trans-unit>
+            <trans-unit id="411">
+                <source>message.category.deleteFailure</source>
+                <target>Die Kategorie "%categoryTitle%" kann nicht gelöscht werden, da noch Gegenstände daran gebunden sind</target>
+            </trans-unit>
+            <trans-unit id="412">
+                <source>inventory.category.zeroItems</source>
+                <target>Keine Gegenstände in dieser Kategorie</target>
+            </trans-unit>
+            <trans-unit id="413">
+                <source>inventory.category.items</source>
+                <target>Gegenstände in dieser Kategorie</target>
+            </trans-unit>
 
             <trans-unit id="500">
                 <source>inventory.room.barcode</source>
