@@ -7,65 +7,77 @@
 {% block content %}
     {{ parent() }}
 
-    <h3>{{'inventory.place.items'|trans}}</h3>
-    {% if place.items|length == 0 %}
-        {{ 'inventory.place.noItemsFound' | trans }}
-    {% else %}
-        <table class="aui">
-            <thead>
-                <tr>
-                    <th id="name">{{'inventory.item.title'|trans}}</th>
-                    <th>{{'inventory.item.description'|trans}}</th>
-                    <th>{{'inventory.item.barcode'|trans}}</th>
-                    <th id="action">{{'generic.actions'|trans}}</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for item in place.items %}
-                    <tr>
-                        <td headers="name">{{ item.title }}</td>
-                        <td>{{ item.description }}</td>
-                        <td>{{ item.barcode }}</td>
-                        <td class="action" headers="action">
-                            <ul class="menu">
-                                <li><a href="{{ path('inventory_item_show', { 'id': item.id }) }}">{{'generic.show'|trans}}</a></li>
-                                <li><a href="{{ path('inventory_item_edit', { 'id': item.id }) }}">{{'generic.edit'|trans}}</a></li>
-                            </ul>
-                        </td>
-                    </tr>
-                {% endfor %}
-            </tbody>
-        </table>
-    {% endif %}
+<form class="aui">
+    <fieldset>
+        <div class="field-group viewMode">
+            <label>{{ 'inventory.place.title' | trans }}</label>
+            <span class="field-value">{{ place.title }}</span>
+        </div>
+        <div class="field-group viewMode aui-oktolab-form-table">
+            <label>{{'inventory.place.items'|trans}}</label>
+            {% if place.items|length == 0 %}
+                <span class="field-value">{{ 'inventory.place.noItemsFound' | trans }}</span>
+            {% else %}
+                <table class="aui">
+                    <thead>
+                        <tr>
+                            <th id="name">{{'inventory.item.title'|trans}}</th>
+                            <th>{{'inventory.item.description'|trans}}</th>
+                            <th>{{'inventory.item.barcode'|trans}}</th>
+                            <th id="action">{{'generic.actions'|trans}}</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for item in place.items %}
+                            <tr>
+                                <td headers="name">{{ item.title }}</td>
+                                <td>{{ item.description }}</td>
+                                <td>{{ item.barcode }}</td>
+                                <td class="action" headers="action">
+                                    <ul class="menu">
+                                        <li><a href="{{ path('inventory_item_show', { 'id': item.id }) }}">{{'generic.show'|trans}}</a></li>
+                                        <li><a href="{{ path('inventory_item_edit', { 'id': item.id }) }}">{{'generic.edit'|trans}}</a></li>
+                                    </ul>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            {% endif %}
+        </div>
 
-    <h3>{{'inventory.place.sets'|trans}}</h3>
-    {% if place.sets|length == 0 %}
-        {{ 'inventory.place.noSetsFound' | trans }}
-    {% else %}
-        <table class="aui">
-            <thead>
-                <tr>
-                    <th id="name">{% trans %}Title{% endtrans %}</th>
-                    <th>{% trans %}Description{% endtrans %}</th>
-                    <th>{% trans %}Barcode{% endtrans %}</th>
-                    <th id="action">{% trans %}Actions{% endtrans %}</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for set in place.sets %}
-                    <tr>
-                        <td headers="name">{{ set.title }}</td>
-                        <td>{{ set.description }}</td>
-                        <td>{{ set.barcode }}</td>
-                        <td class="action" headers="action">
-                            <ul class="menu">
-                                <li><a href="{{ path('inventory_set_show', { 'id': set.id }) }}">{% trans %}show{% endtrans %}</a></li>
-                                <li><a href="{{ path('inventory_set_edit', { 'id': set.id }) }}">{% trans %}edit{% endtrans %}</a></li>
-                            </ul>
-                        </td>
-                    </tr>
-                {% endfor %}
-            </tbody>
-        </table>
-    {%endif%}
+        <div class="field-group viewMode aui-oktolab-form-table">
+            <label>{{'inventory.place.sets'|trans}}</label>
+            {% if place.sets|length == 0 %}
+                <span class="field-value">{{ 'inventory.place.noSetsFound' | trans }}</span>
+            {% else %}
+                <table class="aui">
+                    <thead>
+                        <tr>
+                            <th id="name">{{'inventory.set.title'|trans}}</th>
+                            <th>{{'inventory.set.description'|trans}}</th>
+                            <th>{{'inventory.set.barcode'|trans}}</th>
+                            <th id="action">{{'generic.actions'|trans}}</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for set in place.sets %}
+                            <tr>
+                                <td headers="name">{{ set.title }}</td>
+                                <td>{{ set.description }}</td>
+                                <td>{{ set.barcode }}</td>
+                                <td class="action" headers="action">
+                                    <ul class="menu">
+                                        <li><a href="{{ path('inventory_set_show', { 'id': set.id }) }}">{{'generic.show'|trans}}</a></li>
+                                        <li><a href="{{ path('inventory_set_edit', { 'id': set.id }) }}">{{'generic.edit'|trans}}</a></li>
+                                    </ul>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            {%endif%}
+        </div>
+    </fieldset>
+</form>
 {% endblock %}

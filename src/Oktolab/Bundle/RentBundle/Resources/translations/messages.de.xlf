@@ -249,7 +249,7 @@
             </trans-unit>
             <trans-unit id="119">
                 <source>inventory.item.edit</source>
-                <target>Gegenstand %itemTitle% bearbeiten</target>
+                <target>Gegenstand "%itemTitle%" bearbeiten</target>
             </trans-unit>
             <trans-unit id="120">
                 <source>inventory.item.uploadPicture</source>
@@ -306,7 +306,7 @@
             </trans-unit>
             <trans-unit id="211">
                 <source>inventory.set.edit</source>
-                <target>Set %setTitle% bearbeiten</target>
+                <target>Set "%setTitle%" bearbeiten</target>
             </trans-unit>
             <trans-unit id="212">
                 <source>inventory.set.uploadPicture</source>
@@ -351,7 +351,7 @@
             </trans-unit>
             <trans-unit id="302">
                 <source>inventory.place.edit</source>
-                <target>Ort %placeTitle% bearbeiten</target>
+                <target>Ort "%placeTitle%" bearbeiten</target>
             </trans-unit>
             <trans-unit id="303">
                 <source>inventory.place.title</source>
@@ -424,7 +424,7 @@
             </trans-unit>
             <trans-unit id="404">
                 <source>inventory.category.edit</source>
-                <target>Kategorie %categoryTitle% bearbeiten</target>
+                <target>Kategorie "%categoryTitle%" bearbeiten</target>
             </trans-unit>
             <trans-unit id="405">
                 <source>inventory.category.noneFound</source>
