@@ -389,6 +389,22 @@
                 <source>message.place.deleteFailure</source>
                 <target>Der Ort "%placeTitle%" kann nicht gelöscht werden, da noch Gegenstände und Sets daran gebunden sind</target>
             </trans-unit>
+            <trans-unit id="312">
+                <source>inventory.place.noItemsFound</source>
+                <target>Keine Gegenstände an diesem Ort</target>
+            </trans-unit>
+            <trans-unit id="313">
+                <source>inventory.place.noSetsFound</source>
+                <target>Keine Sets an diesem Ort</target>
+            </trans-unit>
+            <trans-unit id="314">
+                <source>inventory.place.items</source>
+                <target>Gegenstände an diesem Ort</target>
+            </trans-unit>
+            <trans-unit id="316">
+                <source>inventory.place.sets</source>
+                <target>Sets an diesem Ort</target>
+            </trans-unit>
 
             <trans-unit id="400">
                 <source>inventory.categories</source>
