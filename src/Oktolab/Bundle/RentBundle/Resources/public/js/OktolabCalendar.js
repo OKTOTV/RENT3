@@ -164,5 +164,3 @@
 
     window.Oktolab.Calendar = Calendar;
 }(window, document, jQuery, Oktolab));
-
-Oktolab.Calendar.init();

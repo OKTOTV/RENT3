@@ -28,4 +28,4 @@ jQuery(document).ready(function ($) {
         Oktolab.appendPrototypeTemplate(hiddenInputCollection, datum);  // add hidden input field
         searchItemsField.typeahead('setQuery', '');
     });
-})(AJS.$);
+});

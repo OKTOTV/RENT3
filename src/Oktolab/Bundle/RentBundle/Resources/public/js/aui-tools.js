@@ -11,10 +11,10 @@ AJS.$(document).ready(function() {
 
     // Activate Oktolab.Calendar on Dashboard
     if (AJS.$('#calendar').length) {
-        var calendar = new Oktolab.Calendar('#calendar');
+//        var calendar = new Oktolab.Calendar('#calendar');
 
         console.time('rendercalendar');
-        calendar.render();
+        Oktolab.Calendar.init();
         console.timeEnd('rendercalendar');
     }
 
