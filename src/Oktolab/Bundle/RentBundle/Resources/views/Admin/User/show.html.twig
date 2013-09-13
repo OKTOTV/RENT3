@@ -6,11 +6,20 @@
 {%endblock%}
 {% block content %}
     {{ parent() }}
-
-    <h3>{{'admin.user'|trans}}</h3>
-    <p>{{ user.displayname }}</p>
-    <h3>{{"admin.user.role" | trans }}</h3>
-    <p>{{ user.roles|trans }}</p>
-    <h3>{{"event.bookings" | trans}}</h3>
-
+<form class="aui">
+    <fieldset>
+        <div class="field-group viewMode">
+            <label>{{'admin.user'|trans}}</label>
+            <span class="field-value">{{ user.displayname }}</span>
+        </div>
+        <div class="field-group viewMode">
+            <label>{{"admin.user.role" | trans }}</label>
+            <span class="field-value">{{ user.roles|trans }}</span>
+        </div>
+        <div class="field-group viewMode aui-oktolab-form-table">
+            <label>{{"event.bookings" | trans}}</label>
+            <span class="field-value">Derzeit nicht verfügbar</span>
+        </div>
+    </fieldset>
+</form>
 {% endblock %}

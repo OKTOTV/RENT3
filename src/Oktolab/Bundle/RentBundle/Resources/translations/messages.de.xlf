@@ -567,7 +567,7 @@
             </trans-unit>
             <trans-unit id="614">
                 <source>admin.user.edit</source>
-                <target>Benutzer %username% bearbeiten</target>
+                <target>Benutzer "%username%" bearbeiten</target>
             </trans-unit>
             <trans-unit id="615">
                 <source>user.message.updateSuccess</source>
