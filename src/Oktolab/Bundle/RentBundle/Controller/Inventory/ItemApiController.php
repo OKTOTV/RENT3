@@ -35,7 +35,8 @@ class ItemApiController extends Controller
         foreach ($items as $item) {
             $json[] = array(
                 'name'          => $item->getTitle(),
-                'value'         => sprintf('%s:%d', 'Item', $item->getId()),
+                'value'         => sprintf('%s:%d', $item->getType(), $item->getId()),
+                'type'          => $item->getType(),
                 'id'            => $item->getId(),
                 'description'   => $item->getDescription(),
                 'barcode'       => $item->getBarcode(),

@@ -7,8 +7,9 @@
         </div>
         <div class="aui-page-header-actions">
             <ol class="aui-progress-tracker aui-progress-tracker-inverted">
-                {% set active = 'Edit' %}
-                {% for i in [ 'Create', 'Edit', 'Rent', 'Back', 'Check', 'Finished' ] %}
+                {% set active = 'Bearbeiten' %}
+                {# for i in [ 'Create', 'Edit', 'Rent', 'Back', 'Check', 'Closed' ] #}
+                {% for i in [ 'Erstellen', 'Bearbeiten', 'Verleihen', 'Zurücknehmen', 'Prüfen', 'Abschließen' ] %}
                     {% if active == i %}
                         <li class="aui-progress-tracker-step aui-progress-tracker-step-current" style="{{ 100 / loop.length }}">
                     {% else %}
@@ -36,8 +37,9 @@
         <h3>{{ 'Rentable Objects' | trans }}</h3>
         <fieldset>
             <div class="field-group">
-                <label for="inventory-search-field">{{ 'Search' | trans }}</label>
-                <input class="text long-field" type="text" id="inventory-search-field" name="inventory-search-field" title="{% trans %}Search for Barcodes, Items, Sets, ...{% endtrans %}">
+                <label for="oktolabrentbundle_event_editform_searchfield">{{ 'Search' | trans }}</label>
+                <input class="text long-field" type="text" id="oktolabrentbundle_event_editform_searchfield" name="oktolab_rentbundle_editform_searchfield" title="{% trans %}Search for Barcodes, Items, Sets, ...{% endtrans %}">
+                <span class="aui-icon aui-icon-small aui-iconfont-search">{{ 'Search' | trans }}</span>
                 <div class="description">{{ 'Search for Barcodes, Items, Sets, ...' | trans }}</div>
             </div>
 
@@ -51,13 +53,17 @@
                             <th id="basic-action"><span class="aui-icon aui-icon-small aui-iconfont-configure">{{ 'Actions' | trans }}</span></th>
                         </tr>
                     </thead>
-                    <tbody id="oktolabrentbundle_event_objects" class="event-objects" data-prototype="{% filter escape %}{% include 'OktolabRentBundle:Event:eventObjectPrototype.html.twig' %}{% endfilter %}">
+                    <tbody class="event-objects" data-prototype="{% filter escape %}{% include 'OktolabRentBundle:Event:eventObjectPrototype.html.twig' %}{% endfilter %}">
                         {% if objects %}
                             {% for object in objects %}
                                 <tr>
                                     <td>{{ object.barcode }}</td>
                                     <td>{{ object.title }}</td>
-                                    <td><a href="#"><span class="aui-icon aui-icon-small aui-iconfont-remove remove-object" data-value="{{ object.type ~ object.id }}">{{ 'Remove'|trans }}</span></a></td>
+                                    <td>
+                                        <a href="#"><span class="aui-icon aui-icon-small aui-iconfont-remove remove-object" data-value="{{ object.type ~ object.id }}">{{ 'Remove'|trans }}</span></a>
+                                        <span class="aui-icon aui-icon-small aui-iconfont-approve">{{ 'Approve' | trans }}</span>
+                                        <span class="aui-icon aui-icon-success">{{ 'Approve' | trans }}</span>
+                                    </td>
                                 </tr>
                             {% endfor %}
                         {% endif %}
@@ -66,7 +72,9 @@
             </div>
         </fieldset>
 
-        <fieldset class="hidden">
+        <fieldset class="hidden oktolab-event-objects"
+                  data-index="{{ objects|length }}"
+                  data-prototype="{{ '<div data-value="{{value}}"><input id="oktolabrentbundle_event_objects_{{index}}_type" name="oktolabrentbundle_event[objects][{{index}}][type]" value="{{type}}" /><input id="oktolabrentbundle_event_objects_{{index}}_object" name="oktolabrentbundle_event[objects][{{index}}][object]" value="{{id}}" /></div>'|e }}">
             {% if objects %}
                 {% for object in form.objects %}
                     {{ form_row(object) }}
@@ -74,9 +82,14 @@
             {% endif %}
         </fieldset>
 
+        <fieldset class="hidden oktolab-event-scanned-objects"
+                  data-index="0"
+                  data-prototype="{{ '<input id="oktolabrentbundle_event_scanned_object_{{index}}" value="{{value}}"'|e }}">
+        </fieldset>
+
         <div class="buttons-container">
             <div class="buttons">
-                {{ form_widget(form.rent, {'attr': { 'class': 'aui-button aui-button-primary' } }) }}
+                {{ form_widget(form.rent, {'attr': { 'class': 'aui-button aui-button-primary', 'aria-disabled': 'true' } }) }}
                 {{ form_widget(form.update, {'attr': { 'class': 'aui-button' } }) }}
                 {# form_widget(form.delete, {'attr': { 'class': 'aui-button' } }) #}
                 {{ form_widget(form.cancel, {'attr': { 'class': 'aui-button aui-button-link' } }) }}

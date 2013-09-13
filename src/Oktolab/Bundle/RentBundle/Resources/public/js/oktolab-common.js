@@ -4,8 +4,8 @@
      * Appends a data-prototype (from collection) to the collection by using Hogan templating engine
      * entity will be extended with index (collection data-index)
      *
-     * @param jQuery collection     use a jQuery wrapped set
-     * @param object entity         typically a typeahead datum
+     * @param {jQuery} collection     use a jQuery wrapped set
+     * @param {object} entity         typically a typeahead datum
      *
      * @returns {collection|unresolved}
      */
@@ -22,7 +22,7 @@
         // TODO: prepend adding already added objects!
 
         // compile Hogan template
-        var template = Hogan.compile(prototype); // performance-hint: use an array of compiled templates
+        var template = Hogan.compile(prototype); // TODO: performance-hint: use an array of compiled templates
         var output = template.render(jQuery.extend(entity, { index: index + 1 }));
 
         collection.append(output);
@@ -30,4 +30,5 @@
 
         return collection;
     };
+
 })(window);

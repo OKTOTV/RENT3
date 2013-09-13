@@ -97,13 +97,9 @@ class EventController extends Controller
         );
 
         $eventManager = $this->get('oktolab.event_manager');
-//        $eventManager->addRepository('Item', $this->getDoctrine()->getManager()->getRepository('OktolabRentBundle:Inventory\Item'));
         $objects = $eventManager->convertEventObjectsToEntites($event->getObjects());
 
-        return array(
-            'form'      => $form->createView(),
-            'objects'   => $objects,
-        );
+        return array('form' => $form->createView(), 'objects' => $objects);
     }
 
     /**
@@ -126,36 +122,49 @@ class EventController extends Controller
         );
 
         $form->handleRequest($request);
-        if ($form->isValid()) {
-            if ($form->get('rent')->isClicked()) {
-                $this->forward('OktolabRentBundle:Event:rent', array('form' => $form, 'event' => $event));
-            }
-
-            if ($form->get('cancel')->isClicked()) {
-                $this->get('session')->getFlashBag()->add('success', 'Successfully canceled editing Event.');
-            }
-
-            if ($form->get('update')->isClicked()) {
-                $this->get('oktolab.event_manager')->save($form->getData());
-                $this->get('session')->getFlashBag()->add('success', 'Successfully updated Event.');
-            }
-
-            // Done. Redirecting to Dashboard
-            return $this->redirect($this->generateUrl('rentbundle_dashboard'));
+        if (!$form->isValid()) { // Error while handling Form. Redirecting to EditAction.
+            $this->get('session')->getFlashBag()->add('error', 'There was an error while saving the form');
+            return $this->redirect($this->generateUrl('event_edit', array('id' => $event->getId())));
         }
 
-        // Error while handling Form. Redirecting to EditAction.
-        return $this->redirect($this->generateUrl('event_edit', array('id' => $event->getId())));
+        if ($form->get('rent')->isClicked()) { // User clicked Rent -> Forwarding to RENT Action
+            return $this->forward(
+                'OktolabRentBundle:Event\Event:rent',
+                array('request' => $request, 'event' => $event->getId())
+            );
+        }
+
+        if ($form->get('cancel')->isClicked()) { // User clicked Abort -> Nothing to do here
+            $this->get('session')->getFlashBag()->add('success', 'Successfully canceled editing Event.');
+        }
+
+        if ($form->get('update')->isClicked()) { // User clicked Update -> Save Event
+            $this->get('oktolab.event_manager')->save($form->getData());
+            $this->get('session')->getFlashBag()->add('success', 'Successfully updated Event.');
+        }
+
+        // Done. Redirecting to Dashboard
+        return $this->redirect($this->generateUrl('rentbundle_dashboard'));
     }
 
     /**
+     * Rent an Event.
+     *
      * @Route("/event/{id}/rent", name="event_rent")
-     * @param \Symfony\Component\HttpFoundation\Request $request
-     * @param \Oktolab\Bundle\RentBundle\Entity\Event $event
+     * @Method("POST")
+     * @ParamConverter("event", class="OktolabRentBundle:Event")
+     *
+     * @param Request $request
+     * @param Event $event
+     *
+     * @return Response
      */
     public function rentAction(Request $request, Event $event)
     {
-        return new Response;
+        // Check for hidden-input fields for each EventObject
+
+        var_dump($event); die();
+        return new Response();
         // this action "rents" the event. STATE_RENTED
     }
 
