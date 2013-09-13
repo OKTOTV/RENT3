@@ -60,8 +60,8 @@
             });
 
             Calendar.data.container
-                    .append(Calendar.data.containerInventory)
-                    .append(Calendar.data.containerWrapper);
+                .append(Calendar.data.containerInventory)
+                .append(Calendar.data.containerWrapper);
 
             Calendar.data.container.trigger('OktolabCalendar:rendered');
         },
