@@ -97,7 +97,7 @@ class EventController extends Controller
         );
 
         $eventManager = $this->get('oktolab.event_manager');
-        $eventManager->addRepository('Item', $this->getDoctrine()->getManager()->getRepository('OktolabRentBundle:Inventory\Item'));
+//        $eventManager->addRepository('Item', $this->getDoctrine()->getManager()->getRepository('OktolabRentBundle:Inventory\Item'));
         $objects = $eventManager->convertEventObjectsToEntites($event->getObjects());
 
         return array(
@@ -107,7 +107,7 @@ class EventController extends Controller
     }
 
     /**
-     * Updates an existing Event.
+     * Updates an existing Event or forwards to specific Action.
      *
      * @Route("/event/{id}/update", name="event_update")
      * @Method("POST")
@@ -128,7 +128,7 @@ class EventController extends Controller
         $form->handleRequest($request);
         if ($form->isValid()) {
             if ($form->get('rent')->isClicked()) {
-                // do something ...
+                $this->forward('OktolabRentBundle:Event:rent', array('form' => $form, 'event' => $event));
             }
 
             if ($form->get('cancel')->isClicked()) {
@@ -140,15 +140,11 @@ class EventController extends Controller
                 $this->get('session')->getFlashBag()->add('success', 'Successfully updated Event.');
             }
 
+            // Done. Redirecting to Dashboard
             return $this->redirect($this->generateUrl('rentbundle_dashboard'));
         }
 
-        var_dump(sprintf('cancel: %s', $form->get('cancel')->isClicked()));
-        var_dump(sprintf('delete: %s', $form->get('delete')->isClicked()));
-        var_dump(sprintf('update: %s', $form->get('update')->isClicked()));
-        var_dump(sprintf('rent: %s', $form->get('rent')->isClicked()));
-        return new Symfony\Component\HttpFoundation\Response();
-
+        // Error while handling Form. Redirecting to EditAction.
         return $this->redirect($this->generateUrl('event_edit', array('id' => $event->getId())));
     }
 
@@ -159,6 +155,7 @@ class EventController extends Controller
      */
     public function rentAction(Request $request, Event $event)
     {
+        return new Response;
         // this action "rents" the event. STATE_RENTED
     }
 

@@ -47,11 +47,18 @@ services:
         factory_method: getRepository
         arguments: [ OktolabRentBundle:Event ]
 
+    oktolab.orm.item_repository:
+        class: Doctrine\Common\Persistence\ObjectRepository
+        factory_service: doctrine
+        factory_method: getRepository
+        arguments: [ OktolabRentBundle:Inventory\Item ]
+
     oktolab.event_manager:
         class: %oktolab.event_manager.class%
         arguments:  [ @doctrine.orm.entity_manager, @?logger ]
         calls:
             - [ addRepository, [ "Event", @oktolab.orm.event_repository ] ]
+            - [ addRepository, [ "Item", @oktolab.orm.item_repository ] ]
             - [ setEntityManager, [ @doctrine.orm.entity_manager ] ]
 
     oktolab.item_import_manager:

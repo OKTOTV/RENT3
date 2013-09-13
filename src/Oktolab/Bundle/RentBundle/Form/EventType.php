@@ -28,7 +28,7 @@ class EventType extends AbstractType
             ->add('end', 'datetime', array('widget' => 'single_text', 'required' => true, 'empty_value' => ''))
             ->add('objects', 'collection', array('type' => new EventObjectType(), 'allow_add' => true));
 
-        $builder->add('cancel', 'submit')
+        $builder->add('cancel', 'submit', array('validation_groups' => false))
             ->add('update', 'submit')
             ->add('delete', 'submit')
             ->add('rent', 'submit');
