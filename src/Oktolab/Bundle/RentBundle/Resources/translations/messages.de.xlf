@@ -365,6 +365,30 @@
                 <source>inventory.place.about</source>
                 <target>Ein Ort wird in Oktolab RENT dazu verwendet, Gegenstände zu gruppieren.</target>
             </trans-unit>
+            <trans-unit id="306">
+                <source>message.place.createSuccessful</source>
+                <target>Ort "%placeTitle%" erfolgreich angelegt</target>
+            </trans-unit>
+            <trans-unit id="307">
+                <source>message.place.createFailure</source>
+                <target>Der Ort konnte nicht gespeichert werden</target>
+            </trans-unit>
+            <trans-unit id="308">
+                <source>message.place.changeSuccessful</source>
+                <target>Änderungen an "%placeTitle%" erfolgreich gespeichert</target>
+            </trans-unit>
+            <trans-unit id="309">
+                <source>message.place.changeFailure</source>
+                <target>Die Änderungen konnten nicht übernommen werden</target>
+            </trans-unit>
+            <trans-unit id="310">
+                <source>message.place.deleteSuccessful</source>
+                <target>Ort "%placeTitle%" erfolgreich gelöscht</target>
+            </trans-unit>
+            <trans-unit id="311">
+                <source>message.place.deleteFailure</source>
+                <target>Der Ort "%placeTitle%" kann nicht gelöscht werden, da noch Gegenstände und Sets daran gebunden sind</target>
+            </trans-unit>
 
             <trans-unit id="400">
                 <source>inventory.categories</source>
@@ -497,6 +521,15 @@
                 <source>admin.user.edit</source>
                 <target>Benutzer %username% bearbeiten</target>
             </trans-unit>
+            <trans-unit id="615">
+                <source>user.message.updateSuccess</source>
+                <target>Änderungen für "%username%" erfolgreich übernommen</target>
+            </trans-unit>
+            <trans-unit id="616">
+                <source>user.message.updateFailure</source>
+                <target>Die Änderungen konnten nicht übernommen werden</target>
+            </trans-unit>
+
 
             <trans-unit id="700">
                 <source>event.book</source>
