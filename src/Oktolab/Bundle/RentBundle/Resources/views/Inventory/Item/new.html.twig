@@ -26,32 +26,26 @@
 {% endblock %}
 
 {% block content %}
-<div class="aui-page-panel">
-    <div class="aui-page-panel-inner">
-        <section class="aui-page-panel-content">
-                {{ form_start(form, {'attr': {'class': 'aui'}}) }}
-                    <fieldset>
-                        {{ form_errors(form) }}
+    {{ form_start(form, {'attr': {'class': 'aui'}}) }}
+        <fieldset>
+            {{ form_errors(form) }}
 
-                        {{ form_row(form.title) }}
-                        {{ form_row(form.set) }}
-                        {{ form_row(form.description, {'attr': {'placeholder': 'Description of the item'} }) }}
-                        {{ form_row(form.barcode) }}
-                        {{ form_row(form.buyDate) }}
-                        {{ form_row(form.serialNumber) }}
-                        {{ form_row(form.vendor) }}
-                        {{ form_row(form.modelNumber) }}
-                        <div id="container" class= "field-group">
-                            <div id="filelist">{{ 'generic.loadEngine' | trans }}</div>
-                            <br />
-                            <a id="pickfiles" href="#">[{{'generic.selectFiles' | trans}}]</a>
-                        </div>
-                        <div class="buttons-container">
-                            <button class="aui-button aui-button-primary" id="uploadfiles" type="submit">{{'generic.submit' | trans}}</button>
-                        </div>
-                    </fieldset>
-                {{ form_end(form) }}
-                </section>
+            {{ form_row(form.title) }}
+            {{ form_row(form.set) }}
+            {{ form_row(form.description, {'attr': {'placeholder': 'Description of the item'} }) }}
+            {{ form_row(form.barcode) }}
+            {{ form_row(form.buyDate) }}
+            {{ form_row(form.serialNumber) }}
+            {{ form_row(form.vendor) }}
+            {{ form_row(form.modelNumber) }}
+            <div id="container" class= "field-group">
+                <div id="filelist">{{ 'generic.loadEngine' | trans }}</div>
+                <br />
+                <a id="pickfiles" href="#">[{{'generic.selectFiles' | trans}}]</a>
             </div>
-        </div>
+            <div class="buttons-container">
+                <button class="aui-button aui-button-primary" id="uploadfiles" type="submit">{{'generic.submit' | trans}}</button>
+            </div>
+        </fieldset>
+    {{ form_end(form) }}
 {% endblock %}

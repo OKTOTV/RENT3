@@ -59,6 +59,9 @@
 
 {% block sidebar %}
     <aside class="aui-page-panel-sidebar">
+        <h3>
+            {{ 'inventory.item.attachments' | trans}} {{ item.attachments | length }}
+        </h3>
         {% for attachment in item.attachments %}
             <img src="{{ sauce(attachment) }}" />
             <a href="{{ path('inventory_item_attachment_delete', {'entity_id' : item.id, 'attachment_id' : attachment.id }) }}">{{"Delete Attachment" | trans }}</a>
