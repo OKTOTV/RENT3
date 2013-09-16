@@ -38,7 +38,7 @@
             {{ form_row(edit_form.title) }}
             {{ form_row(edit_form.description, {'attr': {'placeholder': 'Description of the room'} }) }}
             {{ form_row(edit_form.barcode) }}
-
+            <field class="plupload" data-plupload="multiple"></field>
             <div id="container" class= "field-group">
                 <div id="filelist">{{'generic.runtimeError'|trans}}</div>
                 <br />
@@ -50,4 +50,15 @@
             </div>
         </fieldset>
     {{ form_end(edit_form) }}
+{% endblock %}
+{% block sidebar %}
+    <aside class="aui-page-panel-sidebar">
+        <h3>
+            {{ 'inventory.room.attachments' | trans}} {{ entity.attachments | length }}
+        </h3>
+        {% for attachment in entity.attachments %}
+            <img src="{{ sauce(attachment) }}" />
+            <a href="{{ path('inventory_room_attachment_delete', {'entity_id' : entity.id, 'attachment_id' : attachment.id }) }}">{{"generic.deleteAttachment" | trans }}</a>
+        {% endfor %}
+    </aside>
 {% endblock %}

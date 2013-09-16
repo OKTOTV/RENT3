@@ -157,7 +157,7 @@ class ItemController extends Controller
      *
      * @Route("/{id}", name="inventory_item_update")
      * @ParamConverter("item", class="OktolabRentBundle:Inventory\Item")
-     * @Method("PUT")
+     * @Method({"PUT", "POST"})
      * @Template("OktolabRentBundle:Inventory\Item:edit.html.twig")
      */
     public function updateAction(Request $request, Item $item)

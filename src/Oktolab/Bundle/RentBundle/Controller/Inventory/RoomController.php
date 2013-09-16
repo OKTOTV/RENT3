@@ -132,9 +132,9 @@ class RoomController extends Controller
     /**
      * Edits an existing Inventory\Room entity.
      *
-     * @Route("/{id}", name="inventory_room_update")
+     * @Route("/{id}/edit", name="inventory_room_update")
      * @ParamConverter("room", class="OktolabRentBundle:Inventory\Room")
-     * @Method("PUT")
+     * @Method({"PUT"})
      * @Template("OktolabRentBundle:Inventory\Room:edit.html.twig")
      */
     public function updateAction(Request $request, Room $room)

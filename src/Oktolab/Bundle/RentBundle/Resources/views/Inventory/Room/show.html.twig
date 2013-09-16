@@ -27,20 +27,25 @@
 {% endblock %}
 
 {% block content %}
-    <div class="aui-page-panel">
-        <div class="aui-page-panel-inner">
-            <section class="aui-page-panel-content">
-               <h3>
-                    {{'inventory.room.attachments'|trans}} {{ room.attachments | length }} <a id="replace-text-trigger" data-replace-text="({{'generic.hide'|trans}})" class="aui-expander-trigger" aria-controls="expander-with-replace-text-content">({{'generic.show'|trans}})</a>
-                </h3>
-                <div id="expander-with-replace-text-content" class="aui-expander-content">
-                    {% for attachment in room.attachments %}
-                        <img src="{{ sauce(attachment) }}" />
-                    {% endfor %}
-                </div>
-                <h3>{{'inventory.room.description'|trans}}</h3>
-                <p>{{ room.description }}</p>
-            </section>
-        </div>
-    </div>
+    <form class="aui">
+        <fieldset>
+            <div class="field-group viewMode">
+                <label>{{'inventory.room.description'|trans}}</label>
+                <span class="field-value">{{ room.description }}</span>
+            </div>
+        </fieldset>
+    </form>
 {% endblock %}
+
+{% block sidebar%}
+<aside class="aui-page-panel-sidebar">
+    <h3>
+        {{ 'inventory.room.attachments' | trans}} ({{ room.attachments | length }})
+    </h3>
+    <div id="expander-with-replace-text-content" class="aui-expander-content">
+        {% for attachment in room.attachments %}
+            <img src="{{ sauce(attachment) }}" />
+        {% endfor %}
+    </div>
+</aside>
+{% endblock%}
