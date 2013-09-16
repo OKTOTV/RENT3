@@ -267,6 +267,10 @@
                 <source>inventory.item.items</source>
                 <target>Gegenstände</target>
             </trans-unit>
+            <trans-unit id="123">
+                <source>inventory.item.descriptionPlaceholder</source>
+                <target>Beschreibung des Gegenstands</target>
+            </trans-unit>
 
             <trans-unit id="201">
                 <source>inventory.set.removeFromSet</source>

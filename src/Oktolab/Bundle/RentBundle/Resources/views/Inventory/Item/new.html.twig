@@ -32,12 +32,13 @@
 
             {{ form_row(form.title) }}
             {{ form_row(form.set) }}
-            {{ form_row(form.description, {'attr': {'placeholder': 'Description of the item'} }) }}
+            {{ form_row(form.description, {'attr': {'placeholder': 'inventory.item.descriptionPlaceholder'} }) }}
             {{ form_row(form.barcode) }}
             {{ form_row(form.buyDate) }}
             {{ form_row(form.serialNumber) }}
             {{ form_row(form.vendor) }}
             {{ form_row(form.modelNumber) }}
+                <field class="plupload" data-plupload="multiple"></field>
             <div id="container" class= "field-group">
                 <div id="filelist">{{ 'generic.loadEngine' | trans }}</div>
                 <br />
