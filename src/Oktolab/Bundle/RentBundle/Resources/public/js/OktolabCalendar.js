@@ -89,7 +89,7 @@
                 $.each(items, function (key, item) {
                     var $item = $('<a />', { href: '#', id: key }).text(item.title);
 
-                    Calendar.data.items[key] = $item;
+                    Calendar.data.items[key.toLowerCase()] = $item;
                     $('<li />').append($item).appendTo($list);
                 });
 
@@ -134,7 +134,7 @@
          */
         showEvents: function (events) {
             $.each(events, function (key, value) {
-                var $item = Calendar.data.items[value.item];
+                var $item = Calendar.data.items[value.item.toLowerCase()];
                 var $block, $begin, $end = null;
 
                 // find beginning block
