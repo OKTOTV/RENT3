@@ -38,8 +38,9 @@
             </div>
         </fieldset>
 
-        <h3>{{ 'inventory.set.items' | trans }}</h3>
-            <fieldset>
+        <div class="field-group viewMode aui-oktolab-form-table">
+            <label>{{ 'inventory.set.items' | trans }}</label>
+            
                 <table class="aui">
                     <thead>
                         <tr>
@@ -60,6 +61,7 @@
                         {% endif %}
                     </tbody>
                 </table>
+        </div>
                 <field class="plupload" data-plupload="multiple"></field>
                 <div id="container" class= "field-group">
                     <div id="filelist">{{ 'generic.loadEngine' | trans }}</div>

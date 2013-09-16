@@ -29,58 +29,72 @@
 {% endblock %}
 
 {% block content %}
-    <div class="aui-page-panel">
-        <div class="aui-page-panel-inner">
-            <section class="aui-page-panel-content">
-                <h3>
-                    {{'inventory.set.attachments' | trans }} {{ set.attachments | length }} <a id="replace-text-trigger" data-replace-text="({{ 'generic.hide' | trans }})" class="aui-expander-trigger" aria-controls="expander-with-replace-text-content">({{'generic.show' | trans }})</a>
-                </h3>
-                <div id="expander-with-replace-text-content" class="aui-expander-content">
-                    {% for attachment in set.attachments %}
-                        <img src="{{ sauce(attachment) }}" />
-                    {% endfor %}
-                </div>
-                <h3>{{'inventory.set.description' | trans}}</h3>
-                <p>{{ set.description }}</p>
-
-                <h3>{{'inventory.set.items' | trans}}</h3>
-                <table class="aui">
-                    <thead>
-                        <tr>
-                            <th id="name">{{'inventory.item.title' | trans}}</th>
-                            <th>{{'inventory.item.description' | trans}}</th>
-                            <th>{{'inventory.item.barcode' | trans}}</th>
-                            <th>{{'inventory.item.buydate' | trans}}</th>
-                            <th>{{'inventory.item.serialnumber' | trans}}</th>
-                            <th>{{'inventory.item.vendor' | trans}}</th>
-                            <th>{{'inventory.item.modelnumber' | trans}}</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {% for item in set.getItems %}
+    <form class="aui">
+        <fieldset>
+            <div class="field-group viewMode">
+                <label>{{'inventory.set.place' | trans}}</label>
+                <span class="field-value">{{ set.place.title }}</span>
+            </div>
+            <div class="field-group viewMode">
+                <label>{{'inventory.set.description' | trans}}</label>
+                <span class="field-value">{{ set.description }}</span>
+            </div>
+            <div class="field-group viewMode aui-oktolab-form-table">
+                <label>{{'inventory.set.items' | trans}}</label>
+                {% if set.items|length == 0 %}
+                    <span class="field-value">{{'inventory.set.zeroItems'|trans}}</span>
+                {% else %}
+                    <table class="aui">
+                        <thead>
                             <tr>
-                                <td headers="name">{{ item.title }}</td>
-                                <td>{{ item.description }}</td>
-                                <td>{{ item.barcode }}</td>
-                                <td>{% if item.buyDate %}{{ item.buyDate|date('Y-m-d') }}{% endif %}</td>
-                                <td>{{ item.serialNumber }}</td>
-                                <td>{{ item.vendor }}</td>
-                                <td>{{ item.modelNumber }}</td>
-                                <td class="action" headers="action">
-                                    <ul class="menu">
-                                        <li>
-                                            <a href="{{ path('inventory_item_show', { 'id': item.id }) }}">{{'generic.show' | trans}}</a>
-                                        </li>
-                                        <li>
-                                            <a href="{{ path('inventory_item_edit', { 'id': item.id }) }}">{{'generic.edit' | trans}}</a>
-                                        </li>
-                                    </ul>
-                                </td>
+                                <th id="name">{{'inventory.item.title' | trans}}</th>
+                                <th>{{'inventory.item.description' | trans}}</th>
+                                <th>{{'inventory.item.barcode' | trans}}</th>
+                                <th>{{'inventory.item.buydate' | trans}}</th>
+                                <th>{{'inventory.item.serialnumber' | trans}}</th>
+                                <th>{{'inventory.item.vendor' | trans}}</th>
+                                <th>{{'inventory.item.modelnumber' | trans}}</th>
+                                <th>{{'generic.actions'|trans}}</th>
                             </tr>
-                        {% endfor %}
-                    </tbody>
-                </table>
-            </section>
-        </div>
-    </div>
+                        </thead>
+                        <tbody>
+                            {% for item in set.getItems %}
+                                <tr>
+                                    <td headers="name">{{ item.title }}</td>
+                                    <td>{{ item.description }}</td>
+                                    <td>{{ item.barcode }}</td>
+                                    <td>{% if item.buyDate %}{{ item.buyDate|date('Y-m-d') }}{% endif %}</td>
+                                    <td>{{ item.serialNumber }}</td>
+                                    <td>{{ item.vendor }}</td>
+                                    <td>{{ item.modelNumber }}</td>
+                                    <td class="action" headers="action">
+                                        <ul class="menu">
+                                            <li>
+                                                <a href="{{ path('inventory_item_show', { 'id': item.id }) }}">{{'generic.show' | trans}}</a>
+                                            </li>
+                                            <li>
+                                                <a href="{{ path('inventory_item_edit', { 'id': item.id }) }}">{{'generic.edit' | trans}}</a>
+                                            </li>
+                                        </ul>
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                {% endif %}
+            </div>
+        </fieldset>
+    </form>
 {% endblock %}
+{% block sidebar%}
+    <aside class="aui-page-panel-sidebar">
+        <h3>
+            {{'inventory.set.attachments' | trans }} ({{ set.attachments | length }})
+        </h3>
+        <div id="expander-with-replace-text-content" class="aui-expander-content">
+            {% for attachment in set.attachments %}
+                <img src="{{ sauce(attachment) }}" />
+            {% endfor %}
+        </div>
+    </aside>
+{% endblock%}
