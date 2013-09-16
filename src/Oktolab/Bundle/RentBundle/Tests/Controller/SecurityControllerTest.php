@@ -50,7 +50,7 @@ class SecurityControllerTest extends WebTestCase
         $crawler = $this->client->request('GET', '/');
         $this->assertTrue($this->client->getResponse()->isSuccessful(), 'Response is successful');
 
-        $this->client->click($crawler->selectLink('Log out')->link());
+        $this->client->click($crawler->selectLink('Abmelden')->link());
 
         $this->assertRegExp(
             '/\/secure\/login$/',
@@ -70,7 +70,7 @@ class SecurityControllerTest extends WebTestCase
         $crawler = $this->client->request('GET', '/secure/login');
         $this->assertTrue($this->client->getResponse()->isSuccessful());
 
-        $buttonCrawlerNode = $crawler->selectButton('Log In');
+        $buttonCrawlerNode = $crawler->selectButton('Anmelden');
         $form = $buttonCrawlerNode->form(
             array(
                 '_username'  => 'Fabien',
@@ -84,7 +84,7 @@ class SecurityControllerTest extends WebTestCase
         $this->client->followRedirect();
         $response = $this->client->getResponse();
         $this->assertTrue($response->isSuccessful(), 'Response is successful');
-        $this->assertRegExp('/Log In fehlgeschlagen/', $response->getContent(), 'Page contains error message');
+        $this->assertRegExp('/Authentifizierung fehlgeschlagen/', $response->getContent(), 'Page contains error message');
     }
 
     /**

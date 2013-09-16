@@ -451,7 +451,7 @@
                 <target>Die Änderungen konnten nicht übernommen werden</target>
             </trans-unit>
             <trans-unit id="410">
-                <source>message.category.deleteSuccessful</source>
+                <source>message.category.deleteSuccess</source>
                 <target>Kategorie "%categoryTitle%" erfolgreich gelöscht</target>
             </trans-unit>
             <trans-unit id="411">

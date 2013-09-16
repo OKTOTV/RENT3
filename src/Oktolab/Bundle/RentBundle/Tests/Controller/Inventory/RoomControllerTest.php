@@ -42,7 +42,7 @@ class RoomControllerTest extends WebTestCase
         $this->loadFixtures(array('Oktolab\Bundle\RentBundle\DataFixtures\ORM\RoomFixture'));
 
         $crawler = $this->client->request('GET', '/inventory/room/1');
-        $crawler = $this->client->click($crawler->selectLink('Editieren')->link());
+        $crawler = $this->client->click($crawler->selectLink('Bearbeiten')->link());
 
         $this->client->request('GET', '/inventory/room/1/edit');
         $this->assertTrue($this->client->getResponse()->isSuccessful(), 'Response should be successful');
@@ -71,7 +71,7 @@ class RoomControllerTest extends WebTestCase
 
 
         $crawler = $this->client->request('GET', '/inventory/room/1');
-        $crawler = $this->client->click($crawler->selectLink('Editieren')->link());
+        $crawler = $this->client->click($crawler->selectLink('Bearbeiten')->link());
 
         $this->client->click($crawler->selectLink('Löschen')->link());
 
@@ -137,7 +137,7 @@ class RoomControllerTest extends WebTestCase
         $this->uploadTestFile();
 
         $crawler = $this->client->request('GET', '/inventory/room/1');
-        $crawler = $this->client->click($crawler->selectLink('Editieren')->link());
+        $crawler = $this->client->click($crawler->selectLink('Bearbeiten')->link());
 
         $this->client->request('GET', '/inventory/room/1/edit');
         $this->assertTrue($this->client->getResponse()->isSuccessful(), 'Response should be successful');
