@@ -43,6 +43,7 @@ class SecurityController extends Controller
     public function securityCheckAction()
     {
         // The security layer will intercept this request
+        return $this->redirect($this->generateUrl('rentbundle_dashboard'));
     }
 
     /**

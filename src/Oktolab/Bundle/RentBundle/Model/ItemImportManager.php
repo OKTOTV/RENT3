@@ -30,7 +30,8 @@ class ItemImportManager
      *
      * @param string $mode
      */
-    public function setParserMode($mode) {
+    public function setParserMode($mode)
+    {
 
         $haystack = array('csv');
 
@@ -49,7 +50,8 @@ class ItemImportManager
      * Returns current Parsermode.
      * @return string
      */
-    public function getParserMode() {
+    public function getParserMode()
+    {
         return $this->mode;
     }
 
@@ -63,7 +65,7 @@ class ItemImportManager
      */
     public function validateItems(array $items)
     {
-        foreach($items as $item) {
+        foreach ($items as $item) {
             if (count($this->validator->validate($item))) {
                 return false;
             }
@@ -80,7 +82,7 @@ class ItemImportManager
     {
         $this->entityManager->getConnection()->beginTransaction();
         try {
-            foreach($items as $item) {
+            foreach ($items as $item) {
                 $this->entityManager->persist($item);
             }
             $this->entityManager->flush();

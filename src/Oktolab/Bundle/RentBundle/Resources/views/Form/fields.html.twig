@@ -12,8 +12,11 @@
 {# override form_label #}
 {% block form_label %}
     {% spaceless %}
+        {% if label is empty %}
+            {% set label = name|humanize %}
+        {% endif %}
         <label {% if compound == false %} for="{{ id }}"{% endif %}>
-            {{ name|humanize|trans }}
+            {{ label|trans }}
             {% if required %}<span class="aui-icon icon-required"> required</span>{% endif %}
         </label>
     {% endspaceless %}

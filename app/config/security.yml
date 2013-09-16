@@ -1,12 +1,15 @@
 security:
     encoders:
-        Symfony\Component\Security\Core\User\User: plaintext
+        Oktolab\Bundle\RentBundle\Entity\Security\User: plaintext
 
     role_hierarchy:
         ROLE_ADMIN:       ROLE_USER
         ROLE_SUPER_ADMIN: [ROLE_USER, ROLE_ADMIN, ROLE_ALLOWED_TO_SWITCH]
 
     providers:
+        hub_authenticator:
+            id: oktolab.hub_user_provider
+
         in_memory:
             memory:
                 users:
@@ -18,21 +21,20 @@ security:
             pattern:  ^/(_(profiler|wdt)|css|images|js)/
             security: false
 
+
         login:
             pattern:  ^/secure/login$
             security: false
 
         secured_area:
             pattern:    ^/
-            form_login:
-                check_path: rentbundle_secure_check
-                login_path: rentbundle_secure_login
             logout:
                 path:   rentbundle_secure_logout
                 target: rentbundle_secure_login
-            #anonymous: ~
-            #http_basic:
-            #    realm: "Secured Demo Area"
+            oktolab: true
+            provider: hub_authenticator
+            form_login:
+                login_path: rentbundle_secure_login
 
     access_control:
         - { path: ^/admin, roles: ROLE_ADMIN }

@@ -3,32 +3,41 @@
 {% block content %}
     {{ parent() }}
 
-    <h3>{{ 'Title' | trans }}</h3>
-    <p>{{ category.title }}</p>
+<form class="aui">
+    <fieldset>
+        <div class="field-group viewMode">
+            <label>{{ 'Title' | trans }}</label>
+            <span class="field-value">{{ category.title }}</span>
+        </div>
 
-    <h3>{{ 'Items in Category' | trans }}</h3>
-    <table class="aui">
-        <thead>
-            <tr>
-                <th id="name">{{ 'Title' | trans }}</th>
-                <th>{{ 'Description' | trans }}</th>
-                <th>{{ 'Barcode' | trans }}</th>
-                <th id="action">{{ 'Actions' | trans }}</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for item in category.items %}
-                <tr>
-                    <td headers="name">{{ item.title }}</td>
-                    <td>{{ item.description }}</td>
-                    <td>{{ item.barcode }}</td>
-                    <td class="action" headers="action">
-                        <ul class="menu">
-                            <li><a href="{{ path('inventory_item_show', { 'id': item.id } ) }}">{{ 'show' | trans }}</a></li>
-                        </ul>
-                    </td>
-                </tr>
-            {% endfor %}
-        </tbody>
-    </table>
+        <div class="field-group viewMode aui-oktolab-form-table">
+            <label>{{ 'Items in Category' | trans }}</label>
+            <table class="aui">
+                <thead>
+                    <tr>
+                        <th id="name">{{ 'Title' | trans }}</th>
+                        <th>{{ 'Description' | trans }}</th>
+                        <th>{{ 'Barcode' | trans }}</th>
+                        <th id="action">{{ 'Actions' | trans }}</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for item in category.items %}
+                        <tr>
+                            <td headers="name">{{ item.title }}</td>
+                            <td>{{ item.description }}</td>
+                            <td>{{ item.barcode }}</td>
+                            <td class="action" headers="action">
+                                <ul class="menu">
+                                    <li><a href="{{ path('inventory_item_show', { 'id': item.id } ) }}">{{ 'show' | trans }}</a></li>
+                                </ul>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </fieldset>
+</form>
+
 {% endblock %}

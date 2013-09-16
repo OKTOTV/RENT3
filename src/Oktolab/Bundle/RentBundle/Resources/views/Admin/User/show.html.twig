@@ -1,0 +1,12 @@
+{% extends 'OktolabRentBundle:Admin:User\\base.html.twig' %}
+
+{% block content %}
+    {{ parent() }}
+
+    <h3>{% trans %}User{% endtrans %}</h3>
+    <p>{{ user.displayname }}</p>
+    <h3>{{"Role" | trans }}</h3>
+    <p>{{ user.roles }}</p>
+    <h3>{{"Bookings" | trans}}</h3>
+
+{% endblock %}

@@ -71,3 +71,15 @@ services:
     oktolab.item_csv_importer:
       class: Oktolab\Bundle\RentBundle\Model\ItemCsvParser
       arguments:  [ @doctrine.orm.entity_manager ]
+
+    oktolab.hub_user_provider:
+      class: Oktolab\Bundle\RentBundle\Model\HubUserProvider
+      arguments:  [ @doctrine.orm.entity_manager, %oktolab.hub_api_search_url%, %oktolab.hub_api_auth_url% ]
+
+    oktolab.hub_authentication_provider:
+      class:  Oktolab\Bundle\RentBundle\Model\HubAuthenticationProvider
+      arguments:  [ @oktolab.hub_user_provider ]
+
+    oktolab.hub_security_listener:
+      class:  Oktolab\Bundle\RentBundle\Model\SecurityListener
+      arguments: [ @security.context , @oktolab.hub_authentication_provider ]

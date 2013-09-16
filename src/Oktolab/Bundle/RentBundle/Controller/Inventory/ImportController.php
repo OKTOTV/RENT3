@@ -45,7 +45,10 @@ class ImportController extends Controller
     public function uploadAction(Request $request)
     {
         $form = $this->createFormBuilder()
-            ->add('csv', 'file', array(
+            ->add(
+                'csv',
+                'file',
+                array(
                     'constraints' => array(
                         new NotNull(),
                         new File(array('mimeTypes' => array('text/plain', 'text/csv')))
@@ -57,7 +60,7 @@ class ImportController extends Controller
         $form->handleRequest($request);
         $items = array();
 
-        if($form->isValid()) {
+        if ($form->isValid()) {
             $file = $form->getData('csv');
             $importManager = $this->get('oktolab.item_import_manager');
             $importManager->setParserMode('csv');
@@ -89,8 +92,8 @@ class ImportController extends Controller
                 } else {
                     //items invalid
                     $this->get('session')->getFlashBag()->add(
-                    'error',
-                    'CSV enthält ungültige Daten!'
+                        'error',
+                        'CSV enthält ungültige Daten!'
                     );
                 }
 
