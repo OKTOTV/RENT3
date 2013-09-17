@@ -113,7 +113,7 @@ AJS.$(document).ready(function() {
         });
 
         uploader.bind('UploadComplete', function(uploader, file) {
-            $('form').submit();
+            $('.oktolab-plupload-form').submit();
         });
 
         uploader.init();

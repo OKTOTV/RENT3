@@ -58,8 +58,24 @@ class RoomController extends Controller
             $em->persist($entity);
             $em->flush();
 
+            $this
+                ->get('session')
+                ->getFlashBag()
+                ->add(
+                    'success',
+                    $this->get('translator')->trans('room.message.saveSuccessful', array('%roomTitle%' => $entity->getTitle()))
+                );
+
             return $this->redirect($this->generateUrl('inventory_room_show', array('id' => $entity->getId())));
         }
+
+        $this
+                ->get('session')
+                ->getFlashBag()
+                ->add(
+                    'warning',
+                    $this->get('translator')->trans('room.message.saveFailure')
+                );
 
         return array(
             'entity' => $entity,
@@ -132,9 +148,9 @@ class RoomController extends Controller
     /**
      * Edits an existing Inventory\Room entity.
      *
-     * @Route("/{id}/edit", name="inventory_room_update")
+     * @Route("/{id}", name="inventory_room_update")
      * @ParamConverter("room", class="OktolabRentBundle:Inventory\Room")
-     * @Method({"PUT"})
+     * @Method("PUT")
      * @Template("OktolabRentBundle:Inventory\Room:edit.html.twig")
      */
     public function updateAction(Request $request, Room $room)
@@ -150,8 +166,24 @@ class RoomController extends Controller
             $em->persist($room);
             $em->flush();
 
+            $this
+                ->get('session')
+                ->getFlashBag()
+                ->add(
+                    'success',
+                    $this->get('translator')->trans('room.message.changeSuccessful', array('%roomTitle%' => $room->getTitle()))
+                );
+
             return $this->redirect($this->generateUrl('inventory_room_show', array('id' => $room->getId())));
         }
+
+        $this
+                ->get('session')
+                ->getFlashBag()
+                ->add(
+                    'warning',
+                    $this->get('translator')->trans('room.message.changeFailure')
+                );
 
         return array(
             'entity'      => $room,
@@ -178,6 +210,14 @@ class RoomController extends Controller
             $em->remove($attachment);
         }
         //-----------------------------
+
+        $this
+                ->get('session')
+                ->getFlashBag()
+                ->add(
+                    'success',
+                    $this->get('translator')->trans('room.message.deleteSuccess', array('%roomTitle%' => $room->getTitle()))
+                );
 
         $em->flush();
         return $this->redirect($this->generateUrl('inventory_room'));
@@ -223,7 +263,7 @@ class RoomController extends Controller
             $picture,
             array(
                 'action' => $this->generateUrl('inventory_room_picture_update', array('id' => $room->getId())),
-                'method' => 'PUT'
+                'method' => 'POST'
                 )
         );
 
@@ -236,7 +276,7 @@ class RoomController extends Controller
     /**
      * @Route("/{id}/picture/upload", name="inventory_room_picture_update")
      * @ParamConverter("room", class="OktolabRentBundle:Inventory\Room")
-     * @Method("PUT")
+     * @Method("POST")
      */
     public function updatePictureAction(Room $room)
     {

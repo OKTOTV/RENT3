@@ -1,6 +1,3 @@
-{% block script%}
-<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.9/jquery-ui.min.js"></script>
-{% endblock%}
 {% extends 'OktolabRentBundle::layout.html.twig' %}
 
 {% block content_header %}
@@ -18,7 +15,7 @@
     <div class="aui-page-header-actions">
         <div class="aui-buttons">
             <div class="aui-buttons">
-                <a class="aui-button" href="{{ path('inventory_item') }}">{{'generic.backToList' | trans}}</a>
+                <a class="aui-button" href="{{ path('inventory_item') }}">{{ 'generic.backToList'|trans }}</a>
             </div>
         </div>
     </div>
@@ -26,7 +23,7 @@
 {% endblock %}
 
 {% block content %}
-    {{ form_start(form, {'attr': {'class': 'aui'}}) }}
+    {{ form_start(form, {'attr': {'class': 'aui oktolab-plupload-form' } }) }}
         <fieldset>
             {{ form_errors(form) }}
 

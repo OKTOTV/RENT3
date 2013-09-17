@@ -31,24 +31,21 @@
 {% endblock %}
 
 {% block content%}
-    {{ form_start(edit_form, {'attr': {'class': 'aui'}}) }}
-        <fieldset>
-            {{ form_errors(edit_form) }}
+    {{ form_start(edit_form, {'attr': {'class': 'aui oktolab-plupload-form'}}) }}
+        {{ form_errors(edit_form) }}
 
-            {{ form_row(edit_form.title) }}
-            {{ form_row(edit_form.description, {'attr': {'placeholder': 'Description of the room'} }) }}
-            {{ form_row(edit_form.barcode) }}
-            <field class="plupload" data-plupload="multiple"></field>
-            <div id="container" class= "field-group">
-                <div id="filelist">{{'generic.runtimeError'|trans}}</div>
-                <br />
-                <a id="pickfiles" href="#">[{{'generic.selectFiles'|trans}}]</a>
-            </div>
-
-            <div class="buttons-container">
-                <button class="aui-button aui-button-primary" id="uploadfiles" type="submit">{{'generic.submit'|trans}}</button>
-            </div>
-        </fieldset>
+        {{ form_row(edit_form.title) }}
+        {{ form_row(edit_form.description, {'attr': {'placeholder': 'Description of the room'} }) }}
+        {{ form_row(edit_form.barcode) }}
+        <field class="plupload" data-plupload="multiple"></field>
+        <div id="container" class= "field-group">
+            <div id="filelist">{{'generic.runtimeError'|trans}}</div>
+            <br />
+            <a id="pickfiles" href="#">[{{'generic.selectFiles'|trans}}]</a>
+        </div>
+        <div class="buttons-container">
+            <button class="aui-button aui-button-primary" id="uploadfiles" type="submit">{{'generic.submit'|trans}}</button>
+        </div>
     {{ form_end(edit_form) }}
 {% endblock %}
 {% block sidebar %}

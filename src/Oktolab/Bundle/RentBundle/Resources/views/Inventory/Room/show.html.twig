@@ -30,8 +30,16 @@
     <form class="aui">
         <fieldset>
             <div class="field-group viewMode">
+                <label>{{'inventory.room.title'|trans}}</label>
+                <span class="field-value">{{ room.title }}</span>
+            </div>
+            <div class="field-group viewMode">
                 <label>{{'inventory.room.description'|trans}}</label>
                 <span class="field-value">{{ room.description }}</span>
+            </div>
+            <div class="field-group viewMode">
+                <label>{{'inventory.room.barcode'|trans}}</label>
+                <span class="field-value">{{ room.barcode }}</span>
             </div>
         </fieldset>
     </form>

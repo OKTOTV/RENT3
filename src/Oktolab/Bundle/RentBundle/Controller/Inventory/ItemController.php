@@ -157,14 +157,13 @@ class ItemController extends Controller
      *
      * @Route("/{id}", name="inventory_item_update")
      * @ParamConverter("item", class="OktolabRentBundle:Inventory\Item")
-     * @Method({"PUT", "POST"})
+     * @Method("PUT")
      * @Template("OktolabRentBundle:Inventory\Item:edit.html.twig")
      */
     public function updateAction(Request $request, Item $item)
     {
         $editForm = $this->createForm(new ItemType(), $item, array('method' => 'PUT'));
         $editForm->bind($request);
-
         if ($editForm->isValid()) {
             $this->get('oktolab.upload_manager')->saveAttachmentsToEntity($item);
 

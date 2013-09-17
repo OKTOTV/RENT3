@@ -237,7 +237,7 @@
             </trans-unit>
             <trans-unit id="113">
                 <source>inventory.item.new</source>
-                <target>Neuer Gegenstand</target>
+                <target>Neuen Gegenstand anlegen</target>
             </trans-unit>
             <trans-unit id="114">
                 <source>inventory.item.barcode</source>
@@ -334,7 +334,7 @@
             </trans-unit>
             <trans-unit id="214">
                 <source>inventory.set.new</source>
-                <target>Neues Set</target>
+                <target>Neues Set anlegen</target>
             </trans-unit>
             <trans-unit id="215">
                 <source>inventory.set.searchForItems</source>
@@ -501,11 +501,11 @@
             </trans-unit>
             <trans-unit id="505">
                 <source>inventory.room.new</source>
-                <target>Neuer Raum</target>
+                <target>Neuen Raum anlegen</target>
             </trans-unit>
             <trans-unit id="506">
                 <source>inventory.room.edit</source>
-                <target>Raum %roomTitle% bearbeiten</target>
+                <target>Raum "%roomTitle%" bearbeiten</target>
             </trans-unit>
             <trans-unit id="507">
                 <source>inventory.room.uploadPicture</source>
@@ -522,6 +522,26 @@
             <trans-unit id="510">
                 <source>inventory.room.rooms</source>
                 <target>Räume</target>
+            </trans-unit>
+            <trans-unit id="511">
+                <source>room.message.saveSuccessful</source>
+                <target>Der Raum %roomTitle% wurde erfolgreich gespeichert</target>
+            </trans-unit>
+            <trans-unit id="512">
+                <source>room.message.saveFailure</source>
+                <target>Der Raum konnte nicht gespeichert werden</target>
+            </trans-unit>
+            <trans-unit id="513">
+                <source>room.message.changeSuccessful</source>
+                <target>Die Änderungen für %roomTitle% wurden erfolgreich gespeichert</target>
+            </trans-unit>
+            <trans-unit id="514">
+                <source>room.message.changeFailure</source>
+                <target>Die Änderungen konnten nicht übernommen werden</target>
+            </trans-unit>
+            <trans-unit id="515">
+                <source>room.message.deleteSuccess</source>
+                <target>Der Raum "%roomTitle%" wurde erfolgreich gelöscht</target>
             </trans-unit>
 
             <trans-unit id="600">
