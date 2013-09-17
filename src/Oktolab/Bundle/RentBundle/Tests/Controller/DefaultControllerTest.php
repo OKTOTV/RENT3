@@ -19,7 +19,7 @@ class DefaultControllerTest extends WebTestCase
     {
         $this->client->request('GET', '/about');
         $this->assertTrue($this->client->getResponse()->isSuccessful(), 'Response should be successful');
-        $this->assertRegExp('/Lizenzen/', $this->client->getResponse()->getContent());
+        $this->assertRegExp('/Oktolab RENT/', $this->client->getResponse()->getContent());
         $this->assertTrue($this->client->getResponse()->isCacheable(), 'Response should be cacheable');
     }
 }

@@ -28,6 +28,13 @@ class DefaultController extends Controller
      */
     public function aboutAction()
     {
-        return array('licenses' => file_get_contents($this->get('kernel')->getRootDir().'/../LICENSE'));
+        $raw = explode("\n###\n", file_get_contents($this->get('kernel')->getRootDir().'/../LICENSE'));
+        $licenses = array();
+        foreach ($raw as $i) {
+            $header = strtok($i, "\n");
+            $licenses[trim($header)] = str_replace($header, '', $i);
+        }
+        
+        return array('licenses' => $licenses);
     }
 }
