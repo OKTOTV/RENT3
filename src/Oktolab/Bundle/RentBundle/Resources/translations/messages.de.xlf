@@ -182,6 +182,14 @@
                 <source>generic.deleteAttachment</source>
                 <target>Anhang löschen</target>
             </trans-unit>
+            <trans-unit id="46">
+                <source>generic.picture</source>
+                <target>Bild</target>
+            </trans-unit>
+            <trans-unit id="47">
+                <source>generic.pictureReplaceWarning</source>
+                <target>Achtung: Bestehendes Bild wird ersetzt und kann nicht wiederhergestellt werden!</target>
+            </trans-unit>
 
             <trans-unit id="100">
                 <source>inventory.item.title</source>
@@ -525,7 +533,7 @@
             </trans-unit>
             <trans-unit id="511">
                 <source>room.message.saveSuccessful</source>
-                <target>Der Raum %roomTitle% wurde erfolgreich gespeichert</target>
+                <target>"%roomTitle%" wurde erfolgreich gespeichert</target>
             </trans-unit>
             <trans-unit id="512">
                 <source>room.message.saveFailure</source>
@@ -533,7 +541,7 @@
             </trans-unit>
             <trans-unit id="513">
                 <source>room.message.changeSuccessful</source>
-                <target>Die Änderungen für %roomTitle% wurden erfolgreich gespeichert</target>
+                <target>Die Änderungen für "%roomTitle%" wurden erfolgreich gespeichert</target>
             </trans-unit>
             <trans-unit id="514">
                 <source>room.message.changeFailure</source>

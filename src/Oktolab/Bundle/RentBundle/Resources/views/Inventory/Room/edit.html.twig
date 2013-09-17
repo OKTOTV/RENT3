@@ -12,17 +12,19 @@
         </div>
     </div>
     <div class="aui-page-header-main">
-        <h1>{{'inventory.room.edit'|trans({'%roomTitle%': entity.title})}}</h1>
-        <a href="{{ path('inventory_room_picture_upload', { 'id': entity.id}) }}">{{ "inventory.room.uploadPicture" | trans }}</a>
-            {% if entity.picture is not null %}
-                <a href="{{ path('inventory_room_attachment_delete', { 'entity_id': entity.id, 'attachment_id': entity.picture.getId }) }}">{{"inventory.room.deletePicture" | trans }}</a>
-            {% endif %}
+        <ol class="aui-nav aui-nav-breadcrumbs">
+            <li>Inventar</li>
+            <li class="aui-nav-selected"><a href="{{ path('inventory_room') }}">{{ 'inventory.room.rooms'|trans }}</a></li>
+            <li><a href="{{ path('inventory_room_show', { 'id': entity.id }) }}">{{ entity.title }}</a></li>
+        </ol>
+        <h1>{{'generic.edit'|trans}}</h1>
     </div>
     <div class="aui-page-header-actions">
         <div class="aui-buttons">
             <div class="aui-buttons">
                 <a class="aui-button" href="{{ path('inventory_room_show', { 'id': entity.id }) }}">{{'generic.back'|trans}}</a>
                 <a class="aui-button" href="{{ path('inventory_room') }}">{{'generic.backToList'|trans}}</a>
+                <a class="aui-button" href="{{ path('inventory_room_picture_upload', { 'id': entity.id}) }}">{{ "inventory.room.uploadPicture" | trans }}</a>
                 <a class="aui-button" href="{{ path('inventory_room_delete', { 'id': entity.id }) }}">{{'generic.delete'|trans}}</a>
             </div>
         </div>
@@ -37,11 +39,16 @@
         {{ form_row(edit_form.title) }}
         {{ form_row(edit_form.description, {'attr': {'placeholder': 'Description of the room'} }) }}
         {{ form_row(edit_form.barcode) }}
-        <field class="plupload" data-plupload="multiple"></field>
-        <div id="container" class= "field-group">
-            <div id="filelist">{{'generic.runtimeError'|trans}}</div>
-            <br />
-            <a id="pickfiles" href="#">[{{'generic.selectFiles'|trans}}]</a>
+        <div class="field-group viewMode">
+            <label>{{ 'inventory.room.attachments'|trans }}</label>
+            <span class="field-value">
+                <field class="plupload" data-plupload="multiple"></field>
+                <div id="container">
+                    <div id="filelist">{{'generic.runtimeError'|trans}}</div>
+                    <br />
+                    <a id="pickfiles" href="#">[{{'generic.selectFiles'|trans}}]</a>
+                </div>
+            </span>
         </div>
         <div class="buttons-container">
             <button class="aui-button aui-button-primary" id="uploadfiles" type="submit">{{'generic.submit'|trans}}</button>
