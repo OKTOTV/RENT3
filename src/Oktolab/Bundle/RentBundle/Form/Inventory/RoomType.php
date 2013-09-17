@@ -11,9 +11,9 @@ class RoomType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('title')
-            ->add('description', 'textarea')
-            ->add('barcode');
+            ->add('title', 'text', array('label' => 'inventory.room.title'))
+            ->add('description', 'textarea', array('label' => 'inventory.room.description'))
+            ->add('barcode', 'text', array('label' => 'inventory.room.barcode'));
     }
 
     public function setDefaultOptions(OptionsResolverInterface $resolver)

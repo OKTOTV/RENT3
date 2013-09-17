@@ -39,11 +39,11 @@
             hiddenInputCollection.find('div[data-object="' + value + '"]').remove(); // remove from hiddenInputCollection
             scannedInputCollection.find('div[data-object="' + value + '"]').remove(); // remove from scannedInputCollection
         });
-
     }
 
     // If Found: Initialize OktolabRentBundle EditForm
     if (0 !== $('#oktolabrentbundle_event_editform_searchfield').length) {
         OktolabRentBundleEditForm();
     }
+
 }(window, document, jQuery, Oktolab));

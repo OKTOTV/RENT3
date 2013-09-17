@@ -29,10 +29,10 @@ class Room implements UploadableInterface
      *
      * @ORM\Column(name="title", type="string", length=255)
      *
-     * @Assert\NotBlank(message = "Du musst einen Titel angeben" )
+     * @Assert\NotBlank(message = "room.title.notblank" )
      * @Assert\Length(
      *      max = 255,
-     *      maxMessage = "Der Titel darf maximal 255 Zeichen lang sein"
+     *      maxMessage = "room.title.lengthMax"
      *      )
      */
     private $title;
@@ -42,11 +42,11 @@ class Room implements UploadableInterface
      *
      * @ORM\Column(name="description", type="string", length=500)
      *
-     * @Assert\NotBlank(message = "Du musst eine Beschreibung angeben" )
+     * @Assert\NotBlank(message = "room.description.notblank" )
      * @Assert\Length
      *      (
      *      max = 500,
-     *      maxMessage = "Die Beschreibung darf maximal 500 Zeichen lang sein"
+     *      maxMessage = "room.description.lengthMax"
      *      )
      */
     private $description;
@@ -56,11 +56,11 @@ class Room implements UploadableInterface
      *
      * @ORM\Column(name="barcode", type="string", length=20)
      *
-     * @Assert\NotBlank(message = "Du musst einen Barcode angeben" )
+     * @Assert\NotBlank(message = "room.barcode.notblank" )
      * @Assert\Length
      *      (
      *      max = 20,
-     *      maxMessage = "Der Barcode darf maximal 20 Zeichen lang sein"
+     *      maxMessage = "room.barcode.lengthMax"
      *      )
      */
     private $barcode;

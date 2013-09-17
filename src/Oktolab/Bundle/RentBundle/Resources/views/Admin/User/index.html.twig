@@ -5,20 +5,20 @@
         <table class="aui">
             <thead>
                 <tr>
-                    <th id="title">{{ 'Name' | trans }}</th>
-                    <th id="items">{{ 'Role' | trans}}</th>
-                    <th id="action">{{ 'Actions' | trans }}</th>
+                    <th id="title">{{ 'admin.user.name' | trans }}</th>
+                    <th id="roles">{{ 'admin.user.role' | trans}}</th>
+                    <th id="action">{{ 'generic.actions' | trans }}</th>
                 </tr>
             </thead>
             <tbody>
             {% for entity in entities %}
                 <tr>
                     <td headers="title">{{ entity.displayname }}</td>
-                    <td headers="items">{{ entity.roles }}</td>
+                    <td headers="roles">{{ entity.roles|trans }}</td>
                     <td class="action" headers="action">
                         <ul class="menu">
-                            <li><a href="{{ path('security_user_show', { 'id': entity.id }) }}">{{ 'show' | trans }}</a></li>
-                            <li><a href="{{ path('security_user_edit', { 'id': entity.id }) }}">{{ 'edit' | trans }}</a></li>
+                            <li><a href="{{ path('security_user_show', { 'id': entity.id }) }}">{{ 'generic.show' | trans }}</a></li>
+                            <li><a href="{{ path('security_user_edit', { 'id': entity.id }) }}">{{ 'generic.edit' | trans }}</a></li>
                         </ul>
                     </td>
                 </tr>

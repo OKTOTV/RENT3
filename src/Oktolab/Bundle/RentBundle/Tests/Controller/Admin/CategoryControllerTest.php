@@ -86,7 +86,7 @@ class CategoryControllerTest extends WebTestCase
         $this->assertTrue($this->client->getResponse()->isSuccessful(), 'Response should be successful.');
         $this->assertEquals(
             1,
-            $crawler->filter('.aui-message.error:contains("can not be deleted")')->count(),
+            $crawler->filter('.aui-message.error:contains("kann nicht gelöscht werden,")')->count(),
             'A aui-message should appear with an error message.'
         );
     }
@@ -105,7 +105,7 @@ class CategoryControllerTest extends WebTestCase
         $this->assertTrue($this->client->getResponse()->isSuccessful(), 'Response should be successful.');
         $this->assertEquals(
             1,
-            $crawler->filter('.aui-message.success:contains("successfully deleted")')->count(),
+            $crawler->filter('.aui-message.success:contains("erfolgreich gelöscht")')->count(),
             'A aui-message should appear with a success message.'
         );
     }

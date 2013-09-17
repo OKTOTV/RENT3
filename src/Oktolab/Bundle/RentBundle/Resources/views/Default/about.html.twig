@@ -1,7 +1,42 @@
 {% extends "OktolabRentBundle::layout.html.twig" %}
 
-{% block content_header %}<h1>{% trans %}Lizenzen{% endtrans %}</h1>{% endblock %}
+{% block body_classes 'aui-page-hybrid' %}
 
-{% block content %}
-    {{ licenses | markdown }}
+{% block page_main %}
+   <section id="content" role="main">
+        <div class="aui-page-panel">
+            <div class="aui-page-panel-inner">
+                <section class="aui-page-panel-content">
+                    <h1>{{'generic.about' | trans}}</h1>
+                    <hr style="border: 0; border-bottom: 1px solid #ccc;" />
+                    <p style="float:left; width:350px;">
+                        <strong>Oktolab RENT v3.0-beta</strong> <br />
+                        Copyright &copy; 2013-{{ "now"|date("Y") }} Oktolab GmbH
+                    </p>
+                    <img src="{{ asset('bundles/oktolabrent/images/oktolab_logo.png') }}" height="50" width="284" alt="Oktolab" title="Oktolab Logo" />
+
+                    <p>
+                    Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.
+                    </p>
+                    <hr style="border: 0; border-bottom: 1px solid #ccc;" />
+                    <h2 style="margin-top: 20px;">Drittanbieter Lizenzen</h2>
+                    {% for header, license in licenses %}
+                        <h3>{{ header }}</h3>
+                        <div id="reveal-text-content-{{ loop.index }}" class="aui-expander-content" style="min-height: 6.0em">
+                            {{ license | markdown }}
+                            <a id="reveal-text-trigger" 
+                               data-replace-text="Show less" 
+                               data-replace-selector=".reveal-text-trigger-text" 
+                               class="aui-expander-trigger aui-expander-reveal-text" 
+                               aria-controls="reveal-text-content-{{ loop.index }}"
+                               style="float:right">
+                                <span class="reveal-text-trigger-text">Show more</span>
+                            </a>
+                        </div>
+                    {% endfor %} 
+                </section>               
+            </div>
+        </div>
+    </section>
+    
 {% endblock %}

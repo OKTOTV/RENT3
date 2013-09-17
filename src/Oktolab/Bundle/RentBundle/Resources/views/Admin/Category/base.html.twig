@@ -4,23 +4,14 @@
 {% set highlight_action = "category" %}
 
 {% block content %}
-    {% for flashMessage in app.session.flashbag.get('error') %}
-        {{ macro.aui_message(flashMessage, 'error') }}
-    {% endfor %}
-
-    {% for flashMessage in app.session.flashbag.get('success') %}
-        {{ macro.aui_message(flashMessage, 'success') }}
-    {% endfor %}
-
-    <h1 class="admin-heading">{{ 'Categories' | trans }}</h1>
-    <p class="admin-subtitle">Eine Kategorie wird in Oktolab RENT genutzt um Gegenstände zu kategorisieren.</p>
+    <h1 class="admin-heading">{{'inventory.categories'|trans}}</h1>
+    <p class="admin-subtitle">{{'admin.category.about'|trans}}</p>
 
     <div class="aui-toolbar2">
         <div class="aui-toolbar2-inner">
             <div class="aui-toolbar2-primary">
                 <div id="button-set1" class="aui-buttons">
-                    <a class="aui-button" href="{{ path('inventory_category') }}">{{ 'Overview' | trans }}</a>
-                    <a class="aui-button" href="{{ path('inventory_category_new') }}">{{ 'Add new Category' | trans }}</a>
+                    {%block buttons%}{%endblock%}
                 </div>
             </div>
         </div>

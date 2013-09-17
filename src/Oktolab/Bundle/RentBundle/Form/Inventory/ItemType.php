@@ -12,46 +12,50 @@ class ItemType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('title')
-            ->add('description', 'textarea')
-            ->add('barcode')
+            ->add('title', 'text', array('label' => 'inventory.item.title'))
+            ->add('description', 'textarea', array('label' => 'inventory.item.description'))
+            ->add('barcode', 'text', array('label' => 'inventory.item.barcode'))
             ->add(
                 'buyDate',
                 'date',
                 array(
                     'widget' => 'single_text',
                     'required' => false,
-                    'empty_value' => ''
+                    'empty_value' => '',
+                    'label' => 'inventory.item.buydate'
                 )
             )
-            ->add('serialNumber')
-            ->add('vendor')
-            ->add('modelNumber')
+            ->add('serialNumber', 'text', array('label' => 'inventory.item.serialnumber'))
+            ->add('vendor', 'text', array('label' => 'inventory.item.vendor'))
+            ->add('modelNumber', 'text', array('label' => 'inventory.item.modelnumber'))
             ->add(
                 'set',
                 'entity',
                 array(
-                    'class' => 'OktolabRentBundle:Inventory\Set',
+                    'class'    => 'OktolabRentBundle:Inventory\Set',
                     'property' => 'title',
                     'required' => false,
+                    'label'    => 'inventory.item.set'
                 )
             )
             ->add(
                 'place',
                 'entity',
                 array(
-                    'class' => 'OktolabRentBundle:Inventory\Place',
+                    'class'    => 'OktolabRentBundle:Inventory\Place',
                     'property' => 'title',
                     'required' => true,
+                    'label'    => 'inventory.item.place'
                 )
             )
             ->add(
                 'category',
                 'entity',
                 array(
-                    'class' => 'OktolabRentBundle:Inventory\Category',
+                    'class'    => 'OktolabRentBundle:Inventory\Category',
                     'property' => 'title',
                     'required' => false,
+                    'label'    => 'inventory.item.category'
                 )
             );
     }

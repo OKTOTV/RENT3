@@ -9,7 +9,7 @@
 {% block page_main %}
     <section id="content" role="main">
         <header class="aui-page-header">
-            {% block content_header %}<h1>Oktolab RENT Administration</h1>{% endblock %}
+            {% block content_header %}<h1>{{'admin.admin'|trans}}</h1>{% endblock %}
         </header>
 
         <div class="aui-page-panel">
@@ -17,23 +17,33 @@
                 <div class="aui-page-panel-nav">
                     <nav class="aui-navgroup aui-navgroup-vertical">
                         <div class="aui-navgroup-inner">
-                            <div class="aui-nav-heading"><strong>{{ 'Inventory' | trans }}</strong></div>
+                            <div class="aui-nav-heading"><strong>{{ 'generic.inventory' | trans }}</strong></div>
                             <ul class="aui-nav">
-                                <li{% if highlight_action == "category" %} class="aui-nav-selected"{% endif %}><a href="{{ path('inventory_category') }}">{{ 'Categories' | trans }}</a></li>
-                                <li{% if highlight_action == "place" %} class="aui-nav-selected"{% endif %}><a href="{{ path('inventory_place') }}">{{ 'Places' | trans }}</a></li>
+                                <li{% if highlight_action == "category" %} class="aui-nav-selected"{% endif %}><a href="{{ path('inventory_category') }}">{{ 'inventory.categories' | trans }}</a></li>
+                                <li{% if highlight_action == "place" %} class="aui-nav-selected"{% endif %}><a href="{{ path('inventory_place') }}">{{ 'inventory.places' | trans }}</a></li>
+                                <li{% if highlight_action == "import" %} class="aui-nav-selected"{% endif %}><a href="{{ path('inventory_import') }}">{{ 'inventory.import' | trans }}</a></li>
                             </ul>
-                            <div class="aui-nav-heading"><strong>{{ 'Administration' | trans }}</strong></div>
+                            <div class="aui-nav-heading"><strong>{{ 'generic.administration' | trans }}</strong></div>
                             <ul class="aui-nav">
-                                <li{% if highlight_action == "user" %} class="aui-nav-selected"{% endif %}><a href="{{ path('security_user') }}">{{ 'User Management' | trans }}</a></li>
-                                <li><a href="#">Application links</a></li>
-                                <li><a href="#">Licensing</a></li>
-                                <li><a href="#">Oktolab Support</a></li>
+                                <li{% if highlight_action == "user" %} class="aui-nav-selected"{% endif %}><a href="{{ path('security_user') }}">{{ 'admin.userManagement' | trans }}</a></li>
+                                <li><a href="#">{{'admin.applicationLinks'|trans}}</a></li>
+                                <li><a href="#">{{'admin.licensing'|trans}}</a></li>
+                                <li><a href="#">{{'admin.oktolabSupport'|trans}}</a></li>
                             </ul>
                         </div>
                     </nav>
 
                 </div>
                 <section class="aui-page-panel-content">
+                    {% for flashMessage in app.session.flashbag.get('error') %}
+                        {{ macro.aui_message(flashMessage, 'error') }}
+                    {% endfor %}
+                    {% for flashMessage in app.session.flashbag.get('success') %}
+                        {{ macro.aui_message(flashMessage, 'success') }}
+                    {% endfor %}
+                    {% for flashMessage in app.session.flashbag.get('warning') %}
+                        {{ macro.aui_message(flashMessage, 'warning') }}
+                    {% endfor %}
                     {% block content %}{% endblock %}
                 </section>
             </div>

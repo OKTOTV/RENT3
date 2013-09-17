@@ -8,7 +8,6 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Cache;
 
 use Oktolab\Bundle\RentBundle\Entity\Inventory\Item;
 use Oktolab\Bundle\RentBundle\Entity\Inventory\Attachment;
@@ -28,7 +27,6 @@ class ItemController extends Controller
      *
      * @Route("/", name="inventory_item")
      * @Method("GET")
-     * @Cache(expires="+1 day", public="true")
      * @Template()
      */
     public function indexAction()
@@ -61,8 +59,24 @@ class ItemController extends Controller
             $em->persist($entity);
             $em->flush();
 
+            $this
+                ->get('session')
+                ->getFlashBag()
+                ->add(
+                    'success',
+                    $this->get('translator')->trans('item.message.savesuccessful')
+                );
+
             return $this->redirect($this->generateUrl('inventory_item_show', array('id' => $entity->getId())));
         }
+
+        $this
+            ->get('session')
+            ->getFlashBag()
+            ->add(
+                'warning',
+                $this->get('translator')->trans('item.message.savefailure')
+            );
 
         return array(
             'entity' => $entity,
@@ -72,7 +86,7 @@ class ItemController extends Controller
 
     /**
      * Displays a form to create a new Inventory\Item entity.
-     *
+     * TODO: cache me
      * @Route("/new", name="inventory_item_new")
      * @Method("GET")
      * @Template()
@@ -158,8 +172,24 @@ class ItemController extends Controller
             $em->persist($item);
             $em->flush();
 
+            $this
+                ->get('session')
+                ->getFlashBag()
+                ->add(
+                    'success',
+                    $this->get('translator')->trans('item.message.changessuccessful')
+                );
+
             return $this->redirect($this->generateUrl('inventory_item_show', array('id' => $item->getId())));
         }
+
+        $this
+            ->get('session')
+            ->getFlashBag()
+            ->add(
+                'warning',
+                $this->get('translator')->trans('item.message.changefailure')
+            );
 
         return array(
             'item'      => $item,
@@ -173,7 +203,7 @@ class ItemController extends Controller
      * @ParamConverter("item", class="OktolabRentBundle:Inventory\Item")
      * @Method("GET")
      */
-    public function deleteAction($item)
+    public function deleteAction(Item $item)
     {
         $em = $this->getDoctrine()->getManager();
         $em->remove($item);
@@ -186,7 +216,13 @@ class ItemController extends Controller
         }
         //-------------------------------
         $em->flush();
-
+        $this
+            ->get('session')
+            ->getFlashBag()
+            ->add(
+                'success',
+                $this->get('translator')->trans('item.message.deletesuccess', array('%title%' => $item->getTitle()))
+            );
         return $this->redirect($this->generateUrl('inventory_item'));
     }
 

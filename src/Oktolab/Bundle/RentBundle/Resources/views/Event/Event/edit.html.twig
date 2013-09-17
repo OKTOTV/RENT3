@@ -77,7 +77,9 @@
                   data-prototype="{{ '<div data-value="{{value}}"><input id="oktolabrentbundle_event_objects_{{index}}_type" name="oktolabrentbundle_event[objects][{{index}}][type]" value="{{type}}" /><input id="oktolabrentbundle_event_objects_{{index}}_object" name="oktolabrentbundle_event[objects][{{index}}][object]" value="{{id}}" /></div>'|e }}">
             {% if objects %}
                 {% for object in form.objects %}
-                    {{ form_row(object) }}
+                    {#{ form.vars.value.name }}
+                    {{ dump(object) }#}
+                    {{ form_row(object, { 'attr': { 'data-value': object.vars.value.type ~ object.vars.value.object } }) }}
                 {% endfor %}
             {% endif %}
         </fieldset>

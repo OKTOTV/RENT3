@@ -11,9 +11,9 @@ class SetType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('title')
-            ->add('description', 'textarea')
-            ->add('barcode')
+            ->add('title', 'text', array('label' => 'inventory.set.title'))
+            ->add('description', 'textarea', array('label' => 'inventory.set.description'))
+            ->add('barcode', 'text', array('label' => 'inventory.set.barcode'))
             ->add(
                 'items',
                 'collection',
@@ -22,15 +22,17 @@ class SetType extends AbstractType
                     'options'       => array('class' => 'OktolabRentBundle:Inventory\Item', 'property' => 'id'),
                     'allow_add'     => true,
                     'allow_delete'  => true,
+                    'label'         => 'inventory.set.items'
                 )
             )
             ->add(
                 'place',
                 'entity',
                 array(
-                    'class' => 'OktolabRentBundle:Inventory\Place',
+                    'class'    => 'OktolabRentBundle:Inventory\Place',
                     'property' => 'title',
                     'required' => true,
+                    'label'    => 'inventory.set.place'
                 )
             );
     }

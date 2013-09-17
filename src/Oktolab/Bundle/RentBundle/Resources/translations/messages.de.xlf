@@ -3,116 +3,629 @@
     <file source-language="de" datatype="plaintext" original="file.ext">
         <body>
             <trans-unit id="1">
-                <source>Title</source>
+                <source>generic.title</source>
                 <target>Titel</target>
             </trans-unit>
             <trans-unit id="2">
-                <source>Description</source>
+                <source>generic.description</source>
                 <target>Beschreibung</target>
             </trans-unit>
             <trans-unit id="3">
-                <source>Buy date</source>
-                <target>Kaufdatum</target>
-            </trans-unit>
-            <trans-unit id="4">
-                <source>Serial number</source>
-                <target>Seriennummer</target>
-            </trans-unit>
-            <trans-unit id="5">
-                <source>Vendor</source>
-                <target>Hersteller</target>
-            </trans-unit>
-            <trans-unit id="6">
-                <source>Model number</source>
-                <target>Modellnummer</target>
-            </trans-unit>
-            <trans-unit id="7">
-                <source>Back to list</source>
+                <source>generic.backToList</source>
                 <target>Zurück zur Liste</target>
             </trans-unit>
-            <trans-unit id="8">
-                <source>Submit</source>
+            <trans-unit id="4">
+                <source>generic.submit</source>
                 <target>Speichern</target>
             </trans-unit>
-            <trans-unit id="9">
-                <source>Documentation</source>
+            <trans-unit id="5">
+                <source>generic.documentation</source>
                 <target>Dokumentation</target>
             </trans-unit>
-            <trans-unit id="10">
-                <source>Username</source>
+            <trans-unit id="6">
+                <source>generic.username</source>
                 <target>Benutzername</target>
             </trans-unit>
-            <trans-unit id="11">
-                <source>Password</source>
+            <trans-unit id="7">
+                <source>generic.password</source>
                 <target>Passwort</target>
             </trans-unit>
-            <trans-unit id="12">
-                <source>Delete</source>
+            <trans-unit id="8">
+                <source>generic.delete</source>
                 <target>Löschen</target>
             </trans-unit>
-            <trans-unit id="13">
-                <source>remove from set</source>
-                <target>Von Set entfernen</target>
-            </trans-unit>
-            <trans-unit id="14">
-                <source>show</source>
+            <trans-unit id="9">
+                <source>generic.show</source>
                 <target>Anzeigen</target>
             </trans-unit>
-            <trans-unit id="15">
-                <source>edit</source>
+            <trans-unit id="10">
+                <source>generic.edit</source>
                 <target>Bearbeiten</target>
             </trans-unit>
-            <trans-unit id="16">
-                <source>Inventory</source>
+            <trans-unit id="11">
+                <source>generic.inventory</source>
                 <target>Inventar</target>
             </trans-unit>
-            <trans-unit id="17">
-                <source>Calendar</source>
-                <target>Kalendar</target>
+            <trans-unit id="12">
+                <source>generic.calendar</source>
+                <target>Kalender</target>
             </trans-unit>
-            <trans-unit id="18">
-                <source>Book</source>
+            <trans-unit id="13">
+                <source>generic.book</source>
                 <target>Reservieren</target>
             </trans-unit>
-            <trans-unit id="19">
-                <source>delete</source>
-                <target>Entfernen</target>
+            <trans-unit id="14">
+                <source>generic.delete</source>
+                <target>Löschen</target>
             </trans-unit>
-            <trans-unit id="20">
-                <source>Overview</source>
+            <trans-unit id="15">
+                <source>generic.overview</source>
                 <target>Übersicht</target>
             </trans-unit>
-            <trans-unit id="21">
-                <source>Categories</source>
-                <target>Kategorien</target>
-            </trans-unit>
-            <trans-unit id="22">
-                <source>Add new Category</source>
-                <target>Neue Kategorie hinzufügen</target>
-            </trans-unit>
-            <trans-unit id="23">
-                <source>Actions</source>
+            <trans-unit id="16">
+                <source>generic.actions</source>
                 <target>Aktionen</target>
             </trans-unit>
+            <trans-unit id="17">
+                <source>generic.barcode</source>
+                <target>Barcode</target>
+            </trans-unit>
+            <trans-unit id="18">
+                <source>generic.runtimeError</source>
+                <target>Allgemeiner Ladefehler</target>
+            </trans-unit>
+            <trans-unit id="19">
+                <source>generic.barcode</source>
+                <target>Barcode</target>
+            </trans-unit>
+            <trans-unit id="20">
+                <source>generic.hide</source>
+                <target>Verbergen</target>
+            </trans-unit>
+            <trans-unit id="21">
+                <source>generic.selectFiles</source>
+                <target>Dateien auswählen</target>
+            </trans-unit>
+            <trans-unit id="22">
+                <source>generic.search</source>
+                <target>Suche</target>
+            </trans-unit>
+            <trans-unit id="23">
+                <source>generic.remove</source>
+                <target>Entfernen</target>
+            </trans-unit>
             <trans-unit id="24">
-                <source>#. Items</source>
-                <target>#. Gegenstände</target>
+                <source>generic.loadEngine</source>
+                <target>Engine wird geladen...</target>
             </trans-unit>
             <trans-unit id="25">
-                <source>Items in Category</source>
-                <target>Gegenstände in dieser Kategorie</target>
+                <source>generic.back</source>
+                <target>Zurück</target>
             </trans-unit>
             <trans-unit id="26">
-                <source>Add new Place</source>
-                <target>Neuen Ort hinzufügen</target>
+                <source>generic.bugReport</source>
+                <target>Fehler melden</target>
             </trans-unit>
             <trans-unit id="27">
-                <source>Places</source>
-                <target>Orte</target>
+                <source>generic.login</source>
+                <target>Anmelden</target>
             </trans-unit>
             <trans-unit id="28">
-                <source>Rental Track</source>
-                <target>Verleihvorgang</target>
+                <source>generic.username</source>
+                <target>Benutzername</target>
+            </trans-unit>
+            <trans-unit id="29">
+                <source>generic.password</source>
+                <target>Kennwort</target>
+            </trans-unit>
+            <trans-unit id="30">
+                <source>generic.loginTitle</source>
+                <target>Benutzeranmeldung</target>
+            </trans-unit>
+            <trans-unit id="31">
+                <source>generic.loginError</source>
+                <target>Authentifizierung fehlgeschlagen</target>
+            </trans-unit>
+            <trans-unit id="32">
+                <source>generic.inventory</source>
+                <target>Inventar</target>
+            </trans-unit>
+            <trans-unit id="33">
+                <source>generic.onlineHelp</source>
+                <target>Online Hilfe</target>
+            </trans-unit>
+            <trans-unit id="34">
+                <source>generic.about</source>
+                <target>Über Oktolab RENT</target>
+            </trans-unit>
+            <trans-unit id="35">
+                <source>generic.administration</source>
+                <target>Administration</target>
+            </trans-unit>
+            <trans-unit id="36">
+                <source>generic.logout</source>
+                <target>Abmelden</target>
+            </trans-unit>
+            <trans-unit id="37">
+                <source>generic.profile</source>
+                <target>Profil</target>
+            </trans-unit>
+            <trans-unit id="38">
+                <source>generic.today</source>
+                <target>Heute</target>
+            </trans-unit>
+            <trans-unit id="39">
+                <source>generic.previousWeek</source>
+                <target>Letzte Woche</target>
+            </trans-unit>
+            <trans-unit id="40">
+                <source>generic.nextWeek</source>
+                <target>Nächste Woche</target>
+            </trans-unit>
+            <trans-unit id="41">
+                <source>generic.dashboard</source>
+                <target>Dashboard</target>
+            </trans-unit>
+            <trans-unit id="42">
+                <source>generic.numberThings</source>
+                <target>Anzahl %thing%</target>
+            </trans-unit>
+            <trans-unit id="43">
+                <source>generic.upload</source>
+                <target>Hochladen</target>
+            </trans-unit>
+
+            <trans-unit id="100">
+                <source>inventory.item.title</source>
+                <target>Titel</target>
+            </trans-unit>
+            <trans-unit id="101">
+                <source>inventory.item.buydate</source>
+                <target>Kaufdatum</target>
+            </trans-unit>
+            <trans-unit id="102">
+                <source>inventory.item.serialnumber</source>
+                <target>Seriennummer</target>
+            </trans-unit>
+            <trans-unit id="103">
+                <source>inventory.item.vendor</source>
+                <target>Hersteller</target>
+            </trans-unit>
+            <trans-unit id="104">
+                <source>inventory.item.modelnumber</source>
+                <target>Modellnummer</target>
+            </trans-unit>
+            <trans-unit id="105">
+                <source>item.message.savesuccessful</source>
+                <target>Der Gegenstand wurde erfolgreich gespeichert</target>
+            </trans-unit>
+            <trans-unit id="106">
+                <source>item.message.savefailure</source>
+                <target>Der Gegenstand konnte nicht gespeichert werden</target>
+            </trans-unit>
+            <trans-unit id="107">
+                <source>item.message.changessuccessful</source>
+                <target>Die Änderungen wurden erfolgreich gespeichert</target>
+            </trans-unit>
+            <trans-unit id="108">
+                <source>item.message.changefailure</source>
+                <target>Die Änderungen konnten nicht übernommen werden</target>
+            </trans-unit>
+            <trans-unit id="109">
+                <source>item.message.deletesuccess</source>
+                <target>Der Gegenstand "%title%" wurde erfolgreich gelöscht</target>
+            </trans-unit>
+            <trans-unit id="110">
+                <source>inventory.item.discharge</source>
+                <target>Ausmustern</target>
+            </trans-unit>
+            <trans-unit id="111">
+                <source>inventory.item.description</source>
+                <target>Beschreibung</target>
+            </trans-unit>
+            <trans-unit id="112">
+                <source>inventory.item.attachments</source>
+                <target>Anhänge</target>
+            </trans-unit>
+            <trans-unit id="113">
+                <source>inventory.item.new</source>
+                <target>Neuer Gegenstand</target>
+            </trans-unit>
+            <trans-unit id="114">
+                <source>inventory.item.barcode</source>
+                <target>Barcode</target>
+            </trans-unit>
+            <trans-unit id="115">
+                <source>inventory.item.set</source>
+                <target>Set</target>
+            </trans-unit>
+            <trans-unit id="116">
+                <source>inventory.item.place</source>
+                <target>Ort</target>
+            </trans-unit>
+            <trans-unit id="117">
+                <source>inventory.item.category</source>
+                <target>Kategorie</target>
+            </trans-unit>
+            <trans-unit id="118">
+                <source>inventory.items</source>
+                <target>Inventar Gegenstände</target>
+            </trans-unit>
+            <trans-unit id="119">
+                <source>inventory.item.edit</source>
+                <target>Gegenstand "%itemTitle%" bearbeiten</target>
+            </trans-unit>
+            <trans-unit id="120">
+                <source>inventory.item.uploadPicture</source>
+                <target>Bild hochladen</target>
+            </trans-unit>
+            <trans-unit id="121">
+                <source>inventory.item.deletePicture</source>
+                <target>Bild löschen</target>
+            </trans-unit>
+            <trans-unit id="122">
+                <source>inventory.item.items</source>
+                <target>Gegenstände</target>
+            </trans-unit>
+
+            <trans-unit id="201">
+                <source>inventory.set.removeFromSet</source>
+                <target>Von Set entfernen</target>
+            </trans-unit>
+            <trans-unit id="202">
+                <source>set.message.savesuccessful</source>
+                <target>Das Set wurde erfolgreich gespeichert</target>
+            </trans-unit>
+            <trans-unit id="203">
+                <source>set.message.savefailure</source>
+                <target>Das Set konnte nicht gespeichert werden</target>
+            </trans-unit>
+            <trans-unit id="204">
+                <source>set.message.changessuccessful</source>
+                <target>Die Änderungen wurden erfolgreich gespeichert</target>
+            </trans-unit>
+            <trans-unit id="205">
+                <source>set.message.changefailure</source>
+                <target>Die Änderungen konnten nicht übernommen werden</target>
+            </trans-unit>
+            <trans-unit id="206">
+                <source>set.message.deletesuccess</source>
+                <target>Das Set "%title%" wurde erfolgreich gelöscht</target>
+            </trans-unit>
+            <trans-unit id="207">
+                <source>inventory.set.barcode</source>
+                <target>Barcode</target>
+            </trans-unit>
+            <trans-unit id="208">
+                <source>inventory.set.attachments</source>
+                <target>Anhänge</target>
+            </trans-unit>
+            <trans-unit id="209">
+                <source>inventory.set.description</source>
+                <target>Beschreibung</target>
+            </trans-unit>
+            <trans-unit id="210">
+                <source>inventory.set.items</source>
+                <target>Gegenstände</target>
+            </trans-unit>
+            <trans-unit id="211">
+                <source>inventory.set.edit</source>
+                <target>Set "%setTitle%" bearbeiten</target>
+            </trans-unit>
+            <trans-unit id="212">
+                <source>inventory.set.uploadPicture</source>
+                <target>Bild hochladen</target>
+            </trans-unit>
+            <trans-unit id="213">
+                <source>inventory.set.deletePicture</source>
+                <target>Bild löschen</target>
+            </trans-unit>
+            <trans-unit id="214">
+                <source>inventory.set.new</source>
+                <target>Neues Set</target>
+            </trans-unit>
+            <trans-unit id="215">
+                <source>inventory.set.searchForItems</source>
+                <target>Suche nach Gegenständen</target>
+            </trans-unit>
+            <trans-unit id="216">
+                <source>inventory.set.title</source>
+                <target>Titel</target>
+            </trans-unit>
+            <trans-unit id="217">
+                <source>inventory.set.place</source>
+                <target>Ort</target>
+            </trans-unit>
+            <trans-unit id="218">
+                <source>inventory.sets</source>
+                <target>Inventar Sets</target>
+            </trans-unit>
+            <trans-unit id="219">
+                <source>inventory.set.sets</source>
+                <target>Sets</target>
+            </trans-unit>
+
+            <trans-unit id="300">
+                <source>inventory.places</source>
+                <target>Orte</target>
+            </trans-unit>
+            <trans-unit id="301">
+                <source>inventory.place.new</source>
+                <target>Neuen Ort hinzufügen</target>
+            </trans-unit>
+            <trans-unit id="302">
+                <source>inventory.place.edit</source>
+                <target>Ort "%placeTitle%" bearbeiten</target>
+            </trans-unit>
+            <trans-unit id="303">
+                <source>inventory.place.title</source>
+                <target>Titel</target>
+            </trans-unit>
+            <trans-unit id="304">
+                <source>inventory.place.noneFound</source>
+                <target>Keine Plätze gefunden</target>
+            </trans-unit>
+            <trans-unit id="305">
+                <source>inventory.place.about</source>
+                <target>Ein Ort wird in Oktolab RENT dazu verwendet, Gegenstände zu gruppieren.</target>
+            </trans-unit>
+            <trans-unit id="306">
+                <source>message.place.createSuccessful</source>
+                <target>Ort "%placeTitle%" erfolgreich angelegt</target>
+            </trans-unit>
+            <trans-unit id="307">
+                <source>message.place.createFailure</source>
+                <target>Der Ort konnte nicht gespeichert werden</target>
+            </trans-unit>
+            <trans-unit id="308">
+                <source>message.place.changeSuccessful</source>
+                <target>Änderungen an "%placeTitle%" erfolgreich gespeichert</target>
+            </trans-unit>
+            <trans-unit id="309">
+                <source>message.place.changeFailure</source>
+                <target>Die Änderungen konnten nicht übernommen werden</target>
+            </trans-unit>
+            <trans-unit id="310">
+                <source>message.place.deleteSuccessful</source>
+                <target>Ort "%placeTitle%" erfolgreich gelöscht</target>
+            </trans-unit>
+            <trans-unit id="311">
+                <source>message.place.deleteFailure</source>
+                <target>Der Ort "%placeTitle%" kann nicht gelöscht werden, da noch Gegenstände und Sets daran gebunden sind</target>
+            </trans-unit>
+            <trans-unit id="312">
+                <source>inventory.place.noItemsFound</source>
+                <target>Keine Gegenstände an diesem Ort</target>
+            </trans-unit>
+            <trans-unit id="313">
+                <source>inventory.place.noSetsFound</source>
+                <target>Keine Sets an diesem Ort</target>
+            </trans-unit>
+            <trans-unit id="314">
+                <source>inventory.place.items</source>
+                <target>Gegenstände an diesem Ort</target>
+            </trans-unit>
+            <trans-unit id="316">
+                <source>inventory.place.sets</source>
+                <target>Sets an diesem Ort</target>
+            </trans-unit>
+
+            <trans-unit id="400">
+                <source>inventory.categories</source>
+                <target>Kategorien</target>
+            </trans-unit>
+            <trans-unit id="401">
+                <source>inventory.category.new</source>
+                <target>Neue Kategorie hinzufügen</target>
+            </trans-unit>
+            <trans-unit id="402">
+                <source>inventory.category.itemsInCategory</source>
+                <target>Gegenstände in dieser Kategorie</target>
+            </trans-unit>
+            <trans-unit id="403">
+                <source>inventory.category.title</source>
+                <target>Titel</target>
+            </trans-unit>
+            <trans-unit id="404">
+                <source>inventory.category.edit</source>
+                <target>Kategorie "%categoryTitle%" bearbeiten</target>
+            </trans-unit>
+            <trans-unit id="405">
+                <source>inventory.category.noneFound</source>
+                <target>Keine Kategorien gefunden</target>
+            </trans-unit>
+            <trans-unit id="406">
+                <source>message.category.createSuccessful</source>
+                <target>Kategorie "%placeTitle%" erfolgreich angelegt</target>
+            </trans-unit>
+            <trans-unit id="407">
+                <source>message.category.createFailure</source>
+                <target>Die Kategorie konnte nicht gespeichert werden</target>
+            </trans-unit>
+            <trans-unit id="408">
+                <source>message.category.changeSuccessful</source>
+                <target>Änderungen an "%categoryTitle%" erfolgreich gespeichert</target>
+            </trans-unit>
+            <trans-unit id="409">
+                <source>message.category.changeFailure</source>
+                <target>Die Änderungen konnten nicht übernommen werden</target>
+            </trans-unit>
+            <trans-unit id="410">
+                <source>message.category.deleteSuccess</source>
+                <target>Kategorie "%categoryTitle%" erfolgreich gelöscht</target>
+            </trans-unit>
+            <trans-unit id="411">
+                <source>message.category.deleteFailure</source>
+                <target>Die Kategorie "%categoryTitle%" kann nicht gelöscht werden, da noch Gegenstände daran gebunden sind</target>
+            </trans-unit>
+            <trans-unit id="412">
+                <source>inventory.category.zeroItems</source>
+                <target>Keine Gegenstände in dieser Kategorie</target>
+            </trans-unit>
+            <trans-unit id="413">
+                <source>inventory.category.items</source>
+                <target>Gegenstände in dieser Kategorie</target>
+            </trans-unit>
+
+            <trans-unit id="500">
+                <source>inventory.room.barcode</source>
+                <target>Barcode</target>
+            </trans-unit>
+            <trans-unit id="501">
+                <source>inventory.room.title</source>
+                <target>Titel</target>
+            </trans-unit>
+            <trans-unit id="502">
+                <source>inventory.room.description</source>
+                <target>Beschreibung</target>
+            </trans-unit>
+            <trans-unit id="503">
+                <source>inventory.room.attachments</source>
+                <target>Anhänge</target>
+            </trans-unit>
+            <trans-unit id="504">
+                <source>inventory.rooms</source>
+                <target>Inventar Räume</target>
+            </trans-unit>
+            <trans-unit id="505">
+                <source>inventory.room.new</source>
+                <target>Neuer Raum</target>
+            </trans-unit>
+            <trans-unit id="506">
+                <source>inventory.room.edit</source>
+                <target>Raum %roomTitle% bearbeiten</target>
+            </trans-unit>
+            <trans-unit id="507">
+                <source>inventory.room.uploadPicture</source>
+                <target>Bild hochladen</target>
+            </trans-unit>
+            <trans-unit id="508">
+                <source>inventory.room.deletePicture</source>
+                <target>Bild löschen</target>
+            </trans-unit>
+            <trans-unit id="509">
+                <source>inventory.room.descriptionPlaceholder</source>
+                <target>Beschreibung des Raums</target>
+            </trans-unit>
+            <trans-unit id="510">
+                <source>inventory.room.rooms</source>
+                <target>Räume</target>
+            </trans-unit>
+
+            <trans-unit id="600">
+                <source>admin.adminConsole</source>
+                <target>Administationsbereich</target>
+            </trans-unit>
+            <trans-unit id="601">
+                <source>admin.adminConsole.about</source>
+                <target>Der Administationsbereich dient zur Verwaltung des Oktolab RENTs. Mit den Menüpunken links lassen sich alle Bereiche auswählen.</target>
+            </trans-unit>
+            <trans-unit id="602">
+                <source>admin.admin</source>
+                <target>Administation Oktolab Oktolab RENT</target>
+            </trans-unit>
+            <trans-unit id="603">
+                <source>admin.userManagement</source>
+                <target>Benutzerverwaltung</target>
+            </trans-unit>
+            <trans-unit id="604">
+                <source>admin.applicationLinks</source>
+                <target>Programmverknüpfungen</target>
+            </trans-unit>
+            <trans-unit id="605">
+                <source>admin.licensing</source>
+                <target>Lizenzen</target>
+            </trans-unit>
+            <trans-unit id="606">
+                <source>admin.oktolabSupport</source>
+                <target>Oktolab Hilfestellung</target>
+            </trans-unit>
+            <trans-unit id="607">
+                <source>admin.category.about</source>
+                <target>Eine Kategorie wird im Oktolab RENT dazu genutzt, Gegenstände zusammenzufassen.</target>
+            </trans-unit>
+
+            <trans-unit id="608">
+                <source>admin.user.name</source>
+                <target>Name</target>
+            </trans-unit>
+            <trans-unit id="609">
+                <source>admin.user.role</source>
+                <target>Rechte</target>
+            </trans-unit>
+            <trans-unit id="610">
+                <source>ROLE_USER</source>
+                <target>Benutzer</target>
+            </trans-unit>
+            <trans-unit id="611">
+                <source>ROLE_ADMIN</source>
+                <target>Administrator</target>
+            </trans-unit>
+            <trans-unit id="612">
+                <source>admin.user</source>
+                <target>Benutzer</target>
+            </trans-unit>
+            <trans-unit id="613">
+                <source>admin.user.about</source>
+                <target>Benutzer und deren Rechte werden verwendet, Oktolab RENT zu Verwalten.</target>
+            </trans-unit>
+            <trans-unit id="614">
+                <source>admin.user.edit</source>
+                <target>Benutzer "%username%" bearbeiten</target>
+            </trans-unit>
+            <trans-unit id="615">
+                <source>user.message.updateSuccess</source>
+                <target>Änderungen für "%username%" erfolgreich übernommen</target>
+            </trans-unit>
+            <trans-unit id="616">
+                <source>user.message.updateFailure</source>
+                <target>Die Änderungen konnten nicht übernommen werden</target>
+            </trans-unit>
+
+            <trans-unit id="700">
+                <source>event.book</source>
+                <target>Buchen</target>
+            </trans-unit>
+            <trans-unit id="701">
+                <source>event.bookings</source>
+                <target>Buchungen</target>
+            </trans-unit>
+
+            <trans-unit id="800">
+                <source>inventory.import</source>
+                <target>Import</target>
+            </trans-unit>
+            <trans-unit id="801">
+                <source>inventory.importer</source>
+                <target>Inventar Import</target>
+            </trans-unit>
+            <trans-unit id="802">
+                <source>inventory.import.data</source>
+                <target>Import</target>
+            </trans-unit>
+            <trans-unit id="803">
+                <source>message.import.fileContainsError</source>
+                <target>Datei enthält ungültige Daten</target>
+            </trans-unit>
+            <trans-unit id="804">
+                <source>message.import.fileInvalid</source>
+                <target>Datei kann nicht eingelesen werden</target>
+            </trans-unit>
+            <trans-unit id="805">
+                <source>message.import.noFileSelected</source>
+                <target>Es muss eine Datei angegeben werden</target>
+            </trans-unit>
+            <trans-unit id="806">
+                <source>message.import.filetypeInvalid</source>
+                <target>Die Datei muss vom Typ %fileType% sein</target>
+            </trans-unit>
+            <trans-unit id="807">
+                <source>inventory.import.verify</source>
+                <target>Gegenstände prüfen</target>
+            </trans-unit>
+            <trans-unit id="808">
+                <source>inventory.import.noBuyDate</source>
+                <target>Kein Kaufdatum angegeben</target>
             </trans-unit>
         </body>
     </file>

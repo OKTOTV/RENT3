@@ -10,12 +10,12 @@
             </div>
         </div>
         <div class="aui-page-header-main">
-            <h1>Inventar Gegenstand Liste</h1>
+            <h1>{{ 'inventory.items' | trans}}</h1>
         </div>
         <div class="aui-page-header-actions">
             <div class="aui-buttons">
                 <div class="aui-buttons">
-                    <a class="aui-button" href="{{ path('inventory_item_new') }}">Neues Item</a>
+                    <a class="aui-button" href="{{ path('inventory_item_new') }}">{{'inventory.item.new' | trans}}</a>
                 </div>
             </div>
         </div>
@@ -26,14 +26,14 @@
     <table class="aui">
         <thead>
             <tr>
-                <th id="name">{% trans %}Title{% endtrans %}</th>
-                <th>{% trans %}Description{% endtrans %}</th>
-                <th>{% trans %}Barcode{% endtrans %}</th>
-                <th>{% trans %}Buydate{% endtrans %}</th>
-                <th>{% trans %}Serialnumber{% endtrans %}</th>
-                <th>{% trans %}Vendor{% endtrans %}</th>
-                <th>{% trans %}Modelnumber{% endtrans %}</th>
-                <th id="action">{% trans %}Actions{% endtrans %}</th>
+                <th id="name">{{ 'inventory.item.title' | trans }}</th>
+                <th>{{ 'inventory.item.description' | trans }}</th>
+                <th>{{ 'inventory.item.barcode' | trans }}</th>
+                <th>{{ 'inventory.item.buydate' | trans }}</th>
+                <th>{{ 'inventory.item.serialnumber' | trans }}</th>
+                <th>{{ 'inventory.item.vendor' | trans }}</th>
+                <th>{{ 'inventory.item.modelnumber' | trans }}</th>
+                <th id="action">{{ 'generic.actions' | trans }}</th>
             </tr>
         </thead>
         <tbody>
@@ -49,10 +49,10 @@
                 <td class="action" headers="action">
                     <ul class="menu">
                         <li>
-                            <a href="{{ path('inventory_item_show', { 'id': entity.id }) }}">show</a>
+                            <a href="{{ path('inventory_item_show', { 'id': entity.id }) }}">{{ 'generic.show' | trans }}</a>
                         </li>
                         <li>
-                            <a href="{{ path('inventory_item_edit', { 'id': entity.id }) }}">edit</a>
+                            <a href="{{ path('inventory_item_edit', { 'id': entity.id }) }}">{{ 'generic.edit' | trans }}</a>
                         </li>
                     </ul>
                 </td>

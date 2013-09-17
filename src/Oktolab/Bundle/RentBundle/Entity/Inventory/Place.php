@@ -3,6 +3,7 @@
 namespace Oktolab\Bundle\RentBundle\Entity\Inventory;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Place
@@ -25,6 +26,11 @@ class Place
      * @var string
      *
      * @ORM\Column(name="title", type="string", length=255)
+     * @Assert\NotBlank(message = "place.title.notblank" )
+     * @Assert\Length(
+     *      max = 255,
+     *      maxMessage = "place.title.lengthMax"
+     *      )
      */
     private $title;
 

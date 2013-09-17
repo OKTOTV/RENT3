@@ -3,36 +3,36 @@
       <div class="aui-header-primary">
           <h1 id="logo" class="aui-header-logo aui-header-logo-aui"><a href="{{ path('rentbundle_dashboard') }}"><span class="aui-header-logo-device">RENT</span></a></h1>
           <ul class="aui-nav">
-              <li><a href="{{ path('rentbundle_dashboard') }}" class="aui-nav-imagelink">{% trans %}Calendar{% endtrans %}</a></li>
-              <li><a href="#dropdown2-header7" aria-owns="dropdown2-header7" aria-haspopup="true" class="aui-dropdown2-trigger" aria-controls="dropdown2-header7">{{ 'Inventory'|trans }}<span class="aui-icon-dropdown"></span></a>
+              <li><a href="{{ path('rentbundle_dashboard') }}" class="aui-nav-imagelink">{{'generic.calendar'|trans}}</a></li>
+              <li><a href="#dropdown2-header7" aria-owns="dropdown2-header7" aria-haspopup="true" class="aui-dropdown2-trigger" aria-controls="dropdown2-header7">{{ 'generic.inventory'|trans }}<span class="aui-icon-dropdown"></span></a>
                 <div class="aui-dropdown2 aui-style-default aui-dropdown2-in-header" id="dropdown2-header7" style="display: none; top: 40px; min-width: 160px; left: 1213px; " aria-hidden="true">
                     <div class="aui-dropdown2-section">
                         <ul>
-                            <li><a href="{{ path('inventory_item') }}" class="aui-nav-imagelink">{{ 'Items'|trans }}</a></li>
-                            <li><a href="{{ path('inventory_set') }}" class="aui-nav-imagelink">{% trans %}Sets{% endtrans %}</a></li>
-                            <li><a href="{{ path('inventory_room') }}" class="aui-nav-imagelink">{% trans %}Rooms{% endtrans %}</a></li>
+                            <li><a href="{{ path('inventory_item') }}" class="aui-nav-imagelink">{{'inventory.item.items'|trans }}</a></li>
+                            <li><a href="{{ path('inventory_set') }}" class="aui-nav-imagelink">{{'inventory.set.sets'|trans}}</a></li>
+                            <li><a href="{{ path('inventory_room') }}" class="aui-nav-imagelink">{{'inventory.room.rooms'|trans}}</a></li>
                         </ul>
                     </div>
                 </div>
               </li>
-              <li><button id="create-button" class="aui-button aui-button-primary aui-style">{% trans %}Book{% endtrans %}</button></li>
+              <li><button id="create-button" class="aui-button aui-button-primary aui-style">{{'generic.book'|trans}}</button></li>
           </ul>
       </div>
       <div class="aui-header-secondary">
           <ul class="aui-nav">
               <li>
                   <form action="#" method="post" class="aui-quicksearch">
-                      <label for="quicksearch" class="assistive">{{ 'Search' | trans }}</label>
-                      <input id="quicksearch" class="search" type="text" placeholder="{{ 'Search' | trans }}" name="quicksearchname">
+                      <label for="quicksearch" class="assistive">{{ 'generic.search' | trans }}</label>
+                      <input id="quicksearch" class="search" type="text" placeholder="{{ 'generic.search' | trans }}" name="quicksearchname">
                   </form>
               </li>
               <li><a href="#dropdown2-header8" aria-owns="dropdown2-header8" aria-haspopup="true" class="aui-dropdown2-trigger" aria-controls="dropdown2-header7"><span class="aui-icon aui-icon-small aui-iconfont-help">Help</span><span class="aui-icon-dropdown"></span></a>
                 <div class="aui-dropdown2 aui-style-default aui-dropdown2-in-header" id="dropdown2-header8" style="display: none; top: 40px; min-width: 160px; left: 1213px; " aria-hidden="true">
                     <div class="aui-dropdown2-section">
                         <ul>
-                            <li><a href="{{ rent_documentation_url }}" class="active">{% trans %}Online help{% endtrans %}</a></li>
+                            <li><a href="{{ rent_documentation_url }}" class="active">{{'generic.onlineHelp'|trans}}</a></li>
                             {# <li><a href="http://example.com/">Keyboard shortcuts</a></li> #}
-                            <li><a href="{{ path('rentbundle_about') }}">{% trans %}About{% endtrans %}</a></li>
+                            <li><a href="{{ path('rentbundle_about') }}">{{'generic.about'|trans}}</a></li>
                         </ul>
                     </div>
                 </div>
@@ -48,15 +48,15 @@
                 <div class="aui-dropdown2 aui-style-default aui-dropdown2-in-header" id="dropdown2-header9" style="display: none; top: 40px; min-width: 160px; left: 1213px;" aria-hidden="true">
                     <div class="aui-dropdown2-section">
                         <ul>
-                            <li><a href="#" class="active">{% trans %}Profile{% endtrans %} - {{ app.user.username|default('null') }}</a></li>
+                            <li><a href="#" class="active">{{'generic.profile'|trans}} - {{ app.user.username|default('null') }}</a></li>
                             {% if is_granted('ROLE_ADMIN') %}
-                                <li><a href="{{ path('admin_index') }}">Administration</a></li>
+                                <li><a href="{{ path('admin_index') }}">{{'generic.administration'|trans}}</a></li>
                             {% endif %}
                         </ul>
                     </div>
                     <div class="aui-dropdown2-section">
                         <ul>
-                            <li><a href="{{ path('rentbundle_secure_logout') }}" id="logout">{% trans %}Log out{% endtrans %}</a></li>
+                            <li><a href="{{ path('rentbundle_secure_logout') }}" id="logout">{{'generic.logout'|trans}}</a></li>
                         </ul>
                     </div>
                 </div>

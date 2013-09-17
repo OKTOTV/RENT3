@@ -50,7 +50,7 @@ class ItemControllerTest extends WebTestCase
         $this->loadFixtures(array('Oktolab\Bundle\RentBundle\DataFixtures\ORM\ItemFixture'));
 
         $crawler = $this->client->request('GET', '/inventory/item/1');
-        $crawler = $this->client->click($crawler->selectLink('Editieren')->link());
+        $crawler = $this->client->click($crawler->selectLink('Bearbeiten')->link());
 
         $this->client->request('GET', '/inventory/item/1/edit');
         $this->assertTrue($this->client->getResponse()->isSuccessful(), 'Response should be successful');
@@ -97,7 +97,7 @@ class ItemControllerTest extends WebTestCase
 
 
         $crawler = $this->client->request('GET', '/inventory/item/1');
-        $crawler = $this->client->click($crawler->selectLink('Editieren')->link());
+        $crawler = $this->client->click($crawler->selectLink('Bearbeiten')->link());
 
         $this->client->click($crawler->selectLink('Löschen')->link());
 

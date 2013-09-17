@@ -61,9 +61,23 @@ class SetController extends Controller
             $em->persist($set);
             $em->flush();
 
+            $this
+                ->get('session')
+                ->getFlashBag()
+                ->add(
+                    'success',
+                    $this->get('translator')->trans('set.message.savesuccessful')
+                );
+
             return $this->redirect($this->generateUrl('inventory_set_show', array('id' => $set->getId())));
         }
-
+        $this
+            ->get('session')
+            ->getFlashBag()
+            ->add(
+                'warning',
+                $this->get('translator')->trans('set.message.savefailure')
+            );
         return array(
             'form'   => $form->createView(),
             'items'  => $form->get('items')->getData(),
@@ -167,8 +181,22 @@ class SetController extends Controller
             $em->persist($set);
             $em->flush();
 
+            $this
+                ->get('session')
+                ->getFlashBag()
+                ->add(
+                    'success',
+                    $this->get('translator')->trans('set.message.changessuccessful')
+                );
             return $this->redirect($this->generateUrl('inventory_set_show', array('id' => $set->getId())));
         }
+        $this
+            ->get('session')
+            ->getFlashBag()
+            ->add(
+                'warning',
+                $this->get('translator')->trans('set.message.changefailure')
+            );
 
         return array(
             'set'    => $set,
@@ -206,7 +234,13 @@ class SetController extends Controller
         //-----------------------------
 
         $em->flush();
-
+        $this
+            ->get('session')
+            ->getFlashBag()
+            ->add(
+                'success',
+                $this->get('translator')->trans('set.message.deletesuccess', array('%title%' => $set->getTitle()))
+            );
         return $this->redirect($this->generateUrl('inventory_set'));
     }
 

@@ -85,11 +85,11 @@ class UserManagementController extends Controller
             $em->persist($user);
             $em->flush();
 
-            $this->get('session')->getFlashBag()->add('success', 'Successfully updated User.');
+            $this->get('session')->getFlashBag()->add('success', $this->get('translator')->trans('user.message.updateSuccess', array('%username%' => $user->getDisplayname())));
             return $this->redirect($this->generateUrl('security_user'));
         }
 
-        $this->get('session')->getFlashBag()->add('error', 'There was an error while saving the form.');
+        $this->get('session')->getFlashBag()->add('error', $this->get('translator')->trans('user.message.updateFailure'));
         return array(
             'user'      => $user,
             'edit_form'   => $editForm->createView(),

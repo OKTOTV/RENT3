@@ -30,10 +30,10 @@ class Item implements RentableInterface, UploadableInterface
      *
      * @ORM\Column(name="title", type="string", length=255)
      *
-     * @Assert\NotBlank(message = "Du musst einen Titel angeben" )
+     * @Assert\NotBlank(message = "item.title.notblank" )
      * @Assert\Length(
      *      max = 255,
-     *      maxMessage = "Der Titel darf maximal 255 Zeichen lang sein"
+     *      maxMessage = "item.title.lengthMax"
      *      )
      */
     private $title;
@@ -43,11 +43,11 @@ class Item implements RentableInterface, UploadableInterface
      *
      * @ORM\Column(name="description", type="string", length=500)
      *
-     * @Assert\NotBlank(message = "Du musst eine Beschreibung angeben" )
+     * @Assert\NotBlank(message = "item.description.notblank" )
      * @Assert\Length
      *      (
      *      max = 500,
-     *      maxMessage = "Die Beschreibung darf maximal 500 Zeichen lang sein"
+     *      maxMessage = "item.description.lengthMax"
      *      )
      */
     private $description;
@@ -61,7 +61,7 @@ class Item implements RentableInterface, UploadableInterface
      * @Assert\Length
      *      (
      *      max = 20,
-     *      maxMessage = "Der Barcode darf maximal 20 Zeichen lang sein"
+     *      maxMessage = "item.barcode.lengthMax"
      *      )
      */
     private $barcode;

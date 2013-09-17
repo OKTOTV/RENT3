@@ -72,7 +72,7 @@ class PlaceControllerTest extends WebTestCase
         $this->assertTrue($this->client->getResponse()->isSuccessful(), 'Response should be successful.');
         $this->assertEquals(
             1,
-            $crawler->filter('.aui-message.error:contains("can not be deleted")')->count(),
+            $crawler->filter('.aui-message.error:contains("kann nicht gelöscht werden,")')->count(),
             'An AUI Error-Message should appear on this page.'
         );
     }

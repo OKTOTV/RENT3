@@ -13,13 +13,13 @@
         </div>
         <div class="aui-page-header-main">
             <h1>{{room.title}}</h1>
-            <h3>Barcode: {{room.barcode}}</h3>
+            <h3>{{'inventory.room.barcode'|trans}}: {{room.barcode}}</h3>
         </div>
         <div class="aui-page-header-actions">
             <div class="aui-buttons">
                 <div class="aui-buttons">
-                    <a class="aui-button" href="{{ path('inventory_room_edit', { 'id' : room.id }) }}">Editieren</a>
-                    <a class="aui-button" href="{{ path('inventory_room') }}">{% trans %}Back to list{% endtrans %}</a>
+                    <a class="aui-button" href="{{ path('inventory_room_edit', { 'id' : room.id }) }}">{{'generic.edit'|trans}}</a>
+                    <a class="aui-button" href="{{ path('inventory_room') }}">{{'generic.backToList'|trans}}</a>
                 </div>
             </div>
         </div>
@@ -31,16 +31,15 @@
         <div class="aui-page-panel-inner">
             <section class="aui-page-panel-content">
                <h3>
-                    {% trans %}Attachments{% endtrans%} {{ room.attachments | length }} <a id="replace-text-trigger" data-replace-text="({%trans%}hide{%endtrans%})" class="aui-expander-trigger" aria-controls="expander-with-replace-text-content">({%trans%}show{%endtrans%})</a>
+                    {{'inventory.room.attachments'|trans}} {{ room.attachments | length }} <a id="replace-text-trigger" data-replace-text="({{'generic.hide'|trans}})" class="aui-expander-trigger" aria-controls="expander-with-replace-text-content">({{'generic.show'|trans}})</a>
                 </h3>
                 <div id="expander-with-replace-text-content" class="aui-expander-content">
                     {% for attachment in room.attachments %}
                         <img src="{{ sauce(attachment) }}" />
                     {% endfor %}
                 </div>
-                <h3>{% trans %}Description{% endtrans %}</h3>
+                <h3>{{'inventory.room.description'|trans}}</h3>
                 <p>{{ room.description }}</p>
-
             </section>
         </div>
     </div>

@@ -51,11 +51,11 @@ class PlaceController extends Controller
             $em->persist($entity);
             $em->flush();
 
-            $this->get('session')->getFlashBag()->add('success', 'Successfully added new Place.');
+            $this->get('session')->getFlashBag()->add('success', $this->get('translator')->trans('message.place.createSuccessful', array('%placeTitle%' => $entity->getTitle())));
             return $this->redirect($this->generateUrl('inventory_place'));
         }
 
-        $this->get('session')->getFlashBag()->add('error', 'There was an error while saving the form.');
+        $this->get('session')->getFlashBag()->add('error', $this->get('translator')->trans('message.place.createFailure'));
         return array(
             'entity' => $entity,
             'form'   => $form->createView(),
@@ -143,11 +143,11 @@ class PlaceController extends Controller
             $em->persist($place);
             $em->flush();
 
-            $this->get('session')->getFlashBag()->add('success', 'Successfully updated Place.');
+            $this->get('session')->getFlashBag()->add('success', $this->get('translator')->trans('message.place.changeSuccessful', array('%placeTitle%' => $place->getTitle())));
             return $this->redirect($this->generateUrl('inventory_place'));
         }
 
-        $this->get('session')->getFlashBag()->add('error', 'There was an error while saving the form.');
+        $this->get('session')->getFlashBag()->add('error', $this->get('translator')->trans('message.place.changeFailure'));
         return array(
             'entity'      => $place,
             'edit_form'   => $editForm->createView(),
@@ -166,7 +166,10 @@ class PlaceController extends Controller
         if ($place->getItems()->count() != 0 || $place->getSets()->count() != 0) {
             $this->get('session')->getFlashBag()->add(
                 'error',
-                sprintf('More than 1 Item and/or Set found, Place "%s" can not be deleted.', $place->getTitle())
+                $this->get('translator')->trans(
+                    'message.place.deleteFailure',
+                    array('%placeTitle%' => $place->getTitle())
+                )
             );
             return $this->redirect($this->generateUrl('inventory_place'));
         }
@@ -177,7 +180,10 @@ class PlaceController extends Controller
 
         $this->get('session')->getFlashBag()->add(
             'success',
-            sprintf('Successfully deleted Place "%s"', $place->getTitle())
+            $this->get('translator')->trans(
+                'message.place.deleteSuccessful',
+                array('%placeTitle%' => $place->getTitle())
+            )
         );
         return $this->redirect($this->generateUrl('inventory_place'));
     }
