@@ -436,7 +436,7 @@
             </trans-unit>
             <trans-unit id="406">
                 <source>message.category.createSuccessful</source>
-                <target>Kategorie "%placeTitle%" erfolgreich angelegt</target>
+                <target>Kategorie "%categoryTitle%" erfolgreich angelegt</target>
             </trans-unit>
             <trans-unit id="407">
                 <source>message.category.createFailure</source>
