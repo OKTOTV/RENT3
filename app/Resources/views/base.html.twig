@@ -18,7 +18,7 @@
         {% block head %}{% endblock %}
     </head>
 
-    <body class="aui-layout aui-theme-default {% block body_classes '' %}"> 
+    <body class="aui-layout aui-theme-default {% block body_classes '' %}">
         <div id="page">
             {% block page_header %}{% endblock %}
             {% block page_main %}{% endblock %}
@@ -39,18 +39,18 @@
             window.Oktolab = Oktolab;
         </script>
 
-        <script src="http://twitter.github.com/hogan.js/builds/2.0.0/hogan-2.0.0.js"></script>
-
         {% javascripts
             'aui-5.1/js/aui-all.js'
-            '@OktolabRentBundle/Resources/public/js/parameters.js'
-            '@OktolabRentBundle/Resources/public/js/oktolab-common.js'
             'fancybox/*.js'
+            '@OktolabRentBundle/Resources/public/js/vendor/hogan-2.0.0.min.js'
             '@OktolabRentBundle/Resources/public/js/vendor/*'
-            '@OktolabRentBundle/Resources/public/js/event/*'
-            '@OktolabRentBundle/Resources/public/js/inventory/*'
             '@OktolabRentBundle/Resources/public/js/plupload/plupload.full.js'
             '@OktolabRentBundle/Resources/public/js/plupload/customPlupload.js'
+
+            '@OktolabRentBundle/Resources/public/js/parameters.js'
+            '@OktolabRentBundle/Resources/public/js/oktolab-common.js'
+            '@OktolabRentBundle/Resources/public/js/event/*'
+            '@OktolabRentBundle/Resources/public/js/inventory/*'
             '@OktolabRentBundle/Resources/public/js/*' %}
             <script type="text/javascript" src="{{ asset_url }}"></script>
         {% endjavascripts %}
