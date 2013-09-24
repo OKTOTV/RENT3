@@ -165,7 +165,7 @@
                     "email": "kontakt@beberlei.de"
                 },
                 {
-                    "name": "Johannes M. Schmitt",
+                    "name": "Johannes Schmitt",
                     "email": "schmittjoh@gmail.com",
                     "homepage": "http://jmsyst.com",
                     "role": "Developer of wrapped JMSSerializerBundle"
@@ -301,7 +301,7 @@
                     "email": "kontakt@beberlei.de"
                 },
                 {
-                    "name": "Johannes M. Schmitt",
+                    "name": "Johannes Schmitt",
                     "email": "schmittjoh@gmail.com",
                     "homepage": "http://jmsyst.com",
                     "role": "Developer of wrapped JMSSerializerBundle"
@@ -338,9 +338,6 @@
                 "doctrine/lexer": "1.*",
                 "php": ">=5.3.2"
             },
-            "require-dev": {
-                "doctrine/cache": "1.*"
-            },
             "type": "library",
             "extra": {
                 "branch-alias": {
@@ -376,7 +373,7 @@
                     "email": "kontakt@beberlei.de"
                 },
                 {
-                    "name": "Johannes M. Schmitt",
+                    "name": "Johannes Schmitt",
                     "email": "schmittjoh@gmail.com",
                     "homepage": "http://jmsyst.com",
                     "role": "Developer of wrapped JMSSerializerBundle"
@@ -399,12 +396,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/doctrine/data-fixtures.git",
-                "reference": "b4a135c7db56ecc4602b54a2184368f440cac33e"
+                "reference": "b1e7d5a991ca891cd66c143a618f5ce1e679ba9f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/data-fixtures/zipball/b4a135c7db56ecc4602b54a2184368f440cac33e",
-                "reference": "b4a135c7db56ecc4602b54a2184368f440cac33e",
+                "url": "https://api.github.com/repos/doctrine/data-fixtures/zipball/b1e7d5a991ca891cd66c143a618f5ce1e679ba9f",
+                "reference": "b1e7d5a991ca891cd66c143a618f5ce1e679ba9f",
                 "shasum": ""
             },
             "require": {
@@ -446,7 +443,7 @@
             "keywords": [
                 "database"
             ],
-            "time": "2013-07-10 17:04:07"
+            "time": "2013-09-16 23:31:59"
         },
         {
             "name": "doctrine/dbal",
@@ -588,12 +585,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/doctrine/DoctrineFixturesBundle.git",
-                "reference": "c811f96f0cf83b997e3a3ed037cac729bbe3e803"
+                "reference": "3caec4826e58fe47520b591f965b4adcdfc8a6c8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/DoctrineFixturesBundle/zipball/c811f96f0cf83b997e3a3ed037cac729bbe3e803",
-                "reference": "c811f96f0cf83b997e3a3ed037cac729bbe3e803",
+                "url": "https://api.github.com/repos/doctrine/DoctrineFixturesBundle/zipball/3caec4826e58fe47520b591f965b4adcdfc8a6c8",
+                "reference": "3caec4826e58fe47520b591f965b4adcdfc8a6c8",
                 "shasum": ""
             },
             "require": {
@@ -605,7 +602,7 @@
             "type": "symfony-bundle",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "2.1.x-dev"
+                    "dev-master": "2.2.x-dev"
                 }
             },
             "autoload": {
@@ -637,7 +634,7 @@
                 "Fixture",
                 "persistence"
             ],
-            "time": "2013-09-05 11:23:37"
+            "time": "2013-09-16 10:15:05"
         },
         {
             "name": "doctrine/inflector",
@@ -740,7 +737,7 @@
                     "email": "roman@code-factory.org"
                 },
                 {
-                    "name": "Johannes M. Schmitt",
+                    "name": "Johannes Schmitt",
                     "email": "schmittjoh@gmail.com",
                     "homepage": "http://jmsyst.com",
                     "role": "Developer of wrapped JMSSerializerBundle"
@@ -1287,12 +1284,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/liip/LiipFunctionalTestBundle.git",
-                "reference": "03a1892ae9d59c73f2d3c4309b941f2689f9c447"
+                "reference": "6fad72dd66b54bd85cf77208fad9d20e89f1999f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/liip/LiipFunctionalTestBundle/zipball/03a1892ae9d59c73f2d3c4309b941f2689f9c447",
-                "reference": "03a1892ae9d59c73f2d3c4309b941f2689f9c447",
+                "url": "https://api.github.com/repos/liip/LiipFunctionalTestBundle/zipball/6fad72dd66b54bd85cf77208fad9d20e89f1999f",
+                "reference": "6fad72dd66b54bd85cf77208fad9d20e89f1999f",
                 "shasum": ""
             },
             "require": {
@@ -1334,7 +1331,7 @@
             "keywords": [
                 "Symfony2"
             ],
-            "time": "2013-05-24 05:48:28"
+            "time": "2013-09-10 11:27:42"
         },
         {
             "name": "monolog/monolog",
@@ -1405,12 +1402,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/1up-lab/OneupUploaderBundle.git",
-                "reference": "bbb79f2228e70a4845c60d32f125cfda1905667e"
+                "reference": "44fbde3a6aaec6a7364362386b5b63907ce6688d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/1up-lab/OneupUploaderBundle/zipball/bbb79f2228e70a4845c60d32f125cfda1905667e",
-                "reference": "bbb79f2228e70a4845c60d32f125cfda1905667e",
+                "url": "https://api.github.com/repos/1up-lab/OneupUploaderBundle/zipball/44fbde3a6aaec6a7364362386b5b63907ce6688d",
+                "reference": "44fbde3a6aaec6a7364362386b5b63907ce6688d",
                 "shasum": ""
             },
             "require": {
@@ -1461,7 +1458,7 @@
                 "plupload",
                 "upload"
             ],
-            "time": "2013-08-16 09:47:55"
+            "time": "2013-09-14 14:51:44"
         },
         {
             "name": "psr/log",
@@ -1756,22 +1753,23 @@
         },
         {
             "name": "symfony/icu",
-            "version": "v1.0.0",
+            "version": "v1.2.0",
             "target-dir": "Symfony/Component/Icu",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/Icu.git",
-                "reference": "v1.0.0"
+                "reference": "7299cd3d8d6602103d1ebff5d0a9917b7bc6de72"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/Icu/zipball/v1.0.0",
-                "reference": "v1.0.0",
+                "url": "https://api.github.com/repos/symfony/Icu/zipball/7299cd3d8d6602103d1ebff5d0a9917b7bc6de72",
+                "reference": "7299cd3d8d6602103d1ebff5d0a9917b7bc6de72",
                 "shasum": ""
             },
             "require": {
+                "lib-icu": ">=4.4",
                 "php": ">=5.3.3",
-                "symfony/intl": ">=2.3,<3.0"
+                "symfony/intl": "~2.3"
             },
             "type": "library",
             "autoload": {
@@ -1799,7 +1797,7 @@
                 "icu",
                 "intl"
             ],
-            "time": "2013-06-03 18:32:07"
+            "time": "2013-06-03 18:32:58"
         },
         {
             "name": "symfony/monolog-bundle",
@@ -2164,27 +2162,28 @@
         },
         {
             "name": "yohang/calendr",
-            "version": "1.0.5",
+            "version": "1.0.6",
             "source": {
                 "type": "git",
                 "url": "https://github.com/yohang/CalendR.git",
-                "reference": "1.0.5"
+                "reference": "c602eda9d246e9c61eded01bf98dfec967bea4b9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/yohang/CalendR/zipball/1.0.5",
-                "reference": "1.0.5",
+                "url": "https://api.github.com/repos/yohang/CalendR/zipball/c602eda9d246e9c61eded01bf98dfec967bea4b9",
+                "reference": "c602eda9d246e9c61eded01bf98dfec967bea4b9",
                 "shasum": ""
             },
             "require": {
                 "php": ">=5.3.0"
             },
             "require-dev": {
-                "doctrine/orm": ">=2.2",
+                "doctrine/common": "~2.3",
+                "doctrine/orm": "~2.3",
                 "google/google-api-php-client": "0.6.2",
-                "phpunit/phpunit": "3.7.*",
-                "silex/silex": "1.1.*",
-                "twig/twig": "1.*"
+                "phpunit/phpunit": "~3.7",
+                "silex/silex": "~1.1",
+                "twig/twig": "~1.13"
             },
             "type": "library",
             "extra": {
@@ -2215,7 +2214,7 @@
                 "date",
                 "events"
             ],
-            "time": "2013-07-09 09:50:17"
+            "time": "2013-09-10 14:18:04"
         }
     ],
     "packages-dev": [
