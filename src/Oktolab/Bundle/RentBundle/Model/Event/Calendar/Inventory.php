@@ -11,12 +11,12 @@ use Oktolab\Bundle\RentBundle\Model\Event\Exception\RepositoryNotFoundException;
 class Inventory extends EventCalendar
 {
     /**
-     * Aggregates the Inventory for Calendar.
+     * Aggregates the Inventory Objectives for Calendar.
      *
-     * @throws RepositoryNotFoundException
+     * @throws RepositoryNotFoundException if repository is missing.
      * @return array
      */
-    public function getInventory($repository)
+    public function getObjectives($repository)
     {
         if (null === $this->getRepository($repository)) {
             throw new RepositoryNotFoundException(sprintf('Repository "%s" not found.', $repository));
@@ -25,12 +25,36 @@ class Inventory extends EventCalendar
         return $this->getRepository($repository)->find(array());
     }
 
+    /**
+     * Aggregates Inventory\Item Categories
+     *
+     * @throws RepositoryNotFoundException if repository is missing.
+     * @return array
+     */
     public function getCategories()
     {
         if (null === $this->getRepository('Category')) {
-//            throw new RepositoryNotFoundException('Repository "Category" not found.');
+            throw new RepositoryNotFoundException('Repository "Category" not found.');
         }
 
         return $this->getRepository('Category')->find(array());
+    }
+
+    /**
+     * Builds the Inventory array.
+     *
+     * @return array
+     */
+    public function getInventory()
+    {
+        $inventory = array();
+//        $inventory['Sets'] = $this->getObjectives('Set');
+
+        $categories = $this->getCategories();
+        foreach ($categories as $category) {
+            $inventory[$category->getTitle()] = $category->getItems();
+        }
+
+        return $inventory;
     }
 }

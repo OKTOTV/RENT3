@@ -16,17 +16,17 @@ class InventoryTest extends \PHPUnit_Framework_TestCase
     protected $SUT = null;
 
     /**
-     * @var Oktolab\Bundle\RentBundle\Entity\Inventory\Set;
+     * @var \Oktolab\Bundle\RentBundle\Entity\Inventory\Set;
      */
     protected $set = null;
 
     /**
-     * @var Oktolab\Bundle\RentBundle\Entity\Inventory\Item;
+     * @var \Oktolab\Bundle\RentBundle\Entity\Inventory\Item;
      */
     protected $item = null;
 
     /**
-     * @var Oktolab\Bundle\RentBundle\Entity\Inventory\Category
+     * @var \Oktolab\Bundle\RentBundle\Entity\Inventory\Category
      */
     protected $category = null;
 
@@ -48,24 +48,24 @@ class InventoryTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($repository, $this->SUT->getRepository('Set'));
     }
 
-    public function testGetInventoryThrowsErrorOnInvalidRepositoryName()
+    public function testGetObjectivesThrowsErrorOnInvalidRepositoryName()
     {
         $this->setExpectedException('Oktolab\Bundle\RentBundle\Model\Event\Exception\RepositoryNotFoundException');
-        $this->SUT->getInventory('Invalid');
+        $this->SUT->getObjectives('Invalid');
     }
 
-    public function testGetInventoryReturnsSetInArray()
+    public function testGetObjectivesReturnsSetInArray()
     {
         $repository = $this->trainSetRepositoryToFindAllSets();
         $this->SUT->addRepository('Set', $repository);
-        $this->assertContains($this->set, $this->SUT->getInventory('Set'));
+        $this->assertContains($this->set, $this->SUT->getObjectives('Set'));
     }
 
-    public function testGetInventoryReturnsItemInArray()
+    public function testGetObjectivesReturnsItemInArray()
     {
         $repository = $this->trainItemRepositoryToFindAllItems();
         $this->SUT->addRepository('Item', $repository);
-        $this->assertContains($this->item, $this->SUT->getInventory('Item'));
+        $this->assertContains($this->item, $this->SUT->getObjectives('Item'));
     }
 
     public function testGetCategoriesReturnsCategoryInArray()
@@ -73,6 +73,32 @@ class InventoryTest extends \PHPUnit_Framework_TestCase
         $repository = $this->trainCategoryRepositoryToFindAllCategories();
         $this->SUT->addRepository('Category', $repository);
         $this->assertContains($this->category, $this->SUT->getCategories());
+    }
+
+    public function testGetCategoriesThrowsExceptionIfRepositoryIsNotSet()
+    {
+        $this->setExpectedException('Oktolab\Bundle\RentBundle\Model\Event\Exception\RepositoryNotFoundException');
+        $this->SUT->getCategories();
+    }
+
+    public function testGetInventoryReturnsCorrectArrayIndexes()
+    {
+        $repository = $this->trainCategoryRepositoryToFindAllCategories();
+        $this->SUT->addRepository('Category', $repository);
+        $this->assertArrayHasKey($this->category->getTitle(), $this->SUT->getInventory());
+    }
+
+    public function testGetInventoryReturnsItemsInCategory()
+    {
+        $repository = $this->trainCategoryRepositoryToFindAllCategories();
+        $this->SUT->addRepository('Category', $repository);
+
+        $item = new Item();
+        $this->category->addItem($item);
+
+        $inventory = $this->SUT->getInventory();
+        $this->assertArrayHasKey($this->category->getTitle(), $inventory);
+        $this->assertContains($item, $inventory[$this->category->getTitle()]);
     }
 
     /**
@@ -115,7 +141,7 @@ class InventoryTest extends \PHPUnit_Framework_TestCase
     protected function trainCategoryRepositoryToFindAllCategories()
     {
         $this->category = new Category();
-        $this->category->getTitle('Test Category');
+        $this->category->setTitle('Test Category');
 
         $repository = $this->getMockBuilder('\Doctrine\ORM\EntityRepository')->disableOriginalConstructor()->getMock();
         $repository->expects($this->once())
