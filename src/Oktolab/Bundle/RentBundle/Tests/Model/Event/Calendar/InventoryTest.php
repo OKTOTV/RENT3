@@ -5,6 +5,7 @@ namespace Oktolab\Bundle\RentBundle\Tests\Model\Event\Calendar;
 use Oktolab\Bundle\RentBundle\Model\Event\Calendar\Inventory as InventoryCalendar;
 use Oktolab\Bundle\RentBundle\Entity\Inventory\Set;
 use Oktolab\Bundle\RentBundle\Entity\Inventory\Item;
+use Oktolab\Bundle\RentBundle\Entity\Inventory\Category;
 
 class InventoryTest extends \PHPUnit_Framework_TestCase
 {
@@ -23,6 +24,11 @@ class InventoryTest extends \PHPUnit_Framework_TestCase
      * @var Oktolab\Bundle\RentBundle\Entity\Inventory\Item;
      */
     protected $item = null;
+
+    /**
+     * @var Oktolab\Bundle\RentBundle\Entity\Inventory\Category
+     */
+    protected $category = null;
 
     public function setup()
     {
@@ -62,6 +68,13 @@ class InventoryTest extends \PHPUnit_Framework_TestCase
         $this->assertContains($this->item, $this->SUT->getInventory('Item'));
     }
 
+    public function testGetCategoriesReturnsCategoryInArray()
+    {
+        $repository = $this->trainCategoryRepositoryToFindAllCategories();
+        $this->SUT->addRepository('Category', $repository);
+        $this->assertContains($this->category, $this->SUT->getCategories());
+    }
+
     /**
      * @return \Doctrine\ORM\EntityRepository|\PHPUnit_Framework_MockObject_MockObject
      */
@@ -87,11 +100,28 @@ class InventoryTest extends \PHPUnit_Framework_TestCase
         $this->item = new Item();
         $this->item->setTitle('Test Item');
 
-        $repository = $this->getMockBuilder('Doctrine\ORM\EntityRepository')->disableOriginalConstructor()->getMock();
+        $repository = $this->getMockBuilder('\Doctrine\ORM\EntityRepository')->disableOriginalConstructor()->getMock();
         $repository->expects($this->once())
                 ->method('find')
                 ->with($this->identicalTo(array()), $this->anything(), $this->anything())
                 ->will($this->returnValue(array($this->item)));
+
+        return $repository;
+    }
+
+    /**
+     * @return \Doctrine\ORM\EntityRepository|\PHPUnit_Framework_MockObject_MockObject
+     */
+    protected function trainCategoryRepositoryToFindAllCategories()
+    {
+        $this->category = new Category();
+        $this->category->getTitle('Test Category');
+
+        $repository = $this->getMockBuilder('\Doctrine\ORM\EntityRepository')->disableOriginalConstructor()->getMock();
+        $repository->expects($this->once())
+                ->method('find')
+                ->with($this->identicalTo(array()), $this->anything(), $this->anything())
+                ->will($this->returnValue(array($this->category)));
 
         return $repository;
     }

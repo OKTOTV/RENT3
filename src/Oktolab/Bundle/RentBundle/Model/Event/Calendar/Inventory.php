@@ -24,4 +24,13 @@ class Inventory extends EventCalendar
 
         return $this->getRepository($repository)->find(array());
     }
+
+    public function getCategories()
+    {
+        if (null === $this->getRepository('Category')) {
+//            throw new RepositoryNotFoundException('Repository "Category" not found.');
+        }
+
+        return $this->getRepository('Category')->find(array());
+    }
 }
