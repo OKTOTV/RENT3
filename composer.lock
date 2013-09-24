@@ -57,22 +57,27 @@
         },
         {
             "name": "dflydev/markdown",
-            "version": "v1.0.2",
+            "version": "v1.0.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/dflydev/dflydev-markdown.git",
-                "reference": "v1.0.2"
+                "reference": "6baed9b50f29c980795b6656d43722aadb126f7e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://github.com/dflydev/dflydev-markdown/zipball/v1.0.2",
-                "reference": "v1.0.2",
+                "url": "https://api.github.com/repos/dflydev/dflydev-markdown/zipball/6baed9b50f29c980795b6656d43722aadb126f7e",
+                "reference": "6baed9b50f29c980795b6656d43722aadb126f7e",
                 "shasum": ""
             },
             "require": {
                 "php": ">=5.3"
             },
             "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.0-dev"
+                }
+            },
             "autoload": {
                 "psr-0": {
                     "dflydev\\markdown": "src"
@@ -80,7 +85,7 @@
             },
             "notification-url": "https://packagist.org/downloads/",
             "license": [
-                "New BSD License"
+                "BSD-3-Clause"
             ],
             "authors": [
                 {
@@ -107,7 +112,7 @@
             "keywords": [
                 "markdown"
             ],
-            "time": "2012-01-15 19:36:37"
+            "time": "2013-09-23 12:00:18"
         },
         {
             "name": "doctrine/annotations",
@@ -235,7 +240,7 @@
                     "email": "kontakt@beberlei.de"
                 },
                 {
-                    "name": "Johannes Schmitt",
+                    "name": "Johannes M. Schmitt",
                     "email": "schmittjoh@gmail.com",
                     "homepage": "http://jmsyst.com",
                     "role": "Developer of wrapped JMSSerializerBundle"
@@ -683,9 +688,9 @@
                     "email": "kontakt@beberlei.de"
                 },
                 {
-                    "name": "Johannes Schmitt",
+                    "name": "Johannes M. Schmitt",
                     "email": "schmittjoh@gmail.com",
-                    "homepage": "https://github.com/schmittjoh",
+                    "homepage": "http://jmsyst.com",
                     "role": "Developer of wrapped JMSSerializerBundle"
                 }
             ],
@@ -1284,17 +1289,18 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/liip/LiipFunctionalTestBundle.git",
-                "reference": "6fad72dd66b54bd85cf77208fad9d20e89f1999f"
+                "reference": "f4f7f4a8eec8d38b2101faa5ed4ca1de847c0da6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/liip/LiipFunctionalTestBundle/zipball/6fad72dd66b54bd85cf77208fad9d20e89f1999f",
-                "reference": "6fad72dd66b54bd85cf77208fad9d20e89f1999f",
+                "url": "https://api.github.com/repos/liip/LiipFunctionalTestBundle/zipball/f4f7f4a8eec8d38b2101faa5ed4ca1de847c0da6",
+                "reference": "f4f7f4a8eec8d38b2101faa5ed4ca1de847c0da6",
                 "shasum": ""
             },
             "require": {
                 "doctrine/common": "2.*",
                 "php": ">=5.3.2",
+                "symfony/browser-kit": "~2.0",
                 "symfony/framework-bundle": "~2.0"
             },
             "suggest": {
@@ -1331,7 +1337,7 @@
             "keywords": [
                 "Symfony2"
             ],
-            "time": "2013-09-10 11:27:42"
+            "time": "2013-09-24 06:16:49"
         },
         {
             "name": "monolog/monolog",
@@ -1402,12 +1408,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/1up-lab/OneupUploaderBundle.git",
-                "reference": "44fbde3a6aaec6a7364362386b5b63907ce6688d"
+                "reference": "c0138f647c8aee974ac085708a543dec20d52c29"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/1up-lab/OneupUploaderBundle/zipball/44fbde3a6aaec6a7364362386b5b63907ce6688d",
-                "reference": "44fbde3a6aaec6a7364362386b5b63907ce6688d",
+                "url": "https://api.github.com/repos/1up-lab/OneupUploaderBundle/zipball/c0138f647c8aee974ac085708a543dec20d52c29",
+                "reference": "c0138f647c8aee974ac085708a543dec20d52c29",
                 "shasum": ""
             },
             "require": {
@@ -1453,12 +1459,13 @@
                 "Uploadify",
                 "YUI3 Uploader",
                 "blueimp",
+                "dropzone",
                 "fileupload",
                 "jQuery File Uploader",
                 "plupload",
                 "upload"
             ],
-            "time": "2013-09-14 14:51:44"
+            "time": "2013-09-20 06:00:51"
         },
         {
             "name": "psr/log",
@@ -1753,23 +1760,22 @@
         },
         {
             "name": "symfony/icu",
-            "version": "v1.2.0",
+            "version": "v1.0.0",
             "target-dir": "Symfony/Component/Icu",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/Icu.git",
-                "reference": "7299cd3d8d6602103d1ebff5d0a9917b7bc6de72"
+                "reference": "v1.0.0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/Icu/zipball/7299cd3d8d6602103d1ebff5d0a9917b7bc6de72",
-                "reference": "7299cd3d8d6602103d1ebff5d0a9917b7bc6de72",
+                "url": "https://api.github.com/repos/symfony/Icu/zipball/v1.0.0",
+                "reference": "v1.0.0",
                 "shasum": ""
             },
             "require": {
-                "lib-icu": ">=4.4",
                 "php": ">=5.3.3",
-                "symfony/intl": "~2.3"
+                "symfony/intl": ">=2.3,<3.0"
             },
             "type": "library",
             "autoload": {
@@ -1797,7 +1803,7 @@
                 "icu",
                 "intl"
             ],
-            "time": "2013-06-03 18:32:58"
+            "time": "2013-06-03 18:32:07"
         },
         {
             "name": "symfony/monolog-bundle",
@@ -2123,12 +2129,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/willdurand/BazingaFakerBundle.git",
-                "reference": "aaf7f15e2d96c5ffdd1c322c9edc041768adfb92"
+                "reference": "1.0.1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/willdurand/BazingaFakerBundle/zipball/aaf7f15e2d96c5ffdd1c322c9edc041768adfb92",
-                "reference": "aaf7f15e2d96c5ffdd1c322c9edc041768adfb92",
+                "url": "https://api.github.com/repos/willdurand/BazingaFakerBundle/zipball/1.0.1",
+                "reference": "1.0.1",
                 "shasum": ""
             },
             "require": {
@@ -2158,7 +2164,7 @@
                 "faker",
                 "fixtures"
             ],
-            "time": "2013-08-13 21:37:42"
+            "time": "2013-08-13 21:29:58"
         },
         {
             "name": "yohang/calendr",
