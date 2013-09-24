@@ -1,6 +1,6 @@
 <?php
 
-namespace Oktolab\Bundle\RentBundle\Model\Event;
+namespace Oktolab\Bundle\RentBundle\Model\Event\Calendar;
 
 use Oktolab\Bundle\RentBundle\Model\Event\EventCalendarManager as EventCalendar;
 use Oktolab\Bundle\RentBundle\Model\Event\Exception\RepositoryNotFoundException;
@@ -8,7 +8,7 @@ use Oktolab\Bundle\RentBundle\Model\Event\Exception\RepositoryNotFoundException;
 /**
  * InventoryCalendar for rendering Inventory Items and Sets
  */
-class InventoryCalendar extends EventCalendar
+class Inventory extends EventCalendar
 {
     /**
      * Aggregates the Inventory for Calendar.

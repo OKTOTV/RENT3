@@ -1,12 +1,12 @@
 <?php
 
-namespace Oktolab\Bundle\RentBundle\Tests\Model\Event;
+namespace Oktolab\Bundle\RentBundle\Tests\Model\Event\Calendar;
 
-use Oktolab\Bundle\RentBundle\Model\Event\InventoryCalendar;
+use Oktolab\Bundle\RentBundle\Model\Event\Calendar\Inventory as InventoryCalendar;
 use Oktolab\Bundle\RentBundle\Entity\Inventory\Set;
 use Oktolab\Bundle\RentBundle\Entity\Inventory\Item;
 
-class InventoryCalendarTest extends \PHPUnit_Framework_TestCase
+class InventoryTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * System Under Test
@@ -29,7 +29,7 @@ class InventoryCalendarTest extends \PHPUnit_Framework_TestCase
         parent::setup();
 
         $this->SUT = new InventoryCalendar();
-        $this->assertInstanceOf('Oktolab\Bundle\RentBundle\Model\Event\InventoryCalendar', $this->SUT);
+        $this->assertInstanceOf('Oktolab\Bundle\RentBundle\Model\Event\Calendar\Inventory', $this->SUT);
     }
 
     public function testAddARepository()
