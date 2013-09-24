@@ -14,8 +14,11 @@
             {% endif %}
         </div>
         <div class="aui-page-header-main">
-            <h1>{{set.title}}</h1>
-            <h3>{{ 'inventory.set.barcode' | trans }}: {{set.barcode}}</h3>
+            <ol class="aui-nav aui-nav-breadcrumbs">
+                <li>{{ 'generic.inventory'|trans}}</li>
+                <li class="aui-nav-selected"><a href="{{ path('inventory_set') }}">{{ 'inventory.set.sets'|trans }}</a></li>
+            </ol>
+            <h1>{{set.title}} - {{set.barcode}}</h1>
         </div>
         <div class="aui-page-header-actions">
             <div class="aui-buttons">

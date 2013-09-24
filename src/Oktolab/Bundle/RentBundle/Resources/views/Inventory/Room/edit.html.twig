@@ -13,7 +13,7 @@
     </div>
     <div class="aui-page-header-main">
         <ol class="aui-nav aui-nav-breadcrumbs">
-            <li>Inventar</li>
+            <li>{{ 'generic.inventory'|trans}}</li>
             <li class="aui-nav-selected"><a href="{{ path('inventory_room') }}">{{ 'inventory.room.rooms'|trans }}</a></li>
             <li><a href="{{ path('inventory_room_show', { 'id': entity.id }) }}">{{ entity.title }}</a></li>
         </ol>

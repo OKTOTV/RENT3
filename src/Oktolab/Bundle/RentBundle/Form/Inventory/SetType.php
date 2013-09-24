@@ -22,7 +22,6 @@ class SetType extends AbstractType
                     'options'       => array('class' => 'OktolabRentBundle:Inventory\Item', 'property' => 'id'),
                     'allow_add'     => true,
                     'allow_delete'  => true,
-                    'label'         => 'inventory.set.items'
                 )
             )
             ->add(

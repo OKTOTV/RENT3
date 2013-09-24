@@ -60,7 +60,9 @@
             </div>
             <div class="field-group viewMode">
                 <label>{{ 'inventory.item.category' | trans }}</label>
+                {%if item.category is not null %}
                 <span class="field-value">{{ item.category.title }}</span>
+                {%endif%}
             </div>
         </fieldset>
     </form>

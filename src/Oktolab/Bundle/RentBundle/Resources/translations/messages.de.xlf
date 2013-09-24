@@ -364,6 +364,10 @@
                 <source>inventory.set.sets</source>
                 <target>Sets</target>
             </trans-unit>
+            <trans-unit id="220">
+                <source>inventory.set.zeroItems</source>
+                <target>Keine Gegenstände in diesem Set</target>
+            </trans-unit>
 
             <trans-unit id="300">
                 <source>inventory.places</source>

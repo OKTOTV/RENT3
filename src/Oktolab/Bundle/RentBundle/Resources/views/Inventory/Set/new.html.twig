@@ -24,21 +24,21 @@
 
 {% block content %}
     {{ form_start(form, {'attr': { 'class': 'aui' } }) }}
-        <fieldset>
+    <fieldset>
             {{ form_errors(form) }}
 
             {{ form_row(form.title) }}
             {{ form_row(form.description) }}
             {{ form_row(form.barcode) }}
+            {{ form_row(form.place) }}
 
             <div class="field-group">
                 <label for="oktolab_rentbundle_inventory_set_searchItems">{{ 'generic.search' | trans }}</label>
                 <input class="text long-field" type="text" id="oktolab_rentbundle_inventory_set_searchItems" name="oktolab_rentbundle_inventory_set_searchItems" title="{{ 'Search for Items' | trans }}">
                 <div class="description">{{ 'inventory.set.searchForItems' | trans}}: {{'inventory.item.title' |trans}}, {{'inventory.item.description' |trans}}, {{'inventory.item.barcode' |trans}}</div>
             </div>
-        </fieldset>
 
-        <div class="field-group viewMode aui-oktolab-form-table">
+        <div class="field-group aui-oktolab-form-table">
             <label>{{ 'inventory.set.items' | trans }}</label>
 
             <table class="aui">
@@ -62,21 +62,27 @@
                 </tbody>
             </table>
         </div>
-        <field class="plupload" data-plupload="multiple"></field>
-        <div id="container" class= "field-group">
-            <div id="filelist">{{ 'generic.loadEngine' | trans }}</div>
-                <br />
-                <a id="pickfiles" href="#">[{{'generic.selectFiles'|trans}}]</a>
+    </fieldset>
+        <div class="field-group">
+            <label>{{ 'inventory.room.attachments'|trans }}</label>
+                <span class="field-value">
+                <field class="plupload" data-plupload="multiple"></field>
+                <div id="container">
+                    <div id="filelist">{{ 'generic.loadEngine' | trans }}</div>
+                    <br />
+                    <a id="pickfiles" href="#">[{{'generic.selectFiles'|trans}}]</a>
+                </div>
+            </span>
         </div>
 
         <div class="buttons-container">
             <button class="aui-button aui-button-primary" type="submit">{{ 'generic.submit' | trans }}</button>
         </div>
-
-            <fieldset class="hidden-items" style="display:none" data-index="{{ form.items | length }}" data-prototype="{{ '<input type="hidden" id="oktolab_rentbundle_inventory_set_items_{{index}}" name="oktolab_rentbundle_inventory_set[items][{{index}}]" value="{{id}}" />'|e }}">
-                {% for item in form.items %}
-                    {{ form_row(item) }}
-                {% endfor %}
-            </fieldset>
+        <fieldset class="hidden-items" style="display:none" data-index="{{ form.items | length }}" data-prototype="{{ '<input type="hidden" id="oktolab_rentbundle_inventory_set_items_{{index}}" name="oktolab_rentbundle_inventory_set[items][{{index}}]" value="{{id}}" />'|e }}">
+            {% for item in form.items %}
+                {{ form_row(item) }}
+            {% endfor %}
+        </fieldset>
+        {% do form.items.setRendered %}
     {{ form_end(form) }}
 {% endblock %}
