@@ -7,8 +7,33 @@ namespace Oktolab\Bundle\RentBundle\Model\Event;
  */
 class EventCalendarManager
 {
-    // TODO: Query like?
 
+    /**
+     * @var array
+     */
+    protected $repositories = array();
+
+    /**
+     * Adds a Repository.
+     *
+     * @param string                         $name
+     * @param \Doctrine\ORM\EntityRepository $repository
+     */
+    public function addRepository($name, \Doctrine\ORM\EntityRepository $repository)
+    {
+        $this->repositories[strtolower($name)] = $repository;
+    }
+
+    /**
+     * Returns Repository by name.
+     * 
+     * @param string $name
+     * @return \Doctrine\ORM\EntityRepository|null
+     */
+    public function getRepository($name)
+    {
+        return isset($this->repositories[strtolower($name)]) ? $this->repositories[strtolower($name)] : null;
+    }
 
     /**
      * Returns the Timeblocks from $begin to $end.
