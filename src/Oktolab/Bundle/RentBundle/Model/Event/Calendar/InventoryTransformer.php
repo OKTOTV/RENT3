@@ -2,7 +2,7 @@
 
 namespace Oktolab\Bundle\RentBundle\Model\Event\Calendar;
 
-use Oktolab\Bundle\RentBundle\Model\Event\Calendar\Inventory as InventoryAggregator;
+use Oktolab\Bundle\RentBundle\Model\Event\Calendar\InventoryAggregator;
 
 /**
  * Description of InventoryTransformer

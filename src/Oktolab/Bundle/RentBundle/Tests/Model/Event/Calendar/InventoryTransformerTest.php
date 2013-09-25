@@ -30,7 +30,7 @@ class InventoryTransformerTest extends \PHPUnit_Framework_TestCase
     {
         parent::setUp();
 
-        $this->aggregator = $this->getMock('\Oktolab\Bundle\RentBundle\Model\Event\Calendar\Inventory');
+        $this->aggregator = $this->getMock('\Oktolab\Bundle\RentBundle\Model\Event\Calendar\InventoryAggregator');
         $this->SUT = new InventoryTransformer($this->aggregator);
         $this->assertInstanceOf('\Oktolab\Bundle\RentBundle\Model\Event\Calendar\InventoryTransformer', $this->SUT);
     }

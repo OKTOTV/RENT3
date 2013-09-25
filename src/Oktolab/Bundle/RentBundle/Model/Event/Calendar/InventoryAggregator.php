@@ -8,7 +8,7 @@ use Oktolab\Bundle\RentBundle\Model\Event\Exception\RepositoryNotFoundException;
 /**
  * InventoryCalendar for rendering Inventory Items and Sets
  */
-class Inventory extends EventCalendar
+class InventoryAggregator extends EventCalendar
 {
     /**
      * Aggregates the Inventory Objectives for Calendar.
