@@ -12,12 +12,21 @@
         </div>
     </div>
     <div class="aui-page-header-main">
-        <h1>{{entity.title }} bearbeiten</h1>
+        <ol class="aui-nav aui-nav-breadcrumbs">
+            <li>{{ 'generic.inventory'|trans}}</li>
+            <li class="aui-nav-selected"><a href="{{ path('inventory_room') }}">{{ 'inventory.room.rooms'|trans }}</a></li>
+            <li><a href="{{ path('inventory_room_show', { 'id': entity.id }) }}">{{ entity.title }}</a></li>
+        </ol>
+        <h1>{{'inventory.room.uploadPicture'|trans}}</h1>
     </div>
     <div class="aui-page-header-actions">
         <div class="aui-buttons">
             <div class="aui-buttons">
-                <a class="aui-button" href="{{ path('inventory_room') }}">{% trans %}Back to list{% endtrans %}</a>
+                <a class="aui-button" href="{{ path('inventory_room_edit', { 'id': entity.id }) }}">{{ 'generic.back'|trans }}</a>
+                <a class="aui-button" href="{{ path('inventory_room') }}">{{ 'generic.backToList'|trans }}</a>
+                {% if entity.picture is not null %}
+                    <a class="aui-button" href="{{ path('inventory_room_attachment_delete', { 'entity_id': entity.id, 'attachment_id': entity.picture.getId }) }}">{{"inventory.room.deletePicture" | trans }}</a>
+                {% endif %}
                 <a class="aui-button" href="{{ path('inventory_room_delete', { 'id': entity.id }) }}">{% trans %}Löschen{% endtrans %}</a>
             </div>
         </div>
@@ -26,19 +35,21 @@
 {% endblock %}
 
 {% block content%}
-    <p>Achtung: Bestehendes Bild wird ersetzt und kann nicht rückgängig gemacht werden!</p>
-    {{ form_start(edit_form, {'attr': {'class': 'aui'}}) }}
-        <fieldset>
-            <field class="plupload" data-plupload="single"></field>
-            <div id="containerfile" class="field-group">
-                <div id="file">Engine wird geladen...</div>
-                <br />
-                <a id="pickfile" href="#">[{% trans %}Select picture{% endtrans %}]</a>
-            </div>
-
-            <div class="buttons-container">
-                <button class="aui-button aui-button-primary" id="uploadfile" type="submit">{% trans %}Upload{% endtrans %}</button>
-            </div>
-        </fieldset>
+    <p>{{ 'generic.pictureReplaceWarning'|trans }}</p>
+    {{ form_start(edit_form, {'attr': {'class': 'aui oktolab-plupload-form'}}) }}
+        <div class="field-group viewMode">
+            <label>{{ 'generic.picture'|trans }}</label>
+            <span class="field-value">
+                <field class="plupload" data-plupload="single"></field>
+                <div id="containerfile">
+                    <div id="file">{{ 'generic.runtimeError'|trans }}</div>
+                    <br />
+                    <a id="pickfile" href="#">[{{ 'generic.selectFile'|trans }}]</a>
+                </div>
+            </span>
+        </div>
+        <div class="buttons-container">
+            <button class="aui-button aui-button-primary" id="uploadfile" type="submit">{{ 'generic.upload'|trans }}</button>
+        </div>
     {{ form_end(edit_form) }}
 {% endblock %}

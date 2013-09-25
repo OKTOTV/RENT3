@@ -28,37 +28,55 @@
 {% endblock %}
 
 {% block content %}
-    <div class="aui-page-panel">
-        <div class="aui-page-panel-inner">
-            <section class="aui-page-panel-content">
-
-                <p>{{ item.set }}</p>
-
-                <h3>{{ 'inventory.item.description' | trans }}</h3>
-                <p>{{ item.description }}</p>
-
-                <h3>{{ 'inventory.item.buydate' | trans}}</h3>
-                <p>{{ item.buyDate|date('d.m.Y') }}</p>
-
-                <h3>{{ 'inventory.item.serialnumber' | trans}}</h3>
-                <p>{{ item.serialNumber }}</p>
-
-                <h3>{{ 'inventory.item.vendor' | trans }}</h3>
-                <p>{{ item.vendor }}</p>
-
-                <h3>{{ 'inventory.item.modelnumber' | trans }}</h3>
-                <p>{{ item.modelNumber }}</p>
-
-                <h3>
-                    {{ 'inventory.item.attachments' | trans}} {{ item.attachments | length }} <a id="replace-text-trigger" data-replace-text="({{ 'generic.hide' | trans}})" class="aui-expander-trigger" aria-controls="expander-with-replace-text-content">({{ 'generic.show' | trans }})</a>
-                </h3>
-                <div id="expander-with-replace-text-content" class="aui-expander-content">
-                    {% for attachment in item.attachments %}
-                        <img src="{{ sauce(attachment) }}" />
-                    {% endfor %}
-                </div>
-
-            </section>
-        </div>
-    </div>
+    <form class="aui">
+        <fieldset>
+            <div class="field-group viewMode">
+                <label>{{ 'inventory.item.set' | trans }}</label>
+                <span class="field-value">{{ item.set }}</span>
+            </div>
+            <div class="field-group viewMode">
+                <label>{{ 'inventory.item.description' | trans }}</label>
+                <span class="field-value">{{ item.description }}</span>
+            </div>
+            <div class="field-group viewMode">
+                <label>{{ 'inventory.item.buydate' | trans }}</label>
+                <span class="field-value">{{ item.buyDate|date('d.m.Y') }}</span>
+            </div>
+            <div class="field-group viewMode">
+                <label>{{ 'inventory.item.serialnumber' | trans }}</label>
+                <span class="field-value">{{ item.serialNumber }}</span>
+            </div>
+            <div class="field-group viewMode">
+                <label>{{ 'inventory.item.vendor' | trans }}</label>
+                <span class="field-value">{{ item.vendor }}</span>
+            </div>
+            <div class="field-group viewMode">
+                <label>{{ 'inventory.item.modelnumber' | trans }}</label>
+                <span class="field-value">{{ item.modelNumber }}</span>
+            </div>
+            <div class="field-group viewMode">
+                <label>{{ 'inventory.item.place' | trans }}</label>
+                <span class="field-value">{{ item.place.title }}</span>
+            </div>
+            <div class="field-group viewMode">
+                <label>{{ 'inventory.item.category' | trans }}</label>
+                {%if item.category is not null %}
+                <span class="field-value">{{ item.category.title }}</span>
+                {%endif%}
+            </div>
+        </fieldset>
+    </form>
 {% endblock %}
+
+{% block sidebar%}
+<aside class="aui-page-panel-sidebar">
+    <h3>
+        {{ 'inventory.item.attachments' | trans}} ({{ item.attachments | length }})
+    </h3>
+    <div id="expander-with-replace-text-content" class="aui-expander-content">
+        {% for attachment in item.attachments %}
+            <img src="{{ sauce(attachment) }}" />
+        {% endfor %}
+    </div>
+</aside>
+{% endblock%}

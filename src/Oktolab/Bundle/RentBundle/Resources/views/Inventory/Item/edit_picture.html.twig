@@ -17,8 +17,8 @@
     <div class="aui-page-header-actions">
         <div class="aui-buttons">
             <div class="aui-buttons">
-                <a class="aui-button" href="{{ path('inventory_item') }}">{% trans %}Back to list{% endtrans %}</a>
-                <a class="aui-button" href="{{ path('inventory_item_delete', { 'id': entity.id }) }}">{% trans %}Löschen{% endtrans %}</a>
+                <a class="aui-button" href="{{ path('inventory_item_edit', { 'id' : entity.id }) }}">{{ 'generic.back' | trans }}</a>
+                <a class="aui-button" href="{{ path('inventory_item') }}">{{ 'generic.backToList' | trans }}</a>
             </div>
         </div>
     </div>
@@ -26,17 +26,17 @@
 {% endblock %}
 
 {% block content%}
-    {{ form_start(edit_form, {'attr': {'class': 'aui'}}) }}
+    {{ form_start(edit_form, {'attr': {'class': 'aui oktolab-plupload-form'}}) }}
         <fieldset>
             <field class="plupload" data-plupload="single"></field>
             <div id="containerfile" class="field-group">
-                <div id="file">Engine wird geladen...</div>
+                <div id="file">{{ 'generic.runtimeError' |trans }}</div>
                 <br />
-                <a id="pickfile" href="#">[{% trans %}Select picture{% endtrans %}]</a>
+                <a id="pickfile" href="#">[{{'generic.selectFile'|trans}}]</a>
             </div>
 
             <div class="buttons-container">
-                <button class="aui-button aui-button-primary" id="uploadfile" type="submit">{% trans %}Upload{% endtrans %}</button>
+                <button class="aui-button aui-button-primary" id="uploadfile" type="submit">{{'generic.upload'|trans}}</button>
             </div>
         </fieldset>
     {{ form_end(edit_form) }}

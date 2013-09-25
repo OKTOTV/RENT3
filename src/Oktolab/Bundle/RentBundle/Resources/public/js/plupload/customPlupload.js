@@ -62,11 +62,11 @@ AJS.$(document).ready(function() {
 
     if (jQuery('.plupload').data('plupload') === 'multiple') {
         var uploader = new plupload.Uploader({
-            runtimes : 'html5',
-            browse_button : 'pickfiles',
-            container : 'container',
-            max_file_size : '10mb',
-            url : oktolab.plupload.uploadUrl,
+            runtimes :          'html5',
+            browse_button :     'pickfiles',
+            container :         'container',
+            max_file_size :     '10mb',
+            url :               oktolab.plupload.uploadUrl,
             filters : [
                 {title : "Image files", extensions : "jpg,jpeg,gif,png"}
             ]
@@ -113,7 +113,7 @@ AJS.$(document).ready(function() {
         });
 
         uploader.bind('UploadComplete', function(uploader, file) {
-            $('form').submit();
+            $('.oktolab-plupload-form').submit();
         });
 
         uploader.init();

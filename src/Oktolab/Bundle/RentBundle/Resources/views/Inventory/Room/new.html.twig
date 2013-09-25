@@ -13,7 +13,7 @@
         </div>
     </div>
     <div class="aui-page-header-main">
-        <h1>Inventar Raum Neu</h1>
+        <h1>{{ 'inventory.room.new'|trans }}</h1>
     </div>
     <div class="aui-page-header-actions">
         <div class="aui-buttons">
@@ -29,13 +29,14 @@
 <div class="aui-page-panel">
     <div class="aui-page-panel-inner">
         <section class="aui-page-panel-content">
-                {{ form_start(form, {'attr': {'class': 'aui'}}) }}
+                {{ form_start(form, {'attr': {'class': 'aui oktolab-plupload-form'}}) }}
                     <fieldset>
                         {{ form_errors(form) }}
 
                         {{ form_row(form.title) }}
                         {{ form_row(form.description, {'attr': {'placeholder': 'inventory.room.descriptionPlaceholder'|trans} }) }}
                         {{ form_row(form.barcode) }}
+                        <field class="plupload" data-plupload="multiple"></field>
                         <div id="container" class= "field-group">
                             <div id="filelist">{{'generic.runtimeError'|trans}}</div>
                             <br />

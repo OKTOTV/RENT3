@@ -7,7 +7,7 @@
 {% block content %}
     {{ parent() }}
 
-    {{ form_start(edit_form, {'attr': {'class': 'aui'} }) }}
+    {{ form_start(edit_form, {'attr': {'class': 'aui oktolab-plupload-form'} }) }}
         <h3>{{ 'inventory.place.edit' | trans({'%placeTitle%': place.title}) }}</h3>
         <fieldset>
             {{ form_errors(edit_form) }}
