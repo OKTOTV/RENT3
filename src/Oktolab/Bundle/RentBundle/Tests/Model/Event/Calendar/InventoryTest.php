@@ -101,6 +101,18 @@ class InventoryTest extends \PHPUnit_Framework_TestCase
         $this->assertContains($item, $inventory[$this->category->getTitle()]);
     }
 
+    public function testGetInventoryReturnsSetsAsCategory()
+    {
+        $setRepository = $this->trainSetRepositoryToFindAllSets();
+        $categoryRepository = $this->trainCategoryRepositoryToFindAllCategories();
+        $this->SUT->addRepository('Set', $setRepository);
+        $this->SUT->addRepository('Category', $categoryRepository);
+
+        $inventory = $this->SUT->getInventory(true);
+        $this->assertArrayHasKey('Sets', $inventory);
+        $this->assertCount(1, $inventory['Sets']);
+    }
+
     /**
      * @return \Doctrine\ORM\EntityRepository|\PHPUnit_Framework_MockObject_MockObject
      */

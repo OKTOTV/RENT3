@@ -43,16 +43,23 @@ class Inventory extends EventCalendar
     /**
      * Builds the Inventory array.
      *
+     * @param bool $sets if set to true, the return value will contain Sets
+     *
      * @return array
      */
-    public function getInventory()
+    public function getInventory($sets = false)
     {
         $inventory = array();
-//        $inventory['Sets'] = $this->getObjectives('Set');
 
         $categories = $this->getCategories();
         foreach ($categories as $category) {
             $inventory[$category->getTitle()] = $category->getItems();
+        }
+
+        // Append Sets only if we need to.
+        if ($sets) {
+            $sets = $this->getObjectives('Set');
+            $inventory['Sets'] = $sets;
         }
 
         return $inventory;
