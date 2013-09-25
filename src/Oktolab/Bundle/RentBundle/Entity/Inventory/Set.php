@@ -130,6 +130,18 @@ class Set implements UploadableInterface, RentableInterface
     }
 
     /**
+     * Set Id
+     *
+     * @param int $id
+     * @return Set
+     */
+    public function setId($id)
+    {
+        $this->id = $id;
+        return $this;
+    }
+
+    /**
      * Set title
      *
      * @param  string $title
