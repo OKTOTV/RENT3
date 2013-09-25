@@ -22,7 +22,7 @@ class InventoryAggregator extends EventCalendar
             throw new RepositoryNotFoundException(sprintf('Repository "%s" not found.', $repository));
         }
 
-        return $this->getRepository($repository)->find(array());
+        return $this->getRepository($repository)->findAll();
     }
 
     /**
@@ -37,7 +37,7 @@ class InventoryAggregator extends EventCalendar
             throw new RepositoryNotFoundException('Repository "Category" not found.');
         }
 
-        return $this->getRepository('Category')->find(array());
+        return $this->getRepository('Category')->findAll();
     }
 
     /**

@@ -178,19 +178,9 @@ class EventController extends Controller
      */
     public function calendarConfigurationAction()
     {
-        $items = $this->getDoctrine()->getEntityManager()->createQueryBuilder()
-                ->select('i, c.title AS category')->from('OktolabRentBundle:Inventory\Item', 'i')
-                ->join('i.category', 'c')
-                ->getQuery()
-                ->getArrayResult();
-
-        $serializedItems = array();
-        foreach ($items as $item) {
-            $serializedItems[$item['category']][sprintf('%s-%d', 'Item', $item[0]['id'])] = $item[0];
-        }
+        $serializedItems = $this->get('oktolab.event_calendar_inventory')->getTransformedInventory();
 
         $arr = array();
-
         $date = new \DateTime('now');
         for ($i = 0; $i <= 21; $i++) {
             switch ($date->format('w')) {

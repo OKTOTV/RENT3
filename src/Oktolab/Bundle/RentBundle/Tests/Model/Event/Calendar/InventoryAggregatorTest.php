@@ -123,8 +123,7 @@ class InventoryAggregatorTest extends \PHPUnit_Framework_TestCase
 
         $repository = $this->getMockBuilder('\Doctrine\ORM\EntityRepository')->disableOriginalConstructor()->getMock();
         $repository->expects($this->once())
-                ->method('find')
-                ->with($this->identicalTo(array()), $this->anything(), $this->anything())
+                ->method('findAll')
                 ->will($this->returnValue(array($this->set)));
 
         return $repository;
@@ -140,8 +139,7 @@ class InventoryAggregatorTest extends \PHPUnit_Framework_TestCase
 
         $repository = $this->getMockBuilder('\Doctrine\ORM\EntityRepository')->disableOriginalConstructor()->getMock();
         $repository->expects($this->once())
-                ->method('find')
-                ->with($this->identicalTo(array()), $this->anything(), $this->anything())
+                ->method('findAll')
                 ->will($this->returnValue(array($this->item)));
 
         return $repository;
@@ -157,8 +155,7 @@ class InventoryAggregatorTest extends \PHPUnit_Framework_TestCase
 
         $repository = $this->getMockBuilder('\Doctrine\ORM\EntityRepository')->disableOriginalConstructor()->getMock();
         $repository->expects($this->once())
-                ->method('find')
-                ->with($this->identicalTo(array()), $this->anything(), $this->anything())
+                ->method('findAll')
                 ->will($this->returnValue(array($this->category)));
 
         return $repository;

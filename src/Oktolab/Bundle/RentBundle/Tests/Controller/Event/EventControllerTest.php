@@ -26,9 +26,12 @@ class EventControllerTest extends WebTestCase
         //$this->assertJsonStringEqualsJsonString()
     }
 
-    public function testEventApiSendsCalendarConfigurationAsJson()
+    public function testEventApiSendsCalendarConfigurationAsValidJson()
     {
-        $this->markTestSkipped();
+        $this->loadFixtures(array(
+            'Oktolab\Bundle\RentBundle\Tests\DataFixtures\ORM\EventApiCalendarConfigurationFixture',
+        ));
+
         $this->client->request(
             'GET',
             '/api/v1/calendarConfiguration.json',
@@ -40,7 +43,11 @@ class EventControllerTest extends WebTestCase
         $response = $this->client->getResponse();
         $this->assertTrue($response->isSuccessful(), 'Response is successful');
         $this->assertTrue($response->headers->contains('Content-Type', 'application/json'), 'Returns application/json');
-        $this->assertNotNull(json_decode($response->getContent()), 'Can decode JSON Array');
+
+        $json = json_decode($response->getContent(), true);
+        $this->assertNotNull($json, 'Can decode JSON Array');
+        $this->assertArrayHasKey('items', $json, 'JSON Array contains Objectives-Key');
+        $this->assertArrayHasKey('dates', $json, 'JSON Array contains Dates-Key');
     }
 
     public function testEventApiCalendarConfigurationContainsDefinedStructure()
@@ -57,7 +64,7 @@ class EventControllerTest extends WebTestCase
         $response = $this->client->getResponse();
         $this->assertTrue($response->isSuccessful(), 'Response is successful');
 
-        $json = (array) json_decode($response->getContent());
+        $json = json_decode($response->getContent(), true);
         $this->assertArrayHasKey('dates', $json, 'Array has key "dates"');
         $this->assertArrayHasKey('items', $json, 'Array has key "items"');
 

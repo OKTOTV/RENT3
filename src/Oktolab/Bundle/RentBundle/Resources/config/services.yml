@@ -1,5 +1,7 @@
 parameters:
-    oktolab.event_manager.class: Oktolab\Bundle\RentBundle\Model\Event\EventManager
+    oktolab.event_manager.class:                       Oktolab\Bundle\RentBundle\Model\Event\EventManager
+    oktolab.event_calendar_inventory_aggregator.class: Oktolab\Bundle\RentBundle\Model\Event\Calendar\InventoryAggregator
+    oktolab.event_calendar_inventory.class:            Oktolab\Bundle\RentBundle\Model\Event\Calendar\InventoryTransformer
 
 services:
     oktolab.presavelistener:
@@ -53,6 +55,18 @@ services:
         factory_method: getRepository
         arguments: [ OktolabRentBundle:Inventory\Item ]
 
+    oktolab.orm.set_repository:
+        class: Doctrine\Common\Persistence\ObjectRepository
+        factory_service: doctrine
+        factory_method: getRepository
+        arguments: [ OktolabRentBundle:Inventory\Set ]
+
+    oktolab.orm.category_repository:
+        class: Doctrine\Common\Persistence\ObjectRepository
+        factory_service: doctrine
+        factory_method: getRepository
+        arguments: [ OktolabRentBundle:Inventory\Category ]
+
     oktolab.event_manager:
         class: %oktolab.event_manager.class%
         arguments:  [ @doctrine.orm.entity_manager, @?logger ]
@@ -83,3 +97,14 @@ services:
     oktolab.hub_security_listener:
       class:  Oktolab\Bundle\RentBundle\Model\SecurityListener
       arguments: [ @security.context , @oktolab.hub_authentication_provider ]
+
+    oktolab.event_calendar_inventory_aggregator:
+        class: %oktolab.event_calendar_inventory_aggregator.class%
+        calls:
+            - [ addRepository, [ "Set", @oktolab.orm.set_repository ] ]
+            - [ addRepository, [ "Item", @oktolab.orm.item_repository ] ]
+            - [ addRepository, [ "Category", @oktolab.orm.category_repository ] ]
+
+    oktolab.event_calendar_inventory:
+        class: %oktolab.event_calendar_inventory.class%
+        arguments: [ @oktolab.event_calendar_inventory_aggregator ]
