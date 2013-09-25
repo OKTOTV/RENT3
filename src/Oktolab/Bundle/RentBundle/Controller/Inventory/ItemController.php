@@ -164,7 +164,6 @@ class ItemController extends Controller
     {
         $editForm = $this->createForm(new ItemType(), $item, array('method' => 'PUT'));
         $editForm->bind($request);
-
         if ($editForm->isValid()) {
             $this->get('oktolab.upload_manager')->saveAttachmentsToEntity($item);
 

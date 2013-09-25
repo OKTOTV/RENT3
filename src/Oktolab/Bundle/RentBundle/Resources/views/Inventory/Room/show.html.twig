@@ -12,8 +12,11 @@
             </div>
         </div>
         <div class="aui-page-header-main">
-            <h1>{{room.title}}</h1>
-            <h3>{{'inventory.room.barcode'|trans}}: {{room.barcode}}</h3>
+            <ol class="aui-nav aui-nav-breadcrumbs">
+                    <li>{{ 'generic.inventory'|trans}}</li>
+                    <li class="aui-nav-selected"><a href="{{ path('inventory_room') }}">{{ 'inventory.room.rooms'|trans }}</a></li>
+            </ol>
+            <h1>{{room.title}} - {{room.barcode}}</h1>
         </div>
         <div class="aui-page-header-actions">
             <div class="aui-buttons">
@@ -27,20 +30,33 @@
 {% endblock %}
 
 {% block content %}
-    <div class="aui-page-panel">
-        <div class="aui-page-panel-inner">
-            <section class="aui-page-panel-content">
-               <h3>
-                    {{'inventory.room.attachments'|trans}} {{ room.attachments | length }} <a id="replace-text-trigger" data-replace-text="({{'generic.hide'|trans}})" class="aui-expander-trigger" aria-controls="expander-with-replace-text-content">({{'generic.show'|trans}})</a>
-                </h3>
-                <div id="expander-with-replace-text-content" class="aui-expander-content">
-                    {% for attachment in room.attachments %}
-                        <img src="{{ sauce(attachment) }}" />
-                    {% endfor %}
-                </div>
-                <h3>{{'inventory.room.description'|trans}}</h3>
-                <p>{{ room.description }}</p>
-            </section>
-        </div>
-    </div>
+    <form class="aui">
+        <fieldset>
+            <div class="field-group viewMode">
+                <label>{{'inventory.room.title'|trans}}</label>
+                <span class="field-value">{{ room.title }}</span>
+            </div>
+            <div class="field-group viewMode">
+                <label>{{'inventory.room.description'|trans}}</label>
+                <span class="field-value">{{ room.description }}</span>
+            </div>
+            <div class="field-group viewMode">
+                <label>{{'inventory.room.barcode'|trans}}</label>
+                <span class="field-value">{{ room.barcode }}</span>
+            </div>
+        </fieldset>
+    </form>
 {% endblock %}
+
+{% block sidebar%}
+<aside class="aui-page-panel-sidebar">
+    <h3>
+        {{ 'inventory.room.attachments' | trans}} ({{ room.attachments | length }})
+    </h3>
+    <div id="expander-with-replace-text-content" class="aui-expander-content">
+        {% for attachment in room.attachments %}
+            <img src="{{ sauce(attachment) }}" />
+        {% endfor %}
+    </div>
+</aside>
+{% endblock%}
