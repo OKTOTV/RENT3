@@ -28,9 +28,9 @@ class EventControllerTest extends WebTestCase
 
     public function testEventApiSendsCalendarConfigurationAsValidJson()
     {
-        $this->loadFixtures(array(
-            'Oktolab\Bundle\RentBundle\Tests\DataFixtures\ORM\EventApiCalendarConfigurationFixture',
-        ));
+        $this->loadFixtures(
+            array('Oktolab\Bundle\RentBundle\Tests\DataFixtures\ORM\EventApiCalendarConfigurationFixture')
+        );
 
         $this->client->request(
             'GET',

@@ -29,8 +29,7 @@ class PlaceController extends Controller
      */
     public function indexAction()
     {
-        $em = $this->getDoctrine()->getManager();
-        $entities = $em->getRepository('OktolabRentBundle:Inventory\Place')->findAll();
+        $entities = $this->getDoctrine()->getManager()->getRepository('OktolabRentBundle:Inventory\Place')->findAll();
         return array('entities' => $entities);
     }
 
@@ -51,15 +50,23 @@ class PlaceController extends Controller
             $em->persist($entity);
             $em->flush();
 
-            $this->get('session')->getFlashBag()->add('success', $this->get('translator')->trans('message.place.createSuccessful', array('%placeTitle%' => $entity->getTitle())));
+            $this->get('session')->getFlashBag()->add(
+                'success',
+                $this->get('translator')->trans(
+                    'message.place.createSuccessful',
+                    array('%placeTitle%' => $entity->getTitle())
+                )
+            );
+
             return $this->redirect($this->generateUrl('inventory_place'));
         }
 
-        $this->get('session')->getFlashBag()->add('error', $this->get('translator')->trans('message.place.createFailure'));
-        return array(
-            'entity' => $entity,
-            'form'   => $form->createView(),
+        $this->get('session')->getFlashBag()->add(
+            'error',
+            $this->get('translator')->trans('message.place.createFailure')
         );
+
+        return array('entity' => $entity, 'form' => $form->createView());
     }
 
     /**
@@ -143,15 +150,23 @@ class PlaceController extends Controller
             $em->persist($place);
             $em->flush();
 
-            $this->get('session')->getFlashBag()->add('success', $this->get('translator')->trans('message.place.changeSuccessful', array('%placeTitle%' => $place->getTitle())));
+            $this->get('session')->getFlashBag()->add(
+                'success',
+                $this->get('translator')->trans(
+                    'message.place.changeSuccessful',
+                    array('%placeTitle%' => $place->getTitle())
+                )
+            );
+
             return $this->redirect($this->generateUrl('inventory_place'));
         }
 
-        $this->get('session')->getFlashBag()->add('error', $this->get('translator')->trans('message.place.changeFailure'));
-        return array(
-            'entity'      => $place,
-            'edit_form'   => $editForm->createView(),
+        $this->get('session')->getFlashBag()->add(
+            'error',
+            $this->get('translator')->trans('message.place.changeFailure')
         );
+
+        return array('entity' => $place, 'edit_form' => $editForm->createView());
     }
 
     /**
@@ -171,6 +186,7 @@ class PlaceController extends Controller
                     array('%placeTitle%' => $place->getTitle())
                 )
             );
+
             return $this->redirect($this->generateUrl('inventory_place'));
         }
 
@@ -185,6 +201,7 @@ class PlaceController extends Controller
                 array('%placeTitle%' => $place->getTitle())
             )
         );
+
         return $this->redirect($this->generateUrl('inventory_place'));
     }
 }

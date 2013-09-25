@@ -25,7 +25,7 @@ class UserManagementController extends Controller
      * @Method("GET")
      * @Template("OktolabRentBundle:Admin\User:index.html.twig")
      */
-    public function indexAction ()
+    public function indexAction()
     {
         $users = $this->getDoctrine()->getManager()->getRepository('OktolabRentBundle:Security\User')->findAll();
         return array('entities' => $users);
@@ -38,9 +38,8 @@ class UserManagementController extends Controller
      * @Method("GET")
      * @Template("OktolabRentBundle:Admin\User:edit.html.twig")
      */
-    public function editAction (User $user)
+    public function editAction(User $user)
     {
-
         $editForm = $this->createForm(
             new UserType(),
             $user,
@@ -50,10 +49,7 @@ class UserManagementController extends Controller
             )
         );
 
-        return array(
-            'user'      => $user,
-            'edit_form' => $editForm->createView()
-        );
+        return array('user' => $user, 'edit_form' => $editForm->createView());
     }
 
     /**
@@ -62,7 +58,7 @@ class UserManagementController extends Controller
      * @Method("PUT")
      * @Template("OktolabRentBundle:Admin\User:edit.html.twig")
      */
-    public function updateAction (Request $request, User $user)
+    public function updateAction(Request $request, User $user)
     {
         //Admins can edit themselves
         if ($user->getUsername() == $this->get('security.context')->getToken()->getUser()->getUsername()) {
@@ -85,25 +81,33 @@ class UserManagementController extends Controller
             $em->persist($user);
             $em->flush();
 
-            $this->get('session')->getFlashBag()->add('success', $this->get('translator')->trans('user.message.updateSuccess', array('%username%' => $user->getDisplayname())));
+            $this->get('session')->getFlashBag()->add(
+                'success',
+                $this->get('translator')->trans(
+                    'user.message.updateSuccess',
+                    array('%username%' => $user->getDisplayname())
+                )
+            );
+
             return $this->redirect($this->generateUrl('security_user'));
         }
 
-        $this->get('session')->getFlashBag()->add('error', $this->get('translator')->trans('user.message.updateFailure'));
-        return array(
-            'user'      => $user,
-            'edit_form'   => $editForm->createView(),
+        $this->get('session')->getFlashBag()->add(
+            'error',
+            $this->get('translator')->trans('user.message.updateFailure')
         );
+
+        return array('user' => $user, 'edit_form' => $editForm->createView());
     }
 
     /**
      * Show User (and his log)
      * @Route("/{id}/show", name="security_user_show")
      * @ParamConverter("user", class="OktolabRentBundle:Security\User")
-     * @Method("Get")
+     * @Method("GET")
      * @Template("OktolabRentBundle:Admin\User:show.html.twig", vars={"user"})
      */
-    public function showAction (User $user)
+    public function showAction(User $user)
     {
     }
 }

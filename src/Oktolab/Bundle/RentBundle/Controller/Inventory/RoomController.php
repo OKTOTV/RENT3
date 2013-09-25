@@ -47,7 +47,7 @@ class RoomController extends Controller
      */
     public function createAction(Request $request)
     {
-        $entity  = new Room();
+        $entity = new Room();
         $form = $this->createForm(new RoomType(), $entity);
         $form->bind($request);
 
@@ -58,24 +58,21 @@ class RoomController extends Controller
             $em->persist($entity);
             $em->flush();
 
-            $this
-                ->get('session')
-                ->getFlashBag()
-                ->add(
-                    'success',
-                    $this->get('translator')->trans('room.message.saveSuccessful', array('%roomTitle%' => $entity->getTitle()))
-                );
+            $this->get('session')->getFlashBag()->add(
+                'success',
+                $this->get('translator')->trans(
+                    'room.message.saveSuccessful',
+                    array('%roomTitle%' => $entity->getTitle())
+                )
+            );
 
             return $this->redirect($this->generateUrl('inventory_room_show', array('id' => $entity->getId())));
         }
 
-        $this
-                ->get('session')
-                ->getFlashBag()
-                ->add(
-                    'warning',
-                    $this->get('translator')->trans('room.message.saveFailure')
-                );
+        $this->get('session')->getFlashBag()->add(
+            'warning',
+            $this->get('translator')->trans('room.message.saveFailure')
+        );
 
         return array(
             'entity' => $entity,
@@ -159,31 +156,27 @@ class RoomController extends Controller
         $editForm->bind($request);
 
         if ($editForm->isValid()) {
-
             $this->get('oktolab.upload_manager')->saveAttachmentsToEntity($room);
 
             $em = $this->getDoctrine()->getManager();
             $em->persist($room);
             $em->flush();
 
-            $this
-                ->get('session')
-                ->getFlashBag()
-                ->add(
-                    'success',
-                    $this->get('translator')->trans('room.message.changeSuccessful', array('%roomTitle%' => $room->getTitle()))
-                );
+            $this->get('session')->getFlashBag()->add(
+                'success',
+                $this->get('translator')->trans(
+                    'room.message.changeSuccessful',
+                    array('%roomTitle%' => $room->getTitle())
+                )
+            );
 
             return $this->redirect($this->generateUrl('inventory_room_show', array('id' => $room->getId())));
         }
 
-        $this
-                ->get('session')
-                ->getFlashBag()
-                ->add(
-                    'warning',
-                    $this->get('translator')->trans('room.message.changeFailure')
-                );
+        $this->get('session')->getFlashBag()->add(
+            'warning',
+            $this->get('translator')->trans('room.message.changeFailure')
+        );
 
         return array(
             'entity'      => $room,
@@ -211,13 +204,10 @@ class RoomController extends Controller
         }
         //-----------------------------
 
-        $this
-                ->get('session')
-                ->getFlashBag()
-                ->add(
-                    'success',
-                    $this->get('translator')->trans('room.message.deleteSuccess', array('%roomTitle%' => $room->getTitle()))
-                );
+        $this->get('session')->getFlashBag()->add(
+            'success',
+            $this->get('translator')->trans('room.message.deleteSuccess', array('%roomTitle%' => $room->getTitle()))
+        );
 
         $em->flush();
         return $this->redirect($this->generateUrl('inventory_room'));
@@ -264,12 +254,12 @@ class RoomController extends Controller
             array(
                 'action' => $this->generateUrl('inventory_room_picture_update', array('id' => $room->getId())),
                 'method' => 'POST'
-                )
+            )
         );
 
         return array(
-            'entity' => $room,
-            'edit_form'   => $form->createView(),
+            'entity'    => $room,
+            'edit_form' => $form->createView(),
         );
     }
 

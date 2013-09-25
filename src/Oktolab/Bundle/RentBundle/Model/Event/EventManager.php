@@ -199,7 +199,8 @@ class EventManager
                     sprintf(
                         'Neither an EventObject nor implements RentableInterface. Object of type "%s" given.',
                         \is_object($object) ? \get_class($object) : \gettype($object)
-                ));
+                    )
+                );
             }
         }
 

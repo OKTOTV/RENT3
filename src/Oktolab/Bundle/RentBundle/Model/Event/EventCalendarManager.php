@@ -26,7 +26,7 @@ class EventCalendarManager
 
     /**
      * Returns Repository by name.
-     * 
+     *
      * @param string $name
      * @return \Doctrine\ORM\EntityRepository|null
      */
@@ -75,6 +75,4 @@ class EventCalendarManager
     {
         return array();
     }
-
-
 }

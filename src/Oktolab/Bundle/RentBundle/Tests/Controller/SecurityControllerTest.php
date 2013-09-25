@@ -84,7 +84,11 @@ class SecurityControllerTest extends WebTestCase
         $this->client->followRedirect();
         $response = $this->client->getResponse();
         $this->assertTrue($response->isSuccessful(), 'Response is successful');
-        $this->assertRegExp('/Authentifizierung fehlgeschlagen/', $response->getContent(), 'Page contains error message');
+        $this->assertRegExp(
+            '/Authentifizierung fehlgeschlagen/',
+            $response->getContent(),
+            'Page contains error message'
+        );
     }
 
     /**

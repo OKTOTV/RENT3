@@ -31,10 +31,11 @@ class EventRepository extends EntityRepository
                 $qb->expr()->orX(
                     $qb->expr()->andX($qb->expr()->gte('e.begin', ':begin'), $qb->expr()->lt('e.end', ':end')),
                     $qb->expr()->andX($qb->expr()->lte('e.begin', ':begin'), $qb->expr()->gt('e.end', ':begin'))
-            ))
+                )
+            )
             ->orderBy('e.begin', 'ASC');
 
-        $qb->setParameter(':begin', new \DateTime('now')); // "'OR 1=1";
+        $qb->setParameter(':begin', new \DateTime('now'));
         $qb->setParameter(':end', $end);
 
         return $qb->getQuery()->getResult($hydrationMode);

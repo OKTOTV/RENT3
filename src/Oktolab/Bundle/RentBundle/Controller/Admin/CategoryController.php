@@ -52,15 +52,20 @@ class CategoryController extends Controller
             $em->persist($entity);
             $em->flush();
 
-            $this->get('session')->getFlashBag()->add('success', $this->get('translator')->trans('message.category.createSuccessful', array('%categoryTitle%' => $entity->getTitle())));
+            $this->get('session')->getFlashBag()->add(
+                'success',
+                $this->get('translator')->trans(
+                    'message.category.createSuccessful',
+                    array('%categoryTitle%' => $entity->getTitle())
+                )
+            );
+
             return $this->redirect($this->generateUrl('inventory_category'));
         }
 
         $this->get('session')->getFlashBag()->add('error', 'message.category.createFailure');
-        return array(
-            'entity' => $entity,
-            'form'   => $form->createView(),
-        );
+
+        return array('entity' => $entity, 'form' => $form->createView());
     }
 
     /**
@@ -144,15 +149,23 @@ class CategoryController extends Controller
             $em->persist($category);
             $em->flush();
 
-            $this->get('session')->getFlashBag()->add('success', $this->get('translator')->trans('message.category.changeSuccess', array('%categoryTitle%' => $category->getTitle())));
+            $this->get('session')->getFlashBag()->add(
+                'success',
+                $this->get('translator')->trans(
+                    'message.category.changeSuccess',
+                    array('%categoryTitle%' => $category->getTitle())
+                )
+            );
+
             return $this->redirect($this->generateUrl('inventory_category'));
         }
 
-        $this->get('session')->getFlashBag()->add('error', $this->get('translator')->trans('message.category.changeFailure'));
-        return array(
-            'category'  => $category,
-            'edit_form' => $editForm->createView(),
+        $this->get('session')->getFlashBag()->add(
+            'error',
+            $this->get('translator')->trans('message.category.changeFailure')
         );
+
+        return array('category' => $category, 'edit_form' => $editForm->createView());
     }
 
     /**
@@ -167,8 +180,12 @@ class CategoryController extends Controller
         if ($category->getItems()->count() !== 0) {
             $this->get('session')->getFlashBag()->add(
                 'error',
-                $this->get('translator')->trans('message.category.deleteFailure', array('%categoryTitle%' => $category->getTitle()))
+                $this->get('translator')->trans(
+                    'message.category.deleteFailure',
+                    array('%categoryTitle%' => $category->getTitle())
+                )
             );
+
             return $this->redirect($this->generateUrl('inventory_category'));
         }
 
@@ -178,7 +195,10 @@ class CategoryController extends Controller
 
         $this->get('session')->getFlashBag()->add(
             'success',
-            $this->get('translator')->trans('message.category.deleteSuccess', array('%categoryTitle%' => $category->getTitle()))
+            $this->get('translator')->trans(
+                'message.category.deleteSuccess',
+                array('%categoryTitle%' => $category->getTitle())
+            )
         );
 
         return $this->redirect($this->generateUrl('inventory_category'));

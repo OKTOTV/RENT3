@@ -50,13 +50,16 @@ class ImportController extends Controller
                 'file',
                 array(
                     'constraints' => array(
-                        new NotNull(array(
-                            'message' => $this->get('translator')->trans('message.import.noFileSelected')
-                            )
+                        new NotNull(
+                            array('message' => $this->get('translator')->trans('message.import.noFileSelected'))
                         ),
-                        new File(array(
-                            'mimeTypes' => array('text/plain', 'text/csv'),
-                            'mimeTypesMessage' => $this->get('translator')->trans('message.import.filetypeInvalid', array('%fileType%' => '".csv"')),
+                        new File(
+                            array(
+                                'mimeTypes' => array('text/plain', 'text/csv'),
+                                'mimeTypesMessage' => $this->get('translator')->trans(
+                                    'message.import.filetypeInvalid',
+                                    array('%fileType%' => '".csv"')
+                                ),
                             )
                         )
                     )
@@ -86,9 +89,7 @@ class ImportController extends Controller
                     $form = $this->createForm(
                         new ImportType(),
                         $import,
-                        array(
-                            'action' => $this->generateUrl('inventory_import_create')
-                        )
+                        array('action' => $this->generateUrl('inventory_import_create'))
                     );
 
                     return array(
@@ -98,30 +99,21 @@ class ImportController extends Controller
 
                 } else {
                     //items invalid
-                    $this->get('session')->getFlashBag()->add(
-                        'error',
-                        'message.import.fileContainsError'
-                    );
+                    $this->get('session')->getFlashBag()->add('error', 'message.import.fileContainsError');
                 }
 
             } else {
                 //file is invalid
-                $this->get('session')->getFlashBag()->add(
-                    'error',
-                    'message.import.fileInvalid'
-                );
-
+                $this->get('session')->getFlashBag()->add('error', 'message.import.fileInvalid');
             }
+
             return $this->redirect($this->generateUrl('inventory_import'));
-
-
         }
+
         return new Response(
             $this->renderView(
                 'OktolabRentBundle:Inventory\Import:index.html.twig',
-                array(
-                    'form'  => $form->createView()
-                )
+                array('form'  => $form->createView())
             )
         );
     }
@@ -135,10 +127,9 @@ class ImportController extends Controller
         $import = new Import();
         $form = $this->createForm(new ImportType(), $import);
         $form->bind($request);
+
         if ($form->isValid()) {
-
             $em = $this->getDoctrine()->getManager();
-
             foreach ($import->getItems() as $item) {
                 $em->persist($item);
             }

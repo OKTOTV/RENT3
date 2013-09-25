@@ -15,11 +15,10 @@ class ImportControllerTest extends WebTestCase
         $file = new UploadedFile(__DIR__.'/../../DataFixtures/items.csv', 'items.csv', 'text/csv', 399);
 
         $this->client->request('GET', '/admin/inventory/import/');
-//        echo $this->client->getResponse()->getContent();die();
         $form = $this->client->getCrawler()->selectButton('Hochladen')->form();
         $form['form[csv]'] = $file;
         $crawler = $this->client->submit($form);
-//die();
+
         $this->assertTrue($this->client->getResponse()->isSuccessful(), 'Form submit was not successful');
         $this->assertEquals(
             4,

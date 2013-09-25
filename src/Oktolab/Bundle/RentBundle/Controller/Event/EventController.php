@@ -37,7 +37,9 @@ class EventController extends Controller
         $arr = array();
         foreach ($events as $event) {
             $objects = $event->getObjects();
-            if (count($objects) === 0) { continue; }
+            if (count($objects) === 0) {
+                continue;
+            }
 
             $arr[] = array(
                 'id'    => $event->getId(),
@@ -163,7 +165,7 @@ class EventController extends Controller
     {
         // Check for hidden-input fields for each EventObject
 
-        var_dump($event); die();
+        // var_dump($event); die();
         return new Response();
         // this action "rents" the event. STATE_RENTED
     }
@@ -224,16 +226,15 @@ class EventController extends Controller
     protected function getEventForm(array $options = array(), Event $event = null)
     {
         $event = $event ?: new Event();
-        $options = array_merge(array(
-            'action' => $this->generateUrl('event_create'),
-            'method' => 'POST',
-            'em'     => $this->getDoctrine()->getManager(),
-        ), $options);
-
-        return $this->createForm(
-            new EventType(),
-            $event,
+        $options = array_merge(
+            array(
+                'action' => $this->generateUrl('event_create'),
+                'method' => 'POST',
+                'em'     => $this->getDoctrine()->getManager(),
+            ),
             $options
         );
+
+        return $this->createForm(new EventType(), $event, $options);
     }
 }
