@@ -109,14 +109,15 @@ class InventoryTransformerTest extends \PHPUnit_Framework_TestCase
         $array = array($category->getTitle() => array($item));
         $this->aggregator->expects($this->once())->method('getInventory')->will($this->returnValue($array));
 
-        $expectedArray = json_encode(array(array(
-            'title'      => $category->getTitle(),
-            'objectives' => array(array(
-                'objective' => sprintf('%s:%d', $item->getType(), $item->getId()),
-                'id'        => $item->getId(),
-                'title'     => $item->getTitle(),
-            ))
-        )));
+        $expectedArray = json_encode(
+            array(array(
+                'title'      => $category->getTitle(),
+                'objectives' => array(array(
+                    'objective' => sprintf('%s:%d', $item->getType(), $item->getId()),
+                    'id'        => $item->getId(),
+                    'title'     => $item->getTitle(),
+            ))))
+        );
 
         $this->assertEquals($expectedArray, $this->SUT->getInventoryAsJson());
     }
