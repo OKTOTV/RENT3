@@ -2,6 +2,7 @@ parameters:
     oktolab.event_manager.class:                       Oktolab\Bundle\RentBundle\Model\Event\EventManager
     oktolab.event_calendar_inventory_aggregator.class: Oktolab\Bundle\RentBundle\Model\Event\Calendar\InventoryAggregator
     oktolab.event_calendar_inventory.class:            Oktolab\Bundle\RentBundle\Model\Event\Calendar\InventoryTransformer
+    oktolab.cache.class:                               Doctrine\Common\Cache\PhpFileCache
 
 services:
     oktolab.presavelistener:
@@ -107,4 +108,8 @@ services:
 
     oktolab.event_calendar_inventory:
         class: %oktolab.event_calendar_inventory.class%
-        arguments: [ @oktolab.event_calendar_inventory_aggregator ]
+        arguments: [ @oktolab.event_calendar_inventory_aggregator, @oktolab.cache ]
+
+    oktolab.cache:
+        class: %oktolab.cache.class%
+        arguments: [ %kernel.cache_dir% ]

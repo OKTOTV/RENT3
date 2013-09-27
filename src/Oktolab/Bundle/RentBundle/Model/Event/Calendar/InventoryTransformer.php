@@ -3,6 +3,7 @@
 namespace Oktolab\Bundle\RentBundle\Model\Event\Calendar;
 
 use Oktolab\Bundle\RentBundle\Model\Event\Calendar\InventoryAggregator;
+use Doctrine\Common\Cache\Cache;
 
 /**
  * Description of InventoryTransformer
@@ -17,13 +18,19 @@ class InventoryTransformer
     protected $aggregator;
 
     /**
+     * @var \Doctrine\Common\Cache\Cache;
+     */
+    protected $cache = null;
+
+    /**
      * Constructor.
      *
      * @param Oktolab\Bundle\RentBundle\Model\Event\Calendar\Inventory $aggregator
      */
-    public function __construct(InventoryAggregator $aggregator)
+    public function __construct(InventoryAggregator $aggregator, Cache $cache)
     {
         $this->aggregator = $aggregator;
+        $this->cache = $cache;
     }
 
     /**
@@ -35,6 +42,10 @@ class InventoryTransformer
      */
     public function getTransformedInventory($sets = false)
     {
+        if ($this->cache->contains('oktolab.calendar_inventory_transformer')) {
+            return $this->cache->fetch('oktolab.calendar_inventory_transformer');
+        }
+
         $aggregatedObjectives = $this->aggregator->getInventory($sets);
         $inventory = array();
 
@@ -53,6 +64,8 @@ class InventoryTransformer
 
             $inventory[] = $objective;
         }
+
+        $this->cache->save('oktolab.calendar_inventory_transformer', $inventory, 600);
 
         return $inventory;
     }
