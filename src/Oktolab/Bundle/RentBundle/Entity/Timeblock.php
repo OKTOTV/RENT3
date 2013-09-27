@@ -34,7 +34,7 @@ class Timeblock
      *
      * @ORM\Column(name="weekdays", type="integer")
      */
-    private $weekdays;
+    private $weekdays = 0;
 
     /**
      * @var \DateTime
@@ -231,14 +231,21 @@ class Timeblock
     {
         if (empty($weekdays)) {
             $this->weekdays = 0;
+            return $this;
         }
 
         $this->weekdays = $this->computeWeekdays($weekdays);
         return $this;
     }
 
+    /**
+     * Calculates the sum of the array weekdays
+     *
+     * @param array $weekdays
+     * @return integer
+     */
     protected function computeWeekdays(array $weekdays = array())
     {
-        return 0;
+        return array_sum($weekdays);
     }
 }
