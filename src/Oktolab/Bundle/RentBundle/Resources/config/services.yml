@@ -39,13 +39,13 @@ services:
             - { name: logger, channel: main}
             - { name: doctrine.event_listener, event: postPersist, method: postPersist }
 
-#    oktolab.inventory_transformer_cache_listener:
-#        class: %oktolab.inventory_transformer_cache_listener%
-#        arguments: [ @oktolab.cache ]
-#        tags:
-#            - { name: doctrine.event_listener, event: postPersist }
-#            - { name: doctrine.event_listener, event: postRemove }
-#            - { name: doctrine.event_listener, event: postUpdate }
+    oktolab.inventory_transformer_cache_listener:
+        class: %oktolab.inventory_transformer_cache_listener%
+        arguments: [ @oktolab.cache ]
+        tags:
+            - { name: doctrine.event_listener, event: postPersist }
+            - { name: doctrine.event_listener, event: postRemove }
+            - { name: doctrine.event_listener, event: postUpdate }
 
     oktolab.upload_manager:
         class:      %oktolab.upload_manager.class%

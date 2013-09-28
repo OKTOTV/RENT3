@@ -12,6 +12,8 @@ use Doctrine\Common\Cache\Cache;
  */
 class InventoryTransformer
 {
+    const CACHE_ID = 'oktolab.calendar_inventory_transformer';
+
     /**
      * @var \Oktolab\Bundle\RentBundle\Model\Event\Calendar\Inventory
      */
@@ -42,8 +44,8 @@ class InventoryTransformer
      */
     public function getTransformedInventory($sets = false)
     {
-        if ($this->cache->contains('oktolab.calendar_inventory_transformer')) {
-            return $this->cache->fetch('oktolab.calendar_inventory_transformer');
+        if ($this->cache->contains(self::CACHE_ID)) {
+            return $this->cache->fetch(self::CACHE_ID);
         }
 
         $aggregatedObjectives = $this->aggregator->getInventory($sets);
@@ -65,7 +67,7 @@ class InventoryTransformer
             $inventory[] = $objective;
         }
 
-        $this->cache->save('oktolab.calendar_inventory_transformer', $inventory, 600);
+        $this->cache->save(self::CACHE_ID, $inventory, 86400);
 
         return $inventory;
     }

@@ -1,6 +1,3 @@
-parameters:
-  oktolab.cache.class: Doctrine\Common\Cache\ArrayCache
-
 services:
     oktolab.faker.provider.item:
       class: Oktolab\Bundle\RentBundle\Util\Faker\Provider\Item
