@@ -1,21 +1,40 @@
 parameters:
+    # common service-classes
+    oktolab.cache.class:                      Doctrine\Common\Cache\PhpFileCache
+    oktolab.orm.object_repository.class:      Doctrine\Common\Persistence\ObjectRepository
+    oktolab.presavelistener.class:            Oktolab\Bundle\RentBundle\EventListener\LogListener
+    oktolab.postsavelistener.class:           Oktolab\Bundle\RentBundle\EventListener\LogListener
+    oktolab.twig.attachment.extension.class:  Oktolab\Bundle\RentBundle\Extension\AttachmentExtension
+    oktolab.item_import_manager.class:        Oktolab\Bundle\RentBundle\Model\ItemImportManager
+    oktolab.item_csv_importer.class:          Oktolab\Bundle\RentBundle\Model\ItemCsvParser
+
+    # upload service-classes
+    oktolab.upload_manager.class:             Oktolab\Bundle\RentBundle\Model\UploadManager
+    oktolab.upload_listener.class:            Oktolab\Bundle\RentBundle\EventListener\UploadListener
+    oktolab.upload_name_manager.class:        Oktolab\Bundle\RentBundle\Model\UploadNameManager
+
+    # hub authentication service-classes
+    oktolab.hub_user_provider.class:            Oktolab\Bundle\RentBundle\Model\HubUserProvider
+    oktolab.hub_authentication_provider.class:  Oktolab\Bundle\RentBundle\Model\HubAuthenticationProvider
+    oktolab.hub_security_listener.class:        Oktolab\Bundle\RentBundle\Model\SecurityListener
+
+    # event management service-classes
     oktolab.event_manager.class:                       Oktolab\Bundle\RentBundle\Model\Event\EventManager
     oktolab.event_calendar_inventory_aggregator.class: Oktolab\Bundle\RentBundle\Model\Event\Calendar\InventoryAggregator
     oktolab.event_calendar_inventory.class:            Oktolab\Bundle\RentBundle\Model\Event\Calendar\InventoryTransformer
-    oktolab.cache.class:                               Doctrine\Common\Cache\PhpFileCache
     oktolab.inventory_transformer_cache_listener:      Oktolab\Bundle\RentBundle\EventListener\InventoryTransformerCacheListener
 
 services:
     oktolab.presavelistener:
-        class: Oktolab\Bundle\RentBundle\EventListener\LogListener
-        arguments: [@?logger]
+        class:      %oktolab.presavelistener.class%
+        arguments:  [ @?logger ]
         tags:
-            - { name: logger, channel: main}
+            - { name: logger, channel: main }
             - { name: doctrine.event_listener, event: prePersist, method: prePersist }
 
     oktolab.postsavelistener:
-        class: Oktolab\Bundle\RentBundle\EventListener\LogListener
-        arguments: [@?logger]
+        class:      %oktolab.postsavelistener.class%
+        arguments:  [ @?logger ]
         tags:
             - { name: logger, channel: main}
             - { name: doctrine.event_listener, event: postPersist, method: postPersist }
@@ -29,51 +48,51 @@ services:
 #            - { name: doctrine.event_listener, event: postUpdate }
 
     oktolab.upload_manager:
-        class: Oktolab\Bundle\RentBundle\Model\UploadManager
+        class:      %oktolab.upload_manager.class%
         arguments: [ %oktolab.upload_dir%, %oktolab.web_dir%, @oneup_uploader.orphanage_manager ]
 
     oktolab.upload_listener:
-        class: Oktolab\Bundle\RentBundle\EventListener\UploadListener
-        arguments: [ @oktolab.upload_manager, @oneup_uploader.orphanage_manager ]
+        class:      %oktolab.upload_listener.class%
+        arguments:  [ @oktolab.upload_manager, @oneup_uploader.orphanage_manager ]
         tags:
             - { name: doctrine.event_listener, event: preUpdate }
             - { name: doctrine.event_listener, event: prePersist }
 
     oktolab.upload_name_manager:
-        class: Oktolab\Bundle\RentBundle\Model\UploadNameManager
+        class:    %oktolab.upload_name_manager.class%
 
     oktolab.twig.attachment.extension:
-        class:  Oktolab\Bundle\RentBundle\Extension\AttachmentExtension
-        arguments: [@service_container]
+        class:      %oktolab.twig.attachment.extension.class%
+        arguments:  [ @service_container ]
         tags:
             - { name: twig.extension }
 
     oktolab.orm.event_repository:
-        class: Doctrine\Common\Persistence\ObjectRepository
-        factory_service: doctrine
-        factory_method: getRepository
-        arguments: [ OktolabRentBundle:Event ]
+        class:            %oktolab.orm.object_repository.class%
+        factory_service:  doctrine
+        factory_method:   getRepository
+        arguments:        [ OktolabRentBundle:Event ]
 
     oktolab.orm.item_repository:
-        class: Doctrine\Common\Persistence\ObjectRepository
-        factory_service: doctrine
-        factory_method: getRepository
-        arguments: [ OktolabRentBundle:Inventory\Item ]
+        class:            %oktolab.orm.object_repository.class%
+        factory_service:  doctrine
+        factory_method:   getRepository
+        arguments:        [ OktolabRentBundle:Inventory\Item ]
 
     oktolab.orm.set_repository:
-        class: Doctrine\Common\Persistence\ObjectRepository
-        factory_service: doctrine
-        factory_method: getRepository
-        arguments: [ OktolabRentBundle:Inventory\Set ]
+        class:            %oktolab.orm.object_repository.class%
+        factory_service:  doctrine
+        factory_method:   getRepository
+        arguments:        [ OktolabRentBundle:Inventory\Set ]
 
     oktolab.orm.category_repository:
-        class: Doctrine\Common\Persistence\ObjectRepository
-        factory_service: doctrine
-        factory_method: getRepository
-        arguments: [ OktolabRentBundle:Inventory\Category ]
+        class:            %oktolab.orm.object_repository.class%
+        factory_service:  doctrine
+        factory_method:   getRepository
+        arguments:        [ OktolabRentBundle:Inventory\Category ]
 
     oktolab.event_manager:
-        class: %oktolab.event_manager.class%
+        class:      %oktolab.event_manager.class%
         arguments:  [ @doctrine.orm.entity_manager, @?logger ]
         calls:
             - [ addRepository, [ "Event", @oktolab.orm.event_repository ] ]
@@ -81,39 +100,37 @@ services:
             - [ setEntityManager, [ @doctrine.orm.entity_manager ] ]
 
     oktolab.item_import_manager:
-      class: Oktolab\Bundle\RentBundle\Model\ItemImportManager
-      arguments:
-          - @doctrine.orm.entity_manager
-          - @validator
-          - @oktolab.item_csv_importer
+        class:      %oktolab.item_import_manager.class%
+        arguments:  [ @doctrine.orm.entity_manager, @validator, @oktolab.item_csv_importer ]
 
     oktolab.item_csv_importer:
-      class: Oktolab\Bundle\RentBundle\Model\ItemCsvParser
-      arguments:  [ @doctrine.orm.entity_manager ]
+        class:      %oktolab.item_csv_importer.class%
+        arguments:  [ @doctrine.orm.entity_manager ]
 
     oktolab.hub_user_provider:
-      class: Oktolab\Bundle\RentBundle\Model\HubUserProvider
-      arguments:  [ @doctrine.orm.entity_manager, %oktolab.hub_api_search_url%, %oktolab.hub_api_auth_url% ]
+        class:      %oktolab.hub_user_provider.class%
+        arguments:  [ @doctrine.orm.entity_manager, %oktolab.hub_api_search_url%, %oktolab.hub_api_auth_url% ]
 
     oktolab.hub_authentication_provider:
-      class:  Oktolab\Bundle\RentBundle\Model\HubAuthenticationProvider
-      arguments:  [ @oktolab.hub_user_provider ]
+        class:      %oktolab.hub_authentication_provider.class%
+        arguments:  [ @oktolab.hub_user_provider ]
 
     oktolab.hub_security_listener:
-      class:  Oktolab\Bundle\RentBundle\Model\SecurityListener
-      arguments: [ @security.context , @oktolab.hub_authentication_provider ]
+        class:     %oktolab.hub_security_listener.class%
+        arguments: [ @security.context, @oktolab.hub_authentication_provider ]
 
     oktolab.event_calendar_inventory_aggregator:
-        class: %oktolab.event_calendar_inventory_aggregator.class%
+        class:  %oktolab.event_calendar_inventory_aggregator.class%
         calls:
             - [ addRepository, [ "Set", @oktolab.orm.set_repository ] ]
             - [ addRepository, [ "Item", @oktolab.orm.item_repository ] ]
             - [ addRepository, [ "Category", @oktolab.orm.category_repository ] ]
 
     oktolab.event_calendar_inventory:
-        class: %oktolab.event_calendar_inventory.class%
-        arguments: [ @oktolab.event_calendar_inventory_aggregator, @oktolab.cache ]
+        class:      %oktolab.event_calendar_inventory.class%
+        arguments:  [ @oktolab.event_calendar_inventory_aggregator, @oktolab.cache ]
 
+    # Global Oktolab-Cache. See Doctrine\Common\Cache for more details
     oktolab.cache:
-        class: %oktolab.cache.class%
-        arguments: [ %kernel.cache_dir% ]
+        class:      %oktolab.cache.class%
+        arguments:  [ %kernel.cache_dir% ]
