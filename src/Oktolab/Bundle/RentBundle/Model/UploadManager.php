@@ -3,25 +3,40 @@
 namespace Oktolab\Bundle\RentBundle\Model;
 
 use Oktolab\Bundle\RentBundle\Entity\Inventory\Attachment;
-use Doctrine\ORM\EntityManager;
+use Oneup\UploaderBundle\Uploader\Orphanage\OrphanageManager;
 
+/**
+ * UploadManager.
+ */
 class UploadManager
 {
+    /**
+     * @var string
+     */
     private $uploadPath;
-    private $entityManager;
+
+    /**
+     * @var \Oneup\UploaderBundle\Uploader\Storage\OrphanageStorageInterface
+     */
     private $orphanManager;
 
-    public function __construct($uploadPath, $webPath, EntityManager $entityManager, $orphanManager)
+    /**
+     * Constructor.
+     *
+     * @param string $uploadPath
+     * @param string $webPath
+     * @param \Oneup\UploaderBundle\Uploader\Storage\OrphanageStorageInterface $orphanManager
+     */
+    public function __construct($uploadPath, $webPath, OrphanageManager $orphanManager)
     {
-        $this->uploadPath = $webPath.$uploadPath;
-        $this->entityManager = $entityManager;
+        $this->uploadPath    = $webPath.$uploadPath;
         $this->orphanManager = $orphanManager;
     }
 
     /**
+     * Uploads stuff
      *
      * @param Attachment $attachment
-     * @return type
      */
     public function upload(Attachment $attachment)
     {
@@ -29,6 +44,7 @@ class UploadManager
         if (null === $attachment->getFile()) {
             return;
         }
+
         // move takes the target directory and then the
         // target filename to move to
         $attachment->getFile()->move(
@@ -41,6 +57,7 @@ class UploadManager
     }
 
     /**
+     * Removes Stuff.
      *
      * @param Attachment $attachment
      */
@@ -57,10 +74,11 @@ class UploadManager
     }
 
     /**
+     * Does Stuff.
      *
-     * @param UploadableInterface $entity
-     * @param array $files
-     * @param bool picture
+     * @param UploadableInterface   $entity
+     * @param array                 $files
+     * @param bool                  $picture
      *
      * @return bool true if successful
      */

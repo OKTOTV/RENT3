@@ -3,6 +3,7 @@ parameters:
     oktolab.event_calendar_inventory_aggregator.class: Oktolab\Bundle\RentBundle\Model\Event\Calendar\InventoryAggregator
     oktolab.event_calendar_inventory.class:            Oktolab\Bundle\RentBundle\Model\Event\Calendar\InventoryTransformer
     oktolab.cache.class:                               Doctrine\Common\Cache\PhpFileCache
+    oktolab.inventory_transformer_cache_listener:      Oktolab\Bundle\RentBundle\EventListener\InventoryTransformerCacheListener
 
 services:
     oktolab.presavelistener:
@@ -19,21 +20,24 @@ services:
             - { name: logger, channel: main}
             - { name: doctrine.event_listener, event: postPersist, method: postPersist }
 
+#    oktolab.inventory_transformer_cache_listener:
+#        class: %oktolab.inventory_transformer_cache_listener%
+#        arguments: [ @oktolab.cache ]
+#        tags:
+#            - { name: doctrine.event_listener, event: postPersist }
+#            - { name: doctrine.event_listener, event: postRemove }
+#            - { name: doctrine.event_listener, event: postUpdate }
+
     oktolab.upload_manager:
         class: Oktolab\Bundle\RentBundle\Model\UploadManager
-        arguments:
-            - %oktolab.upload_dir%
-            - %oktolab.web_dir%
-            - @doctrine.orm.entity_manager
-            - @oneup_uploader.orphanage_manager
+        arguments: [ %oktolab.upload_dir%, %oktolab.web_dir%, @oneup_uploader.orphanage_manager ]
 
     oktolab.upload_listener:
         class: Oktolab\Bundle\RentBundle\EventListener\UploadListener
-        arguments:
-            - @oneup_uploader.orphanage_manager
-            - @oktolab.upload_manager
+        arguments: [ @oktolab.upload_manager, @oneup_uploader.orphanage_manager ]
         tags:
-            - { name: doctrine.event_listener, event: preUpdate, method: prePersist }
+            - { name: doctrine.event_listener, event: preUpdate }
+            - { name: doctrine.event_listener, event: prePersist }
 
     oktolab.upload_name_manager:
         class: Oktolab\Bundle\RentBundle\Model\UploadNameManager
