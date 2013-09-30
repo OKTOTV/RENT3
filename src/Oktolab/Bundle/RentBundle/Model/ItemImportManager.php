@@ -3,10 +3,8 @@
 namespace Oktolab\Bundle\RentBundle\Model;
 
 use Doctrine\ORM\EntityManager;
-use Oktolab\Bundle\RentBundle\Entity\Inventory\Item;
 use Symfony\Component\Validator\Validator;
 use Oktolab\Bundle\RentBundle\Model\ItemCsvParser;
-use Oktolab\Bundle\RentBundle\Model\ItemParserInterface;
 
 class ItemImportManager
 {

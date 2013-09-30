@@ -17,6 +17,8 @@ parameters:
     oktolab.hub_user_provider.class:            Oktolab\Bundle\RentBundle\Model\HubUserProvider
     oktolab.hub_authentication_provider.class:  Oktolab\Bundle\RentBundle\Model\HubAuthenticationProvider
     oktolab.hub_security_listener.class:        Oktolab\Bundle\RentBundle\Model\SecurityListener
+    oktolab.hub_auth_service.class:             Oktolab\Bundle\RentBundle\Model\GuzzleHubAuth
+    oktolab.hub_search_service.class:           Oktolab\Bundle\RentBundle\Model\GuzzleHubSearch
 
     # event management service-classes
     oktolab.event_manager.class:                       Oktolab\Bundle\RentBundle\Model\Event\EventManager
@@ -107,9 +109,17 @@ services:
         class:      %oktolab.item_csv_importer.class%
         arguments:  [ @doctrine.orm.entity_manager ]
 
+    oktolab.hub_auth_service:
+        class:      %oktolab.hub_auth_service.class%
+        arguments:  [ %oktolab.hub_api_auth_url% ]
+
+    oktolab.hub_search_service:
+        class:      %oktolab.hub_search_service.class%
+        arguments:  [ %oktolab.hub_api_search_url% ]
+
     oktolab.hub_user_provider:
         class:      %oktolab.hub_user_provider.class%
-        arguments:  [ @doctrine.orm.entity_manager, %oktolab.hub_api_search_url%, %oktolab.hub_api_auth_url% ]
+        arguments:  [ @doctrine.orm.entity_manager, @oktolab.hub_search_service , @oktolab.hub_auth_service ]
 
     oktolab.hub_authentication_provider:
         class:      %oktolab.hub_authentication_provider.class%

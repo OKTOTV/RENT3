@@ -5,7 +5,8 @@ namespace Oktolab\Bundle\RentBundle\Model;
 use Symfony\Component\Security\Core\User\UserProviderInterface;
 use Symfony\Component\Security\Core\Exception\UsernameNotFoundException;
 use Symfony\Component\Security\Core\Exception\UnsupportedUserException;
-use Guzzle\Service\Client;
+use Oktolab\Bundle\RentBundle\Model\GuzzleHubAuth;
+use Oktolab\Bundle\RentBundle\Model\GuzzleHubSearch;
 use Oktolab\Bundle\RentBundle\Entity\Security\User;
 use Doctrine\ORM\EntityManager;
 use Symfony\Component\Security\Core\User\UserInterface;
@@ -15,14 +16,14 @@ class HubUserProvider implements UserProviderInterface
 {
 
     private $entityManager;
-    private $hubApiSearchUrl;
-    private $hubApiAuthUrl;
+    private $hubApiSearchClient;
+    private $hubApiAuthClient;
 
-    public function __construct(EntityManager $entityManager, $hubApiSearchUrl, $hubApiAuthUrl)
+    public function __construct(EntityManager $entityManager, GuzzleHubSearch $hubApiSearch, GuzzleHubAuth $hubApiAuth)
     {
         $this->entityManager = $entityManager;
-        $this->hubApiSearchUrl = $hubApiSearchUrl;
-        $this->hubApiAuthUrl = $hubApiAuthUrl;
+        $this->hubApiSearchClient = $hubApiSearch;
+        $this->hubApiAuthClient = $hubApiAuth;
     }
 
     /**
@@ -33,29 +34,15 @@ class HubUserProvider implements UserProviderInterface
      */
     private function getContactCardUserByUsername($username)
     {
-        $client = new Client($this->hubApiSearchUrl);
-        $response = $client->get('?name='.$username.'&type=user&uidonly=1')->send();
-        $serializedString = $response->getBody(true);
+        $contactcard = $this->hubApiSearchClient->getContactCardForUser($username);
 
-        $serializedString = str_replace(
-            'O:11:"ContactCard"',
-            sprintf(
-                'O:%d:"%s\ContactCard"',
-                strlen(__NAMESPACE__)+12,
-                __NAMESPACE__
-            ),
-            $serializedString
-        );
-
-        $contactcard = unserialize($serializedString);
-
-        if ($contactcard[0] == null) {
+        if ($contactcard == null) {
             throw new UsernameNotFoundException();
         }
         $user = new User();
         $user->setRoles('ROLE_USER');
-        $user->setUsername($contactcard[0]->getGuid());
-        $user->setDisplayname($contactcard[0]->getDisplayName());
+        $user->setUsername($contactcard->getGuid());
+        $user->setDisplayname($contactcard->getDisplayName());
 
         return $user;
     }
@@ -102,24 +89,10 @@ class HubUserProvider implements UserProviderInterface
     public function authenticateUserByUsernameAndPassword($username, $password)
     {
         try {
-            $client = new Client($this->hubApiAuthUrl);
-            $response = $client->get(sprintf('?action=auth&username=%s&password=%s', $username, $password))->send();
-        } catch (\Guzzle\Http\Exception\BadResponseException $e) {
+            $contactcard = $this->hubApiAuthClient->getContactCardForUserByAuthentication($username, $password);
+        } catch (\Symfony\Component\Security\Core\Exception\BadCredentialsException $e) {
             return false;
         }
-
-        $serializedString = $response->getBody(true);
-        $serializedString = str_replace(
-            'O:11:"ContactCard"',
-            sprintf(
-                'O:%d:"%s\ContactCard"',
-                strlen(__NAMESPACE__)+12,
-                __NAMESPACE__
-            ),
-            $serializedString
-        );
-
-        $contactcard = unserialize($serializedString);
 
         if ($contactcard['uid'][0] != $username) {
             return false;
