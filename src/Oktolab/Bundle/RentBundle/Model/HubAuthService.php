@@ -4,19 +4,12 @@ namespace Oktolab\Bundle\RentBundle\Model;
 
 use Guzzle\Service\Client;
 
-class GuzzleHubAuth extends Client
+class HubAuthService extends Client
 {
-    private $authHubClient;
-
-    public function __construct($authHubApi)
-    {
-        $this->authHubClient = new Client($authHubApi);
-    }
-
     public function getContactCardForUserByAuthentication($username, $password)
     {
         try {
-            $response = $this->authHubClient->get(sprintf('?action=auth&username=%s&password=%s', $username, $password))->send();
+            $response = $this->get(sprintf('?action=auth&username=%s&password=%s', $username, $password))->send();
         } catch (\Guzzle\Http\Exception\BadResponseException $e) {
             throw new \Symfony\Component\Security\Core\Exception\BadCredentialsException;
         }

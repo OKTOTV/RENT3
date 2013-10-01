@@ -5,12 +5,11 @@ namespace Oktolab\Bundle\RentBundle\Model;
 use Symfony\Component\Security\Core\User\UserProviderInterface;
 use Symfony\Component\Security\Core\Exception\UsernameNotFoundException;
 use Symfony\Component\Security\Core\Exception\UnsupportedUserException;
-use Oktolab\Bundle\RentBundle\Model\GuzzleHubAuth;
-use Oktolab\Bundle\RentBundle\Model\GuzzleHubSearch;
+use Oktolab\Bundle\RentBundle\Model\HubAuthService;
+use Oktolab\Bundle\RentBundle\Model\HubSearchService;
 use Oktolab\Bundle\RentBundle\Entity\Security\User;
 use Doctrine\ORM\EntityManager;
 use Symfony\Component\Security\Core\User\UserInterface;
-use Oktolab\Bundle\RentBundle\Entity\Security\ContactCard;
 
 class HubUserProvider implements UserProviderInterface
 {
@@ -19,7 +18,7 @@ class HubUserProvider implements UserProviderInterface
     private $hubApiSearchClient;
     private $hubApiAuthClient;
 
-    public function __construct(EntityManager $entityManager, GuzzleHubSearch $hubApiSearch, GuzzleHubAuth $hubApiAuth)
+    public function __construct(EntityManager $entityManager, HubSearchService $hubApiSearch, HubAuthService $hubApiAuth)
     {
         $this->entityManager = $entityManager;
         $this->hubApiSearchClient = $hubApiSearch;
@@ -43,7 +42,6 @@ class HubUserProvider implements UserProviderInterface
         $user->setRoles('ROLE_USER');
         $user->setUsername($contactcard->getGuid());
         $user->setDisplayname($contactcard->getDisplayName());
-
         return $user;
     }
 
@@ -70,12 +68,10 @@ class HubUserProvider implements UserProviderInterface
         if ($username == '') {
                 return new User();
         }
-
-            $user = $this->entityManager->getRepository('OktolabRentBundle:Security\User')
-                ->findOneBy(array('username' => $username));
+        $user = $this->entityManager->getRepository('OktolabRentBundle:Security\User')
+            ->findOneBy(array('username' => $username));
 
         if (!$user) {
-
             $user = $this->getContactCardUserByUsername($username);
             if ($user->getUsername() == '') {
                 throw new UsernameNotFoundException();

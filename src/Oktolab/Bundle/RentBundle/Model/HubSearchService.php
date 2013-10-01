@@ -4,19 +4,11 @@ namespace Oktolab\Bundle\RentBundle\Model;
 
 use Guzzle\Service\Client;
 
-class GuzzleHubSearch
+class HubSearchService extends Client
 {
-    private $searchHubClient;
-
-    public function __construct($searchHubApi)
-    {
-        $this->searchHubClient = new Client($searchHubApi);
-    }
-
     public function getContactCardForUser($username)
     {
-        $response = $this->searchHubClient->get('?name='.$username.'&type=user&uidonly=1')->send();
-
+        $response = $this->get('?name='.$username.'&type=user&uidonly=1')->send();
         $serializedString = str_replace(
             'O:11:"ContactCard"',
             sprintf(

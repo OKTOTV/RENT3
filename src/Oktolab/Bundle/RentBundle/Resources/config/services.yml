@@ -17,8 +17,8 @@ parameters:
     oktolab.hub_user_provider.class:            Oktolab\Bundle\RentBundle\Model\HubUserProvider
     oktolab.hub_authentication_provider.class:  Oktolab\Bundle\RentBundle\Model\HubAuthenticationProvider
     oktolab.hub_security_listener.class:        Oktolab\Bundle\RentBundle\Model\SecurityListener
-    oktolab.hub_auth_service.class:             Oktolab\Bundle\RentBundle\Model\GuzzleHubAuth
-    oktolab.hub_search_service.class:           Oktolab\Bundle\RentBundle\Model\GuzzleHubSearch
+    oktolab.hub_auth_service.class:             Oktolab\Bundle\RentBundle\Model\HubAuthService
+    oktolab.hub_search_service.class:           Oktolab\Bundle\RentBundle\Model\HubSearchService
 
     # event management service-classes
     oktolab.event_manager.class:                       Oktolab\Bundle\RentBundle\Model\Event\EventManager
