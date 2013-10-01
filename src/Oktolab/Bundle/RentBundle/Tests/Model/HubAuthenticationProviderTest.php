@@ -6,8 +6,6 @@ use Oktolab\Bundle\RentBundle\Model\UserToken;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Guzzle\Plugin\Mock\MockPlugin;
 use Guzzle\Http\Message\Response;
-use Oktolab\Bundle\RentBundle\Model\GuzzleHubAuth;
-use Oktolab\Bundle\RentBundle\Model\GuzzleHubSearch;
 
 class HubAuthenticationProviderTest extends WebTestCase
 {
