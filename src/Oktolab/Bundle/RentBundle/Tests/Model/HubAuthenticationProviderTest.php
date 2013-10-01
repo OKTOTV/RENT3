@@ -45,6 +45,31 @@ class HubAuthenticationProviderTest extends WebTestCase
 
     public function testAuthenticateWithWrongCredentials()
     {
-        $this->markTestIncomplete();
+        static::$kernel = static::createKernel();
+        static::$kernel->boot();
+
+        $token = new UserToken();
+        $token->setAttributes(array('username' => 'none', 'password' => 'none'));
+
+        $Authresponse = new Response(403);
+        $Authresponse->setBody('0');
+
+        $Authclient = static::$kernel->getContainer()->get('oktolab.hub_auth_service');
+        $Authplugin = new MockPlugin();
+        $Authplugin->addResponse($Authresponse);
+        $Authclient->addSubscriber($Authplugin); //Mocks the response the auth_service gets
+
+        $Searchresponse = new Response(200);
+        $Searchresponse->setBody('a:1:{i:0;N;}');
+
+        $SearchClient = static::$kernel->getContainer()->get('oktolab.hub_search_service');
+        $SearchPlugin = new MockPlugin();
+        $SearchPlugin->addResponse($Searchresponse);
+        $SearchClient->addSubscriber($SearchPlugin); //Mocks the respnse the search_service gets
+
+        $SUT = static::$kernel->getContainer()->get('oktolab.hub_authentication_provider');
+
+        $this->setExpectedException('Symfony\Component\Security\Core\Exception\AuthenticationException');
+        $SUT->authenticate($token);
     }
 }

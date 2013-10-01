@@ -72,11 +72,11 @@ class HubUserProvider implements UserProviderInterface
             ->findOneBy(array('username' => $username));
 
         if (!$user) {
-            $user = $this->getContactCardUserByUsername($username);
-            if ($user->getUsername() == '') {
-                throw new UsernameNotFoundException();
-            } else {
+            try {
+                $user = $this->getContactCardUserByUsername($username);
                 $this->addUserToRent($user);
+            } catch (UsernameNotFoundException $e){
+                return new User();
             }
         }
         return $user;
