@@ -6,7 +6,7 @@ use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Guzzle\Plugin\Mock\MockPlugin;
 use Guzzle\Http\Message\Response;
 
-class HubSearchServiceTest extends WebTestCase
+class HubAuthServiceTest extends WebTestCase
 {
     public function testGetContactCardByCredentials()
     {
