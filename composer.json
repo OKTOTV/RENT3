@@ -28,7 +28,8 @@
         "frequence-web/calendr-bundle": "1.0.*",
         "willdurand/faker-bundle": "1.0.*",
         "liip/functional-test-bundle": "1.0.*@dev",
-        "guzzle/guzzle": "3.7.*"
+        "guzzle/guzzle": "3.7.*",
+        "symfony/icu": "~1.0"
     },
     "scripts": {
         "post-install-cmd": [
