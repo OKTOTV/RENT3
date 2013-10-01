@@ -17,7 +17,7 @@ class HubAuthenticationProviderTest extends WebTestCase
         static::$kernel->boot();
 
         $token = new UserToken();
-        $token->setAttributes(array('username' => 'rs', 'password' => 'password'));
+        $token->setAttributes(array('username' => 'tu', 'password' => 'password'));
 
         $Authresponse = new Response(200);
         $Authresponse->setBody(base64_decode(file_get_contents(__DIR__.'/../DataFixtures/HubAuthContactcard')));
@@ -39,7 +39,7 @@ class HubAuthenticationProviderTest extends WebTestCase
         $auth = $SUT->authenticate($token); //token should be now authenticated, have a role and contain the username
 
         $this->assertEquals($auth->isAuthenticated(), true);
-        $this->assertEquals($auth->getUsername(), 'rs');
+        $this->assertEquals($auth->getUsername(), 'tu');
 
     }
 

@@ -171,7 +171,7 @@ class ContactCard
             } else {
                 $this->attributes[$name] = (string) $value;
             }
-            $now = new DateTime();
+            $now = new \DateTime();
             $this->attributes['updated_at'] = $now->format('c');
         } else {
             throw new InvalidArgumentException(sprintf('Attribute %s does not exist', $name));
