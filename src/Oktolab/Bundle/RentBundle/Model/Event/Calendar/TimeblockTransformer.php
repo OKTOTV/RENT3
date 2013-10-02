@@ -2,6 +2,9 @@
 
 namespace Oktolab\Bundle\RentBundle\Model\Event\Calendar;
 
+use Oktolab\Bundle\RentBundle\Model\Event\Calendar\TimeblockAggregator;
+use Doctrine\Common\Cache\Cache;
+
 /**
  * Description of TimeblockTransformer
  *
@@ -9,6 +12,26 @@ namespace Oktolab\Bundle\RentBundle\Model\Event\Calendar;
  */
 class TimeblockTransformer
 {
+
+    const CACHE_ID = 'oktolab.calendar_timeblock_transformer';
+
+    /**
+     * Timeblock Aggregator.
+     *
+     * @var \Oktolab\Bundle\RentBundle\Model\Event\Calendar\TimeblockAggregator
+     */
+    protected $aggregator = null;
+
+    /**
+     * @var \Doctrine\Common\Cache\Cache;
+     */
+    protected $cache = null;
+
+    public function construct(TimeblockAggregator $aggregator, Cache $cache)
+    {
+        $this->aggregator = $aggregator;
+        $this->cache = $cache;
+    }
 
     /**
      * Returns Timeblocks as Array for easy JSON access
@@ -25,6 +48,11 @@ class TimeblockTransformer
 
         $timeblocks = array();
         return $timeblocks;
+    }
+
+    protected function getTimeblocks(\DateTime $begin, \DateTime $end)
+    {
+//        $this->getRepository()->
     }
 
     /**
