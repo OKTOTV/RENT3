@@ -1,6 +1,6 @@
 <?php
 
-namespace Oktolab\Bundle\RentBundle\Tests\Model;
+namespace Oktolab\Bundle\RentBundle\Model;
 
 use Oktolab\Bundle\RentBundle\Entity\Contact;
 use Guzzle\Http\Client;
@@ -29,7 +29,7 @@ class ContactProvider extends Client
      * @param type $resource
      * @return type
      */
-    public function getContactsByName($name, $resource)
+    public function getContactsByName($name, $resource=0)
     {
         switch ($resource) {
             case ContactProvider::$Resource_HUB:
@@ -39,6 +39,7 @@ class ContactProvider extends Client
                 return $this->entityManager->getRepository('Oktolab\Bundle\RentBundle\Entity\Contact')->findByName($name);
                 break;
             default:
+                return $this->getContactsFromHub($name);
                 break;
         }
     }
@@ -73,9 +74,9 @@ class ContactProvider extends Client
             );
 
         $contactcards = unserialize($serializedString);
+
         $contacts = array();
         foreach ($contactcards as $contactcard) {
-            //TODO: Make Contact Entities.
             $contact = new Contact();
             $contact->setName($contactcard->getDisplayName());
             $contact->setGuid($contactcard->getGuid());

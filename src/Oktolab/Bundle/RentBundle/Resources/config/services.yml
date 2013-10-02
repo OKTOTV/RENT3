@@ -7,6 +7,7 @@ parameters:
     oktolab.twig.attachment.extension.class:  Oktolab\Bundle\RentBundle\Extension\AttachmentExtension
     oktolab.item_import_manager.class:        Oktolab\Bundle\RentBundle\Model\ItemImportManager
     oktolab.item_csv_importer.class:          Oktolab\Bundle\RentBundle\Model\ItemCsvParser
+    oktolab.conact_provider.class:            Oktolab\Bundle\RentBundle\Model\ContactProvider
 
     # upload service-classes
     oktolab.upload_manager.class:             Oktolab\Bundle\RentBundle\Model\UploadManager
@@ -144,3 +145,9 @@ services:
     oktolab.cache:
         class:      %oktolab.cache.class%
         arguments:  [ %kernel.cache_dir% ]
+
+    oktolab.contact_provider:
+        class:      %oktolab.conact_provider.class%
+        arguments:
+            - @doctrine.orm.entity_manager
+            - %oktolab.hub_api_search_url%
