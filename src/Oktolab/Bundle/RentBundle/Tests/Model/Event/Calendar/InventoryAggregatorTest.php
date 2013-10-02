@@ -38,16 +38,6 @@ class InventoryAggregatorTest extends \PHPUnit_Framework_TestCase
         $this->assertInstanceOf('Oktolab\Bundle\RentBundle\Model\Event\Calendar\InventoryAggregator', $this->SUT);
     }
 
-    public function testAddARepository()
-    {
-        // No Repository should be available
-        $this->assertSame(null, $this->SUT->getRepository('Set'));
-
-        $repository = $this->getMockBuilder('Doctrine\ORM\EntityRepository')->disableOriginalConstructor()->getMock();
-        $this->SUT->addRepository('Set', $repository);
-        $this->assertEquals($repository, $this->SUT->getRepository('Set'));
-    }
-
     public function testGetObjectivesThrowsErrorOnInvalidRepositoryName()
     {
         $this->setExpectedException('Oktolab\Bundle\RentBundle\Model\Event\Exception\RepositoryNotFoundException');
