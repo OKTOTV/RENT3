@@ -7,6 +7,7 @@ use Doctrine\ORM\Event\LifecycleEventArgs;
 
 use Oktolab\Bundle\RentBundle\Entity\Inventory\Set;
 use Oktolab\Bundle\RentBundle\Entity\Inventory\Category;
+use Oktolab\Bundle\RentBundle\Entity\Inventory\Item;
 use Oktolab\Bundle\RentBundle\Model\Event\Calendar\InventoryTransformer;
 
 /**
@@ -70,7 +71,7 @@ class InventoryTransformerCacheListener
     protected function cacheClear(LifecycleEventArgs $args)
     {
         $entity = $args->getEntity();
-        if ($entity instanceof Set || $entity instanceof Category) {
+        if ($entity instanceof Set || $entity instanceof Category || $entity instanceof Item) {
             if ($this->cache->contains(InventoryTransformer::CACHE_ID)) {
                 $this->cache->delete(InventoryTransformer::CACHE_ID);
             }

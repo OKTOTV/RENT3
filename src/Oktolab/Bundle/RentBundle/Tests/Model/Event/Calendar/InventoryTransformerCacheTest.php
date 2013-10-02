@@ -73,19 +73,47 @@ class InventoryTransformerCacheTest extends \PHPUnit_Framework_TestCase
      * @depends testCanAddResultToCache
      * @dataProvider callbackProvider
      */
-    public function testResultCacheWillBeDeletedOnCategoryCallbacks($callback)
+    public function testClearCacheOnCategoryCallbacks($callback)
     {
-        $this->cache->save(InventoryTransformer::CACHE_ID, array('content_here'));
+        $this->cache->save(InventoryTransformer::CACHE_ID, array('some_content'));
         $this->assertTrue($this->cache->contains(InventoryTransformer::CACHE_ID));
 
         $category = new Category();
         $category->setTitle('Test Category');
 
-        $args = $this->getMockBuilder('\Doctrine\ORM\Event\LifecycleEventArgs')
-                ->disableOriginalConstructor()
-                ->getMock();
-        $args->expects($this->once())->method('getEntity')->will($this->returnValue($category));
+        $args = $this->trainLifecycleEventArgs($category);
+        $this->SUT->$callback($args);
+        $this->assertFalse($this->cache->contains(InventoryTransformer::CACHE_ID));
+    }
 
+    /**
+     * @dataProvider callbackProvider
+     */
+    public function testClearCacheOnSetCallbacks($callback)
+    {
+        $this->cache->save(InventoryTransformer::CACHE_ID, array('some_content'));
+        $this->assertTrue($this->cache->contains(InventoryTransformer::CACHE_ID));
+
+        $set = new Set();
+        $set->setTitle('Test Set');
+
+        $args = $this->trainLifecycleEventArgs($set);
+        $this->SUT->$callback($args);
+        $this->assertFalse($this->cache->contains(InventoryTransformer::CACHE_ID));
+    }
+
+    /**
+     * @dataProvider callbackProvider
+     */
+    public function testClearCacheOnItemCallbacks($callback)
+    {
+        $this->cache->save(InventoryTransformer::CACHE_ID, array('some_content'));
+        $this->assertTrue($this->cache->contains(InventoryTransformer::CACHE_ID));
+
+        $item = new Item();
+        $item->setTitle('Item');
+
+        $args = $this->trainLifecycleEventArgs($item);
         $this->SUT->$callback($args);
         $this->assertFalse($this->cache->contains(InventoryTransformer::CACHE_ID));
     }
@@ -109,5 +137,21 @@ class InventoryTransformerCacheTest extends \PHPUnit_Framework_TestCase
             ->setDescription('Used for InventoryTransformerCacheTests');
 
         return $item;
+    }
+
+    /**
+     * Returns a Mock for LivecycleEventArgs
+     *
+     * @param object $object
+     * @return \Doctrine\ORM\Event\LifecycleEventArgs|PHPUnit_Framework_MockObject_MockBuilder
+     */
+    protected function trainLifecycleEventArgs($object)
+    {
+        $args = $this->getMockBuilder('\Doctrine\ORM\Event\LifecycleEventArgs')
+            ->disableOriginalConstructor()
+            ->getMock();
+        $args->expects($this->once())->method('getEntity')->will($this->returnValue($object));
+
+        return $args;
     }
 }
