@@ -47,7 +47,7 @@ class CostUnit
     /**
      * @var string
      *
-     * @ORM\Column(name="abbreviation", type="string", length="255")
+     * @ORM\Column(name="abbreviation", type="string", length=255)
      */
     private $abbreviation;
 

@@ -28,4 +28,27 @@ class ContactProviderTest extends WebTestCase
         $this->assertEquals($costunits[0]->getName(), "New Ordner");
         $this->assertEquals($costunits[0]->getAbbreviation(), "NEWO");
     }
+
+    public function testAddCostUnitsToRent()
+    {
+        static::$kernel = static::createKernel();
+        static::$kernel->boot();
+        $SUT = static::$kernel->getContainer()->get('oktolab.costunit_provider');
+
+        $Authresponse = new Response(200);
+        $Authresponse->setBody(file_get_contents(__DIR__.'/../DataFixtures/CostUnitXml'));
+
+        $Authplugin = new MockPlugin();
+        $Authplugin->addResponse($Authresponse);
+        $SUT->addSubscriber($Authplugin); //Mocks the response the auth_service gets
+
+
+        $costunits = $SUT->getCostUnitsFromResource(CostUnitProvider::$Resource_HUB);
+
+        $SUT->addCostUnitsToRent($costunits);
+        $entityManager = static::$kernel->getContainer()->get('doctrine.orm.entity_manager');
+        $rentCostUnits = $entityManager->getRepository('OktolabRentBundle:CostUnit')->findAll();
+
+        $this->assertEquals(count($rentCostUnits), 1);
+    }
 }
