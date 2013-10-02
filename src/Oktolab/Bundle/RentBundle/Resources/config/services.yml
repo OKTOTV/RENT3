@@ -8,6 +8,7 @@ parameters:
     oktolab.item_import_manager.class:        Oktolab\Bundle\RentBundle\Model\ItemImportManager
     oktolab.item_csv_importer.class:          Oktolab\Bundle\RentBundle\Model\ItemCsvParser
     oktolab.conact_provider.class:            Oktolab\Bundle\RentBundle\Model\ContactProvider
+    oktolab.costunit_provider.class:          Oktolab\Bundle\RentBundle\Model\CostUnitProvider
 
     # upload service-classes
     oktolab.upload_manager.class:             Oktolab\Bundle\RentBundle\Model\UploadManager
@@ -151,3 +152,9 @@ services:
         arguments:
             - @doctrine.orm.entity_manager
             - %oktolab.hub_api_search_url%
+
+    oktolab.costunit_provider:
+        class:      %oktolab.costunit_provider.class%
+        arguments:
+            - @doctrine.orm.entity_manager
+            - %oktolab.flow_api_costunit_url%
