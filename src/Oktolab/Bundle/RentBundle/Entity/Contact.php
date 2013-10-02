@@ -24,13 +24,6 @@ class Contact
     /**
      * @var string
      *
-     * @ORM\Column(name="surname", type="string", length=255)
-     */
-    private $surname;
-
-    /**
-     * @var string
-     *
      * @ORM\Column(name="name", type="string", length=255)
      */
     private $name;
@@ -42,38 +35,21 @@ class Contact
      */
     private $feePayed;
 
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="guid", type="string", length=255)
+     */
+    private $guid;
 
     /**
      * Get id
      *
-     * @return integer 
+     * @return integer
      */
     public function getId()
     {
         return $this->id;
-    }
-
-    /**
-     * Set surname
-     *
-     * @param string $surname
-     * @return Contact
-     */
-    public function setSurname($surname)
-    {
-        $this->surname = $surname;
-    
-        return $this;
-    }
-
-    /**
-     * Get surname
-     *
-     * @return string 
-     */
-    public function getSurname()
-    {
-        return $this->surname;
     }
 
     /**
@@ -85,14 +61,14 @@ class Contact
     public function setName($name)
     {
         $this->name = $name;
-    
+
         return $this;
     }
 
     /**
      * Get name
      *
-     * @return string 
+     * @return string
      */
     public function getName()
     {
@@ -108,17 +84,40 @@ class Contact
     public function setFeePayed($feePayed)
     {
         $this->feePayed = $feePayed;
-    
+
         return $this;
     }
 
     /**
      * Get feePayed
      *
-     * @return boolean 
+     * @return boolean
      */
     public function getFeePayed()
     {
         return $this->feePayed;
+    }
+
+    /**
+     * Set guid
+     *
+     * @param string $guid
+     * @return Contact
+     */
+    public function setGuid($guid)
+    {
+        $this->guid = $guid;
+
+        return $this;
+    }
+
+    /**
+     * Get guid
+     *
+     * @return string
+     */
+    public function getGuid()
+    {
+        return $this->guid;
     }
 }

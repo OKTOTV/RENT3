@@ -11,35 +11,52 @@ class ContactProvider extends Client
 {
     private $entityManager;
 
+    public static $Resource_HUB=0;
+    public static $Resource_RENT=1;
+
     public function __construct(EntityManager $manager, $baseUrl = '', $config = null)
     {
         parent::__construct($baseUrl, $config);
         $this->entityManager = $manager;
     }
 
-    public function getContactsByName($name, $hubOnly=false)
+    /**
+     * Returns all Contacts matching the given $name in the given $resource.
+     * $resource shall be one of ContactProviders static Resources
+     * By default, it returns Contacts matching from HUB.
+     *
+     * @param type $name
+     * @param type $resource
+     * @return type
+     */
+    public function getContactsByName($name, $resource)
     {
-        if ($hubOnly) {
-            return $this->getContactsFromHub($name);
-        } else {
-            $contacts = $this->entityManager->getRepository('Oktolab\Bundle\RentBundle\Entity\Contact')->findByName($name);
-            if (!$contacts) {
-
-                $contacts = $this->getContactCardsFromHub($name);
-                $this->addContactsToRent($contacts);
-
-                return $contacts;
-            }
+        switch ($resource) {
+            case ContactProvider::$Resource_HUB:
+                return $this->getContactsFromHub($name);
+                break;
+            case ContactProvider::$Resource_RENT:
+                return $this->entityManager->getRepository('Oktolab\Bundle\RentBundle\Entity\Contact')->findByName($name);
+                break;
+            default:
+                break;
         }
-
     }
 
-    public function addContactsToRent($contacts)
+    /**
+     * Add given contacts to the RENT Database.
+     * If you dont want to write the changes right now, set flush to FALSE.
+     * @param type $contacts
+     * @param type $flush
+     */
+    public function addContactsToRent($contacts, $flush=true)
     {
         foreach ($contacts as $contact) {
            $this->entityManager->persist($contact);
         }
-        $this->entityManager->flush();
+        if ($flush) {
+            $this->entityManager->flush();
+        }
     }
 
     private function getContactsFromHub($name)
@@ -60,8 +77,8 @@ class ContactProvider extends Client
         foreach ($contactcards as $contactcard) {
             //TODO: Make Contact Entities.
             $contact = new Contact();
-            $contact->setName($contactcard[]);
-            $contact->setSurname($contactcard[]);
+            $contact->setName($contactcard->getDisplayName());
+            $contact->setGuid($contactcard->getGuid());
             $contact->setFeePayed(false);
             $contacts[] = $contact;
         }
