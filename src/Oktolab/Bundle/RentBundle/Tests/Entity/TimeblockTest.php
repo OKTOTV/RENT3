@@ -53,7 +53,6 @@ class TimeblockTest extends \PHPUnit_Framework_TestCase
 
     public function testIsActiveOnWednesday()
     {
-        $this->markTestIncomplete();
         $timeblock = new Timeblock();
         $timeblock->setIntervalBegin(new \DateTime('2013-01-01'))
             ->setIntervalEnd(new \DateTime('2013-12-31'))
@@ -70,9 +69,15 @@ class TimeblockTest extends \PHPUnit_Framework_TestCase
     public function testHasWeekdayAvailable($timeblockWeekdays, $weekday, $expected)
     {
         $timeblock = new Timeblock();
-        $timeblock->setWeekdays($timeblockWeekdays); // all Weekdays
-
+        $timeblock->setWeekdays($timeblockWeekdays);
         $this->assertSame($expected, $timeblock->hasWeekdayAvailable($weekday));
+    }
+
+    public function testHasWeekdayAvailableAcceptsDateTimeObject()
+    {
+        $timeblock = new Timeblock();
+        $timeblock->setWeekdays(1016); // all Weekdays
+        $this->assertTrue($timeblock->hasWeekdayAvailable(new \DateTime('2013-10-03')));
     }
 
     public function setWeekdaysProvider()

@@ -253,20 +253,26 @@ class Timeblock
      */
     public function isActiveOnDate(\DateTime $date)
     {
-        return ($date >= $this->intervalBegin && $date <= $this->intervalEnd);
+        return ($date >= $this->intervalBegin && $date <= $this->intervalEnd && $this->hasWeekdayAvailable($date));
     }
 
     /**
      * Calculates if Timeblock has Weekday available
      *
-     * @param int $weekday
+     * @param int|\DateTime $weekday
      *
      * @return boolean
      */
     public function hasWeekdayAvailable($weekday)
     {
+        $timeblockWeekdays = array(0 => 512, 6 => 256, 5 => 128, 4 => 64, 3 => 32, 2 => 16, 1 => 8);
         $weekdays = $this->weekdays;
-        foreach (array(512, 256, 128, 64, 32, 16, 8) as $day) {
+
+        if ($weekday instanceof \DateTime) {
+            $weekday = $timeblockWeekdays[$weekday->format('w')];
+        }
+
+        foreach ($timeblockWeekdays as $day) {
             if ($day === $weekday && ($weekdays - $day) >= 0) {
                 return true;
             }
