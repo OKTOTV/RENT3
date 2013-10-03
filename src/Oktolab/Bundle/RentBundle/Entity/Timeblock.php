@@ -229,12 +229,7 @@ class Timeblock
      */
     public function setWeekdaysAsArray(array $weekdays = array())
     {
-        if (empty($weekdays)) {
-            $this->weekdays = 0;
-            return $this;
-        }
-
-        $this->weekdays = $this->computeWeekdays($weekdays);
+        $this->weekdays = !empty($weekdays) ? $this->computeWeekdays($weekdays) : 0;
         return $this;
     }
 
@@ -247,5 +242,39 @@ class Timeblock
     protected function computeWeekdays(array $weekdays = array())
     {
         return array_sum($weekdays);
+    }
+
+    /**
+     * Returns true, if $date is in timerange and considered as active
+     *
+     * @param \DateTime $date
+     *
+     * @return boolean
+     */
+    public function isActiveOnDate(\DateTime $date)
+    {
+        return ($date >= $this->intervalBegin && $date <= $this->intervalEnd);
+    }
+
+    /**
+     * Calculates if Timeblock has Weekday available
+     *
+     * @param int $weekday
+     *
+     * @return boolean
+     */
+    public function hasWeekdayAvailable($weekday)
+    {
+        $weekdays = $this->weekdays;
+        foreach (array(512, 256, 128, 64, 32, 16, 8) as $day) {
+            if ($day === $weekday && ($weekdays - $day) >= 0) {
+                return true;
+            }
+
+            // If we can reduce $weekdays by $day, do it. Otherwise keep it.
+            $weekdays = ($weekdays - $day) >= 0 ? ($weekdays - $day) : $weekdays;
+        }
+
+        return false;
     }
 }
