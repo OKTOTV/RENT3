@@ -27,7 +27,7 @@ class TimeblockTransformer
      */
     protected $cache = null;
 
-    public function construct(TimeblockAggregator $aggregator, Cache $cache)
+    public function __construct(TimeblockAggregator $aggregator, Cache $cache)
     {
         $this->aggregator = $aggregator;
         $this->cache = $cache;
@@ -44,15 +44,49 @@ class TimeblockTransformer
     public function getTransformedTimeblocks(\DateTime $begin = null, \DateTime $end = null)
     {
         $this->guardTimeblockAggregation($begin, $end);
-        // TODO: Aggregate Timeblocks from Repository.
+        $timeblocks = $this->aggregator->getTimeblocks($begin, $end);
 
-        $timeblocks = array();
         return $timeblocks;
     }
 
-    protected function getTimeblocks(\DateTime $begin, \DateTime $end)
+    /**
+     * Seperates Timeblocks for easy use.
+     *
+     * @param \DateTime $begin Begin of interval
+     * @param \DateTime $end   End of interval
+     * @param int       $max   Maximum number of timeblocks to aggregate
+     *
+     * @return array
+     */
+    public function getSeparatedTimeblocks(\DateTime $begin = null, \DateTime $end = null, $max = 30)
     {
-//        $this->getRepository()->
+        $this->guardTimeblockAggregation($begin, $end);
+
+        $timeblocks = array();
+        foreach ($this->aggregator->getTimeblocks($begin, $end) as $timeblock) {
+            $intervalDate = $begin;
+
+            do {
+                if (!$timeblock->isActiveOnDate($intervalDate)) {
+                    $intervalDate->modify('+1 day');
+                    continue; // Skip, because Timeblock is not active on this date
+                }
+
+                $timeblocks[] = array(
+                    'begin'     => $timeblock->getBegin(),
+                    'end'       => $timeblock->getEnd(),
+                    'date'      => clone $intervalDate,
+                    'timeblock' => $timeblock,
+                );
+
+                $intervalDate->modify('+1 day');
+            } while (count($timeblocks) <= $max &&                  // Count of Timeblocks smaller than $max
+                $intervalDate <= $timeblock->getIntervalEnd() &&    // Current Date smaller than Timeblock::IntervalEnd
+                $intervalDate <= $end                               // Current Date smaller than overall $end
+            );
+        }
+
+        return $timeblocks;
     }
 
     /**
@@ -66,7 +100,7 @@ class TimeblockTransformer
     {
         if (null !== $begin && null !== $end) {
             if ($end < $begin) {
-                throw new \LogicException('End date must be greater than Begin');
+                throw new \LogicException('End date must be greater than Begin date');
             }
         }
     }
