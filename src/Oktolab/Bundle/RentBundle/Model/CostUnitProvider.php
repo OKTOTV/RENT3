@@ -28,7 +28,7 @@ class CostUnitProvider extends Client
                 return $this->getCostUnitsFromHub();
                 break;
             case CostUnitProvider::$Resource_RENT:
-                $manager->getRepository('OktolabRentBundle:CostUnit')->findAll();
+                return $this->entityManager->getRepository('OktolabRentBundle:CostUnit')->findAll();
                 break;
         }
     }
