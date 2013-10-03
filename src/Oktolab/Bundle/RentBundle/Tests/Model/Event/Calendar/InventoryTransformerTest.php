@@ -6,6 +6,7 @@ use Oktolab\Bundle\RentBundle\Model\Event\Calendar\InventoryTransformer;
 use Oktolab\Bundle\RentBundle\Entity\Inventory\Item;
 use Oktolab\Bundle\RentBundle\Entity\Inventory\Set;
 use Oktolab\Bundle\RentBundle\Entity\Inventory\Category;
+use Doctrine\Common\Cache\ArrayCache;
 
 /**
  * Description of InventoryTransformerTest
@@ -31,7 +32,7 @@ class InventoryTransformerTest extends \PHPUnit_Framework_TestCase
         parent::setUp();
 
         $this->aggregator = $this->getMock('\Oktolab\Bundle\RentBundle\Model\Event\Calendar\InventoryAggregator');
-        $this->SUT = new InventoryTransformer($this->aggregator, new \Doctrine\Common\Cache\ArrayCache());
+        $this->SUT = new InventoryTransformer($this->aggregator, new ArrayCache());
         $this->assertInstanceOf('\Oktolab\Bundle\RentBundle\Model\Event\Calendar\InventoryTransformer', $this->SUT);
     }
 
