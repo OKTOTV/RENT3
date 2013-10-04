@@ -93,19 +93,11 @@ class TimeblockTransformer
      */
     public function rebuildTimeblock(\DateTime $date, Timeblock $timeblock)
     {
-        $timeblockBegin = clone $date;
-        $timeblockBegin->setTime(
-            $timeblock->getBegin()->format('H'),
-            $timeblock->getBegin()->format('i'),
-            $timeblock->getBegin()->format('s')
-        );
+        $timeblockBegin = clone $timeblock->getBegin();
+        $timeblockBegin->setDate($date->format('Y'), $date->format('m'), $date->format('d'));
 
-        $timeblockEnd = clone $date;
-        $timeblockEnd->setTime(
-            $timeblock->getEnd()->format('H'),
-            $timeblock->getEnd()->format('i'),
-            $timeblock->getEnd()->format('s')
-        );
+        $timeblockEnd = clone $timeblock->getEnd();
+        $timeblockEnd->setDate($date->format('Y'), $date->format('m'), $date->format('d'));
 
         return array(
             'begin'     => $timeblockBegin,
