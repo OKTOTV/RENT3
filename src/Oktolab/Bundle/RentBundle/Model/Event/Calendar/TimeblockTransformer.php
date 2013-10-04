@@ -3,6 +3,7 @@
 namespace Oktolab\Bundle\RentBundle\Model\Event\Calendar;
 
 use Oktolab\Bundle\RentBundle\Model\Event\Calendar\TimeblockAggregator;
+use Oktolab\Bundle\RentBundle\Entity\Timeblock;
 use Doctrine\Common\Cache\Cache;
 
 /**
@@ -64,7 +65,7 @@ class TimeblockTransformer
 
         $timeblocks = array();
         foreach ($this->aggregator->getTimeblocks($begin, $end) as $timeblock) {
-            $intervalDate = $begin;     // Start iteration by $begin
+            $intervalDate = clone $begin;     // Start iteration by $begin
 
             do {
                 if (!$timeblock->isActiveOnDate($intervalDate)) {
@@ -72,19 +73,66 @@ class TimeblockTransformer
                     continue;                           // Skip, because Timeblock is not active on this date|weekday
                 }
 
-                $timeblocks[] = array(
-                    'begin'     => $timeblock->getBegin(),
-                    'end'       => $timeblock->getEnd(),
-                    'date'      => clone $intervalDate,
-                    'timeblock' => $timeblock,
-                );
-
+                $timeblocks[] = $this->rebuildTimeblock($intervalDate, $timeblock);
                 $intervalDate->modify('+1 day');
-            } while (count($timeblocks) <= $max &&                  // Count of Timeblocks smaller than $max
+            } while (count($timeblocks) <= ($max - 1) &&            // Count of Timeblocks smaller than $max
                 $intervalDate <= $timeblock->getIntervalEnd() &&    // Current Date smaller than Timeblock::IntervalEnd
                 $intervalDate <= $end                               // Current Date smaller than overall $end
             );
         }
+
+        return $this->sortTimeblocks($timeblocks);
+    }
+
+    /**
+     * Rebuilds a Timeblock-Element in new array-format
+     *
+     * @param \DateTime                                                 $date
+     * @param \Oktolab\Bundle\RentBundle\Model\Event\Calendar\Timeblock $timeblock
+     * @return array
+     */
+    public function rebuildTimeblock(\DateTime $date, Timeblock $timeblock)
+    {
+        $timeblockBegin = clone $date;
+        $timeblockBegin->setTime(
+            $timeblock->getBegin()->format('H'),
+            $timeblock->getBegin()->format('i'),
+            $timeblock->getBegin()->format('s')
+        );
+
+        $timeblockEnd = clone $date;
+        $timeblockEnd->setTime(
+            $timeblock->getEnd()->format('H'),
+            $timeblock->getEnd()->format('i'),
+            $timeblock->getEnd()->format('s')
+        );
+
+        return array(
+            'begin'     => $timeblockBegin,
+            'end'       => $timeblockEnd,
+            'date'      => clone $date,
+            'timeblock' => $timeblock,
+        );
+    }
+
+    /**
+     * Sorts a Timeblock-Array created by TimeblockTransformer::rebuildTimeblock
+     *
+     * @param array $timeblocks
+     * @return array
+     */
+    public function sortTimeblocks(array $timeblocks = array())
+    {
+        if (0 === count($timeblocks)) {
+            return $timeblocks;
+        }
+
+        usort(
+            $timeblocks,
+            function ($a, $b) {
+                return ($a['begin'] < $b['begin']) ? -1 : +1;   // Sort Timeblocks by Begin-Date
+            }
+        );
 
         return $timeblocks;
     }
