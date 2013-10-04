@@ -59,7 +59,10 @@ class TimeblockTransformerTest extends \PHPUnit_Framework_TestCase
             ->setBegin(new \DateTime('2013-10-02 12:00'))
             ->setEnd(new \DateTime('2013-10-02 17:00'));
 
-        $this->aggregator->expects($this->once())->method('getTimeblocks')->will($this->returnValue(array($timeblock)));
+        $this->aggregator->expects($this->once())
+            ->method('getTimeblocks')
+            ->will($this->returnValue(array($timeblock)));
+
         $this->assertEquals($expected, $this->SUT->getTransformedTimeblocks());
     }
 
@@ -72,10 +75,9 @@ class TimeblockTransformerTest extends \PHPUnit_Framework_TestCase
             ->setBegin(new \DateTime('2013-10-03 12:00'))
             ->setEnd(new \DateTime('2013-10-03 17:00'));
 
-        $date = new \DateTime('2013-10-03');
         $expected = array(
             array(
-                'date'      => $date,
+                'date'      => new \DateTime('2013-10-03'),
                 'begin'     => $timeblock->getBegin(),
                 'end'       => $timeblock->getEnd(),
                 'timeblock' => $timeblock,
@@ -86,16 +88,14 @@ class TimeblockTransformerTest extends \PHPUnit_Framework_TestCase
             ->method('getTimeblocks')
             ->will($this->returnValue(array($timeblock)));
 
-        $this->assertEquals(
-            $expected,
-            $this->SUT->getSeparatedTimeblocks(new \DateTime('2013-10-03'), new \DateTime('2013-10-03'))
-        );
+        $timeblocks = $this->SUT->getSeparatedTimeblocks(new \DateTime('2013-10-03'), new \DateTime('2013-10-03'));
+        $this->assertEquals($expected, $timeblocks);
     }
 
     public function testSeparateTimeblocksForSevenDays()
     {
-        $timeblock = new TimeBlock();
-        $timeblock->setWeekdays(1016)
+        $timeblock = new Timeblock();
+        $timeblock->setWeekdays(1016)   // All Weekdays
             ->setIntervalBegin(new \DateTime('2013-01-01'))
             ->setIntervalEnd(new \DateTime('2013-12-31'))
             ->setBegin(new \DateTime('2013-01-01 12:00'))
@@ -105,10 +105,8 @@ class TimeblockTransformerTest extends \PHPUnit_Framework_TestCase
             ->method('getTimeblocks')
             ->will($this->returnValue(array($timeblock)));
 
-        $this->assertCount(
-            7,
-            $timeblocks = $this->SUT->getSeparatedTimeblocks(new \DateTime('2013-09-29'), new \DateTime('2013-10-05'))
-        );
+        $timeblocks = $this->SUT->getSeparatedTimeblocks(new \DateTime('2013-09-29'), new \DateTime('2013-10-05'));
+        $this->assertCount(7, $timeblocks);
 
         $intervalDate = new \DateTime('2013-09-29');
         foreach ($timeblocks as $timeblock) {
@@ -119,8 +117,8 @@ class TimeblockTransformerTest extends \PHPUnit_Framework_TestCase
 
     public function testSeparateTimeblocksForTwoWeekdays()
     {
-        $timeblock = new TimeBlock();
-        $timeblock->setWeekdays(40)
+        $timeblock = new Timeblock();
+        $timeblock->setWeekdays(40) // Monday, Wednesday
             ->setIntervalBegin(new \DateTime('2013-01-01'))
             ->setIntervalEnd(new \DateTime('2013-12-31'))
             ->setBegin(new \DateTime('2013-01-01 12:00'))
@@ -130,10 +128,8 @@ class TimeblockTransformerTest extends \PHPUnit_Framework_TestCase
             ->method('getTimeblocks')
             ->will($this->returnValue(array($timeblock)));
 
-        $this->assertCount(
-            2,
-            $timeblocks = $this->SUT->getSeparatedTimeblocks(new \DateTime('2013-09-29'), new \DateTime('2013-10-05'))
-        );
+        $timeblocks = $this->SUT->getSeparatedTimeblocks(new \DateTime('2013-09-29'), new \DateTime('2013-10-05'));
+        $this->assertCount(2, $timeblocks);
 
         $this->assertEquals(new \DateTime('2013-09-30'), $timeblocks[0]['date']);
         $this->assertEquals(new \DateTime('2013-10-02'), $timeblocks[1]['date']);
@@ -141,10 +137,31 @@ class TimeblockTransformerTest extends \PHPUnit_Framework_TestCase
 
     public function testSeparateTimeblocksMergesToTimeblocks()
     {
-        $this->markTestIncomplete();
+        $timeblockA = new Timeblock();
+        $timeblockA->setWeekDays(1016)  // All Weekdays
+            ->setIntervalBegin(new \DateTime('2013-01-01'))
+            ->setIntervalEnd(new \DateTime('2013-12-31'))
+            ->setBegin(new \DateTime('2013-01-01 08:00'))
+            ->setEnd(new \DateTime('2013-12-31 11:00'));
+
+        $timeblockB = clone $timeblockA;
+        $timeblockB->setBegin(new \DateTime('2013-01-01 12:00'))
+            ->setEnd(new \DateTime('2013-12-31 17:00'));
+
+        $this->aggregator->expects($this->once())
+            ->method('getTimeblocks')
+            ->will($this->returnValue(array($timeblockA, $timeblockB)));
+
+        $timeblocks = $this->SUT->getSeparatedTimeblocks(new \DateTime('2013-10-02'), new \DateTime('2013-10-04'));
+        $this->assertCount(4, $timeblocks);
     }
 
     public function testSeparateTimeblocksReturnsMaximumNumberItems()
+    {
+        $this->markTestIncomplete();
+    }
+
+    public function testSeparateTimeblocksSortsDates()
     {
         $this->markTestIncomplete();
     }

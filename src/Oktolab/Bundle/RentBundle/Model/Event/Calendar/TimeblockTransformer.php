@@ -64,12 +64,12 @@ class TimeblockTransformer
 
         $timeblocks = array();
         foreach ($this->aggregator->getTimeblocks($begin, $end) as $timeblock) {
-            $intervalDate = $begin;
+            $intervalDate = $begin;     // Start iteration by $begin
 
             do {
                 if (!$timeblock->isActiveOnDate($intervalDate)) {
-                    $intervalDate->modify('+1 day');
-                    continue; // Skip, because Timeblock is not active on this date
+                    $intervalDate->modify('+1 day');    // Increase by one day to avoid infinity loop
+                    continue;                           // Skip, because Timeblock is not active on this date|weekday
                 }
 
                 $timeblocks[] = array(
