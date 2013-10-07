@@ -177,6 +177,75 @@ class TimeblockTransformerTest extends \PHPUnit_Framework_TestCase
         );
     }
 
+    public function testSortTimeblocksForSameDay()
+    {
+        $timeblocks = array(
+            array(
+                'begin'     => new \DateTime('2013-10-07 12:00'),
+                'end'       => new \DateTime('2013-10-07 17:00'),
+                'date'      => new \DateTime('2013-10-07 00:00'),
+                'timeblock' => $this->trainADefaultTimeblock(),
+            ),
+            array(
+                'begin'     => new \DateTime('2013-10-07 08:00'),
+                'end'       => new \DateTime('2013-10-07 11:00'),
+                'date'      => new \DateTime('2013-10-07 00:00'),
+                'timeblock' => $this->trainADefaultTimeblock(),
+            )
+        );
+
+        $sortedArray = $this->SUT->sortTimeblocks($timeblocks);
+        $this->assertCount(2, $sortedArray);
+
+        $this->assertArrayHasKey('begin', $sortedArray[0]);
+        $this->assertEquals(new \DateTime('2013-10-07 08:00'), $sortedArray[0]['begin']);
+
+        $this->assertArrayHasKey('begin', $sortedArray[1]);
+        $this->assertEquals(new \DateTime('2013-10-07 12:00'), $sortedArray[1]['begin']);
+    }
+
+    public function testSortTimeblocksForDifferentDays()
+    {
+        $timeblocks = array(
+            array(
+                'begin'     => new \DateTime('2013-10-06 12:00'),
+                'end'       => new \DateTime('2013-10-06 17:00'),
+                'date'      => new \DateTime('2013-10-06 00:00'),
+                'timeblock' => $this->trainADefaultTimeblock(),
+            ),
+            array(
+                'begin'     => new \DateTime('2013-10-07 08:00'),
+                'end'       => new \DateTime('2013-10-07 11:00'),
+                'date'      => new \DateTime('2013-10-07 00:00'),
+                'timeblock' => $this->trainADefaultTimeblock(),
+            )
+        );
+
+        $sortedArray = $this->SUT->sortTimeblocks($timeblocks);
+        $this->assertCount(2, $sortedArray);
+
+        $this->assertArrayHasKey('begin', $sortedArray[0]);
+        $this->assertEquals(new \DateTime('2013-10-06 12:00'), $sortedArray[0]['begin']);
+
+        $this->assertArrayHasKey('begin', $sortedArray[1]);
+        $this->assertEquals(new \DateTime('2013-10-07 08:00'), $sortedArray[1]['begin']);
+    }
+
+    public function testRebuildTimeblock()
+    {
+        $expectedTimeblock = array(
+            'begin'         => new \DateTime('2013-10-07 12:00'),
+            'end'           => new \DateTime('2013-10-07 17:00'),
+            'date'          => new \DateTime('2013-10-07 00:00'),
+            'timeblock'     => $this->trainADefaultTimeblock(),
+        );
+
+        $this->assertEquals(
+            $expectedTimeblock,
+            $this->SUT->rebuildTimeblock(new \DateTime('2013-10-07 00:00'), $this->trainADefaultTimeblock())
+        );
+    }
+
 
     /**
      * Used to reduce method footprints and simplify code
