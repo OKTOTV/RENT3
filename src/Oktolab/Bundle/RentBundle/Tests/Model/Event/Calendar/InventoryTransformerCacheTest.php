@@ -17,7 +17,7 @@ use Oktolab\Bundle\RentBundle\Entity\Inventory\Category;
 class InventoryTransformerCacheTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var \Oktolab\Bundle\RentBundle\Model\Event\Calendar\Inventory
+     * @var \Oktolab\Bundle\RentBundle\Model\Event\Calendar\InventoryAggregator
      */
     protected $aggregator = null;
 
