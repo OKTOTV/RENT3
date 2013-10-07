@@ -29,11 +29,11 @@
                     </tr>
                 </thead>
                 <tbody class="costunit-contacts" data-index="0" data-prototype="{% filter escape %}{% include 'OktolabRentBundle:Admin/CostUnit:contactRowPrototype.html.twig' %}{% endfilter %}">
-                    {% if contacts is defined %}
-                        {% for contact in contacts %}
+                    {% if costunit.contacts is defined %}
+                        {% for contact in costunit.contacts %}
                             <tr>
                                 <td>{{ contact.name }}</td>
-                                <td><a href="#"><span class="aui-icon aui-icon-small aui-iconfont-remove remove-object" data-value="contact:{{ contact.id }}' }}">{{ 'generic.remove' | trans }}</span></a></td>
+                                <td><a href="#"><span class="aui-icon aui-icon-small aui-iconfont-remove remove-object" data-value="{{ contact.guid }}">{{ 'generic.remove' | trans }}</span></a></td>
                             </tr>
                         {% endfor %}
                     {% endif %}
@@ -45,10 +45,12 @@
     <div class="buttons-container">
         <button class="aui-button aui-button-primary" type="submit">{{ 'generic.submit' | trans }}</button>
     </div>
-    <fieldset class="hidden-contacts" style="display:none" data-index="{{ form.contacts | length }}" data-prototype="{{ '<input type="hidden" id="oktolab_bundle_rentbundle_costunit_contacts_{{index}}" name="oktolab_bundle_rentbundle_costunit[contacts][{{index}}]" value="{{id}}" />'|e }}">
-        {% for contact in form.contacts %}
-            {{ form_row(contact) }}
-        {% endfor %}
+    <fieldset class="hidden-contacts" style="display:none" data-index="{{ form.contacts | length }}" data-prototype="{{ '<input type="hidden" id="oktolab_bundle_rentbundle_costunit_contacts_{{index}}" name="oktolab_bundle_rentbundle_costunit[contacts][{{index}}]" value="{{id}}" />'|escape('html') }}">
+        {% if costunit.contacts is defined %}
+            {% for contact in costunit.contacts %}
+                <input type="hidden" id="oktolab_bundle_rentbundle_costunit_contacts_{{contact.id}}" name="oktolab_bundle_rentbundle_costunit[contacts][{{contact.id}}]" value="{{contact.guid}}" />
+            {% endfor %}
+        {% endif %}
     </fieldset>
     {% do form.contacts.setRendered %}
     {{ form_end(form) }}

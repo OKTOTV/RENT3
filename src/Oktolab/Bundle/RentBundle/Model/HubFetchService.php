@@ -17,7 +17,6 @@ class HubFetchService extends Client
         $this->entityManager = $manager;
     }
 
-
     public function getContactsForGuids($guids)
     {
         $contacts = array();

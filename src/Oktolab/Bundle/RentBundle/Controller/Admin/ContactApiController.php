@@ -34,7 +34,7 @@ class ContactApiController extends Controller
         foreach ($contacts as $contact) {
             $json[] = array(
                 'name'          => $contact->getName(),
-                'value'         => sprintf('contact:%s', $contact->getGuid()),
+                'value'         => $contact->getId(),
                 'tokens'        => explode(' ', $contact->getName()),
                 'id'            => $contact->getGuid()
             );

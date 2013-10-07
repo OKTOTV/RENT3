@@ -34,8 +34,6 @@ class CostUnitType extends AbstractType
                     'contacts',
                     'text',
                     array(
-//                        'allow_add'     => true,
-//                        'allow_delete'  => true,
                         'label' => 'admin.costunit.contact'
                     )
                 )->addModelTransformer($hubTransformer)
