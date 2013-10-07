@@ -39,7 +39,7 @@ class RoomControllerTest extends WebTestCase
 
     public function testSubmitFormToEditARoom()
     {
-        $this->loadFixtures(array('Oktolab\Bundle\RentBundle\DataFixtures\ORM\RoomFixture'));
+        $this->loadFixtures(array('Oktolab\Bundle\RentBundle\Tests\DataFixtures\ORM\RoomFixture'));
 
         $crawler = $this->client->request('GET', '/inventory/room/1');
         $crawler = $this->client->click($crawler->selectLink('Bearbeiten')->link());
@@ -67,7 +67,7 @@ class RoomControllerTest extends WebTestCase
 
     public function testDeleteRoom()
     {
-        $this->loadFixtures(array('Oktolab\Bundle\RentBundle\DataFixtures\ORM\RoomFixture'));
+        $this->loadFixtures(array('Oktolab\Bundle\RentBundle\Tests\DataFixtures\ORM\RoomFixture'));
 
 
         $crawler = $this->client->request('GET', '/inventory/room/1');
@@ -84,7 +84,7 @@ class RoomControllerTest extends WebTestCase
 
     public function testEditRoomThrowsErrorOnInvalidFormData()
     {
-        $this->loadFixtures(array('Oktolab\Bundle\RentBundle\DataFixtures\ORM\RoomFixture'));
+        $this->loadFixtures(array('Oktolab\Bundle\RentBundle\Tests\DataFixtures\ORM\RoomFixture'));
 
         $this->client->request('GET', '/inventory/room/1/edit');
         $this->assertTrue($this->client->getResponse()->isSuccessful(), 'Response should be successful');
@@ -132,7 +132,7 @@ class RoomControllerTest extends WebTestCase
 
     public function testDeleteRoomWithAttachments()
     {
-        $this->loadFixtures(array('Oktolab\Bundle\RentBundle\DataFixtures\ORM\RoomFixture'));
+        $this->loadFixtures(array('Oktolab\Bundle\RentBundle\Tests\DataFixtures\ORM\RoomFixture'));
 
         $this->uploadTestFile();
 

@@ -12,7 +12,7 @@ class EventManagerFunctionalTest extends WebTestCase
      */
     public function testItemIsAvailable($begin, $end, $comment, $assertion)
     {
-        $this->loadFixtures(array('Oktolab\Bundle\RentBundle\DataFixtures\ORM\EventManagerFixture'));
+        $this->loadFixtures(array('Oktolab\Bundle\RentBundle\Tests\DataFixtures\ORM\EventManagerFixture'));
 
         $em = static::$kernel->getContainer()->get('oktolab.event_manager');
         $item = static::$kernel->getContainer()->get('doctrine.orm.entity_manager')
@@ -35,7 +35,7 @@ class EventManagerFunctionalTest extends WebTestCase
 
     public function testRentAnItem()
     {
-        $this->loadFixtures(array('Oktolab\Bundle\RentBundle\DataFixtures\ORM\ItemFixture'));
+        $this->loadFixtures(array('Oktolab\Bundle\RentBundle\Tests\DataFixtures\ORM\ItemFixture'));
         $item = static::$kernel->getContainer()->get('doctrine.orm.entity_manager')
             ->getRepository('OktolabRentBundle:Inventory\Item')
             ->findOneById(1);

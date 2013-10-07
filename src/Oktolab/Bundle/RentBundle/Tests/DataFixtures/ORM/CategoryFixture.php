@@ -12,7 +12,7 @@ class CategoryFixture extends AbstractFixture
     /**
      * {@inheritDoc}
      */
-    public function load(ObjectManager $manager, $number = 1)
+    public function load(ObjectManager $manager)
     {
         $category = new Category();
         $category->setTitle('Camera');

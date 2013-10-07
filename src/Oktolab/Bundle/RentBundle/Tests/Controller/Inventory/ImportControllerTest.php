@@ -10,7 +10,7 @@ class ImportControllerTest extends WebTestCase
     public function testImportCsvWithItems()
     {
         $this->logIn('ROLE_ADMIN');
-        $this->loadFixtures(array('Oktolab\Bundle\RentBundle\DataFixtures\ORM\PlaceFixture'));
+        $this->loadFixtures(array('Oktolab\Bundle\RentBundle\Tests\DataFixtures\ORM\PlaceFixture'));
 
         $file = new UploadedFile(__DIR__.'/../../DataFixtures/items.csv', 'items.csv', 'text/csv', 399);
 

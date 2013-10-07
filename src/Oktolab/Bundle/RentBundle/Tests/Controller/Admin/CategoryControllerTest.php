@@ -64,7 +64,7 @@ class CategoryControllerTest extends WebTestCase
         $this->loadFixtures(
             array(
                 'Oktolab\Bundle\RentBundle\Tests\DataFixtures\ORM\CategoryFixture',
-                'Oktolab\Bundle\RentBundle\DataFixtures\ORM\ItemFixture',
+                'Oktolab\Bundle\RentBundle\Tests\DataFixtures\ORM\ItemFixture',
             )
         );
 

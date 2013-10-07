@@ -23,7 +23,7 @@ class SetControllerTest extends WebTestCase
 
     public function testIndexDisplaysSets()
     {
-        $this->loadFixtures(array('Oktolab\Bundle\RentBundle\DataFixtures\ORM\SetFixture'));
+        $this->loadFixtures(array('Oktolab\Bundle\RentBundle\Tests\DataFixtures\ORM\SetFixture'));
 
         $crawler = $this->client->request('GET', '/inventory/set/');
         $this->assertTrue($this->client->getResponse()->isSuccessful(), 'Response should be successful');
@@ -36,7 +36,7 @@ class SetControllerTest extends WebTestCase
 
     public function testSubmitFormToCreateASet()
     {
-        $this->loadFixtures(array('Oktolab\Bundle\RentBundle\DataFixtures\ORM\PlaceFixture'));
+        $this->loadFixtures(array('Oktolab\Bundle\RentBundle\Tests\DataFixtures\ORM\PlaceFixture'));
 
         $crawler = $this->client->request('GET', '/inventory/set/new');
         $this->assertTrue($this->client->getResponse()->isSuccessful(), 'Response should be successful');
@@ -65,7 +65,7 @@ class SetControllerTest extends WebTestCase
 
     public function testSubmitFormToEditASet()
     {
-        $this->loadFixtures(array('Oktolab\Bundle\RentBundle\DataFixtures\ORM\SetFixture'));
+        $this->loadFixtures(array('Oktolab\Bundle\RentBundle\Tests\DataFixtures\ORM\SetFixture'));
 
         $this->client->request('GET', '/inventory/set/1/edit');
         $this->assertTrue($this->client->getResponse()->isSuccessful(), 'Response should be successful');
@@ -92,7 +92,7 @@ class SetControllerTest extends WebTestCase
 
     public function testSubmitFormForEditWithInvalidDataThrowsError()
     {
-        $this->loadFixtures(array('Oktolab\Bundle\RentBundle\DataFixtures\ORM\SetFixture'));
+        $this->loadFixtures(array('Oktolab\Bundle\RentBundle\Tests\DataFixtures\ORM\SetFixture'));
         $crawler = $this->client->request('GET', '/inventory/set/1/edit');
 
         $form = $crawler->selectButton('Speichern')->form(
@@ -108,7 +108,7 @@ class SetControllerTest extends WebTestCase
 
     public function testDeleteASet()
     {
-        $this->loadFixtures(array('Oktolab\Bundle\RentBundle\DataFixtures\ORM\SetFixture'));
+        $this->loadFixtures(array('Oktolab\Bundle\RentBundle\Tests\DataFixtures\ORM\SetFixture'));
 
         $this->client->request('GET', '/inventory/set/1/delete');
         $this->assertTrue(
@@ -126,9 +126,9 @@ class SetControllerTest extends WebTestCase
         //only possible with javascript. we use a modified Form and post it.
         $this->loadFixtures(
             array(
-                'Oktolab\Bundle\RentBundle\DataFixtures\ORM\SetFixture',
-                'Oktolab\Bundle\RentBundle\DataFixtures\ORM\ItemFixture',
-                'Oktolab\Bundle\RentBundle\DataFixtures\ORM\PlaceFixture'
+                'Oktolab\Bundle\RentBundle\Tests\DataFixtures\ORM\SetFixture',
+                'Oktolab\Bundle\RentBundle\Tests\DataFixtures\ORM\ItemFixture',
+                'Oktolab\Bundle\RentBundle\Tests\DataFixtures\ORM\PlaceFixture'
             )
         );
 
@@ -165,8 +165,8 @@ class SetControllerTest extends WebTestCase
     {
         $this->loadFixtures(
             array(
-                'Oktolab\Bundle\RentBundle\DataFixtures\ORM\SetFixture',
-                'Oktolab\Bundle\RentBundle\DataFixtures\ORM\ItemFixture',
+                'Oktolab\Bundle\RentBundle\Tests\DataFixtures\ORM\SetFixture',
+                'Oktolab\Bundle\RentBundle\Tests\DataFixtures\ORM\ItemFixture',
             )
         );
 
@@ -197,7 +197,7 @@ class SetControllerTest extends WebTestCase
 
     public function testDeleteSetWithAttachedItem()
     {
-        $this->loadFixtures(array('Oktolab\Bundle\RentBundle\DataFixtures\ORM\SetWithItemFixture'));
+        $this->loadFixtures(array('Oktolab\Bundle\RentBundle\Tests\DataFixtures\ORM\SetWithItemFixture'));
 
         $this->client->request('GET', '/inventory/set/1/delete');
         $this->assertTrue(
@@ -240,7 +240,7 @@ class SetControllerTest extends WebTestCase
 
     public function testItemsSearchReturnsJson()
     {
-        $this->loadFixtures(array('Oktolab\Bundle\RentBundle\DataFixtures\ORM\ItemFixture'));
+        $this->loadFixtures(array('Oktolab\Bundle\RentBundle\Tests\DataFixtures\ORM\ItemFixture'));
 
         $this->client->request(
             'GET',
@@ -258,7 +258,7 @@ class SetControllerTest extends WebTestCase
 
     public function testNewSetWithAttachment()
     {
-        $this->loadFixtures(array('Oktolab\Bundle\RentBundle\DataFixtures\ORM\PlaceFixture'));
+        $this->loadFixtures(array('Oktolab\Bundle\RentBundle\Tests\DataFixtures\ORM\PlaceFixture'));
 
         copy(__DIR__.'/../../DataFixtures/logo_okto.png', $filename = tempnam(sys_get_temp_dir(), 'OktolabRentBundle'));
         $file = new UploadedFile($filename, basename($filename), 'image/png', filesize($filename), null, true);
