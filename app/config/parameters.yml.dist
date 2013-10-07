@@ -18,3 +18,4 @@ parameters:
     oktolab.hub_api_search_url: "http://verzeichnis.okto.tv/interface.php/api/contactcardsearch"
     oktolab.hub_api_auth_url:   "http://verzeichnis.okto.tv/interface.php/api/auth"
     oktolab.flow_api_costunit_url: "http://programm.okto.tv/interface.php/series/search.xml?search=*"
+    oktolab.hub_fetch_url:      "http://localhost/hubTIDE/web/interface_dev.php/api/fetchdata"

@@ -5,6 +5,7 @@ namespace Oktolab\Bundle\RentBundle\Model;
 use Oktolab\Bundle\RentBundle\Entity\CostUnit;
 use Guzzle\Http\Client;
 use Doctrine\ORM\EntityManager;
+use Oktolab\Bundle\RentBundle\Model\HubFetchService;
 
 
 class CostUnitProvider extends Client
@@ -14,18 +15,20 @@ class CostUnitProvider extends Client
     public static $Resource_RENT=1;
 
     private $entityManager;
+    private $hubFetchService;
 
-    public function __construct(EntityManager $manager, $baseUrl = '', $config = null)
+    public function __construct(EntityManager $manager, HubFetchService $hubFetchService, $baseUrl = '', $config = null)
     {
         parent::__construct($baseUrl, $config);
         $this->entityManager = $manager;
+        $this->hubFetchService = $hubFetchService;
     }
 
     public function getCostUnitsFromResource($resource=0)
     {
         switch ($resource) {
             case CostUnitProvider::$Resource_HUB:
-                return $this->getCostUnitsFromHub();
+                return $this->fetchCostUnitsFromHub();
                 break;
             case CostUnitProvider::$Resource_RENT:
                 return $this->entityManager->getRepository('OktolabRentBundle:CostUnit')->findAll();
@@ -43,18 +46,38 @@ class CostUnitProvider extends Client
         }
     }
 
-    private function getCostUnitsFromHub()
+    private function getDataFromHub()
     {
         $response = $this->get()->send();
         $seriess = simplexml_load_string($response->getBody(true));
         $costunits = array();
-
         foreach($seriess as $series) {
-            $costunit = new CostUnit();
-            $costunit->setName((string)$series->title);
-            $costunit->setAbbreviation((string)$series->abbrevation);
-            $costunits[] = $costunit;
+            $costUnit = new CostUnit();
+            $costUnit->setGuid((string)$series->abbrevation);
+            $costUnit->setName((string)$series->title);
+            $costunits[] = $costUnit;
         }
         return $costunits;
+    }
+
+    private function fetchCostUnitsFromHub()
+    {
+        $costUnits = $this->getDataFromHub();
+        foreach($costUnits as $costUnit) {
+            $costunit[] = $this->getAdditionalDataByFetch($costUnit);
+        }
+
+        return $costUnits;
+    }
+
+    /**
+     * Tries to get additionalInfo (GUID) from Hub.
+     */
+    private function getAdditionalDataByFetch($costUnit)
+    {
+        if ($extendedCostUnit = $this->hubFetchService->getExtendedCostUnitByFetch($costUnit)) {
+            return $extendedCostUnit;
+        }
+        return $costUnit;
     }
 }

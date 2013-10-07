@@ -12,7 +12,7 @@ class UpdateCostUnitsCommand extends ContainerAwareCommand
 {
      protected function configure()
      {
-         $this->setName('RentBundle:UpdateCostUnits')
+         $this->setName('rentBundle:updateCostUnits')
                 ->addOption('dryrun', 'd', InputOption::VALUE_NONE, 'Makes a Dryrun and gives you a number of costunits that WOULD be imported');
      }
 
@@ -44,9 +44,15 @@ class UpdateCostUnitsCommand extends ContainerAwareCommand
          }
 
          if (!$input->getOption('dryrun')) {
-            $output->writeln('Start import to Database. This could take a while');
+            if ($input->getOption('verbose')) {
+                $output->writeln('Start import to Database. This could take a while');
+            }
+
             $CostUnitProvider->addCostUnitsToRent($newCostUnits);
-            $output->writeln('Import successful!');
+
+            if ($input->getOption('verbose')) {
+                $output->writeln('Import successful!');
+            }
          }
 
          if ($input->getOption('verbose') && !$input->getOption('dryrun')) {
@@ -60,10 +66,9 @@ class UpdateCostUnitsCommand extends ContainerAwareCommand
 
          if ($localCostUnits) {
              foreach($flowCostUnits as $key=>$flowCostUnit) {
-
                  foreach($localCostUnits as $localCostUnit) {
 
-                     if ($flowCostUnit->getAbbreviation() == $localCostUnit->getAbbreviation()) {
+                     if ($flowCostUnit->getGuid() == $localCostUnit->getGuid()) {
                          unset($costUnits[$key]);
                      }
                  }

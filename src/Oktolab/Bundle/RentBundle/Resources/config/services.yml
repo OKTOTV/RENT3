@@ -7,8 +7,10 @@ parameters:
     oktolab.twig.attachment.extension.class:  Oktolab\Bundle\RentBundle\Extension\AttachmentExtension
     oktolab.item_import_manager.class:        Oktolab\Bundle\RentBundle\Model\ItemImportManager
     oktolab.item_csv_importer.class:          Oktolab\Bundle\RentBundle\Model\ItemCsvParser
-    oktolab.conact_provider.class:            Oktolab\Bundle\RentBundle\Model\ContactProvider
+    oktolab.contact_provider.class:           Oktolab\Bundle\RentBundle\Model\ContactProvider
     oktolab.costunit_provider.class:          Oktolab\Bundle\RentBundle\Model\CostUnitProvider
+    oktolab.hub_fetch_service.class:          Oktolab\Bundle\RentBundle\Model\HubFetchService
+    oktolab.hub_guid_contact_transformer.class: Oktolab\Bundle\RentBundle\Form\DataTransformer\HubGuidToContactTransformer
 
     # upload service-classes
     oktolab.upload_manager.class:             Oktolab\Bundle\RentBundle\Model\UploadManager
@@ -148,7 +150,7 @@ services:
         arguments:  [ %kernel.cache_dir% ]
 
     oktolab.contact_provider:
-        class:      %oktolab.conact_provider.class%
+        class:      %oktolab.contact_provider.class%
         arguments:
             - @doctrine.orm.entity_manager
             - %oktolab.hub_api_search_url%
@@ -157,4 +159,15 @@ services:
         class:      %oktolab.costunit_provider.class%
         arguments:
             - @doctrine.orm.entity_manager
+            - @oktolab.hub_fetch_service
             - %oktolab.flow_api_costunit_url%
+
+    oktolab.hub_fetch_service:
+        class:      %oktolab.hub_fetch_service.class%
+        arguments:
+            - @doctrine.orm.entity_manager
+            - %oktolab.hub_fetch_url%
+
+    oktolab.hub_guid_contact_transformer:
+        class:      %oktolab.hub_guid_contact_transformer.class%
+        arguments: [@oktolab.hub_fetch_service]

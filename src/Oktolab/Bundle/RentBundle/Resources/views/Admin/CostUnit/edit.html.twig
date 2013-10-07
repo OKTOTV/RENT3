@@ -1,0 +1,28 @@
+{% extends 'OktolabRentBundle:Admin\\CostUnit:new.html.twig' %}
+
+{%block buttons%}
+    <a class="aui-button" href="{{ path('admin_costunit') }}">{{ 'generic.overview' | trans }}</a>
+    <a class="aui-button" href="{{ path('admin_costunit_show', {'id': costunit.id}) }}">{{ 'generic.back' | trans }}</a>
+{%endblock%}
+
+{% block content_header %}
+<div class="aui-page-header-inner">
+    <div class="aui-page-header-image">
+        <div class="aui-avatar aui-avatar-xlarge aui-avatar-project">
+            <div class="aui-avatar-inner">
+                <img src="static/img/none.png">
+            </div>
+        </div>
+    </div>
+    <div class="aui-page-header-main">
+        <h1>{{ 'admin.costunit.new' | trans }}</h1>
+    </div>
+    <div class="aui-page-header-actions">
+        <div class="aui-buttons">
+            <div class="aui-buttons">
+                <a class="aui-button" href="{{ path('admin_costunit') }}">{{ 'generic.backToList' | trans }}</a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

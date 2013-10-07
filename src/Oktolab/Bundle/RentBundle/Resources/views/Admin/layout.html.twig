@@ -26,6 +26,7 @@
                             <div class="aui-nav-heading"><strong>{{ 'generic.administration' | trans }}</strong></div>
                             <ul class="aui-nav">
                                 <li{% if highlight_action == "user" %} class="aui-nav-selected"{% endif %}><a href="{{ path('security_user') }}">{{ 'admin.userManagement' | trans }}</a></li>
+                                <li{% if highlight_action == "costunit" %} class="aui-nav-selected"{% endif %}><a href="{{ path('admin_costunit') }}">{{ 'admin.costUnit' | trans }}</a></li>
                                 <li><a href="#">{{'admin.applicationLinks'|trans}}</a></li>
                                 <li><a href="#">{{'admin.licensing'|trans}}</a></li>
                                 <li><a href="#">{{'admin.oktolabSupport'|trans}}</a></li>

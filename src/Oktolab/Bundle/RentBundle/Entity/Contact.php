@@ -43,6 +43,13 @@ class Contact
     private $guid;
 
     /**
+     * @ORM\ManyToOne(targetEntity="CostUnit", inversedBy="contacts")
+     * @ORM\JoinColumn(name="costunit_id", referencedColumnName="id")
+     */
+    private $costunit;
+
+
+    /**
      * Get id
      *
      * @return integer
@@ -119,5 +126,28 @@ class Contact
     public function getGuid()
     {
         return $this->guid;
+    }
+
+    /**
+     * Set costunit
+     *
+     * @param \Oktolab\Bundle\RentBundle\Entity\CostUnit $costunit
+     * @return Contact
+     */
+    public function setCostunit(\Oktolab\Bundle\RentBundle\Entity\CostUnit $costunit = null)
+    {
+        $this->costunit = $costunit;
+    
+        return $this;
+    }
+
+    /**
+     * Get costunit
+     *
+     * @return \Oktolab\Bundle\RentBundle\Entity\CostUnit 
+     */
+    public function getCostunit()
+    {
+        return $this->costunit;
     }
 }

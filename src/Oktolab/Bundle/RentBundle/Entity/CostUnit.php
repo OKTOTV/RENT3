@@ -39,17 +39,17 @@ class CostUnit
     /**
      * @var \Doctrine\Common\Collections\ArrayCollection
      *
-     * @ORM\ManyToOne(targetEntity="Contact")
-     * @ORM\JoinColumn(name="contact_id", referencedColumnName="id")
+     * @ORM\OneToMany(targetEntity="Contact", mappedBy="costunit")
+     * )
      */
     private $contacts;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="abbreviation", type="string", length=255)
+     * @ORM\Column(name="guid", type="string", unique=true)
      */
-    private $abbreviation;
+    private $guid;
 
 
     /**
@@ -114,7 +114,7 @@ class CostUnit
      * @param \Oktolab\Bundle\RentBundle\Entity\Contact $contacts
      * @return CostUnit
      */
-    public function setContacts(\Oktolab\Bundle\RentBundle\Entity\Contact $contacts = null)
+    public function setContacts($contacts = null)
     {
         $this->contacts = $contacts;
 
@@ -132,22 +132,52 @@ class CostUnit
     }
 
     /**
-     * Get Abbreviation
+     * Get Guid
      *
-     * @retun string
+     * @return string
      */
-    public function getAbbreviation()
+    public function getGuid()
     {
-        return $this->abbreviation;
+        return $this->guid;
     }
 
     /**
-     * @param string $abbreviation
+     * @param int $guid
      * @return \Oktolab\Bundle\RentBundle\Entity\CostUnit
      */
-    public function setAbbreviation($abbreviation)
+    public function setGuid($guid)
     {
-        $this->abbreviation = $abbreviation;
+        $this->guid = $guid;
         return $this;
+    }
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->contacts = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+
+    /**
+     * Add contacts
+     *
+     * @param \Oktolab\Bundle\RentBundle\Entity\Contact $contacts
+     * @return CostUnit
+     */
+    public function addContact(\Oktolab\Bundle\RentBundle\Entity\Contact $contacts)
+    {
+        $this->contacts[] = $contacts;
+
+        return $this;
+    }
+
+    /**
+     * Remove contacts
+     *
+     * @param \Oktolab\Bundle\RentBundle\Entity\Contact $contacts
+     */
+    public function removeContact(\Oktolab\Bundle\RentBundle\Entity\Contact $contacts)
+    {
+        $this->contacts->removeElement($contacts);
     }
 }

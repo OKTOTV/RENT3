@@ -4,6 +4,7 @@
     oktolab.typeahead = {
         itemPrefetchUrl: oktolab.baseUrl + '/api/item/typeahead.json',
     //    itemSearchUrl: oktolab.baseUrl + '/inventory/item/search/%QUERY',
+        contactPrefetchUrl: oktolab.baseUrl + '/api/contact/typeahead.json'
     };
 
     oktolab.plupload = {
