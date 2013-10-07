@@ -25,45 +25,104 @@ class TimeblockTransformerTest extends \PHPUnit_Framework_TestCase
      */
     protected $aggregator = null;
 
+    /**
+     * @var \Doctrine\Common\Cache\ArrayCache
+     */
+    protected $cache = null;
+
     public function setUp()
     {
         parent::setUp();
 
         $this->aggregator = $this->getMock('\Oktolab\Bundle\RentBundle\Model\Event\Calendar\TimeblockAggregator');
-        $this->SUT = new TimeblockTransformer($this->aggregator, new ArrayCache());
+        $this->cache = new ArrayCache();
+        $this->SUT = new TimeblockTransformer($this->aggregator, $this->cache);
         $this->assertInstanceOf('\Oktolab\Bundle\RentBundle\Model\Event\Calendar\TimeblockTransformer', $this->SUT);
     }
 
-    public function testGetTransformedTimeblocksThrowsExceptionOnInvalidEndDate()
+    public function testTransformedTimeblocksThrowsExceptionOnInvalidEndDate()
     {
         $this->setExpectedException('\LogicException');
         $this->SUT->getTransformedTimeblocks(new \DateTime('now'), new \DateTime('-3 hours'));
     }
 
-    public function testGetTransformedTimeblocksReturnsFormattedArray()
+    public function testTransformedTimeblocksReturnsFormattedArray()
     {
-        $this->markTestIncomplete('Test will be written after getSeparatedTimeblocks works as expected.');
-        $date = new \DateTime('2013-10-02');
+        $date = new \DateTime('2013-10-07');
         $expected = array(
-            array(
-                'date'  => $date->format('c'),
-                'begin' => $date->modify('2013-10-02 12:00')->format('c'),
-                'end'   => $date->modify('2013-10-02 17:00')->format('c')
-            ),
+            'date'  => $date->format('c'),  // equals 2013-10-07T00:00:00+02:00
+            'begin' => $date->modify('2013-10-07 12:00')->format('c'),
+            'end'   => $date->modify('2013-10-07 17:00')->format('c'),
         );
 
-        $timeblock = new Timeblock();
-        $timeblock->setWeekdaysAsArray(array(Timeblock::WEEKDAY_TH))
-            ->setIntervalBegin(new \DateTime('2013-10-02'))
-            ->setIntervalEnd(new \DateTime('2013-10-02'))
-            ->setBegin(new \DateTime('2013-10-02 12:00'))
-            ->setEnd(new \DateTime('2013-10-02 17:00'));
+        $timeblocks = array(
+            array(
+                'begin'     => new \DateTime('2013-10-07 12:00'),
+                'end'       => new \DateTime('2013-10-07 17:00'),
+                'date'      => new \DateTime('2013-10-07 00:00'),
+                'timeblock' => $this->trainADefaultTimeblock(),
+            )
+        );
 
-        $this->aggregator->expects($this->once())
-            ->method('getTimeblocks')
-            ->will($this->returnValue(array($timeblock)));
+        $SUT = $this->getMockBuilder('\Oktolab\Bundle\RentBundle\Model\Event\Calendar\TimeblockTransformer')
+            ->setMethods(array('getSeparatedTimeblocks'))
+            ->setConstructorArgs(array($this->aggregator, new ArrayCache()))
+            ->getMock();
 
-        $this->assertEquals($expected, $this->SUT->getTransformedTimeblocks());
+        $SUT->expects($this->once())->method('getSeparatedTimeblocks')->will($this->returnValue($timeblocks));
+        $this->assertEquals(
+            array($expected),
+            $SUT->getTransformedTimeblocks(new \DateTime('2013-10-07 00:00'), new \DateTime('2013-10-08 00:00'))
+        );
+    }
+
+    public function testTransformedTimeblocksFetchesCache()
+    {
+        $cacheId = sprintf('%s::2013-10-07T00:00:00+02:00', TimeblockTransformer::CACHE_ID);
+        $this->cache->save($cacheId, array('begin' => '2013-10-07T00:00:00+02:00'));
+
+        $this->assertTrue($this->cache->contains($cacheId));
+        $this->assertSame(
+            $this->cache->fetch($cacheId),
+            $this->SUT->getTransformedTimeblocks(
+                new \DateTime('2013-10-07T00:00:00+02:00'),
+                new \DateTime('2013-10-08')
+            ),
+            'Cached-Data can be fetched by TimeblockTransformer'
+        );
+    }
+
+    public function testTransformedTimeblocksStoresResultInCache()
+    {
+        $cacheId = sprintf('%s::2013-10-07T00:00:00+02:00', TimeblockTransformer::CACHE_ID);
+        $this->assertFalse($this->cache->contains($cacheId));
+
+        $expected = array(
+            array(
+                'begin' => '2013-10-07T12:00:00+02:00',
+                'end'   => '2013-10-07T17:00:00+02:00',
+                'date'  => '2013-10-07T00:00:00+02:00',
+            )
+        );
+
+        $timeblocks = array(
+            array(
+                'begin'     => new \DateTime('2013-10-07 12:00'),
+                'end'       => new \DateTime('2013-10-07 17:00'),
+                'date'      => new \DateTime('2013-10-07 00:00'),
+                'timeblock' => $this->trainADefaultTimeblock(),
+            )
+        );
+
+        $SUT = $this->getMockBuilder('\Oktolab\Bundle\RentBundle\Model\Event\Calendar\TimeblockTransformer')
+            ->setMethods(array('getSeparatedTimeblocks'))
+            ->setConstructorArgs(array($this->aggregator, $this->cache))
+            ->getMock();
+        $SUT->expects($this->once())->method('getSeparatedTimeblocks')->will($this->returnValue($timeblocks));
+
+        $SUT->getTransformedTimeblocks(new \DateTime('2013-10-07T00:00:00+02:00'), new \DateTime('2013-10-08'));
+        $this->assertTrue($this->cache->contains($cacheId));
+        $this->assertSame($expected, $this->cache->fetch($cacheId));
     }
 
     public function testSeparateTimeblocksThrowsExceptionOnInvalidEndDate()

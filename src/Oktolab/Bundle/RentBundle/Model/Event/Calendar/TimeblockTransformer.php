@@ -14,6 +14,9 @@ use Doctrine\Common\Cache\Cache;
 class TimeblockTransformer
 {
 
+    /**
+     * Used for caching identifier
+     */
     const CACHE_ID = 'oktolab.calendar_timeblock_transformer';
 
     /**
@@ -28,10 +31,16 @@ class TimeblockTransformer
      */
     protected $cache = null;
 
+    /**
+     * Constructor.
+     *
+     * @param \Oktolab\Bundle\RentBundle\Model\Event\Calendar\TimeblockAggregator $aggregator
+     * @param \Doctrine\Common\Cache\Cache $cache
+     */
     public function __construct(TimeblockAggregator $aggregator, Cache $cache)
     {
         $this->aggregator = $aggregator;
-        $this->cache = $cache;
+        $this->cache      = $cache;
     }
 
     /**
@@ -39,13 +48,33 @@ class TimeblockTransformer
      *
      * @param \DateTime $begin
      * @param \DateTime $end
+     * @param int       $max
      *
      * @return array
      */
-    public function getTransformedTimeblocks(\DateTime $begin = null, \DateTime $end = null)
+    public function getTransformedTimeblocks(\DateTime $begin, \DateTime $end, $max = 30)
     {
         $this->guardTimeblockAggregation($begin, $end);
-        $timeblocks = $this->aggregator->getTimeblocks($begin, $end);
+
+        // Look-Up cache
+        if ($this->cache->contains(sprintf('%s::%s', self::CACHE_ID, $begin->format('c')))) {
+            return $this->cache->fetch(sprintf('%s::%s', self::CACHE_ID, $begin->format('c')));
+        }
+
+        // Transform Timeblocks for use by Javascript
+        $timeblocks = $this->getSeparatedTimeblocks($begin, $end, $max);
+        array_walk(
+            $timeblocks,
+            function (array &$timeblock) {
+                $timeblock['begin'] = $timeblock['begin']->format('c');
+                $timeblock['end']   = $timeblock['end']->format('c');
+                $timeblock['date']  = $timeblock['date']->format('c');
+                unset($timeblock['timeblock']);
+            }
+        );
+
+        // Store in cache for one day
+        $this->cache->save(sprintf('%s::%s', self::CACHE_ID, $begin->format('c')), $timeblocks, 86400);
 
         return $timeblocks;
     }
