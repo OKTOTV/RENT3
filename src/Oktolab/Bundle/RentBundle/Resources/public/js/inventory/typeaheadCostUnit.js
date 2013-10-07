@@ -9,6 +9,7 @@ jQuery(document).ready(function ($) {
     var form                  = searchItemsField.closest('form');
     var hiddenInputCollection = $('.hidden-contacts', form);
     var contactCollection        = $('.costunit-contacts', form);
+    var mainContactCollection   = $('#oktolab_bundle_rentbundle_costunit_mainContact', form);
 
     searchItemsField.typeahead({
         name:       'costunit-contacts',

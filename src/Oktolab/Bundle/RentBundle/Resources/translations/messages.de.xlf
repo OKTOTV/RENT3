@@ -671,6 +671,76 @@
                 <source>inventory.import.noBuyDate</source>
                 <target>Kein Kaufdatum angegeben</target>
             </trans-unit>
+
+            <trans-unit id="900">
+                <source>admin.costunit</source>
+                <target>Kostenstelle</target>
+            </trans-unit>
+            <trans-unit id="901">
+                <source>admin.costunit.costunits</source>
+                <target>Kostenstellen</target>
+            </trans-unit>
+            <trans-unit id="902">
+                <source>admin.costunit.about</source>
+                <target>An Kostenstellen werden alle Buchungen gebunden. In Kostenstellen werden deren Mitglieder verwalted.</target>
+            </trans-unit>
+            <trans-unit id="903">
+                <source>admin.costunit.name</source>
+                <target>Name</target>
+            </trans-unit>
+            <trans-unit id="904">
+                <source>admin.costunit.mainContact</source>
+                <target>Verantwortlicher</target>
+            </trans-unit>
+            <trans-unit id="905">
+                <source>admin.costunit.member</source>
+                <target>Mitglieder</target>
+            </trans-unit>
+            <trans-unit id="906">
+                <source>admin.costunit.zeroMember</source>
+                <target>Keine Mitglieder</target>
+            </trans-unit>
+            <trans-unit id="907">
+                <source>admin.costunit.noMainContact</source>
+                <target>Kein Hauptverantwortlicher</target>
+            </trans-unit>
+            <trans-unit id="908">
+                <source>admin.costunit.contacts</source>
+                <target>Mitglieder</target>
+            </trans-unit>
+            <trans-unit id="909">
+                <source>admin.costunit.searchForContacts</source>
+                <target>Nach Kontakten suchen</target>
+            </trans-unit>
+
+            <trans-unit id="1000">
+                <source>admin.contact</source>
+                <target>Kontakt</target>
+            </trans-unit>
+            <trans-unit id="1001">
+                <source>admin.contact.contacts</source>
+                <target>Kontakte</target>
+            </trans-unit>
+            <trans-unit id="1002">
+                <source>admin.contact.name</source>
+                <target>Name</target>
+            </trans-unit>
+            <trans-unit id="1003">
+                <source>admin.contact.about</source>
+                <target>Für Kontakte werden Gegenstände und Sets gebucht.</target>
+            </trans-unit>
+            <trans-unit id="1004">
+                <source>admin.contact.costunit</source>
+                <target>Kostenstelle</target>
+            </trans-unit>
+            <trans-unit id="1005">
+                <source>admin.contact.noCostunit</source>
+                <target>Keine Kostenstelle</target>
+            </trans-unit>
+            <trans-unit id="1006">
+                <source>admin.contact.zeroContacts</source>
+                <target>Keine Kontakte</target>
+            </trans-unit>
         </body>
     </file>
 </xliff>

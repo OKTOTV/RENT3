@@ -13,8 +13,16 @@
             <label>{{ 'admin.costunit.name' | trans }}</label>
             <span class="field-value">{{ costunit.name }}</span>
         </div>
+        <div class="field-group viewMode">
+            <label>{{ 'admin.costunit.mainContact' | trans }}</label>
+            {% if  costunit.mainContact is not null %}
+                <span class="field-value">{{ costunit.mainContact.name }}</span>
+            {% else %}
+                <span class="field-value">{{ 'admin.costunit.noMainContact' | trans }}</span>
+            {% endif %}
+        </div>
         <div class="field-group viewMode aui-oktolab-form-table">
-            <label>{{ 'admin.costunit.items' | trans }}</label>
+            <label>{{ 'admin.costunit.member' | trans }}</label>
             {% if costunit.contacts|length == 0 %}
                 <span class="field-value">{{'admin.costunit.zeroMember'|trans}}</span>
             {% else %}

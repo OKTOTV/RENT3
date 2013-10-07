@@ -6,6 +6,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 use Oktolab\Bundle\RentBundle\Model\HubFetchService;
+use Doctrine\ORM\EntityManager;
 
 class CostUnitType extends AbstractType
 {
@@ -17,6 +18,7 @@ class CostUnitType extends AbstractType
     {
 
         $hubTransformer = $options['hubTransformer'];
+        $mainContactChoices = $options['mainContactChoices'];
 
         $builder
             ->add('name', 'text', array('label' => 'admin.costunit.name'))
@@ -25,8 +27,9 @@ class CostUnitType extends AbstractType
                 'entity',
                 array(
                     'class' => 'OktolabRentBundle:Contact',
+                    'choices' => $mainContactChoices,
                     'property' => 'name',
-                    'label' => 'admin.costunit.maincontact'
+                    'label' => 'admin.costunit.mainContact',
                 )
             )
             ->add(
@@ -50,6 +53,7 @@ class CostUnitType extends AbstractType
         ));
         $resolver->setRequired(array(
             'hubTransformer',
+            'mainContactChoices'
         ));
     }
 

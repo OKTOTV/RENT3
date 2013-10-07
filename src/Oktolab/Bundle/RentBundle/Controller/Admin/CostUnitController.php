@@ -52,12 +52,15 @@ class CostUnitController extends Controller
         if ($form->isValid()) {
             $em = $this->getDoctrine()->getManager();
 
-            foreach ($form->get('contacts')->getData() as $contact) {
-                $contact->setCostunit($entity);
-                $em->persist($contact);
+            if ($form->get('contacts')->getData()) {
+                foreach ($form->get('contacts')->getData() as $contact) {
+                    $contact->setCostunit($entity);
+                    $em->persist($contact);
+                }
+                $entity->setContacts($form->get('contacts')->getData());
             }
-            $entity->setContacts($form->get('contacts')->getData());
 
+            $entity->setGuid(uniqid());
             $em->persist($entity);
             $em->flush();
 
@@ -80,6 +83,7 @@ class CostUnitController extends Controller
     {
         $form = $this->createForm(new CostUnitType(), $entity, array(
             'hubTransformer' => $this->get('oktolab.hub_guid_contact_transformer'),
+            'mainContactChoices' => $entity->getContacts(),
             'action' => $this->generateUrl('admin_costunit_create'),
             'method' => 'POST',
         ));
@@ -146,6 +150,7 @@ class CostUnitController extends Controller
     {
         $form = $this->createForm(new CostUnitType(), $entity, array(
             'hubTransformer' => $this->get('oktolab.hub_guid_contact_transformer'),
+            'mainContactChoices' => $entity->getContacts(),
             'action' => $this->generateUrl('admin_costunit_update', array('id' => $entity->getId())),
             'method' => 'PUT',
         ));
