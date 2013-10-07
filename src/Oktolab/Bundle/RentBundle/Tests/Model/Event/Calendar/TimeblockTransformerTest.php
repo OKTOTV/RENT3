@@ -97,11 +97,12 @@ class TimeblockTransformerTest extends \PHPUnit_Framework_TestCase
         $cacheId = sprintf('%s::2013-10-07T00:00:00+02:00', TimeblockTransformer::CACHE_ID);
         $this->assertFalse($this->cache->contains($cacheId));
 
+        $date = new \DateTime('2013-10-07 00:00:00');
         $expected = array(
             array(
-                'begin' => '2013-10-07T12:00:00+02:00',
-                'end'   => '2013-10-07T17:00:00+02:00',
-                'date'  => '2013-10-07T00:00:00+02:00',
+                'begin' => $date->modify('12:00')->format('c'),
+                'end'   => $date->modify('17:00')->format('c'),
+                'date'  => $date->modify('00:00')->format('c'),
             )
         );
 
