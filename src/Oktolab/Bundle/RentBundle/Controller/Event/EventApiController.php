@@ -21,7 +21,6 @@ class EventApiController extends Controller
         return array();
     }
 
-
     /**
      * @Cache(expires="+1 day", public="yes")
      * @Method("GET")
@@ -34,7 +33,24 @@ class EventApiController extends Controller
      */
     public function inventoryAction()
     {
-        $serializedItems = $this->get('oktolab.event_calendar_inventory')->getTransformedInventory();
-        return new JsonResponse($serializedItems);
+        $inventory = $this->get('oktolab.event_calendar_inventory')->getTransformedInventory();
+        return new JsonResponse($inventory);
+    }
+
+    /**
+     * @Cache(expires="+1 day", public="yes")
+     * @Method("GET")
+     * @Route("/timeblock.{_format}",
+     *      name="OktolabRentBundle_EventApi_Timeblock",
+     *      defaults={"_format"="json"},
+     *      requirements={"_format"="json"})
+     *
+     * @return \Symfony\Component\HttpFoundation\JsonResponse
+     */
+    public function timeblockAction()
+    {
+        $timeblocks = $this->get('oktolab.event_calendar_timeblock')
+            ->getTransformedTimeblocks(new \DateTime('today 00:00'), new \DateTime('+30 days 00:00'));
+        return new JsonResponse($timeblocks);
     }
 }

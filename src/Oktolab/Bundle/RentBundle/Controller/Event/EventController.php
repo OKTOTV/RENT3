@@ -171,51 +171,6 @@ class EventController extends Controller
     }
 
     /**
-     * @Route("/api/v1/calendarConfiguration.{_format}",
-     *      name="event_calendarConfiguration",
-     *      defaults={"_format"="json"},
-     *      requirements={"_format"="json"})
-     *
-     * @return JsonResponse
-     */
-    public function calendarConfigurationAction()
-    {
-        $serializedItems = $this->get('oktolab.event_calendar_inventory')->getTransformedInventory();
-
-        $arr = array();
-        $date = new \DateTime('now');
-        for ($i = 0; $i <= 21; $i++) {
-            switch ($date->format('w')) {
-                case 0: // sonntag
-                    $arr['dates'][] = array('date' => $date->format('c'), 'timeblocks' => array());
-                    break;
-                case 6: // samstag
-                    $arr['dates'][] = array(
-                        'date' => $date->format('c'),
-                        'timeblocks' => array(
-                            array($date->modify('09:00')->format('c'), $date->modify('16:00')->format('c')),
-                        ),
-                    );
-                    break;
-                default:
-                    $arr['dates'][] = array(
-                        'date' => $date->format('c'),
-                        'timeblocks' => array(
-                            array($date->modify('09:00')->format('c'), $date->modify('12:00')->format('c')),
-                            array($date->modify('17:00')->format('c'), $date->modify('20:00')->format('c')),
-                        ),
-                    );
-            }
-
-            $date->modify('+1 day');
-        }
-
-        $arr['items'] = $serializedItems;
-
-        return new JsonResponse($arr);
-    }
-
-    /**
      * Creates an Event Form.
      *
      * TODO: make a Service of EventForm

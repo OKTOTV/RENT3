@@ -15,7 +15,12 @@ class EventApiControllerTest extends WebTestCase
     public function setUp()
     {
         parent::setUp();
-        $this->loadFixtures(array('\Oktolab\Bundle\RentBundle\Tests\DataFixtures\ORM\EventApiTimeblockFixture'));
+        $this->loadFixtures(
+            array(
+                '\Oktolab\Bundle\RentBundle\Tests\DataFixtures\ORM\EventApiTimeblockFixture',
+                '\Oktolab\Bundle\RentBundle\Tests\DataFixtures\ORM\EventApiInventoryFixture',
+            )
+        );
     }
 
     /**
@@ -33,7 +38,7 @@ class EventApiControllerTest extends WebTestCase
      * @depends inventoryActionReturnsValidJsonResponse
      * @test
      */
-    public function testInventoryActionReturnsCacheableResponse()
+    public function inventoryActionReturnsCacheableResponse()
     {
         $response = $this->requestXmlHttp('/api/event/inventory.json');
         $this->assertTrue($response->isSuccessful(), 'Response is successful.');
@@ -51,10 +56,56 @@ class EventApiControllerTest extends WebTestCase
         $this->assertJson($response->getContent(), 'Response sends valid JSON.');
 
         $inventory = $this->client->getContainer()->get('oktolab.event_calendar_inventory')->getTransformedInventory();
+        $this->assertCount(1, $inventory, 'One Category was aggregated');
+        $this->assertCount(2, $inventory[0], 'Two Items were aggregated in first Category');
         $this->assertJsonStringEqualsJsonString(
             json_encode($inventory),
             $response->getContent(),
             'Response matches JSON from database'
+        );
+    }
+
+    /**
+     * @test
+     */
+    public function timeblockActionReturnsValidJsonResponse()
+    {
+        $response = $this->requestXmlHttp('/api/event/timeblock.json');
+        $this->assertTrue($response->isSuccessful(), 'Response is successful.');
+        $this->assertTrue($response->headers->contains('Content-Type', 'application/json'), 'Returns application/json');
+        $this->assertJson($response->getContent(), 'Response sends valid JSON.');
+    }
+
+    /**
+     * @depends timeblockActionReturnsValidJsonResponse
+     * @test
+     */
+    public function timeblockActionReturnsCacheableResponse()
+    {
+        $response = $this->requestXmlHttp('/api/event/timeblock.json');
+        $this->assertTrue($response->isSuccessful(), 'Response is successful.');
+        $this->assertTrue($response->isCacheable(), 'Response is cacheable.');
+    }
+
+    /**
+     * @depends timeblockActionReturnsValidJsonResponse
+     * @test
+     */
+    public function timeblockActionReturnsTimeblocksAsJson()
+    {
+        $response = $this->requestXmlHttp('/api/event/timeblock.json');
+        $this->assertTrue($response->isSuccessful(), 'Response is successful.');
+        $this->assertJson($response->getContent(), 'Response returns valid JSON.');
+
+        $timeblocks = $this->client->getContainer()
+            ->get('oktolab.event_calendar_timeblock')
+            ->getTransformedTimeblocks(new \DateTime('today 00:00'), new \DateTime('+30 days 00:00'));
+
+        $this->assertCount(30, $timeblocks);
+        $this->assertJsonStringEqualsJsonString(
+            json_encode($timeblocks),
+            $response->getContent(),
+            'Response matches aggregated/transformed JSON from database'
         );
     }
 
