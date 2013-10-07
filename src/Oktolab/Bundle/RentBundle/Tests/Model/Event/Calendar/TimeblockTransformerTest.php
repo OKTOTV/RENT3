@@ -78,9 +78,10 @@ class TimeblockTransformerTest extends \PHPUnit_Framework_TestCase
 
     public function testTransformedTimeblocksFetchesCache()
     {
-        $cacheId = sprintf('%s::2013-10-07T00:00:00+02:00', TimeblockTransformer::CACHE_ID);
+        $cacheId = sprintf('%s::279', TimeblockTransformer::CACHE_ID);  // 2013-10-07 is the 279. day of year
         $this->cache->save($cacheId, array('begin' => '2013-10-07T00:00:00+02:00'));
 
+//        var_dump(date('z')); die();
         $this->assertTrue($this->cache->contains($cacheId));
         $this->assertSame(
             $this->cache->fetch($cacheId),
@@ -94,7 +95,7 @@ class TimeblockTransformerTest extends \PHPUnit_Framework_TestCase
 
     public function testTransformedTimeblocksStoresResultInCache()
     {
-        $cacheId = sprintf('%s::2013-10-07T00:00:00+02:00', TimeblockTransformer::CACHE_ID);
+        $cacheId = sprintf('%s::279', TimeblockTransformer::CACHE_ID); // 2013-10-07 is the 279. day of year
         $this->assertFalse($this->cache->contains($cacheId));
 
         $date = new \DateTime('2013-10-07 00:00:00');

@@ -57,8 +57,8 @@ class TimeblockTransformer
         $this->guardTimeblockAggregation($begin, $end);
 
         // Look-Up cache
-        if ($this->cache->contains(sprintf('%s::%s', self::CACHE_ID, $begin->format('c')))) {
-            return $this->cache->fetch(sprintf('%s::%s', self::CACHE_ID, $begin->format('c')));
+        if ($this->cache->contains(sprintf('%s::%s', self::CACHE_ID, $begin->format('z')))) {
+            return $this->cache->fetch(sprintf('%s::%s', self::CACHE_ID, $begin->format('z')));
         }
 
         // Transform Timeblocks for use by Javascript
@@ -74,7 +74,7 @@ class TimeblockTransformer
         );
 
         // Store in cache for one day
-        $this->cache->save(sprintf('%s::%s', self::CACHE_ID, $begin->format('c')), $timeblocks, 86400);
+        $this->cache->save(sprintf('%s::%s', self::CACHE_ID, $begin->format('z')), $timeblocks, 86400);
 
         return $timeblocks;
     }
