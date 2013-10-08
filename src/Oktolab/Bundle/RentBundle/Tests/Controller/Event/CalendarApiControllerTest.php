@@ -5,9 +5,9 @@ namespace Oktolab\Bundle\RentBundle\Tests\Controller\Event;
 use Oktolab\Bundle\RentBundle\Tests\WebTestCase;
 
 /**
- * Event API Controller Tests
+ * Calendar API Controller Tests
  */
-class EventApiControllerTest extends WebTestCase
+class CalendarApiControllerTest extends WebTestCase
 {
     /**
      * {@inheritDoc}
@@ -28,7 +28,7 @@ class EventApiControllerTest extends WebTestCase
      */
     public function inventoryActionReturnsValidJsonResponse()
     {
-        $response = $this->requestXmlHttp('/api/event/inventory.json');
+        $response = $this->requestXmlHttp('/api/calendar/inventory.json');
         $this->assertTrue($response->isSuccessful(), 'Response is successful.');
         $this->assertTrue($response->headers->contains('Content-Type', 'application/json'), 'Returns application/json');
         $this->assertJson($response->getContent(), 'Response sends valid JSON.');
@@ -40,7 +40,7 @@ class EventApiControllerTest extends WebTestCase
      */
     public function inventoryActionReturnsCacheableResponse()
     {
-        $response = $this->requestXmlHttp('/api/event/inventory.json');
+        $response = $this->requestXmlHttp('/api/calendar/inventory.json');
         $this->assertTrue($response->isSuccessful(), 'Response is successful.');
         $this->assertTrue($response->isCacheable(), 'Response is cacheable.');
     }
@@ -51,7 +51,7 @@ class EventApiControllerTest extends WebTestCase
      */
     public function inventoryActionReturnsInventoryAsJson()
     {
-        $response = $this->requestXmlHttp('/api/event/inventory.json');
+        $response = $this->requestXmlHttp('/api/calendar/inventory.json');
         $this->assertTrue($response->isSuccessful(), 'Response is successful.');
         $this->assertJson($response->getContent(), 'Response sends valid JSON.');
 
@@ -70,7 +70,7 @@ class EventApiControllerTest extends WebTestCase
      */
     public function timeblockActionReturnsValidJsonResponse()
     {
-        $response = $this->requestXmlHttp('/api/event/timeblock.json');
+        $response = $this->requestXmlHttp('/api/calendar/timeblock.json');
         $this->assertTrue($response->isSuccessful(), 'Response is successful.');
         $this->assertTrue($response->headers->contains('Content-Type', 'application/json'), 'Returns application/json');
         $this->assertJson($response->getContent(), 'Response sends valid JSON.');
@@ -82,7 +82,7 @@ class EventApiControllerTest extends WebTestCase
      */
     public function timeblockActionReturnsCacheableResponse()
     {
-        $response = $this->requestXmlHttp('/api/event/timeblock.json');
+        $response = $this->requestXmlHttp('/api/calendar/timeblock.json');
         $this->assertTrue($response->isSuccessful(), 'Response is successful.');
         $this->assertTrue($response->isCacheable(), 'Response is cacheable.');
     }
@@ -93,7 +93,7 @@ class EventApiControllerTest extends WebTestCase
      */
     public function timeblockActionReturnsTimeblocksAsJson()
     {
-        $response = $this->requestXmlHttp('/api/event/timeblock.json');
+        $response = $this->requestXmlHttp('/api/calendar/timeblock.json');
         $this->assertTrue($response->isSuccessful(), 'Response is successful.');
         $this->assertJson($response->getContent(), 'Response returns valid JSON.');
 

@@ -9,9 +9,9 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 
 /**
- * @Route("/api/event")
+ * @Route("/api/calendar")
  */
-class EventApiController extends Controller
+class CalendarApiController extends Controller
 {
     /**
      * @Route("/", name="OktolabRentBundle_EventApi_Index")
@@ -25,7 +25,7 @@ class EventApiController extends Controller
      * @Cache(expires="+1 day", public="yes")
      * @Method("GET")
      * @Route("/inventory.{_format}",
-     *      name="OktolabRentBundle_EventApi_Inventory",
+     *      name="OktolabRentBundle_CalendarApi_Inventory",
      *      defaults={"_format"="json"},
      *      requirements={"_format"="json"})
      *
@@ -41,7 +41,7 @@ class EventApiController extends Controller
      * @Cache(expires="+1 day", public="yes")
      * @Method("GET")
      * @Route("/timeblock.{_format}",
-     *      name="OktolabRentBundle_EventApi_Timeblock",
+     *      name="OktolabRentBundle_CalendarApi_Timeblock",
      *      defaults={"_format"="json"},
      *      requirements={"_format"="json"})
      *
