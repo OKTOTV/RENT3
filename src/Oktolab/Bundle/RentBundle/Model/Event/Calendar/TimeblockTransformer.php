@@ -52,7 +52,7 @@ class TimeblockTransformer
      *
      * @return array
      */
-    public function getTransformedTimeblocks(\DateTime $begin, \DateTime $end, $max = 30)
+    public function getTransformedTimeblocks(\DateTime $begin, \DateTime $end, $max = null)
     {
         $this->guardTimeblockAggregation($begin, $end);
 
@@ -88,12 +88,14 @@ class TimeblockTransformer
      *
      * @return array
      */
-    public function getSeparatedTimeblocks(\DateTime $begin = null, \DateTime $end = null, $max = 30)
+    public function getSeparatedTimeblocks(\DateTime $begin = null, \DateTime $end = null, $max = null)
     {
         $this->guardTimeblockAggregation($begin, $end);
+        $aggregatedTimeblocks = $this->aggregator->getTimeblocks($begin, $end);
+        $max = (null === $max) ? count($aggregatedTimeblocks) * 30 : $max;
 
         $timeblocks = array();
-        foreach ($this->aggregator->getTimeblocks($begin, $end) as $timeblock) {
+        foreach ($aggregatedTimeblocks as $timeblock) {
             $intervalDate = clone $begin;     // Start iteration by $begin
 
             do {
