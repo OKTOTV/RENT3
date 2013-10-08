@@ -15,7 +15,7 @@ class CalendarApiController extends Controller
 {
 
     /**
-     * @Cache(expires="+1 day", public="yes")
+     * @Cache(expires="+5 min", public="yes")
      * @Method("GET")
      * @Route("/inventory.{_format}",
      *      name="OktolabRentBundle_CalendarApi_Inventory",
@@ -31,7 +31,7 @@ class CalendarApiController extends Controller
     }
 
     /**
-     * @Cache(expires="+1 day", public="yes")
+     * @Cache(expires="+5 min", public="yes")
      * @Method("GET")
      * @Route("/timeblock.{_format}",
      *      name="OktolabRentBundle_CalendarApi_Timeblock",
