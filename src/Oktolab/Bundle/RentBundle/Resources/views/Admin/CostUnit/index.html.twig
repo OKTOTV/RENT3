@@ -6,6 +6,34 @@
 {% block content %}
     {{ parent() }}
 
+    <ol class="aui-nav aui-nav-pagination">
+        {% for i in 1..pages %}
+            {% if loop.first%}
+                <li class="aui-nav-first"><a href="{{ path('admin_costunit', { 'page': i })}}">First</a></li>
+                {% if pages > truncateAt and currentPage>4 %}
+                    <li class="aui-nav-truncation"><a>&hellip;</a></li>
+                {% endif%}
+            {% endif %}
+            {% if i < pages and i > 1 %}
+                {% if pages > truncateAt %}
+
+                    {% if (i > currentPage-3 and i < currentPage+3) or (i < currentPage+3 and i > currentPage-3)  %}
+                        <li {% if i == currentPage %}class="aui-nav-selected"{%else%}class="aui-nav"{% endif %}><a href="{{ path('admin_costunit', { 'page': i })}}">{{i}}</li>
+                    {% endif %}
+
+                {% else %}
+                    <li {% if i == currentPage %}class="aui-nav-selected"{%else%}class="aui-nav"{% endif %}><a href="{{ path('admin_costunit', { 'page': i })}}">{{i}}</li>
+                {% endif %}
+            {% endif %}
+            {% if loop.last %}
+                {% if pages > truncateAt and currentPage<pages-3%}
+                    <li class="aui-nav-truncation"><a>&hellip;</a></li>
+                {% endif%}
+                <li class="aui-nav-last"><a href="{{ path('admin_costunit', { 'page': i })}}">Last</a></li>
+            {% endif %}
+        {% endfor %}
+    </ol>
+
     {% if entities|length == 0 %}
         <br />
         {{ 'admin.costunit.noneFound' | trans }}
@@ -22,7 +50,11 @@
             {% for entity in entities %}
                 <tr>
                     <td headers="title">{{ entity.name }}</td>
-                    <td headers="items">{{ entity.contacts | length }}</td>
+                    {% if entity.contacts |length == 0%}
+                        <td headers="items">{{ 'generic.none'|trans({'%what%':'admin.costunit.contacts'|trans}) }}</td>
+                    {% else %}
+                        <td headers="items">{{ entity.contacts | length }}</td>
+                    {% endif %}
                     <td class="action" headers="action">
                         <ul class="menu">
                             <li><a href="{{ path('admin_costunit_show', { 'id': entity.id }) }}">{{'generic.show'|trans}}</a></li>

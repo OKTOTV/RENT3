@@ -190,6 +190,10 @@
                 <source>generic.pictureReplaceWarning</source>
                 <target>Achtung: Bestehendes Bild wird ersetzt und kann nicht wiederhergestellt werden!</target>
             </trans-unit>
+            <trans-unit id="48">
+                <source>generic.none</source>
+                <target>Keine %what%</target>
+            </trans-unit>
 
             <trans-unit id="100">
                 <source>inventory.item.title</source>

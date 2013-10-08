@@ -10,6 +10,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Oktolab\Bundle\RentBundle\Entity\CostUnit;
 use Oktolab\Bundle\RentBundle\Form\CostUnitType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
+use Doctrine\ORM\Tools\Pagination\Paginator;
 
 /**
  * CostUnit controller.
@@ -22,18 +23,25 @@ class CostUnitController extends Controller
     /**
      * Lists all CostUnit entities.
      *
-     * @Route("/", name="admin_costunit")
+     * @Route("/page={page}", name="admin_costunit", defaults={"page"= 1})
      * @Method("GET")
      * @Template()
      */
-    public function indexAction()
+    public function indexAction($page)
     {
         $em = $this->getDoctrine()->getManager();
 
-        $entities = $em->getRepository('OktolabRentBundle:CostUnit')->findAll();
+        $resultsPerPage = 15;
+        $totalResults = count($em->getRepository('OktolabRentBundle:CostUnit')->findAll());
+        $maxPage = floor($totalResults/$resultsPerPage);
+
+        $entities = $em->getRepository('OktolabRentBundle:CostUnit')->findBy(array(), null, $resultsPerPage, $resultsPerPage*$page);
 
         return array(
             'entities' => $entities,
+            'currentPage' => $page,
+            'pages'  => $maxPage,
+            'truncateAt' => 8
         );
     }
     /**

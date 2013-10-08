@@ -4,8 +4,7 @@
     <a class="aui-button" href="{{ path('admin_contact') }}">{{ 'generic.overview' | trans }}</a>
 {%endblock%}
 {% block content %}
-    {{ parent() }}
-
+{{ parent() }}
 <form class="aui">
     <fieldset>
         <div class="field-group viewMode">
@@ -19,7 +18,6 @@
             {% else %}
                <span class="field-value">{{ 'admin.contact.noCostunit' | trans }}</span>
             {% endif %}
-
         </div>
     </fieldset>
 </form>
