@@ -13,13 +13,6 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
  */
 class CalendarApiController extends Controller
 {
-    /**
-     * @Route("/", name="OktolabRentBundle_EventApi_Index")
-     */
-    public function indexAction()
-    {
-        return array();
-    }
 
     /**
      * @Cache(expires="+1 day", public="yes")
@@ -52,5 +45,21 @@ class CalendarApiController extends Controller
         $timeblocks = $this->get('oktolab.event_calendar_timeblock')
             ->getTransformedTimeblocks(new \DateTime('today 00:00'), new \DateTime('+30 days 00:00'));
         return new JsonResponse($timeblocks);
+    }
+
+    /**
+     * //Cache(expires="+1 day", public="yes")
+     * @Method("GET")
+     * @Route("/events.{_format}",
+     *      name="OktolabRentBundle_CalendarApi_Event",
+     *      defaults={"_format"="json"},
+     *      requirements={"_format"="json"})
+     *
+     * @return \Symfony\Component\HttpFoundation\JsonResponse
+     */
+    public function eventAction()
+    {
+        $events = array();
+        return new JsonResponse($events);
     }
 }

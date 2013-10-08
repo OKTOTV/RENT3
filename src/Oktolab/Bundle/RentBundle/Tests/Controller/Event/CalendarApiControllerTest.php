@@ -110,6 +110,17 @@ class CalendarApiControllerTest extends WebTestCase
     }
 
     /**
+     * @test
+     */
+    public function eventActionReturnsValidJsonResponse()
+    {
+        $response = $this->requestXmlHttp('/api/calendar/events.json');
+        $this->assertTrue($response->isSuccessful(), 'Response is successful.');
+        $this->assertTrue($response->headers->contains('Content-Type', 'application/json'), 'Returns application/json');
+        $this->assertJson($response->getContent(), 'Response returns valid JSON.');
+    }
+
+    /**
      * Simple wrapper to make a JSON-Request
      *
      * @param string $uri
