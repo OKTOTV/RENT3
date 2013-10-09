@@ -62,16 +62,36 @@ class TimeblockTransformer
         }
 
         // Transform Timeblocks for use by Javascript
-        $timeblocks = $this->getSeparatedTimeblocks($begin, $end, $max);
-        array_walk(
-            $timeblocks,
-            function (array &$timeblock) {
-                $timeblock['begin'] = $timeblock['begin']->format('c');
-                $timeblock['end']   = $timeblock['end']->format('c');
-                $timeblock['date']  = $timeblock['date']->format('c');
-                unset($timeblock['timeblock']);
+        $separatedTimeblocks = $this->getSeparatedTimeblocks($begin, $end, $max);
+        $timeblocks = array();
+        $date = null;
+
+        // @TODO: This is evil! Inject INTL/i18n service an do this right!
+        $germanWeekdays = array(1 => 'Mo', 2 => 'Di', 3 => 'Mi', 4 => 'Do', 5 => 'Fr', 6 => 'Sa', 0 => 'So');
+
+        foreach ($separatedTimeblocks as $timeblock) {
+            if (null === $date || $date < $timeblock['date']) {
+                $date = $timeblock['date'];
+                $block = array(
+                    'title'  => sprintf('%s, %s', $germanWeekdays[$date->format('w')], $date->format('d.m')),
+                    'blocks' => array()
+                );
             }
-        );
+
+            $block['blocks'][] = array(
+                'title' => sprintf(
+                    '%s<sup>%s</sup> - %s<sup>%s</sup>', // @TODO: This is templating!
+                    $timeblock['begin']->format('H'),
+                    $timeblock['begin']->format('i'),
+                    $timeblock['end']->format('H'),
+                    $timeblock['end']->format('i')
+                ),
+                'begin' => $timeblock['begin']->format('c'),
+                'end'   => $timeblock['end']->format('c'),
+            );
+
+            $timeblocks[$date->format('c')] = $block;
+        }
 
         // Store in cache for one day
         $this->cache->save(sprintf('%s::%s', self::CACHE_ID, $begin->format('z')), $timeblocks, 86400);

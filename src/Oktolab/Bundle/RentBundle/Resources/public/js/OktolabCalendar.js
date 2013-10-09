@@ -108,50 +108,42 @@
          * @param {object} dates
          */
         showCalendarBackground: function (timeblocks) {
-            var blocks = {};
-            var currentDate = new Date(timeblocks[0].date);
-            var first = true;
-            var headline = $('<div />');
+            $.each(timeblocks, function (date, timeblock) {
+                var date = new Date(date);
+                var headline = $('<div />').addClass('calendar-headline');
 
-            $.each(timeblocks, function (key, value) {
-                var blockDate = new Date(value.date);
-                var begin = new Date(value.begin);
-                var end = new Date(value.end);
+                headline.append($('<span />').addClass('calendar-title').html(timeblock['title']));
 
-                if (currentDate < blockDate || first) {
-                    first = false;
-                    currentDate = blockDate;
+                $.each(timeblock['blocks'], function (key, dataBlock) {
+                    var block = $('<div />')
+                            .addClass('calendar-timeblock')
+                            .html(dataBlock['title'])
+                            .css('width', (100 / timeblock['blocks'].length).toFixed(2) + '%');
 
-                    headline = $('<div />').addClass('calendar-headline').append(
-                        $('<span />').addClass('calendar-title').html(blockDate.getDate() + '.' + (blockDate.getMonth() + 1 ))
-                    ).appendTo($('<div />').addClass('calendar-date').appendTo(Calendar.data.containerWrapper));
-                }
+                    block.appendTo(headline);
+                });
 
-                var block = $('<div />').addClass('calendar-timeblock').html(begin.getHours() + '-' + end.getHours()).appendTo(headline);
-//                Calendar.data.timeblocks.push({ 'date': end, 'block': block });
-
-//                console.log(currentDate);
-
-//                var $date = new Date(value.date);
-//                var $headline = $('<div />').addClass('calendar-headline').append(
-//                    $('<span />').addClass('calendar-title').html($date.getDate() + '.' + ($date.getMonth() + 1))
-//                );
-//
-//                // iterate all timeblocks on per date
-//                $.each(value.timeblocks, function (block) {
-//                    var $begin = new Date(value.timeblocks[block][0]);
-//                    var $end   = new Date(value.timeblocks[block][1]);
-//                    var $block = $('<div />')
-//                        .addClass('calendar-timeblock')
-//                        .css('width', (100 / value.timeblocks.length).toFixed(2) + '%')
-//                        .html($begin.getHours() + '-' + $end.getHours())
-//                        .appendTo($headline);
-//
-//                    Calendar.data.timeblocks.push({ 'date': $end, 'block': $block });
-//                });
-//
-//                Calendar.data.containerWrapper.append($('<div />').addClass('calendar-date').append($headline));
+                headline.appendTo($('<div />').addClass('calendar-date').appendTo(Calendar.data.containerWrapper));
             });
+
+//            $.each(timeblocks, function (key, value) {
+//                var blockDate = new Date(value.date);
+//                var begin = new Date(value.begin);
+//                var end = new Date(value.end);
+//
+//                if (currentDate < blockDate || first) {
+//                    first = false;
+//                    currentDate = blockDate;
+//
+//                    headline = $('<div />').addClass('calendar-headline').append(
+//                        $('<span />').addClass('calendar-title').html(blockDate.getDate() + '.' + (blockDate.getMonth() + 1 ))
+//                    ).appendTo($('<div />').addClass('calendar-date').appendTo(Calendar.data.containerWrapper));
+//
+//                    // .css('width', (100 / value.timeblocks.length).toFixed(2) + '%')
+//                }
+//
+//                var block = $('<div />').addClass('calendar-timeblock').html(begin.getHours() + '-' + end.getHours()).appendTo(headline);
+//            });
         },
 
         /**
