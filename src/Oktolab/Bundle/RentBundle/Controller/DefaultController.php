@@ -9,12 +9,12 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
 /**
- * @Cache(expires="next year", public="true")
+ * DefaultController.
  */
 class DefaultController extends Controller
 {
     /**
-     * @Cache(expires="+23 hours", public="true")
+     * @Cache(expires="+5 minutes", public="true")
      * @Method("GET")
      * @Route("/", name="rentbundle_dashboard")
      * @Template()
