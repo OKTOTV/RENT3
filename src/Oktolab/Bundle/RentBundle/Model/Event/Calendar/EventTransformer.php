@@ -57,14 +57,42 @@ class EventTransformer
 
         $aggregatedEvents = $this->aggregator->getActiveEvents($end, $type);
         $events = array();
-        foreach ($aggregatedEvents as $event) {
-            $events[] = $this->router->generate('OktolabRentBundle_Event_Edit', array('id' => $event->getId()));
+        foreach ($aggregatedEvents as $aggregatedEvent) {
+            $stateNames = array(1 => 'RESERVED');
+            $event = array(
+                'id'            => $aggregatedEvent->getId(),
+                'title'         => sprintf(
+                    '%02d:<sup>%02d</sup> %s',
+                    $aggregatedEvent->getBegin()->format('H'),
+                    $aggregatedEvent->getBegin()->format('i'),
+                    $aggregatedEvent->getName()
+                ),
+                'name'          => $aggregatedEvent->getName(),
+                'begin'         => $aggregatedEvent->getBegin()->format('c'),
+                'end'           => $aggregatedEvent->getEnd()->format('c'),
+                'description'   => $aggregatedEvent->getDescription(),
+                'state'         => $stateNames[$aggregatedEvent->getState()],
+                'objects'       => array(),
+            );
+
+            $event['uri'] = $this->router->generate(
+                'OktolabRentBundle_Event_Edit',
+                array('id' => $aggregatedEvent->getId())
+            );
+
+            $objects = $this->eventManager->convertEventObjectsToEntites($aggregatedEvent->getObjects());
+            foreach ($objects as $object) {
+                $event['objects'][] = array(
+                    'uri'       => $this->router->generate('inventory_item_show', array('id' => $object->getId())),
+                    'title'     => $object->getTitle(),
+                    'object_id' => sprintf('%s:%s', $object->getType(), $object->getId()),
+                );
+            }
+
+            $events[$aggregatedEvent->getId()] = $event;
         }
 
-        var_dump($events); die();
-
-        //$this->get('router')->generate('blog_show', array('slug' => 'my-blog-post'));
-        // EventManager to transform EventObjects to real Objects
+        return $events;
     }
 
     /**

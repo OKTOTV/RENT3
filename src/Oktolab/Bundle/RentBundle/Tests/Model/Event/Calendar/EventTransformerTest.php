@@ -67,9 +67,11 @@ class EventTransformerTest extends \PHPUnit_Framework_TestCase
         $this->SUT->getFormattedActiveEvents(new \DateTime('-1 day'));
     }
 
+    /**
+     * This test generates a lot of Test-Fixture in_memory to assert the TestCase.
+     */
     public function testGetFormattedActiveEventsReturnsFormattedArray()
     {
-        $this->markTestIncomplete('WIP');
         $date = new \DateTime();
         $expected = array(
             '2' => array(
@@ -80,10 +82,10 @@ class EventTransformerTest extends \PHPUnit_Framework_TestCase
                 'end'           => $date->modify('2013-10-12 17:00')->format('c'),
                 'uri'           => '/event/2/edit',
                 'description'   => 'This is a event for new ordner',
-                'state'         => 'STATE_RESERVED',
-                'objectives'    => array(
-                    array('objective' => 'item:3', 'title' => 'LIKO4', 'uri' => '/inventory/item/3'),
-                    array('objective' => 'item:5', 'title' => 'JVC123', 'uri' => '/inventory/item/5'),
+                'state'         => 'RESERVED',
+                'objects'       => array(
+                    array('object_id' => 'item:3', 'title' => 'LIKO4', 'uri' => '/inventory/item/3'),
+                    array('object_id' => 'item:5', 'title' => 'JVC123', 'uri' => '/inventory/item/5'),
                 ),
             ),
         );
@@ -94,30 +96,43 @@ class EventTransformerTest extends \PHPUnit_Framework_TestCase
         $eventObject2->setType('item')->setObject('5'); // JVC123
 
         $event = $this->getMock('\Oktolab\Bundle\RentBundle\Entity\Event', array('getId'));
-        $event->expects($this->once())->method('getId')->will($this->returnValue(2));
+        $event->expects($this->any())->method('getId')->will($this->returnValue(2));
         $event->setName('New Ordner')
-            ->setBegin($date->modify('2013-10-09 08:00'))
-            ->setEnd($date->modify('2013-10-12 17:00'))
+            ->setBegin(clone $date->modify('2013-10-09 08:00'))
+            ->setEnd(clone $date->modify('2013-10-12 17:00'))
             ->setDescription('This is a event for new ordner')
             ->setState(Event::STATE_RESERVED)
             ->addObject($eventObject1)
             ->addObject($eventObject2);
 
-        $this->router->expects($this->once())
+        $item1 = $this->getMock('\Oktolab\Bundle\RentBundle\Entity\Inventory\Item', array('getTitle', 'getId'));
+        $item1->expects($this->any())->method('getTitle')->will($this->returnValue('LIKO4'));
+        $item1->expects($this->any())->method('getId')->will($this->returnValue(3));
+
+        $item2 = $this->getMock('\Oktolab\Bundle\RentBundle\Entity\Inventory\Item', array('getTitle', 'getId'));
+        $item2->expects($this->any())->method('getTitle')->will($this->returnValue('JVC123'));
+        $item2->expects($this->any())->method('getId')->will($this->returnValue('5'));
+
+        $this->aggregator->expects($this->once())->method('getActiveEvents')->will($this->returnValue(array($event)));
+
+        $this->eventManager->expects($this->once())
+            ->method('convertEventObjectsToEntites')
+            ->will($this->returnValue(array($item1, $item2)));
+
+        $this->router->expects($this->at(0))
             ->method('generate')
             ->with($this->equalTo('OktolabRentBundle_Event_Edit'), $this->equalTo(array('id' => 2)))
             ->will($this->returnValue('/event/2/edit'));
 
-        $this->aggregator->expects($this->once())
-            ->method('getActiveEvents')
-            ->will($this->returnValue(array($event)));
+        $this->router->expects($this->at(1))
+            ->method('generate')
+            ->with($this->equalTo('inventory_item_show'), $this->equalTo(array('id' => 3)))
+            ->will($this->returnValue('/inventory/item/3'));
 
-        $this->eventManager->expects($this->once())
-            ->method('convertEventObjectsToEntites')
-            ->with($this->equalTo(array($eventObject1, $eventObject2)))
-            ->will($this->returnValue(/* Item1, Item2 .. */));
-
-        // router expects Item1 && Item2 routes
+        $this->router->expects($this->at(2))
+            ->method('generate')
+            ->with($this->equalTo('inventory_item_show'), $this->equalTo(array('id' => 5)))
+            ->will($this->returnValue('/inventory/item/5'));
 
         $events = $this->SUT->getFormattedActiveEvents(clone $date->modify('2013-10-31'), 'inventory');
         $this->assertEquals($expected, $events, 'Expected formatted Events-Array');
