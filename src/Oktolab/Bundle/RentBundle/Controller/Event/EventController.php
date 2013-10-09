@@ -21,39 +21,6 @@ class EventController extends Controller
 {
 
     /**
-     * @Route("/api/v1/events.{_format}",
-     *      name="event_getEvents",
-     *      defaults={"_format"="json"},
-     *      requirements={"_format"="json|html"})
-     *
-     * @return JsonResponse
-     */
-    public function indexAction()
-    {
-        $events = $this->getDoctrine()->getEntityManager()
-            ->getRepository('OktolabRentBundle:Event')
-            ->findActiveUntilEnd(new \DateTime('+3 weeks'));
-
-        $arr = array();
-        foreach ($events as $event) {
-            $objects = $event->getObjects();
-            if (count($objects) === 0) {
-                continue;
-            }
-
-            $arr[] = array(
-                'id'    => $event->getId(),
-                'title' => sprintf('%s - %s', $event->getName(), $event->getId()),
-                'start' => $event->getBegin()->format('c'),
-                'end'   => $event->getEnd()->format('c'),
-                'item'  => sprintf('%s-%d', $objects[0]->getType(), $objects[0]->getObject()),
-            );
-        }
-
-        return new JsonResponse($arr);
-    }
-
-    /**
      * Creates a new Event.
      *
      * @Route("/event", name="event_create")
@@ -81,8 +48,9 @@ class EventController extends Controller
     /**
      * Edit an existing Event.
      *
-     * @Route("/event/{id}/edit", name="event_edit")
+     * // @ Cache(expires="+5 min", public="yes")
      * @Method("GET")
+     * @Route("/event/{id}/edit", name="OktolabRentBundle_Event_Edit", requirements={"id"="\d+"})
      * @ParamConverter("event", class="OktolabRentBundle:Event")
      * @Template()
      *
@@ -94,7 +62,7 @@ class EventController extends Controller
     public function editAction(Request $request, Event $event)
     {
         $form = $this->getEventForm(
-            array('action' => $this->generateUrl('event_update', array('id' => $event->getId()))),
+            array('action' => $this->generateUrl('OktolabRentBundle_Event_Update', array('id' => $event->getId()))),
             $event
         );
 
@@ -107,8 +75,8 @@ class EventController extends Controller
     /**
      * Updates an existing Event or forwards to specific Action.
      *
-     * @Route("/event/{id}/update", name="event_update")
-     * @Method("POST")
+     * @Method("PUT")
+     * @Route("/event/{id}/update", name="OktolabRentBundle_Event_Update", requirements={"id"="\d+"})
      * @ParamConverter("event", class="OktolabRentBundle:Event")
      *
      * @param Request $request
@@ -119,7 +87,7 @@ class EventController extends Controller
     public function updateAction(Request $request, Event $event)
     {
         $form = $this->getEventForm(
-            array('action' => $this->generateUrl('event_update', array('id' => $event->getId()))),
+            array('action' => $this->generateUrl('OktolabRentBundle_Event_Update', array('id' => $event->getId()))),
             $event
         );
 

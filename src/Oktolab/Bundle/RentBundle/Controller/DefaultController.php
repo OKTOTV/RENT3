@@ -5,6 +5,7 @@ namespace Oktolab\Bundle\RentBundle\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Cache;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
 /**
@@ -13,16 +14,20 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 class DefaultController extends Controller
 {
     /**
+     * @Cache(expires="+23 hours", public="true")
+     * @Method("GET")
      * @Route("/", name="rentbundle_dashboard")
-     * @Cache(expires="23 hours", public="true")
      * @Template()
      */
     public function dashboardAction()
     {
+        var_dump($this->get('router') instanceof \Symfony\Component\Routing\Generator\UrlGeneratorInterface); die();
         return array();
     }
 
     /**
+     * @Cache(expires="next year", public="true")
+     * @Method("GET")
      * @Route("/about", name="rentbundle_about")
      * @Template()
      */
@@ -34,7 +39,7 @@ class DefaultController extends Controller
             $header = strtok($i, "\n");
             $licenses[trim($header)] = str_replace($header, '', $i);
         }
-        
+
         return array('licenses' => $licenses);
     }
 }

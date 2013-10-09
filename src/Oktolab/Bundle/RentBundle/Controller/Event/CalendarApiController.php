@@ -48,7 +48,7 @@ class CalendarApiController extends Controller
     }
 
     /**
-     * //Cache(expires="+1 day", public="yes")
+     * //Cache(expires="+5 min", public="yes")
      * @Method("GET")
      * @Route("/events.{_format}",
      *      name="OktolabRentBundle_CalendarApi_Event",
