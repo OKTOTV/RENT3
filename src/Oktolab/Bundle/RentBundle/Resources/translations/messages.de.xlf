@@ -194,6 +194,14 @@
                 <source>generic.none</source>
                 <target>Keine %what%</target>
             </trans-unit>
+            <trans-unit id="49">
+                <source>generic.previous</source>
+                <target>Vorherige</target>
+            </trans-unit>
+            <trans-unit id="50">
+                <source>generic.next</source>
+                <target>Nächste</target>
+            </trans-unit>
 
             <trans-unit id="100">
                 <source>inventory.item.title</source>

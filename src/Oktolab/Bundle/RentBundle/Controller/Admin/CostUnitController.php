@@ -41,7 +41,7 @@ class CostUnitController extends Controller
             'entities' => $entities,
             'currentPage' => $page,
             'pages'  => $maxPage,
-            'truncateAt' => 8
+            'renderPages' => 9
         );
     }
     /**
