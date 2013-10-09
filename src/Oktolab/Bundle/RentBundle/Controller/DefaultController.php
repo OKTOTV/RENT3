@@ -21,7 +21,6 @@ class DefaultController extends Controller
      */
     public function dashboardAction()
     {
-        var_dump($this->get('router') instanceof \Symfony\Component\Routing\Generator\UrlGeneratorInterface); die();
         return array();
     }
 
