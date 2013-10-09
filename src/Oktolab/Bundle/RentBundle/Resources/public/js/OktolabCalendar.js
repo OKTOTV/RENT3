@@ -105,45 +105,25 @@
         /**
          * Builds the HTML for Calendar Background.
          *
-         * @param {object} dates
+         * @param {object} timeblocks
          */
         showCalendarBackground: function (timeblocks) {
             $.each(timeblocks, function (date, timeblock) {
                 var date = new Date(date);
                 var headline = $('<div />').addClass('calendar-headline');
 
-                headline.append($('<span />').addClass('calendar-title').html(timeblock['title']));
-
-                $.each(timeblock['blocks'], function (key, dataBlock) {
+                headline.append($('<span />').addClass('calendar-title').html(timeblock.title));
+                $.each(timeblock.blocks, function (key, dataBlock) {
                     var block = $('<div />')
                             .addClass('calendar-timeblock')
-                            .html(dataBlock['title'])
-                            .css('width', (100 / timeblock['blocks'].length).toFixed(2) + '%');
+                            .html(dataBlock.title)
+                            .css('width', (100 / timeblock.blocks.length).toFixed(2) + '%');
 
                     block.appendTo(headline);
                 });
 
                 headline.appendTo($('<div />').addClass('calendar-date').appendTo(Calendar.data.containerWrapper));
             });
-
-//            $.each(timeblocks, function (key, value) {
-//                var blockDate = new Date(value.date);
-//                var begin = new Date(value.begin);
-//                var end = new Date(value.end);
-//
-//                if (currentDate < blockDate || first) {
-//                    first = false;
-//                    currentDate = blockDate;
-//
-//                    headline = $('<div />').addClass('calendar-headline').append(
-//                        $('<span />').addClass('calendar-title').html(blockDate.getDate() + '.' + (blockDate.getMonth() + 1 ))
-//                    ).appendTo($('<div />').addClass('calendar-date').appendTo(Calendar.data.containerWrapper));
-//
-//                    // .css('width', (100 / value.timeblocks.length).toFixed(2) + '%')
-//                }
-//
-//                var block = $('<div />').addClass('calendar-timeblock').html(begin.getHours() + '-' + end.getHours()).appendTo(headline);
-//            });
         },
 
         /**
