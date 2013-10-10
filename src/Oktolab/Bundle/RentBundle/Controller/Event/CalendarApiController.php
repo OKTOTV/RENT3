@@ -53,13 +53,14 @@ class CalendarApiController extends Controller
      * @Route("/events.{_format}",
      *      name="OktolabRentBundle_CalendarApi_Event",
      *      defaults={"_format"="json"},
-     *      requirements={"_format"="json"})
+     *      requirements={"_format"="json|html"})
      *
      * @return \Symfony\Component\HttpFoundation\JsonResponse
      */
     public function eventAction()
     {
-        $events = array();
-        return new JsonResponse($events);
+        $events = $this->get('oktolab.event_calendar_event')->getFormattedActiveEvents(new \DateTime('+30 days 00:00'));
+        return array($events);
+//        return new JsonResponse($events);
     }
 }

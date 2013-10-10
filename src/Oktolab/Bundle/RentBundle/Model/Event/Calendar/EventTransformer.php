@@ -58,7 +58,6 @@ class EventTransformer
         $aggregatedEvents = $this->aggregator->getActiveEvents($end, $type);
         $events = array();
         foreach ($aggregatedEvents as $aggregatedEvent) {
-            $stateNames = array(1 => 'RESERVED');
             $event = array(
                 'id'            => $aggregatedEvent->getId(),
                 'title'         => sprintf(
@@ -71,7 +70,7 @@ class EventTransformer
                 'begin'         => $aggregatedEvent->getBegin()->format('c'),
                 'end'           => $aggregatedEvent->getEnd()->format('c'),
                 'description'   => $aggregatedEvent->getDescription(),
-                'state'         => $stateNames[$aggregatedEvent->getState()],
+                'state'         => $aggregatedEvent->getState(true),
                 'objects'       => array(),
             );
 

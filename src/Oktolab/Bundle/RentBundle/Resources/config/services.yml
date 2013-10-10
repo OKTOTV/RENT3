@@ -26,6 +26,8 @@ parameters:
     oktolab.event_calendar_inventory.class:            Oktolab\Bundle\RentBundle\Model\Event\Calendar\InventoryTransformer
     oktolab.event_calendar_timeblock_aggregator.class: Oktolab\Bundle\RentBundle\Model\Event\Calendar\TimeblockAggregator
     oktolab.event_calendar_timeblock.class:            Oktolab\Bundle\RentBundle\Model\Event\Calendar\TimeblockTransformer
+    oktolab.event_calendar_event_aggregator.class:     Oktolab\Bundle\RentBundle\Model\Event\Calendar\EventAggregator
+    oktolab.event_calendar_event.class:                Oktolab\Bundle\RentBundle\Model\Event\Calendar\EventTransformer
     oktolab.inventory_transformer_cache_listener:      Oktolab\Bundle\RentBundle\EventListener\InventoryTransformerCacheListener
 
 services:
@@ -161,6 +163,16 @@ services:
     oktolab.event_calendar_timeblock_cache:
         class:      %oktolab.cache.class%
         arguments:  [ %kernel.cache_dir% ]
+
+    oktolab.event_calendar_event_aggregator:
+        class: %oktolab.event_calendar_event_aggregator.class%
+        calls:
+            - [ addRepository, [ "Event", @oktolab.orm.event_repository ] ]
+
+    oktolab.event_calendar_event:
+        class:      %oktolab.event_calendar_event.class%
+        arguments:  [ @oktolab.event_calendar_event_aggregator, @router, @oktolab.event_manager, @oktolab.cache ]
+
 
     # Global Oktolab-Cache. See Doctrine\Common\Cache for more details
     oktolab.cache:
