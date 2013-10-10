@@ -5,48 +5,12 @@
 {%endblock%}
 {% block content %}
     {{ parent() }}
-    {% set companionPages = (renderPages-1)/2%}
-    {% set startPoint = currentPage - companionPages %}
-
-    {% if startPoint < 2%}
-        {% set startPoint = 2 %}
-    {% endif %}
-    {% if startPoint + renderPages > pages -1 %}
-        {% set startPoint = pages - renderPages %}
-    {% endif %}
-
-    <ol class="aui-nav aui-nav-pagination">
-        {% for i in 1..pages %}
-            {% if loop.first %}
-                {% if currentPage > 1%}
-                    <li class="aui-nav-previous"><a href="{{ path('admin_costunit', {'page': currentPage-1}) }}">{{"generic.previous"|trans}}</a></li>
-                {% endif%}
-                <li class="aui-nav-first {% if i == currentPage %}aui-nav-selected{% endif %}"><a href="{{ path('admin_costunit', {'page': i}) }}">{{i}}</a></li>
-                {% if startPoint > 2%}
-                         <li class="aui-nav-truncation"><a href="#">&hellip;</a></li>
-                {% endif %}
-            {% endif %}
-
-            {% if (i >= startPoint) and (i < startPoint + renderPages )%}
-                    <li {% if i == currentPage %}class="aui-nav-selected"{% endif %}><a href="{{ path('admin_costunit', {'page': i}) }}">{{i}}</a></li>
-            {% endif %}
-
-            {% if loop.last %}
-                {% if startPoint + renderPages < pages%}
-                         <li class="aui-nav-truncation"><a href="#">&hellip;</a></li>
-                {% endif %}
-                <li class="aui-nav-last {% if i == currentPage %}aui-nav-selected{% endif %}"><a href="{{ path('admin_costunit', {'page': pages}) }}">{{pages}}</a></li>
-                {% if currentPage < pages%}
-                <li class="aui-nav-previous"><a href="{{ path('admin_costunit', {'page': currentPage+1}) }}">{{"generic.next"|trans}}</a></li>
-            {% endif%}
-            {% endif %}
-        {% endfor %}
-    </ol>
 
     {% if entities|length == 0 %}
         <br />
         {{ 'admin.costunit.noneFound' | trans }}
     {% else %}
+        {{ auiPager('admin_costunit', pages, currentPage, renderPages) }}
         <table class="aui">
             <thead>
                 <tr>
@@ -75,5 +39,6 @@
             {% endfor %}
             </tbody>
         </table>
+        {{ auiPager('admin_costunit', pages, currentPage, renderPages) }}
     {% endif %}
 {% endblock %}

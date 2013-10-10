@@ -23,7 +23,7 @@ class CostUnitController extends Controller
     /**
      * Lists all CostUnit entities.
      *
-     * @Route("/page={page}", name="admin_costunit", defaults={"page"= 1})
+     * @Route("/page={page}", name="admin_costunit", defaults={"page"= 1}, requirements={"page"= "\d+"})
      * @Method("GET")
      * @Template()
      */

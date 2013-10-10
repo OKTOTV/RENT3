@@ -5,6 +5,7 @@ parameters:
     oktolab.presavelistener.class:            Oktolab\Bundle\RentBundle\EventListener\LogListener
     oktolab.postsavelistener.class:           Oktolab\Bundle\RentBundle\EventListener\LogListener
     oktolab.twig.attachment.extension.class:  Oktolab\Bundle\RentBundle\Extension\AttachmentExtension
+    oktolab.twig.pager.extension.class:       Oktolab\Bundle\RentBundle\Extension\AuiPaginationExtension
     oktolab.item_import_manager.class:        Oktolab\Bundle\RentBundle\Model\ItemImportManager
     oktolab.item_csv_importer.class:          Oktolab\Bundle\RentBundle\Model\ItemCsvParser
     oktolab.contact_provider.class:           Oktolab\Bundle\RentBundle\Model\ContactProvider
@@ -70,6 +71,12 @@ services:
     oktolab.twig.attachment.extension:
         class:      %oktolab.twig.attachment.extension.class%
         arguments:  [ @service_container ]
+        tags:
+            - { name: twig.extension }
+
+    oktolab.twig.pager.extension:
+        class:      %oktolab.twig.pager.extension.class%
+        arguments:  [ @translator, @router ]
         tags:
             - { name: twig.extension }
 
