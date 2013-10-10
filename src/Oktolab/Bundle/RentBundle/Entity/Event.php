@@ -225,23 +225,8 @@ class Event
      *
      * @return integer
      */
-    public function getState($asString = false)
+    public function getState()
     {
-        if ($asString) {
-            $states = array(
-                0 => 'prepared',
-                1 => 'reserved',
-                2 => 'lent',
-                3 => 'delivered',
-                4 => 'checked',
-                5 => 'completed',
-                6 => 'canceled',
-                7 => 'deferred'
-            );
-
-            return strtoupper($states[$this->state]);
-        }
-
         return $this->state;
     }
 
