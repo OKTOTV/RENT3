@@ -45,9 +45,10 @@
         <section class="footer-body">
             <ul>
                 <li>Copyright &copy; 2013 Oktolab</li>
-                <li>Oktolab RENT 3.0-pre-alpha</li>
-                <li><a href="#" id="bugtracker">{{'generic.bugReport'|trans}}</a></li>
-                <li><a href="{{ rent_documentation_url }}">{{'generic.documentation'|trans}}</a></li>
+                <li>{{ project_name }}</li>
+                <li>powered by <a href="{{ path('rentbundle_about') }}">Symfony</a></li>
+                <li><a href="#" id="bugtracker">{{ 'generic.bugReport'|trans }}</a></li>
+                <li><a href="{{ rent_documentation_url }}">{{ 'generic.documentation'|trans }}</a></li>
             </ul>
         </section>
     </footer>

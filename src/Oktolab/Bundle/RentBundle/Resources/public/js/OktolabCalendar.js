@@ -4,9 +4,9 @@
     /**
      * OktolabCalendar used by Oktolab RENT
      *
-     * Missing Features:
-     * - scrolling
-     * - reloading
+     * @TODO: scrolling features
+     * @TODO: reloading events automatically
+     * @TODO: use Hogan for template rendering
      *
      * @type Object
      */
@@ -20,21 +20,24 @@
          */
         init: function (settings) {
             Calendar.config = {
-                container:    '#calendar',
-                eventSrcUri:  '/api/v1/events.json',
-                configSrcUri: '/api/v1/calendarConfiguration.json'
+                container:       '#calendar',
+                eventSrcUri:     '/api/calendar/events.json',
+                timeblockSrcUri: '/api/calendar/timeblock.json',
+                inventorySrcUri: '/api/calendar/inventory.json'
             };
 
             $.extend(Calendar.config, settings);
 
             Calendar.data = {
-                container:            $(Calendar.config.container),
-                containerWrapper:     $('<div class="calendar-wrapper" />'),
-                containerInventory:   $('<div class="calendar-inventory" />'),
-                configuration:        $.getJSON(Calendar.buildUrl(Calendar.config.configSrcUri)).promise(),
-                events:               $.getJSON(Calendar.buildUrl(Calendar.config.eventSrcUri)).promise(),
-                timeblocks:           [],
-                items:                []
+                container: $(Calendar.config.container),
+                containerWrapper: $('<div class="calendar-wrapper" />'),
+                containerTimeblocks: $('<div class="calendar-timeblocks" />'),
+                containerInventory: $('<div class="calendar-inventory" />'),
+                inventory: $.getJSON(Calendar.buildUrl(Calendar.config.inventorySrcUri)).promise(),
+                events: $.getJSON(Calendar.buildUrl(Calendar.config.eventSrcUri)).promise(),
+                timeblocks: $.getJSON(Calendar.buildUrl(Calendar.config.timeblockSrcUri)).promise(),
+                items: [],
+                renderedTimeblocks: []
             };
 
             Calendar.setup();
@@ -47,14 +50,18 @@
          * @fires OktolabCalendar:rendered
          */
         setup: function () {
-            Calendar.data.configuration.then(function (data) {
-                Calendar.showInventory(data.items);
-                Calendar.showCalendarBackground(data.dates);
+            Calendar.data.timeblocks.then(function (data) {
+                Calendar.showCalendarBackground(data);
+            });
+
+            Calendar.data.inventory.then(function (items) {
+                Calendar.showInventory(items);
             });
 
             $.when(
                 Calendar.data.events,
-                Calendar.data.configuration
+                Calendar.data.timeblocks,
+                Calendar.data.inventory
             ).done(function (events) {
                 Calendar.showEvents(events[0]);
             });
@@ -82,47 +89,42 @@
          * @param {object} items
          */
         showInventory: function (items) {
-            $.each(items, function (key, items) {
-                var $inventory = $('<div />').addClass('calendar-inventory-group').append($('<strong />').text(key));
-                var $list = $('<ul />').appendTo($inventory);
+            $.each(items, function (key, item) {
+                var group = $('<div />').addClass('calendar-inventory-group').append($('<strong />').text(item.title));
+                var list = $('<ul />').appendTo(group);
 
-                $.each(items, function (key, item) {
-                    var $item = $('<a />', { href: '#', id: key }).text(item.title);
-
-                    Calendar.data.items[key.toLowerCase()] = $item;
-                    $('<li />').append($item).appendTo($list);
+                $.each(item.objectives, function (key, objective) {
+                    var object = $('<a />', { href: '#', id: objective.objective }).text(objective.title);
+                    Calendar.data.items[objective.objective.toLowerCase()] = object;
+                    $('<li />').append(object).appendTo(list);
                 });
 
-                $inventory.appendTo(Calendar.data.containerInventory);
+                group.appendTo(Calendar.data.containerInventory);
             });
         },
 
         /**
          * Builds the HTML for Calendar Background.
          *
-         * @param {object} dates
+         * @param {object} timeblocks
          */
-        showCalendarBackground: function (dates) {
-            $.each(dates, function (key, value) {
-                var $date = new Date(value.date);
-                var $headline = $('<div />').addClass('calendar-headline').append(
-                        $('<span />').addClass('calendar-title').html($date.getDate() + '.' + ($date.getMonth() + 1))
-                    );
+        showCalendarBackground: function (timeblocks) {
+            $.each(timeblocks, function (date, timeblock) {
+                var date = new Date(date);
+                var headline = $('<div />').addClass('calendar-headline');
 
-                // iterate all timeblocks on per date
-                $.each(value.timeblocks, function (block) {
-                    var $begin = new Date(value.timeblocks[block][0]);
-                    var $end   = new Date(value.timeblocks[block][1]);
-                    var $block = $('<div />')
+                headline.append($('<span />').addClass('calendar-title').html(timeblock.title));
+                $.each(timeblock.blocks, function (key, dataBlock) {
+                    var block = $('<div />')
                         .addClass('calendar-timeblock')
-                        .css('width', (100 / value.timeblocks.length).toFixed(2) + '%')
-                        .html($begin.getHours() + '-' + $end.getHours())
-                        .appendTo($headline);
+                        .html(dataBlock.title)
+                        .css('width', (100 / timeblock.blocks.length).toFixed(2) + '%');
 
-                    Calendar.data.timeblocks.push({ 'date': $end, 'block': $block });
+                    block.appendTo(headline);
+                    Calendar.data.renderedTimeblocks.push({ 'date': new Date(dataBlock.end), 'block': block });
                 });
 
-                Calendar.data.containerWrapper.append($('<div />').addClass('calendar-date').append($headline));
+                headline.appendTo($('<div />').addClass('calendar-date').appendTo(Calendar.data.containerWrapper));
             });
         },
 
@@ -133,32 +135,41 @@
          * @returns {jQuery}
          */
         showEvents: function (events) {
-            $.each(events, function (key, value) {
-                var $item = Calendar.data.items[value.item.toLowerCase()];
-                var $block, $begin, $end = null;
+            var template = '<div class="calendar-event" style="position:absolute; top:{{style_top}}px; left:{{style_left}}px; width:{{style_width}}px"><strong>{{title}}</strong><div class="calendar-event-description">{{state}} - {{name}}<br/>{{begin}} - {{end}}</div></div>';
+            var template = Hogan.compile(template);
 
-                // find beginning block
-                for ($block in Calendar.data.timeblocks) {
-                    if (Calendar.data.timeblocks[$block].date >= new Date(value.start)) {
-                        $begin = Calendar.data.timeblocks[$block];
-                        break;
-                    }
-                }
+            $.each(events, function (identifier, event) {
+                var $item = Calendar.data.items[event.objects[0].object_id.toLowerCase()];
+                var beginBlock = null;
+                var endBlock = null;
 
-                // find ending block
-                for ($block in Calendar.data.timeblocks) {
-                    if (Calendar.data.timeblocks[$block].date >= new Date(value.end)) {
-                        $end = Calendar.data.timeblocks[$block];
-                        break;
-                    }
-                }
+                beginBlock = Calendar.findBlockByDate(new Date(event.begin));
+                endBlock = Calendar.findBlockByDate(new Date(event.end));
 
-                $('<div />').addClass('calendar-event').html(value.title)
-                    .css('position', 'absolute')
-                    .offset({ top: $item.position().top + 20, left: $begin.block.offset().left })
-                    .width($end.block.offset().left - $begin.block.offset().left + $end.block.width())
-                    .appendTo(Calendar.data.containerWrapper);
+                Calendar.data.containerWrapper.append(template.render($.extend(event, {
+                    style_top: $item.position().top + 20,
+                    style_left: beginBlock.block.offset().left,
+                    style_width: endBlock.block.offset().left - beginBlock.block.offset().left + endBlock.block.width(),
+                })));
             });
+        },
+
+        /**
+         * Finds a rendered block by given Date.
+         *
+         * @param {object:Date} date
+         * @returns {object}
+         */
+        findBlockByDate: function (date) {
+            var block = null;
+
+            for (block in Calendar.data.renderedTimeblocks) {
+                var block = Calendar.data.renderedTimeblocks[block];
+
+                if (block.date >= date) {
+                    return block;
+                }
+            }
         }
     };
 

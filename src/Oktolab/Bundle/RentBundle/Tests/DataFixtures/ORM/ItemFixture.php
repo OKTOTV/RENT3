@@ -1,6 +1,6 @@
 <?php
 
-namespace Oktolab\Bundle\RentBundle\DataFixtures\ORM;
+namespace Oktolab\Bundle\RentBundle\Tests\DataFixtures\ORM;
 
 use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
@@ -22,7 +22,7 @@ class ItemFixture extends AbstractFixture implements OrderedFixtureInterface
         $place = new Place();
         $place->setTitle('Test Place');
         $manager->persist($place);
-        
+
         for ($index = 0; $index < $number; $index++) {
             $item = new Item();
             $item->setTitle('ItemTitle'.$index);

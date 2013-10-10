@@ -19,7 +19,7 @@ class ItemControllerTest extends WebTestCase
 
     public function testSubmitFormToCreateAnItem()
     {
-        $this->loadFixtures(array('Oktolab\Bundle\RentBundle\DataFixtures\ORM\PlaceFixture'));
+        $this->loadFixtures(array('Oktolab\Bundle\RentBundle\Tests\DataFixtures\ORM\PlaceFixture'));
 
         $this->client->request('GET', '/inventory/item/new');
         $this->assertTrue($this->client->getResponse()->isSuccessful(), 'Response should be successful');
@@ -47,7 +47,7 @@ class ItemControllerTest extends WebTestCase
 
     public function testSubmitFormToEditAnItem()
     {
-        $this->loadFixtures(array('Oktolab\Bundle\RentBundle\DataFixtures\ORM\ItemFixture'));
+        $this->loadFixtures(array('Oktolab\Bundle\RentBundle\Tests\DataFixtures\ORM\ItemFixture'));
 
         $crawler = $this->client->request('GET', '/inventory/item/1');
         $crawler = $this->client->click($crawler->selectLink('Bearbeiten')->link());
@@ -75,7 +75,7 @@ class ItemControllerTest extends WebTestCase
 
     public function testEditItemThrowsErrorOnInvalidFormData()
     {
-        $this->loadFixtures(array('Oktolab\Bundle\RentBundle\DataFixtures\ORM\ItemFixture'));
+        $this->loadFixtures(array('Oktolab\Bundle\RentBundle\Tests\DataFixtures\ORM\ItemFixture'));
 
         $this->client->request('GET', '/inventory/item/1/edit');
         $this->assertTrue($this->client->getResponse()->isSuccessful(), 'Response should be successful');
@@ -93,7 +93,7 @@ class ItemControllerTest extends WebTestCase
 
     public function testDeleteAnItem()
     {
-        $this->loadFixtures(array('Oktolab\Bundle\RentBundle\DataFixtures\ORM\ItemFixture'));
+        $this->loadFixtures(array('Oktolab\Bundle\RentBundle\Tests\DataFixtures\ORM\ItemFixture'));
 
 
         $crawler = $this->client->request('GET', '/inventory/item/1');
@@ -133,7 +133,7 @@ class ItemControllerTest extends WebTestCase
 
     public function testNewItemWithAttachments()
     {
-        $this->loadFixtures(array('Oktolab\Bundle\RentBundle\DataFixtures\ORM\PlaceFixture'));
+        $this->loadFixtures(array('Oktolab\Bundle\RentBundle\Tests\DataFixtures\ORM\PlaceFixture'));
 
         copy(__DIR__.'/../../DataFixtures/logo_okto.png', $filename = tempnam(sys_get_temp_dir(), 'OktolabRentBundle'));
         $file = new UploadedFile($filename, basename($filename), 'image/png', filesize($filename), null, true);

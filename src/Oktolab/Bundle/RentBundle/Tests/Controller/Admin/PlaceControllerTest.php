@@ -35,7 +35,7 @@ class PlaceControllerTest extends WebTestCase
     public function testSubmitFormToUpdateAPlace()
     {
         $this->logIn('ROLE_ADMIN');
-        $this->loadFixtures(array('Oktolab\Bundle\RentBundle\DataFixtures\ORM\PlaceFixture'));
+        $this->loadFixtures(array('Oktolab\Bundle\RentBundle\Tests\DataFixtures\ORM\PlaceFixture'));
 
         // load page
         $this->client->request('GET', '/admin/inventory/place/1/edit');
@@ -61,7 +61,7 @@ class PlaceControllerTest extends WebTestCase
     public function testDeletePlaceWithItemShouldFail()
     {
         $this->logIn('ROLE_ADMIN');
-        $this->loadFixtures(array('Oktolab\Bundle\RentBundle\DataFixtures\ORM\ItemFixture'));
+        $this->loadFixtures(array('Oktolab\Bundle\RentBundle\Tests\DataFixtures\ORM\ItemFixture'));
 
         // load page
         $this->client->request('GET', '/admin/inventory/place/1/delete');

@@ -2,13 +2,13 @@
 
 namespace Oktolab\Bundle\RentBundle\Model\Event\Calendar;
 
-use Oktolab\Bundle\RentBundle\Model\Event\EventCalendarManager as EventCalendar;
+use Oktolab\Bundle\RentBundle\Model\Event\Calendar\BaseAggregator;
 use Oktolab\Bundle\RentBundle\Model\Event\Exception\RepositoryNotFoundException;
 
 /**
  * InventoryCalendar for rendering Inventory Items and Sets
  */
-class InventoryAggregator extends EventCalendar
+class InventoryAggregator extends BaseAggregator
 {
     /**
      * Aggregates the Inventory Objectives for Calendar.

@@ -9,6 +9,7 @@ use Doctrine\ORM\Mapping as ORM;
  *
  * @ORM\Table()
  * @ORM\Entity
+ * @ORM\HasLifecycleCallbacks()
  */
 class Timeblock
 {
@@ -229,12 +230,7 @@ class Timeblock
      */
     public function setWeekdaysAsArray(array $weekdays = array())
     {
-        if (empty($weekdays)) {
-            $this->weekdays = 0;
-            return $this;
-        }
-
-        $this->weekdays = $this->computeWeekdays($weekdays);
+        $this->weekdays = !empty($weekdays) ? $this->computeWeekdays($weekdays) : 0;
         return $this;
     }
 
@@ -247,5 +243,45 @@ class Timeblock
     protected function computeWeekdays(array $weekdays = array())
     {
         return array_sum($weekdays);
+    }
+
+    /**
+     * Returns true, if $date is in timerange and considered as active
+     *
+     * @param \DateTime $date
+     *
+     * @return boolean
+     */
+    public function isActiveOnDate(\DateTime $date)
+    {
+        return ($date >= $this->intervalBegin && $date <= $this->intervalEnd && $this->hasWeekdayAvailable($date));
+    }
+
+    /**
+     * Calculates if Timeblock has Weekday available
+     *
+     * @param int|\DateTime $weekday
+     *
+     * @return boolean
+     */
+    public function hasWeekdayAvailable($weekday)
+    {
+        $timeblockWeekdays = array(0 => 512, 6 => 256, 5 => 128, 4 => 64, 3 => 32, 2 => 16, 1 => 8);
+        $weekdays = $this->weekdays;
+
+        if ($weekday instanceof \DateTime) {
+            $weekday = $timeblockWeekdays[$weekday->format('w')];
+        }
+
+        foreach ($timeblockWeekdays as $day) {
+            if ($day === $weekday && ($weekdays - $day) >= 0) {
+                return true;
+            }
+
+            // If we can reduce $weekdays by $day, do it. Otherwise keep it.
+            $weekdays = ($weekdays - $day) >= 0 ? ($weekdays - $day) : $weekdays;
+        }
+
+        return false;
     }
 }

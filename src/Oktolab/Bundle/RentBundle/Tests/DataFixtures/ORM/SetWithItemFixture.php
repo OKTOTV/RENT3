@@ -1,6 +1,6 @@
 <?php
 
-namespace Oktolab\Bundle\RentBundle\DataFixtures\ORM;
+namespace Oktolab\Bundle\RentBundle\Tests\DataFixtures\ORM;
 
 use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
@@ -40,7 +40,7 @@ class SetWithItemFixture extends AbstractFixture implements OrderedFixtureInterf
 
         $set->addItem($item);
         $set->setPlace($place);
-        
+
         $manager->persist($set);
         $manager->flush();
     }

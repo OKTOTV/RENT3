@@ -5,26 +5,26 @@ namespace Oktolab\Bundle\RentBundle\EventListener;
 use Doctrine\Common\Cache\Cache;
 use Doctrine\ORM\Event\LifecycleEventArgs;
 
-use Oktolab\Bundle\RentBundle\Entity\Inventory\Set;
-use Oktolab\Bundle\RentBundle\Entity\Inventory\Category;
-use Oktolab\Bundle\RentBundle\Entity\Inventory\Item;
-use Oktolab\Bundle\RentBundle\Model\Event\Calendar\InventoryTransformer;
+use Oktolab\Bundle\RentBundle\Entity\Timeblock;
 
 /**
- * Clears Caches used by InventoryTransformer
- * Will be called by DoctrineEvents
+ * Description of TimeblockTransformerCacheListener
  *
- * @TODO: Improvement - After Cache-Clear use a Cache-Warmer
+ * @author meh
+ *
+ * @TODO: After clearing Cache, call a CacheWarmer
  */
-class InventoryTransformerCacheListener
+class TimeblockTransformerCacheListener
 {
     /**
-     * @var \Doctrine\Common\Cache\Cache;
+     * TimeblockTransformer Cache
+     * @var \Doctrine\Common\Cache\Cache
      */
     protected $cache = null;
 
     /**
      * Constructor.
+     *
      * @param \Doctrine\Common\Cache\Cache $cache
      */
     public function __construct(Cache $cache)
@@ -63,20 +63,15 @@ class InventoryTransformerCacheListener
     }
 
     /**
-     * Clears the Cache for InventoryTransformer.
+     * Clears the Cache for TimeblockTransformer.
      *
      * @param \Doctrine\ORM\Event\LifecycleEventArgs $args
-     * @return null
      */
     protected function cacheClear(LifecycleEventArgs $args)
     {
         $entity = $args->getEntity();
-        if ($entity instanceof Set || $entity instanceof Category || $entity instanceof Item) {
-            if ($this->cache->contains(InventoryTransformer::CACHE_ID)) {
-                $this->cache->delete(InventoryTransformer::CACHE_ID);
-            }
+        if ($entity instanceof Timeblock) {
+            $this->cache->deleteAll();
         }
-
-        return;
     }
 }
