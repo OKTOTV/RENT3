@@ -36,7 +36,8 @@
                 inventory: $.getJSON(Calendar.buildUrl(Calendar.config.inventorySrcUri)).promise(),
                 events: $.getJSON(Calendar.buildUrl(Calendar.config.eventSrcUri)).promise(),
                 timeblocks: $.getJSON(Calendar.buildUrl(Calendar.config.timeblockSrcUri)).promise(),
-                items: []
+                items: [],
+                renderedTimeblocks: []
             };
 
             Calendar.setup();
@@ -57,13 +58,13 @@
                 Calendar.showInventory(items);
             });
 
-//            $.when(
-//                Calendar.data.events,
-//                Calendar.data.timeblocks,
-//                Calendar.data.inventory
-//            ).done(function (events) {
-//                Calendar.showEvents(events[0]);
-//            });
+            $.when(
+                Calendar.data.events,
+                Calendar.data.timeblocks,
+                Calendar.data.inventory
+            ).done(function (events) {
+                Calendar.showEvents(events[0]);
+            });
 
             Calendar.data.container
                 .append(Calendar.data.containerInventory)
@@ -115,11 +116,12 @@
                 headline.append($('<span />').addClass('calendar-title').html(timeblock.title));
                 $.each(timeblock.blocks, function (key, dataBlock) {
                     var block = $('<div />')
-                            .addClass('calendar-timeblock')
-                            .html(dataBlock.title)
-                            .css('width', (100 / timeblock.blocks.length).toFixed(2) + '%');
+                        .addClass('calendar-timeblock')
+                        .html(dataBlock.title)
+                        .css('width', (100 / timeblock.blocks.length).toFixed(2) + '%');
 
                     block.appendTo(headline);
+                    Calendar.data.renderedTimeblocks.push({ 'date': new Date(dataBlock.end), 'block': block });
                 });
 
                 headline.appendTo($('<div />').addClass('calendar-date').appendTo(Calendar.data.containerWrapper));
@@ -133,32 +135,41 @@
          * @returns {jQuery}
          */
         showEvents: function (events) {
-            $.each(events, function (key, value) {
-                var $item = Calendar.data.items[value.item.toLowerCase()];
-                var $block, $begin, $end = null;
+            var template = '<div class="calendar-event" style="position:absolute; top:{{style_top}}px; left:{{style_left}}px; width:{{style_width}}px"><strong>{{title}}</strong><div class="calendar-event-description">{{state}} - {{name}}<br/>{{begin}} - {{end}}</div></div>';
+            var template = Hogan.compile(template);
 
-                // find beginning block
-                for ($block in Calendar.data.timeblocks) {
-                    if (Calendar.data.timeblocks[$block].date >= new Date(value.start)) {
-                        $begin = Calendar.data.timeblocks[$block];
-                        break;
-                    }
-                }
+            $.each(events, function (identifier, event) {
+                var $item = Calendar.data.items[event.objects[0].object_id.toLowerCase()];
+                var beginBlock = null;
+                var endBlock = null;
 
-                // find ending block
-                for ($block in Calendar.data.timeblocks) {
-                    if (Calendar.data.timeblocks[$block].date >= new Date(value.end)) {
-                        $end = Calendar.data.timeblocks[$block];
-                        break;
-                    }
-                }
+                beginBlock = Calendar.findBlockByDate(new Date(event.begin));
+                endBlock = Calendar.findBlockByDate(new Date(event.end));
 
-                $('<div />').addClass('calendar-event').html(value.title)
-                    .css('position', 'absolute')
-                    .offset({ top: $item.position().top + 20, left: $begin.block.offset().left })
-                    .width($end.block.offset().left - $begin.block.offset().left + $end.block.width())
-                    .appendTo(Calendar.data.containerWrapper);
+                Calendar.data.containerWrapper.append(template.render($.extend(event, {
+                    style_top: $item.position().top + 20,
+                    style_left: beginBlock.block.offset().left,
+                    style_width: endBlock.block.offset().left - beginBlock.block.offset().left + endBlock.block.width(),
+                })));
             });
+        },
+
+        /**
+         * Finds a rendered block by given Date.
+         *
+         * @param {object:Date} date
+         * @returns {object}
+         */
+        findBlockByDate: function (date) {
+            var block = null;
+
+            for (block in Calendar.data.renderedTimeblocks) {
+                var block = Calendar.data.renderedTimeblocks[block];
+
+                if (block.date >= date) {
+                    return block;
+                }
+            }
         }
     };
 

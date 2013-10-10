@@ -121,6 +121,14 @@ class CalendarApiControllerTest extends WebTestCase
     }
 
     /**
+     * @test
+     */
+    public function eventActionReturnsEventsAsJson()
+    {
+        $this->markTestIncomplete('Test if EventAction returns Events from @oktolab.event_calendar_event.');
+    }
+
+    /**
      * Simple wrapper to make a JSON-Request
      *
      * @param string $uri
