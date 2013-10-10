@@ -60,7 +60,6 @@ class CalendarApiController extends Controller
     public function eventAction()
     {
         $events = $this->get('oktolab.event_calendar_event')->getFormattedActiveEvents(new \DateTime('+30 days 00:00'));
-        return array($events);
-//        return new JsonResponse($events);
+        return new JsonResponse($events);
     }
 }

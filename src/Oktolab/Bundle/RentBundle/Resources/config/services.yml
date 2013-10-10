@@ -173,7 +173,6 @@ services:
         class:      %oktolab.event_calendar_event.class%
         arguments:  [ @oktolab.event_calendar_event_aggregator, @router, @oktolab.event_manager, @oktolab.cache ]
 
-
     # Global Oktolab-Cache. See Doctrine\Common\Cache for more details
     oktolab.cache:
         class:      %oktolab.cache.class%
