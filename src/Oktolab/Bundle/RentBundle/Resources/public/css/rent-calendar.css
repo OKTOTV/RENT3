@@ -40,6 +40,10 @@
     background-color: #E6E6E6;
 }
 
+.calendar-event-description .event-controls {
+    border-top: 1px solid #CCCCCC;
+}
+
 /* **********************************************
 /* ************* formatting *********************
  ********************************************** */
@@ -160,7 +164,7 @@
 }
 
 .calendar-event-description .event-fields {
-    width: 435px;
+    width: 285px;
     min-height: 100px;
     margin-left: 65px;
     margin-bottom: 20px;
@@ -174,10 +178,39 @@
     margin-bottom: 1em;
 }
 
+.calendar-event-description .event-summary strong {
+    width: 200px;
+    display: inline-block;
+}
+
 .calendar-event-description .event-summary .aui-lozenge {
     float: right;
 }
 
+.calendar-event-description .event-objects ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+}
+
+.calendar-event-description .event-objects ul,
+.calendar-event-description .event-objects li {
+    display: inline;
+}
+
+.calendar-event-description .event-objects li:after {
+    content: ", "
+}
+
+.calendar-event-description .event-objects li:last-child:after {
+    content: ""
+}
+
 .calendar-event-description .event-controls {
-    float: right;
+    margin-top: 20px;
+    padding-top: 20px;
+}
+
+.calendar-event-description .event-controls .buttons {
+    margin-left: 65px;
 }
