@@ -76,13 +76,15 @@ class EventTransformerTest extends \PHPUnit_Framework_TestCase
         $expected = array(
             '2' => array(
                 'id'            => 2,
-                'title'         => '08:<sup>00</sup> New Ordner',
+                'title'         => 'New Ordner',
                 'name'          => 'New Ordner',
                 'begin'         => $date->modify('2013-10-09 08:00')->format('c'),
                 'end'           => $date->modify('2013-10-12 17:00')->format('c'),
                 'uri'           => '/event/2/edit',
                 'description'   => 'This is a event for new ordner',
                 'state'         => 'RESERVED',
+                'begin_view'    => 'Mi, 09.10. 08:00',
+                'end_view'      => 'Sa, 12.10. 17:00',
                 'objects'       => array(
                     array('object_id' => 'item:3', 'title' => 'LIKO4', 'uri' => '/inventory/item/3'),
                     array('object_id' => 'item:5', 'title' => 'JVC123', 'uri' => '/inventory/item/5'),
