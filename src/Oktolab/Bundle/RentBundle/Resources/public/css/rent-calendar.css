@@ -28,13 +28,15 @@
 .oktolab-calendar .calendar-event {
     background-color: #CCCCCC;
     color: #333333;
+    border-color: #AAAAAA;
 }
 
 .oktolab-calendar .calendar-inventory ul li a {
     color: #3B73AF;
 }
 
-.oktolab-calendar .calendar-inventory ul li a:hover, .oktolab-calendar .calendar-inventory ul li a:focus {
+.oktolab-calendar .calendar-inventory ul li a:hover,
+.oktolab-calendar .calendar-inventory ul li a:focus {
     background-color: #E6E6E6;
 }
 
@@ -72,6 +74,7 @@
 .oktolab-calendar .calendar-event {
     text-align: center;
     line-height: 15px;
+    cursor: pointer;
 }
 
 /* **********************************************
@@ -107,7 +110,6 @@
 }
 
 
-
 .oktolab-calendar .calendar-wrapper {
     margin-left: 240px;
     height: 500px;
@@ -136,9 +138,46 @@
 }
 
 .oktolab-calendar .calendar-event {
-    height: 15px;
+    height: 13px;
     padding: 7px 0 7px 0;
     margin: 2px 0;
     overflow: hidden;
-    border-left: 2px solid black;
+    border-width: 1px;
+    border-style: solid;
+}
+
+.oktolab-calendar .calendar-event a span.aui-icon {
+    float: left;
+    margin-left: 5px;
+}
+
+.calendar-event-description .event-image {
+    width: 50px;
+    height: 50px;
+    float: left;
+    margin-right: 15px;
+    margin-top: 3px;
+}
+
+.calendar-event-description .event-fields {
+    width: 435px;
+    min-height: 100px;
+    margin-left: 65px;
+    margin-bottom: 20px;
+}
+
+.calendar-event-description .event-field {
+    margin-bottom: 0.5em;
+}
+
+.calendar-event-description .event-summary {
+    margin-bottom: 1em;
+}
+
+.calendar-event-description .event-summary .aui-lozenge {
+    float: right;
+}
+
+.calendar-event-description .event-controls {
+    float: right;
 }

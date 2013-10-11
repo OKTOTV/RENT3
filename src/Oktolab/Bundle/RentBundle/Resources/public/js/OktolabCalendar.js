@@ -135,8 +135,10 @@
          * @returns {jQuery}
          */
         showEvents: function (events) {
-            var template = '<div class="calendar-event" style="position:absolute; top:{{style_top}}px; left:{{style_left}}px; width:{{style_width}}px"><strong>{{title}}</strong><div class="calendar-event-description">{{state}} - {{name}}<br/>{{begin}} - {{end}}</div></div>';
+            var template = '<div class="calendar-event" style="position:absolute; top:{{style_top}}px; left:{{style_left}}px; width:{{style_width}}px" id="event-{{id}}"><a href="#"><span class="aui-icon aui-icon-small aui-iconfont-info">Info</span></a><strong style="display: block; width: 100%; height: inherit">{{title}}</strong></div>';
             var template = Hogan.compile(template);
+            var description = '<div class="calendar-event-description"><div class="event-image"><img width="50px" height="50px" src="{{image}}" alt="{{image_alt}}" /></div><div class="event-fields"><div class="event-field event-summary"><strong>{{name}}</strong> <span class="aui-lozenge">{{state}}</span></div><div class="event-field event-duration">{{begin}} - {{end}}</div><div class="event-field event-description">{{description}}</div><div class="event-field event-objects">{{{objects}}}</div></div><div class="event-controls"><a class="aui-button aui-button-link" href="{{uri}}">Loeschen</a> <span class="event-hyperlink-separator">·</span><a class="aui-button aui-button-primary" href="{{uri}}">Bearbeiten</a></div></div>';
+            var description = Hogan.compile(description);
 
             $.each(events, function (identifier, event) {
                 var $item = Calendar.data.items[event.objects[0].object_id.toLowerCase()];
@@ -146,11 +148,27 @@
                 beginBlock = Calendar.findBlockByDate(new Date(event.begin));
                 endBlock = Calendar.findBlockByDate(new Date(event.end));
 
+                var renderObjects = '<ul>';
+                $.each(event.objects, function (key, object) {
+                    renderObjects = renderObjects + '<li>' + object.title + '</li>';
+                });
+
+                renderObjects = renderObjects + '</ul>';
                 Calendar.data.containerWrapper.append(template.render($.extend(event, {
                     style_top: $item.position().top + 20,
                     style_left: beginBlock.block.offset().left,
                     style_width: endBlock.block.offset().left - beginBlock.block.offset().left + endBlock.block.width(),
+                    image: 'http://placekitten.com/g/50/50',
+                    objects: renderObjects,
                 })));
+
+                AJS.InlineDialog(AJS.$('#event-' + identifier), 1,
+                    function(content, trigger, showPopup) {
+                        content.html(description.render(event));
+                        showPopup();
+                        return false;
+                    }, { 'onHover': true, 'showDelay': 200, 'onTop': true, 'width': 500, 'persistent': true }
+                );
             });
         },
 
