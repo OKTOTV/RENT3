@@ -191,23 +191,16 @@ services:
 
     oktolab.contact_provider:
         class:      %oktolab.contact_provider.class%
-        arguments:
-            - @doctrine.orm.entity_manager
-            - %oktolab.hub_api_search_url%
+        arguments:  [ @doctrine.orm.entity_manager, %oktolab.hub_api_search_url% ]
 
     oktolab.costunit_provider:
         class:      %oktolab.costunit_provider.class%
-        arguments:
-            - @doctrine.orm.entity_manager
-            - @oktolab.hub_fetch_service
-            - %oktolab.flow_api_costunit_url%
+        arguments:  [ @doctrine.orm.entity_manager, @oktolab.hub_fetch_service, %oktolab.flow_api_costunit_url% ]
 
     oktolab.hub_fetch_service:
         class:      %oktolab.hub_fetch_service.class%
-        arguments:
-            - @doctrine.orm.entity_manager
-            - %oktolab.hub_fetch_url%
+        arguments:  [ @doctrine.orm.entity_manager, %oktolab.hub_fetch_url% ]
 
     oktolab.hub_guid_contact_transformer:
         class:      %oktolab.hub_guid_contact_transformer.class%
-        arguments: [@oktolab.hub_fetch_service]
+        arguments:  [ @oktolab.hub_fetch_service ]
