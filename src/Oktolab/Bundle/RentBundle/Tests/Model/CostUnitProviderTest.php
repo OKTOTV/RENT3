@@ -15,6 +15,13 @@ class CostUnitProviderTest extends WebTestCase
         static::$kernel->boot();
         $SUT = static::$kernel->getContainer()->get('oktolab.costunit_provider');
 
+        $SUTfetcher = static::$kernel->getContainer()->get('oktolab.hub_fetch_service'); //costunit_provider uses this.
+        $fetchResponse = new Response(200);
+        $fetchResponse->setBody('0');
+        $fetchPlugin = new MockPlugin();
+        $fetchPlugin->addResponse($fetchResponse);
+        $SUTfetcher->addSubscriber($fetchPlugin);
+
         $Authresponse = new Response(200);
         $Authresponse->setBody(file_get_contents(__DIR__.'/../DataFixtures/CostUnitXml'));
 
@@ -35,13 +42,19 @@ class CostUnitProviderTest extends WebTestCase
         static::$kernel->boot();
         $SUT = static::$kernel->getContainer()->get('oktolab.costunit_provider');
 
-        $Authresponse = new Response(200);
-        $Authresponse->setBody(file_get_contents(__DIR__.'/../DataFixtures/CostUnitXml'));
+        $SUTfetcher = static::$kernel->getContainer()->get('oktolab.hub_fetch_service'); //costunit_provider uses this.
+        $fetchResponse = new Response(200);
+        $fetchResponse->setBody('0');
+        $fetchPlugin = new MockPlugin();
+        $fetchPlugin->addResponse($fetchResponse);
+        $SUTfetcher->addSubscriber($fetchPlugin);
 
-        $Authplugin = new MockPlugin();
-        $Authplugin->addResponse($Authresponse);
-        $SUT->addSubscriber($Authplugin); //Mocks the response the auth_service gets
+        $costUnitresponse = new Response(200);
+        $costUnitresponse->setBody(file_get_contents(__DIR__.'/../DataFixtures/CostUnitXml'));
 
+        $responsePlugin = new MockPlugin();
+        $responsePlugin->addResponse($costUnitresponse);
+        $SUT->addSubscriber($responsePlugin); //Mocks the response the auth_service gets
 
         $costunits = $SUT->getCostUnitsFromResource(CostUnitProvider::$Resource_HUB);
 
