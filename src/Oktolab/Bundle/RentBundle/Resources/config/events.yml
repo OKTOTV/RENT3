@@ -1,5 +1,7 @@
 parameters:
     oktolab.event_manager.class:                       Oktolab\Bundle\RentBundle\Model\Event\EventManager
+    oktolab.event_form.class:                          Oktolab\Bundle\RentBundle\Form\EventType
+    oktolab.event_form_factory.class:                  Oktolab\Bundle\RentBundle\Model\Event\EventFormFactory
     oktolab.event_calendar_inventory_aggregator.class: Oktolab\Bundle\RentBundle\Model\Event\Calendar\InventoryAggregator
     oktolab.event_calendar_inventory.class:            Oktolab\Bundle\RentBundle\Model\Event\Calendar\InventoryTransformer
     oktolab.event_calendar_timeblock_aggregator.class: Oktolab\Bundle\RentBundle\Model\Event\Calendar\TimeblockAggregator
@@ -17,8 +19,17 @@ services:
             - [ addRepository, [ "Item", @oktolab.orm.item_repository ] ]
             - [ setEntityManager, [ @doctrine.orm.entity_manager ] ]
 
+    oktolab.event_form_factory:
+        class:      %oktolab.event_form_factory.class%
+
+    oktolab.event_form:
+        class:            %oktolab.event_form.class%
+        factory_service:  oktolab.event_form_factory
+        factory_method:   get
+
     oktolab.event_calendar_inventory_aggregator:
         class:  %oktolab.event_calendar_inventory_aggregator.class%
+        public: false
         calls:
             - [ addRepository, [ "Set", @oktolab.orm.set_repository ] ]
             - [ addRepository, [ "Item", @oktolab.orm.item_repository ] ]
@@ -30,6 +41,7 @@ services:
 
     oktolab.event_calendar_timeblock_aggregator:
         class:  %oktolab.event_calendar_timeblock_aggregator.class%
+        public: false
         calls:
             - [ addRepository, [ "Timeblock", @oktolab.orm.timeblock_repository ] ]
 
@@ -40,10 +52,12 @@ services:
     # 'Cause there is no way to delete Keys by Regex or Pre-/Suffix.
     oktolab.event_calendar_timeblock_cache:
         class:      %oktolab.cache.class%
+        public:     false
         arguments:  [ %kernel.cache_dir% ]
 
     oktolab.event_calendar_event_aggregator:
-        class: %oktolab.event_calendar_event_aggregator.class%
+        class:  %oktolab.event_calendar_event_aggregator.class%
+        public: false
         calls:
             - [ addRepository, [ "Event", @oktolab.orm.event_repository ] ]
 
@@ -52,7 +66,7 @@ services:
         arguments:  [ @oktolab.event_calendar_event_aggregator, @router, @oktolab.event_manager, @oktolab.cache ]
 
     oktolab.inventory_transformer_cache_listener:
-        class: %oktolab.inventory_transformer_cache_listener%
+        class:     %oktolab.inventory_transformer_cache_listener%
         arguments: [ @oktolab.cache ]
         tags:
             - { name: doctrine.event_listener, event: postPersist }
