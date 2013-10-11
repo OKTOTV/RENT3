@@ -53,7 +53,7 @@ class EventTransformer
     }
 
     /**
-     * Returns active Events as formatted array for easy JSON use.
+     * Returns Events as formatted array for easy JSON use.
      *
      * @param \DateTime $end
      * @param string    $type
@@ -74,10 +74,9 @@ class EventTransformer
     }
 
     /**
-     * Transforms an Event for easy JSON use.
      *
-     * @param \Oktolab\Bundle\RentBundle\Entity\Event $event
-     * @return array
+     * @param type $event
+     * @return type
      */
     public function transformAnEvent(Event $event)
     {
@@ -96,12 +95,6 @@ class EventTransformer
         );
     }
 
-    /**
-     * Returns a formatted date for OktolabCalendar.
-     *
-     * @param \DateTime $date
-     * @return string
-     */
     protected function transformAnEventDate(\DateTime $date)
     {
         // @TODO: This is evil! Inject INTL/i18n service an do this right!
@@ -109,25 +102,11 @@ class EventTransformer
         return sprintf('%s, %s', $germanWeekdays[$date->format('w')], $date->format('d.m. H:i'));
     }
 
-    /**
-     * Generates a Route.
-     *
-     * @param string $name
-     * @param array  $options
-     *
-     * @return string
-     */
     protected function getARoute($name, array $options = array())
     {
         return $this->router->generate($name, $options);
     }
 
-    /**
-     * Returns Event-Objects as formatted Array.
-     *
-     * @param array $objects
-     * @return array
-     */
     protected function transformEventObjects($objects)
     {
         $objects = $this->eventManager->convertEventObjectsToEntites($objects);

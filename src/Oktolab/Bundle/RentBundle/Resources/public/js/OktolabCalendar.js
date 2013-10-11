@@ -167,7 +167,7 @@
                         content.html(description.render(event));
                         showPopup();
                         return false;
-                    }, { 'onHover': true, 'showDelay': 200, 'onTop': true, 'width': 350, 'persistent': true }
+                    }, { 'onHover': true, 'showDelay': 200, 'onTop': true, 'width': 350 }
                 );
             });
         },
