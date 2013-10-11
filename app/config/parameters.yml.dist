@@ -15,7 +15,8 @@ parameters:
     secret:            ThisTokenIsNotSoSecretChangeIt
 
     rent_documentation_url: http://intern.okto.tv/display/RENT
-    oktolab.hub_api_search_url: "http://verzeichnis.okto.tv/interface.php/api/contactcardsearch"
-    oktolab.hub_api_auth_url:   "http://verzeichnis.okto.tv/interface.php/api/auth"
-    oktolab.flow_api_costunit_url: "http://programm.okto.tv/interface.php/series/search.xml?search=*"
-    oktolab.hub_fetch_url:      "http://localhost/hubTIDE/web/interface_dev.php/api/fetchdata"
+
+    oktolab.hub_api_search_url:     "http://verzeichnis.okto.tv/interface.php/api/contactcardsearch"
+    oktolab.hub_api_auth_url:       "http://verzeichnis.okto.tv/interface.php/api/auth"
+    oktolab.hub_fetch_url:          "http://verzeichnis.okto.tv/interface.php/api/fetchdata"
+    oktolab.flow_api_costunit_url:  "http://programm.okto.tv/interface.php/series/search.xml?search=*"
