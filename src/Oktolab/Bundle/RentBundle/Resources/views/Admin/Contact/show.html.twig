@@ -1,0 +1,24 @@
+{% extends 'OktolabRentBundle:Admin:Contact\\base.html.twig' %}
+
+{%block buttons%}
+    <a class="aui-button" href="{{ path('admin_contact') }}">{{ 'generic.overview' | trans }}</a>
+{%endblock%}
+{% block content %}
+{{ parent() }}
+<form class="aui">
+    <fieldset>
+        <div class="field-group viewMode">
+            <label>{{ 'admin.contact.name' | trans }}</label>
+            <span class="field-value">{{ contact.name }}</span>
+        </div>
+        <div class="field-group viewMode">
+            <label>{{ 'admin.contact.costunit'|trans }}</label>
+            {% if contact.costunit is not null %}
+                <span class="field-value">{{ contact.costunit.name }}</span>
+            {% else %}
+               <span class="field-value">{{ 'admin.contact.noCostunit' | trans }}</span>
+            {% endif %}
+        </div>
+    </fieldset>
+</form>
+{% endblock %}
