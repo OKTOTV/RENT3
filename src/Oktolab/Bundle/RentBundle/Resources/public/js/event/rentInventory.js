@@ -65,6 +65,8 @@ AJS.$(document).ready(function() {
         engine: Hogan
     });
 
+    console.log(oktolab.typeahead.itemPrefetchUrl);
+
     collectionHolder.data('index', collectionHolder.find(':tr').length);
 //    collectionHolder.data('objects', []);
 

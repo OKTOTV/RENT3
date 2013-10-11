@@ -29,7 +29,7 @@ class ItemApiController extends Controller
     public function typeaheadPrefetchAction()
     {
         $em = $this->getDoctrine()->getManager();
-        $items = $em->getRepository('OktolabRentBundle:Inventory\Item')->findBy(array('set' => null));
+        $items = $em->getRepository('OktolabRentBundle:Inventory\Item')->findBy(array());
         $json = array();
 
         foreach ($items as $item) {
