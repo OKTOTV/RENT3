@@ -3,16 +3,11 @@
 namespace Oktolab\Bundle\RentBundle\Controller\Event;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration;
 
 use Oktolab\Bundle\RentBundle\Entity\Event;
-use Oktolab\Bundle\RentBundle\Form\EventType;
 
 /**
  * Event Controller.
@@ -23,51 +18,67 @@ class EventController extends Controller
     /**
      * Creates a new Event.
      *
-     * @Route("/event", name="event_create")
-     * @Method("POST")
+     * @Configuration\Route("/event", name="OktolabRentBundle_Event_Create")
+     * @Configuration\Method("POST")
+     * @Configuration\Template("OktolabRentBundle:Event\Event:edit.html.twig")
      *
-     * @return Response
+     * @param \Symfony\Component\HttpFoundation\Request $request
+     *
+     * @return \Symfony\Component\HttpFoundation\Response
      */
     public function createAction(Request $request)
     {
-        $form = $this->getEventForm(array('action' => $this->generateUrl('event_create')));
-        $form->handleRequest($request);
+        $form = $this->get('form.factory')->create(
+            'OktolabRentBundle_Event_Form',
+            new Event(),
+            array(
+                'em'     => $this->getDoctrine()->getManager(),
+                'method' => 'POST',
+                'action' => $this->generateUrl('OktolabRentBundle_Event_Create'),
+            )
+        );
 
+        $form->handleRequest($request);
         if ($form->isValid()) {
             $event = $form->getData();
             $event->setState(Event::STATE_PREPARED);
+
             $this->get('oktolab.event_manager')->save($event);
+            $this->logAction('Event created', array('event' => $event->getId()));
 
             return $this->redirect($this->generateUrl('rentbundle_dashboard'));
         }
 
-        var_dump($form->getErrorsAsString());
-        return new Response("invalid");
+        return new Response('invalid form not supported now.');
     }
 
     /**
      * Edit an existing Event.
      *
-     * // @ Cache(expires="+5 min", public="yes")
-     * @Method("GET")
-     * @Route("/event/{id}/edit", name="OktolabRentBundle_Event_Edit", requirements={"id"="\d+"})
-     * @ParamConverter("event", class="OktolabRentBundle:Event")
-     * @Template()
+     * //TODO: Cache with Last-Modified && ETag
      *
-     * @param Request $request
-     * @param Event $event
+     * @Configuration\Method("GET")
+     * @Configuration\Route("/event/{id}/edit", name="OktolabRentBundle_Event_Edit", requirements={"id"="\d+"})
+     * @Configuration\ParamConverter("event", class="OktolabRentBundle:Event")
+     * @Configuration\Template()
+     *
+     * @param Request   $request
+     * @param Event     $event
      *
      * @return array
      */
     public function editAction(Request $request, Event $event)
     {
-        $form = $this->getEventForm(
-            array('action' => $this->generateUrl('OktolabRentBundle_Event_Update', array('id' => $event->getId()))),
-            $event
+        $objects = $this->get('oktolab.event_manager')->convertEventObjectsToEntites($event->getObjects());
+        $form = $this->get('form.factory')->create(
+            'OktolabRentBundle_Event_Form',
+            $event,
+            array(
+                'em'     => $this->getDoctrine()->getManager(),
+                'method' => 'PUT',
+                'action' => $this->generateUrl('OktolabRentBundle_Event_Edit', array('id' => $event->getId())),
+            )
         );
-
-        $eventManager = $this->get('oktolab.event_manager');
-        $objects = $eventManager->convertEventObjectsToEntites($event->getObjects());
 
         return array('form' => $form->createView(), 'objects' => $objects);
     }
@@ -75,14 +86,14 @@ class EventController extends Controller
     /**
      * Updates an existing Event or forwards to specific Action.
      *
-     * @Method("PUT")
-     * @Route("/event/{id}/update", name="OktolabRentBundle_Event_Update", requirements={"id"="\d+"})
-     * @ParamConverter("event", class="OktolabRentBundle:Event")
+     * @Configuration\Method("PUT")
+     * @Configuration\Route("/event/{id}/update", name="OktolabRentBundle_Event_Update", requirements={"id"="\d+"})
+     * @Configuration\ParamConverter("event", class="OktolabRentBundle:Event")
      *
-     * @param Request $request
-     * @param Event $event
+     * @param Request   $request
+     * @param Event     $event
      *
-     * @return Response
+     * @return \Symfony\Component\HttpFoundation\Response
      */
     public function updateAction(Request $request, Event $event)
     {
@@ -111,6 +122,7 @@ class EventController extends Controller
         if ($form->get('update')->isClicked()) { // User clicked Update -> Save Event
             $this->get('oktolab.event_manager')->save($form->getData());
             $this->get('session')->getFlashBag()->add('success', 'Successfully updated Event.');
+            $this->get('logger')->info('Event updated.', array('id' => $form->getData()->getId()));
         }
 
         // Done. Redirecting to Dashboard
@@ -120,9 +132,9 @@ class EventController extends Controller
     /**
      * Rent an Event.
      *
-     * @Route("/event/{id}/rent", name="event_rent")
-     * @Method("POST")
-     * @ParamConverter("event", class="OktolabRentBundle:Event")
+     * @Configuration\Route("/event/{id}/rent", name="event_rent")
+     * @Configuration\Method("POST")
+     * @Configuration\ParamConverter("event", class="OktolabRentBundle:Event")
      *
      * @param Request $request
      * @param Event $event
@@ -146,7 +158,7 @@ class EventController extends Controller
      * @param Event $event
      * @return \Symfony\Component\Form\Form
      */
-    protected function getEventForm(array $options = array(), Event $event = null)
+    protected function getEventForm(Event $event = null, $urlName = 'OktolabRentBundle_Event_Create', array $options = array())
     {
         $event = $event ?: new Event();
         $options = array_merge(
@@ -159,5 +171,20 @@ class EventController extends Controller
         );
 
         return $this->createForm(new EventType(), $event, $options);
+    }
+
+    /**
+     * Logs Action Message to logger service.
+     *
+     * @param string $message
+     * @param array  $context
+     */
+    protected function logAction($message, array $context = array())
+    {
+        $context = array_merge($context, array(
+            'user' => $this->get('security.context')->getToken()->getUser()->getUsername()
+        ));
+
+        $this->get('logger')->debug($message, $context);
     }
 }

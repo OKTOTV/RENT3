@@ -1,7 +1,6 @@
 parameters:
     oktolab.event_manager.class:                       Oktolab\Bundle\RentBundle\Model\Event\EventManager
     oktolab.event_form.class:                          Oktolab\Bundle\RentBundle\Form\EventType
-    oktolab.event_form_factory.class:                  Oktolab\Bundle\RentBundle\Model\Event\EventFormFactory
     oktolab.event_calendar_inventory_aggregator.class: Oktolab\Bundle\RentBundle\Model\Event\Calendar\InventoryAggregator
     oktolab.event_calendar_inventory.class:            Oktolab\Bundle\RentBundle\Model\Event\Calendar\InventoryTransformer
     oktolab.event_calendar_timeblock_aggregator.class: Oktolab\Bundle\RentBundle\Model\Event\Calendar\TimeblockAggregator
@@ -19,13 +18,12 @@ services:
             - [ addRepository, [ "Item", @oktolab.orm.item_repository ] ]
             - [ setEntityManager, [ @doctrine.orm.entity_manager ] ]
 
-    oktolab.event_form_factory:
-        class:      %oktolab.event_form_factory.class%
-
-    oktolab.event_form:
+    oktolab.form.event:
         class:            %oktolab.event_form.class%
-        factory_service:  oktolab.event_form_factory
-        factory_method:   get
+#        calls:
+#            - [
+        tags:
+            - { name: form.type, alias: OktolabRentBundle_Event_Form }
 
     oktolab.event_calendar_inventory_aggregator:
         class:  %oktolab.event_calendar_inventory_aggregator.class%
