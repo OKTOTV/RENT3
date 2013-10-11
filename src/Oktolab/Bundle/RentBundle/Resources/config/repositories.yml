@@ -7,27 +7,32 @@ services:
         factory_service:  doctrine
         factory_method:   getRepository
         arguments:        [ OktolabRentBundle:Event ]
+        public:            false
 
     oktolab.orm.item_repository:
         class:            %oktolab.orm.object_repository.class%
         factory_service:  doctrine
         factory_method:   getRepository
         arguments:        [ OktolabRentBundle:Inventory\Item ]
+        public:            false
 
     oktolab.orm.set_repository:
         class:            %oktolab.orm.object_repository.class%
         factory_service:  doctrine
         factory_method:   getRepository
         arguments:        [ OktolabRentBundle:Inventory\Set ]
+        public:            false
 
     oktolab.orm.category_repository:
         class:            %oktolab.orm.object_repository.class%
         factory_service:  doctrine
         factory_method:   getRepository
         arguments:        [ OktolabRentBundle:Inventory\Category ]
+        public:            false
 
     oktolab.orm.timeblock_repository:
         class:            %oktolab.orm.object_repository.class%
         factory_service:  doctrine
         factory_method:   getRepository
         arguments:        [ OktolabRentBundle:Timeblock ]
+        public:            false

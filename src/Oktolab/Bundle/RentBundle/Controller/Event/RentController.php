@@ -34,7 +34,7 @@ class RentController extends Controller
             new EventType(),
             $event,
             array(
-                'action' => $this->generateUrl('event_create'),
+                'action' => $this->generateUrl('OktolabRentBundle_Event_Create'),
                 'method' => 'POST',
                 'em'     => $this->getDoctrine()->getManager(),
             )

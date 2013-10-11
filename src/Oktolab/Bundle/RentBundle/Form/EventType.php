@@ -49,6 +49,6 @@ class EventType extends AbstractType
      */
     public function getName()
     {
-        return 'oktolabrentbundle_event';
+        return 'OktolabRentBundle_Event_Form';
     }
 }
