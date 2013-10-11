@@ -1,7 +1,6 @@
 parameters:
     # common service-classes
     oktolab.cache.class:                      Doctrine\Common\Cache\PhpFileCache
-    oktolab.orm.object_repository.class:      Doctrine\Common\Persistence\ObjectRepository
     oktolab.presavelistener.class:            Oktolab\Bundle\RentBundle\EventListener\LogListener
     oktolab.postsavelistener.class:           Oktolab\Bundle\RentBundle\EventListener\LogListener
     oktolab.twig.attachment.extension.class:  Oktolab\Bundle\RentBundle\Extension\AttachmentExtension
@@ -25,16 +24,6 @@ parameters:
     oktolab.hub_auth_service.class:             Oktolab\Bundle\RentBundle\Model\HubAuthService
     oktolab.hub_search_service.class:           Oktolab\Bundle\RentBundle\Model\HubSearchService
 
-    # event management service-classes
-    oktolab.event_manager.class:                       Oktolab\Bundle\RentBundle\Model\Event\EventManager
-    oktolab.event_calendar_inventory_aggregator.class: Oktolab\Bundle\RentBundle\Model\Event\Calendar\InventoryAggregator
-    oktolab.event_calendar_inventory.class:            Oktolab\Bundle\RentBundle\Model\Event\Calendar\InventoryTransformer
-    oktolab.event_calendar_timeblock_aggregator.class: Oktolab\Bundle\RentBundle\Model\Event\Calendar\TimeblockAggregator
-    oktolab.event_calendar_timeblock.class:            Oktolab\Bundle\RentBundle\Model\Event\Calendar\TimeblockTransformer
-    oktolab.event_calendar_event_aggregator.class:     Oktolab\Bundle\RentBundle\Model\Event\Calendar\EventAggregator
-    oktolab.event_calendar_event.class:                Oktolab\Bundle\RentBundle\Model\Event\Calendar\EventTransformer
-    oktolab.inventory_transformer_cache_listener:      Oktolab\Bundle\RentBundle\EventListener\InventoryTransformerCacheListener
-
 services:
     oktolab.presavelistener:
         class:      %oktolab.presavelistener.class%
@@ -49,14 +38,6 @@ services:
         tags:
             - { name: logger, channel: main }
             - { name: doctrine.event_listener, event: postPersist, method: postPersist }
-
-    oktolab.inventory_transformer_cache_listener:
-        class: %oktolab.inventory_transformer_cache_listener%
-        arguments: [ @oktolab.cache ]
-        tags:
-            - { name: doctrine.event_listener, event: postPersist }
-            - { name: doctrine.event_listener, event: postRemove }
-            - { name: doctrine.event_listener, event: postUpdate }
 
     oktolab.upload_manager:
         class:      %oktolab.upload_manager.class%
@@ -83,44 +64,6 @@ services:
         arguments:  [ @translator, @router ]
         tags:
             - { name: twig.extension }
-
-    oktolab.orm.event_repository:
-        class:            %oktolab.orm.object_repository.class%
-        factory_service:  doctrine
-        factory_method:   getRepository
-        arguments:        [ OktolabRentBundle:Event ]
-
-    oktolab.orm.item_repository:
-        class:            %oktolab.orm.object_repository.class%
-        factory_service:  doctrine
-        factory_method:   getRepository
-        arguments:        [ OktolabRentBundle:Inventory\Item ]
-
-    oktolab.orm.set_repository:
-        class:            %oktolab.orm.object_repository.class%
-        factory_service:  doctrine
-        factory_method:   getRepository
-        arguments:        [ OktolabRentBundle:Inventory\Set ]
-
-    oktolab.orm.category_repository:
-        class:            %oktolab.orm.object_repository.class%
-        factory_service:  doctrine
-        factory_method:   getRepository
-        arguments:        [ OktolabRentBundle:Inventory\Category ]
-
-    oktolab.orm.timeblock_repository:
-        class:            %oktolab.orm.object_repository.class%
-        factory_service:  doctrine
-        factory_method:   getRepository
-        arguments:        [ OktolabRentBundle:Timeblock ]
-
-    oktolab.event_manager:
-        class:      %oktolab.event_manager.class%
-        arguments:  [ @doctrine.orm.entity_manager, @?logger ]
-        calls:
-            - [ addRepository, [ "Event", @oktolab.orm.event_repository ] ]
-            - [ addRepository, [ "Item", @oktolab.orm.item_repository ] ]
-            - [ setEntityManager, [ @doctrine.orm.entity_manager ] ]
 
     oktolab.item_import_manager:
         class:      %oktolab.item_import_manager.class%
@@ -149,40 +92,6 @@ services:
     oktolab.hub_security_listener:
         class:     %oktolab.hub_security_listener.class%
         arguments: [ @security.context, @oktolab.hub_authentication_provider ]
-
-    oktolab.event_calendar_inventory_aggregator:
-        class:  %oktolab.event_calendar_inventory_aggregator.class%
-        calls:
-            - [ addRepository, [ "Set", @oktolab.orm.set_repository ] ]
-            - [ addRepository, [ "Item", @oktolab.orm.item_repository ] ]
-            - [ addRepository, [ "Category", @oktolab.orm.category_repository ] ]
-
-    oktolab.event_calendar_inventory:
-        class:      %oktolab.event_calendar_inventory.class%
-        arguments:  [ @oktolab.event_calendar_inventory_aggregator, @oktolab.cache ]
-
-    oktolab.event_calendar_timeblock_aggregator:
-        class:  %oktolab.event_calendar_timeblock_aggregator.class%
-        calls:
-            - [ addRepository, [ "Timeblock", @oktolab.orm.timeblock_repository ] ]
-
-    oktolab.event_calendar_timeblock:
-        class:      %oktolab.event_calendar_timeblock.class%
-        arguments:  [ @oktolab.event_calendar_timeblock_aggregator, @oktolab.event_calendar_timeblock_cache ]
-
-    # 'Cause there is no way to delete Keys by Regex or Pre-/Suffix.
-    oktolab.event_calendar_timeblock_cache:
-        class:      %oktolab.cache.class%
-        arguments:  [ %kernel.cache_dir% ]
-
-    oktolab.event_calendar_event_aggregator:
-        class: %oktolab.event_calendar_event_aggregator.class%
-        calls:
-            - [ addRepository, [ "Event", @oktolab.orm.event_repository ] ]
-
-    oktolab.event_calendar_event:
-        class:      %oktolab.event_calendar_event.class%
-        arguments:  [ @oktolab.event_calendar_event_aggregator, @router, @oktolab.event_manager, @oktolab.cache ]
 
     # Global Oktolab-Cache. See Doctrine\Common\Cache for more details
     oktolab.cache:

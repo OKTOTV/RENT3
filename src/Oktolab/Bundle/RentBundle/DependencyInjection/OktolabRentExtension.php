@@ -25,6 +25,8 @@ class OktolabRentExtension extends Extension
         $loader = new Loader\YamlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
         $loader->load('config.yml');
         $loader->load('services.yml');
+        $loader->load('repositories.yml');
+        $loader->load('events.yml');
 
         if ('dev' === $container->getParameter('kernel.environment')) {
             $loader->load('services_dev.yml');
