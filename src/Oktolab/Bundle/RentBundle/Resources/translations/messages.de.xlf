@@ -202,6 +202,62 @@
                 <source>generic.next</source>
                 <target>Nächste</target>
             </trans-unit>
+            <trans-unit id="51">
+                <source>generic.monday</source>
+                <target>Montag</target>
+            </trans-unit>
+            <trans-unit id="52">
+                <source>generic.tuesday</source>
+                <target>Dienstag</target>
+            </trans-unit>
+            <trans-unit id="53">
+                <source>generic.wednesday</source>
+                <target>Mittwoch</target>
+            </trans-unit>
+            <trans-unit id="54">
+                <source>generic.thursday</source>
+                <target>Donnerstag</target>
+            </trans-unit>
+            <trans-unit id="55">
+                <source>generic.friday</source>
+                <target>Freitag</target>
+            </trans-unit>
+            <trans-unit id="56">
+                <source>generic.saturday</source>
+                <target>Samstag</target>
+            </trans-unit>
+            <trans-unit id="57">
+                <source>generic.sunday</source>
+                <target>Sonntag</target>
+            </trans-unit>
+            <trans-unit id="58">
+                <source>generic.mon</source>
+                <target>Mo</target>
+            </trans-unit>
+            <trans-unit id="59">
+                <source>generic.tue</source>
+                <target>Di</target>
+            </trans-unit>
+            <trans-unit id="60">
+                <source>generic.wed</source>
+                <target>Mi</target>
+            </trans-unit>
+            <trans-unit id="61">
+                <source>generic.thu</source>
+                <target>Do</target>
+            </trans-unit>
+            <trans-unit id="62">
+                <source>generic.fri</source>
+                <target>Fr</target>
+            </trans-unit>
+            <trans-unit id="63">
+                <source>generic.sat</source>
+                <target>Sa</target>
+            </trans-unit>
+            <trans-unit id="64">
+                <source>generic.sun</source>
+                <target>So</target>
+            </trans-unit>
 
             <trans-unit id="100">
                 <source>inventory.item.title</source>
@@ -756,6 +812,59 @@
             <trans-unit id="1006">
                 <source>admin.contact.zeroContacts</source>
                 <target>Keine Kontakte</target>
+            </trans-unit>
+
+            <trans-unit id="1100">
+                <source>admin.timeblock.timeblocks</source>
+                <target>Zeitblöcke</target>
+            </trans-unit>
+            <trans-unit id="1101">
+                <source>admin.timeblock</source>
+                <target>Zeitblock</target>
+            </trans-unit>
+            <trans-unit id="1102">
+                <source>admin.timeblock.title</source>
+                <target>Titel</target>
+            </trans-unit>
+            <trans-unit id="1103">
+                <source>admin.timeblock.weekdays</source>
+                <target>Wochentage</target>
+            </trans-unit>
+            <trans-unit id="1104">
+                <source>admin.timeblock.about</source>
+                <target>Zeitblöcke regeln die Aus- und Rückgabezeiten für den Verleih.</target>
+            </trans-unit>
+            <trans-unit id="1105">
+                <source>admin.timeblock.intervalBegin</source>
+                <target>Gültig ab</target>
+            </trans-unit>
+            <trans-unit id="1106">
+                <source>admin.timeblock.intervalEnd</source>
+                <target>Gültig bis</target>
+            </trans-unit>
+            <trans-unit id="1107">
+                <source>admin.timeblock.begin</source>
+                <target>Uhrzeit von</target>
+            </trans-unit>
+            <trans-unit id="1108">
+                <source>admin.timeblock.end</source>
+                <target>Uhrzeit bis</target>
+            </trans-unit>
+            <trans-unit id="1109">
+                <source>admin.timeblock.isActive</source>
+                <target>Aktiv</target>
+            </trans-unit>
+            <trans-unit id="1110">
+                <source>admin.timeblock.new</source>
+                <target>Neuer Zeitblock</target>
+            </trans-unit>
+            <trans-unit id="1111">
+                <source>admin.timeblock.eventType</source>
+                <target>Verwaltungsgruppe</target>
+            </trans-unit>
+            <trans-unit id="1112">
+                <source>admin.timeblock.noEventType</source>
+                <target>Keine</target>
             </trans-unit>
         </body>
     </file>

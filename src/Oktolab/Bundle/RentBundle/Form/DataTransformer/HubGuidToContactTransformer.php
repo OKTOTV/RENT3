@@ -5,7 +5,6 @@ namespace Oktolab\Bundle\RentBundle\Form\DataTransformer;
 use Symfony\Component\Form\DataTransformerInterface;
 use Symfony\Component\Form\Exception\TransformationFailedException;
 use Oktolab\Bundle\RentBundle\Model\HubFetchService;
-use Acme\TaskBundle\Entity\Issue;
 
 class HubGuidToContactTransformer implements DataTransformerInterface
 {

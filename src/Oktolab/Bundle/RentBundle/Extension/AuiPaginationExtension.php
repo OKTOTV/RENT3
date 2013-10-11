@@ -1,12 +1,12 @@
 <?php
 namespace Oktolab\Bundle\RentBundle\Extension;
 
-\define ('first', "aui-nav-first");
-\define ('selected', "aui-nav-selected");
-\define ('last', "aui-nav-last");
-\define ('prev', "aui-nav-previous");
-\define ('next', "aui-nav-next");
-\define ('truncation', "aui-nav-truncation");
+const first = "aui-nav-first";
+const selected ="aui-nav-selected";
+const last = "aui-nav-last";
+const prev = "aui-nav-previous";
+const next = "aui-nav-next";
+const truncation = "aui-nav-truncation";
 
 use Symfony\Bundle\FrameworkBundle\Translation\Translator;
 use Symfony\Bundle\FrameworkBundle\Routing\Router;

@@ -6,6 +6,7 @@ parameters:
     oktolab.postsavelistener.class:           Oktolab\Bundle\RentBundle\EventListener\LogListener
     oktolab.twig.attachment.extension.class:  Oktolab\Bundle\RentBundle\Extension\AttachmentExtension
     oktolab.twig.pager.extension.class:       Oktolab\Bundle\RentBundle\Extension\AuiPaginationExtension
+    oktolab.twig.weekdayToString.extension.class:       Oktolab\Bundle\RentBundle\Extension\WeekdaysToStringExtension
     oktolab.item_import_manager.class:        Oktolab\Bundle\RentBundle\Model\ItemImportManager
     oktolab.item_csv_importer.class:          Oktolab\Bundle\RentBundle\Model\ItemCsvParser
     oktolab.contact_provider.class:           Oktolab\Bundle\RentBundle\Model\ContactProvider
@@ -81,6 +82,12 @@ services:
     oktolab.twig.pager.extension:
         class:      %oktolab.twig.pager.extension.class%
         arguments:  [ @translator, @router ]
+        tags:
+            - { name: twig.extension }
+
+    oktolab.twig.weekdayToString.extension:
+        class:      %oktolab.twig.weekdayToString.extension.class%
+        arguments:  [ @translator]
         tags:
             - { name: twig.extension }
 

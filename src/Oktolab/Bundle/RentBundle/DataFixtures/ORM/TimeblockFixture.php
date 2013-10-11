@@ -25,11 +25,13 @@ class TimeblockFixture extends AbstractFixture
                 ->setIntervalEnd(new \DateTime('2020-12-31 23:59'))
                 ->setBegin(new \DateTime('2013-01-01 08:00'))
                 ->setEnd(new \DateTime('2013-01-01 12:00'))
+                ->setTitle('timeblockA')
                 ->setIsActive(true);
 
         $timeblockB = clone $timeblockA;
         $timeblockB->setBegin(new \DateTime('2013-01-01 13:00'))
-                ->setEnd(new \DateTime('2013-01-01 17:00'));
+                ->setEnd(new \DateTime('2013-01-01 17:00'))
+                ->setTitle('timeblockB');
 
         $om->persist($timeblockA);
         $om->persist($timeblockB);

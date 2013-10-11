@@ -59,6 +59,12 @@ class Timeblock
     private $begin;
 
     /**
+     * @ORM\ManyToOne(targetEntity="EventType")
+     * @ORM\JoinColumn(name="eventTypeId", referencedColumnName="id")
+     */
+    private $eventType;
+
+    /**
      * @var \DateTime
      *
      * @ORM\Column(name="end", type="time")
@@ -72,6 +78,12 @@ class Timeblock
      */
     private $isActive;
 
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="title", type="string", length=255)
+     */
+    private $title;
 
     /**
      * Get id
@@ -283,5 +295,51 @@ class Timeblock
         }
 
         return false;
+    }
+
+    /**
+     * Set title
+     *
+     * @param string $title
+     * @return Timeblock
+     */
+    public function setTitle($title)
+    {
+        $this->title = $title;
+
+        return $this;
+    }
+
+    /**
+     * Get title
+     *
+     * @return string
+     */
+    public function getTitle()
+    {
+        return $this->title;
+    }
+
+    /**
+     * Set eventType
+     *
+     * @param \Oktolab\Bundle\RentBundle\Entity\EventType $eventType
+     * @return Timeblock
+     */
+    public function setEventType(\Oktolab\Bundle\RentBundle\Entity\EventType $eventType = null)
+    {
+        $this->eventType = $eventType;
+    
+        return $this;
+    }
+
+    /**
+     * Get eventType
+     *
+     * @return \Oktolab\Bundle\RentBundle\Entity\EventType 
+     */
+    public function getEventType()
+    {
+        return $this->eventType;
     }
 }
