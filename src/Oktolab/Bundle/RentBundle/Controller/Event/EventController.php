@@ -152,7 +152,7 @@ class EventController extends Controller
         $options = array_merge(
             array(
                 'action' => $this->generateUrl('event_create'),
-                'method' => 'POST',
+                'method' => 'PUT',
                 'em'     => $this->getDoctrine()->getManager(),
             ),
             $options

@@ -137,7 +137,7 @@
         showEvents: function (events) {
             var template = '<div class="calendar-event" style="position:absolute; top:{{style_top}}px; left:{{style_left}}px; width:{{style_width}}px" id="event-{{id}}"><a href="#"><span class="aui-icon aui-icon-small aui-iconfont-info">Info</span></a><strong style="display: block; width: 100%; height: inherit">{{title}}</strong></div>';
             var template = Hogan.compile(template);
-            var description = '<div class="calendar-event-description"><div class="event-image"><img width="50px" height="50px" src="{{image}}" alt="{{image_alt}}" /></div><div class="event-fields"><div class="event-field event-summary"><strong>{{name}}</strong> <span class="aui-lozenge">{{state}}</span></div><div class="event-field event-duration">{{begin}} - {{end}}</div><div class="event-field event-description">{{description}}</div><div class="event-field event-objects">{{{objects}}}</div></div><div class="event-controls"><a class="aui-button aui-button-link" href="{{uri}}">Loeschen</a> <span class="event-hyperlink-separator">·</span><a class="aui-button aui-button-primary" href="{{uri}}">Bearbeiten</a></div></div>';
+            var description = '<div class="calendar-event-description"><div class="event-image"><img width="50px" height="50px" src="{{image}}" alt="{{image_alt}}" /></div><div class="event-fields"><div class="event-field event-summary"><strong>{{name}}</strong> <span class="aui-lozenge">{{state}}</span></div><div class="event-field event-duration"><em>{{begin_view}}</em> - <em>{{end_view}}</em></div><div class="event-field event-description">{{description}}</div><div class="event-field event-objects">{{{objects}}}</div></div><div class="event-controls buttons-container"><div class="buttons"><a class="aui-button aui-button-link" href="{{uri}}">Loeschen</a> <span class="event-hyperlink-separator">·</span><a class="aui-button aui-button-primary" href="{{uri}}">Bearbeiten</a></div></div></div>';
             var description = Hogan.compile(description);
 
             $.each(events, function (identifier, event) {
@@ -150,7 +150,7 @@
 
                 var renderObjects = '<ul>';
                 $.each(event.objects, function (key, object) {
-                    renderObjects = renderObjects + '<li>' + object.title + '</li>';
+                    renderObjects = renderObjects + '<li><a href="' + object.uri + '">'  + object.title + '</a></li>';
                 });
 
                 renderObjects = renderObjects + '</ul>';
@@ -167,7 +167,7 @@
                         content.html(description.render(event));
                         showPopup();
                         return false;
-                    }, { 'onHover': true, 'showDelay': 200, 'onTop': true, 'width': 500, 'persistent': true }
+                    }, { 'onHover': true, 'showDelay': 200, 'onTop': true, 'width': 350 }
                 );
             });
         },
