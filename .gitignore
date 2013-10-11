@@ -19,7 +19,7 @@
 
 # environment sensitive
 /app/config/parameters.yml
-
+/app/phpunit.xml
 
 #
 # OS garbage, Editors, IDEs, etc
