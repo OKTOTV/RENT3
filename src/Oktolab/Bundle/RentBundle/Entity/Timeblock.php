@@ -81,7 +81,7 @@ class Timeblock
     /**
      * @var string
      *
-     * @ORM\Column(name="title", type="string", length=255)
+     * @ORM\Column(name="title", type="string", length=255, nullable=true)
      */
     private $title;
 
@@ -329,14 +329,14 @@ class Timeblock
     public function setEventType(\Oktolab\Bundle\RentBundle\Entity\EventType $eventType = null)
     {
         $this->eventType = $eventType;
-    
+
         return $this;
     }
 
     /**
      * Get eventType
      *
-     * @return \Oktolab\Bundle\RentBundle\Entity\EventType 
+     * @return \Oktolab\Bundle\RentBundle\Entity\EventType
      */
     public function getEventType()
     {

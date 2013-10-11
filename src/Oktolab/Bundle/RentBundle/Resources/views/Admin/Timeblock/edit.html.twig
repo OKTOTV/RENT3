@@ -12,6 +12,13 @@
         <fieldset>
             {{ form_errors(edit_form) }}
             {{ form_row(edit_form.title) }}
+            {{ form_row(edit_form.weekdays)}}
+            {{ form_row(edit_form.intervalBegin)}}
+            {{ form_row(edit_form.intervalEnd)}}
+            {{ form_row(edit_form.begin)}}
+            {{ form_row(edit_form.end)}}
+            {{ form_row(edit_form.eventType) }}
+            {{ form_row(edit_form.isActive)}}
 
             <div class="buttons-container">
                 <button class="aui-button aui-button-primary" type="submit">{{ 'generic.submit'|trans}}</button>

@@ -22,7 +22,13 @@
             <tbody>
             {% for timeblock in timeblocks %}
                 <tr>
-                    <td headers="title">{{ timeblock.title }}</td>
+                    <td headers="title">
+                        {% if timeblock.title is not null %}
+                            {{ timeblock.title }}
+                        {% else %}
+                            {{ 'admin.timeblock.noTitle'|trans }}
+                        {% endif %}
+                    </td>
                     <td headers="eventType">
                         {% if timeblock.eventType is not null %}
                             {{ timeblock.eventType.name }}

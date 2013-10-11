@@ -11,7 +11,13 @@
     <fieldset>
         <div class="field-group viewMode">
             <label>{{ 'admin.timeblock.title' | trans }}</label>
-            <span class="field-value">{{ timeblock.title }}</span>
+            <span class="field-value">
+                {% if timeblock.title is not null %}
+                    {{ timeblock.title }}
+                {% else %}
+                    {{ 'admin.timeblock.noTitle'|trans }}
+                {% endif %}
+            </span>
         </div>
         <div class="field-group viewMode">
             <label>{{ 'admin.timeblock.weekdays' | trans }}</label>
