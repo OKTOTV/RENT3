@@ -66,7 +66,42 @@ class AuiPaginationExtension extends \Twig_Extension
             $startPoint = $pages - $max;
         }
 
-        //TODO: add links to <li> points
+        if ($pages == 1) { //No pager needed
+            return '';
+        }
+
+        if ($pages < $max) { //No truncating needed, render all pages
+            for ($i =1; $i <= $pages; $i++) {
+                if ($i == 1) {
+                    if ($current > 1) {
+                        $this->addListPoint(
+                            $this->translator->trans('generic.previous'),
+                            $this->routing->generate($url_name, array('page' => $current-1)),
+                            prev);
+                    }
+                }
+
+                if ($i == $current) {
+                    $this->addListPoint($i, $this->routing->generate($url_name, array('page' => $i)), selected);
+                } else {
+                    $this->addListPoint($i, $this->routing->generate($url_name, array('page' => $i)));
+                }
+
+                if ($i == $pages) {
+                    if ($current < $pages) {
+                        $this->addListPoint(
+                            $this->translator->trans('generic.next'),
+                            $this->routing->generate($url_name, array('page' => $current+1)),
+                            next
+                        );
+                    }
+                }
+            }
+            $this->htmlString = $this->htmlString."</ol>";
+
+            return $this->htmlString;
+        }
+
         for ($i = 1; $i <= $pages; $i++) {
             if ($i == 1) { //first
                 if ($current > 1) {
@@ -79,7 +114,7 @@ class AuiPaginationExtension extends \Twig_Extension
                 if ($i == $current) {
                     $this->addListPoint($i, $this->routing->generate($url_name, array('page' => $i)), selected);
                 } else {
-                    $this->addListPoint($i, $this->routing->generate($url_name, array('page' => $i)), first);
+                    $this->addListPoint($i, $this->routing->generate($url_name, array('page' => $i)));
                 }
                 if ($startPoint > 2) {
                     $this->addListPoint("&hellip;", "", truncation);

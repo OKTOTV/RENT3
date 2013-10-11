@@ -7,7 +7,7 @@ use Oktolab\Bundle\RentBundle\Model\CostUnitProvider;
 use Guzzle\Plugin\Mock\MockPlugin;
 use Guzzle\Http\Message\Response;
 
-class ContactProviderTest extends WebTestCase
+class CostUnitProviderTest extends WebTestCase
 {
     public function testGetCostUnitsFromResource()
     {
@@ -26,7 +26,7 @@ class ContactProviderTest extends WebTestCase
         $costunits = $SUT->getCostUnitsFromResource(CostUnitProvider::$Resource_HUB);
 
         $this->assertEquals($costunits[0]->getName(), "New Ordner");
-        $this->assertEquals($costunits[0]->getAbbreviation(), "NEWO");
+        $this->assertEquals($costunits[0]->getGuid(), "NEWO");
     }
 
     public function testAddCostUnitsToRent()

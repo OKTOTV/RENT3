@@ -724,6 +724,10 @@
                 <source>admin.costunit.searchForContacts</source>
                 <target>Nach Kontakten suchen</target>
             </trans-unit>
+            <trans-unit id="910">
+                <source>admin.costunit.new</source>
+                <target>Neue Kostenstelle anlegen</target>
+            </trans-unit>
 
             <trans-unit id="1000">
                 <source>admin.contact</source>

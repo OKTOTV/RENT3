@@ -181,19 +181,20 @@ class CostUnitController extends Controller
 
         if ($editForm->isValid()) {
             $contacts = $editForm->get('contacts')->getData();
-//            die(var_dump($costunit->getContacts()));
-            foreach ($costunit->getContacts() as $contact) {
-                $contact->setCostunit();
-                $em->persist($contact);
+            if ($contacts) {
+                foreach ($costunit->getContacts() as $contact) {
+                    $contact->setCostunit();
+                    $em->persist($contact);
+                }
             }
             $costunit->setContacts(array());
-
-            foreach ($contacts as $contact) {
-                $contact->setCostUnit($costunit);
-                $em->persist($contact);
+            if ($contacts) {
+                foreach ($contacts as $contact) {
+                    $contact->setCostUnit($costunit);
+                    $em->persist($contact);
+                }
+                $costunit->setContacts($contacts);
             }
-            $costunit->setContacts($contacts);
-
             $em->persist($costunit);
             $em->flush();
 
