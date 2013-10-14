@@ -49,6 +49,7 @@ class EventController extends Controller
             return $this->redirect($this->generateUrl('rentbundle_dashboard'));
         }
 
+        //$this->logAction('Event creation failed', array('event' => $event));
         return new Response('invalid form not supported now.');
     }
 
@@ -173,6 +174,11 @@ class EventController extends Controller
         return $this->createForm(new EventType(), $event, $options);
     }
 
+    protected function createEventForm(Event $event = null, $options = array())
+    {
+
+    }
+
     /**
      * Logs Action Message to logger service.
      *
@@ -182,7 +188,7 @@ class EventController extends Controller
     protected function logAction($message, array $context = array())
     {
         $context = array_merge($context, array(
-            'user' => $this->get('security.context')->getToken()->getUser()->getUsername()
+//            'user' => $this->get('security.context')->getToken()->getUser()->getUsername()
         ));
 
         $this->get('logger')->debug($message, $context);
