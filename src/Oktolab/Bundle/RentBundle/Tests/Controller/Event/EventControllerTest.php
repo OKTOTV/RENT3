@@ -12,15 +12,6 @@ class EventControllerTest extends WebTestCase
 {
 
     /**
-     * {@inheritDoc}
-     */
-    public function setUp()
-    {
-        parent::setUp();
-        $this->loadFixtures(array('\Oktolab\Bundle\RentBundle\Tests\DataFixtures\ORM\Event\ItemFixture'));
-    }
-
-    /**
      * @group Event
      * @test
      */
@@ -38,6 +29,7 @@ class EventControllerTest extends WebTestCase
      */
     public function createAnEventWithItems()
     {
+        $this->loadFixtures(array('\Oktolab\Bundle\RentBundle\Tests\DataFixtures\ORM\Event\ItemFixture'));
         $em = $this->getContainer()->get('doctrine.orm.entity_manager');
         $itemA = $em->getRepository('OktolabRentBundle:Inventory\Item')->findOneBy(array('barcode' => 'F00B5R'));
         $itemB = $em->getRepository('OktolabRentBundle:Inventory\Item')->findOneBy(array('barcode' => 'B5ZF00'));
@@ -111,5 +103,73 @@ class EventControllerTest extends WebTestCase
     public function createAnEventAddLog()
     {
         $this->markTestIncomplete('How to monitor Log? Symfony-Profiler?');
+    }
+
+    /**
+     * @test
+     */
+    public function editAnEventReturnsValidResponse()
+    {
+        $this->loadFixtures(
+            array(
+                '\Oktolab\Bundle\RentBundle\Tests\DataFixtures\ORM\Event\EventFixture',
+                '\Oktolab\Bundle\RentBundle\Tests\DataFixtures\ORM\Event\ItemFixture',
+            )
+        );
+
+        $crawler = $this->client->request('GET', '/event/1/edit');
+        $this->assertTrue($this->client->getResponse()->isSuccessful(), 'Response should be successful.');
+
+        $this->assertEquals(
+            1,
+            $crawler->filter('section.aui-page-panel-content > form > input[name="_method"][value="PUT"]')->count(),
+            'Form method was expected to be "PUT"'
+        );
+
+        $form = $crawler->filter('section.aui-page-panel-content')->selectButton('Update')->form();
+        $url = $this->client->getContainer()
+                ->get('router')
+                ->generate('OktolabRentBundle_Event_Update', array('id' => 1));
+
+        $this->assertStringEndsWith($url, $form->getUri(), sprintf('Form action was expected to be "%s".', $url));
+    }
+
+    /**
+     * @depends editAnEventReturnsValidResponse
+     * @test
+     */
+    public function editAnEventWithValidData()
+    {
+        $this->loadFixtures(
+            array(
+                '\Oktolab\Bundle\RentBundle\Tests\DataFixtures\ORM\Event\EventFixture',
+                '\Oktolab\Bundle\RentBundle\Tests\DataFixtures\ORM\Event\ItemFixture',
+            )
+        );
+
+        $crawler = $this->client->request('GET', '/event/1/edit');
+        $this->assertTrue($this->client->getResponse()->isSuccessful(), 'Response should be successful.');
+
+        $form = $crawler->filter('section.aui-page-panel-content')->selectButton('Update')->form(
+            array(
+                'OktolabRentBundle_Event_Form[name]' => 'I edited the name',
+                'OktolabRentBundle_Event_Form[end]'  => '2013-10-16 17:00:00',
+            )
+        );
+
+        $this->client->submit($form);
+        $this->assertTrue($this->client->getResponse()->isRedirect(), 'Response should be redirect.');
+
+        $this->client->followRedirect();
+        $this->assertTrue($this->client->getResponse()->isSuccessful(), 'Response should be successful.');
+
+        $event = $this->getContainer()
+                ->get('doctrine.orm.entity_manager')
+                ->getRepository('OktolabRentBundle:Event')
+                ->findOneBy(array('id' => 1));
+
+        $this->assertInstanceOf('\Oktolab\Bundle\RentBundle\Entity\Event', $event);
+        $this->assertSame('I edited the name', $event->getName());
+        $this->assertEquals(new \DateTime('2013-10-16 17:00:00'), $event->getEnd());
     }
 }

@@ -77,7 +77,7 @@ class EventController extends Controller
             array(
                 'em'     => $this->getDoctrine()->getManager(),
                 'method' => 'PUT',
-                'action' => $this->generateUrl('OktolabRentBundle_Event_Edit', array('id' => $event->getId())),
+                'action' => $this->generateUrl('OktolabRentBundle_Event_Update', array('id' => $event->getId())),
             )
         );
 
@@ -98,10 +98,16 @@ class EventController extends Controller
      */
     public function updateAction(Request $request, Event $event)
     {
-        $form = $this->getEventForm(
-            array('action' => $this->generateUrl('OktolabRentBundle_Event_Update', array('id' => $event->getId()))),
-            $event
+        $form = $this->get('form.factory')->create(
+            'OktolabRentBundle_Event_Form',
+            $event,
+            array(
+                'em'     => $this->getDoctrine()->getManager(),
+                'method' => 'PUT',
+                'action' => $this->generateUrl('OktolabRentBundle_Event_Update', array('id' => $event->getId())),
+            )
         );
+
 
         $form->handleRequest($request);
         if (!$form->isValid()) { // Error while handling Form. Redirecting to EditAction.
@@ -197,7 +203,7 @@ class EventController extends Controller
     protected function logAction($message, array $context = array())
     {
         $context = array_merge($context, array(
-//            'user' => $this->get('security.context')->getToken()->getUser()->getUsername()
+            //'user' => $this->get('security.context')->getToken()->getUser()->getUsername()
         ));
 
         $this->get('logger')->debug($message, $context);
