@@ -49,6 +49,10 @@
                 {% endif %}
             </span>
         </div>
+        <div class="field-group viewMode">
+            <label>{{ 'admin.timeblock.isActive' | trans }}</label>
+            <span class="field-value">{% if timeblock.isActive%}{{ 'generic.yes'|trans }}{% else %}{{ 'generic.no'|trans }}{% endif %}</span>
+        </div>
     </fieldset>
 </form>
 {% endblock %}
