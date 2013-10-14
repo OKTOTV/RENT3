@@ -258,6 +258,14 @@
                 <source>generic.sun</source>
                 <target>So</target>
             </trans-unit>
+            <trans-unit id="65">
+                <source>generic.yes</source>
+                <target>Ja</target>
+            </trans-unit>
+            <trans-unit id="66">
+                <source>generic.no</source>
+                <target>Nein</target>
+            </trans-unit>
 
             <trans-unit id="100">
                 <source>inventory.item.title</source>
@@ -783,6 +791,10 @@
             <trans-unit id="910">
                 <source>admin.costunit.new</source>
                 <target>Neue Kostenstelle anlegen</target>
+            </trans-unit>
+            <trans-unit id="911">
+                <source>admin.costunit.noneFound</source>
+                <target>Keine Kostenstellen vorhanden</target>
             </trans-unit>
 
             <trans-unit id="1000">
