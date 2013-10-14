@@ -29,8 +29,6 @@ class EventControllerTest extends WebTestCase
         $this->client->request('POST', '/event');
         $this->assertTrue($this->client->getResponse()->isSuccessful(), 'Response should be successful.');
         $this->assertFalse($this->client->getResponse()->isCacheable(), 'Response must not be cacheable.');
-
-
     }
 
     /**
@@ -49,10 +47,10 @@ class EventControllerTest extends WebTestCase
 
         $form = $crawler->filter('#OktolabRentBundle_Event_Form_update')->form(
             array(
-                'OktolabRentBundle_Event_Form[name]'                => 'My Event',
-                'OktolabRentBundle_Event_Form[description]'         => 'Some notices about this event. It is a test.',
-                'OktolabRentBundle_Event_Form[begin]'               => '2013-10-11 12:00:00',
-                'OktolabRentBundle_Event_Form[end]'                 => '2013-10-12 17:00:00',
+                'OktolabRentBundle_Event_Form[name]'        => 'My Event',
+                'OktolabRentBundle_Event_Form[description]' => 'Some notices about this event. It is a test.',
+                'OktolabRentBundle_Event_Form[begin]'       => '2013-10-11 12:00:00',
+                'OktolabRentBundle_Event_Form[end]'         => '2013-10-12 17:00:00',
             )
         );
 
