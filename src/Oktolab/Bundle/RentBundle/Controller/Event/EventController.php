@@ -43,8 +43,8 @@ class EventController extends Controller
             $event = $form->getData();
             $event->setState(Event::STATE_PREPARED);
 
+            //$this->logAction('Event created', array('event' => $event->getId()));
             $this->get('oktolab.event_manager')->save($event);
-            $this->logAction('Event created', array('event' => $event->getId()));
 
             return $this->redirect($this->generateUrl('rentbundle_dashboard'));
         }
@@ -174,10 +174,19 @@ class EventController extends Controller
         return $this->createForm(new EventType(), $event, $options);
     }
 
-    protected function createEventForm(Event $event = null, $options = array())
+    /*protected function createFormForEvent(Event $event = null, $options = array())
     {
+        $event = $event ?: new Event();
+        $options = array_merge(
+            array(
+                'em'     => $this->getDoctrine()->getManager(),
+                'method' => 'PUT',
+                'action' => $this->generateUrl('OktolabRentBundle_Event_Update'),
+            )
+        );
 
-    }
+        return $this->get('form.factory')->create('OktolabRentBundle_Event_Form', $event, $options);
+    }*/
 
     /**
      * Logs Action Message to logger service.

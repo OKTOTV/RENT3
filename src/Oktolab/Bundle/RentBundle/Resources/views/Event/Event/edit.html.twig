@@ -72,9 +72,10 @@
             </div>
         </fieldset>
 
+        {{ form.vars.name }}
         <fieldset class="hidden oktolab-event-objects"
                   data-index="{{ objects|length }}"
-                  data-prototype="{{ '<div data-value="{{value}}"><input id="oktolabrentbundle_event_objects_{{index}}_type" name="oktolabrentbundle_event[objects][{{index}}][type]" value="{{type}}" /><input id="oktolabrentbundle_event_objects_{{index}}_object" name="oktolabrentbundle_event[objects][{{index}}][object]" value="{{id}}" /></div>'|e }}">
+                  data-prototype="{{ '<div data-value="{{value}}"><input id="%1$s_objects_{{index}}_type" name="%1$s[objects][{{index}}][type]" value="{{type}}" /><input id="%1$s_{{index}}_object" name="%1$s[objects][{{index}}][object]" value="{{id}}" /></div>'|format(form.vars.name)|e }}">
             {% if objects %}
                 {% for object in form.objects %}
                     {#{ form.vars.value.name }}

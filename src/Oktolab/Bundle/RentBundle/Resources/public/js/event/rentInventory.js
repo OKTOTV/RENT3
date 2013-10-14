@@ -20,8 +20,8 @@ oktolab.addTypeaheadObjectToEventForm = function(collectionHolder, datum) {
     fieldGroup.append(
             AJS.$('<input />', {
                 class: 'hidden',
-                id: 'oktolabrentbundle_event_objects_' + index + '_type',
-                name: 'oktolabrentbundle_event[objects][' + index + '][type]',
+                id: 'OktolabRentBundle_Event_Form_' + index + '_type',
+                name: 'OktolabRentBundle_Event_Form[objects][' + index + '][type]',
                 value: value[0],
             })
     );
@@ -29,8 +29,8 @@ oktolab.addTypeaheadObjectToEventForm = function(collectionHolder, datum) {
     fieldGroup.append(
             AJS.$('<input />', {
                 class: 'hidden',
-                id: 'oktolabrentbundle_event_objects_' + index + '_object',
-                name: 'oktolabrentbundle_event[objects][' + index + '][object]',
+                id: 'OktolabRentBundle_Event_Form_objects_' + index + '_object',
+                name: 'OktolabRentBundle_Event_Form[objects][' + index + '][object]',
                 value: value[1],
             })
     );

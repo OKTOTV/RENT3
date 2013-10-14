@@ -29,6 +29,8 @@ class EventControllerTest extends WebTestCase
         $this->client->request('POST', '/event');
         $this->assertTrue($this->client->getResponse()->isSuccessful(), 'Response should be successful.');
         $this->assertFalse($this->client->getResponse()->isCacheable(), 'Response must not be cacheable.');
+
+
     }
 
     /**
@@ -88,19 +90,9 @@ class EventControllerTest extends WebTestCase
      * @group   Event
      * @test
      */
-    public function createAnEventWillRedirectProperly()
-    {
-        $this->markTestIncomplete();
-    }
-
-    /**
-     * @depends createAnEventReturnsValidResponse
-     * @group   Event
-     * @test
-     */
     public function createAnEventDisplaysErrorsIfFormInputIsInvalid()
     {
-        $this->markTestIncomplete();
+        $this->markTestIncomplete('Error handling not implemented.');
     }
 
     /**
@@ -110,6 +102,16 @@ class EventControllerTest extends WebTestCase
      */
     public function createAnEventDisplaysErrorIfEventObjectNotFound()
     {
-        $this->markTestIncomplete();
+        $this->markTestIncomplete('Validation not implemented.');
+    }
+
+    /**
+     * @depends createAnEventReturnsValidResponse
+     * @group   Event
+     * @test
+     */
+    public function createAnEventAddLog()
+    {
+        $this->markTestIncomplete('How to monitor Log? Symfony-Profiler?');
     }
 }
