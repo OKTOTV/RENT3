@@ -48,7 +48,7 @@ class EventTypeTest extends TypeTestCase
     public function submitValidData()
     {
         $this->markTestIncomplete(
-                '"validation_groups" can not be tested by Symfony 2.3. @see https://github.com/symfony/symfony/issues/2387'
+            '"validation_groups" can not be tested by Symfony 2.3. @see https://github.com/symfony/symfony/issues/2387'
         );
 
         $formData = array(
