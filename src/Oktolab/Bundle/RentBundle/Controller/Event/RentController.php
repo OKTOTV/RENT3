@@ -3,36 +3,33 @@
 namespace Oktolab\Bundle\RentBundle\Controller\Event;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Cache;
-
+use Sensio\Bundle\FrameworkExtraBundle\Configuration;
 use Oktolab\Bundle\RentBundle\Entity\Event;
 use Oktolab\Bundle\RentBundle\Form\EventType;
 
 /**
  * Rent Controller.
  *
- * @Route("/rent")
+ * @Configuration\Route("/rent")
  */
 class RentController extends Controller
 {
 
     /**
-     * @Route("/inventory", name="rentbundle_create_rent_inventory")
-     * @Template("OktolabRentBundle:Event:rentInventoryForm.html.twig")
-     * @Cache(expires="next year", public="true")
+     * Returns a new Inventory EventForm.
+     *
+     * @Configuration\Method("GET")
+     * @Configuration\Route("/inventory", name="rentbundle_create_rent_inventory")
+     * @Configuration\Template("OktolabRentBundle:Event:rentInventoryForm.html.twig")
+     * @Configuration\Cache(expires="next year", public="true")
+     *
+     * @return array
      */
     public function rentInventoryFormAction()
     {
-        $event = new Event();
-        $event->setName("Michaels Test");
-        $event->setBegin(new \DateTime('today 11:00'));
-        $event->setEnd(new \DateTime('tomorrow 17:00'));
-
-        $form = $this->createForm(
-            new EventType(),
-            $event,
+        $form = $this->get('form.factory')->create(
+            'OktolabRentBundle_Event_Form',
+            new Event(),
             array(
                 'action' => $this->generateUrl('OktolabRentBundle_Event_Create'),
                 'method' => 'POST',
@@ -44,9 +41,14 @@ class RentController extends Controller
     }
 
     /**
-     * @Route("/room", name="rentbundle_create_rent_room")
-     * @Template("OktolabRentBundle:Event:rentRoomForm.html.twig")
-     * @Cache(expires="next year", public="true")
+     * Returns a new Room EventForm.
+     *
+     * @Configuration\Method("GET")
+     * @Configuration\Route("/room", name="rentbundle_create_rent_room")
+     * @Configuration\Template("OktolabRentBundle:Event:rentRoomForm.html.twig")
+     * @Configuration\Cache(expires="next year", public="true")
+     *
+     * @return array
      */
     public function rentRoomFormAction()
     {
