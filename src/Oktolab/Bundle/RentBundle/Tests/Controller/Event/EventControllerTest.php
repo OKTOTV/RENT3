@@ -81,7 +81,29 @@ class EventControllerTest extends WebTestCase
      */
     public function createAnEventDisplaysErrorsIfFormInputIsInvalid()
     {
-        $this->markTestIncomplete('Error handling not implemented.');
+        $this->markTestIncomplete('WIP');
+        $this->loadFixtures(array('\Oktolab\Bundle\RentBundle\Tests\DataFixtures\ORM\Event\ItemFixture'));
+
+        $crawler = $this->client->request('GET', '/rent/inventory');
+        $this->assertTrue($this->client->getResponse()->isSuccessful(), 'Response is successful.');
+
+        $form = $crawler->filter('#OktolabRentBundle_Event_Form_update')->form(
+            array(
+                'OktolabRentBundle_Event_Form[name]'  => 'asdf',
+                'OktolabRentBundle_Event_Form[begin]' => '2013-10-11 12:00:00',
+                'OktolabRentBundle_Event_Form[end]'   => '', //invalid data
+            )
+        );
+
+        $values = $form->getPhpValues();
+        $values['OktolabRentBundle_Event_Form']['objects'] = array(0 => array('object' => '1', 'type' => 'item'));
+
+        // @see https://github.com/symfony/symfony/issues/4124#issuecomment-13229362
+        $this->client->request($form->getMethod(), $form->getUri(), $values, $form->getPhpFiles());
+        $this->assertTrue($this->client->getResponse()->isSuccessful(), 'Response is successful.');
+        $this->assertRegExp('/There was an error while saving the form./', $this->client->getResponse()->getContent());
+
+        // objects are rendered
     }
 
     /**
@@ -168,6 +190,7 @@ class EventControllerTest extends WebTestCase
         $this->assertInstanceOf('\Oktolab\Bundle\RentBundle\Entity\Event', $event);
         $this->assertSame('I edited the name', $event->getName());
         $this->assertEquals(new \DateTime('2013-10-16 17:00:00'), $event->getEnd());
+        $this->assertSame(Event::STATE_PREPARED, $event->getState());
     }
 
     /**

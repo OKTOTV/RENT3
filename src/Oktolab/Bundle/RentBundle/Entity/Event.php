@@ -15,7 +15,7 @@ use Oktolab\Bundle\RentBundle\Entity\EventObject;
  * @ORM\Table()
  * @ORM\Entity(repositoryClass="Oktolab\Bundle\RentBundle\Entity\EventRepository")
  *
- * @Assert\GroupSequence({"Event", "Logic"})
+ * @ Assert\GroupSequence({"Event", "Logic"})
  */
 class Event
 {
@@ -60,7 +60,7 @@ class Event
      * @ORM\Column(name="begin", type="datetime")
      *
      * @Assert\NotBlank()
-     * @Assert\Type("\DateTime")
+     * @Assert\DateTime()
      */
     private $begin;
 
@@ -70,7 +70,7 @@ class Event
      * @ORM\Column(name="end", type="datetime")
      *
      * @Assert\NotBlank()
-     * @Assert\Type("\DateTime")
+     * @Assert\DateTime()
      */
     private $end;
 
@@ -157,7 +157,7 @@ class Event
      * @param  \DateTime $end
      * @return Event
      */
-    public function setEnd(\DateTime $end)
+    public function setEnd($end)
     {
         $this->end = $end;
 
@@ -289,6 +289,6 @@ class Event
      */
     public function isEndAfterBegin()
     {
-        return (null !== $this->begin && $this->end > $this->begin);
+        return (null !== $this->begin && null !== $this->end && $this->end > $this->begin);
     }
 }
