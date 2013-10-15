@@ -30,6 +30,7 @@ class EventFixture extends AbstractFixture
             ->setEnd(new \DateTime('2013-10-15 17:00:00'))
             ->addObject($eventObject);
 
+        $eventObject->setEvent($event);
         $manager->persist($eventObject);
         $manager->persist($event);
         $manager->flush();

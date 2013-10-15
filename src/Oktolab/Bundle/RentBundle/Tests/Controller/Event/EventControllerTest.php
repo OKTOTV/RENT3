@@ -119,11 +119,11 @@ class EventControllerTest extends WebTestCase
 
         $this->assertEquals(
             1,
-            $crawler->filter('section.aui-page-panel-content > form > input[name="_method"][value="PUT"]')->count(),
+            $crawler->filter('#content form > input[name="_method"][value="PUT"]')->count(),
             'Form method was expected to be "PUT"'
         );
 
-        $form = $crawler->filter('section.aui-page-panel-content')->selectButton('Update')->form();
+        $form = $crawler->filter('#content')->selectButton('Update')->form();
         $url = $this->client->getContainer()
                 ->get('router')
                 ->generate('OktolabRentBundle_Event_Update', array('id' => 1));
@@ -147,7 +147,7 @@ class EventControllerTest extends WebTestCase
         $crawler = $this->client->request('GET', '/event/1/edit');
         $this->assertTrue($this->client->getResponse()->isSuccessful(), 'Response should be successful.');
 
-        $form = $crawler->filter('section.aui-page-panel-content')->selectButton('Update')->form(
+        $form = $crawler->filter('#content')->selectButton('Update')->form(
             array(
                 'OktolabRentBundle_Event_Form[name]' => 'I edited the name',
                 'OktolabRentBundle_Event_Form[end]'  => '2013-10-16 17:00:00',
@@ -186,7 +186,7 @@ class EventControllerTest extends WebTestCase
         $crawler = $this->client->request('GET', '/event/1/edit');
         $this->assertTrue($this->client->getResponse()->isSuccessful(), 'Response is successful.');
 
-        $form = $crawler->filter('section.aui-page-panel-content')->selectButton('Update');
+        $form = $crawler->filter('#content')->selectButton('Update');
         $this->assertSame(1, $form->count(), 'The EventForm is rendered');
 
         // set to invalid data
@@ -199,7 +199,56 @@ class EventControllerTest extends WebTestCase
 
         $crawler = $this->client->getCrawler();
         $fieldError = $crawler->filter('#OktolabRentBundle_Event_Form_name ~ div[class="error"]');
+
         $this->assertSame(1, $fieldError->count(), 'An error message is rendered.');
         $this->assertRegExp('/Dieser Wert sollte nicht leer sein./', $fieldError->html());
+
+        $this->assertEquals(
+            1,
+            $crawler->filter('#content form > input[name="_method"][value="PUT"]')->count(),
+            'Form method is "PUT"'
+        );
+
+        $form = $crawler->filter('#content')->selectButton('Update')->form();
+        $url = $this->client->getContainer()
+                ->get('router')
+                ->generate('OktolabRentBundle_Event_Update', array('id' => 1));
+
+        $this->assertStringEndsWith($url, $form->getUri(), sprintf('Form action is "%s".', $url));
+    }
+
+    /**
+     * @depends editAnEventWithInvalidData
+     * @test
+     */
+    public function editAnEventRendersEventObjectsAfterSubmitWithInvalidData()
+    {
+        $this->loadFixtures(
+            array(
+                '\Oktolab\Bundle\RentBundle\Tests\DataFixtures\ORM\Event\EventFixture',
+                '\Oktolab\Bundle\RentBundle\Tests\DataFixtures\ORM\Event\ItemFixture',
+            )
+        );
+
+        $crawler = $this->client->request('GET', '/event/1/edit');
+        $this->assertTrue($this->client->getResponse()->isSuccessful(), 'Response is successful.');
+
+        $form = $crawler->filter('#content')->selectButton('Update');
+        $this->assertSame(1, $form->count(), 'The EventForm is rendered');
+
+        // set to invalid data
+        $form = $form->form(array('OktolabRentBundle_Event_Form[name]' => ''));
+        $this->client->submit($form);
+
+        $response = $this->client->getResponse();
+        $this->assertTrue($response->isSuccessful(), 'Response is successful.');
+        $this->assertRegExp('/There was an error while saving the form./', $response->getContent());
+
+        $crawler = $this->client->getCrawler();
+        $form = $crawler->filter('#content')->selectButton('Update')->form();
+
+        $formValues = $form->getValues();
+        $this->assertSame('item', $formValues['OktolabRentBundle_Event_Form[objects][0][type]']);
+        $this->assertSame('1', $formValues['OktolabRentBundle_Event_Form[objects][0][object]']);
     }
 }

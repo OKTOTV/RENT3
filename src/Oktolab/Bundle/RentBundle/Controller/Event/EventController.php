@@ -109,12 +109,12 @@ class EventController extends Controller
             )
         );
 
-
         $form->handleRequest($request);
         if (!$form->isValid()) {
-            // Error while handling Form. Form is not valid, so load show errors.
+            // Error while handling Form. Form is not valid - show errors.
+            $objects = $this->get('oktolab.event_manager')->convertEventObjectsToEntites($event->getObjects());
             $this->get('session')->getFlashBag()->add('error', 'There was an error while saving the form.');
-            return array('form' => $form->createView(), 'objects' => array());
+            return array('form' => $form->createView(), 'objects' => $objects);
         }
 
         if ($form->get('rent')->isClicked()) { // User clicked Rent -> Forwarding to RENT Action
