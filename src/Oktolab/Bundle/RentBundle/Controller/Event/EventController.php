@@ -90,6 +90,7 @@ class EventController extends Controller
      * @Configuration\Method("PUT")
      * @Configuration\Route("/event/{id}/update", name="OktolabRentBundle_Event_Update", requirements={"id"="\d+"})
      * @Configuration\ParamConverter("event", class="OktolabRentBundle:Event")
+     * @Configuration\Template("OktolabRentBundle:Event:Event\edit.html.twig")
      *
      * @param Request   $request
      * @param Event     $event
@@ -110,9 +111,10 @@ class EventController extends Controller
 
 
         $form->handleRequest($request);
-        if (!$form->isValid()) { // Error while handling Form. Redirecting to EditAction.
-            $this->get('session')->getFlashBag()->add('error', 'There was an error while saving the form');
-            return $this->redirect($this->generateUrl('event_edit', array('id' => $event->getId())));
+        if (!$form->isValid()) {
+            // Error while handling Form. Form is not valid, so load show errors.
+            $this->get('session')->getFlashBag()->add('error', 'There was an error while saving the form.');
+            return array('form' => $form->createView(), 'objects' => array());
         }
 
         if ($form->get('rent')->isClicked()) { // User clicked Rent -> Forwarding to RENT Action

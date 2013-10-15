@@ -7,12 +7,13 @@ use Oktolab\Bundle\RentBundle\Entity\Event;
 
 /**
  * Event Controller Test
+ *
+ * @group Event
  */
 class EventControllerTest extends WebTestCase
 {
 
     /**
-     * @group Event
      * @test
      */
     public function createAnEventReturnsValidResponse()
@@ -24,7 +25,6 @@ class EventControllerTest extends WebTestCase
 
     /**
      * @depends createAnEventReturnsValidResponse
-     * @group   Event
      * @test
      */
     public function createAnEventWithItems()
@@ -77,7 +77,6 @@ class EventControllerTest extends WebTestCase
 
     /**
      * @depends createAnEventReturnsValidResponse
-     * @group   Event
      * @test
      */
     public function createAnEventDisplaysErrorsIfFormInputIsInvalid()
@@ -87,7 +86,6 @@ class EventControllerTest extends WebTestCase
 
     /**
      * @depends createAnEventReturnsValidResponse
-     * @group   Event
      * @test
      */
     public function createAnEventDisplaysErrorIfEventObjectNotFound()
@@ -97,10 +95,9 @@ class EventControllerTest extends WebTestCase
 
     /**
      * @depends createAnEventReturnsValidResponse
-     * @group   Event
      * @test
      */
-    public function createAnEventAddLog()
+    public function createAnEventAddsToLog()
     {
         $this->markTestIncomplete('How to monitor Log? Symfony-Profiler?');
     }
@@ -171,5 +168,38 @@ class EventControllerTest extends WebTestCase
         $this->assertInstanceOf('\Oktolab\Bundle\RentBundle\Entity\Event', $event);
         $this->assertSame('I edited the name', $event->getName());
         $this->assertEquals(new \DateTime('2013-10-16 17:00:00'), $event->getEnd());
+    }
+
+    /**
+     * @depends editAnEventReturnsValidResponse
+     * @test
+     */
+    public function editAnEventWithInvalidData()
+    {
+        $this->loadFixtures(
+            array(
+                '\Oktolab\Bundle\RentBundle\Tests\DataFixtures\ORM\Event\EventFixture',
+                '\Oktolab\Bundle\RentBundle\Tests\DataFixtures\ORM\Event\ItemFixture',
+            )
+        );
+
+        $crawler = $this->client->request('GET', '/event/1/edit');
+        $this->assertTrue($this->client->getResponse()->isSuccessful(), 'Response is successful.');
+
+        $form = $crawler->filter('section.aui-page-panel-content')->selectButton('Update');
+        $this->assertSame(1, $form->count(), 'The EventForm is rendered');
+
+        // set to invalid data
+        $form = $form->form(array('OktolabRentBundle_Event_Form[name]' => ''));
+        $this->client->submit($form);
+
+        $response = $this->client->getResponse();
+        $this->assertTrue($response->isSuccessful(), 'Response is successful.');
+        $this->assertRegExp('/There was an error while saving the form./', $response->getContent());
+
+        $crawler = $this->client->getCrawler();
+        $fieldError = $crawler->filter('#OktolabRentBundle_Event_Form_name ~ div[class="error"]');
+        $this->assertSame(1, $fieldError->count(), 'An error message is rendered.');
+        $this->assertRegExp('/Dieser Wert sollte nicht leer sein./', $fieldError->html());
     }
 }
