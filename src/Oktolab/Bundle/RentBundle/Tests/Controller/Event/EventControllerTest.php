@@ -98,11 +98,10 @@ class EventControllerTest extends WebTestCase
         $values['OktolabRentBundle_Event_Form']['objects'] = array(0 => array('object' => '1', 'type' => 'item'));
 
         // @see https://github.com/symfony/symfony/issues/4124#issuecomment-13229362
-        $this->client->request($form->getMethod(), $form->getUri(), $values, $form->getPhpFiles());
+        $crawler = $this->client->request($form->getMethod(), $form->getUri(), $values, $form->getPhpFiles());
         $this->assertTrue($this->client->getResponse()->isSuccessful(), 'Response is successful.');
         $this->assertRegExp('/There was an error while saving the form./', $this->client->getResponse()->getContent());
 
-        $crawler = $this->client->getCrawler();
         $formValues = $crawler->filter('#content')->selectButton('Update')->form()->getValues();
         $this->assertSame('item', $formValues['OktolabRentBundle_Event_Form[objects][0][type]']);
         $this->assertSame('1', $formValues['OktolabRentBundle_Event_Form[objects][0][object]']);
@@ -145,11 +144,8 @@ class EventControllerTest extends WebTestCase
         $crawler = $this->client->request('GET', '/event/1/edit');
         $this->assertTrue($this->client->getResponse()->isSuccessful(), 'Response should be successful.');
 
-        $this->assertEquals(
-            1,
-            $crawler->filter('#content form > input[name="_method"][value="PUT"]')->count(),
-            'Form method was expected to be "PUT"'
-        );
+        $filter = '#content form > input[name="_method"][value="PUT"]';
+        $this->assertEquals(1, $crawler->filter($filter)->count(), 'Form method was expected to be "PUT"');
 
         $form = $crawler->filter('#content')->selectButton('Update')->form();
         $url = $this->client->getContainer()
@@ -172,10 +168,10 @@ class EventControllerTest extends WebTestCase
             )
         );
 
-        $crawler = $this->client->request('GET', '/event/1/edit');
+        $this->client->request('GET', '/event/1/edit');
         $this->assertTrue($this->client->getResponse()->isSuccessful(), 'Response should be successful.');
 
-        $form = $crawler->filter('#content')->selectButton('Update')->form(
+        $form = $this->client->getCrawler()->filter('#content')->selectButton('Update')->form(
             array(
                 'OktolabRentBundle_Event_Form[name]' => 'I edited the name',
                 'OktolabRentBundle_Event_Form[end]'  => '2013-10-16 17:00:00',
@@ -194,8 +190,8 @@ class EventControllerTest extends WebTestCase
                 ->findOneBy(array('id' => 1));
 
         $this->assertInstanceOf('\Oktolab\Bundle\RentBundle\Entity\Event', $event);
-        $this->assertSame('I edited the name', $event->getName());
         $this->assertEquals(new \DateTime('2013-10-16 17:00:00'), $event->getEnd());
+        $this->assertSame('I edited the name', $event->getName());
         $this->assertSame(Event::STATE_PREPARED, $event->getState());
     }
 
