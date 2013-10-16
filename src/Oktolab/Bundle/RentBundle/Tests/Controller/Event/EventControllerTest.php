@@ -199,6 +199,24 @@ class EventControllerTest extends WebTestCase
      * @depends editAnEventReturnsValidResponse
      * @test
      */
+    public function editAnEventWillAddEventObject()
+    {
+        $this->markTestIncomplete();
+    }
+
+    /**
+     * @depends editAnEventReturnsValidResponse
+     * @test
+     */
+    public function editAnEventWillRemoveEventObject()
+    {
+        $this->markTestIncomplete();
+    }
+
+    /**
+     * @depends editAnEventReturnsValidResponse
+     * @test
+     */
     public function editAnEventWithInvalidData()
     {
         $this->loadFixtures(
@@ -286,10 +304,13 @@ class EventControllerTest extends WebTestCase
         $crawler = $this->client->request('GET', '/event/1/edit');
         $this->assertTrue($this->client->getResponse()->isSuccessful(), 'Response is successful.');
 
-        $form = $crawler->filter('#content')->selectButton('Rent')->form();
+        $form = $crawler->filter('#content')->selectButton('Rent')->form(
+            array(
+                'OktolabRentBundle_Event_Form[objects][0][scanned]' => '1',
+            )
+        );
+
         $this->client->submit($form);
-
-
         $this->assertTrue($this->client->getResponse()->isRedirect(), 'Response is a redirect.');
 
         $this->client->followRedirect();

@@ -31,7 +31,7 @@ class EventType extends AbstractType
         $builder->add('cancel', 'submit', array('validation_groups' => false))
             ->add('update', 'submit')
             ->add('delete', 'submit')
-            ->add('rent', 'submit');
+            ->add('rent', 'submit', array('validation_groups' => array('Event', 'Logic', 'Rent')));
     }
 
     /**
@@ -39,7 +39,14 @@ class EventType extends AbstractType
      */
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
-        $resolver->setDefaults(array('data_class' => 'Oktolab\Bundle\RentBundle\Entity\Event'));
+        $resolver->setDefaults(
+            array(
+                'data_class'            => 'Oktolab\Bundle\RentBundle\Entity\Event',
+                'cascade_validation'    => true,
+                'validation_groups'     => array('Event', 'Logic'),
+            )
+        );
+
         $resolver->setRequired(array('em'));
         $resolver->setAllowedTypes(array('em' => 'Doctrine\ORM\EntityManager'));
     }

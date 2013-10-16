@@ -16,6 +16,8 @@ use Oktolab\Bundle\RentBundle\Entity\Event;
  * EventType Tests
  *
  * @see http://symfony.com/doc/current/cookbook/form/unit_testing.html
+ *
+ * @group Event
  */
 class EventTypeTest extends TypeTestCase
 {

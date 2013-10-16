@@ -162,7 +162,6 @@ class EventController extends Controller
                 'em'     => $this->getDoctrine()->getManager(),
                 'method' => 'PUT',
                 'action' => $this->generateUrl('OktolabRentBundle_Event_Update', array('id' => $event->getId())),
-                'validation_groups' => array('Event', 'Logic', 'Rent'),
             )
         );
 
