@@ -81,7 +81,6 @@ class EventControllerTest extends WebTestCase
      */
     public function createAnEventDisplaysErrorsIfFormInputIsInvalid()
     {
-        $this->markTestIncomplete('WIP');
         $this->loadFixtures(array('\Oktolab\Bundle\RentBundle\Tests\DataFixtures\ORM\Event\ItemFixture'));
 
         $crawler = $this->client->request('GET', '/rent/inventory');
@@ -103,7 +102,14 @@ class EventControllerTest extends WebTestCase
         $this->assertTrue($this->client->getResponse()->isSuccessful(), 'Response is successful.');
         $this->assertRegExp('/There was an error while saving the form./', $this->client->getResponse()->getContent());
 
-        // objects are rendered
+        $crawler = $this->client->getCrawler();
+        $formValues = $crawler->filter('#content')->selectButton('Update')->form()->getValues();
+        $this->assertSame('item', $formValues['OktolabRentBundle_Event_Form[objects][0][type]']);
+        $this->assertSame('1', $formValues['OktolabRentBundle_Event_Form[objects][0][object]']);
+
+        $em = $this->getContainer()->get('doctrine.orm.entity_manager');
+        $count = $em->createQuery('SELECT COUNT(e.id) FROM OktolabRentBundle:Event e')->getSingleScalarResult();
+        $this->assertEquals(0, $count, 'No Event was created.');
     }
 
     /**
@@ -259,18 +265,12 @@ class EventControllerTest extends WebTestCase
         $form = $crawler->filter('#content')->selectButton('Update');
         $this->assertSame(1, $form->count(), 'The EventForm is rendered');
 
-        // set to invalid data
-        $form = $form->form(array('OktolabRentBundle_Event_Form[name]' => ''));
+        $form = $form->form(array('OktolabRentBundle_Event_Form[name]' => '')); // set to invalid data
         $this->client->submit($form);
+        $this->assertTrue($this->client->getResponse()->isSuccessful(), 'Response is successful.');
+        $this->assertRegExp('/There was an error while saving the form./', $this->client->getResponse()->getContent());
 
-        $response = $this->client->getResponse();
-        $this->assertTrue($response->isSuccessful(), 'Response is successful.');
-        $this->assertRegExp('/There was an error while saving the form./', $response->getContent());
-
-        $crawler = $this->client->getCrawler();
-        $form = $crawler->filter('#content')->selectButton('Update')->form();
-
-        $formValues = $form->getValues();
+        $formValues = $this->client->getCrawler()->filter('#content')->selectButton('Update')->form()->getValues();
         $this->assertSame('item', $formValues['OktolabRentBundle_Event_Form[objects][0][type]']);
         $this->assertSame('1', $formValues['OktolabRentBundle_Event_Form[objects][0][object]']);
     }

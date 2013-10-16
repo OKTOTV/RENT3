@@ -49,8 +49,12 @@ class EventController extends Controller
             return $this->redirect($this->generateUrl('rentbundle_dashboard'));
         }
 
+
+        $objects = $this->get('oktolab.event_manager')->convertEventObjectsToEntites($form->getData()->getObjects());
+        $this->get('session')->getFlashBag()->add('error', 'There was an error while saving the form.');
         //$this->logAction('Event creation failed', array('event' => $event));
-        return new Response('invalid form not supported now.');
+        
+        return array('form' => $form->createView(), 'objects' => $objects);
     }
 
     /**
