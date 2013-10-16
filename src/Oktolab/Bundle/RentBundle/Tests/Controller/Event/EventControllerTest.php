@@ -270,4 +270,30 @@ class EventControllerTest extends WebTestCase
         $this->assertSame('item', $formValues['OktolabRentBundle_Event_Form[objects][0][type]']);
         $this->assertSame('1', $formValues['OktolabRentBundle_Event_Form[objects][0][object]']);
     }
+
+    /**
+     * @test
+     */
+    public function rentAnEventReturnsValidResponse()
+    {
+        $this->loadFixtures(
+            array(
+                '\Oktolab\Bundle\RentBundle\Tests\DataFixtures\ORM\Event\EventFixture',
+                '\Oktolab\Bundle\RentBundle\Tests\DataFixtures\ORM\Event\ItemFixture',
+            )
+        );
+
+        $crawler = $this->client->request('GET', '/event/1/edit');
+        $this->assertTrue($this->client->getResponse()->isSuccessful(), 'Response is successful.');
+
+        $form = $crawler->filter('#content')->selectButton('Rent')->form();
+        $this->client->submit($form);
+
+
+        $this->assertTrue($this->client->getResponse()->isRedirect(), 'Response is a redirect.');
+
+        $this->client->followRedirect();
+        $this->assertTrue($this->client->getResponse()->isSuccessful(), 'Response is successful.');
+        $this->assertRegExp('/Event successfully rented./', $this->client->getResponse()->getContent());
+    }
 }

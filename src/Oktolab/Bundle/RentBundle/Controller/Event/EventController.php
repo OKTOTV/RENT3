@@ -144,17 +144,35 @@ class EventController extends Controller
     /**
      * Rent an Event.
      *
-     * @Configuration\Route("/event/{id}/rent", name="event_rent")
      * @Configuration\Method("POST")
+     * @Configuration\Route("/event/{id}/rent", name="event_rent")
      * @Configuration\ParamConverter("event", class="OktolabRentBundle:Event")
      *
-     * @param Request $request
-     * @param Event $event
+     * @param \Symfony\Component\HttpFoundation\Request $request
+     * @param \Oktolab\Bundle\RentBundle\Entity\Event   $event
      *
      * @return Response
      */
     public function rentAction(Request $request, Event $event)
     {
+        $form = $this->get('form.factory')->create(
+            'OktolabRentBundle_Event_Form',
+            $event,
+            array(
+                'em'     => $this->getDoctrine()->getManager(),
+                'method' => 'PUT',
+                'action' => $this->generateUrl('OktolabRentBundle_Event_Update', array('id' => $event->getId())),
+                'validation_groups' => array('Event', 'Logic', 'Rent'),
+            )
+        );
+
+        $form->handleRequest($request);
+        if ($form->isValid()) {
+            $this->get('session')->getFlashBag()->add('success', 'Event successfully rented.');
+
+            return $this->redirect($this->generateUrl('rentbundle_dashboard'));
+        }
+
         // Check for hidden-input fields for each EventObject
 
         // var_dump($event); die();

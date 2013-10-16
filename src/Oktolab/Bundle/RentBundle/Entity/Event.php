@@ -200,6 +200,8 @@ class Event
     /**
      * Get objects
      *
+     * @Assert\Count(min="1", groups={"Rent"})
+     *
      * @return \Doctrine\Common\Collections\Collection
      */
     public function getObjects()
