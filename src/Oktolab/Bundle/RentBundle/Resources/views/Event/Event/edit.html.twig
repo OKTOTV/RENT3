@@ -72,7 +72,6 @@
             </div>
         </fieldset>
 
-        {{ form.vars.name }}
         <fieldset class="hidden oktolab-event-objects"
                   data-index="{{ objects|length }}"
                   data-prototype="{{ '<div data-value="{{value}}"><input id="%1$s_objects_{{index}}_type" name="%1$s[objects][{{index}}][type]" value="{{type}}" /><input id="%1$s_{{index}}_object" name="%1$s[objects][{{index}}][object]" value="{{id}}" /></div>'|format(form.vars.name)|e }}">
