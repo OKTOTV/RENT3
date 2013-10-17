@@ -8,6 +8,9 @@ use Oktolab\Bundle\RentBundle\Entity\EventObject;
 use Oktolab\Bundle\RentBundle\Entity\Inventory\Item;
 use Oktolab\Bundle\RentBundle\Entity\Inventory\Set;
 
+/**
+ * @group Event
+ */
 class EventManagerTest extends \PHPUnit_Framework_TestCase
 {
 

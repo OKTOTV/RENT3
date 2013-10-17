@@ -4,6 +4,9 @@ namespace Oktolab\Bundle\RentBundle\Tests\Entity;
 
 use Oktolab\Bundle\RentBundle\Entity\Event;
 
+/**
+ * @group Event
+ */
 class EventTest extends \PHPUnit_Framework_TestCase
 {
 
