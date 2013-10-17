@@ -117,6 +117,7 @@ class EventController extends Controller
             // Error while handling Form. Form is not valid - show errors.
             $objects = $this->get('oktolab.event_manager')->convertEventObjectsToEntites($event->getObjects());
             $this->get('session')->getFlashBag()->add('error', 'There was an error while saving the form.');
+
             return array('form' => $form->createView(), 'objects' => $objects);
         }
 
