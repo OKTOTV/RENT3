@@ -53,7 +53,7 @@ oktolab.removeEventObjectFromEventForm = function(event) {
 };
 
 AJS.$(document).ready(function() {
-    AJS.$('#inventory-search-field').typeahead({
+    AJS.$('#inventory-search-field').typeahead([{
         name: 'rent-items',
         valueKey: 'name',
         prefetch: { url: oktolab.typeahead.itemPrefetchUrl, ttl: 60000 },
@@ -62,8 +62,20 @@ AJS.$(document).ready(function() {
             '<p class="tt-object-name">{{name}}</p>',
             '<p class="tt-object-addon">{{barcode}}</p>'
         ].join(''),
+        header: '<h3>Items</h3>',
         engine: Hogan
-    });
+    }, {
+        name:       'rent-sets',
+        valueKey:   'name',
+        prefetch:   { url: oktolab.typeahead.setPrefetchUrl, ttl: 60000 },
+        template: [
+            '<span class="aui-icon aui-icon-small aui-iconfont-devtools-file">Object</span>',
+            '<p class="tt-object-name">{{name}}</p>',
+            '<p class="tt-object-addon">{{barcode}}</p>'
+        ].join(''),
+        header: '<h3>Sets</h3>',
+        engine: Hogan
+    }]);
 
     console.log(oktolab.typeahead.itemPrefetchUrl);
 
