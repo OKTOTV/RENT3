@@ -6,6 +6,8 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration;
+use Symfony\Component\Routing\Annotation\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 
 use Oktolab\Bundle\RentBundle\Entity\Event;
 
@@ -186,5 +188,15 @@ class EventController extends Controller
         ));
 
         $this->get('logger')->debug($message, $context);
+    }
+
+    /**
+     * Creates the rent PDF out of an twig template
+     * @Route("/event/{id}/pdf", name="event_pdf")
+     * @ParamConverter("event", class="OktolabRentBundle:Event")
+     */
+    public function rentSheetPdf(Event $event)
+    {
+        return $this->get('oktolab.rent_sheet_pdf')->createRentPDF($event);
     }
 }

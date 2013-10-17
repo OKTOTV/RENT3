@@ -1,0 +1,27 @@
+{% extends 'OktolabRentBundle:Admin:Setting\\base.html.twig' %}
+
+{%block buttons%}
+{%endblock%}
+{% block content %}
+    {{ parent() }}
+
+        <table class="aui">
+            <thead>
+                <tr>
+                    <th id="title">{{'inventory.setting.title'|trans}}</th>
+                    <th id="action">{{ 'generic.actions' | trans }}</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td headers="title">{{ 'inventory.setting.companySetting'|trans }}</td>
+                    <td class="action" headers="action">
+                        <ul class="menu">
+                            <li><a href="{{ path('setting_company_show') }}">{{ 'generic.show' | trans }}</a></li>
+                            <li><a href="{{ path('setting_company_edit') }}">{{ 'generic.edit' | trans }}</a></li>
+                        </ul>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+{% endblock %}

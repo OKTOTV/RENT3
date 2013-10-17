@@ -13,6 +13,8 @@ parameters:
     oktolab.costunit_provider.class:          Oktolab\Bundle\RentBundle\Model\CostUnitProvider
     oktolab.hub_fetch_service.class:          Oktolab\Bundle\RentBundle\Model\HubFetchService
     oktolab.hub_guid_contact_transformer.class: Oktolab\Bundle\RentBundle\Form\DataTransformer\HubGuidToContactTransformer
+    oktolab.rent_sheet_pdf.class:             Oktolab\Bundle\RentBundle\Model\RentSheetPdfCreator
+    oktolab.setting.class:                    Oktolab\Bundle\RentBundle\Model\SettingService
 
     # upload service-classes
     oktolab.upload_manager.class:             Oktolab\Bundle\RentBundle\Model\UploadManager
@@ -218,3 +220,16 @@ services:
     oktolab.hub_guid_contact_transformer:
         class:      %oktolab.hub_guid_contact_transformer.class%
         arguments: [@oktolab.hub_fetch_service]
+
+    oktolab.rent_sheet_pdf:
+        class:      %oktolab.rent_sheet_pdf.class%
+        arguments:
+            - @tfox.mpdfport
+            - @translator
+            - @oktolab.event_manager
+            - @oktolab.setting
+
+    oktolab.setting:
+        class:      %oktolab.setting.class%
+        arguments:
+            - @doctrine.orm.entity_manager
