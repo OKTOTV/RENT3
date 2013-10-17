@@ -33,19 +33,39 @@
             searchField.typeahead('setQuery', '');
         });
 
-        searchField.on('keypress', function (e) {
-            if (e.which === 13 || e.which === 0) {
-                console.log('Enter/Tab was pressed');
+        searchField.keydown(function (e) {
+            var keyCode = e.which || e.keyCode;
+
+            if (keyCode === 13 ||                       // ENTER
+                keyCode === 9 ||                        // TAB
+                (keyCode === 74 && e.ctrlKey == true)   // LF (Barcode Scanner)
+            ) {
+                e.preventDefault();
+            }
+        });
+
+        searchField.keyup(function(e) {
+            var keyCode = e.which || e.keyCode;
+
+            // block keys: *, /, -, +, ... from numpad (barcode scanner ...)
+            if ((keyCode >= 106 && keyCode <= 111) || keyCode === 16 || keyCode === 17 || keyCode === 18) {
+                e.preventDefault();
+                return;
+            }
+
+            if ((keyCode === 13 && e.ctrlKey == true) || (keyCode === 74 && e.ctrlKey == true) || keyCode === 9) {
+                e.preventDefault();
 
                 // TODO: Not save to do this.
                 jQuery.each(searchField.data().ttView.datasets[0].itemHash, function (key, value) {
                     if (searchField.val() === value.datum.barcode) {
                         addObject(value.datum);
                         searchField.typeahead('setQuery', '');
+                        searchField.focus();
                     }
                 });
 
-                e.preventDefault();
+
             }
         });
 
