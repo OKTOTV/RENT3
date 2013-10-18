@@ -6,9 +6,10 @@
                 <label for="costunit-search-field">{{ 'event.costunit'|trans }}</label>
                 <input class="text long-field" type="text" id="costunit-search-field" name="costunit-search-field" title="{{ 'event.costunit.search'|trans }}">
             </div>
+            {{ form_row(form.name) }}
             <div class="field-group">
                 <label for="contact-search-field">{{ 'event.contact'|trans }}</label>
-                <input disabled class="text long-field" type="text" id="conact-search-field" name="contact-search-field" title="{{ 'event.contact.search'|trans }}">
+                <input disabled class="text long-field" type="text" id="contact-search-field" name="contact-search-field" title="{{ 'event.contact.search'|trans }}">
             </div>
             {{ form_row(form.description) }}
             {{ form_row(form.begin) }}
@@ -39,7 +40,5 @@
             </div>
         </fieldset>
         {% do form.objects.setRendered %}
-        {% do form.contact.setRendered %}
-        {% do form.costunit.setRendered %}
     {{ form_end(form) }}
 </div>

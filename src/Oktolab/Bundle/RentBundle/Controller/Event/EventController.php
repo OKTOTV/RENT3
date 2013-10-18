@@ -39,7 +39,6 @@ class EventController extends Controller
                 'action' => $this->generateUrl('OktolabRentBundle_Event_Create'),
             )
         );
-
         $form->handleRequest($request);
         if ($form->isValid()) {
             $event = $form->getData();
@@ -86,7 +85,7 @@ class EventController extends Controller
             )
         );
 
-        return array('form' => $form->createView(), 'objects' => $objects);
+        return array('form' => $form->createView(), 'objects' => $objects, 'event' => $event);
     }
 
     /**

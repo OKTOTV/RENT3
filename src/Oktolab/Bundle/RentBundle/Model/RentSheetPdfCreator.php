@@ -131,10 +131,10 @@ class RentSheetPdfCreator
     private function addHeader(Event $event)
     {
         $this->addBlock(
-            $this->translator->trans('event.pdf.costUnitName').": <br>".
-            $this->translator->trans('event.pdf.pickUpName')."<br>".
-            $this->translator->trans('event.pdf.lentAt')."<br>".
-            $this->translator->trans('event.pdf.planReturnAt'),
+            $this->translator->trans('event.pdf.costUnitName', array('%costUnitName%' => $event->getCostunit()->getName())).": <br>".
+            $this->translator->trans('event.pdf.pickUpName', array('%pickUpName%' => $event->getContact()->getName()))."<br>".
+            $this->translator->trans('event.pdf.lentAt', array('%rentFromDate%' => $event->getBegin()))."<br>".
+            $this->translator->trans('event.pdf.planReturnAt', array('%rentTillDate%' => $event->getEnd())),
             "p",
             "rightTop"
         );

@@ -88,12 +88,16 @@ class Event
     private $objects;
 
     /**
+     * @Assert\NotBlank()
+     *
      * @ORM\ManyToOne(targetEntity="costunit", inversedBy="events")
      * @ORM\JoinColumn(name="costunit_id", referencedColumnName="id")
      **/
     private $costunit;
 
     /**
+     * @Assert\NotBlank()
+     *
      * @ORM\ManyToOne(targetEntity="contact", inversedBy="events")
      * @ORM\JoinColumn(name="contact_id", referencedColumnName="id")
      **/
@@ -316,14 +320,14 @@ class Event
     public function setCostunit(\Oktolab\Bundle\RentBundle\Entity\costunit $costunit = null)
     {
         $this->costunit = $costunit;
-    
+
         return $this;
     }
 
     /**
      * Get costunit
      *
-     * @return \Oktolab\Bundle\RentBundle\Entity\costunit 
+     * @return \Oktolab\Bundle\RentBundle\Entity\costunit
      */
     public function getCostunit()
     {
@@ -339,14 +343,14 @@ class Event
     public function setContact(\Oktolab\Bundle\RentBundle\Entity\contact $contact = null)
     {
         $this->contact = $contact;
-    
+
         return $this;
     }
 
     /**
      * Get contact
      *
-     * @return \Oktolab\Bundle\RentBundle\Entity\contact 
+     * @return \Oktolab\Bundle\RentBundle\Entity\contact
      */
     public function getContact()
     {
