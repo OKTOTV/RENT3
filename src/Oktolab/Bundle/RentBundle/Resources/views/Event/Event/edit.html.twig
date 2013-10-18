@@ -50,43 +50,32 @@
                         <tr>
                             <th id="basic-barcode">{{ 'Barcode' | trans }}</th>
                             <th id="basic-name">{{ 'Name' | trans }}</th>
-                            <th id="basic-action"><span class="aui-icon aui-icon-small aui-iconfont-configure">{{ 'Actions' | trans }}</span></th>
+                            <th id="basic-action"><span class="aui-icon aui-icon-small aui-iconfont-configure">{{ 'Actions'|trans }}</span></th>
                         </tr>
                     </thead>
-                    <tbody class="event-objects" data-prototype="{% filter escape %}{% include 'OktolabRentBundle:Event:eventObjectPrototype.html.twig' %}{% endfilter %}">
-                        {% if objects %}
-                            {% for object in objects %}
-                                <tr>
-                                    <td>{{ object.barcode }}</td>
-                                    <td>{{ object.title }}</td>
-                                    <td>
-                                        <a href="#"><span class="aui-icon aui-icon-small aui-iconfont-remove remove-object" data-value="{{ object.type ~ object.id }}">{{ 'Remove'|trans }}</span></a>
-                                        <span class="aui-icon aui-icon-small aui-iconfont-approve">{{ 'Approve' | trans }}</span>
-                                        <span class="aui-icon aui-icon-success">{{ 'Approve' | trans }}</span>
-                                    </td>
-                                </tr>
-                            {% endfor %}
-                        {% endif %}
+                    <tbody class="event-objects"
+                           data-prototype="{% filter escape %}{% include 'OktolabRentBundle:Event:eventObjectPrototype.html.twig' %}{% endfilter %}"
+                           data-index="{{ objects|length }}">
+                        {% for object in objects if objects %}
+                            {% set formobject = form.objects[loop.index0] %}
+                            {% set objective = '%s:%s'|format(object.type, object.id) %}
+
+                            <tr>
+                                <td>{{ object.barcode }}</td>
+                                <td>{{ object.title }}</td>
+                                <td>
+                                    <a href="#" class="remove" data-value="{{ objective }} ">
+                                        <span class="aui-icon aui-icon-small aui-iconfont-remove">{{ 'Remove'|trans }}</span>
+                                    </a>
+                                    {#<span class="aui-icon aui-icon-small aui-iconfont-approve">{{ 'Approve' | trans }}</span>
+                                    <span class="aui-icon aui-icon-success">{{ 'Approve' | trans }}</span>#}
+                                </td>
+                                <td class="hidden">{{ form_row(formobject, { 'attr': { 'data-value': objective } }) }}</td>
+                            </tr>
+                        {% endfor %}
                     </tbody>
                 </table>
             </div>
-        </fieldset>
-
-        <fieldset class="hidden oktolab-event-objects"
-                  data-index="{{ objects|length }}"
-                  data-prototype="{{ '<div data-value="{{value}}"><input id="%1$s_objects_{{index}}_type" name="%1$s[objects][{{index}}][type]" value="{{type}}" /><input id="%1$s_{{index}}_object" name="%1$s[objects][{{index}}][object]" value="{{id}}" /></div>'|format(form.vars.name)|e }}">
-            {% if objects %}
-                {% for object in form.objects %}
-                    {#{ form.vars.value.name }}
-                    {{ dump(object) }#}
-                    {{ form_row(object, { 'attr': { 'data-value': object.vars.value.type ~ object.vars.value.object } }) }}
-                {% endfor %}
-            {% endif %}
-        </fieldset>
-
-        <fieldset class="hidden oktolab-event-scanned-objects"
-                  data-index="0"
-                  data-prototype="{{ '<input id="oktolabrentbundle_event_scanned_object_{{index}}" value="{{value}}"'|e }}">
         </fieldset>
 
         <div class="buttons-container">
@@ -97,8 +86,8 @@
                 {{ form_widget(form.cancel, {'attr': { 'class': 'aui-button aui-button-link' } }) }}
             </div>
         </div>
+
         {% do form.objects.setRendered %}
         {% do form.delete.setRendered %}
     {{ form_end(form) }}
-
 {% endblock %}

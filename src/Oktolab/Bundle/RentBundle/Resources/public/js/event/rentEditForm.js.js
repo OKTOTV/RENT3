@@ -6,7 +6,6 @@
         var form = searchField.closest('form');
         var collectionHolder = form.find('.event-objects');
         var hiddenInputCollection = form.find('.oktolab-event-objects.hidden');
-        var scannedInputCollection = form.find('.oktolab-event-scanned-objects.hidden');
 
         /**
          * Adds the (scanned) Object to Template
@@ -26,6 +25,13 @@
                     Oktolab.appendPrototypeTemplate(hiddenInputCollection, item);
                 });
             }
+        };
+
+        var removeObject = function (object) {
+            var value = object.data('value');
+
+            // remove from collectionHolder
+            object.closest('tr').remove();
         };
 
         /**
@@ -68,28 +74,26 @@
             return datum;
         };
 
+        var template = [
+            '<span class="aui-icon aui-icon-small aui-iconfont-devtools-file">Object</span>',
+            '<p class="tt-object-name">{{name}}</p>',
+            '<p class="tt-object-addon">{{barcode}}</p>'
+        ].join('');
+
         searchField.typeahead([{
-            name: 'rent-items',
-            valueKey: 'name',
-            prefetch: { url: oktolab.typeahead.itemPrefetchUrl, ttl: 60000 },
-            template: [
-                '<span class="aui-icon aui-icon-small aui-iconfont-devtools-file">Object</span>',
-                '<p class="tt-object-name">{{name}}</p>',
-                '<p class="tt-object-addon">{{barcode}}</p>'
-            ].join(''),
-            header: '<h3>Items</h3>',
-            engine: Hogan
+            name:       'rent-items',
+            valueKey:   'name',
+            prefetch:   { url: oktolab.typeahead.itemPrefetchUrl, ttl: 60000 },
+            template:   template,
+            header:     '<h3>Items</h3>',
+            engine:     Hogan
         }, {
             name:       'rent-sets',
             valueKey:   'name',
             prefetch:   { url: oktolab.typeahead.setPrefetchUrl, ttl: 60000 },
-            template: [
-                '<span class="aui-icon aui-icon-small aui-iconfont-devtools-file">Object</span>',
-                '<p class="tt-object-name">{{name}}</p>',
-                '<p class="tt-object-addon">{{barcode}}</p>'
-            ].join(''),
-            header: '<h3>Sets</h3>',
-            engine: Hogan
+            template:   template,
+            header:     '<h3>Sets</h3>',
+            engine:     Hogan
         }]);
 
         searchField.on('typeahead:selected', function (e, datum) {
@@ -121,21 +125,15 @@
             if ((keyCode === 13 && e.ctrlKey == true) || (keyCode === 74 && e.ctrlKey == true) || keyCode === 9) {
                 e.preventDefault();
 
-                var datum = findSuggestion();
-                addObject(datum);
+                addObject(findSuggestion());
                 searchField.typeahead('setQuery', '');
                 searchField.focus();
             }
         });
 
-        // Remove an EventObject
-        collectionHolder.on('click', '.remove-object', function (event) {
-            event.preventDefault();
-            var value = $(this).data('value');
-
-            $(event.target).closest('tr').remove();     // remove from collectionHolder
-            hiddenInputCollection.find('div[data-object="' + value + '"]').remove(); // remove from hiddenInputCollection
-            scannedInputCollection.find('div[data-object="' + value + '"]').remove(); // remove from scannedInputCollection
+        collectionHolder.on('click', 'a.remove', function (e) {
+            e.preventDefault();
+            removeObject($(e.currentTarget));
         });
     };
 

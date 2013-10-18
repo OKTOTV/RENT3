@@ -2,6 +2,18 @@
 <tr>
     <td>{{ '{{barcode}}' }}</td>
     <td>{{ '{{name}}' }}</td>
-    <td><a href="#"><span class="aui-icon aui-icon-small aui-iconfont-remove remove-object" data-value="{{ '{{value}}' }}">{{ 'Remove'|trans }}</span></a></td>
+    <td>
+        <a href="#" class="remove" data-value="{{ '{{value}}' }}">
+            <span class="aui-icon aui-icon-small aui-iconfont-remove">{{ 'Remove'|trans }}</span>
+        </a>
+    </td>
+    <td class="hidden">
+        <div class="field-group" data-value="{{ '{{value}}' }}">
+            {% set formName = 'OktolabRentBundle_Event_Form' %}
+
+            <input id="{{ '%s_objects_{{index}}_type'|format(formName) }}" name="{{ '%s[objects][{{index}}][type]'|format(formName) }}" value="{{ '{{type}}' }}" />
+            <input id="{{ '%s_objects_{{index}}_object'|format(formName) }}" name="{{ '%s[objects][{{index}}][object]'|format(formName) }}" value="{{ '{{id}}' }}" />
+        </div>
+    </td>
 </tr>
 {% endspaceless %}

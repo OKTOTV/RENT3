@@ -133,7 +133,7 @@ class EventController extends Controller
         }
 
         if ($form->get('update')->isClicked()) { // User clicked Update -> Save Event
-            $this->get('oktolab.event_manager')->save($form->getData());
+            $this->get('oktolab.event_manager')->save($event);
             $this->get('session')->getFlashBag()->add('success', 'Successfully updated Event.');
             $this->get('logger')->info('Event updated.', array('id' => $form->getData()->getId()));
         }
