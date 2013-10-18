@@ -8,17 +8,29 @@
         var hiddenInputCollection = form.find('.oktolab-event-objects.hidden');
         var scannedInputCollection = form.find('.oktolab-event-scanned-objects.hidden');
 
-        searchField.typeahead({
+        searchField.typeahead([{
             name: 'rent-items',
             valueKey: 'name',
             prefetch: { url: oktolab.typeahead.itemPrefetchUrl, ttl: 60000 },
             template: [
                 '<span class="aui-icon aui-icon-small aui-iconfont-devtools-file">Object</span>',
                 '<p class="tt-object-name">{{name}}</p>',
-                '<p class="tt-object-addon" data-barcode="{{barcode}}">{{barcode}}</p>'
+                '<p class="tt-object-addon">{{barcode}}</p>'
             ].join(''),
+            header: '<h3>Items</h3>',
             engine: Hogan
-        });
+        }, {
+            name:       'rent-sets',
+            valueKey:   'name',
+            prefetch:   { url: oktolab.typeahead.setPrefetchUrl, ttl: 60000 },
+            template: [
+                '<span class="aui-icon aui-icon-small aui-iconfont-devtools-file">Object</span>',
+                '<p class="tt-object-name">{{name}}</p>',
+                '<p class="tt-object-addon">{{barcode}}</p>'
+            ].join(''),
+            header: '<h3>Sets</h3>',
+            engine: Hogan
+        }]);
 
         var addObject = function (object) {
             if (0 === collectionHolder.find('span[data-value="' + object.type + object.id + '"]').length) {
@@ -33,19 +45,39 @@
             searchField.typeahead('setQuery', '');
         });
 
-        searchField.on('keypress', function (e) {
-            if (e.which === 13 || e.which === 0) {
-                console.log('Enter/Tab was pressed');
+        searchField.keydown(function (e) {
+            var keyCode = e.which || e.keyCode;
+
+            if (keyCode === 13 ||                       // ENTER
+                keyCode === 9 ||                        // TAB
+                (keyCode === 74 && e.ctrlKey == true)   // LF (Barcode Scanner)
+            ) {
+                e.preventDefault();
+            }
+        });
+
+        searchField.keyup(function(e) {
+            var keyCode = e.which || e.keyCode;
+
+            // block keys: *, /, -, +, ... from numpad (barcode scanner ...)
+            if ((keyCode >= 106 && keyCode <= 111) || keyCode === 16 || keyCode === 17 || keyCode === 18) {
+                e.preventDefault();
+                return;
+            }
+
+            if ((keyCode === 13 && e.ctrlKey == true) || (keyCode === 74 && e.ctrlKey == true) || keyCode === 9) {
+                e.preventDefault();
 
                 // TODO: Not save to do this.
                 jQuery.each(searchField.data().ttView.datasets[0].itemHash, function (key, value) {
                     if (searchField.val() === value.datum.barcode) {
                         addObject(value.datum);
                         searchField.typeahead('setQuery', '');
+                        searchField.focus();
                     }
                 });
 
-                e.preventDefault();
+
             }
         });
 
