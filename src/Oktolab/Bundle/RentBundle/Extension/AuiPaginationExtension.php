@@ -2,11 +2,11 @@
 
 namespace Oktolab\Bundle\RentBundle\Extension;
 
-const first = "aui-nav-first";
-const selected ="aui-nav-selected";
-const last = "aui-nav-last";
-const prev = "aui-nav-previous";
-const next = "aui-nav-next";
+const FIRST = "aui-nav-first";
+const SELECTED ="aui-nav-selected";
+const LAST = "aui-nav-last";
+const PREV = "aui-nav-previous";
+const NEXT = "aui-nav-next";
 
 use Symfony\Component\Translation\TranslatorInterface;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface as Router;
@@ -15,8 +15,9 @@ use Symfony\Component\Routing\Generator\UrlGeneratorInterface as Router;
  * AUI-Pager Extension for Twig.
  *
  * @author rs
+ * @see https://developer.atlassian.com/design/latest/pagination.html
  *
- * @example auiPager($url_name, $pages, $current, $max = 5)
+ * @example aui_pager('dashboard', 30, 3)
  */
 class AuiPaginationExtension extends \Twig_Extension
 {
@@ -46,6 +47,8 @@ class AuiPaginationExtension extends \Twig_Extension
     {
         $this->translator   = $translator;
         $this->routing      = $router;
+
+        // @TODO: Caching with INDEX: md5($url_name, $pages, $current, $max, $language) would be possible
     }
 
     /**
@@ -63,31 +66,25 @@ class AuiPaginationExtension extends \Twig_Extension
     /**
      * Renders a nice Paging Navigation like "prev 1 ... 3 4 5 6 7 ... 1 next"
      * Including: Next and Previous link, last and first link, leading and following pages
-     * and indicator to more pages left or to the right
      *
-     * @param type $url_name -> The URL to the Page
-     * @param type $pages -> All Pages available
-     * @param type $current -> The Current page you are at
-     * @param type $max -> How Many companions including the current Page to render
-     * @return string -> the complete Ordered List as HTML with AUI formatting classes.
+     * @see https://developer.atlassian.com/design/latest/pagination.html
+     *
+     * @param string $url_name   uri identifier
+     * @param int    $pages      number of pages
+     * @param int    $current    current page
+     * @param int    $max        maximal number of companion pages to render
+     *
+     * @return string HTML
      */
     public function getPagerHtml($url_name, $pages, $current, $max = 5)
     {
+        if (1 === $pages) {
+            return '<ol class="aui-nav aui-nav-pagination"></ol>';
+        }
+
+        $startPoint = $this->calculateStartpoint($pages, $current, $max);
+
         $this->htmlString = '<ol class="aui-nav aui-nav-pagination">';
-
-        $companionPages = floor($max/2);
-        $startPoint = $current - $companionPages;
-
-        if ($startPoint < 2) {
-            $startPoint = 2;
-        }
-        if ($startPoint + $max > $pages - 1) {
-            $startPoint = $pages - $max;
-        }
-
-        if ($pages == 1) { //No pager needed
-            return '';
-        }
 
         if ($pages < $max) { //No truncating needed, render all pages
             for ($i =1; $i <= $pages; $i++) {
@@ -96,12 +93,13 @@ class AuiPaginationExtension extends \Twig_Extension
                         $this->addListPoint(
                             $this->translator->trans('generic.previous'),
                             $this->routing->generate($url_name, array('page' => $current-1)),
-                            prev);
+                            PREV
+                        );
                     }
                 }
 
                 if ($i == $current) {
-                    $this->addListPoint($i, $this->routing->generate($url_name, array('page' => $i)), selected);
+                    $this->addListPoint($i, $this->routing->generate($url_name, array('page' => $i)), SELECTED);
                 } else {
                     $this->addListPoint($i, $this->routing->generate($url_name, array('page' => $i)));
                 }
@@ -111,7 +109,7 @@ class AuiPaginationExtension extends \Twig_Extension
                         $this->addListPoint(
                             $this->translator->trans('generic.next'),
                             $this->routing->generate($url_name, array('page' => $current+1)),
-                            next
+                            NEXT
                         );
                     }
                 }
@@ -127,11 +125,12 @@ class AuiPaginationExtension extends \Twig_Extension
                     $this->addListPoint(
                         $this->translator->trans('generic.previous'),
                         $this->routing->generate($url_name, array('page' => $current-1)),
-                        prev);
+                        PREV
+                    );
                 }
 
                 if ($i == $current) {
-                    $this->addListPoint($i, $this->routing->generate($url_name, array('page' => $i)), selected);
+                    $this->addListPoint($i, $this->routing->generate($url_name, array('page' => $i)), SELECTED);
                 } else {
                     $this->addListPoint($i, $this->routing->generate($url_name, array('page' => $i)));
                 }
@@ -142,11 +141,11 @@ class AuiPaginationExtension extends \Twig_Extension
 
             //pages to render
             if (($i >= $startPoint) && ($i < $startPoint + $max)) {
-                if ($i == $current ) {
+                if ($i == $current) {
                     $this->addListPoint(
                         $i,
                         $this->routing->generate($url_name, array('page' => $i)),
-                        selected
+                        SELECTED
                     );
                 } else {
                     $this->addListPoint(
@@ -166,13 +165,13 @@ class AuiPaginationExtension extends \Twig_Extension
                     $this->addListPoint(
                         $i,
                         $this->routing->generate($url_name, array('page' => $i)),
-                        selected
+                        SELECTED
                     );
                 } else {
                     $this->addListPoint(
                         $i,
                         $this->routing->generate($url_name, array('page' => $i)),
-                        last
+                        LAST
                     );
                 }
 
@@ -180,7 +179,7 @@ class AuiPaginationExtension extends \Twig_Extension
                     $this->addListPoint(
                         $this->translator->trans('generic.next'),
                         $this->routing->generate($url_name, array('page' => $current+1)),
-                        next
+                        NEXT
                     );
                 }
             }
@@ -188,6 +187,24 @@ class AuiPaginationExtension extends \Twig_Extension
         $this->htmlString = $this->htmlString."</ol>";
 
         return $this->htmlString;
+    }
+
+    /**
+     * Calculates the Start-Point (index).
+     *
+     * @param int $pages
+     * @param int $current
+     * @param int $max
+     *
+     * @return int
+     */
+    protected function calculateStartpoint($pages, $current, $max)
+    {
+        $companionPages = floor($max / 2);
+        $index = ($current - $companionPages) > 2 ? $current - $companionPages : 2;
+        $index = ($index + $max > $pages - 1) ? $pages - $max : $index;
+
+        return $index;
     }
 
     /**
@@ -203,6 +220,19 @@ class AuiPaginationExtension extends \Twig_Extension
     }
 
     /**
+     * Generates the URI.
+     *
+     * @param string $uri
+     * @param array  $parameters
+     *
+     * @return string
+     */
+    protected function generateUri($uri, array $parameters = array())
+    {
+        return $this->routing->generate($uri, $parameters);
+    }
+
+    /**
      * {@inheritDoc}
      * @codeCoverageIgnore
      */
@@ -210,5 +240,4 @@ class AuiPaginationExtension extends \Twig_Extension
     {
         return 'auiPagerExtension';
     }
-
 }
