@@ -71,17 +71,19 @@ class AuiPaginationExtensionTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * @dataProvider htmlLinksProvider
      * @test
      */
-    public function htmlContainsLinks()
+    public function htmlContainsLinks(array $links, $nb, $current, $max)
     {
         $this->trainTheRouter();
         $this->trainTheTranslator();
 
-        $crawler = new Crawler($this->SUT->getPagerHtml('RENT_URI', 3, 1, 5));
+        $crawler = new Crawler($this->SUT->getPagerHtml('RENT_URI', $nb, $current, $max));
         $this->assertNotCount(0, $crawler, 'Expected a valid DomDocument.');
 
-        foreach (array('1', '2', '3', 'generic.next') as $key => $expected) {
+        $this->assertCount(count($links), $crawler->filter('li > a'));
+        foreach ($links as $key => $expected) {
             $xpath = sprintf('//ol/li[%d]/a', $key + 1);
             $this->assertSame(
                 $expected,
@@ -133,6 +135,20 @@ class AuiPaginationExtensionTest extends \PHPUnit_Framework_TestCase
 
         $this->assertCount(1, $crawler->filterXPath($xpath));
         $this->assertSame('aui-nav-selected', $crawler->filterXPath($xpath)->attr('class'));
+    }
+
+    /**
+     * @test
+     */
+    public function htmlContainsOnlyOneLink()
+    {
+        $this->trainTheRouter();
+        $this->trainTheTranslator();
+
+        $crawler = new Crawler($this->SUT->getPagerHtml('RENT_URI', 1, 1, 5));
+        $this->assertNotCount(0, $crawler, 'Expected a valid DomDocument.');
+
+        $this->assertCount(0, $crawler->filter('li'));
     }
 
     /**
@@ -196,6 +212,24 @@ class AuiPaginationExtensionTest extends \PHPUnit_Framework_TestCase
             array(20,  1, 5,  9, '//ol/li[1]'),     // [1], 2, 3, 4, 5, 6, ..., 20, next
             array(20, 10, 5, 11, '//ol/li[6]'),     // prev, 1, ..., 8, 9, [10], 11, 12, ..., 20, next
             array(20, 20, 5,  9, '//ol/li[9]'),     // prev, 1, ..., 15, 16, 17, 18, 19, [20]
+        );
+    }
+
+    public function htmlLinksProvider()
+    {
+        $prev = 'generic.previous';
+        $next = 'generic.next';
+        $hellip = html_entity_decode("&hellip;", 2 | 48, 'UTF-8');
+
+        return array(
+            array(array('1', '2', '3', $next), 3, 1, 5),
+            array(array($prev, '1', '2', '3','generic.next'), 3, 2, 5),
+            array(array($prev, '1', $hellip, '3', '4', '5', '6', '7', $hellip, '20', $next), 20, 5, 5),
+            array(array($prev, '1', $hellip, '15', '16', '17', '18', '19', '20'), 20, 20, 5),
+            array(array($prev, '1', $hellip, '15', '16', '17', '18', '19', '20', $next), 20, 19, 5),
+            array(array($prev, '1', $hellip, '15', '16', '17', '18', '19', '20', $next), 20, 18, 5),
+            array(array($prev, '1', $hellip, '15', '16', '17', '18', '19', '20', $next), 20, 17, 5),
+            array(array($prev, '1', $hellip, '14', '15', '16', '17', '18', $hellip, '20', $next), 20, 16, 5),
         );
     }
 
