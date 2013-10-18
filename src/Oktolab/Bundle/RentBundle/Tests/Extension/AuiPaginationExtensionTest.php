@@ -94,8 +94,14 @@ class AuiPaginationExtensionTest extends \PHPUnit_Framework_TestCase
     /**
      * @dataProvider nbLinksProvider
      * @test
+     *
+     * @param int       $nb
+     * @param int       $curent
+     * @param int       $max
+     * @param int       $expectedNb
+     * @param string    $xpath
      */
-    public function htmlContainsNbLinks($nb, $current, $max, $expectedNb)
+    public function htmlContainsNbLinks($nb, $current, $max, $expectedNb, $xpath)
     {
         $this->trainTheRouter();
         $this->trainTheTranslator();
@@ -110,6 +116,12 @@ class AuiPaginationExtensionTest extends \PHPUnit_Framework_TestCase
     /**
      * @dataProvider nbLinksProvider
      * @test
+     *
+     * @param int       $nb
+     * @param int       $curent
+     * @param int       $max
+     * @param int       $expectedNb
+     * @param string    $xpath
      */
     public function currentLinkIsHighlighted($nb, $current, $max, $expectedNb, $xpath)
     {
@@ -123,16 +135,45 @@ class AuiPaginationExtensionTest extends \PHPUnit_Framework_TestCase
         $this->assertSame('aui-nav-selected', $crawler->filterXPath($xpath)->attr('class'));
     }
 
+    /**
+     * @dataProvider willPrintDotsProvider
+     * @test
+     *
+     * @param int       $nb
+     * @param int       $current
+     * @param string    $xpath
+     */
+    public function willPrintDots($nb, $current, $xpath)
+    {
+        $this->trainTheRouter();
+        $this->trainTheTranslator();
+
+        $crawler = new Crawler($this->SUT->getPagerHtml('RENT_URI', $nb, $current, 5));
+        $this->assertNotCount(0, $crawler, 'Expected a valid DomDocument.');
+
+        $this->assertCount(1, $crawler->filterXPath($xpath));
+        $this->assertEquals(html_entity_decode("&hellip;", 2 | 48, 'UTF-8'), $crawler->filterXPath($xpath)->text());
+    }
+
+    public function willPrintDotsProvider()
+    {
+        return array(
+            array(20,  1, '//ol/li[7]/a'),   // 1, 2, 3, 4, 5, 6, [...], 20, next
+            array(20, 10, '//ol/li[3]/a'),   // prev, 1, [...], 8, 9, 10, 11, 12, ..., 20, next
+            array(20, 10, '//ol/li[9]/a'),   // prev, 1, ..., 8, 9, 10, 11, 12, [...], 20, next
+        );
+    }
+
     public function nbLinksProvider()
     {
         return array(
             // nb | current | max | expectedNb | XPath [highlighted]
-            array(3, 1, 5, 4, '//ol/li[1]'),      // [1], 2, 3, next
-            array(3, 3, 5, 4, '//ol/li[4]'),      // prev, 1, 2, [3]
-            array(3, 2, 5, 5, '//ol/li[3]'),      // prev, 1, [2], 3, next
-            array(20, 1, 5, 9, '//ol/li[1]'),     // [1], 2, 3, 4, 5, 6, ..., 20, next
-            array(20, 10, 5, 11, '//ol/li[6]'),   // prev, 1, ..., 8, 9, [10], 11, 12, ..., 20, next
-            array(20, 20, 5, 9, '//ol/li[9]'),    // prev, 1, ..., 15, 16, 17, 18, 19, [20]
+            array( 3,  1, 5,  4, '//ol/li[1]'),     // [1], 2, 3, next
+            array( 3,  3, 5,  4, '//ol/li[4]'),     // prev, 1, 2, [3]
+            array( 3,  2, 5,  5, '//ol/li[3]'),     // prev, 1, [2], 3, next
+            array(20,  1, 5,  9, '//ol/li[1]'),     // [1], 2, 3, 4, 5, 6, ..., 20, next
+            array(20, 10, 5, 11, '//ol/li[6]'),     // prev, 1, ..., 8, 9, [10], 11, 12, ..., 20, next
+            array(20, 20, 5,  9, '//ol/li[9]'),     // prev, 1, ..., 15, 16, 17, 18, 19, [20]
         );
     }
 
