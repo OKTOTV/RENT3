@@ -363,6 +363,10 @@
                 <source>inventory.item.descriptionPlaceholder</source>
                 <target>Beschreibung des Gegenstands</target>
             </trans-unit>
+            <trans-unit id="124">
+                <source>inventory.item.item</source>
+                <target>Gegenstand</target>
+            </trans-unit>
 
             <trans-unit id="201">
                 <source>inventory.set.removeFromSet</source>
@@ -885,6 +889,80 @@
             <trans-unit id="1114">
                 <source>admin.timeblock.edit</source>
                 <target>Zeitblock bearbeiten</target>
+            </trans-unit>
+
+            <trans-unit id="1200">
+                <source>event.pdf.signatureCompany</source>
+                <target>Unterschrift MitarbeiterIn: ______________________</target>
+            </trans-unit>
+            <trans-unit id="1201">
+                <source>event.pdf.signatureRenter</source>
+                <target>Unterschrift EntlehnerIn: ______________________</target>
+            </trans-unit>
+            <trans-unit id="1202">
+                <source>event.pdf.Page</source>
+                <target>Seite</target>
+            </trans-unit>
+            <trans-unit id="1203">
+                <source>event.pdf.lentgivenBy</source>
+                <target>Ausgegeben von %CompanyName% durch: %coworkerName%</target>
+            </trans-unit>
+            <trans-unit id="1204">
+                <source>event.pdf.reallyReturnedAt</source>
+                <target>Rückgegeben am: ______________________</target>
+            </trans-unit>
+            <trans-unit id="1205">
+                <source>event.pdf.takenBackBy</source>
+                <target>Zurück genommen von: ______________________</target>
+            </trans-unit>
+            <trans-unit id="1206">
+                <source>event.pdf.lentAt</source>
+                <target>Verleih vom: %rentFromDate%</target>
+            </trans-unit>
+            <trans-unit id="1207">
+                <source>event.pdf.planReturnAt</source>
+                <target>Verleih bis: %rentTillDate%</target>
+            </trans-unit>
+            <trans-unit id="1208">
+                <source>event.pdf.pickUpName</source>
+                <target>AbholerIn: %pickUpName%</target>
+            </trans-unit>
+            <trans-unit id="1209">
+                <source>event.pdf.costUnitName</source>
+                <target>Kostenstelle: %costUnitName%</target>
+            </trans-unit>
+
+            <trans-unit id="1300">
+                <source>admin.setting.settings</source>
+                <target>Einstellungen</target>
+            </trans-unit>
+            <trans-unit id="1301">
+                <source>admin.setting.setting</source>
+                <target>Einstellung</target>
+            </trans-unit>
+            <trans-unit id="1302">
+                <source>setting.company.name</source>
+                <target>Firmenname</target>
+            </trans-unit>
+            <trans-unit id="1303">
+                <source>setting.company.adress</source>
+                <target>Adresse</target>
+            </trans-unit>
+            <trans-unit id="1304">
+                <source>setting.company.plz</source>
+                <target>Postleitzahl</target>
+            </trans-unit>
+            <trans-unit id="1305">
+                <source>setting.company.place</source>
+                <target>Ort</target>
+            </trans-unit>
+            <trans-unit id="1306">
+                <source>setting.company.additionalText</source>
+                <target>Zusatztext</target>
+            </trans-unit>
+            <trans-unit id="1307">
+                <source>admin.setting.about</source>
+                <target>Basiseinstellungen für diese Software werden hier festgelegt.</target>
             </trans-unit>
         </body>
     </file>

@@ -5,6 +5,8 @@ namespace Oktolab\Bundle\RentBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Oktolab\Bundle\RentBundle\Entity\Event;
 
+use Symfony\Component\Validator\Constraints as Assert;
+
 /**
  * EventObject
  *
@@ -40,6 +42,13 @@ class EventObject
      * @ORM\Column(name="object", type="integer")
      */
     private $object;
+
+    /**
+     * @var boolean
+     *
+     * @Assert\True(groups={"Rent"})
+     */
+    private $scanned = false;
 
     /**
      * Get id
@@ -118,5 +127,17 @@ class EventObject
     public function getObject()
     {
         return $this->object;
+    }
+
+    public function getScanned()
+    {
+        return $this->scanned;
+    }
+
+    public function setScanned($scanned)
+    {
+        $this->scanned = $scanned;
+
+        return $this;
     }
 }

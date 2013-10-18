@@ -1,0 +1,26 @@
+{% extends 'OktolabRentBundle:Admin:Setting\\base.html.twig' %}
+
+{%block buttons%}
+    <a class="aui-button" href="{{ path('admin_setting') }}">{{ 'generic.overview' | trans }}</a>
+    <a class="aui-button" href="{{ path('setting_company_show') }}">{{ 'generic.back' | trans }}</a>
+{%endblock%}
+{% block content %}
+    {{ parent() }}
+
+    {{ form_start(edit_form, {'attr': {'class': 'aui oktolab-plupload-form'} }) }}
+        <h3>{{ 'admin.setting.edit'|trans }}</h3>
+        <fieldset>
+            {{ form_errors(edit_form) }}
+            {{ form_row(edit_form.name)}}
+            {{ form_row(edit_form.adress)}}
+            {{ form_row(edit_form.place)}}
+            {{ form_row(edit_form.plz)}}
+            {{ form_row(edit_form.logo)}}
+            {{ form_row(edit_form.additional_text)}}
+
+            <div class="buttons-container">
+                <button class="aui-button aui-button-primary" type="submit">{{ 'generic.submit'|trans}}</button>
+            </div>
+        </fieldset>
+    {{ form_end(edit_form) }}
+{% endblock %}

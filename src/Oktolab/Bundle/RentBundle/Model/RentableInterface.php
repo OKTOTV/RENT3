@@ -32,4 +32,11 @@ interface RentableInterface
      * @return int
      */
     public function getId();
+
+    /**
+     * Returns Object title
+     *
+     * @return string
+     */
+    public function getTitle();
 }

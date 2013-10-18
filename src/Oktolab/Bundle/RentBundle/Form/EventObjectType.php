@@ -12,6 +12,7 @@ class EventObjectType extends AbstractType
     {
         $builder->add('type');
         $builder->add('object');
+        $builder->add('scanned', 'hidden');
     }
 
     public function setDefaultOptions(OptionsResolverInterface $resolver)

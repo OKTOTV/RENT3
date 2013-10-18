@@ -16,6 +16,7 @@ services:
         calls:
             - [ addRepository, [ "Event", @oktolab.orm.event_repository ] ]
             - [ addRepository, [ "Item", @oktolab.orm.item_repository ] ]
+            - [ addRepository, [ "Set", @oktolab.orm.set_repository ] ]
             - [ setEntityManager, [ @doctrine.orm.entity_manager ] ]
 
     oktolab.form.event:

@@ -15,7 +15,7 @@ use Oktolab\Bundle\RentBundle\Entity\EventObject;
  * @ORM\Table()
  * @ORM\Entity(repositoryClass="Oktolab\Bundle\RentBundle\Entity\EventRepository")
  *
- * @Assert\GroupSequence({"Event", "Logic"})
+ * @ Assert\GroupSequence({"Event", "Logic"})
  */
 class Event
 {
@@ -60,7 +60,7 @@ class Event
      * @ORM\Column(name="begin", type="datetime")
      *
      * @Assert\NotBlank()
-     * @Assert\Type("\DateTime")
+     * @Assert\DateTime()
      */
     private $begin;
 
@@ -70,7 +70,7 @@ class Event
      * @ORM\Column(name="end", type="datetime")
      *
      * @Assert\NotBlank()
-     * @Assert\Type("\DateTime")
+     * @Assert\DateTime()
      */
     private $end;
 
@@ -86,6 +86,23 @@ class Event
      * @ORM\OneToMany(targetEntity="EventObject", mappedBy="event")
      */
     private $objects;
+
+    /**
+     * @Assert\NotBlank()
+     *
+     * @ORM\ManyToOne(targetEntity="costunit", inversedBy="events")
+     * @ORM\JoinColumn(name="costunit_id", referencedColumnName="id")
+     **/
+    private $costunit;
+
+    /**
+     * @Assert\NotBlank()
+     *
+     * @ORM\ManyToOne(targetEntity="contact", inversedBy="events")
+     * @ORM\JoinColumn(name="contact_id", referencedColumnName="id")
+     **/
+    private $contact;
+
 
     /**
      * Constructor
@@ -157,7 +174,7 @@ class Event
      * @param  \DateTime $end
      * @return Event
      */
-    public function setEnd(\DateTime $end)
+    public function setEnd($end)
     {
         $this->end = $end;
 
@@ -199,6 +216,8 @@ class Event
 
     /**
      * Get objects
+     *
+     * @Assert\Count(min="1", groups={"Rent"})
      *
      * @return \Doctrine\Common\Collections\Collection
      */
@@ -289,6 +308,52 @@ class Event
      */
     public function isEndAfterBegin()
     {
-        return (null !== $this->begin && $this->end > $this->begin);
+        return (null !== $this->begin && null !== $this->end && $this->end > $this->begin);
+    }
+
+    /**
+     * Set costunit
+     *
+     * @param \Oktolab\Bundle\RentBundle\Entity\costunit $costunit
+     * @return Event
+     */
+    public function setCostunit(\Oktolab\Bundle\RentBundle\Entity\costunit $costunit = null)
+    {
+        $this->costunit = $costunit;
+
+        return $this;
+    }
+
+    /**
+     * Get costunit
+     *
+     * @return \Oktolab\Bundle\RentBundle\Entity\costunit
+     */
+    public function getCostunit()
+    {
+        return $this->costunit;
+    }
+
+    /**
+     * Set contact
+     *
+     * @param \Oktolab\Bundle\RentBundle\Entity\contact $contact
+     * @return Event
+     */
+    public function setContact(\Oktolab\Bundle\RentBundle\Entity\contact $contact = null)
+    {
+        $this->contact = $contact;
+
+        return $this;
+    }
+
+    /**
+     * Get contact
+     *
+     * @return \Oktolab\Bundle\RentBundle\Entity\contact
+     */
+    public function getContact()
+    {
+        return $this->contact;
     }
 }

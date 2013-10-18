@@ -20,8 +20,8 @@ oktolab.addTypeaheadObjectToEventForm = function(collectionHolder, datum) {
     fieldGroup.append(
             AJS.$('<input />', {
                 class: 'hidden',
-                id: 'oktolabrentbundle_event_objects_' + index + '_type',
-                name: 'oktolabrentbundle_event[objects][' + index + '][type]',
+                id: 'OktolabRentBundle_Event_Form_' + index + '_type',
+                name: 'OktolabRentBundle_Event_Form[objects][' + index + '][type]',
                 value: value[0],
             })
     );
@@ -29,8 +29,8 @@ oktolab.addTypeaheadObjectToEventForm = function(collectionHolder, datum) {
     fieldGroup.append(
             AJS.$('<input />', {
                 class: 'hidden',
-                id: 'oktolabrentbundle_event_objects_' + index + '_object',
-                name: 'oktolabrentbundle_event[objects][' + index + '][object]',
+                id: 'OktolabRentBundle_Event_Form_objects_' + index + '_object',
+                name: 'OktolabRentBundle_Event_Form[objects][' + index + '][object]',
                 value: value[1],
             })
     );
@@ -53,7 +53,7 @@ oktolab.removeEventObjectFromEventForm = function(event) {
 };
 
 AJS.$(document).ready(function() {
-    AJS.$('#inventory-search-field').typeahead({
+    AJS.$('#inventory-search-field').typeahead([{
         name: 'rent-items',
         valueKey: 'name',
         prefetch: { url: oktolab.typeahead.itemPrefetchUrl, ttl: 60000 },
@@ -62,10 +62,20 @@ AJS.$(document).ready(function() {
             '<p class="tt-object-name">{{name}}</p>',
             '<p class="tt-object-addon">{{barcode}}</p>'
         ].join(''),
+        header: '<h3>Items</h3>',
         engine: Hogan
-    });
-
-    console.log(oktolab.typeahead.itemPrefetchUrl);
+    }, {
+        name:       'rent-sets',
+        valueKey:   'name',
+        prefetch:   { url: oktolab.typeahead.setPrefetchUrl, ttl: 60000 },
+        template: [
+            '<span class="aui-icon aui-icon-small aui-iconfont-devtools-file">Object</span>',
+            '<p class="tt-object-name">{{name}}</p>',
+            '<p class="tt-object-addon">{{barcode}}</p>'
+        ].join(''),
+        header: '<h3>Sets</h3>',
+        engine: Hogan
+    }]);
 
     collectionHolder.data('index', collectionHolder.find(':tr').length);
 //    collectionHolder.data('objects', []);
@@ -81,4 +91,53 @@ AJS.$(document).ready(function() {
     });
 
     collectionHolder.on('click', '.remove-object', oktolab.removeEventObjectFromEventForm);
+
+//  costunit
+    AJS.$('#costunit-search-field').typeahead({
+        name: 'costunits',
+        valueKey:   'name',
+        prefetch: {url: oktolab.typeahead.costunitPrefetchUrl, ttl: 5 },
+        template: [
+            '<span class="aui-icon aui-icon-small aui-iconfont-devtools-file">Object</span>',
+            '<p class="tt-object-name">{{name}}</p>',
+            '<p class="tt-object-addon">{{barcode}}</p>'
+        ].join(''),
+        engine: Hogan
+    });
+
+    jQuery('#costunit-search-field').on('typeahead:selected', function(e, datum) {
+        var form = collectionHolder.closest('form');
+
+        //select costunit with datum.id
+        var selectbox = form.find('#OktolabRentBundle_Event_Form_costunit');
+        selectbox.val(datum.id);
+        var nameField = form.find('#OktolabRentBundle_Event_Form_name');
+        nameField.val(datum.name);
+
+        AJS.$('#contact-search-field').attr('disabled', false);
+
+        AJS.$('#contact-search-field').typeahead({
+            name: 'costunit-contacts',
+            valueKey:   'name',
+            remote: { url: oktolab.typeahead.costunitcontactRemoteUrl.replace('__id__', datum.id),
+                      replace: function() {
+                          return oktolab.typeahead.costunitcontactRemoteUrl.replace('__id__', AJS.$(form.find('#OktolabRentBundle_Event_Form_costunit')).val())
+                      }
+                    },
+            template: [
+            '<span class="aui-icon aui-icon-small aui-iconfont-devtools-file">Object</span>',
+            '<p class="tt-object-name">{{name}}</p>'
+        ].join(''),
+        engine: Hogan
+        });
+    });
+
+// contact
+    jQuery('#contact-search-field').on('typeahead:selected', function(e, datum) {
+        var form = collectionHolder.closest('form');
+
+        //select costunit with datum.id
+        var selectbox = form.find('#OktolabRentBundle_Event_Form_contact');
+        selectbox.val(datum.id);
+    });
 });
