@@ -2,11 +2,66 @@
     'use strict';
 
     var OktolabRentBundleEditForm = function() {
-        var searchField = $('#oktolabrentbundle_event_editform_searchfield')
+        var searchField = $('#oktolabrentbundle_event_editform_searchfield');
         var form = searchField.closest('form');
         var collectionHolder = form.find('.event-objects');
         var hiddenInputCollection = form.find('.oktolab-event-objects.hidden');
         var scannedInputCollection = form.find('.oktolab-event-scanned-objects.hidden');
+
+        /**
+         * Adds the (scanned) Object to Template
+         *
+         * @param {typeahead-datum|object} object
+         */
+        var addObject = function (object) {
+            if (0 === collectionHolder.find('span[data-value="' + object.type + object.id + '"]').length) {
+                Oktolab.appendPrototypeTemplate(collectionHolder, object);         // add table row
+                Oktolab.appendPrototypeTemplate(hiddenInputCollection, object);    // add hidden input field
+            }
+
+            if ('set' === object.type) {
+                $.each(object.items, function (key, itemValue) {
+                    var item = findItem(itemValue);
+                    Oktolab.appendPrototypeTemplate(collectionHolder, item);
+                    Oktolab.appendPrototypeTemplate(hiddenInputCollection, item);
+                });
+            }
+        };
+
+        /**
+         * Finds the item from the rent-items Dataset of searchField
+         *
+         * @param {string} itemValue
+         *
+         * @return {object} Typeahead-Datum
+         */
+        var findItem = function (itemValue) {
+            var itemDatums = searchField.data().ttView.datasets[0].itemHash;
+            var datum;
+
+            $.each(itemDatums, function (key, object) {
+                if (itemValue === object.datum.value) {
+                    datum = object.datum;
+                }
+            });
+
+            return datum;
+        };
+
+        var findSuggestion = function () {
+            var searchValue = searchField.val();
+            var datum;
+
+            $.each(searchField.data().ttView.datasets, function (datasetKey, dataset) {
+                $.each(dataset.itemHash, function (itemKey, itemHash) {
+                    if (searchValue === itemHash.datum.barcode) {
+                        datum = itemHash.datum;
+                    }
+                });
+            });
+
+            return datum;
+        };
 
         searchField.typeahead([{
             name: 'rent-items',
@@ -32,13 +87,6 @@
             engine: Hogan
         }]);
 
-        var addObject = function (object) {
-            if (0 === collectionHolder.find('span[data-value="' + object.type + object.id + '"]').length) {
-                Oktolab.appendPrototypeTemplate(collectionHolder, object);         // add table row
-                Oktolab.appendPrototypeTemplate(hiddenInputCollection, object);    // add hidden input field
-            }
-        };
-
         searchField.on('typeahead:selected', function (e, datum) {
             // check if is already here, if not add it, else get "scanned"
             addObject(datum);
@@ -52,12 +100,14 @@
                 keyCode === 9 ||                        // TAB
                 (keyCode === 74 && e.ctrlKey == true)   // LF (Barcode Scanner)
             ) {
+//                console.log(keyCode, e.ctrlKey);
                 e.preventDefault();
             }
         });
 
         searchField.keyup(function(e) {
             var keyCode = e.which || e.keyCode;
+//            console.log(keyCode, e.ctrlKey);
 
             // block keys: *, /, -, +, ... from numpad (barcode scanner ...)
             if ((keyCode >= 106 && keyCode <= 111) || keyCode === 16 || keyCode === 17 || keyCode === 18) {
@@ -68,16 +118,10 @@
             if ((keyCode === 13 && e.ctrlKey == true) || (keyCode === 74 && e.ctrlKey == true) || keyCode === 9) {
                 e.preventDefault();
 
-                // TODO: Not save to do this.
-                jQuery.each(searchField.data().ttView.datasets[0].itemHash, function (key, value) {
-                    if (searchField.val() === value.datum.barcode) {
-                        addObject(value.datum);
-                        searchField.typeahead('setQuery', '');
-                        searchField.focus();
-                    }
-                });
-
-
+                var datum = findSuggestion();
+                addObject(datum);
+                searchField.typeahead('setQuery', '');
+                searchField.focus();
             }
         });
 
