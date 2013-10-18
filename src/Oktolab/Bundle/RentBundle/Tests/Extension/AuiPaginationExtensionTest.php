@@ -92,10 +92,10 @@ class AuiPaginationExtensionTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @dataProvider htmlContainsNbLinksProvider
+     * @dataProvider nbLinksProvider
      * @test
      */
-    public function htmlContainsNbLinks($nb, $current, $max, $expected)
+    public function htmlContainsNbLinks($nb, $current, $max, $expectedNb)
     {
         $this->trainTheRouter();
         $this->trainTheTranslator();
@@ -104,31 +104,35 @@ class AuiPaginationExtensionTest extends \PHPUnit_Framework_TestCase
         $this->assertNotCount(0, $crawler, 'Expected a valid DomDocument.');
 
         $li = $crawler->filter('li > a');
-        $this->assertCount($expected, $li);
+        $this->assertCount($expectedNb, $li);
     }
 
     /**
-     * @dataProvider htmlContainsNbLinksProvider
+     * @dataProvider nbLinksProvider
      * @test
      */
-    public function currentLinkIsHighlighted($nb, $current, $max, $expected)
+    public function currentLinkIsHighlighted($nb, $current, $max, $expectedNb, $xpath)
     {
         $this->trainTheRouter();
         $this->trainTheTranslator();
 
         $crawler = new Crawler($this->SUT->getPagerHtml('RENT_URI', $nb, $current, $max));
         $this->assertNotCount(0, $crawler, 'Expected a valid DomDocument.');
+
+        $this->assertCount(1, $crawler->filterXPath($xpath));
+        $this->assertSame('aui-nav-selected', $crawler->filterXPath($xpath)->attr('class'));
     }
 
-    public function htmlContainsNbLinksProvider()
+    public function nbLinksProvider()
     {
         return array(
-            array(3, 1, 5, 4),      // 1, 2, 3, next
-            array(3, 3, 5, 4),      // prev, 1, 2, 3
-            array(3, 2, 5, 5),      // prev, 1, 2, 3, next
-            array(20, 1, 5, 9),     // 1, 2, 3, 4, 5, 6, ..., 20, next
-            array(20, 10, 5, 11),   // prev, 1, ..., 8, 9, 10, 11, 12, ..., 20, next
-            array(20, 20, 5, 9),    // prev, 1, ..., 15, 16, 17, 18, 19, 20
+            // nb | current | max | expectedNb | XPath [highlighted]
+            array(3, 1, 5, 4, '//ol/li[1]'),      // [1], 2, 3, next
+            array(3, 3, 5, 4, '//ol/li[4]'),      // prev, 1, 2, [3]
+            array(3, 2, 5, 5, '//ol/li[3]'),      // prev, 1, [2], 3, next
+            array(20, 1, 5, 9, '//ol/li[1]'),     // [1], 2, 3, 4, 5, 6, ..., 20, next
+            array(20, 10, 5, 11, '//ol/li[6]'),   // prev, 1, ..., 8, 9, [10], 11, 12, ..., 20, next
+            array(20, 20, 5, 9, '//ol/li[9]'),    // prev, 1, ..., 15, 16, 17, 18, 19, [20]
         );
     }
 
