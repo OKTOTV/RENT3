@@ -151,16 +151,38 @@ class AuiPaginationExtensionTest extends \PHPUnit_Framework_TestCase
         $crawler = new Crawler($this->SUT->getPagerHtml('RENT_URI', $nb, $current, 5));
         $this->assertNotCount(0, $crawler, 'Expected a valid DomDocument.');
 
+        $element = $crawler->filterXPath($xpath);
+        $this->assertCount(1, $element);
+        $this->assertSame(html_entity_decode("&hellip;", 2 | 48, 'UTF-8'), $element->text());
+        $this->assertSame('aui-nav-truncation', $element->attr('class'));
+    }
+
+    /**
+     * @dataProvider willPrintDotsProvider
+     * @test
+     *
+     * @param int       $nb
+     * @param int       $current
+     * @param string    $xpath
+     */
+    public function willPrintDotsIsHightlighted($nb, $current, $xpath)
+    {
+        $this->trainTheRouter();
+        $this->trainTheTranslator();
+
+        $crawler = new Crawler($this->SUT->getPagerHtml('RENT_URI', $nb, $current, 5));
+        $this->assertNotCount(0, $crawler, 'Expected a valid DomDocument.');
+
         $this->assertCount(1, $crawler->filterXPath($xpath));
-        $this->assertEquals(html_entity_decode("&hellip;", 2 | 48, 'UTF-8'), $crawler->filterXPath($xpath)->text());
+        $this->assertSame('aui-nav-truncation', $crawler->filterXPath($xpath)->attr('class'));
     }
 
     public function willPrintDotsProvider()
     {
         return array(
-            array(20,  1, '//ol/li[7]/a'),   // 1, 2, 3, 4, 5, 6, [...], 20, next
-            array(20, 10, '//ol/li[3]/a'),   // prev, 1, [...], 8, 9, 10, 11, 12, ..., 20, next
-            array(20, 10, '//ol/li[9]/a'),   // prev, 1, ..., 8, 9, 10, 11, 12, [...], 20, next
+            array(20,  1, '//ol/li[7]'),   // 1, 2, 3, 4, 5, 6, [...], 20, next
+            array(20, 10, '//ol/li[3]'),   // prev, 1, [...], 8, 9, 10, 11, 12, ..., 20, next
+            array(20, 10, '//ol/li[9]'),   // prev, 1, ..., 8, 9, 10, 11, 12, [...], 20, next
         );
     }
 

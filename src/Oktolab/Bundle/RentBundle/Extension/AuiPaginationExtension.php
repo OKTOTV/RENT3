@@ -7,7 +7,6 @@ const selected ="aui-nav-selected";
 const last = "aui-nav-last";
 const prev = "aui-nav-previous";
 const next = "aui-nav-next";
-const truncation = "aui-nav-truncation";
 
 use Symfony\Component\Translation\TranslatorInterface;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface as Router;
@@ -137,7 +136,7 @@ class AuiPaginationExtension extends \Twig_Extension
                     $this->addListPoint($i, $this->routing->generate($url_name, array('page' => $i)));
                 }
                 if ($startPoint > 2) {
-                    $this->addListPoint("&hellip;", "", truncation);
+                    $this->addListPoint('&hellip;', '', 'aui-nav-truncation');
                 }
             }
 
@@ -160,7 +159,7 @@ class AuiPaginationExtension extends \Twig_Extension
 
             if ($i == $pages) { //last
                 if ($startPoint + $max < $pages) {
-                    $this->addListPoint("&hellip;");
+                    $this->addListPoint('&hellip;', '', 'aui-nav-truncation');
                 }
 
                 if ($i == $current) {
