@@ -81,8 +81,8 @@ class AuiPaginationExtensionTest extends \PHPUnit_Framework_TestCase
 
         $crawler = new Crawler($this->SUT->getPagerHtml('RENT_URI', $nb, $current, $max));
         $this->assertNotCount(0, $crawler, 'Expected a valid DomDocument.');
-
         $this->assertCount(count($links), $crawler->filter('li > a'));
+
         foreach ($links as $key => $expected) {
             $xpath = sprintf('//ol/li[%d]/a', $key + 1);
             $this->assertSame(
@@ -230,6 +230,8 @@ class AuiPaginationExtensionTest extends \PHPUnit_Framework_TestCase
             array(array($prev, '1', $hellip, '15', '16', '17', '18', '19', '20', $next), 20, 18, 5),
             array(array($prev, '1', $hellip, '15', '16', '17', '18', '19', '20', $next), 20, 17, 5),
             array(array($prev, '1', $hellip, '14', '15', '16', '17', '18', $hellip, '20', $next), 20, 16, 5),
+            array(array($prev, '1', $hellip, '15', '16', '17', $hellip, '20', $next), 20, 16, 3),
+            array(array($prev, '1', $hellip, '17', '18', '19', '20'), 20, 20, 3),
         );
     }
 
