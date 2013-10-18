@@ -48,6 +48,11 @@
             return datum;
         };
 
+        /**
+         * Finds suggested Datum.
+         *
+         * @return {typeahead-datum|object}
+         */
         var findSuggestion = function () {
             var searchValue = searchField.val();
             var datum;
@@ -100,14 +105,12 @@
                 keyCode === 9 ||                        // TAB
                 (keyCode === 74 && e.ctrlKey == true)   // LF (Barcode Scanner)
             ) {
-//                console.log(keyCode, e.ctrlKey);
                 e.preventDefault();
             }
         });
 
         searchField.keyup(function(e) {
             var keyCode = e.which || e.keyCode;
-//            console.log(keyCode, e.ctrlKey);
 
             // block keys: *, /, -, +, ... from numpad (barcode scanner ...)
             if ((keyCode >= 106 && keyCode <= 111) || keyCode === 16 || keyCode === 17 || keyCode === 18) {
@@ -134,7 +137,7 @@
             hiddenInputCollection.find('div[data-object="' + value + '"]').remove(); // remove from hiddenInputCollection
             scannedInputCollection.find('div[data-object="' + value + '"]').remove(); // remove from scannedInputCollection
         });
-    }
+    };
 
     // If Found: Initialize OktolabRentBundle EditForm
     if (0 !== $('#oktolabrentbundle_event_editform_searchfield').length) {
