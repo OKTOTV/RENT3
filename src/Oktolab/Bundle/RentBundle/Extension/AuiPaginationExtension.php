@@ -199,7 +199,7 @@ class AuiPaginationExtension extends \Twig_Extension
      */
     protected function addListPoint($text, $link = '', $class = '')
     {
-        $this->htmlString = sprintf('%s<li class="%s"><a href="%s">%s</a></li>', $this->htmlString, $class, $link, $text);
+        $this->htmlString .= sprintf('<li class="%s"><a href="%s">%s</a></li>', $class, $link, $text);
     }
 
     /**
