@@ -1,4 +1,5 @@
 <?php
+
 namespace Oktolab\Bundle\RentBundle\Extension;
 
 const first = "aui-nav-first";
@@ -8,36 +9,55 @@ const prev = "aui-nav-previous";
 const next = "aui-nav-next";
 const truncation = "aui-nav-truncation";
 
-use Symfony\Bundle\FrameworkBundle\Translation\Translator;
-use Symfony\Bundle\FrameworkBundle\Routing\Router;
+use Symfony\Component\Translation\TranslatorInterface;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface as Router;
+
 /**
- * AttachmentExtension
+ * AUI-Pager Extension for Twig.
+ *
+ * @author rs
+ *
+ * @example auiPager($url_name, $pages, $current, $max = 5)
  */
 class AuiPaginationExtension extends \Twig_Extension
 {
-    private $translator;
-    private $routing;
-    private $htmlString;
 
-    public function __construct(Translator $translator, Router $router)
+    /**
+     * @var \Symfony\Component\Translation\TranslatorInterface
+     */
+    private $translator = null;
+
+    /**
+     * @var \Symfony\Component\Routing\Generator\UrlGeneratorInterface
+     */
+    private $routing = null;
+
+    /**
+     * @var string
+     */
+    private $htmlString = '';
+
+    /**
+     * Constructor.
+     *
+     * @param \Symfony\Component\Translation\TranslatorInterface            $translator
+     * @param \Symfony\Component\Routing\Generator\UrlGeneratorInterface    $router
+     */
+    public function __construct(TranslatorInterface $translator, Router $router)
     {
-        $this->translator = $translator;
-        $this->routing = $router;
+        $this->translator   = $translator;
+        $this->routing      = $router;
     }
 
     /**
      * {@inheritdoc}
+     * @codeCoverageIgnore
      */
     public function getFunctions()
     {
         return array(
-            'auiPager' => new \Twig_Function_Method(
-                $this,
-                'getPagerHtml',
-                array(
-                'is_safe' => array('html')
-                )
-            )
+            'auiPager' => new \Twig_Function_Method($this, 'getPagerHtml', array('is_safe' => array('html'))),
+            'aui_pager' => new \Twig_Function_Method($this, 'getPagerHtml', array('is_safe' => array('html'))),
         );
     }
 
@@ -172,21 +192,20 @@ class AuiPaginationExtension extends \Twig_Extension
     }
 
     /**
-     * adds a List Point to the internal htmlString.
+     * Adds a List Point to the internal htmlString.
      *
      * @param type $text -> Text to render for the link
      * @param type $link -> URL to the page
      * @param type $class -> AUI class for styling
      */
-    private function addListPoint($text, $link ="", $class="")
+    protected function addListPoint($text, $link = '', $class = '')
     {
         $this->htmlString = sprintf('%s<li class="%s"><a href="%s">%s</a></li>', $this->htmlString, $class, $link, $text);
     }
 
     /**
-     * Returns the name of the extension.
-     *
-     * @return string The extension name
+     * {@inheritDoc}
+     * @codeCoverageIgnore
      */
     public function getName()
     {
