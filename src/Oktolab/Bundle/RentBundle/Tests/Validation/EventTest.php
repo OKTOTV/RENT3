@@ -4,6 +4,8 @@ namespace Oktolab\Bundle\RentBundle\Tests\Validation;
 
 use Oktolab\Bundle\RentBundle\Entity\Event;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
+use Oktolab\Bundle\RentBundle\Entity\Contact;
+use Oktolab\Bundle\RentBundle\Entity\CostUnit;
 
 /**
  * Description of Event Validation
@@ -47,7 +49,9 @@ class EventTest extends WebTestCase
     {
         $this->SUT->setName('My Event.')
             ->setBegin(new \DateTime('now'))
-            ->setEnd(new \DateTime('+3 hours'));
+            ->setEnd(new \DateTime('+3 hours'))
+            ->setContact(new Contact())
+            ->setCostunit(new CostUnit());
 
         $errors = $this->validator->validate($this->SUT);
         $this->assertCount(0, $errors);
@@ -59,6 +63,8 @@ class EventTest extends WebTestCase
     public function invalidEvent()
     {
         $this->SUT->setBegin(new \DateTime('now'))
+            ->setContact(new Contact())
+            ->setCostunit(new CostUnit())
             ->setEnd(new \DateTime('+3 hours'));
 
         $errors = $this->validator->validate($this->SUT);
@@ -72,6 +78,8 @@ class EventTest extends WebTestCase
     public function validEventDates()
     {
         $this->SUT->setName('My Event.')
+            ->setContact(new Contact())
+            ->setCostunit(new CostUnit())
             ->setBegin(new \DateTime('now'))
             ->setEnd(new \DateTime('+3 hours'));
 
@@ -85,6 +93,8 @@ class EventTest extends WebTestCase
     public function invalidEventDates()
     {
         $this->SUT->setName('My Event.')
+            ->setContact(new Contact())
+            ->setCostunit(new CostUnit())
             ->setBegin(new \DateTime('now'))
             ->setEnd(new \DateTime('-3 hours'));
 

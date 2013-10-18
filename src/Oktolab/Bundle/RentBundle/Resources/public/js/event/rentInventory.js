@@ -91,4 +91,53 @@ AJS.$(document).ready(function() {
     });
 
     collectionHolder.on('click', '.remove-object', oktolab.removeEventObjectFromEventForm);
+
+//  costunit
+    AJS.$('#costunit-search-field').typeahead({
+        name: 'costunits',
+        valueKey:   'name',
+        prefetch: {url: oktolab.typeahead.costunitPrefetchUrl, ttl: 5 },
+        template: [
+            '<span class="aui-icon aui-icon-small aui-iconfont-devtools-file">Object</span>',
+            '<p class="tt-object-name">{{name}}</p>',
+            '<p class="tt-object-addon">{{barcode}}</p>'
+        ].join(''),
+        engine: Hogan
+    });
+
+    jQuery('#costunit-search-field').on('typeahead:selected', function(e, datum) {
+        var form = collectionHolder.closest('form');
+
+        //select costunit with datum.id
+        var selectbox = form.find('#OktolabRentBundle_Event_Form_costunit');
+        selectbox.val(datum.id);
+        var nameField = form.find('#OktolabRentBundle_Event_Form_name');
+        nameField.val(datum.name);
+
+        AJS.$('#contact-search-field').attr('disabled', false);
+
+        AJS.$('#contact-search-field').typeahead({
+            name: 'costunit-contacts',
+            valueKey:   'name',
+            remote: { url: oktolab.typeahead.costunitcontactRemoteUrl.replace('__id__', datum.id),
+                      replace: function() {
+                          return oktolab.typeahead.costunitcontactRemoteUrl.replace('__id__', AJS.$(form.find('#OktolabRentBundle_Event_Form_costunit')).val())
+                      }
+                    },
+            template: [
+            '<span class="aui-icon aui-icon-small aui-iconfont-devtools-file">Object</span>',
+            '<p class="tt-object-name">{{name}}</p>'
+        ].join(''),
+        engine: Hogan
+        });
+    });
+
+// contact
+    jQuery('#contact-search-field').on('typeahead:selected', function(e, datum) {
+        var form = collectionHolder.closest('form');
+
+        //select costunit with datum.id
+        var selectbox = form.find('#OktolabRentBundle_Event_Form_contact');
+        selectbox.val(datum.id);
+    });
 });

@@ -20,7 +20,8 @@ class AppKernel extends Kernel
             new Oktolab\Bundle\RentBundle\OktolabRentBundle(),
             new Knp\Bundle\MarkdownBundle\KnpMarkdownBundle(),
             new Oneup\UploaderBundle\OneupUploaderBundle(),
-            new Avalanche\Bundle\ImagineBundle\AvalancheImagineBundle()
+            new Avalanche\Bundle\ImagineBundle\AvalancheImagineBundle(),
+            new TFox\MpdfPortBundle\TFoxMpdfPortBundle()
         );
 
         if (in_array($this->getEnvironment(), array('dev', 'test'))) {

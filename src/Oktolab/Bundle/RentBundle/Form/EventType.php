@@ -22,7 +22,27 @@ class EventType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('name')
+        $builder
+            ->add('name')
+            ->add(
+                'contact',
+                'entity',
+                array(
+                    'class'     => 'OktolabRentBundle:Contact',
+                    'property' => 'id',
+                    'required' => true,
+                    'empty_value' => 'Choose a contact',
+                )
+            )
+            ->add(
+                'costunit',
+                'entity',
+                array(
+                    'class'     => 'OktolabRentBundle:CostUnit',
+                    'property' => 'id',
+                    'required' => true,
+                )
+            )
             ->add('description', 'textarea', array('required' => false))
             ->add('begin', 'datetime', array('widget' => 'single_text', 'required' => true))
             ->add('end', 'datetime', array('widget' => 'single_text', 'required' => true))

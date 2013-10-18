@@ -86,3 +86,4 @@ avalanche_imagine:
         page_avatar_full:
             type:     thumbnail
             options:  { size: [800, 400], mode: inset }
+

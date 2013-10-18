@@ -48,6 +48,10 @@ class Contact
      */
     private $costunit;
 
+    /**
+     * @ORM\OneToMany(targetEntity="event", mappedBy="costunit")
+     **/
+    private $events;
 
     /**
      * Get id
@@ -137,17 +141,57 @@ class Contact
     public function setCostunit(\Oktolab\Bundle\RentBundle\Entity\CostUnit $costunit = null)
     {
         $this->costunit = $costunit;
-    
+
         return $this;
     }
 
     /**
      * Get costunit
      *
-     * @return \Oktolab\Bundle\RentBundle\Entity\CostUnit 
+     * @return \Oktolab\Bundle\RentBundle\Entity\CostUnit
      */
     public function getCostunit()
     {
         return $this->costunit;
+    }
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->events = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+    
+    /**
+     * Add events
+     *
+     * @param \Oktolab\Bundle\RentBundle\Entity\event $events
+     * @return Contact
+     */
+    public function addEvent(\Oktolab\Bundle\RentBundle\Entity\event $events)
+    {
+        $this->events[] = $events;
+    
+        return $this;
+    }
+
+    /**
+     * Remove events
+     *
+     * @param \Oktolab\Bundle\RentBundle\Entity\event $events
+     */
+    public function removeEvent(\Oktolab\Bundle\RentBundle\Entity\event $events)
+    {
+        $this->events->removeElement($events);
+    }
+
+    /**
+     * Get events
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getEvents()
+    {
+        return $this->events;
     }
 }
