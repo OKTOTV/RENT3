@@ -45,8 +45,9 @@
 {% block form_widget_simple %}
     {% spaceless %}
         {% set type = type|default('text') %}
+        {% set attr = attr|merge({'class': 'text' ~ ' ' ~ attribute(attr, 'class')|default('') }) %}
         <input
-            class="text" type="{{ type }}"
+            type="{{ type }}"
             {{ block('widget_attributes') }}
             {% if value is not empty %} value="{{ value }}"{% endif %}
         />

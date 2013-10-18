@@ -22,7 +22,31 @@ class EventType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('name')
+        $builder
+            ->add(
+                'contact',
+                'collection',
+                array(
+                    'type'    => 'contact',
+                    'options' => array(
+                        'required'  => true,
+                        'allow_add' => true,
+                        'prototype' => true
+                    )
+                )
+            )
+            ->add(
+                'costunit',
+                'collection',
+                array(
+                    'type'    => 'costunit',
+                    'options' => array(
+                        'required'  => true,
+                        'allow_add' => true,
+                        'prototype' => true
+                    )
+                )
+            )
             ->add('description', 'textarea', array('required' => false))
             ->add('begin', 'datetime', array('widget' => 'single_text', 'required' => true))
             ->add('end', 'datetime', array('widget' => 'single_text', 'required' => true))

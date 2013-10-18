@@ -51,6 +51,10 @@ class CostUnit
      */
     private $guid;
 
+    /**
+     * @ORM\OneToMany(targetEntity="event", mappedBy="costunit")
+     **/
+    private $events;
 
     /**
      * Get id
@@ -179,5 +183,38 @@ class CostUnit
     public function removeContact(\Oktolab\Bundle\RentBundle\Entity\Contact $contacts)
     {
         $this->contacts->removeElement($contacts);
+    }
+
+    /**
+     * Add events
+     *
+     * @param \Oktolab\Bundle\RentBundle\Entity\event $events
+     * @return CostUnit
+     */
+    public function addEvent(\Oktolab\Bundle\RentBundle\Entity\event $events)
+    {
+        $this->events[] = $events;
+    
+        return $this;
+    }
+
+    /**
+     * Remove events
+     *
+     * @param \Oktolab\Bundle\RentBundle\Entity\event $events
+     */
+    public function removeEvent(\Oktolab\Bundle\RentBundle\Entity\event $events)
+    {
+        $this->events->removeElement($events);
+    }
+
+    /**
+     * Get events
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getEvents()
+    {
+        return $this->events;
     }
 }
