@@ -5,6 +5,11 @@ namespace Oktolab\Bundle\RentBundle\Tests\Extension;
 use Oktolab\Bundle\RentBundle\Extension\AuiPaginationExtension;
 use Symfony\Component\DomCrawler\Crawler;
 
+/**
+ * Aui Pagination Extension Tests
+ *
+ * @author meh
+ */
 class AuiPaginationExtensionTest extends \PHPUnit_Framework_TestCase
 {
 
@@ -57,12 +62,12 @@ class AuiPaginationExtensionTest extends \PHPUnit_Framework_TestCase
         $this->trainTheTranslator();
 
         $crawler = new Crawler($this->SUT->getPagerHtml('RENT_URI', 3, 1));
-        $this->assertNotCount(0, $crawler, 'Expected valid DomDocument');
+        $this->assertNotCount(0, $crawler, 'Expected a valid DomDocument.');
 
         $ol = $crawler->filter('ol');
-        $this->assertCount(1, $ol, 'Contains list <ol />');
-        $this->assertRegExp('/aui-nav/', $ol->attr('class'), '<ol /> contains class "aui-nav"');
-        $this->assertRegExp('/aui-nav-pagination/', $ol->attr('class'), '<ol /> contains class "aui-nav"-pagination');
+        $this->assertCount(1, $ol, 'Contains list <ol />.');
+        $this->assertRegExp('/aui-nav/', $ol->attr('class'), '<ol /> contains class "aui-nav".');
+        $this->assertRegExp('/aui-nav-pagination/', $ol->attr('class'), '<ol /> contains class "aui-nav-pagination".');
     }
 
     /**
@@ -74,29 +79,16 @@ class AuiPaginationExtensionTest extends \PHPUnit_Framework_TestCase
         $this->trainTheTranslator();
 
         $crawler = new Crawler($this->SUT->getPagerHtml('RENT_URI', 3, 1, 5));
-        $this->assertNotCount(0, $crawler, 'Expected valid DomDocument');
+        $this->assertNotCount(0, $crawler, 'Expected a valid DomDocument.');
 
-        $li = $crawler->filter('li');
-        $this->assertCount(4, $li, 'Contains 3 List-Elements');
-
-        $a = $li->filter('a')->first();
-        $this->assertCount(1, $a, 'List element contains Link');
-        $this->assertSame('1', $li->text(), 'First link is "1"');
-
-        $li = $li->nextAll();
-        $a = $li->filter('a')->first();
-        $this->assertCount(1, $a, 'List element contains Link');
-        $this->assertSame('2', $li->text(), 'Next link is "2"');
-
-        $li = $li->nextAll();
-        $a = $li->filter('a')->first();
-        $this->assertCount(1, $a, 'List element contains Link');
-        $this->assertSame('3', $li->text(), 'Next link is "3"');
-
-        $li = $li->nextAll();
-        $a = $li->filter('a')->first();
-        $this->assertCount(1, $a, 'List element contains Link');
-        $this->assertSame('generic.next', $li->text(), 'Last link is "generic.next"');
+        foreach (array('1', '2', '3', 'generic.next') as $key => $expected) {
+            $xpath = sprintf('//ol/li[%d]/a', $key + 1);
+            $this->assertSame(
+                $expected,
+                $crawler->filterXPath($xpath)->text(),
+                sprintf('Expected "%s" at XPath "%s".', $expected, $xpath)
+            );
+        }
     }
 
     /**
@@ -109,10 +101,23 @@ class AuiPaginationExtensionTest extends \PHPUnit_Framework_TestCase
         $this->trainTheTranslator();
 
         $crawler = new Crawler($this->SUT->getPagerHtml('RENT_URI', $nb, $current, $max));
-        $this->assertNotCount(0, $crawler, 'Expected valid DomDocument');
+        $this->assertNotCount(0, $crawler, 'Expected a valid DomDocument.');
 
         $li = $crawler->filter('li > a');
         $this->assertCount($expected, $li);
+    }
+
+    /**
+     * @dataProvider htmlContainsNbLinksProvider
+     * @test
+     */
+    public function currentLinkIsHighlighted($nb, $current, $max, $expected)
+    {
+        $this->trainTheRouter();
+        $this->trainTheTranslator();
+
+        $crawler = new Crawler($this->SUT->getPagerHtml('RENT_URI', $nb, $current, $max));
+        $this->assertNotCount(0, $crawler, 'Expected a valid DomDocument.');
     }
 
     public function htmlContainsNbLinksProvider()
