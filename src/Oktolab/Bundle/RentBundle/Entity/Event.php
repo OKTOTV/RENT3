@@ -90,7 +90,7 @@ class Event
     /**
      * @Assert\NotBlank()
      *
-     * @ORM\ManyToOne(targetEntity="costunit", inversedBy="events")
+     * @ORM\ManyToOne(targetEntity="CostUnit", inversedBy="events")
      * @ORM\JoinColumn(name="costunit_id", referencedColumnName="id")
      **/
     private $costunit;
@@ -98,7 +98,7 @@ class Event
     /**
      * @Assert\NotBlank()
      *
-     * @ORM\ManyToOne(targetEntity="contact", inversedBy="events")
+     * @ORM\ManyToOne(targetEntity="Contact", inversedBy="events")
      * @ORM\JoinColumn(name="contact_id", referencedColumnName="id")
      **/
     private $contact;
