@@ -1,0 +1,29 @@
+{% extends 'OktolabRentBundle:Admin:Settings\\base.html.twig' %}
+
+{% block content %}
+    {{ parent() }}
+
+    <table class="aui">
+        <thead>
+            <tr>
+                <th id="settings_title">{{ 'inventory.setting.title'|trans }}</th>
+                <th id="settings_actions">
+                    <span class="aui-icon aui-icon-small aui-iconfont-configure">{{ 'generic.actions'|trans }}</span>
+                    {{ 'generic.actions'|trans }}
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td headers="settings_title">
+                    <a href="{{ path('setting_company_show') }}">{{ 'inventory.setting.companySetting'|trans }}</a>
+                </td>
+                <td headers="settings_actions">
+                    <ul class="menu">
+                        <li><a href="{{ path('setting_company_edit') }}">{{ 'generic.edit'|trans }}</a></li>
+                    </ul>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+{% endblock %}

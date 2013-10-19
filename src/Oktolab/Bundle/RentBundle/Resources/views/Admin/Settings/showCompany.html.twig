@@ -1,0 +1,42 @@
+{% extends 'OktolabRentBundle:Admin:Settings\\base.html.twig' %}
+
+{% block buttons %}
+    <a class="aui-button" href="{{ path('admin_setting') }}">{{ 'generic.overview'|trans }}</a>
+    <a class="aui-button" href="{{ path('setting_company_edit') }}">{{ 'generic.edit'|trans }}</a>
+{% endblock %}
+
+{% block content %}
+    {{ parent() }}
+
+    <form class="aui">
+        <h3>{{ 'inventory.setting.companySetting'|trans }}</h3>
+        <fieldset>
+            <div class="field-group viewMode">
+                <label>{{ 'setting.company.name'|trans }}</label>
+                <span class="field-value">{{ settings.name }}</span>
+            </div>
+            <div class="field-group viewMode">
+                <label>{{ 'setting.company.adress'|trans }}</label>
+                <span class="field-value">{{ settings.adress }}</span>
+            </div>
+            <div class="field-group viewMode">
+                <label>{{ 'setting.company.plz'|trans }}</label>
+                <span class="field-value">{{ settings.plz }}</span>
+            </div>
+            <div class="field-group viewMode">
+                <label>{{ 'setting.company.place'|trans }}</label>
+                <span class="field-value">{{ settings.place }}</span>
+            </div>
+            <div class="field-group viewMode">
+                <label>{{ 'setting.company.additionalText'|trans }}</label>
+                <span class="field-value">
+                    {% if settings.additionalText is not null %}
+                        {{ settings.additionalText }}
+                    {% else %}
+                        {{ 'setting.company.noAdditionalText'|trans }}
+                    {% endif %}
+                </span>
+            </div>
+        </fieldset>
+    </form>
+{% endblock %}

@@ -13,6 +13,10 @@ use Symfony\Component\OptionsResolver\OptionsResolverInterface;
  */
 class CompanySettingType extends AbstractType
 {
+
+    /**
+     * {@inheritDoc}
+     */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
@@ -20,19 +24,25 @@ class CompanySettingType extends AbstractType
             ->add('adress', 'text', array('label' => 'setting.company.adress'))
             ->add('plz', 'text', array('label' => 'setting.company.plz'))
             ->add('place', 'text', array('label' => 'setting.company.place'))
-            ->add('additional_text', 'textarea', array('label' => 'setting.company.additional_text', 'required' => false))
-            ->add('logo', 'file', array('label' => 'setting.company.logo', 'required' => false));
+            ->add('logo', 'file', array('label' => 'setting.company.logo', 'required' => false))
+            ->add(
+                'additional_text',
+                'textarea',
+                array('label' => 'setting.company.additional_text', 'required' => false)
+            );
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
-        $resolver->setDefaults(
-            array(
-                'data_class' => 'Oktolab\Bundle\RentBundle\Entity\CompanySetting'
-            )
-        );
+        $resolver->setDefaults(array('data_class' => 'Oktolab\Bundle\RentBundle\Entity\CompanySetting'));
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public function getName()
     {
         return 'oktolab_setting_companytype';

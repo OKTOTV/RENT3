@@ -38,7 +38,7 @@ class CompanySetting implements SettingInterface
     private $place;
 
     private $logo;
-    
+
     private $additional_text;
 
     public function setName($name)
@@ -88,7 +88,11 @@ class CompanySetting implements SettingInterface
 
     public function getLogo()
     {
-        return base64_decode($this->logo);
+        if (null !== $this->logo) {
+            return base64_decode($this->logo);
+        }
+
+        return;
     }
 
     public function setAdditionalText($addText)
@@ -103,12 +107,11 @@ class CompanySetting implements SettingInterface
 
     public function setWithArray(array $values)
     {
-        $this->name = $values['name'];
-        $this->adress = $values['adress'];
-        $this->plz = $values['plz'];
-        $this->place = $values['place'];
-        $this->logo = $values['logo'];
-        $this->additional_text = $values['additional_text'];
+        foreach ($values as $key => $value) {
+            $this->$key = $value;
+        }
+
+        return $this;
     }
 
     public function getValueArray()
