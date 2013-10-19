@@ -43,7 +43,7 @@ class CompanySetting implements SettingInterface
 
     public function setName($name)
     {
-       $this->name = $name;
+        $this->name = $name;
     }
 
     public function getName()
@@ -125,5 +125,27 @@ class CompanySetting implements SettingInterface
         $value['additional_text'] = $this->additional_text;
 
         return $value;
+    }
+
+    /**
+     * {@inheritDoc}
+     *
+     * @return array
+     */
+    public function toArray()
+    {
+        return $this->getValueArray();
+    }
+
+    /**
+     * {@inheritDoc}
+     *
+     * @param array $values
+     *
+     * @return \Oktolab\Bundle\RentBundle\Entity\CompanySetting
+     */
+    public function fromArray(array $values)
+    {
+        return $this->setWithArray($values);
     }
 }

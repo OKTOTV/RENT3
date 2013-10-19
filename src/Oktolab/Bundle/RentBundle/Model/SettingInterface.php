@@ -10,12 +10,18 @@ namespace Oktolab\Bundle\RentBundle\Model;
 interface SettingInterface
 {
     /**
-     * Sets the Setting with the value array .
+     * Sets the values from given array.
+     *
+     * @param array $values
+     *
+     * @return self
      */
-    public function setWithArray(array $values);
+    public function fromArray(array $values);
 
     /**
-     * Gets all information as Array
+     * Hydrates data to an array.
+     *
+     * @return array
      */
-    public function getValueArray();
+    public function toArray();
 }

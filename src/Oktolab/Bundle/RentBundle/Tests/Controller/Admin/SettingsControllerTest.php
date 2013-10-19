@@ -35,7 +35,7 @@ class SettingsControllerTest extends WebTestCase
     /**
      * @test
      */
-    public function viewCompanySettings()
+    public function viewCompanySetting()
     {
         $crawler = $this->client->request('GET', '/admin/settings/company');
         $this->assertTrue($this->client->getResponse()->isSuccessful(), 'Response is successful.');
@@ -46,7 +46,7 @@ class SettingsControllerTest extends WebTestCase
     /**
      * @test
      */
-    public function editCompanySettings()
+    public function editCompanySetting()
     {
         $crawler = $this->client->request('GET', '/admin/settings/company/edit');
         $this->assertTrue($this->client->getResponse()->isSuccessful(), 'Response is successful.');
@@ -56,10 +56,10 @@ class SettingsControllerTest extends WebTestCase
     }
 
     /**
-     * @depends editCompanySettings
+     * @depends editCompanySetting
      * @test
      */
-    public function updateCompanySettings()
+    public function updateCompanySetting()
     {
         $crawler = $this->client->request('GET', '/admin/settings/company/edit');
         $this->assertTrue($this->client->getResponse()->isSuccessful(), 'Response is successful.');

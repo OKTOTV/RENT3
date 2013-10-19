@@ -34,12 +34,12 @@ class SettingsController extends Controller
      */
     public function showCompanyAction()
     {
-        $settings = new CompanySetting();
+        $setting = new CompanySetting();
         if ($this->get('oktolab.setting')->has('company')) {
-            $settings->setWithArray($this->get('oktolab.setting')->get('company'));
+            $setting->fromArray($this->get('oktolab.setting')->get('company'));
         }
 
-        return array('settings' => $settings);
+        return array('settings' => $setting);
     }
 
     /**
@@ -49,21 +49,21 @@ class SettingsController extends Controller
      */
     public function editCompanyAction()
     {
-        $settings = new CompanySetting();
+        $setting = new CompanySetting();
         if ($this->get('oktolab.setting')->has('company')) {
-            $settings->setWithArray($this->get('oktolab.setting')->get('company'));
+            $setting->fromArray($this->get('oktolab.setting')->get('company'));
         }
 
         $form = $this->createForm(
             new CompanySettingType,
-            $settings,
+            $setting,
             array(
                 'action' => $this->generateUrl('setting_company_update'),
                 'method' => 'PUT',
             )
         );
 
-        return array('settings' => $settings, 'edit_form' => $form->createView());
+        return array('settings' => $setting, 'edit_form' => $form->createView());
     }
 
     /**
@@ -73,16 +73,16 @@ class SettingsController extends Controller
      */
     public function updateCompanyAction(Request $request)
     {
-        $settings = new CompanySetting();
-        $form = $this->createForm(new CompanySettingType(), $settings);
+        $setting = new CompanySetting();
+        $form = $this->createForm(new CompanySettingType(), $setting);
         $form->submit($request);
 
         if ($form->isValid()) {
-            $this->get('oktolab.setting')->set('company', $settings->getValueArray());
+            $this->get('oktolab.setting')->set('company', $setting->toArray());
 
             return $this->redirect($this->generateUrl('setting_company_show'));
         }
 
-        return array('settings' => $settings, 'edit_form' => $form->createView());
+        return array('settings' => $setting, 'edit_form' => $form->createView());
     }
 }
