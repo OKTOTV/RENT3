@@ -45,7 +45,8 @@
 {% block form_widget_simple %}
     {% spaceless %}
         {% set type = type|default('text') %}
-        {% set attr = attr|merge({'class': 'text' ~ ' ' ~ attribute(attr, 'class')|default('') }) %}
+        {% set attr = attr|merge({'class': ('text ' ~ attribute(attr, 'class')|default(''))|trim }) %}
+
         <input
             type="{{ type }}"
             {{ block('widget_attributes') }}
