@@ -49,7 +49,7 @@ class Contact
     private $costunit;
 
     /**
-     * @ORM\OneToMany(targetEntity="event", mappedBy="costunit")
+     * @ORM\OneToMany(targetEntity="Event", mappedBy="contact")
      **/
     private $events;
 
@@ -161,7 +161,7 @@ class Contact
     {
         $this->events = new \Doctrine\Common\Collections\ArrayCollection();
     }
-    
+
     /**
      * Add events
      *
@@ -171,7 +171,7 @@ class Contact
     public function addEvent(\Oktolab\Bundle\RentBundle\Entity\event $events)
     {
         $this->events[] = $events;
-    
+
         return $this;
     }
 
@@ -188,7 +188,7 @@ class Contact
     /**
      * Get events
      *
-     * @return \Doctrine\Common\Collections\Collection 
+     * @return \Doctrine\Common\Collections\Collection
      */
     public function getEvents()
     {

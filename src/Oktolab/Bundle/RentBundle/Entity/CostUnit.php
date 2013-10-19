@@ -40,7 +40,6 @@ class CostUnit
      * @var \Doctrine\Common\Collections\ArrayCollection
      *
      * @ORM\OneToMany(targetEntity="Contact", mappedBy="costunit")
-     * )
      */
     private $contacts;
 
@@ -52,7 +51,7 @@ class CostUnit
     private $guid;
 
     /**
-     * @ORM\OneToMany(targetEntity="event", mappedBy="costunit")
+     * @ORM\OneToMany(targetEntity="Event", mappedBy="costunit")
      **/
     private $events;
 
@@ -194,7 +193,7 @@ class CostUnit
     public function addEvent(\Oktolab\Bundle\RentBundle\Entity\event $events)
     {
         $this->events[] = $events;
-    
+
         return $this;
     }
 
@@ -211,7 +210,7 @@ class CostUnit
     /**
      * Get events
      *
-     * @return \Doctrine\Common\Collections\Collection 
+     * @return \Doctrine\Common\Collections\Collection
      */
     public function getEvents()
     {
