@@ -21,9 +21,9 @@ class CompanySettingType extends AbstractType
     {
         $builder
             ->add('name', 'text', array('label' => 'setting.company.name'))
-            ->add('adress', 'text', array('label' => 'setting.company.adress'))
-            ->add('plz', 'text', array('label' => 'setting.company.plz'))
-            ->add('place', 'text', array('label' => 'setting.company.place'))
+            ->add('address', 'text', array('label' => 'setting.company.address'))
+            ->add('postal_code', 'text', array('label' => 'setting.company.postal_code'))
+            ->add('city', 'text', array('label' => 'setting.company.city'))
             ->add('logo', 'file', array('label' => 'setting.company.logo', 'required' => false))
             ->add(
                 'additional_text',

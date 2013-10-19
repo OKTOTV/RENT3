@@ -28,7 +28,18 @@ class CompanySettingTest extends \PHPUnit_Framework_TestCase
     {
         $this->assertInstanceOf(
             '\Oktolab\Bundle\RentBundle\Entity\CompanySetting',
-            $this->SUT->setWithArray(array())
+            $this->SUT->fromArray(array())
+        );
+    }
+
+    /**
+     * @test
+     */
+    public function setNameReturnsAnInstance()
+    {
+        $this->assertInstanceOf(
+            '\Oktolab\Bundle\RentBundle\Entity\CompanySetting',
+            $this->SUT->setName('Oktolab')
         );
     }
 
@@ -39,18 +50,18 @@ class CompanySettingTest extends \PHPUnit_Framework_TestCase
     {
         $settings = array(
             'name'              => 'Oktolab GmbH',
-            'adress'            => '123, Example Street',
-            'plz'               => 'postal code',
-            'place'             => 'austria',
+            'address'           => '123, Example Street',
+            'postal_code'       => '123A5',
+            'city'              => 'austria',
             'logo'              => null,
             'additional_text'   => null,
         );
 
-        $this->SUT->setWithArray($settings);
+        $this->SUT->fromArray($settings);
         $this->assertSame($settings['name'], $this->SUT->getName());
-        $this->assertSame($settings['adress'], $this->SUT->getAdress());
-        $this->assertSame($settings['plz'], $this->SUT->getPlz());
-        $this->assertSame($settings['place'], $this->SUT->getPlace());
+        $this->assertSame($settings['address'], $this->SUT->getAddress());
+        $this->assertSame($settings['postal_code'], $this->SUT->getPostalCode());
+        $this->assertSame($settings['city'], $this->SUT->getCity());
         $this->assertEquals($settings['logo'], $this->SUT->getLogo());
         $this->assertSame($settings['additional_text'], $this->SUT->getAdditionalText());
     }
@@ -62,18 +73,18 @@ class CompanySettingTest extends \PHPUnit_Framework_TestCase
     {
         $expected = array(
             'name'              => 'Oktolab GmbH',
-            'adress'            => '123, Example Street',
-            'plz'               => 'postal code',
-            'place'             => 'austria',
+            'address'           => '123, Example Street',
+            'postal_code'       => '123A5',
+            'city'              => 'austria',
             'logo'              => null,
             'additional_text'   => null,
         );
 
-        $this->SUT->setName('Oktolab GmbH');
-        $this->SUT->setAdress('123, Example Street');
-        $this->SUT->setPlz('postal code');
-        $this->SUT->setPlace('austria');
+        $this->SUT->setName($expected['name']);
+        $this->SUT->setAddress($expected['address']);
+        $this->SUT->setPostalCode($expected['postal_code']);
+        $this->SUT->setCity($expected['city']);
 
-        $this->assertEquals($expected, $this->SUT->getValueArray());
+        $this->assertEquals($expected, $this->SUT->toArray());
     }
 }

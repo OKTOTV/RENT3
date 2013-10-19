@@ -638,15 +638,15 @@
 
             <trans-unit id="600">
                 <source>admin.adminConsole</source>
-                <target>Administationsbereich</target>
+                <target>Administrationsbereich</target>
             </trans-unit>
             <trans-unit id="601">
                 <source>admin.adminConsole.about</source>
-                <target>Der Administationsbereich dient zur Verwaltung des Oktolab RENTs. Mit den Menüpunken links lassen sich alle Bereiche auswählen.</target>
+                <target>Im Administrationsbereich können Einstellungen zu Oktolab RENT vorgenommen werden.</target>
             </trans-unit>
             <trans-unit id="602">
                 <source>admin.admin</source>
-                <target>Administation Oktolab Oktolab RENT</target>
+                <target>Oktolab RENT Administration</target>
             </trans-unit>
             <trans-unit id="603">
                 <source>admin.userManagement</source>
@@ -945,16 +945,16 @@
                 <target>Firmenname</target>
             </trans-unit>
             <trans-unit id="1303">
-                <source>setting.company.adress</source>
+                <source>setting.company.address</source>
                 <target>Adresse</target>
             </trans-unit>
             <trans-unit id="1304">
-                <source>setting.company.plz</source>
+                <source>setting.company.postal_code</source>
                 <target>Postleitzahl</target>
             </trans-unit>
             <trans-unit id="1305">
-                <source>setting.company.place</source>
-                <target>Ort</target>
+                <source>setting.company.city</source>
+                <target>Stadt</target>
             </trans-unit>
             <trans-unit id="1306">
                 <source>setting.company.additionalText</source>
@@ -962,7 +962,11 @@
             </trans-unit>
             <trans-unit id="1307">
                 <source>admin.setting.about</source>
-                <target>Basiseinstellungen für diese Software werden hier festgelegt.</target>
+                <target>Einstellungen die das Verhalten von Oktolab RENT beeinflussen.</target>
+            </trans-unit>
+            <trans-unit id="1308">
+                <source>admin.setting.company</source>
+                <target>Firmendaten</target>
             </trans-unit>
         </body>
     </file>

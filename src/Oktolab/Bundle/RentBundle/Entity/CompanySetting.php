@@ -14,36 +14,53 @@ class CompanySetting implements SettingInterface
 {
 
     /**
+     * @Assert\NotBlank(message = "setting.company_name.notblank")
+     *
      * @var string
-     * @Assert\NotBlank(message = "setting.name.notblank")
      */
     private $name;
 
     /**
+     * @Assert\NotBlank(message = "setting.company_adress.notblank")
+     *
      * @var string
-     * @Assert\NotBlank(message = "setting.adress.notblank")
      */
-    private $adress;
+    private $address;
+
+    /**
+     * @Assert\NotBlank(message = "setting.company_postal_code.notblank")
+     *
+     * @var string
+     *
+     */
+    private $postal_code;
+
+    /**
+     * @Assert\NotBlank(message = "setting.company_city.notblank")
+     *
+     * @var string
+     */
+    private $city;
 
     /**
      * @var string
-     * @Assert\NotBlank(message = "setting.plz.notblank")
      */
-    private $plz;
-
-    /**
-     * @var string
-     * @Assert\NotBlank(message = "setting.place.notblank")
-     */
-    private $place;
-
     private $logo;
 
+    /**
+     * @var string
+     */
     private $additional_text;
 
+    /**
+     *
+     * @param type $name
+     */
     public function setName($name)
     {
         $this->name = $name;
+
+        return $this;
     }
 
     public function getName()
@@ -51,34 +68,36 @@ class CompanySetting implements SettingInterface
         return $this->name;
     }
 
-    public function setAdress($adress)
+    public function setAddress($address)
     {
-        $this->adress = $adress;
+        $this->address = $address;
+
+        return $this;
     }
 
-    public function getAdress()
+    public function getAddress()
     {
-        return $this->adress;
+        return $this->address;
     }
 
-    public function setPlz($plz)
+    public function setPostalCode($postal_code)
     {
-        $this->plz = $plz;
+        $this->postal_code = $postal_code;
     }
 
-    public function getPlz()
+    public function getPostalCode()
     {
-        return $this->plz;
+        return $this->postal_code;
     }
 
-    public function setPlace($place)
+    public function setCity($city)
     {
-        $this->place = $place;
+        $this->city = $city;
     }
 
-    public function getPlace()
+    public function getCity()
     {
-        return $this->place;
+        return $this->city;
     }
 
     public function setLogo($logo)
@@ -105,28 +124,6 @@ class CompanySetting implements SettingInterface
         return $this->additional_text;
     }
 
-    public function setWithArray(array $values)
-    {
-        foreach ($values as $key => $value) {
-            $this->$key = $value;
-        }
-
-        return $this;
-    }
-
-    public function getValueArray()
-    {
-        $value = array();
-        $value['name'] = $this->name;
-        $value['adress'] = $this->adress;
-        $value['plz'] = $this->plz;
-        $value['place'] = $this->place;
-        $value['logo'] = $this->logo;
-        $value['additional_text'] = $this->additional_text;
-
-        return $value;
-    }
-
     /**
      * {@inheritDoc}
      *
@@ -134,7 +131,12 @@ class CompanySetting implements SettingInterface
      */
     public function toArray()
     {
-        return $this->getValueArray();
+        $values = array();
+        foreach (array('name', 'address', 'postal_code', 'city', 'logo', 'additional_text') as $value) {
+            $values[$value] = $this->$value;
+        }
+
+        return $values;
     }
 
     /**
@@ -146,6 +148,10 @@ class CompanySetting implements SettingInterface
      */
     public function fromArray(array $values)
     {
-        return $this->setWithArray($values);
+        foreach ($values as $key => $value) {
+            $this->$key = $value;
+        }
+
+        return $this;
     }
 }

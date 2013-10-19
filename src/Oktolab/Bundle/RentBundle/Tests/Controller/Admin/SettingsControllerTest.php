@@ -29,7 +29,7 @@ class SettingsControllerTest extends WebTestCase
         $crawler = $this->client->request('GET', '/admin/settings');
         $this->assertTrue($this->client->getResponse()->isSuccessful(), 'Response is successful.');
 
-        $this->assertRegExp('/inventory.setting.companySetting/', $crawler->filter('#content')->text());
+        $this->assertRegExp('/Firmendaten/', $crawler->filter('#content')->text());
     }
 
     /**
@@ -40,7 +40,7 @@ class SettingsControllerTest extends WebTestCase
         $crawler = $this->client->request('GET', '/admin/settings/company');
         $this->assertTrue($this->client->getResponse()->isSuccessful(), 'Response is successful.');
 
-        $this->assertRegExp('/inventory.setting.companySetting/', $crawler->filter('#content')->text());
+        $this->assertRegExp('/Firmendaten/', $crawler->filter('#content')->text());
     }
 
     /**
@@ -51,7 +51,7 @@ class SettingsControllerTest extends WebTestCase
         $crawler = $this->client->request('GET', '/admin/settings/company/edit');
         $this->assertTrue($this->client->getResponse()->isSuccessful(), 'Response is successful.');
 
-        $this->assertRegExp('/admin.setting.edit/', $crawler->filter('#content')->text());
+        $this->assertRegExp('/Firmendaten/', $crawler->filter('#content')->text());
         $this->assertCount(1, $crawler->filter('#content form'));
     }
 
@@ -66,10 +66,10 @@ class SettingsControllerTest extends WebTestCase
 
         $form = $crawler->filter('#content form')->selectButton('Speichern')->form(
             array(
-                'oktolab_setting_companytype[name]'     => 'Oktolab GmbH',
-                'oktolab_setting_companytype[adress]'   => 'Example Street 123',
-                'oktolab_setting_companytype[place]'    => 'Vienna',
-                'oktolab_setting_companytype[plz]'      => '4242',
+                'oktolab_setting_companytype[name]'         => 'Oktolab GmbH',
+                'oktolab_setting_companytype[address]'      => 'Example Street 123',
+                'oktolab_setting_companytype[city]'         => 'Vienna',
+                'oktolab_setting_companytype[postal_code]'  => '4242',
             )
         );
 

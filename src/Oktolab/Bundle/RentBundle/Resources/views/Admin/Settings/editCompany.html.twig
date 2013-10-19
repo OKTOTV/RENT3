@@ -9,16 +9,17 @@
     {{ parent() }}
 
     {{ form_start(edit_form, {'attr': {'class': 'aui oktolab-plupload-form'} }) }}
-        <h3>{{ 'admin.setting.edit'|trans }}</h3>
+        <h3>{{ 'admin.setting.company'|trans }}</h3>
         <fieldset>
             {{ form_errors(edit_form) }}
 
-            {{ form_row(edit_form.name)}}
-            {{ form_row(edit_form.adress)}}
-            {{ form_row(edit_form.place)}}
-            {{ form_row(edit_form.plz)}}
-            {{ form_row(edit_form.logo)}}
-            {{ form_row(edit_form.additional_text)}}
+            {{ form_row(edit_form.name) }}
+            {{ form_row(edit_form.address) }}
+            {{ form_row(edit_form.postal_code) }}
+            {{ form_row(edit_form.city) }}
+
+            {{ form_row(edit_form.logo) }}
+            {{ form_row(edit_form.additional_text) }}
 
             <div class="buttons-container">
                 <button class="aui-button aui-button-primary" type="submit">{{ 'generic.submit'|trans }}</button>
