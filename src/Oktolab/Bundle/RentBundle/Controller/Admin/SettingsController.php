@@ -16,7 +16,6 @@ use Oktolab\Bundle\RentBundle\Entity\CompanySetting;
  */
 class SettingsController extends Controller
 {
-
     /**
      * @Configuration\Method("GET")
      * @Configuration\Route("", name="admin_setting")
