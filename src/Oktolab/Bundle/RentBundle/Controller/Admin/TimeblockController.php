@@ -177,13 +177,14 @@ class TimeblockController extends Controller
     /**
      * Deletes a Timeblock entity.
      *
-     * @Route("/{id}", name="admin_timeblock_delete")
+     * @Route("/{id}/delete", name="admin_timeblock_delete")
      * @ParamConverter("timeblock", class="OktolabRentBundle:Timeblock")
      * @Method("GET")
      */
     public function deleteAction(Timeblock $timeblock)
     {
         //TODO: check constrains
+        $em = $this->getDoctrine()->getManager();
         $em->remove($timeblock);
         $em->flush();
         return $this->redirect($this->generateUrl('admin_timeblock'));
