@@ -76,6 +76,16 @@ class CostUnitControllerTest extends WebTestCase
 
     public function testSuccessfullyDeleteACostUnit()
     {
-        $this->markTestIncomplete();
+        $this->logIn('ROLE_ADMIN');
+        $this->loadFixtures(array('Oktolab\Bundle\RentBundle\Tests\DataFixtures\ORM\CostUnitFixture'));
+
+        $this->client->request('GET', '/admin/costunit/1/delete');
+        $this->assertTrue($this->client->getResponse()->isRedirect(), 'Response should be a redirect');
+        $crawler = $this->client->followRedirect();
+        $this->assertEquals(
+            0,
+            $crawler->filter('.aui-page-panel-content  table tbody tr')->count(),
+            'The Costunit should be deleted.'
+        );
     }
 }

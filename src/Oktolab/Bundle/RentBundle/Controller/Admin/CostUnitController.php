@@ -210,7 +210,7 @@ class CostUnitController extends Controller
     /**
      * Deletes a CostUnit entity.
      *
-     * @Route("/{id}", name="admin_costunit_delete")
+     * @Route("/{id}/delete", name="admin_costunit_delete")
      * @ParamConverter("costunit", class="OktolabRentBundle:CostUnit")
      * @Method("GET")
      */
