@@ -193,11 +193,62 @@ class EventController extends Controller
             return $this->redirect($this->generateUrl('rentbundle_dashboard'));
         }
 
-        // Check for hidden-input fields for each EventObject
-
-        // var_dump($event); die();
         return new Response();
-        // this action "rents" the event. STATE_RENTED
+    }
+
+    /**
+     * Deliver an Event.
+     *
+     * @Configuration\Method("GET")
+     * @Configuration\Route("/event/{id}/deliver", name="OktolabRentBundle_Event_Deliver")
+     * @Configuration\ParamConverter("event", class="OktolabRentBundle:Event")
+     * @Configuration\Template("OktolabRentBundle:Event:Event\edit.html.twig")
+     *
+     * @param \Symfony\Component\HttpFoundation\Request $request
+     * @param \Oktolab\Bundle\RentBundle\Entity\Event   $event
+     *
+     * @return Response
+     */
+    public function deliverAction(Request $request, Event $event)
+    {
+        // check if event has state Event::STATE_LENT
+        $form = $this->get('form.factory')->create(
+            'OktolabRentBundle_Event_Form',
+            $event,
+            array(
+                'em'     => $this->getDoctrine()->getManager(),
+                'method' => 'PUT',
+                'action' => $this->generateUrl('OktolabRentBundle_Event_Completed', array('id' => $event->getId())),
+                'validation_groups'     => array('Event', 'Logic', 'Rent'),
+            )
+        );
+
+        $form->remove('name')->add('name', 'text', array('disabled' => true));
+        $form->remove('costunit')->add('costunit', 'entity', array('class' => 'OktolabRentBundle:CostUnit', 'property' => 'id', 'required' => true, 'disabled' => true));
+        $form->remove('contact')->add('contact', 'entity', array('class' => 'OktolabRentBundle:Contact', 'property' => 'id','required' => true, 'disabled' => true));
+        $form->remove('begin')->add('begin', 'datetime', array('widget' => 'single_text', 'required' => true, 'disabled' => true));
+        $form->remove('objects')->add('objects', 'collection', array('type' => new \Oktolab\Bundle\RentBundle\Form\EventObjectType(), 'allow_add' => false, 'allow_delete' => false));
+
+        $objects = $this->get('oktolab.event_manager')->convertEventObjectsToEntites($event->getObjects());
+
+        return array('form' => $form->createView(), 'objects' => $objects);
+    }
+
+    /**
+     * Completes an Event.
+     *
+     * @Configuration\Method("PUT")
+     * @Configuration\Route("/event/{id}/complete", name="OktolabRentBundle_Event_Completed")
+     * @Configuration\ParamConverter("event", class="OktolabRentBundle:Event")
+     *
+     * @param \Symfony\Component\HttpFoundation\Request $request
+     * @param \Oktolab\Bundle\RentBundle\Entity\Event   $event
+     *
+     * @return Response
+     */
+    public function completedAction(Request $request, Event $event)
+    {
+
     }
 
 
