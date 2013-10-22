@@ -96,6 +96,7 @@
             <button class="aui-button aui-button-primary" type="submit">{{ 'generic.submit'|trans }}</button>
             <a href="{{ path('inventory_set') }}" class="aui-button aui-button-link">{{ 'generic.cancel'|trans }}</a>
         </div>
+
         {% do form.items.setRendered %}
     {{ form_end(form) }}
 {% endblock %}
