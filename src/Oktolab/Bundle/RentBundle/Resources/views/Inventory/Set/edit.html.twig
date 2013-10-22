@@ -6,26 +6,42 @@
         <div class="aui-avatar aui-avatar-xlarge aui-avatar-project">
             <div class="aui-avatar-inner">
                 {% if set.picture is not null %}
-                    <img src="{{ set.picture.getRelativePath | apply_filter('page_avatar') }}" />
+                    <img src="{{ set.picture.getRelativePath|apply_filter('page_avatar') }}" />
+                {% else %}
+                    <img src="{{ asset('aui-5.1/images/project-avatar-blue-64@2x.png') }}" alt="{{ set.title }}" />
                 {% endif %}
             </div>
         </div>
     </div>
     <div class="aui-page-header-main">
         <ol class="aui-nav aui-nav-breadcrumbs">
-            <li>{{ 'generic.inventory'|trans}}</li>
+            <li>{{ 'generic.inventory'|trans }}</li>
             <li class="aui-nav-selected"><a href="{{ path('inventory_set') }}">{{ 'inventory.set.sets'|trans }}</a></li>
             <li><a href="{{ path('inventory_set_show', { 'id': set.id }) }}">{{ set.title }}</a></li>
         </ol>
-        <h1>{{'generic.edit'|trans}}</h1>
+        <h1>{{ 'generic.edit'|trans }}</h1>
     </div>
     <div class="aui-page-header-actions">
         <div class="aui-buttons">
             <div class="aui-buttons">
-                <a class="aui-button" href="{{ path('inventory_set_show', { 'id': set.id }) }}">{{ 'generic.back' | trans }}</a>
-                <a class="aui-button" href="{{ path('inventory_set') }}">{{ 'generic.backToList' | trans }}</a>
-                <a class="aui-button" href="{{ path('inventory_set_picture_upload', { 'id': set.id}) }}">{{ "inventory.set.uploadPicture" | trans }}</a>
-                <a class="aui-button" href="{{ path('inventory_set_delete', { 'id': set.id }) }}">{{ 'generic.delete' | trans }}</a>
+                <a class="aui-button" href="{{ path('inventory_set_show', { 'id': set.id }) }}">
+                    <span class="aui-icon aui-icon-small aui-iconfont-view">View</span>
+                    {{ 'generic.back'|trans }}
+                </a>
+
+                <button class="aui-button aui-dropdown2-trigger" aria-owns="dropdown-menu-set" aria-haspopup="true" aria-controls="dropdown-menu-set">
+                    <span class="aui-icon aui-icon-small aui-iconfont-configure">Configure</span>
+                    {{ 'generic.tools'|trans }}
+                </button>
+                <div id="dropdown-menu-set" class="aui-dropdown2 aui-style-default">
+                    <ul class="aui-list-truncate aui-dropdown2-section">
+                        <li><a href="#">Anhänge (0)</a></li>
+                        <li><a href="#">Profilbild aktualisieren</a></li>
+                    </ul>
+                    <ul class="aui-list-truncate aui-dropdown2-section">
+                        <li><a href="#">Entfernen</a></li>
+                    </ul>
+                </div>
             </div>
         </div>
     </div>

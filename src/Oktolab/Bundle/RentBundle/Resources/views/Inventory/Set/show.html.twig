@@ -1,103 +1,111 @@
 {% extends 'OktolabRentBundle::layout.html.twig' %}
 
 {% block content_header %}
-    <div class="aui-page-header-inner">
-        <div class="aui-page-header-image">
-            {% if set.picture is not null %}
-                <a href="{{ set.picture.getRelativePath | apply_filter('page_avatar_full') }}" class="fancybox" title="{{ set.picture.title }}">
-                    <div class="aui-avatar aui-avatar-xlarge aui-avatar-project">
-                        <div class="aui-avatar-inner">
-                            <img src="{{ set.picture.getRelativePath | apply_filter('page_avatar') }}" />
-                        </div>
-                    </div>
-                </a>
-            {% endif %}
+<div class="aui-page-header-inner">
+    <div class="aui-page-header-image">
+        <div class="aui-avatar aui-avatar-xlarge aui-avatar-project">
+            <div class="aui-avatar-inner">
+                {% if set.picture is not null %}
+                    <img src="{{ set.picture.getRelativePath|apply_filter('page_avatar') }}" />
+                {% else %}
+                    <img src="{{ asset('aui-5.1/images/project-avatar-blue-64@2x.png') }}" alt="{{ set.title }}" />
+                {% endif %}
+            </div>
         </div>
-        <div class="aui-page-header-main">
-            <ol class="aui-nav aui-nav-breadcrumbs">
-                <li>{{ 'generic.inventory'|trans}}</li>
-                <li class="aui-nav-selected"><a href="{{ path('inventory_set') }}">{{ 'inventory.set.sets'|trans }}</a></li>
-            </ol>
-            <h1>{{set.title}} - {{set.barcode}}</h1>
-        </div>
-        <div class="aui-page-header-actions">
+    </div>
+
+    <div class="aui-page-header-main">
+        <ol class="aui-nav aui-nav-breadcrumbs">
+            <li>{{ 'generic.inventory'|trans }}</li>
+            <li class="aui-nav-selected"><a href="{{ path('inventory_set') }}">{{ 'inventory.set.sets'|trans }}</a></li>
+        </ol>
+        <h1>
+            <span id="title-text">
+                <a href="{{ path('inventory_set_show', { 'id': set.id }) }}">{{ set.title }} - {{ set.barcode }}</a>
+            </span>
+        </h1>
+    </div>
+
+    <div class="aui-page-header-actions">
+        <div class="aui-buttons">
             <div class="aui-buttons">
-                <div class="aui-buttons">
-                    <a class="aui-button" href="{{ path('inventory_set_edit', { 'id' : set.id }) }}">{{ 'generic.edit' | trans }}</a>
-                    <a class="aui-button" href="{{ path('inventory_set') }}">{{'generic.backToList' | trans }}</a>
+                <a class="aui-button" href="{{ path('inventory_set_edit', { 'id' : set.id }) }}">
+                    <span class="aui-icon aui-icon-small aui-iconfont-edit">Edit</span>
+                    {{ 'generic.edit'|trans }}
+                </a>
+
+                <button class="aui-button aui-dropdown2-trigger" aria-owns="dropdown-menu-set" aria-haspopup="true" aria-controls="dropdown-menu-set">
+                    <span class="aui-icon aui-icon-small aui-iconfont-configure">Configure</span>
+                    {{ 'generic.tools'|trans }}
+                </button>
+                <div id="dropdown-menu-set" class="aui-dropdown2 aui-style-default">
+                    <ul class="aui-list-truncate aui-dropdown2-section">
+                        <li><a href="#">Anhänge (0)</a></li>
+                        <li><a href="#">Profilbild aktualisieren</a></li>
+                    </ul>
+                    <ul class="aui-list-truncate aui-dropdown2-section">
+                        <li><a href="#">Entfernen</a></li>
+                    </ul>
                 </div>
             </div>
         </div>
     </div>
+</div>
 {% endblock %}
 
 {% block content %}
-    <form class="aui">
-        <fieldset>
-            <div class="field-group viewMode">
-                <label>{{'inventory.set.place' | trans}}</label>
-                <span class="field-value">{{ set.place.title }}</span>
-            </div>
-            <div class="field-group viewMode">
-                <label>{{'inventory.set.description' | trans}}</label>
-                <span class="field-value">{{ set.description }}</span>
-            </div>
-            <div class="field-group viewMode aui-oktolab-form-table">
-                <label>{{'inventory.set.items' | trans}}</label>
-                {% if set.items|length == 0 %}
-                    <span class="field-value">{{'inventory.set.zeroItems'|trans}}</span>
-                {% else %}
-                    <table class="aui">
-                        <thead>
-                            <tr>
-                                <th id="name">{{'inventory.item.title' | trans}}</th>
-                                <th>{{'inventory.item.description' | trans}}</th>
-                                <th>{{'inventory.item.barcode' | trans}}</th>
-                                <th>{{'inventory.item.buydate' | trans}}</th>
-                                <th>{{'inventory.item.serialnumber' | trans}}</th>
-                                <th>{{'inventory.item.vendor' | trans}}</th>
-                                <th>{{'inventory.item.modelnumber' | trans}}</th>
-                                <th>{{'generic.actions'|trans}}</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {% for item in set.getItems %}
-                                <tr>
-                                    <td headers="name">{{ item.title }}</td>
-                                    <td>{{ item.description }}</td>
-                                    <td>{{ item.barcode }}</td>
-                                    <td>{% if item.buyDate %}{{ item.buyDate|date('Y-m-d') }}{% endif %}</td>
-                                    <td>{{ item.serialNumber }}</td>
-                                    <td>{{ item.vendor }}</td>
-                                    <td>{{ item.modelNumber }}</td>
-                                    <td class="action" headers="action">
-                                        <ul class="menu">
-                                            <li>
-                                                <a href="{{ path('inventory_item_show', { 'id': item.id }) }}">{{'generic.show' | trans}}</a>
-                                            </li>
-                                            <li>
-                                                <a href="{{ path('inventory_item_edit', { 'id': item.id }) }}">{{'generic.edit' | trans}}</a>
-                                            </li>
-                                        </ul>
-                                    </td>
-                                </tr>
-                            {% endfor %}
-                        </tbody>
-                    </table>
-                {% endif %}
-            </div>
-        </fieldset>
-    </form>
-{% endblock %}
-{% block sidebar%}
-    <aside class="aui-page-panel-sidebar">
-        <h3>
-            {{'inventory.set.attachments' | trans }} ({{ set.attachments | length }})
-        </h3>
-        <div id="expander-with-replace-text-content" class="aui-expander-content">
-            {% for attachment in set.attachments %}
-                <img src="{{ sauce(attachment) }}" />
-            {% endfor %}
+<form class="aui">
+    <fieldset>
+        <h3>{{ 'inventory.set.set'|trans }}</h3>
+
+        <div class="field-group viewMode">
+            <label>{{ 'inventory.set.title'|trans }}</label>
+            <span class="field-value">{{ set.title }}</span>
         </div>
-    </aside>
-{% endblock%}
+        <div class="field-group viewMode">
+            <label>{{ 'inventory.set.barcode'|trans }}</label>
+            <span class="field-value">{{ set.barcode }}</span>
+        </div>
+        <div class="field-group viewMode">
+            <label>{{ 'inventory.set.place'|trans }}</label>
+            <span class="field-value">{{ set.place.title }}</span>
+        </div>
+        <div class="field-group viewMode">
+            <label>{{ 'inventory.set.description'|trans }}</label>
+            <span class="field-value">{{ set.description }}</span>
+        </div>
+
+        <h3>{{ 'inventory.set.items'|trans }}</h3>
+        {% if set.items|length == 0 %}
+            <span class="field-value">{{ 'inventory.set.zeroItems'|trans }}</span>
+        {% else %}
+            <table class="aui">
+                <thead>
+                    <tr>
+                        <th id="set_item_table_title">{{ 'inventory.item.title'|trans }}</th>
+                        <th id="set_item_table_barcode">{{ 'inventory.item.barcode'|trans }}</th>
+                        <th id="set_item_table_vendor">{{ 'inventory.item.vendor'|trans }}</th>
+                        <th id="set_item_table_category">{{ 'inventory.item.category'|trans }}</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for item in set.items %}
+                        <tr>
+                            <td headers="set_item_table_title">
+                                <a href="{{ path('inventory_item_show', { 'id': item.id }) }}">{{ item.title }}</a>
+                            </td>
+                            <td headers="set_item_table_barcode">{{ item.barcode }}</td>
+                            <td headers="set_item_table_vendor">{{ item.vendor }}</td>
+                            <td headers="set_item_table_category">{{ item.category.title }}</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        {% endif %}
+    </fieldset>
+</form>
+{% endblock %}
+
+{% block sidebar %}
+<aside class="aui-page-panel-sidebar"></aside>
+{% endblock %}

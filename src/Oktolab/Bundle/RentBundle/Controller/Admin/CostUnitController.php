@@ -22,8 +22,8 @@ class CostUnitController extends Controller
     /**
      * Lists all CostUnit entities.
      *
-     * @Route("/page={page}", name="admin_costunit", defaults={"page"= 1}, requirements={"page"= "\d+"})
      * @Method("GET")
+     * @Route("/page={page}", name="admin_costunit", defaults={"page"=1}, requirements={"page"= "\d+"})
      * @Template()
      */
     public function indexAction($page)
@@ -39,10 +39,11 @@ class CostUnitController extends Controller
         return array(
             'entities' => $entities,
             'currentPage' => $page,
-            'pages'  => $maxPage,
+            'pages'  => floor($totalResults / $resultsPerPage),
             'renderPages' => 9
         );
     }
+
     /**
      * Creates a new CostUnit entity.
      *

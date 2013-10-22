@@ -19,7 +19,7 @@ class CostUnitApiController extends Controller
     /**
      * Returns a JSON formatted Dataset for typeahead.js
      *
-     * @Cache(expires="+1 week", public="yes")
+     * @Cache(expires="+1 day", public="yes")
      * @Method("GET")
      * @Route("/typeahead.{_format}",
      *      name="api_costunit_typeahead_prefetch",
@@ -30,10 +30,12 @@ class CostUnitApiController extends Controller
      */
     public function typeaheadPrefetchAction()
     {
-        $em = $this->getDoctrine()->getManager();
-        $costunits = $em->getRepository('OktolabRentBundle:CostUnit')->findAll();
-        $json = array();
+        $costunits = $this->getDoctrine()
+            ->getManager()
+            ->getRepository('OktolabRentBundle:CostUnit')
+            ->findAll();
 
+        $json = array();
         foreach ($costunits as $costunit) {
             $tokens = explode(' ', $costunit->getName());
             $tokens[] = $costunit->getGuid();

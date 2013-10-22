@@ -31,14 +31,15 @@ class SetController extends Controller
      */
     public function indexAction()
     {
-        $em = $this->getDoctrine()->getManager();
-        $entities = $em->getRepository('OktolabRentBundle:Inventory\Set')->findAll();
+        $entities = $this->getDoctrine()
+            ->getManager()
+            ->getRepository('OktolabRentBundle:Inventory\Set')
+            ->findAll();
 
         return array('entities' => $entities);
     }
 
     /**
-     *
      * Creates a new Inventory\Set entity.
      *
      * @Route("/", name="inventory_set_create")
@@ -57,27 +58,20 @@ class SetController extends Controller
                 $item->setSet($set);
                 $em->persist($item);
             }
+
             $this->get('oktolab.upload_manager')->saveAttachmentsToEntity($set);
             $em->persist($set);
             $em->flush();
 
-            $this
-                ->get('session')
-                ->getFlashBag()
-                ->add(
-                    'success',
-                    $this->get('translator')->trans('set.message.savesuccessful')
-                );
+            $message = $this->get('translator')->trans('set.message.savesuccessful');
+            $this->get('session')->getFlashBag()->add('success', $message);
 
             return $this->redirect($this->generateUrl('inventory_set_show', array('id' => $set->getId())));
         }
-        $this
-            ->get('session')
-            ->getFlashBag()
-            ->add(
-                'warning',
-                $this->get('translator')->trans('set.message.savefailure')
-            );
+
+        $message = $this->get('translator')->trans('set.message.savefailure');
+        $this->get('session')->getFlashBag()->add('warning', $message);
+
         return array(
             'form'   => $form->createView(),
             'items'  => $form->get('items')->getData(),
@@ -87,9 +81,9 @@ class SetController extends Controller
     /**
      * Displays a form to create a new Inventory\Set entity.
      *
-     * @Route("/new", name="inventory_set_new")
+     * @Cache(expires="+1 day", public="true")
      * @Method("GET")
-     * @Cache(expires="next year", public="true")
+     * @Route("/new", name="inventory_set_new")
      * @Template()
      */
     public function newAction()
@@ -97,7 +91,10 @@ class SetController extends Controller
         $form = $this->createForm(
             new SetType(),
             new Set(),
-            array('action' => $this->generateUrl('inventory_set_create'))
+            array(
+                'method' => 'POST',
+                'action' => $this->generateUrl('inventory_set_create')
+            )
         );
 
         return array('form' => $form->createView());
@@ -161,7 +158,6 @@ class SetController extends Controller
         );
 
         $form->handleRequest($request);
-
         if ($form->isValid()) {
             $em = $this->getDoctrine()->getManager();
             $formItems = $form->get('items')->getData();
@@ -181,22 +177,14 @@ class SetController extends Controller
             $em->persist($set);
             $em->flush();
 
-            $this
-                ->get('session')
-                ->getFlashBag()
-                ->add(
-                    'success',
-                    $this->get('translator')->trans('set.message.changessuccessful')
-                );
+            $message = $this->get('translator')->trans('set.message.changesuccessful');
+            $this->get('session')->getFlashBag()->add('success', $message);
+
             return $this->redirect($this->generateUrl('inventory_set_show', array('id' => $set->getId())));
         }
-        $this
-            ->get('session')
-            ->getFlashBag()
-            ->add(
-                'warning',
-                $this->get('translator')->trans('set.message.changefailure')
-            );
+
+        $message = $this->get('translator')->trans('set.message.changefailure');
+        $this->get('session')->getFlashBag()->add('warning', $message);
 
         return array(
             'set'    => $set,
@@ -215,8 +203,6 @@ class SetController extends Controller
      */
     public function deleteAction(Set $set)
     {
-        $this->get('logger')->debug('TODO: Set message to avoid @$!#* with users');
-
         $em = $this->getDoctrine()->getManager();
         foreach ($set->getItems() as $item) {
             $item->setSet(null);
@@ -245,27 +231,6 @@ class SetController extends Controller
     }
 
     /**
-     * Remove an Item from a set entity.
-     *
-     * @Route("/{setid}/remove/item/{id}", name="inventory_set_remove_item")
-     * @ParamConverter("set", class="OktolabRentBundle:Inventory\Set", options={"id" = "setid"})
-     * @ParamConverter("item", class="OktolabRentBundle:Inventory\Item", options={"id" = "id"})
-     * @Method("GET")
-     */
-    public function removeItemAction(Item $item, Set $set)
-    {
-        die('asdfasdfasdf');
-        $item->setSet(null);
-        $em->flush($item);
-
-        $this->get('session')->getFlashBag()->add(
-            'notice',
-            sprintf('Item %s wurde erfolgreich aus Set entfernt.', $item->getTitle())
-        );
-        return $this->redirect($this->generateUrl('inventory_set_edit', array('id' => $set->getId())));
-    }
-
-    /**
      * Deletes an attachment from the entity
      *
      * @Route("/{entity_id}/{attachment_id}/delete", name="inventory_set_attachment_delete")
@@ -287,7 +252,7 @@ class SetController extends Controller
         return $this->redirect($this->generateUrl('inventory_set_edit', array('id' => $set->getId())));
     }
 
-        /**
+    /**
      * @Route("/{id}/picture/upload", name="inventory_set_picture_upload")
      * @ParamConverter("set", class="OktolabRentBundle:Inventory\Set")
      * @Method("GET")
