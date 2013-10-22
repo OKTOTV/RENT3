@@ -23,8 +23,8 @@ class CostUnitController extends Controller
     /**
      * Lists all CostUnit entities.
      *
-     * @Route("/page={page}", name="admin_costunit", defaults={"page"= 1}, requirements={"page"= "\d+"})
      * @Method("GET")
+     * @Route("/page={page}", name="admin_costunit", defaults={"page"=1}, requirements={"page"= "\d+"})
      * @Template()
      */
     public function indexAction($page)
@@ -33,14 +33,16 @@ class CostUnitController extends Controller
 
         $resultsPerPage = 15;
         $totalResults = count($em->getRepository('OktolabRentBundle:CostUnit')->findAll());
-        $maxPage = floor($totalResults/$resultsPerPage);
 
-        $entities = $em->getRepository('OktolabRentBundle:CostUnit')->findBy(array(), null, $resultsPerPage, $resultsPerPage*$page);
+//        $entities = $em->getRepository('OktolabRentBundle:CostUnit')
+//            ->findBy(array(), null, $resultsPerPage, $resultsPerPage * $page);
+
+        $entities = $em->getRepository('OktolabRentBundle:CostUnit')->findAll();
 
         return array(
             'entities' => $entities,
             'currentPage' => $page,
-            'pages'  => $maxPage,
+            'pages'  => floor($totalResults / $resultsPerPage),
             'renderPages' => 9
         );
     }

@@ -58,3 +58,15 @@ bazinga_faker:
                 description:  { method: sentence, parameters: [ 20 ] }
                 serialNumber: { method: randomNumber, parameters: [ 12 ] }
                 modelNumber:  { method: randomNumber, parameters: [ 12 ] }
+
+        OktolabRentBundle:Contact:
+            number: 20
+            custom_formatters:
+                name:       { method: name }
+                guid:       { method: randomNumber, parameters: [ 10 ] }
+
+        OktolabRentBundle:CostUnit:
+            number: 5
+            custom_formatters:
+                name:       { method: randomElement, parameters: [ [ "Mulatschag", "New Ordner", "Afrika TV", "Poplastikka", "Andererseits", "Arbeitswelten", "Kwadrat" ] ] }
+                guid:       { method: randomNumber, parameters: [ 10 ] }
