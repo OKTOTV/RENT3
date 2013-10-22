@@ -31,7 +31,7 @@
             {{ form_errors(form) }}
 
             {{ form_row(form.title) }}
-            {{ form_row(form.description) }}
+            {{ form_row(form.description, {'attr': { 'rows': 6 } }) }}
             {{ form_row(form.barcode) }}
             {{ form_row(form.place) }}
         </fieldset>
