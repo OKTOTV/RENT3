@@ -31,5 +31,9 @@ class OktolabRentExtension extends Extension
         if ('dev' === $container->getParameter('kernel.environment')) {
             $loader->load('services_dev.yml');
         }
+
+        if ('test' === $container->getParameter('kernel.environment')) {
+            $loader->load('services_test.yml');
+        }
     }
 }

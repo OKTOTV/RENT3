@@ -3,7 +3,6 @@
 namespace Oktolab\Bundle\RentBundle\Tests\Controller\Admin;
 
 use Oktolab\Bundle\RentBundle\Tests\WebTestCase;
-//use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
 /**
  * Description of CostUnitControllerTest
@@ -66,25 +65,61 @@ class CostUnitControllerTest extends WebTestCase
 
     public function testAddContactToCostUnit()
     {
-        $this->markTestIncomplete();
+        $this->logIn('ROLE_ADMIN');
+        $this->loadFixtures(array('Oktolab\Bundle\RentBundle\Tests\DataFixtures\ORM\CostUnitFixture'));
+
+        $this->client->request('GET', '/admin/costunit/1/edit');
+        $this->assertTrue($this->client->getResponse()->isSuccessful(), 'Response should be successful');
+        $form = $this->client->getCrawler()->selectButton('Speichern')->form();
+        $this->client->request(
+            'PUT',
+            $form->getUri(),
+            array(
+                'oktolab_bundle_rentbundle_costunit' => array(
+                    '_token'    => $form['oktolab_bundle_rentbundle_costunit[_token]']->getValue(),
+                    'name'      => 'KostenstelleNEW',
+                    'contacts'  => array(1 => '12345678')
+                )
+            )
+        );
+        $this->assertTrue($this->client->getResponse()->isRedirect(), 'Response should be a redirect');
+        $crawler = $this->client->followRedirect();
+        $this->assertTrue($this->client->getResponse()->isSuccessful(), 'Response should be successful');
+        $this->assertEquals(
+            1,
+            $crawler->filter('.aui-page-panel-content:contains("KostenstelleNEW")')->count(),
+            'The new Costunit title should appear on this page.'
+        );
+
     }
 
     public function testDeleteCostUnitWithMembersWillFail()
     {
-        $this->markTestIncomplete();
+        $this->logIn('ROLE_ADMIN');
+        $this->loadFixtures(array('Oktolab\Bundle\RentBundle\Tests\DataFixtures\ORM\CostUnitWithContactFixture'));
+        $this->client->request('GET', '/admin/costunit/page');
+
+        $this->client->request('GET', '/admin/costunit/1/delete');
+        $this->assertTrue($this->client->getResponse()->isRedirect(), 'Response should be a redirect');
+        $crawler = $this->client->followRedirect();
+
+        $this->assertEquals(
+            1,
+            $crawler->filter('.aui-page-panel-content table tbody tr')->count(),
+            'The Costunit should not be deleted.'
+        );
     }
 
     public function testSuccessfullyDeleteACostUnit()
     {
         $this->logIn('ROLE_ADMIN');
         $this->loadFixtures(array('Oktolab\Bundle\RentBundle\Tests\DataFixtures\ORM\CostUnitFixture'));
-
         $this->client->request('GET', '/admin/costunit/1/delete');
         $this->assertTrue($this->client->getResponse()->isRedirect(), 'Response should be a redirect');
         $crawler = $this->client->followRedirect();
         $this->assertEquals(
             0,
-            $crawler->filter('.aui-page-panel-content  table tbody tr')->count(),
+            $crawler->filter('.aui-page-panel-content table tbody tr')->count(),
             'The Costunit should be deleted.'
         );
     }
