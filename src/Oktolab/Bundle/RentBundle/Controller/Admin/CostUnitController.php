@@ -46,6 +46,7 @@ class CostUnitController extends Controller
             'renderPages' => 9
         );
     }
+
     /**
      * Creates a new CostUnit entity.
      *

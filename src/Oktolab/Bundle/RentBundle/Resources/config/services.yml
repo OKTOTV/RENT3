@@ -219,7 +219,7 @@ services:
 
     oktolab.hub_guid_contact_transformer:
         class:      %oktolab.hub_guid_contact_transformer.class%
-        arguments: [@oktolab.hub_fetch_service]
+        arguments: [ @oktolab.hub_fetch_service, @oktolab.orm.contact_repository ]
 
     oktolab.rent_sheet_pdf:
         class:      %oktolab.rent_sheet_pdf.class%

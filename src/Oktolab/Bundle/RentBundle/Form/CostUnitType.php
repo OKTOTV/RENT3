@@ -16,7 +16,6 @@ class CostUnitType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-
         $hubTransformer = $options['hubTransformer'];
         $mainContactChoices = $options['mainContactChoices'];
 
@@ -26,10 +25,11 @@ class CostUnitType extends AbstractType
                 'mainContact',
                 'entity',
                 array(
-                    'class' => 'OktolabRentBundle:Contact',
-                    'choices' => $mainContactChoices,
-                    'property' => 'name',
-                    'label' => 'admin.costunit.mainContact',
+                    'class'     => 'OktolabRentBundle:Contact',
+                    'choices'   => $mainContactChoices,
+                    'property'  => 'name',
+                    'label'     => 'admin.costunit.mainContact',
+                    'required'  => false,
                 )
             )
             ->add(
