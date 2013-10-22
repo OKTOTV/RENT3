@@ -129,6 +129,11 @@ class EventObject
         return $this->object;
     }
 
+    public function isScanned()
+    {
+        return true == $this->scanned;
+    }
+
     public function getScanned()
     {
         return $this->scanned;

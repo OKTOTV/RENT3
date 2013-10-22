@@ -35,6 +35,16 @@
         };
 
         /**
+         * Finds the correct input and flags the object as "scanned"
+         *
+         * @param {jQuery} object
+         */
+        var scanObject = function (object) {
+            object.closest('tr').find('.hidden input.scanner').val('1');
+            object.removeClass('aui-iconfont-approve').addClass('aui-icon-success');
+        }
+
+        /**
          * Finds the item from the rent-items Dataset of searchField
          *
          * @param {string} itemValue
@@ -134,6 +144,11 @@
         collectionHolder.on('click', 'a.remove', function (e) {
             e.preventDefault();
             removeObject($(e.currentTarget));
+        });
+
+        collectionHolder.on('click', 'a.scan', function (e) {
+            e.preventDefault();
+            scanObject($(e.currentTarget));
         });
     };
 

@@ -163,12 +163,32 @@ class EventController extends Controller
                 'em'     => $this->getDoctrine()->getManager(),
                 'method' => 'PUT',
                 'action' => $this->generateUrl('OktolabRentBundle_Event_Update', array('id' => $event->getId())),
+                'validation_groups'     => array('Event', 'Logic', 'Rent'),
             )
         );
 
         $form->handleRequest($request);
         if ($form->isValid()) {
+
+            // @TODO: Validator needed!
+            $validation = true;
+            foreach ($event->getObjects() as $object) {
+                if (!$object->isScanned()) {
+                    $validation = false;
+                }
+            }
+
+            if (!$validation) {
+                $this->get('session')->getFlashBag()->add('success', 'Nope, nope, nope.');
+                return $this->redirect($this->generateUrl('rentbundle_dashboard'));
+            }
+
             $this->get('session')->getFlashBag()->add('success', 'Event successfully rented.');
+            $event->setState(Event::STATE_LENT);
+
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($event);
+            $em->flush();
 
             return $this->redirect($this->generateUrl('rentbundle_dashboard'));
         }
