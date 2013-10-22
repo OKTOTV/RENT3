@@ -5,8 +5,6 @@ namespace Oktolab\Bundle\RentBundle\Form;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
-use Oktolab\Bundle\RentBundle\Model\HubFetchService;
-use Doctrine\ORM\EntityManager;
 
 class CostUnitType extends AbstractType
 {
