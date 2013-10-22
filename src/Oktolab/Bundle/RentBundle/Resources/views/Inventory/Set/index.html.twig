@@ -5,20 +5,20 @@
         <div class="aui-page-header-image">
             <div class="aui-avatar aui-avatar-xlarge aui-avatar-project">
                 <div class="aui-avatar-inner">
-                    <img src="static/img/none.png">
+                    <img src="{{ asset('aui-5.1/images/project-avatar-blue-64@2x.png') }}" />
                 </div>
             </div>
         </div>
         <div class="aui-page-header-main">
             <ol class="aui-nav aui-nav-breadcrumbs">
-                <li>{{ 'generic.inventory'|trans}}</li>
+                <li>{{ 'generic.inventory'|trans }}</li>
             </ol>
-            <h1>{{'inventory.set.sets'|trans}}</h1>
+            <h1>{{ 'inventory.set.sets'|trans }}</h1>
         </div>
         <div class="aui-page-header-actions">
             <div class="aui-buttons">
                 <div class="aui-buttons">
-                    <a class="aui-button" href="{{ path('inventory_set_new') }}">{{'inventory.set.new'|trans}}</a>
+                    <a class="aui-button" href="{{ path('inventory_set_new') }}"><span class="aui-icon aui-icon-small aui-iconfont-add">Add</span> {{ 'inventory.set.new'|trans }}</a>
                 </div>
             </div>
         </div>

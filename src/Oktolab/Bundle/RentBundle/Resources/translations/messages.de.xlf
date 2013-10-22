@@ -266,6 +266,10 @@
                 <source>generic.no</source>
                 <target>Nein</target>
             </trans-unit>
+            <trans-unit id="67">
+                <source>generic.tools</source>
+                <target>Tools</target>
+            </trans-unit>
 
             <trans-unit id="100">
                 <source>inventory.item.title</source>
@@ -447,6 +451,10 @@
             <trans-unit id="220">
                 <source>inventory.set.zeroItems</source>
                 <target>Keine Gegenstände in diesem Set</target>
+            </trans-unit>
+            <trans-unit id="221">
+                <source>inventory.set.set</source>
+                <target>Übersicht</target>
             </trans-unit>
 
             <trans-unit id="300">
