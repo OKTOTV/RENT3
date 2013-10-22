@@ -270,6 +270,10 @@
                 <source>generic.tools</source>
                 <target>Tools</target>
             </trans-unit>
+            <trans-unit id="68">
+                <source>generic.cancel</source>
+                <target>Abbrechen</target>
+            </trans-unit>
 
             <trans-unit id="100">
                 <source>inventory.item.title</source>
