@@ -27,7 +27,11 @@
                 <li>{{ 'generic.inventory'|trans }}</li>
                 <li class="aui-nav-selected"><a href="{{ path('inventory_set') }}">{{ 'inventory.set.sets'|trans }}</a></li>
             </ol>
-            <h1>{{ set.title }} - {{ set.barcode }}</h1>
+            <h1>
+                <span id="title-text">
+                    <a href="{{ path('inventory_set_show', { 'id': set.id }) }}">{{ set.title }} - {{ set.barcode }}</a>
+                </span>
+            </h1>
         </div>
         <div class="aui-page-header-actions">
             <div class="aui-buttons">
@@ -43,10 +47,11 @@
                     </button>
                     <div id="dropdown-menu-set" class="aui-dropdown2 aui-style-default">
                         <ul class="aui-list-truncate aui-dropdown2-section">
-                            <li><a href="http://example.com/">Anhänge (0)</a></li>
+                            <li><a href="#">Anhänge (0)</a></li>
+                            <li><a href="#">Profilbild aktualisieren</a></li>
                         </ul>
                         <ul class="aui-list-truncate aui-dropdown2-section">
-                            <li><a href="http://example.com/">Entfernen</a></li>
+                            <li><a href="#">Entfernen</a></li>
                         </ul>
                     </div>
                 </div>

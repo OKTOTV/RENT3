@@ -1,58 +1,70 @@
 {% extends 'OktolabRentBundle::layout.html.twig' %}
 
 {% block content_header %}
-    <div class="aui-page-header-inner">
-        <div class="aui-page-header-image">
-            <div class="aui-avatar aui-avatar-xlarge aui-avatar-project">
-                <div class="aui-avatar-inner">
-                    <img src="{{ asset('aui-5.1/images/project-avatar-blue-64@2x.png') }}" />
-                </div>
-            </div>
-        </div>
-        <div class="aui-page-header-main">
-            <ol class="aui-nav aui-nav-breadcrumbs">
-                <li>{{ 'generic.inventory'|trans }}</li>
-            </ol>
-            <h1>{{ 'inventory.set.sets'|trans }}</h1>
-        </div>
-        <div class="aui-page-header-actions">
-            <div class="aui-buttons">
-                <div class="aui-buttons">
-                    <a class="aui-button" href="{{ path('inventory_set_new') }}"><span class="aui-icon aui-icon-small aui-iconfont-add">Add</span> {{ 'inventory.set.new'|trans }}</a>
-                </div>
+<div class="aui-page-header-inner">
+    <div class="aui-page-header-image">
+        <div class="aui-avatar aui-avatar-xlarge aui-avatar-project">
+            <div class="aui-avatar-inner">
+                <img src="{{ asset('aui-5.1/images/project-avatar-blue-64@2x.png') }}" />
             </div>
         </div>
     </div>
+
+    <div class="aui-page-header-main">
+        <ol class="aui-nav aui-nav-breadcrumbs">
+            <li>{{ 'generic.inventory'|trans }}</li>
+        </ol>
+        <h1>
+            <span id="title-text">
+                <a href="{{ path('inventory_set') }}">{{ 'inventory.set.sets'|trans }}</a>
+            </span>
+        </h1>
+    </div>
+
+    <div class="aui-page-header-actions">
+        <div class="aui-buttons">
+            <div class="aui-buttons">
+                <a class="aui-button" href="{{ path('inventory_set_new') }}">
+                    <span class="aui-icon aui-icon-small aui-iconfont-add">Add</span>
+                    {{ 'inventory.set.new'|trans }}
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
 {% endblock %}
 
 {% block content %}
-    <table class="aui">
-        <thead>
-            <tr>
-                <th id="name">{{'inventory.set.title'|trans}}</th>
-                <th>{{'inventory.set.description'|trans}}</th>
-                <th>{{'inventory.set.items'|trans}}</th>
-                <th id="action">{{'generic.actions'|trans}}</th>
-            </tr>
-        </thead>
-        <tbody>
+<table class="aui inventory_set">
+    <thead>
+        <tr>
+            <th id="set_table_title" colspan="2">{{ 'inventory.set.sets'|trans }}</th>
+            <th id="set_table_barcode">{{ 'inventory.set.barcode'|trans }}</th>
+        </tr>
+    </thead>
+    <tbody>
         {% for entity in entities %}
             <tr>
-                <td headers="name">{{ entity.title }}</td>
-                <td>{{ entity.description }}</td>
-                <td>{{ entity.items | length }}</td>
-                <td class="action" headers="action">
-                    <ul class="menu">
-                        <li>
-                            <a href="{{ path('inventory_set_show', { 'id': entity.id }) }}">{{'generic.show'|trans}}</a>
-                        </li>
-                        <li>
-                            <a href="{{ path('inventory_set_edit', { 'id': entity.id }) }}">{{'generic.edit'|trans}}</a>
-                        </li>
-                    </ul>
+                <td class="entity_avatar">
+                    {% if entity.picture is not null %}
+                        <img src="{{ entity.picture.getRelativePath|apply_filter('list_avatar') }}" />
+                    {% else %}
+                        <img src="{{ asset('aui-5.1/images/project-avatar-blue-32@2x.png') }}" alt="{{ entity.title }}" />
+                    {% endif %}
                 </td>
+                <td headers="set_table_title">
+                    <div class="inventory_set inventory_object">
+                        <a href="{{ path('inventory_set_show', { 'id': entity.id }) }}">{{ entity.title }}</a>
+                        <span class="smalltext">({{ entity.place.title }})</span>
+                        <p>
+                            <span class="aui-badge">{{ entity.items|length }}</span>
+                            <span>{{ 'inventory.set.items'|trans }}</span>
+                        </p>
+                    </div>
+                </td>
+                <td headers="set_table_barcode">{{ entity.barcode }}</td>
             </tr>
         {% endfor %}
-        </tbody>
-    </table>
+    </tbody>
+</table>
 {% endblock %}
