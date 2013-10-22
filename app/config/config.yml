@@ -83,6 +83,9 @@ avalanche_imagine:
         page_avatar:
             type:     thumbnail
             options:  { size: [64, 64], mode: outbound }
+        list_avatar:
+            type:     thumbnail
+            options:  { size: [32, 32], mode: outbound }
         page_avatar_full:
             type:     thumbnail
             options:  { size: [800, 400], mode: inset }
