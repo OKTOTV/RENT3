@@ -92,7 +92,7 @@ AJS.$(document).ready(function() {
     collectionHolder.on('click', '.remove-object', oktolab.removeEventObjectFromEventForm);
 
     //  costunit
-    AJS.$('#costunit-search-field').typeahead({
+    /*AJS.$('#costunit-search-field').typeahead({
         name: 'costunits',
         valueKey:   'name',
         prefetch: {url: oktolab.typeahead.costunitPrefetchUrl, ttl: 5 },
@@ -102,9 +102,9 @@ AJS.$(document).ready(function() {
             '<p class="tt-object-addon">{{barcode}}</p>'
         ].join(''),
         engine: Hogan
-    });
+    });*/
 
-    jQuery('#costunit-search-field').on('typeahead:selected', function(e, datum) {
+    /*jQuery('#costunit-search-field').on('typeahead:selected', function(e, datum) {
         var form = collectionHolder.closest('form');
 
         form.find('#contact-search-field').attr('disabled', false).typeahead({
@@ -127,7 +127,7 @@ AJS.$(document).ready(function() {
 
         // autofill Event Name
         form.find('#OktolabRentBundle_Event_Form_name').val(datum.name);
-    });
+    }); */
 
     // contact
     jQuery('#contact-search-field').on('typeahead:selected', function(e, datum) {
@@ -138,3 +138,5 @@ AJS.$(document).ready(function() {
         selectbox.val(datum.id);
     });
 });
+
+Oktolab.EventForm.init({ container: '#rent-inventory-form > form' });
