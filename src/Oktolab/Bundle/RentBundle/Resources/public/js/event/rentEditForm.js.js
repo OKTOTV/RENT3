@@ -166,6 +166,8 @@ AJS.$(document).ready(function() {
         selectbox.val(datum.id);
         var nameField = form.find('#OktolabRentBundle_Event_Form_name');
         nameField.val(datum.name);
+        var contactField = form.find('#oktolabrentbundle_event_editform_contact_searchfield');
+        contactField.val('');
 
         AJS.$('#oktolabrentbundle_event_editform_contact_searchfield').attr('disabled', false);
 
