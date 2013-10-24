@@ -59,21 +59,23 @@
 
         _setup: function () {
             var container = EventForm.data.container;
+
             EventForm.data.costUnitContainer = container.find('select[name*=costunit]');
             EventForm.data.contactContainer = container.find('select[name*=contact]');
             EventForm.data.nameContainer = container.find('input[name*=name]');
 
-            // Hide some Form fields
+            // Hide some form fields
             EventForm.data.costUnitContainer.closest('div.field-group').addClass('hidden');
             EventForm.data.contactContainer.closest('div.field-group').addClass('hidden');
             EventForm.data.nameContainer.closest('div.field-group').addClass('hidden');
 
-            // Render Typeahead's
+            // Render form inputs
             EventForm._renderContactField();
             EventForm._renderCostUnitField();
 
             // Register Listeners
             EventForm._registerCostUnitListener();
+            EventForm._registerContactListener();
         },
 
         _renderCostUnitField: function () {
@@ -114,19 +116,28 @@
             EventForm.data.costUnitSearchContainer.on('typeahead:selected', function(e, datum) {
                 var remoteUrl = oktolab.typeahead.costunitcontactRemoteUrl.replace('__id__', datum.id);
 
+                // Set Values to hidden input fields
                 EventForm.data.costUnitContainer.val(datum.id);
-                EventForm.data.costUnitContainer.val(datum.name);
+                EventForm.data.nameContainer.val(datum.name);
 
+                // load new Typeahead on Contacts
+                EventForm.data.contactSearchContainer.typeahead('destroy');
                 EventForm.data.contactSearchContainer.attr('disabled', false).typeahead({
                     name:       'costunit-contacts-' + datum.id,
                     valueKey:   'name',
-                    remote :    remoteUrl,
+                    prefetch :  remoteUrl,
                     template: [
                         '<span class="aui-icon aui-icon-small aui-iconfont-devtools-file">Object</span>',
                         '<p class="tt-object-name">{{name}}</p>'
                     ].join(''),
                     engine: Hogan
                 });
+            });
+        },
+
+        _registerContactListener: function () {
+            EventForm.data.contactSearchContainer.on('typeahead:selected', function (e, datum) {
+                EventForm.data.contactContainer.val(datum.id);
             });
         }
     };

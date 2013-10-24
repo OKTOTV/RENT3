@@ -90,53 +90,6 @@ AJS.$(document).ready(function() {
     });
 
     collectionHolder.on('click', '.remove-object', oktolab.removeEventObjectFromEventForm);
-
-    //  costunit
-    /*AJS.$('#costunit-search-field').typeahead({
-        name: 'costunits',
-        valueKey:   'name',
-        prefetch: {url: oktolab.typeahead.costunitPrefetchUrl, ttl: 5 },
-        template: [
-            '<span class="aui-icon aui-icon-small aui-iconfont-devtools-file">Object</span>',
-            '<p class="tt-object-name">{{name}}</p>',
-            '<p class="tt-object-addon">{{barcode}}</p>'
-        ].join(''),
-        engine: Hogan
-    });*/
-
-    /*jQuery('#costunit-search-field').on('typeahead:selected', function(e, datum) {
-        var form = collectionHolder.closest('form');
-
-        form.find('#contact-search-field').attr('disabled', false).typeahead({
-            name: 'costunit-contacts',
-            valueKey:   'name',
-            remote: { url: oktolab.typeahead.costunitcontactRemoteUrl.replace('__id__', datum.id),
-                      replace: function() {
-                          return oktolab.typeahead.costunitcontactRemoteUrl.replace('__id__', AJS.$(form.find('#OktolabRentBundle_Event_Form_costunit')).val())
-                      }
-                    },
-            template: [
-                '<span class="aui-icon aui-icon-small aui-iconfont-devtools-file">Object</span>',
-                '<p class="tt-object-name">{{name}}</p>'
-            ].join(''),
-            engine: Hogan
-        });
-
-        //select costunit with datum.id
-        form.find('#OktolabRentBundle_Event_Form_costunit').val(datum.id);
-
-        // autofill Event Name
-        form.find('#OktolabRentBundle_Event_Form_name').val(datum.name);
-    }); */
-
-    // contact
-    jQuery('#contact-search-field').on('typeahead:selected', function(e, datum) {
-        var form = collectionHolder.closest('form');
-
-        //select costunit with datum.id
-        var selectbox = form.find('#OktolabRentBundle_Event_Form_contact');
-        selectbox.val(datum.id);
-    });
 });
 
 Oktolab.EventForm.init({ container: '#rent-inventory-form > form' });
