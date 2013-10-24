@@ -28,8 +28,15 @@
     {{ form_start(form, {'attr': {'class': 'aui'} }) }}
         <fieldset>
             {{ form_errors(form) }}
-            {{ form_row(form.costunit) }}
-            {{ form_row(form.contact) }}
+            <div class="field-group">
+                <label for="oktolabrentbundle_event_editform_costunit_searchfield">{{ 'event.costunit'|trans }}</label>
+                <input class="text" type="text" id="oktolabrentbundle_event_editform_costunit_searchfield" name="oktolabrentbundle_event_editform_costunit_searchfield" title="{{ 'event.costunit.search'|trans }}" value="{% if event.costunit is defined %}{{ event.costunit.name }}{% endif %}">
+            </div>
+            {{ form_row(form.name) }}
+            <div class="field-group">
+                <label for="contact-search-field">{{ 'event.contact'|trans }}</label>
+                <input disabled class="text" type="text" id="oktolabrentbundle_event_editform_contact_searchfield" name="oktolabrentbundle_event_editform_contact_searchfield" title="{{ 'event.contact.search'|trans }}" value="{% if event.costunit is defined %}{{ event.contact.name }}{% endif %}">
+            </div>
             {{ form_row(form.description) }}
             {{ form_row(form.begin) }}
             {{ form_row(form.end) }}

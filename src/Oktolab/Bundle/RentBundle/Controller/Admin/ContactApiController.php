@@ -17,7 +17,7 @@ class ContactApiController extends Controller
     /**
      * Returns a JSON formatted Dataset for typeahead.js
      *
-     * @Cache(expires="+1 week", public="yes")
+     * @Cache(expires="+1 day", public="yes")
      * @Method("GET")
      * @Route("/typeahead.{_format}",
      *      name="api_contact_typeahead_prefetch",
@@ -28,7 +28,8 @@ class ContactApiController extends Controller
      */
     public function typeaheadPrefetchAction()
     {
-        $contacts = $this->get('oktolab.contact_provider')->getContactsByName('*');
+//        $contacts = $this->get('oktolab.contact_provider')->getContactsByName('*');
+        $contacts = $this->getDoctrine()->getManager()->getRepository('OktolabRentBundle:Contact')->findAll();
         $json = array();
 
         foreach ($contacts as $contact) {

@@ -5,33 +5,48 @@ namespace Oktolab\Bundle\RentBundle\Form\DataTransformer;
 use Symfony\Component\Form\DataTransformerInterface;
 use Symfony\Component\Form\Exception\TransformationFailedException;
 use Oktolab\Bundle\RentBundle\Model\HubFetchService;
+use Doctrine\Common\Persistence\ObjectRepository;
 
+/**
+ * Hub GUID to Contact Transformer
+ */
 class HubGuidToContactTransformer implements DataTransformerInterface
 {
     /**
-     * @var ObjectManager
+     * @var \Oktolab\Bundle\RentBundle\Model\HubFetchService
      */
-    private $hubFetchService;
+    protected $fetcher = null;
 
     /**
-     * @param ObjectManager $om
+     * @var \Doctrine\Common\Persistence\ObjectRepository
      */
-    public function __construct(HubFetchService $fetchService)
+    protected $repository = null;
+
+    /**
+     * Constructor.
+     *
+     * @param \Oktolab\Bundle\RentBundle\Model\HubFetchService $fetcher
+     * @param \Doctrine\ORM\EntityRepository $repository
+     */
+    public function __construct(HubFetchService $fetcher, ObjectRepository $repository)
     {
-        $this->hubFetchService = $fetchService;
+        $this->fetcher = $fetcher;
+        $this->repository = $repository;
     }
 
     /**
      * Transforms an object (contact) to a string (guid).
      *
-     * @param  Issue|null $issue
-     * @return string
+     * @param  Contact|null $issue
+     *
+     * @return array
      */
     public function transform($contacts)
     {
-        if (count($contacts) == 0) {
-            return "";
+        if (0 === count($contacts)) {
+            return '';
         }
+
         $guids = array();
         foreach($contacts as $contact) {
             $guid[] = $contact->getGuid();
@@ -55,9 +70,13 @@ class HubGuidToContactTransformer implements DataTransformerInterface
             return null;
         }
 
-        $contacts = $this->hubFetchService->getContactsForGuids($guid);
+        $contacts = $this->repository->findBy(array('guid' => $guid));
+        if (0 !== $contacts) {
+            return $contacts;
+        }
 
-        if (count($contacts) == 0) {
+        $contacts = $this->fetcher->getContactsForGuids($guid);
+        if (0 === count($contacts)) {
             throw new TransformationFailedException(
                 "One or more Contacts can't be found!"
             );

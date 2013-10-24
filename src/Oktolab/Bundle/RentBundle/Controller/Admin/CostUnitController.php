@@ -10,7 +10,6 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Oktolab\Bundle\RentBundle\Entity\CostUnit;
 use Oktolab\Bundle\RentBundle\Form\CostUnitType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
-use Doctrine\ORM\Tools\Pagination\Paginator;
 
 /**
  * CostUnit controller.
@@ -23,8 +22,8 @@ class CostUnitController extends Controller
     /**
      * Lists all CostUnit entities.
      *
-     * @Route("/page={page}", name="admin_costunit", defaults={"page"= 1}, requirements={"page"= "\d+"})
      * @Method("GET")
+     * @Route("/page={page}", name="admin_costunit", defaults={"page"=1}, requirements={"page"= "\d+"})
      * @Template()
      */
     public function indexAction($page)
@@ -33,17 +32,18 @@ class CostUnitController extends Controller
 
         $resultsPerPage = 15;
         $totalResults = count($em->getRepository('OktolabRentBundle:CostUnit')->findAll());
-        $maxPage = floor($totalResults/$resultsPerPage);
+        $maxPage = ceil($totalResults/$resultsPerPage);
 
-        $entities = $em->getRepository('OktolabRentBundle:CostUnit')->findBy(array(), null, $resultsPerPage, $resultsPerPage*$page);
+        $entities = $em->getRepository('OktolabRentBundle:CostUnit')->findBy(array(), null, $resultsPerPage, $resultsPerPage*($page-1));
 
         return array(
             'entities' => $entities,
             'currentPage' => $page,
-            'pages'  => $maxPage,
+            'pages'  => floor($totalResults / $resultsPerPage),
             'renderPages' => 9
         );
     }
+
     /**
      * Creates a new CostUnit entity.
      *
@@ -210,15 +210,33 @@ class CostUnitController extends Controller
     /**
      * Deletes a CostUnit entity.
      *
-     * @Route("/{id}", name="admin_costunit_delete")
+     * @Route("/{id}/delete", name="admin_costunit_delete")
      * @ParamConverter("costunit", class="OktolabRentBundle:CostUnit")
      * @Method("GET")
      */
     public function deleteAction(CostUnit $costunit)
     {
-        $em = $this->get('doctrine.orm.entity_manager');
-        $em->remove($costunit);
-        $em->flush();
+        if (count($costunit->getContacts()) > 0) {
+            $this
+                ->get('session')
+                ->getFlashBag()
+                ->add(
+                    'warning',
+                    $this->get('translator')->trans('costunit.message.deletefailure')
+            );
+        } else {
+            $em = $this->get('doctrine.orm.entity_manager');
+            $em->remove($costunit);
+            $em->flush();
+
+            $this
+                ->get('session')
+                ->getFlashBag()
+                ->add(
+                    'success',
+                    $this->get('translator')->trans('costunit.message.deletesuccess')
+            );
+        }
 
         return $this->redirect($this->generateUrl('admin_costunit'));
     }
