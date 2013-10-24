@@ -943,6 +943,16 @@
                 <source>event.pdf.costUnitName</source>
                 <target>Kostenstelle: %costUnitName%</target>
             </trans-unit>
+            <trans-unit id="1210">
+                <source>event.costunit</source>
+                <target>Kostenstelle</target>
+            </trans-unit>
+            <trans-unit id="1211">
+                <source>event.contact</source>
+                <target>Kontakt</target>
+            </trans-unit>
+
+
 
             <trans-unit id="1300">
                 <source>admin.setting.settings</source>

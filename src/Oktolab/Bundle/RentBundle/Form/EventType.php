@@ -32,6 +32,8 @@ class EventType extends AbstractType
                     'property' => 'id',
                     'required' => true,
                     'empty_value' => 'Choose a contact',
+                    'attr'      => array('style' => 'display:none'),
+                    'label_attr' => array('style' => 'display:none')
                 )
             )
             ->add(
@@ -41,6 +43,8 @@ class EventType extends AbstractType
                     'class'     => 'OktolabRentBundle:CostUnit',
                     'property' => 'id',
                     'required' => true,
+                    'attr'      => array('style' => 'display:none'),
+                    'label_attr' => array('style' => 'display:none')
                 )
             )
             ->add('description', 'textarea', array('required' => false))

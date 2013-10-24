@@ -172,4 +172,21 @@ class ItemControllerTest extends WebTestCase
         );
         $this->assertEquals(1, $crawler->filter('.aui-expander-content > img')->count(), 'Contains no Attachment');
     }
+
+    /**
+     * @ticket http://jira.okto.tv/browse/RENT-132
+     */
+    public function testBuyDateIsEmtyWhenEmpty()
+    {
+        $this->loadFixtures(array('\Oktolab\Bundle\RentBundle\Tests\DataFixtures\ORM\ItemBuyDateFixture'));
+
+        $this->client->request('GET', '/inventory/item/1');
+        $this->assertTrue($this->client->getResponse()->isSuccessful());
+        $this->assertRegExp('/27.10.1991/', $this->client->getCrawler()->filter('#inventory-item-buyDate')->text());
+
+        $this->client->request('GET', '/inventory/item/2');
+        $this->assertTrue($this->client->getResponse()->isSuccessful());
+
+        $this->assertEmpty($this->client->getCrawler()->filter('#inventory-item-buyDate')->text());
+    }
 }

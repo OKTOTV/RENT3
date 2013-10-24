@@ -158,3 +158,56 @@
     }
 
 }(window, document, jQuery, Oktolab));
+
+AJS.$(document).ready(function() {
+//  costunit
+    AJS.$('#oktolabrentbundle_event_editform_costunit_searchfield').typeahead({
+        name: 'costunits',
+        valueKey:   'name',
+        prefetch: {url: oktolab.typeahead.costunitPrefetchUrl, ttl: 5 },
+        template: [
+            '<span class="aui-icon aui-icon-small aui-iconfont-devtools-file">Object</span>',
+            '<p class="tt-object-name">{{name}}</p>',
+            '<p class="tt-object-addon">{{barcode}}</p>'
+        ].join(''),
+        engine: Hogan
+    });
+
+    jQuery('#oktolabrentbundle_event_editform_costunit_searchfield').on('typeahead:selected', function(e, datum) {
+        var form = collectionHolder.closest('form');
+
+        //select costunit with datum.id
+        var selectbox = form.find('#OktolabRentBundle_Event_Form_costunit');
+        selectbox.val(datum.id);
+        var nameField = form.find('#OktolabRentBundle_Event_Form_name');
+        nameField.val(datum.name);
+        var contactField = form.find('#oktolabrentbundle_event_editform_contact_searchfield');
+        contactField.val('');
+
+        AJS.$('#oktolabrentbundle_event_editform_contact_searchfield').attr('disabled', false);
+
+        AJS.$('#oktolabrentbundle_event_editform_contact_searchfield').typeahead({
+            name: 'costunit-contacts',
+            valueKey:   'name',
+            remote: { url: oktolab.typeahead.costunitcontactRemoteUrl.replace('__id__', datum.id),
+                      replace: function() {
+                          return oktolab.typeahead.costunitcontactRemoteUrl.replace('__id__', AJS.$(form.find('#OktolabRentBundle_Event_Form_costunit')).val())
+                      }
+                    },
+            template: [
+            '<span class="aui-icon aui-icon-small aui-iconfont-devtools-file">Object</span>',
+            '<p class="tt-object-name">{{name}}</p>'
+        ].join(''),
+        engine: Hogan
+        });
+    });
+
+// contact
+    jQuery('#oktolabrentbundle_event_editform_contact_searchfield').on('typeahead:selected', function(e, datum) {
+        var form = collectionHolder.closest('form');
+
+        //select costunit with datum.id
+        var selectbox = form.find('#OktolabRentBundle_Event_Form_contact');
+        selectbox.val(datum.id);
+    });
+});

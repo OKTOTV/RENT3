@@ -40,7 +40,7 @@
             </div>
             <div class="field-group viewMode">
                 <label>{{ 'inventory.item.buydate' | trans }}</label>
-                <span class="field-value">{{ item.buyDate|date('d.m.Y') }}</span>
+                <span class="field-value" id="inventory-item-buyDate">{{ item.buyDate is empty ? '' : item.buyDate|date('d.m.Y') }}</span>
             </div>
             <div class="field-group viewMode">
                 <label>{{ 'inventory.item.serialnumber' | trans }}</label>
