@@ -44,14 +44,14 @@
                 </td>
                 <td>
                     <a href="{{ path('inventory_item_show', { 'id': entity.id }) }}">{{ entity.title }}</a>
-                    <span class="smalltext">({{ entity.set.title }})</span>
+                    {% if entity.set is not null %}<span class="smalltext">({{ entity.set.title }})</span>{% endif %}
                     <p>
                         <span>{{ 'inventory.item.serialnumber'|trans }}: {{ entity.serialNumber }}</span>
                     </p>
                 </td>
                 <td>{{ entity.barcode }}</td>
                 <td>{{ entity.vendor }}</td>
-                <td>{{ entity.category.title }}</td>
+                <td>{% if entity.category is not null %}{{ entity.category.title }}{% endif %}</td>
             </tr>
         {% endfor %}
         </tbody>
