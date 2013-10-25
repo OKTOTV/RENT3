@@ -4,12 +4,7 @@ namespace Oktolab\Bundle\RentBundle\Controller\Inventory;
 
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
-use Symfony\Component\HttpFoundation\Response;
-
+use Sensio\Bundle\FrameworkExtraBundle\Configuration;
 use Oktolab\Bundle\RentBundle\Entity\Inventory\Item;
 use Oktolab\Bundle\RentBundle\Entity\Inventory\Attachment;
 use Oktolab\Bundle\RentBundle\Form\Inventory\ItemType;
@@ -18,7 +13,7 @@ use Oktolab\Bundle\RentBundle\Form\Inventory\PictureType;
 /**
  * Inventory\Item controller.
  *
- * @Route("/inventory/item")
+ * @Configuration\Route("/inventory/item")
  */
 class ItemController extends Controller
 {
@@ -26,32 +21,30 @@ class ItemController extends Controller
     /**
      * Lists all Inventory\Item entities.
      *
-     * @Route("/", name="inventory_item")
-     * @Method("GET")
-     * @Template()
+     * @Configuration\Method("GET")
+     * @Configuration\Route("/", name="inventory_item")
+     * @Configuration\Template()
      */
     public function indexAction()
     {
         $em = $this->getDoctrine()->getManager();
-
         $entities = $em->getRepository('OktolabRentBundle:Inventory\Item')->findAll();
 
-        return array(
-            'entities' => $entities,
-        );
+        return array('entities' => $entities);
     }
 
     /**
      * Creates a new Inventory\Item entity.
      *
-     * @Route("/", name="inventory_item_create")
-     * @Method("POST")
-     * @Template("OktolabRentBundle:Inventory\Item:new.html.twig")
+     * @Configuration\Method("POST")
+     * @Configuration\Route("/", name="inventory_item_create")
+     * @Configuration\Template("OktolabRentBundle:Inventory\Item:new.html.twig")
      */
     public function createAction(Request $request)
     {
-        $entity  = new Item();
-        $form = $this->createForm(new ItemType(), $entity);
+        $entity = new Item();
+        $form   = $this->createForm(new ItemType(), $entity);
+
         $form->bind($request);
         if ($form->isValid()) {
             $this->get('oktolab.upload_manager')->saveAttachmentsToEntity($entity);
@@ -60,37 +53,25 @@ class ItemController extends Controller
             $em->persist($entity);
             $em->flush();
 
-            $this
-                ->get('session')
-                ->getFlashBag()
-                ->add(
-                    'success',
-                    $this->get('translator')->trans('item.message.savesuccessful')
-                );
+            $message = $this->get('translator')->trans('item.message.savesuccessful');
+            $this->get('session')->getFlashBag()->add('success', $message);
 
             return $this->redirect($this->generateUrl('inventory_item_show', array('id' => $entity->getId())));
         }
 
-        $this
-            ->get('session')
-            ->getFlashBag()
-            ->add(
-                'warning',
-                $this->get('translator')->trans('item.message.savefailure')
-            );
+        $message = $this->get('translator')->trans('item.message.savefailure');
+        $this->get('session')->getFlashBag()->add('warning', $message);
 
-        return array(
-            'entity' => $entity,
-            'form'   => $form->createView(),
-        );
+        return array('entity' => $entity, 'form' => $form->createView());
     }
 
     /**
      * Displays a form to create a new Inventory\Item entity.
      * TODO: cache me
-     * @Route("/new", name="inventory_item_new")
-     * @Method("GET")
-     * @Template()
+     *
+     * @Configuration\Method("GET")
+     * @Configuration\Route("/new", name="inventory_item_new")
+     * @Configuration\Template()
      */
     public function newAction()
     {
@@ -100,41 +81,32 @@ class ItemController extends Controller
             $entity,
             array(
                 'action' => $this->generateUrl('inventory_item_create')
-                )
+            )
         );
 
-        return array(
-            'entity' => $entity,
-            'form'   => $form->createView(),
-        );
+        return array('entity' => $entity, 'form' => $form->createView());
     }
 
     /**
-     * Finds and displays a Inventory\Item entity. If XMLHTTP Request, the Item will be displayed as tablerow.
-     * Is used in Sets for adding new items.
+     * Displays a Inventory\Item entity.
      *
-     * @Route("/{id}", name="inventory_item_show")
-     * @ParamConverter("item", class="OktolabRentBundle:Inventory\Item")
-     * @Method("GET")
-     * @Template("OktolabRentBundle:Inventory\Item:show.html.twig", vars={"item"})
+     * @Configuration\Method("GET")
+     * @Configuration\Route("/{id}", name="inventory_item_show")
+     * @Configuration\ParamConverter("item", class="OktolabRentBundle:Inventory\Item")
+     * @Configuration\Template("OktolabRentBundle:Inventory\Item:show.html.twig", vars={"item"})
      */
     public function showAction(Request $request, Item $item)
     {
-        if ($request->isXmlHttpRequest()) {
-                return $this->render(
-                    'OktolabRentBundle:Inventory\Item:row.html.twig',
-                    array('entity' => $item)
-                );
-        }
+        // Configuration FTW.
     }
 
     /**
      * Displays a form to edit an existing Inventory\Item entity.
      *
-     * @Route("/{id}/edit", name="inventory_item_edit")
-     * @ParamConverter("item", class="OktolabRentBundle:Inventory\Item")
-     * @Method("GET")
-     * @Template
+     * @Configuration\Method("GET")
+     * @Configuration\Route("/{id}/edit", name="inventory_item_edit")
+     * @Configuration\ParamConverter("item", class="OktolabRentBundle:Inventory\Item")
+     * @Configuration\Template()
      */
     public function editAction(Item $item)
     {
@@ -142,10 +114,7 @@ class ItemController extends Controller
             new ItemType(),
             $item,
             array(
-                'action' => $this->generateUrl(
-                    'inventory_item_update',
-                    array( 'id' => $item->getId() )
-                ),
+                'action' => $this->generateUrl('inventory_item_update', array('id' => $item->getId())),
                 'method' => 'PUT'
             )
         );
@@ -156,15 +125,16 @@ class ItemController extends Controller
     /**
      * Edits an existing Inventory\Item entity.
      *
-     * @Route("/{id}", name="inventory_item_update")
-     * @ParamConverter("item", class="OktolabRentBundle:Inventory\Item")
-     * @Method("PUT")
-     * @Template("OktolabRentBundle:Inventory\Item:edit.html.twig")
+     * @Configuration\Method("PUT")
+     * @Configuration\Route("/{id}", name="inventory_item_update")
+     * @Configuration\ParamConverter("item", class="OktolabRentBundle:Inventory\Item")
+     * @Configuration\Template("OktolabRentBundle:Inventory\Item:edit.html.twig")
      */
     public function updateAction(Request $request, Item $item)
     {
         $editForm = $this->createForm(new ItemType(), $item, array('method' => 'PUT'));
         $editForm->bind($request);
+
         if ($editForm->isValid()) {
             $this->get('oktolab.upload_manager')->saveAttachmentsToEntity($item);
 
@@ -172,36 +142,24 @@ class ItemController extends Controller
             $em->persist($item);
             $em->flush();
 
-            $this
-                ->get('session')
-                ->getFlashBag()
-                ->add(
-                    'success',
-                    $this->get('translator')->trans('item.message.changessuccessful')
-                );
+            $message = $this->get('translator')->trans('item.message.changessuccessful');
+            $this->get('session')->getFlashBag()->add('success', $message);
 
             return $this->redirect($this->generateUrl('inventory_item_show', array('id' => $item->getId())));
         }
 
-        $this
-            ->get('session')
-            ->getFlashBag()
-            ->add(
-                'warning',
-                $this->get('translator')->trans('item.message.changefailure')
-            );
+        $message = $this->get('translator')->trans('item.message.changefailure');
+        $this->get('session')->getFlashBag()->add('warning', $message);
 
-        return array(
-            'item'      => $item,
-            'edit_form'   => $editForm->createView(),
-        );
+        return array('item' => $item, 'edit_form' => $editForm->createView());
     }
 
     /**
      * Deletes a Inventory\Item entity.
-     * @Route("/{id}/delete", name="inventory_item_delete")
-     * @ParamConverter("item", class="OktolabRentBundle:Inventory\Item")
-     * @Method("GET")
+     *
+     * @Configuration\Method("GET")
+     * @Configuration\Route("/{id}/delete", name="inventory_item_delete")
+     * @Configuration\ParamConverter("item", class="OktolabRentBundle:Inventory\Item")
      */
     public function deleteAction(Item $item)
     {
@@ -214,36 +172,30 @@ class ItemController extends Controller
             $fileManager->removeUpload($attachment);
             $em->remove($attachment);
         }
-        //-------------------------------
+
         $em->flush();
-        $this
-            ->get('session')
-            ->getFlashBag()
-            ->add(
-                'success',
-                $this->get('translator')->trans('item.message.deletesuccess', array('%title%' => $item->getTitle()))
-            );
+
+        $message = $this->get('translator')->trans('item.message.deletesuccess', array('%title%' => $item->getTitle()));
+        $this->get('session')->getFlashBag()->add('success', $message);
+
         return $this->redirect($this->generateUrl('inventory_item'));
     }
 
     /**
      * Deletes an attachment from the entity
      *
-     * @Route("/{entity_id}/{attachment_id}/delete", name="inventory_item_attachment_delete")
-     * @ParamConverter("item", class="OktolabRentBundle:Inventory\Item", options={"id" = "entity_id"})
-     * @ParamConverter("attachment", class="OktolabRentBundle:Inventory\Attachment", options={"id" = "attachment_id"})
-     * @Method("GET")
+     * @Configuration\Method("GET")
+     * @Configuration\Route("/{entity_id}/{attachment_id}/delete", name="inventory_item_attachment_delete")
+     * @Configuration\ParamConverter("item", class="OktolabRentBundle:Inventory\Item", options={"id"="entity_id"})
+     * @Configuration\ParamConverter(
+     *      "attachment",
+     *      class="OktolabRentBundle:Inventory\Attachment",
+     *      options={"id"="attachment_id"})
      */
     public function deleteAttachment(Item $item, Attachment $attachment)
     {
-        $fileManager = $this->get('oktolab.upload_manager');
-        if ($attachment === $item->getPicture()) {
-            $item->setPicture();
-        } else {
-            $item->removeAttachment($attachment);
-        }
-
-        $fileManager->removeUpload($attachment);
+        $attachment === $item->getPicture() ? $item->setPicture() : $item->removeAttachment($attachment);
+        $this->get('oktolab.upload_manager')->removeUpload($attachment);
 
         $em = $this->getDoctrine()->getManager();
         $em->persist($item);
@@ -253,10 +205,12 @@ class ItemController extends Controller
     }
 
     /**
-     * @Route("/{id}/picture/upload", name="inventory_item_picture_upload")
-     * @ParamConverter("item", class="OktolabRentBundle:Inventory\Item")
-     * @Method("GET")
-     * @Template("OktolabRentBundle:Inventory\Item:edit_picture.html.twig")
+     * Edit the Item Picture.
+     *
+     * @Configuration\Method("GET")
+     * @Configuration\Route("/{id}/picture/upload", name="inventory_item_picture_upload")
+     * @Configuration\ParamConverter("item", class="OktolabRentBundle:Inventory\Item")
+     * @Configuration\Template("OktolabRentBundle:Inventory\Item:edit_picture.html.twig")
      */
     public function editPictureAction(Item $item)
     {
@@ -266,19 +220,18 @@ class ItemController extends Controller
             array(
                 'action' => $this->generateUrl('inventory_item_picture_update', array('id' => $item->getId())),
                 'method' => 'POST'
-                )
+            )
         );
 
-        return array(
-            'entity' => $item,
-            'edit_form'   => $form->createView(),
-        );
+        return array('entity' => $item, 'edit_form' => $form->createView());
     }
 
     /**
-     * @Route("/{id}/picture/upload", name="inventory_item_picture_update")
-     * @ParamConverter("item", class="OktolabRentBundle:Inventory\Item")
-     * @Method("POST")
+     * Updates the Item Picture.
+     *
+     * @Configuration\Method("POST")
+     * @Configuration\Route("/{id}/picture/upload", name="inventory_item_picture_update")
+     * @Configuration\ParamConverter("item", class="OktolabRentBundle:Inventory\Item")
      */
     public function updatePictureAction(Item $item)
     {
