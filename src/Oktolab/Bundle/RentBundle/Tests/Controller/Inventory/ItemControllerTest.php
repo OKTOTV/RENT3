@@ -12,7 +12,7 @@ class ItemControllerTest extends WebTestCase
     {
         $this->loadFixtures(array());
 
-        $crawler = $this->client->request('GET', '/inventory/item/');
+        $crawler = $this->client->request('GET', '/inventory/items');
         $this->assertTrue($this->client->getResponse()->isSuccessful(), 'Response should be successful');
         $this->assertEquals(0, $crawler->filter('#content table tbody tr')->count(), 'This list has to be empty');
     }
