@@ -2,21 +2,14 @@
     {{ form_start(form, {'attr': {'class': 'aui'} }) }}
         <fieldset>
             {{ form_errors(form) }}
-            <div class="field-group">
-                <label for="costunit-search-field">{{ 'event.costunit'|trans }}</label>
-                <input class="text long-field" type="text" id="costunit-search-field" name="costunit-search-field" title="{{ 'event.costunit.search'|trans }}">
-            </div>
+
             {{ form_row(form.name) }}
-            <div class="field-group">
-                <label for="contact-search-field">{{ 'event.contact'|trans }}</label>
-                <input disabled class="text" type="text" id="contact-search-field" name="contact-search-field" title="{{ 'event.contact.search'|trans }}">
-            </div>
             {{ form_row(form.description) }}
             {{ form_row(form.begin) }}
             {{ form_row(form.end) }}
         </fieldset>
 
-        <h3>{{ 'Rentable Objects' | trans }}</h3>
+        <h3>{{ 'Rentable Objects'|trans }}</h3>
         <fieldset>
             <div class="field-group">
                 <label for="inventory-search-field">Suche</label>
@@ -29,9 +22,9 @@
                 <table class="aui">
                     <thead>
                         <tr>
-                            <th id="basic-barcode">{{ 'Barcode' | trans }}</th>
-                            <th id="basic-name">{{ 'Name' | trans }}</th>
-                            <th id="basic-action"><span class="aui-icon aui-icon-small aui-iconfont-configure">{{ 'Actions' | trans }}</span></th>
+                            <th id="basic-barcode">{{ 'Barcode'|trans }}</th>
+                            <th id="basic-name">{{ 'Name'|trans }}</th>
+                            <th id="basic-action"><span class="aui-icon aui-icon-small aui-iconfont-configure">{{ 'Actions'|trans }}</span></th>
                         </tr>
                     </thead>
                     <tbody id="oktolabrentbundle_event_objects" class="event-objects" data-prototype="{% filter escape %}{% include 'OktolabRentBundle:Event:eventObjectPrototype.html.twig' %}{% endfilter %}">

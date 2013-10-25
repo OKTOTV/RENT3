@@ -80,6 +80,7 @@ class EventTransformer
      */
     public function transformAnEvent(Event $event)
     {
+        $route = $event->getState() === Event::STATE_LENT ? 'OktolabRentBundle_Event_Deliver' : 'OktolabRentBundle_Event_Edit';
         return array(
             'id'            => $event->getId(),
             'title'         => $event->getName(),
@@ -88,7 +89,7 @@ class EventTransformer
             'end'           => $event->getEnd()->format('c'),
             'description'   => $event->getDescription(),
             'state'         => $event->getState(true),
-            'uri'           => $this->getARoute('OktolabRentBundle_Event_Edit', array('id' => $event->getId())),
+            'uri'           => $this->getARoute($route, array('id' => $event->getId())),
             'objects'       => $this->transformEventObjects($event->getObjects()),
             'begin_view'    => $this->transformAnEventDate($event->getBegin()),
             'end_view'      => $this->transformAnEventDate($event->getEnd()),
