@@ -26,7 +26,6 @@ jQuery(document).ready(function ($) {
     itemCollection.on('click', '.remove-object', function (event) {
         event.preventDefault();
         var value = $(this).data('value');
-
         $(event.target).closest('tr').remove();     // remove from collectionHolder
         hiddenInputCollection.find('div[data-object="' + value + '"]').remove(); // remove from hiddenInputCollection
     });

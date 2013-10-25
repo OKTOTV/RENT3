@@ -160,16 +160,15 @@ class SetController extends Controller
         $form->handleRequest($request);
         if ($form->isValid()) {
             $em = $this->getDoctrine()->getManager();
-            $formItems = $form->get('items')->getData();
 
-            foreach ($set->getItems() as $item) {
-                if (!array_key_exists($item->getId(), $formItems)) {
-                    $item->setSet(null);
-                    $em->persist($item);
-                }
+            //remove set_id from items
+            $items = $em->getRepository('OktolabRentBundle:Inventory\Item')->findBy(array('set' => $set->getId()));
+            foreach ($items as $item) {
+                $item->setSet(null);
             }
 
-            foreach ($formItems as $item) {
+            //add all items from form to set
+            foreach ($set->getItems() as $item) {
                 $item->setSet($set);
                 $em->persist($item);
             }

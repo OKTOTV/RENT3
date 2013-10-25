@@ -63,7 +63,7 @@
                                 <tr>
                                     <td>{{ item.barcode }}</td>
                                     <td>{{ item.title }}</td>
-                                    <td><a href="#"><span class="aui-icon aui-icon-small aui-iconfont-remove remove-object" data-value="item:{{ item.id }}' }}">{{ 'generic.remove' | trans }}</span></a></td>
+                                    <td><a href="#"><span class="aui-icon aui-icon-small aui-iconfont-remove remove-object" data-value="item:{{ item.id }}">{{ 'generic.remove' | trans }}</span></a></td>
                                 </tr>
                             {% endfor %}
                         {% endif %}
@@ -88,7 +88,9 @@
 
         <fieldset class="hidden-items" style="display:none" data-index="{{ form.items|length }}" data-prototype="{{ '<input type="hidden" id="oktolab_rentbundle_inventory_set_items_{{index}}" name="oktolab_rentbundle_inventory_set[items][{{index}}]" value="{{id}}" />'|e }}">
             {% for item in form.items %}
+            <div data-object="item:{{item.vars.value}}">
                 {{ form_row(item) }}
+            </div>
             {% endfor %}
         </fieldset>
 
