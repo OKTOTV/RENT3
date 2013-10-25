@@ -23,39 +23,35 @@
 {% endblock %}
 
 {% block content %}
-    <table class="aui">
+    <table class="aui inventory_item">
         <thead>
             <tr>
-                <th id="name">{{ 'inventory.item.title' | trans }}</th>
-                <th>{{ 'inventory.item.description' | trans }}</th>
-                <th>{{ 'inventory.item.barcode' | trans }}</th>
-                <th>{{ 'inventory.item.buydate' | trans }}</th>
-                <th>{{ 'inventory.item.serialnumber' | trans }}</th>
-                <th>{{ 'inventory.item.vendor' | trans }}</th>
-                <th>{{ 'inventory.item.modelnumber' | trans }}</th>
-                <th id="action">{{ 'generic.actions' | trans }}</th>
+                <th id="name" colspan="2">{{ 'inventory.item.title'|trans }}</th>
+                <th>{{ 'inventory.item.barcode'|trans }}</th>
+                <th>{{ 'inventory.item.vendor'|trans }}</th>
+                <th>{{ 'inventory.item.category'|trans }}</th>
             </tr>
         </thead>
         <tbody>
         {% for entity in entities %}
             <tr>
-                <td headers="name">{{ entity.title }}</td>
-                <td>{{ entity.description }}</td>
-                <td>{{ entity.barcode }}</td>
-                <td>{% if entity.buyDate %}{{ entity.buyDate|date('d.m.Y') }}{% endif %}</td>
-                <td>{{ entity.serialNumber }}</td>
-                <td>{{ entity.vendor }}</td>
-                <td>{{ entity.modelNumber }}</td>
-                <td class="action" headers="action">
-                    <ul class="menu">
-                        <li>
-                            <a href="{{ path('inventory_item_show', { 'id': entity.id }) }}">{{ 'generic.show' | trans }}</a>
-                        </li>
-                        <li>
-                            <a href="{{ path('inventory_item_edit', { 'id': entity.id }) }}">{{ 'generic.edit' | trans }}</a>
-                        </li>
-                    </ul>
+                <td headers="name" class="entity_avatar">
+                {% if entity.picture is not null %}
+                        <img src="{{ entity.picture.getRelativePath|apply_filter('list_avatar') }}" />
+                    {% else %}
+                        <img src="{{ asset('aui-5.1/images/project-avatar-blue-32@2x.png') }}" alt="{{ entity.title }}" />
+                    {% endif %}
                 </td>
+                <td>
+                    <a href="{{ path('inventory_item_show', { 'id': entity.id }) }}">{{ entity.title }}</a>
+                    <span class="smalltext">({{ entity.set.title }})</span>
+                    <p>
+                        <span>{{ 'inventory.item.serialnumber'|trans }}: {{ entity.serialNumber }}</span>
+                    </p>
+                </td>
+                <td>{{ entity.barcode }}</td>
+                <td>{{ entity.vendor }}</td>
+                <td>{{ entity.category.title }}</td>
             </tr>
         {% endfor %}
         </tbody>

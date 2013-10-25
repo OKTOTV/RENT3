@@ -8,7 +8,7 @@ and open the template in the editor.
     Author     : meh
 */
 
-table.inventory_set .entity_avatar {
+table.inventory_set .entity_avatar, table.inventory_item .entity_avatar {
     width: 48px;
     height: 48px;
 }
