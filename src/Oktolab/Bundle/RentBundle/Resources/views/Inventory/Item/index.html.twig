@@ -23,6 +23,7 @@
 {% endblock %}
 
 {% block content %}
+    {{ aui_pager('inventory_item', nbPages, currentPage, maxPages) }}
     <table class="aui inventory_item">
         <thead>
             <tr>
@@ -56,4 +57,5 @@
         {% endfor %}
         </tbody>
     </table>
+    {{ aui_pager('inventory_item', nbPages, currentPage, maxPages) }}
 {% endblock %}

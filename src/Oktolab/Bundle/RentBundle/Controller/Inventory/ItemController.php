@@ -22,15 +22,43 @@ class ItemController extends Controller
      * Lists all Inventory\Item entities.
      *
      * @Configuration\Method("GET")
-     * @Configuration\Route("/", name="inventory_item")
+     * @Configuration\Route("s/{page}", name="inventory_item", defaults={"page"=1}, requirements={"page"="\d+"})
      * @Configuration\Template()
+     *
+     * @param int $page
+     *
+     * @return array
      */
-    public function indexAction()
+    public function indexAction($page)
     {
         $em = $this->getDoctrine()->getManager();
-        $entities = $em->getRepository('OktolabRentBundle:Inventory\Item')->findAll();
 
-        return array('entities' => $entities);
+        // count maximum number of Items.
+        $count = $em->createQuery('SELECT COUNT(i) FROM OktolabRentBundle:Inventory\Item i')
+            ->setQueryCacheLifeTime(86400)
+            ->getSingleScalarResult();
+
+        $toDisplay = 10;
+        $offset = ($page * $toDisplay) - $toDisplay;
+
+        // EAGER fetch Items (with Sets and Categories) to gain performance
+        $dql = 'SELECT i, c, s FROM OktolabRentBundle:Inventory\Item i LEFT JOIN i.set s LEFT JOIN i.category c ORDER BY i.title ASC';
+        $items = $em->createQuery($dql)
+            ->setFirstResult($offset)
+            ->setMaxResults($toDisplay)
+            ->setFetchMode('OktolabRentBundle:Inventory\Set', 'Item', 'EAGER')
+            ->setFetchMode('OktolabRentBundle:Inventory\Category', 'Item', 'EAGER')
+            ->setQueryCacheLifeTime(86400)  // DQL -> SQL - 1d
+            ->setResultCacheLifeTime(300)   // SQL -> Result - 5m
+            ->getResult();
+
+        //nbPages, currentPage, maxPages
+        return array(
+            'entities' => $items,
+            'nbPages' => ceil($count / $toDisplay),
+            'currentPage' => $page,
+            'maxPages' => 5
+        );
     }
 
     /**
