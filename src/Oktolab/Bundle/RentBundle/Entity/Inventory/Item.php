@@ -11,7 +11,7 @@ use Oktolab\Bundle\RentBundle\Model\RentableInterface;
  * Item
  *
  * @ORM\Table(name="item")
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="Oktolab\Bundle\RentBundle\Entity\Repository\ItemRepository")
  * @ORM\HasLifecycleCallbacks()
  */
 class Item implements RentableInterface, UploadableInterface

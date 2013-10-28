@@ -22,43 +22,29 @@ class ItemController extends Controller
      * Lists all Inventory\Item entities.
      *
      * @Configuration\Method("GET")
-     * @Configuration\Route("s/{page}", name="inventory_item", defaults={"page"=1}, requirements={"page"="\d+"})
+     * @Configuration\Route("s/{page}/{toDisplay}",
+     *      name="inventory_item",
+     *      defaults={"page"=1, "toDisplay"=10},
+     *      requirements={"page"="\d+"})
+     *
      * @Configuration\Template()
      *
-     * @param int $page
+     * @param int $page         current page to display
+     * @param int $toDisplay    how many items per page
      *
      * @return array
      */
-    public function indexAction($page)
+    public function indexAction($page, $toDisplay)
     {
-        $em = $this->getDoctrine()->getManager();
+        $repository = $this->getDoctrine()->getManager()->getRepository('OktolabRentBundle:Inventory\Item');
 
-        // count maximum number of Items.
-        $count = $em->createQuery('SELECT COUNT(i) FROM OktolabRentBundle:Inventory\Item i')
-            ->setQueryCacheLifeTime(86400)
-            ->getSingleScalarResult();
-
-        $toDisplay = 10;
-        $offset = ($page * $toDisplay) - $toDisplay;
-
-        // EAGER fetch Items (with Sets and Categories) to gain performance
-        $dql = 'SELECT i, c, s FROM OktolabRentBundle:Inventory\Item i LEFT JOIN i.set s LEFT JOIN i.category c ORDER BY i.title ASC';
-        $items = $em->createQuery($dql)
-            ->setFirstResult($offset)
+        $count = $repository->fetchAllCount();
+        $items = $repository->getAllJoinSetAndJoinCategoryQuery()
+            ->setFirstResult(($page - 1) * $toDisplay)
             ->setMaxResults($toDisplay)
-            ->setFetchMode('OktolabRentBundle:Inventory\Set', 'Item', 'EAGER')
-            ->setFetchMode('OktolabRentBundle:Inventory\Category', 'Item', 'EAGER')
-            ->setQueryCacheLifeTime(86400)  // DQL -> SQL - 1d
-            ->setResultCacheLifeTime(300)   // SQL -> Result - 5m
             ->getResult();
 
-        //nbPages, currentPage, maxPages
-        return array(
-            'entities' => $items,
-            'nbPages' => ceil($count / $toDisplay),
-            'currentPage' => $page,
-            'maxPages' => 5
-        );
+        return array('entities' => $items, 'nbPages' => ceil($count / $toDisplay), 'currentPage' => $page);
     }
 
     /**
