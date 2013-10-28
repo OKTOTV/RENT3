@@ -133,7 +133,7 @@ class ItemController extends Controller
             )
         );
 
-        return array('edit_form' => $editForm->createView(), 'item' => $item);
+        return array('form' => $editForm->createView(), 'item' => $item);
     }
 
     /**
@@ -165,7 +165,7 @@ class ItemController extends Controller
         $message = $this->get('translator')->trans('item.message.changefailure');
         $this->get('session')->getFlashBag()->add('warning', $message);
 
-        return array('item' => $item, 'edit_form' => $editForm->createView());
+        return array('item' => $item, 'form' => $editForm->createView());
     }
 
     /**

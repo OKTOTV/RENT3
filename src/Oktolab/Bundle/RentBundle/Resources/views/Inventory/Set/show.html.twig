@@ -96,7 +96,7 @@
                             </td>
                             <td headers="set_item_table_barcode">{{ item.barcode }}</td>
                             <td headers="set_item_table_vendor">{{ item.vendor }}</td>
-                            <td headers="set_item_table_category">{{ item.category.title }}</td>
+                            <td headers="set_item_table_category">{{ item.category is not null ? item.category.title : '' }}</td>
                         </tr>
                     {% endfor %}
                 </tbody>
