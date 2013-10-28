@@ -135,41 +135,59 @@
          * @returns {jQuery}
          */
         showEvents: function (events) {
+            $.each(events, function (key, event) {
+                var inventoryObject = Calendar._getInventoryObjectByIdentifier(event.objects[0].object_id.toLowerCase());
+                var begin = Calendar.findBlockByDate(new Date(event.begin));
+                var end = Calendar.findBlockByDate(new Date(event.end));
+
+                if (typeof(inventoryObject) === 'undefined') {
+                    return true;    // skip object
+                }
+
+                Calendar._renderEvent(event, inventoryObject, begin.block, end.block);
+            });
+        },
+
+        /**
+         * Renders an Event.
+         *
+         * @param {object} event
+         */
+        _renderEvent: function (event, inventoryObject, begin, end) {
             var template = '<div class="calendar-event" style="position:absolute; top:{{style_top}}px; left:{{style_left}}px; width:{{style_width}}px" id="event-{{id}}"><a href="#"><span class="aui-icon aui-icon-small aui-iconfont-info">Info</span></a><strong style="display: block; width: 100%; height: inherit">{{title}}</strong></div>';
             var template = Hogan.compile(template);
             var description = '<div class="calendar-event-description"><div class="event-image"><img width="50px" height="50px" src="{{image}}" alt="{{image_alt}}" /></div><div class="event-fields"><div class="event-field event-summary"><strong>{{name}}</strong> <span class="aui-lozenge">{{state}}</span></div><div class="event-field event-duration"><em>{{begin_view}}</em> - <em>{{end_view}}</em></div><div class="event-field event-description">{{description}}</div><div class="event-field event-objects">{{{objects}}}</div></div><div class="event-controls buttons-container"><div class="buttons"><a class="aui-button aui-button-link" href="{{uri}}">Loeschen</a> <span class="event-hyperlink-separator">·</span><a class="aui-button aui-button-primary" href="{{uri}}">Bearbeiten</a></div></div></div>';
             var description = Hogan.compile(description);
 
-            $.each(events, function (identifier, event) {
-                var $item = Calendar.data.items[event.objects[0].object_id.toLowerCase()];
-                var beginBlock = null;
-                var endBlock = null;
+            console.log(begin, end);
+            Calendar.data.containerWrapper.append(template.render($.extend(event, {
+                style_top:      inventoryObject.position().top + 20,
+                style_left:     begin.offset().left,
+                style_width:    end.offset().left - begin.offset().left + end.width(),
+                image:          oktolab.baseUrl + '/../aui-5.1/images/user-avatar-blue-48@2x.png', //'http://placekitten.com/g/50/50',
+                objects:        Calendar._getRenderedEventObjects(event),
+            })));
 
-                beginBlock = Calendar.findBlockByDate(new Date(event.begin));
-                endBlock = Calendar.findBlockByDate(new Date(event.end));
+            AJS.InlineDialog(AJS.$('#event-' + event.id), 1,
+                function(content, trigger, showPopup) {
+                    content.html(description.render(event));
+                    showPopup();
+                    return false;
+                }, { 'onHover': true, 'showDelay': 200, 'onTop': true, 'width': 350 }
+            );
+        },
 
-                var renderObjects = '<ul>';
-                $.each(event.objects, function (key, object) {
-                    renderObjects = renderObjects + '<li><a href="' + object.uri + '">'  + object.title + '</a></li>';
-                });
+        _getInventoryObjectByIdentifier: function (id) {
+            return Calendar.data.items[id];
+        },
 
-                renderObjects = renderObjects + '</ul>';
-                Calendar.data.containerWrapper.append(template.render($.extend(event, {
-                    style_top: $item.position().top + 20,
-                    style_left: beginBlock.block.offset().left,
-                    style_width: endBlock.block.offset().left - beginBlock.block.offset().left + endBlock.block.width(),
-                    image: 'http://placekitten.com/g/50/50',
-                    objects: renderObjects,
-                })));
-
-                AJS.InlineDialog(AJS.$('#event-' + identifier), 1,
-                    function(content, trigger, showPopup) {
-                        content.html(description.render(event));
-                        showPopup();
-                        return false;
-                    }, { 'onHover': true, 'showDelay': 200, 'onTop': true, 'width': 350 }
-                );
+        _getRenderedEventObjects: function (event) {
+            var renderObjects = '<ul>';
+            $.each(event.objects, function (key, object) {
+                renderObjects = renderObjects + '<li><a href="' + object.uri + '">'  + object.title + '</a></li>';
             });
+
+            return renderObjects + '</ul>';
         },
 
         /**
