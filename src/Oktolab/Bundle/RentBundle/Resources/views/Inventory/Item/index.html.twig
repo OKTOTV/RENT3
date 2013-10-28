@@ -1,25 +1,37 @@
 {% extends 'OktolabRentBundle::layout.html.twig' %}
 
 {% block content_header %}
-    <div class="aui-page-header-inner">
-        <div class="aui-page-header-image">
-            <div class="aui-avatar aui-avatar-xlarge aui-avatar-project">
-                <div class="aui-avatar-inner">
-                    <img src="static/img/none.png">
-                </div>
-            </div>
-        </div>
-        <div class="aui-page-header-main">
-            <h1>{{ 'inventory.items' | trans}}</h1>
-        </div>
-        <div class="aui-page-header-actions">
-            <div class="aui-buttons">
-                <div class="aui-buttons">
-                    <a class="aui-button" href="{{ path('inventory_item_new') }}">{{'inventory.item.new' | trans}}</a>
-                </div>
+<div class="aui-page-header-inner">
+    <div class="aui-page-header-image">
+        <div class="aui-avatar aui-avatar-xlarge aui-avatar-project">
+            <div class="aui-avatar-inner">
+                <img src="{{ asset('aui-5.1/images/project-avatar-blue-64@2x.png') }}" />
             </div>
         </div>
     </div>
+
+    <div class="aui-page-header-main">
+        <ol class="aui-nav aui-nav-breadcrumbs">
+            <li>{{ 'generic.inventory'|trans }}</li>
+        </ol>
+        <h1>
+            <span id="title-text">
+                <a href="{{ path('inventory_item') }}">{{ 'inventory.items'|trans }}</a>
+            </span>
+        </h1>
+    </div>
+
+    <div class="aui-page-header-actions">
+        <div class="aui-buttons">
+            <div class="aui-buttons">
+                <a class="aui-button" href="{{ path('inventory_item_new') }}">
+                    <span class="aui-icon aui-icon-small aui-iconfont-add">Add</span>
+                    {{ 'inventory.item.new'|trans }}
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
 {% endblock %}
 
 {% block content %}
@@ -28,32 +40,32 @@
     <table class="aui inventory_item">
         <thead>
             <tr>
-                <th id="name" colspan="2">{{ 'inventory.item.title'|trans }}</th>
-                <th>{{ 'inventory.item.barcode'|trans }}</th>
-                <th>{{ 'inventory.item.vendor'|trans }}</th>
-                <th>{{ 'inventory.item.category'|trans }}</th>
+                <th id="item_table_title" colspan="2">{{ 'inventory.item.title'|trans }}</th>
+                <th id="item_table_barcode">{{ 'inventory.item.barcode'|trans }}</th>
+                <th id="item_table_vendor">{{ 'inventory.item.vendor'|trans }}</th>
+                <th id="item_table_category">{{ 'inventory.item.category'|trans }}</th>
             </tr>
         </thead>
         <tbody>
-        {% for entity in entities %}
+        {% for item in entities %}
             <tr>
-                <td headers="name" class="entity_avatar">
-                {% if entity.picture is not null %}
-                        <img src="{{ entity.picture.getRelativePath|apply_filter('list_avatar') }}" />
+                <td class="entity_avatar">
+                    {% if item.picture is not null %}
+                        <img src="{{ item.picture.getRelativePath|apply_filter('list_avatar') }}" alt="{{ item.title }}" />
                     {% else %}
-                        <img src="{{ asset('aui-5.1/images/project-avatar-blue-32@2x.png') }}" alt="{{ entity.title }}" />
+                        <img src="{{ asset('aui-5.1/images/project-avatar-blue-32@2x.png') }}" alt="{{ item.title }}" />
                     {% endif %}
                 </td>
-                <td>
-                    <a href="{{ path('inventory_item_show', { 'id': entity.id }) }}">{{ entity.title }}</a>
-                    {% if entity.set is not null %}<span class="smalltext">({{ entity.set.title }})</span>{% endif %}
+                <td headers="item_table_title">
+                    <a href="{{ path('inventory_item_show', { 'id': item.id }) }}">{{ item.title }}</a>
+                    {% if item.set is not null %}<span class="smalltext">({{ item.set.title }})</span>{% endif %}
                     <p>
-                        <span>{{ 'inventory.item.serialnumber'|trans }}: {{ entity.serialNumber }}</span>
+                        <span>{{ 'inventory.item.serialnumber'|trans }}: {{ item.serialNumber }}</span>
                     </p>
                 </td>
-                <td>{{ entity.barcode }}</td>
-                <td>{{ entity.vendor }}</td>
-                <td>{% if entity.category is not null %}{{ entity.category.title }}{% endif %}</td>
+                <td headers="item_table_barcode">{{ item.barcode }}</td>
+                <td headers="item_table_vendor">{{ item.vendor }}</td>
+                <td headers="item_table_category">{% if item.category is not null %}{{ item.category.title }}{% endif %}</td>
             </tr>
         {% endfor %}
         </tbody>

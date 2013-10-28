@@ -16,7 +16,7 @@
         </ol>
         <h1>
             <span id="title-text">
-                <a href="{{ path('inventory_set') }}">{{ 'inventory.set.sets'|trans }}</a>
+                <a href="{{ path('inventory_set') }}">{{ 'inventory.sets'|trans }}</a>
             </span>
         </h1>
     </div>
@@ -47,7 +47,7 @@
             <tr>
                 <td class="entity_avatar">
                     {% if entity.picture is not null %}
-                        <img src="{{ entity.picture.getRelativePath|apply_filter('list_avatar') }}" />
+                        <img src="{{ entity.picture.getRelativePath|apply_filter('list_avatar') }}" alt="{{ entity.title }}" />
                     {% else %}
                         <img src="{{ asset('aui-5.1/images/project-avatar-blue-32@2x.png') }}" alt="{{ entity.title }}" />
                     {% endif %}
