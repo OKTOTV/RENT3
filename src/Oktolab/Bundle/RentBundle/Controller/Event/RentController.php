@@ -38,7 +38,6 @@ class RentController extends Controller
         );
 
         $form->remove('cancel');
-        $form->remove('update');
         $form->remove('delete');
         $form->remove('rent');
 

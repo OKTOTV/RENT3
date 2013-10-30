@@ -70,6 +70,9 @@
             EventForm.data.contactContainer.closest('div.field-group').addClass('hidden');
             EventForm.data.nameContainer.closest('div.field-group').addClass('hidden');
 
+            // Hide original submit buttons
+            container.find('.buttons-container').addClass('hidden');
+
             // Render form inputs
             EventForm._renderContactField();
             EventForm._renderCostUnitField();
