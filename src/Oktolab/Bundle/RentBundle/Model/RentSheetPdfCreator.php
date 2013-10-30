@@ -114,7 +114,8 @@ class RentSheetPdfCreator
 
     protected function addHeader(Event $event)
     {
-        $content = sprintf('%s: <br />%s<br />%s<br />%s',
+        $content = sprintf(
+            '%s: <br />%s<br />%s<br />%s',
             $this->trans('event.pdf.costUnitName', array('%costUnitName%' => $event->getCostunit()->getName())),
             $this->trans('event.pdf.pickUpName', array('%pickUpName%' => $event->getContact()->getName())),
             $this->trans('event.pdf.lentAt', array('%rentFromDate%' => $event->getBegin()->format('Y-m-d'))),
@@ -195,7 +196,7 @@ class RentSheetPdfCreator
         $this->closeTag('htmlpagefooter');
     }
 
-    protected function addBlock($blockText, $tag='p', $class='', $name='')
+    protected function addBlock($blockText, $tag = 'p', $class = '', $name = '')
     {
         $this->html .= sprintf('<%s class="%s" name="%s">%s</%1$s>', $tag, $class, $name, $blockText);
     }
