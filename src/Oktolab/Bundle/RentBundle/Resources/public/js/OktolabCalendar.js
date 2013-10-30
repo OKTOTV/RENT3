@@ -220,7 +220,6 @@
         _getRenderedEventObjects: function (event) {
             var renderObjects = '<ul>';
             $.each(event.objects, function (key, object) {
-                console.log(object);
                 renderObjects = renderObjects + '<li><a href="' + object.uri + '">'  + object.title + '</a></li>';
             });
 
