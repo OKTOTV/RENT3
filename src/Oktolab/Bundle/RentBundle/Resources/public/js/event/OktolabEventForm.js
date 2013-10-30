@@ -38,6 +38,7 @@
                 contactSearch:      'contact-search-field',
                 beginSearch:        '',
                 endSearch:          '',
+                hideButtons:        false,
             };
 
             // TODO: this can lead to unusual behaviour, use: $.extend({}, EventForm.config, settings); instead
@@ -70,8 +71,9 @@
             EventForm.data.contactContainer.closest('div.field-group').addClass('hidden');
             EventForm.data.nameContainer.closest('div.field-group').addClass('hidden');
 
-            // Hide original submit buttons
-            container.find('.buttons-container').addClass('hidden');
+            if (EventForm.config.hideButtons) {
+                container.find('.buttons-container').addClass('hidden');
+            }
 
             // Render form inputs
             EventForm._renderContactField();

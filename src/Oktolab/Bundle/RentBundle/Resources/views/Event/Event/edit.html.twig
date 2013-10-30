@@ -24,75 +24,75 @@
 {% endblock %}
 
 {% block content %}
-    <h2>{{ 'Edit' | trans }} - {{ form.vars.value.name }}</h2>
-    {{ form_start(form, {'attr': {'class': 'aui'} }) }}
-        <fieldset>
-            {{ form_errors(form) }}
-            {{ form_row(form.name) }}
-            {{ form_row(form.costunit) }}
-            {{ form_row(form.contact) }}
-            {{ form_row(form.description) }}
-            {{ form_row(form.begin) }}
-            {{ form_row(form.end) }}
-        </fieldset>
+    <div id="event-form">
+        <h2>{{ 'Edit' | trans }} - {{ form.vars.value.name }}</h2>
+        {{ form_start(form, {'attr': {'class': 'aui'} }) }}
+            <fieldset>
+                {{ form_errors(form) }}
+                {{ form_row(form.name) }}
+                {{ form_row(form.costunit) }}
+                {{ form_row(form.contact) }}
+                {{ form_row(form.description) }}
+                {{ form_row(form.begin) }}
+                {{ form_row(form.end) }}
+            </fieldset>
 
-        <h3>{{ 'Rentable Objects'|trans }}</h3>
-        <fieldset>
-            <div class="field-group">
-                <label for="oktolabrentbundle_event_editform_searchfield">{{ 'Search'|trans }}</label>
-                <input class="text long-field" type="text" id="oktolabrentbundle_event_editform_searchfield" name="oktolab_rentbundle_editform_searchfield" title="{% trans %}Search for Barcodes, Items, Sets, ...{% endtrans %}">
-                <span class="aui-icon aui-icon-small aui-iconfont-search">{{ 'Search'|trans }}</span>
-                <div class="description">{{ 'Search for Barcodes, Items, Sets, ...'|trans }}</div>
-            </div>
+            <h3>{{ 'Rentable Objects'|trans }}</h3>
+            <fieldset>
+                <div class="field-group">
+                    <label for="oktolabrentbundle_event_editform_searchfield">{{ 'Search'|trans }}</label>
+                    <input class="text long-field" type="text" id="oktolabrentbundle_event_editform_searchfield" name="oktolab_rentbundle_editform_searchfield" title="{% trans %}Search for Barcodes, Items, Sets, ...{% endtrans %}">
+                    <span class="aui-icon aui-icon-small aui-iconfont-search">{{ 'Search'|trans }}</span>
+                    <div class="description">{{ 'Search for Barcodes, Items, Sets, ...'|trans }}</div>
+                </div>
 
-            <div class="field-group aui-oktolab-form-table">
-                <label>{{ 'Objects' | trans }}</label>
-                <table class="aui">
-                    <thead>
-                        <tr>
-                            <th id="basic-barcode">{{ 'Barcode'|trans }}</th>
-                            <th id="basic-name">{{ 'Name'|trans }}</th>
-                            <th id="basic-action"><span class="aui-icon aui-icon-small aui-iconfont-configure">{{ 'Actions'|trans }}</span></th>
-                        </tr>
-                    </thead>
-                    <tbody class="event-objects"
-                           data-prototype="{% filter escape %}{% include 'OktolabRentBundle:Event:eventObjectPrototype.html.twig' %}{% endfilter %}"
-                           data-index="{{ objects|length }}">
-                        {% for object in objects if objects %}
-                            {% set formobject = form.objects[loop.index0] %}
-                            {% set objective = '%s:%s'|format(object.type, object.id) %}
-
+                <div class="field-group aui-oktolab-form-table">
+                    <label>{{ 'Objects' | trans }}</label>
+                    <table class="aui">
+                        <thead>
                             <tr>
-                                <td>{{ object.barcode }}</td>
-                                <td>{{ object.title }}</td>
-                                <td>
-                                    <a href="#" class="remove" data-value="{{ objective }} ">
-                                        <span class="aui-icon aui-icon-small aui-iconfont-remove">{{ 'Remove'|trans }}</span>
-                                    </a>
-                                    <a href="#" class="scan" data-value="{{ objective }}">
-                                        <span class="aui-icon aui-icon-small aui-iconfont-approve">{{ 'Scan'|trans }}</span>
-                                    </a>
-                                    {#<span class="aui-icon aui-icon-small aui-iconfont-approve">{{ 'Approve' | trans }}</span>
-                                    <span class="aui-icon aui-icon-success">{{ 'Approve' | trans }}</span>#}
-                                </td>
-                                <td class="hidden">{{ form_row(formobject, { 'attr': { 'data-value': objective } }) }}</td>
+                                <th id="basic-barcode">{{ 'Barcode'|trans }}</th>
+                                <th id="basic-name">{{ 'Name'|trans }}</th>
+                                <th id="basic-action"><span class="aui-icon aui-icon-small aui-iconfont-configure">{{ 'Actions'|trans }}</span></th>
                             </tr>
-                        {% endfor %}
-                    </tbody>
-                </table>
-            </div>
-        </fieldset>
+                        </thead>
+                        <tbody class="event-objects"
+                               data-prototype="{% filter escape %}{% include 'OktolabRentBundle:Event:eventObjectPrototype.html.twig' %}{% endfilter %}"
+                               data-index="{{ objects|length }}">
+                            {% for object in objects if objects %}
+                                {% set formobject = form.objects[loop.index0] %}
+                                {% set objective = '%s:%s'|format(object.type, object.id) %}
 
-        <div class="buttons-container">
-            <div class="buttons">
-                {{ form_widget(form.rent, {'attr': { 'class': 'aui-button aui-button-primary', 'aria-disabled': 'true' } }) }}
-                {{ form_widget(form.update, {'attr': { 'class': 'aui-button' } }) }}
-                {# form_widget(form.delete, {'attr': { 'class': 'aui-button' } }) #}
-                {{ form_widget(form.cancel, {'attr': { 'class': 'aui-button aui-button-link' } }) }}
-            </div>
-        </div>
+                                <tr>
+                                    <td>{{ object.barcode }}</td>
+                                    <td>{{ object.title }}</td>
+                                    <td>
+                                        <a href="#" class="remove" data-value="{{ objective }} ">
+                                            <span class="aui-icon aui-icon-small aui-iconfont-remove">{{ 'Remove'|trans }}</span>
+                                        </a>
+                                        <a href="#" class="scan" data-value="{{ objective }}">
+                                            <span class="aui-icon aui-icon-small aui-iconfont-approve">{{ 'Scan'|trans }}</span>
+                                        </a>
+                                    </td>
+                                    <td class="hidden">{{ form_row(formobject, { 'attr': { 'data-value': objective } }) }}</td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </fieldset>
 
-        {% do form.objects.setRendered %}
-        {% do form.delete.setRendered %}
-    {{ form_end(form) }}
+            <div class="buttons-container">
+                <div class="buttons">
+                    {{ form_widget(form.rent, {'attr': { 'class': 'aui-button aui-button-primary', 'aria-disabled': 'true' } }) }}
+                    {{ form_widget(form.update, {'attr': { 'class': 'aui-button' } }) }}
+                    {# form_widget(form.delete, {'attr': { 'class': 'aui-button' } }) #}
+                    {{ form_widget(form.cancel, {'attr': { 'class': 'aui-button aui-button-link' } }) }}
+                </div>
+            </div>
+
+            {% do form.objects.setRendered %}
+            {% do form.delete.setRendered %}
+        {{ form_end(form) }}
+    </div>
 {% endblock %}
