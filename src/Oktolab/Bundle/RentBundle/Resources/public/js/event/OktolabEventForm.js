@@ -107,7 +107,7 @@
                 engine: Hogan
             });
 
-            if (0 !== value.length) {
+            if ('undefined' !== typeof(value) && 0 !== value.length) {
                 input.val(value);
                 EventForm.data.costUnitSearchContainer.typeahead('setQuery', value);
             }
@@ -120,7 +120,7 @@
             var input = $('<input />', { 'id': EventForm.config.contactSearch, 'disabled': 'disabled' }).addClass('text');
             var value = EventForm.data.contactContainer.data('name');
 
-            if (0 !== value.length) {
+            if ('undefined' !== typeof(value) && 0 !== value.length) {
                 input.attr('disabled', false).val(value);
             }
 

@@ -92,5 +92,5 @@ AJS.$(document).ready(function() {
     collectionHolder.on('click', '.remove-object', oktolab.removeEventObjectFromEventForm);
 });
 
-//Oktolab.EventForm.init({ container: '#rent-inventory-form > form', hideButtons: true });
+Oktolab.EventForm.init({ container: '#rent-inventory-form > form', hideButtons: true });
 Oktolab.EventForm.init({ container: '#event-form' });

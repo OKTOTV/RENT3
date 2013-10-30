@@ -157,7 +157,6 @@
                 var suggestion = findSuggestion();
                 if ('undefined' !== typeof(suggestion)) {
                     addObject(suggestion);
-//                    console.log();
                     scanObject(collectionHolder.find('tr:last'));
                     searchField.typeahead('setQuery', '');
                 }
