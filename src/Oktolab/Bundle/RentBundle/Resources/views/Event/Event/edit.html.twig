@@ -9,7 +9,7 @@
             <ol class="aui-progress-tracker aui-progress-tracker-inverted">
                 {% set active = 'Bearbeiten' %}
                 {# for i in [ 'Create', 'Edit', 'Rent', 'Back', 'Check', 'Closed' ] #}
-                {% for i in [ 'Erstellen', 'Bearbeiten', 'Verleihen', 'Zurücknehmen', 'Prüfen', 'Abschließen' ] %}
+                {% for i in [ 'Erstellen', 'Bearbeiten', 'Ausleihen', 'Zurücknehmen', 'Abschließen' ] %}
                     {% if active == i %}
                         <li class="aui-progress-tracker-step aui-progress-tracker-step-current" style="{{ 100 / loop.length }}">
                     {% else %}
