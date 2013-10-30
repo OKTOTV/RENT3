@@ -5,45 +5,58 @@
     <div class="aui-page-header-image">
         <div class="aui-avatar aui-avatar-xlarge aui-avatar-project">
             <div class="aui-avatar-inner">
-                <img src="static/img/none.png">
+                <img src="{{ asset('aui-5.1/images/project-avatar-blue-64@2x.png') }}" />
             </div>
         </div>
     </div>
+
     <div class="aui-page-header-main">
-        <h1>{{'inventory.item.new' | trans }}</h1>
-    </div>
-    <div class="aui-page-header-actions">
-        <div class="aui-buttons">
-            <div class="aui-buttons">
-                <a class="aui-button" href="{{ path('inventory_item') }}">{{ 'generic.backToList'|trans }}</a>
-            </div>
-        </div>
+        <ol class="aui-nav aui-nav-breadcrumbs">
+            <li>{{ 'generic.inventory'|trans }}</li>
+            <li class="aui-nav-selected"><a href="{{ path('inventory_item') }}">{{ 'inventory.items'|trans }}</a></li>
+        </ol>
+        <h1>
+            <span id="title-text">
+                <a href="{{ path('inventory_item_new') }}">{{ 'inventory.item.new' | trans }}</a>
+            </span>
+        </h1>
     </div>
 </div>
 {% endblock %}
 
 {% block content %}
     {{ form_start(form, {'attr': {'class': 'aui oktolab-plupload-form' } }) }}
+        <h3>{{ 'inventory.item.item'|trans }}</h3>
         <fieldset>
             {{ form_errors(form) }}
 
             {{ form_row(form.title) }}
-            {{ form_row(form.set) }}
-            {{ form_row(form.description, {'attr': {'placeholder': 'inventory.item.descriptionPlaceholder'} }) }}
             {{ form_row(form.barcode) }}
-            {{ form_row(form.buyDate) }}
+            {{ form_row(form.description, {'attr': {'placeholder': 'inventory.item.descriptionPlaceholder', 'rows': 6 } }) }}
+            {{ form_row(form.set) }}
+            {{ form_row(form.category) }}
+        </fieldset>
+
+        <h3>{{ 'inventory.item.details'|trans }}</h3>
+        <fieldset>
             {{ form_row(form.serialNumber) }}
             {{ form_row(form.vendor) }}
             {{ form_row(form.modelNumber) }}
-            <field class="plupload" data-plupload="multiple"></field>
+            {{ form_row(form.place) }}
+            {{ form_row(form.buyDate) }}
+
+            {#<field class="plupload" data-plupload="multiple"></field>
             <div id="container" class= "field-group">
                 <div id="filelist">{{ 'generic.runtimeError' | trans }}</div>
                 <br />
                 <a id="pickfiles" href="#">[{{'generic.selectFiles' | trans}}]</a>
-            </div>
-            <div class="buttons-container">
-                <button class="aui-button aui-button-primary" id="uploadfiles" type="submit">{{'generic.submit' | trans}}</button>
-            </div>
+            </div>#}
         </fieldset>
+
+        <div class="buttons-container">
+            <button class="aui-button aui-button-primary" {#id="uploadfiles"#} type="submit">{{'generic.submit'|trans}}</button>
+            <a href="{{ path('inventory_set') }}" class="aui-button aui-button-link">{{ 'generic.cancel'|trans }}</a>
+        </div>
+
     {{ form_end(form) }}
 {% endblock %}

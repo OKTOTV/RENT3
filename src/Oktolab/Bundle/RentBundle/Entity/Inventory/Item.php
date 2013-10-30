@@ -11,7 +11,7 @@ use Oktolab\Bundle\RentBundle\Model\RentableInterface;
  * Item
  *
  * @ORM\Table(name="item")
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="Oktolab\Bundle\RentBundle\Entity\Repository\ItemRepository")
  * @ORM\HasLifecycleCallbacks()
  */
 class Item implements RentableInterface, UploadableInterface
@@ -138,9 +138,7 @@ class Item implements RentableInterface, UploadableInterface
 
     /**
      * @ORM\OneToOne(targetEntity="Attachment", cascade={"persist", "remove"} )
-     * @ORM\JoinColumn(
-     *      name="picture_id", referencedColumnName="id"
-     * )
+     * @ORM\JoinColumn(name="picture_id", referencedColumnName="id")
      *
      * @var type
      */
@@ -173,7 +171,7 @@ class Item implements RentableInterface, UploadableInterface
 
     /**
      * Set Id
-     * 
+     *
      * @param int $id
      * @return Item
      */

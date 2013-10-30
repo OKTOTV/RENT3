@@ -274,6 +274,11 @@
                 <source>generic.cancel</source>
                 <target>Abbrechen</target>
             </trans-unit>
+            <trans-unit id="69">
+                <source>generic.add</source>
+                <target>Anlegen</target>
+            </trans-unit>
+
 
             <trans-unit id="100">
                 <source>inventory.item.title</source>
@@ -349,7 +354,7 @@
             </trans-unit>
             <trans-unit id="118">
                 <source>inventory.items</source>
-                <target>Inventar Gegenstände</target>
+                <target>Gegenstände</target>
             </trans-unit>
             <trans-unit id="119">
                 <source>inventory.item.edit</source>
@@ -374,6 +379,10 @@
             <trans-unit id="124">
                 <source>inventory.item.item</source>
                 <target>Gegenstand</target>
+            </trans-unit>
+            <trans-unit id="125">
+                <source>inventory.item.details</source>
+                <target>Details</target>
             </trans-unit>
 
             <trans-unit id="201">
@@ -446,7 +455,7 @@
             </trans-unit>
             <trans-unit id="218">
                 <source>inventory.sets</source>
-                <target>Inventar Sets</target>
+                <target>Sets</target>
             </trans-unit>
             <trans-unit id="219">
                 <source>inventory.set.sets</source>

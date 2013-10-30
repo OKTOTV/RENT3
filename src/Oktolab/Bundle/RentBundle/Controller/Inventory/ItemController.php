@@ -22,15 +22,29 @@ class ItemController extends Controller
      * Lists all Inventory\Item entities.
      *
      * @Configuration\Method("GET")
-     * @Configuration\Route("/", name="inventory_item")
+     * @Configuration\Route("s/{page}/{toDisplay}",
+     *      name="inventory_item",
+     *      defaults={"page"=1, "toDisplay"=10},
+     *      requirements={"page"="\d+"})
+     *
      * @Configuration\Template()
+     *
+     * @param int $page         current page to display
+     * @param int $toDisplay    how many items per page
+     *
+     * @return array
      */
-    public function indexAction()
+    public function indexAction($page, $toDisplay)
     {
-        $em = $this->getDoctrine()->getManager();
-        $entities = $em->getRepository('OktolabRentBundle:Inventory\Item')->findAll();
+        $repository = $this->getDoctrine()->getManager()->getRepository('OktolabRentBundle:Inventory\Item');
 
-        return array('entities' => $entities);
+        $count = $repository->fetchAllCount();
+        $items = $repository->getAllJoinSetAndJoinCategoryQuery()
+            ->setFirstResult(($page - 1) * $toDisplay)
+            ->setMaxResults($toDisplay)
+            ->getResult();
+
+        return array('entities' => $items, 'nbPages' => ceil($count / $toDisplay), 'currentPage' => $page);
     }
 
     /**
@@ -119,7 +133,7 @@ class ItemController extends Controller
             )
         );
 
-        return array('edit_form' => $editForm->createView(), 'item' => $item);
+        return array('form' => $editForm->createView(), 'item' => $item);
     }
 
     /**
@@ -151,7 +165,7 @@ class ItemController extends Controller
         $message = $this->get('translator')->trans('item.message.changefailure');
         $this->get('session')->getFlashBag()->add('warning', $message);
 
-        return array('item' => $item, 'edit_form' => $editForm->createView());
+        return array('item' => $item, 'form' => $editForm->createView());
     }
 
     /**

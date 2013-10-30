@@ -12,7 +12,7 @@ class ItemControllerTest extends WebTestCase
     {
         $this->loadFixtures(array());
 
-        $crawler = $this->client->request('GET', '/inventory/item/');
+        $crawler = $this->client->request('GET', '/inventory/items');
         $this->assertTrue($this->client->getResponse()->isSuccessful(), 'Response should be successful');
         $this->assertEquals(0, $crawler->filter('#content table tbody tr')->count(), 'This list has to be empty');
     }
@@ -95,17 +95,18 @@ class ItemControllerTest extends WebTestCase
     {
         $this->loadFixtures(array('Oktolab\Bundle\RentBundle\Tests\DataFixtures\ORM\ItemFixture'));
 
+        $this->client->request('GET', '/inventory/item/1');
+        $this->assertTrue($this->client->getResponse()->isSuccessful(), 'Response is successful.');
 
-        $crawler = $this->client->request('GET', '/inventory/item/1');
-        $crawler = $this->client->click($crawler->selectLink('Bearbeiten')->link());
-
-        $this->client->click($crawler->selectLink('Löschen')->link());
-
-        $this->assertNotRegExp('/ItemTitle0/', $this->client->getResponse()->getContent());
+        $this->client->click($this->client->getCrawler()->selectLink('Entfernen')->link());
+        $this->assertTrue($this->client->getResponse()->isRedirect(), 'Response is redirect.');
 
         $crawler = $this->client->followRedirect();
         $this->assertTrue($this->client->getResponse()->isSuccessful(), 'Response should be successful');
         $this->assertEquals(0, $crawler->filter('#content table tbody tr')->count(), 'This list has to be empty');
+
+        $this->client->request('GET', '/inventory/item/1');
+        $this->assertTrue($this->client->getResponse()->isNotFound(), 'Response is not found.');
     }
 
     public function testShowInvalidItemReturns404()
@@ -133,6 +134,7 @@ class ItemControllerTest extends WebTestCase
 
     public function testNewItemWithAttachments()
     {
+        $this->markTestIncomplete('Attachments should not be uploaded while creating new item.');
         $this->loadFixtures(array('Oktolab\Bundle\RentBundle\Tests\DataFixtures\ORM\PlaceFixture'));
 
         copy(__DIR__.'/../../DataFixtures/logo_okto.png', $filename = tempnam(sys_get_temp_dir(), 'OktolabRentBundle'));
