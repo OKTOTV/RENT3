@@ -187,8 +187,8 @@
             var description = '<div class="calendar-event-description"><div class="event-image"><img width="50px" height="50px" src="{{image}}" alt="{{image_alt}}" /></div><div class="event-fields"><div class="event-field event-summary"><strong>{{name}}</strong> <span class="aui-lozenge">{{state}}</span></div><div class="event-field event-duration"><em>{{begin_view}}</em> - <em>{{end_view}}</em></div><div class="event-field event-description">{{description}}</div><div class="event-field event-objects">{{{objects}}}</div></div><div class="event-controls buttons-container"><div class="buttons"><a class="aui-button aui-button-link" href="{{uri}}">Loeschen</a> <span class="event-hyperlink-separator">·</span><a class="aui-button aui-button-primary" href="{{uri}}">Bearbeiten</a></div></div></div>';
             var description = Hogan.compile(description);
             var eventView = $.extend({}, event, {
-                image:          oktolab.baseUrl + '/../aui-5.1/images/user-avatar-blue-48@2x.png',
-                objects:        Calendar._getRenderedEventObjects(event),
+                image:   oktolab.baseUrl + '/../aui-5.1/images/user-avatar-blue-48@2x.png',
+                objects: Calendar._getRenderedEventObjects(event),
             });
 
             AJS.InlineDialog($('#' + eventIdentifier), 1,

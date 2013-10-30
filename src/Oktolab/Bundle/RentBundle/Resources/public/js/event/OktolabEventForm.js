@@ -40,7 +40,7 @@
                 endSearch:          '',
             };
 
-            // TODO: this can lead to unusual behaviour, use: $.extend({}, EventForm.config, settings); instead!
+            // TODO: this can lead to unusual behaviour, use: $.extend({}, EventForm.config, settings); instead
             $.extend(EventForm.config, settings);
 
             var container = $(EventForm.config.container);
