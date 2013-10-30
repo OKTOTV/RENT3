@@ -29,9 +29,10 @@
         {{ form_start(form, {'attr': {'class': 'aui'} }) }}
             <fieldset>
                 {{ form_errors(form) }}
+
                 {{ form_row(form.name) }}
-                {{ form_row(form.costunit) }}
-                {{ form_row(form.contact) }}
+                {{ form_row(form.costunit, { 'attr': { 'data-name': form.vars.value.costunit.name } }) }}
+                {{ form_row(form.contact, { 'attr': { 'data-name': form.vars.value.contact.name } } ) }}
                 {{ form_row(form.description) }}
                 {{ form_row(form.begin) }}
                 {{ form_row(form.end) }}
@@ -40,14 +41,14 @@
             <h3>{{ 'Rentable Objects'|trans }}</h3>
             <fieldset>
                 <div class="field-group">
-                    <label for="oktolabrentbundle_event_editform_searchfield">{{ 'Search'|trans }}</label>
-                    <input class="text long-field" type="text" id="oktolabrentbundle_event_editform_searchfield" name="oktolab_rentbundle_editform_searchfield" title="{% trans %}Search for Barcodes, Items, Sets, ...{% endtrans %}">
-                    <span class="aui-icon aui-icon-small aui-iconfont-search">{{ 'Search'|trans }}</span>
+                    <label for="oktolabrentbundle_event_editform_searchfield">{{ 'generic.search'|trans }}</label>
+                    <input class="text long-field" type="text" id="oktolabrentbundle_event_editform_searchfield" name="oktolab_rentbundle_editform_searchfield" title="{{ 'Search for Barcodes, Items, Sets, ...'|trans }}">
+                    <span class="aui-icon aui-icon-small aui-iconfont-search">{{ 'generic.search'|trans }}</span>
                     <div class="description">{{ 'Search for Barcodes, Items, Sets, ...'|trans }}</div>
                 </div>
 
                 <div class="field-group aui-oktolab-form-table">
-                    <label>{{ 'Objects' | trans }}</label>
+                    <label>{{ 'Objects'|trans }}</label>
                     <table class="aui">
                         <thead>
                             <tr>

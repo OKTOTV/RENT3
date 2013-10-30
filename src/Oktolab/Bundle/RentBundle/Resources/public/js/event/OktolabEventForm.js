@@ -89,9 +89,10 @@
             var fieldGroup = $('<div />').addClass('field-group');
             var label = $('<label />', { 'for': EventForm.config.costUnitSearch }).append(costUnitLabel);
             var input = $('<input />', { 'id': EventForm.config.costUnitSearch }).addClass('text');
+            var value = EventForm.data.costUnitContainer.data('name');
 
             fieldGroup.append(label).append(input);
-            EventForm.data.container.find('fieldset:first-child').prepend(fieldGroup);
+            EventForm.data.container.find('fieldset:first').prepend(fieldGroup);
             EventForm.data.costUnitSearchContainer = input;
 
             EventForm.data.costUnitSearchContainer.typeahead({
@@ -105,6 +106,11 @@
                 ].join(''),
                 engine: Hogan
             });
+
+            if (0 !== value.length) {
+                input.val(value);
+                EventForm.data.costUnitSearchContainer.typeahead('setQuery', value);
+            }
         },
 
         _renderContactField: function () {
@@ -112,9 +118,14 @@
             var fieldGroup = $('<div />').addClass('field-group');
             var label = $('<label />', { 'for': EventForm.config.contactSearch }).append(contactLabel);
             var input = $('<input />', { 'id': EventForm.config.contactSearch, 'disabled': 'disabled' }).addClass('text');
+            var value = EventForm.data.contactContainer.data('name');
+
+            if (0 !== value.length) {
+                input.attr('disabled', false).val(value);
+            }
 
             fieldGroup.append(label).append(input);
-            EventForm.data.container.find('fieldset:first-child').prepend(fieldGroup);
+            EventForm.data.container.find('fieldset:first').prepend(fieldGroup);
             EventForm.data.contactSearchContainer = input;
         },
 

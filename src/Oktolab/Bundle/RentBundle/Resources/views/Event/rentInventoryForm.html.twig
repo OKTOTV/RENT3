@@ -4,7 +4,6 @@
             {{ form_errors(form) }}
 
             {{ form_row(form.name) }}
-            {# form_row(form.description) #}
             {{ form_row(form.begin) }}
             {{ form_row(form.end) }}
         </fieldset>
@@ -12,13 +11,13 @@
         <h3>{{ 'Rentable Objects'|trans }}</h3>
         <fieldset>
             <div class="field-group">
-                <label for="inventory-search-field">Suche</label>
-                <input class="text long-field" type="text" id="inventory-search-field" name="inventory-search-field" title="{% trans %}Search for Barcodes, Items, Sets, ...{% endtrans %}">
-                <div class="description">{{ 'Search for Barcodes, Items, Sets, ...' | trans }}</div>
+                <label for="inventory-search-field">{{ 'generic.search'|trans }}</label>
+                <input class="text long-field" type="text" id="inventory-search-field" name="inventory-search-field" title="{{ 'Search for Barcodes, Items, Sets, ...'|trans }}">
+                <div class="description">{{ 'Search for Barcodes, Items, Sets, ...'|trans }}</div>
             </div>
 
             <div class="field-group aui-oktolab-form-table">
-                <label>{{ 'Objects' | trans }}</label>
+                <label>{{ 'Objects'|trans }}</label>
                 <table class="aui">
                     <thead>
                         <tr>
@@ -38,7 +37,6 @@
                 {{ form_widget(form.update, {'attr': { 'class': 'aui-button aui-button-primary' } }) }}
             </div>
         </div>
-
 
         {% do form.objects.setRendered %}
     {{ form_end(form) }}
