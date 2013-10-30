@@ -23,7 +23,7 @@
                                 <li{% if highlight_action == "place" %} class="aui-nav-selected"{% endif %}><a href="{{ path('inventory_place') }}">{{ 'inventory.places' | trans }}</a></li>
                                 <li{% if highlight_action == "import" %} class="aui-nav-selected"{% endif %}><a href="{{ path('inventory_import') }}">{{ 'inventory.import' | trans }}</a></li>
                             </ul>
-                            <div class="aui-nav-heading"><strong>{{ 'admin.rent'|trans }}</strong></div>
+                            <div class="aui-nav-heading"><strong>{{ 'admin.console.basics'|trans }}</strong></div>
                             <ul class="aui-nav">
                                 <li{% if highlight_action == "user" %} class="aui-nav-selected"{% endif %}><a href="{{ path('security_user') }}">{{ 'admin.userManagement' | trans }}</a></li>
                                 <li{% if highlight_action == "costunit" %} class="aui-nav-selected"{% endif %}><a href="{{ path('admin_costunit') }}">{{ 'admin.costunit.costunits' | trans }}</a></li>

@@ -689,7 +689,6 @@
                 <source>admin.category.about</source>
                 <target>Eine Kategorie wird im Oktolab RENT dazu genutzt, Gegenstände zusammenzufassen.</target>
             </trans-unit>
-
             <trans-unit id="608">
                 <source>admin.user.name</source>
                 <target>Name</target>
@@ -725,6 +724,10 @@
             <trans-unit id="616">
                 <source>user.message.updateFailure</source>
                 <target>Die Änderungen konnten nicht übernommen werden</target>
+            </trans-unit>
+            <trans-unit id="617">
+                <source>admin.console.basics</source>
+                <target>Grundeinstellungen</target>
             </trans-unit>
 
             <trans-unit id="700">

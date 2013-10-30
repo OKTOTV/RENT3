@@ -253,7 +253,7 @@ class EventController extends Controller
 
 
     /**
-     * Creates the rent PDF out of an twig template.
+     * Creates the rent PDF out of a template.
      *
      * @Configuration\Method("GET")
      * @Configuration\Route("/event/{id}/pdf", name="event_pdf")
@@ -263,9 +263,9 @@ class EventController extends Controller
      *
      * @return Response
      */
-    public function rentSheetPdfAction(Event $event)
+    public function rentPdfAction(Event $event)
     {
-        return $this->get('oktolab.rent_sheet_pdf')->createRentPDF($event);
+        return $this->get('oktolab.rent_sheet_pdf')->generatePdf($event);
     }
 
     /**
