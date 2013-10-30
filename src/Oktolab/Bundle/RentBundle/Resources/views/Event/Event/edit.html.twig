@@ -31,8 +31,8 @@
                 {{ form_errors(form) }}
 
                 {{ form_row(form.name) }}
-                {{ form_row(form.costunit, { 'attr': { 'data-name': form.vars.value.costunit.name } }) }}
-                {{ form_row(form.contact, { 'attr': { 'data-name': form.vars.value.contact.name } } ) }}
+                {{ form_row(form.costunit, { 'attr': { 'data-name': form.vars.value.costunit is not null ? form.vars.value.costunit.name : '' } }) }}
+                {{ form_row(form.contact, { 'attr': { 'data-name': form.vars.value.contact is not null ? form.vars.value.contact.name : '' } } ) }}
                 {{ form_row(form.description) }}
                 {{ form_row(form.begin) }}
                 {{ form_row(form.end) }}
@@ -67,7 +67,7 @@
                                 <tr>
                                     <td>{{ object.barcode }}</td>
                                     <td>{{ object.title }}</td>
-                                    <td>
+                                    <td class="event-object-icons">
                                         <a href="#" class="remove" data-value="{{ objective }} ">
                                             <span class="aui-icon aui-icon-small aui-iconfont-remove">{{ 'Remove'|trans }}</span>
                                         </a>

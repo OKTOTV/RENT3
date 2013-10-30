@@ -73,3 +73,10 @@
     color: #707070;
     font-size: 12px;
 }
+
+.event-object-icons a {
+    height: 16px;
+    width: 16px;
+    float: left;
+    margin-right: 2px;
+}
