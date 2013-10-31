@@ -172,7 +172,6 @@
 
         _renderBeginTimeFields: function () {
             var beginLabel = EventForm.data.container.find('label[for*=_begin]').html();
-            console.log(beginLabel);
             var fieldGroup = $('<div />').addClass('field-group');
             var label = $('<label />', { 'for': EventForm.config.beginDate }).append(beginLabel);
             var inputDate = $('<input />', { 'id': EventForm.config.beginDate }).addClass('aui-date-picker');
@@ -207,6 +206,7 @@
                     selectBox.empty(); // remove old options
 
                     var timeblocks = EventForm.data.beginContainer.data('timeblockstarts');
+                    selectBox.append("<option></option>");
                     $.each(timeblocks[date], function(key, value) {
                         selectBox.append($("<option></option>")
                          .attr("value", value).text(value));
@@ -226,6 +226,7 @@
                     selectBox.empty(); // remove old options
 
                     var timeblocks = EventForm.data.endContainer.data('timeblockends');
+                    selectBox.append("<option></option>");
                     $.each(timeblocks[date], function(key, value) {
                         selectBox.append($("<option></option>")
                          .attr("value", value).text(value));
