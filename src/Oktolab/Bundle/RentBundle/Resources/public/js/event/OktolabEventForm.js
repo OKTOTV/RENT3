@@ -178,7 +178,7 @@
             var inputTime = $('<select />', { 'id': EventForm.config.beginTime }).addClass('select');
 
             fieldGroup.append(label).append(inputDate).append(inputTime);
-            EventForm.data.container.find('fieldset:first-child').prepend(fieldGroup);
+            EventForm.data.container.find('fieldset:first').prepend(fieldGroup);
             EventForm.data.beginDate = inputDate;
             EventForm.data.beginTime = inputTime;
         },
@@ -191,7 +191,7 @@
             var inputTime = $('<select />', { 'id': EventForm.config.endTime }).addClass('select');
 
             fieldGroup.append(label).append(inputDate).append(inputTime);
-            EventForm.data.container.find('fieldset:first-child').prepend(fieldGroup);
+            EventForm.data.container.find('fieldset:first').prepend(fieldGroup);
             EventForm.data.endDate = inputDate;
             EventForm.data.endTime = inputTime;
         },

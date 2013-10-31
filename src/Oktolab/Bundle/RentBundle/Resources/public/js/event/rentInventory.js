@@ -77,8 +77,6 @@ AJS.$(document).ready(function() {
         engine: Hogan
     }]);
 
-    collectionHolder.data('index', collectionHolder.find(':tr').length);
-
     jQuery('#inventory-search-field').on('typeahead:selected', function (e, datum) {
         var form = collectionHolder.closest('form');
 
