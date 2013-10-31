@@ -3,21 +3,17 @@
 {% block content_header %}
     <div class="aui-page-header-inner">
         <div class="aui-page-header-main">
-            <h1>{{ 'Rental Track' | trans }}</h1>
+            <h1>{{ 'Rental Track'|trans }}</h1>
         </div>
         <div class="aui-page-header-actions">
             <ol class="aui-progress-tracker aui-progress-tracker-inverted">
-                {% set active = 'Bearbeiten' %}
-                {# for i in [ 'Create', 'Edit', 'Rent', 'Back', 'Check', 'Closed' ] #}
-                {% for i in [ 'Erstellen', 'Bearbeiten', 'Ausleihen', 'Zurücknehmen', 'Abschließen' ] %}
-                    {% if active == i %}
-                        <li class="aui-progress-tracker-step aui-progress-tracker-step-current" style="{{ 100 / loop.length }}">
-                    {% else %}
-                        <li class="aui-progress-tracker-step" style="{{ 100 / loop.length }}">
-                    {% endif %}
-                        <span>{{ i | trans }}</span>
-                    </li>
-                {% endfor %}
+                {% set state = form.vars.value.state %}
+                {% set current = 'aui-progress-tracker-step-current' %}
+
+                <li class="aui-progress-tracker-step"><span>{{ 'Erstellen'|trans }}</span></li>
+                <li class="aui-progress-tracker-step {{ state is constant('\\Oktolab\\Bundle\\RentBundle\\Entity\\Event::STATE_PREPARED') ? current : '' }}"><span>{{ 'Bearbeiten'|trans }}</span></li>
+                <li class="aui-progress-tracker-step {{ state is constant('\\Oktolab\\Bundle\\RentBundle\\Entity\\Event::STATE_LENT') ? current : '' }}"><span>{{ 'Ausgeben'|trans }}</span></li>
+                <li class="aui-progress-tracker-step {{ state is constant('\\Oktolab\\Bundle\\RentBundle\\Entity\\Event::STATE_DELIVERED') ? current : '' }}"><span>{{ 'Abgeschlossen'|trans }}</span></li>
             </ol>
         </div>
     </div>
