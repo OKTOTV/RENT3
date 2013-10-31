@@ -36,8 +36,10 @@
                 objectCollection:   '.event-objects',
                 costUnitSearch:     'costunit-search-field',
                 contactSearch:      'contact-search-field',
-                beginSearch:        '',
-                endSearch:          '',
+                beginDate:          'event-beginDate',
+                beginTime:          'event-beginTime',
+                endDate:            'event-endDate',
+                endTime:            'event-endTime'
             };
 
             // TODO: this can lead to unusual behaviour, use: $.extend({}, EventForm.config, settings); instead!
@@ -64,19 +66,29 @@
             EventForm.data.costUnitContainer = container.find('select[name*=costunit]');
             EventForm.data.contactContainer = container.find('select[name*=contact]');
             EventForm.data.nameContainer = container.find('input[name*=name]');
+            EventForm.data.beginContainer = container.find('input[name*=begin]');
+            EventForm.data.endContainer = container.find('input[name*=end]');
 
             // Hide some form fields
             EventForm.data.costUnitContainer.closest('div.field-group').addClass('hidden');
             EventForm.data.contactContainer.closest('div.field-group').addClass('hidden');
             EventForm.data.nameContainer.closest('div.field-group').addClass('hidden');
+            EventForm.data.beginContainer.closest('div.field-group').addClass('hidden');
+            EventForm.data.endContainer.closest('div.field-group').addClass('hidden');
 
             // Render form inputs
+            EventForm._renderEndTimeFields();
+            EventForm._renderBeginTimeFields();
             EventForm._renderContactField();
             EventForm._renderCostUnitField();
 
             // Register Listeners
             EventForm._registerCostUnitListener();
             EventForm._registerContactListener();
+            EventForm._registerBeginTimeListener();
+            EventForm._registerEndTimeListener();
+            EventForm._registerBeginTimeChange();
+            EventForm._registerEndTimeChange();
         },
 
         _renderCostUnitField: function () {
@@ -139,6 +151,88 @@
         _registerContactListener: function () {
             EventForm.data.contactSearchContainer.on('typeahead:selected', function (e, datum) {
                 EventForm.data.contactContainer.val(datum.id);
+            });
+        },
+
+        _renderBeginTimeFields: function () {
+            var beginLabel = EventForm.data.container.find('label[for*=_begin]').html();
+            console.log(beginLabel);
+            var fieldGroup = $('<div />').addClass('field-group');
+            var label = $('<label />', { 'for': EventForm.config.beginDate }).append(beginLabel);
+            var inputDate = $('<input />', { 'id': EventForm.config.beginDate }).addClass('aui-date-picker');
+            var inputTime = $('<select />', { 'id': EventForm.config.beginTime }).addClass('select');
+
+            fieldGroup.append(label).append(inputDate).append(inputTime);
+            EventForm.data.container.find('fieldset:first-child').prepend(fieldGroup);
+            EventForm.data.beginDate = inputDate;
+            EventForm.data.beginTime = inputTime;
+        },
+
+        _renderEndTimeFields: function () {
+            var endLabel = EventForm.data.container.find('label[for*=_end]').html();
+            var fieldGroup = $('<div />').addClass('field-group');
+            var label = $('<label />', { 'for': EventForm.config.beginDate }).append(endLabel);
+            var inputDate = $('<input />', { 'id': EventForm.config.endDate }).addClass('aui-date-picker');
+            var inputTime = $('<select />', { 'id': EventForm.config.endTime }).addClass('select');
+
+            fieldGroup.append(label).append(inputDate).append(inputTime);
+            EventForm.data.container.find('fieldset:first-child').prepend(fieldGroup);
+            EventForm.data.endDate = inputDate;
+            EventForm.data.endTime = inputTime;
+        },
+
+        _registerBeginTimeListener: function () {
+            EventForm.data.beginTime.on('click', function (){
+                var date = EventForm.data.beginDate.val();
+                date = parseInt(date.replace(/-/g, ''));
+                if (date != EventForm.data.beginTime.data('selected-date')) {
+                    EventForm.data.beginTime.data('selected-date', date);
+                    var selectBox = EventForm.data.beginTime;
+                    selectBox.empty(); // remove old options
+
+                    var timeblocks = EventForm.data.beginContainer.data('timeblockstarts');
+                    $.each(timeblocks[date], function(key, value) {
+                        selectBox.append($("<option></option>")
+                         .attr("value", value).text(value));
+                    });
+                }
+            });
+        },
+
+        _registerEndTimeListener: function () { //redundant!
+            EventForm.data.endTime.on('click', function (){
+                var date = EventForm.data.endDate.val();
+                if (date != EventForm.data.endTime.data('selected-date')) {
+                    EventForm.data.endTime.data('selected-date', date);
+                    date = parseInt(date.replace(/-/g, ''));
+
+                    var selectBox = EventForm.data.endTime;
+                    selectBox.empty(); // remove old options
+
+                    var timeblocks = EventForm.data.endContainer.data('timeblockends');
+                    $.each(timeblocks[date], function(key, value) {
+                        selectBox.append($("<option></option>")
+                         .attr("value", value).text(value));
+                    });
+                }
+            });
+        },
+
+        _registerBeginTimeChange: function() {
+            EventForm.data.beginTime.on('change', function (){
+               var date = EventForm.data.beginDate.val();
+               var time = EventForm.data.beginTime.val();
+               var datetime = new Date(date+'T'+time);
+               EventForm.data.beginContainer.val(datetime.toISOString());
+            });
+        },
+
+        _registerEndTimeChange: function() { //redundant!
+            EventForm.data.endTime.on('change', function (){
+               var date = EventForm.data.endDate.val();
+               var time = EventForm.data.endTime.val();
+               var datetime = new Date(date+'T'+time);
+               EventForm.data.endContainer.val(datetime.toISOString());
             });
         }
     };

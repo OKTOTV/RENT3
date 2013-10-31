@@ -5,8 +5,8 @@
 
             {{ form_row(form.name) }}
             {{ form_row(form.description) }}
-            {{ form_row(form.begin) }}
-            {{ form_row(form.end) }}
+            {{ form_row(form.begin, {'attr': {'data-timeblockStarts': timeblock_starts}}) }}
+            {{ form_row(form.end, {'attr': {'data-timeblockEnds': timeblock_ends}}) }}
         </fieldset>
 
         <h3>{{ 'Rentable Objects'|trans }}</h3>

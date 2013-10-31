@@ -31,9 +31,7 @@ class EventType extends AbstractType
                     'class'     => 'OktolabRentBundle:Contact',
                     'property' => 'id',
                     'required' => true,
-                    'empty_value' => 'Choose a contact',
-                    'attr'      => array('style' => 'display:none'),
-                    'label_attr' => array('style' => 'display:none')
+                    'empty_value' => 'Choose a contact'
                 )
             )
             ->add(
@@ -42,14 +40,26 @@ class EventType extends AbstractType
                 array(
                     'class'     => 'OktolabRentBundle:CostUnit',
                     'property' => 'id',
-                    'required' => true,
-                    'attr'      => array('style' => 'display:none'),
-                    'label_attr' => array('style' => 'display:none')
+                    'required' => true
                 )
             )
             ->add('description', 'textarea', array('required' => false))
-            ->add('begin', 'datetime', array('widget' => 'single_text', 'required' => true))
-            ->add('end', 'datetime', array('widget' => 'single_text', 'required' => true))
+            ->add(
+                'begin',
+                'datetime',
+                array(
+                    'widget'    => 'single_text',
+                    'required'  => true,
+                )
+            )
+            ->add(
+                'end',
+                'datetime',
+                array(
+                    'widget'    => 'single_text',
+                    'required'  => true,
+                )
+            )
             ->add('objects', 'collection', array('type' => new EventObjectType(), 'allow_add' => true, 'allow_delete' => true));
 
         $builder->add('cancel', 'submit', array('validation_groups' => false))

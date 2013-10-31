@@ -5,6 +5,7 @@ namespace Oktolab\Bundle\RentBundle\Model\Event\Calendar;
 use Oktolab\Bundle\RentBundle\Model\Event\Calendar\TimeblockAggregator;
 use Oktolab\Bundle\RentBundle\Entity\Timeblock;
 use Doctrine\Common\Cache\Cache;
+use Doctrine\ORM\EntityManager;
 
 /**
  * Description of TimeblockTransformer
@@ -18,6 +19,7 @@ class TimeblockTransformer
      * Used for caching identifier
      */
     const CACHE_ID = 'oktolab.calendar_timeblock_transformer';
+
 
     /**
      * Timeblock Aggregator.
@@ -101,7 +103,7 @@ class TimeblockTransformer
 
     /**
      * Seperates Timeblocks for easy use.
-     *
+     * @TODO: remove max. Its not necessary
      * @param \DateTime $begin Begin of interval
      * @param \DateTime $end   End of interval
      * @param int       $max   Maximum number of timeblocks to aggregate
@@ -194,5 +196,18 @@ class TimeblockTransformer
                 throw new \LogicException('End date must be greater than Begin date');
             }
         }
+    }
+
+    public function getBlockJsonForType($type = 'Inventory', $start = true)
+    {
+        $timeblocks = $this->getSeparatedTimeblocks(new \DateTime(), new \DateTime('+90 days'), 200);
+
+        $json_timeblocks = array();
+        foreach ($timeblocks as $timeblock) {
+            $block = $timeblock[($start) ? 'begin' : 'end']->format('H:i:s');
+            $json_timeblocks[$timeblock['date']->format('Ymd')][] = $block;
+        }
+
+        return json_encode($json_timeblocks);
     }
 }

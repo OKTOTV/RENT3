@@ -177,7 +177,7 @@ services:
 
     oktolab.event_calendar_timeblock:
         class:      %oktolab.event_calendar_timeblock.class%
-        arguments:  [ @oktolab.event_calendar_timeblock_aggregator, @oktolab.event_calendar_timeblock_cache ]
+        arguments:  [ @oktolab.event_calendar_timeblock_aggregator, @oktolab.event_calendar_timeblock_cache, @doctrine.orm.entity_manager ]
 
     # 'Cause there is no way to delete Keys by Regex or Pre-/Suffix.
     oktolab.event_calendar_timeblock_cache:
