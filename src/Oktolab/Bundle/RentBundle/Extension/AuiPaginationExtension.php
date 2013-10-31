@@ -99,7 +99,7 @@ class AuiPaginationExtension extends \Twig_Extension
                 }
 
                 if ($i == $current) {
-                    $this->addListPoint($i, $this->routing->generate($url_name, array('page' => $i)), SELECTED);
+                    $this->htmlString .= sprintf('<li class="%s">%s</li>', SELECTED, $i);
                 } else {
                     $this->addListPoint($i, $this->routing->generate($url_name, array('page' => $i)));
                 }
@@ -130,7 +130,7 @@ class AuiPaginationExtension extends \Twig_Extension
                 }
 
                 if ($i == $current) {
-                    $this->addListPoint($i, $this->routing->generate($url_name, array('page' => $i)), SELECTED);
+                    $this->htmlString .= sprintf('<li class="%s">%s</li>', SELECTED, $i);
                 } else {
                     $this->addListPoint($i, $this->routing->generate($url_name, array('page' => $i)));
                 }
@@ -142,11 +142,7 @@ class AuiPaginationExtension extends \Twig_Extension
             //pages to render
             if (($i >= $startPoint) && ($i < $startPoint + $max)) {
                 if ($i == $current) {
-                    $this->addListPoint(
-                        $i,
-                        $this->routing->generate($url_name, array('page' => $i)),
-                        SELECTED
-                    );
+                    $this->htmlString .= sprintf('<li class="%s">%s</li>', SELECTED, $i);
                 } else {
                     $this->addListPoint(
                         $i,
@@ -162,11 +158,7 @@ class AuiPaginationExtension extends \Twig_Extension
                 }
 
                 if ($i == $current) {
-                    $this->addListPoint(
-                        $i,
-                        $this->routing->generate($url_name, array('page' => $i)),
-                        SELECTED
-                    );
+                    $this->htmlString .= sprintf('<li class="%s">%s</li>', SELECTED, $i);
                 } else {
                     $this->addListPoint(
                         $i,
