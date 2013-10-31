@@ -140,12 +140,16 @@ class RentSheetPdfCreator
     {
         $this->openTag('div class=signatureStrip');
         $this->openTag('div class=textStripe');
+
         $this->addLentText();
         $this->addReturnText();
+
         $this->closeTag('div');
         $this->openTag('div class=signatureStripe');
+
         $this->addLentSignature();
         $this->addReturnSignature();
+
         $this->closeTag('div');
         $this->closeTag('div');
     }
