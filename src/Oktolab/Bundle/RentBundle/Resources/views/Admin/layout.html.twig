@@ -17,18 +17,21 @@
                 <div class="aui-page-panel-nav">
                     <nav class="aui-navgroup aui-navgroup-vertical">
                         <div class="aui-navgroup-inner">
-                            <div class="aui-nav-heading"><strong>{{ 'generic.inventory' | trans }}</strong></div>
+                            <div class="aui-nav-heading"><strong>{{ 'generic.inventory'|trans }}</strong></div>
                             <ul class="aui-nav">
                                 <li{% if highlight_action == "category" %} class="aui-nav-selected"{% endif %}><a href="{{ path('inventory_category') }}">{{ 'inventory.categories' | trans }}</a></li>
                                 <li{% if highlight_action == "place" %} class="aui-nav-selected"{% endif %}><a href="{{ path('inventory_place') }}">{{ 'inventory.places' | trans }}</a></li>
                                 <li{% if highlight_action == "import" %} class="aui-nav-selected"{% endif %}><a href="{{ path('inventory_import') }}">{{ 'inventory.import' | trans }}</a></li>
                             </ul>
-                            <div class="aui-nav-heading"><strong>{{ 'generic.administration' | trans }}</strong></div>
+                            <div class="aui-nav-heading"><strong>{{ 'admin.console.basics'|trans }}</strong></div>
                             <ul class="aui-nav">
                                 <li{% if highlight_action == "user" %} class="aui-nav-selected"{% endif %}><a href="{{ path('security_user') }}">{{ 'admin.userManagement' | trans }}</a></li>
                                 <li{% if highlight_action == "costunit" %} class="aui-nav-selected"{% endif %}><a href="{{ path('admin_costunit') }}">{{ 'admin.costunit.costunits' | trans }}</a></li>
                                 <li{% if highlight_action == "timeblock" %} class="aui-nav-selected"{% endif %}><a href="{{ path('admin_timeblock') }}">{{ 'admin.timeblock.timeblocks' | trans }}</a></li>
                                 <li{% if highlight_action == "setting" %} class="aui-nav-selected"{% endif %}><a href="{{ path('admin_setting') }}">{{ 'admin.setting.settings' | trans }}</a></li>
+                            </ul>
+                            <div class="aui-nav-heading"><strong>{{ 'generic.administration'|trans }}</strong></div>
+                            <ul class="aui-nav">
                                 <li><a href="#">{{'admin.applicationLinks'|trans}}</a></li>
                                 <li><a href="#">{{'admin.licensing'|trans}}</a></li>
                                 <li><a href="#">{{'admin.oktolabSupport'|trans}}</a></li>

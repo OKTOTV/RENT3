@@ -36,11 +36,17 @@ class RentController extends Controller
                 'em'     => $this->getDoctrine()->getManager(),
             )
         );
+
+        $form->remove('description');
+
+        $form->remove('cancel');
+        $form->remove('delete');
+        $form->remove('rent');
+
         return array(
             'form' => $form->createView(),
             'timeblock_starts' => $this->get('oktolab.event_calendar_timeblock')->getBlockJsonForType('Inventory', true),
-            'timeblock_ends'   => $this->get('oktolab.event_calendar_timeblock')->getBlockJsonForType('Inventory', false)
-        );
+            'timeblock_ends'   => $this->get('oktolab.event_calendar_timeblock')->getBlockJsonForType('Inventory', false));
     }
 
     /**

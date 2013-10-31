@@ -4,8 +4,8 @@
     var OktolabRentBundleEditForm = function() {
         var searchField = $('#oktolabrentbundle_event_editform_searchfield');
         var form = searchField.closest('form');
+        var formSubmit = form.find('.buttons-container .aui-button-primary');
         var collectionHolder = form.find('.event-objects');
-        var hiddenInputCollection = form.find('.oktolab-event-objects.hidden');
 
         /**
          * Adds the (scanned) Object to Template
@@ -14,23 +14,25 @@
          */
         var addObject = function (object) {
             if (0 === collectionHolder.find('span[data-value="' + object.type + object.id + '"]').length) {
-                Oktolab.appendPrototypeTemplate(collectionHolder, object);         // add table row
-                Oktolab.appendPrototypeTemplate(hiddenInputCollection, object);    // add hidden input field
+                Oktolab.appendPrototypeTemplate(collectionHolder, object);
             }
 
+            // if the object is a Set, than add all known items
             if ('set' === object.type) {
                 $.each(object.items, function (key, itemValue) {
                     var item = findItem(itemValue);
                     Oktolab.appendPrototypeTemplate(collectionHolder, item);
-                    Oktolab.appendPrototypeTemplate(hiddenInputCollection, item);
                 });
             }
         };
 
+        /**
+         * Remove an EventObject from the form
+         *
+         * @param {Object} object
+         */
         var removeObject = function (object) {
             var value = object.data('value');
-
-            // remove from collectionHolder
             object.closest('tr').remove();
         };
 
@@ -41,7 +43,11 @@
          */
         var scanObject = function (object) {
             object.closest('tr').find('.hidden input.scanner').val('1');
-            object.removeClass('aui-iconfont-approve').addClass('aui-icon-success');
+            object.find('a.scan span').removeClass('aui-iconfont-approve').addClass('aui-icon-success');
+
+            if (checkScannedObjects()) {
+                formSubmit.attr('aria-disabled', false);
+            }
         }
 
         /**
@@ -82,6 +88,19 @@
             });
 
             return datum;
+        };
+
+        var checkScannedObjects = function () {
+            var inputs = collectionHolder.find('input[name*=scanned]');
+            var allChecked = true;
+
+            $.each(inputs, function (key, input) {
+                if (1 != $(input).val()) {
+                    allChecked = false;
+                }
+            });
+
+            return allChecked;
         };
 
         var template = [
@@ -135,8 +154,13 @@
             if ((keyCode === 13 && e.ctrlKey == true) || (keyCode === 74 && e.ctrlKey == true) || keyCode === 9) {
                 e.preventDefault();
 
-                addObject(findSuggestion());
-                searchField.typeahead('setQuery', '');
+                var suggestion = findSuggestion();
+                if ('undefined' !== typeof(suggestion)) {
+                    addObject(suggestion);
+                    scanObject(collectionHolder.find('tr:last'));
+                    searchField.typeahead('setQuery', '');
+                }
+
                 searchField.focus();
             }
         });
@@ -146,9 +170,17 @@
             removeObject($(e.currentTarget));
         });
 
+        // @TODO: Only in development instance
         collectionHolder.on('click', 'a.scan', function (e) {
             e.preventDefault();
-            scanObject($(e.currentTarget));
+            scanObject($(e.currentTarget).closest('tr'));
+        });
+
+        formSubmit.on('click', function (e) {
+            if (!checkScannedObjects()) {
+                e.preventDefault();
+                return;
+            }
         });
     };
 
@@ -158,56 +190,3 @@
     }
 
 }(window, document, jQuery, Oktolab));
-
-AJS.$(document).ready(function() {
-//  costunit
-    AJS.$('#oktolabrentbundle_event_editform_costunit_searchfield').typeahead({
-        name: 'costunits',
-        valueKey:   'name',
-        prefetch: {url: oktolab.typeahead.costunitPrefetchUrl, ttl: 5 },
-        template: [
-            '<span class="aui-icon aui-icon-small aui-iconfont-devtools-file">Object</span>',
-            '<p class="tt-object-name">{{name}}</p>',
-            '<p class="tt-object-addon">{{barcode}}</p>'
-        ].join(''),
-        engine: Hogan
-    });
-
-    jQuery('#oktolabrentbundle_event_editform_costunit_searchfield').on('typeahead:selected', function(e, datum) {
-        var form = collectionHolder.closest('form');
-
-        //select costunit with datum.id
-        var selectbox = form.find('#OktolabRentBundle_Event_Form_costunit');
-        selectbox.val(datum.id);
-        var nameField = form.find('#OktolabRentBundle_Event_Form_name');
-        nameField.val(datum.name);
-        var contactField = form.find('#oktolabrentbundle_event_editform_contact_searchfield');
-        contactField.val('');
-
-        AJS.$('#oktolabrentbundle_event_editform_contact_searchfield').attr('disabled', false);
-
-        AJS.$('#oktolabrentbundle_event_editform_contact_searchfield').typeahead({
-            name: 'costunit-contacts',
-            valueKey:   'name',
-            remote: { url: oktolab.typeahead.costunitcontactRemoteUrl.replace('__id__', datum.id),
-                      replace: function() {
-                          return oktolab.typeahead.costunitcontactRemoteUrl.replace('__id__', AJS.$(form.find('#OktolabRentBundle_Event_Form_costunit')).val())
-                      }
-                    },
-            template: [
-            '<span class="aui-icon aui-icon-small aui-iconfont-devtools-file">Object</span>',
-            '<p class="tt-object-name">{{name}}</p>'
-        ].join(''),
-        engine: Hogan
-        });
-    });
-
-// contact
-    jQuery('#oktolabrentbundle_event_editform_contact_searchfield').on('typeahead:selected', function(e, datum) {
-        var form = collectionHolder.closest('form');
-
-        //select costunit with datum.id
-        var selectbox = form.find('#OktolabRentBundle_Event_Form_contact');
-        selectbox.val(datum.id);
-    });
-});

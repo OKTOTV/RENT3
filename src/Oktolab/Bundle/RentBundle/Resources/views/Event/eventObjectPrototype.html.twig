@@ -2,9 +2,12 @@
 <tr>
     <td>{{ '{{barcode}}' }}</td>
     <td>{{ '{{name}}' }}</td>
-    <td>
+    <td class="event-object-icons">
         <a href="#" class="remove" data-value="{{ '{{value}}' }}">
             <span class="aui-icon aui-icon-small aui-iconfont-remove">{{ 'Remove'|trans }}</span>
+        </a>
+        <a href="#" class="scan" data-value="{{ '{{value}}' }}">
+            <span class="aui-icon aui-icon-small aui-iconfont-approve">{{ 'Scan'|trans }}</span>
         </a>
     </td>
     <td class="hidden">
@@ -13,6 +16,7 @@
 
             <input id="{{ '%s_objects_{{index}}_type'|format(formName) }}" name="{{ '%s[objects][{{index}}][type]'|format(formName) }}" value="{{ '{{type}}' }}" />
             <input id="{{ '%s_objects_{{index}}_object'|format(formName) }}" name="{{ '%s[objects][{{index}}][object]'|format(formName) }}" value="{{ '{{id}}' }}" />
+            <input id="{{ '%s_objects_{{index}}_scanned'|format(formName) }}" name="{{ '%s[objects][{{index}}][scanned]'|format(formName) }}" value="0" class="scanner" />
         </div>
     </td>
 </tr>

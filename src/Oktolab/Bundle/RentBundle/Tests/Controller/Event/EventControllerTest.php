@@ -36,6 +36,7 @@ class EventControllerTest extends WebTestCase
                 '\Oktolab\Bundle\RentBundle\Tests\DataFixtures\ORM\CostUnitFixture'
             )
         );
+
         $em = $this->getContainer()->get('doctrine.orm.entity_manager');
         $itemA = $em->getRepository('OktolabRentBundle:Inventory\Item')->findOneBy(array('barcode' => 'F00B5R'));
         $itemB = $em->getRepository('OktolabRentBundle:Inventory\Item')->findOneBy(array('barcode' => 'B5ZF00'));
@@ -46,7 +47,6 @@ class EventControllerTest extends WebTestCase
         $form = $crawler->filter('#OktolabRentBundle_Event_Form_update')->form(
             array(
                 'OktolabRentBundle_Event_Form[name]'        => 'My Event',
-                'OktolabRentBundle_Event_Form[description]' => 'Some notices about this event. It is a test.',
                 'OktolabRentBundle_Event_Form[begin]'       => '2013-10-11 12:00:00',
                 'OktolabRentBundle_Event_Form[end]'         => '2013-10-12 17:00:00',
                 'OktolabRentBundle_Event_Form[contact]'     => 1,

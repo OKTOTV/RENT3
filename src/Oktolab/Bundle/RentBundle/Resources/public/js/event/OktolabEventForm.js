@@ -39,10 +39,11 @@
                 beginDate:          'event-beginDate',
                 beginTime:          'event-beginTime',
                 endDate:            'event-endDate',
-                endTime:            'event-endTime'
+                endTime:            'event-endTime',
+                hideButtons:        false,
             };
 
-            // TODO: this can lead to unusual behaviour, use: $.extend({}, EventForm.config, settings); instead!
+            // TODO: this can lead to unusual behaviour, use: $.extend({}, EventForm.config, settings); instead
             $.extend(EventForm.config, settings);
 
             var container = $(EventForm.config.container);
@@ -76,6 +77,10 @@
             EventForm.data.beginContainer.closest('div.field-group').addClass('hidden');
             EventForm.data.endContainer.closest('div.field-group').addClass('hidden');
 
+            if (EventForm.config.hideButtons) {
+                container.find('.buttons-container').addClass('hidden');
+            }
+
             // Render form inputs
             EventForm._renderEndTimeFields();
             EventForm._renderBeginTimeFields();
@@ -96,9 +101,10 @@
             var fieldGroup = $('<div />').addClass('field-group');
             var label = $('<label />', { 'for': EventForm.config.costUnitSearch }).append(costUnitLabel);
             var input = $('<input />', { 'id': EventForm.config.costUnitSearch }).addClass('text');
+            var value = EventForm.data.costUnitContainer.data('name');
 
             fieldGroup.append(label).append(input);
-            EventForm.data.container.find('fieldset:first-child').prepend(fieldGroup);
+            EventForm.data.container.find('fieldset:first').prepend(fieldGroup);
             EventForm.data.costUnitSearchContainer = input;
 
             EventForm.data.costUnitSearchContainer.typeahead({
@@ -112,6 +118,11 @@
                 ].join(''),
                 engine: Hogan
             });
+
+            if ('undefined' !== typeof(value) && 0 !== value.length) {
+                input.val(value);
+                EventForm.data.costUnitSearchContainer.typeahead('setQuery', value);
+            }
         },
 
         _renderContactField: function () {
@@ -119,9 +130,14 @@
             var fieldGroup = $('<div />').addClass('field-group');
             var label = $('<label />', { 'for': EventForm.config.contactSearch }).append(contactLabel);
             var input = $('<input />', { 'id': EventForm.config.contactSearch, 'disabled': 'disabled' }).addClass('text');
+            var value = EventForm.data.contactContainer.data('name');
+
+            if ('undefined' !== typeof(value) && 0 !== value.length) {
+                input.attr('disabled', false).val(value);
+            }
 
             fieldGroup.append(label).append(input);
-            EventForm.data.container.find('fieldset:first-child').prepend(fieldGroup);
+            EventForm.data.container.find('fieldset:first').prepend(fieldGroup);
             EventForm.data.contactSearchContainer = input;
         },
 
