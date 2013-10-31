@@ -35,7 +35,7 @@ class HubGuidToContactTransformer implements DataTransformerInterface
     }
 
     /**
-     * Transforms an object (contact) to a string (guid).
+     * Transforms an array object (contact) to an array of strings (guid).
      *
      * @param  Contact|null $issue
      *
@@ -56,30 +56,31 @@ class HubGuidToContactTransformer implements DataTransformerInterface
     }
 
     /**
-     * Transforms a string (guid) to an object (contact).
+     * Transforms a string array (guids) to an array of objects (contacts).
      *
-     * @param  string $guid
+     * @param  array $guids
      *
-     * @return contact|null
+     * @return array contact|null
      *
      * @throws TransformationFailedException if object (contact) is not found.
      */
-    public function reverseTransform($guid)
+    public function reverseTransform($guids)
     {
-        if (!$guid) {
+        if (!$guids) {
             return null;
         }
 
-        $contacts = $this->repository->findBy(array('guid' => $guid));
-        if (0 !== $contacts) {
-            return $contacts;
-        }
-
-        $contacts = $this->fetcher->getContactsForGuids($guid);
-        if (0 === count($contacts)) {
-            throw new TransformationFailedException(
-                "One or more Contacts can't be found!"
-            );
+        $contacts = array();
+        foreach ($guids as $guid) {
+            $contact = $this->repository->findOneBy(array('guid' => $guid));
+            if (!$contact) {
+                $result = $this->fetcher->getContactsForGuids(array($guid));
+                $contact = $result[0];
+            }
+            if (!$contact) {
+                throw new TransformationFailedException("One or more Contacts can't be found!");
+            }
+            $contacts[] = $contact;
         }
 
         return $contacts;

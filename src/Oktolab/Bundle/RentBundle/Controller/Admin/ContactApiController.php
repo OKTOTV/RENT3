@@ -28,7 +28,6 @@ class ContactApiController extends Controller
      */
     public function typeaheadPrefetchAction()
     {
-//        $contacts = $this->get('oktolab.contact_provider')->getContactsByName('*');
         $contacts = $this->getDoctrine()->getManager()->getRepository('OktolabRentBundle:Contact')->findAll();
         $json = array();
 
@@ -36,6 +35,34 @@ class ContactApiController extends Controller
             $json[] = array(
                 'name'          => $contact->getName(),
                 'value'         => $contact->getId(),
+                'tokens'        => explode(' ', $contact->getName()),
+                'id'            => $contact->getGuid()
+            );
+        }
+
+        return new JsonResponse($json);
+    }
+
+    /**
+     * Returns a JSON formatted Dataset for typeahead.js
+     *
+     * @Method("GET")
+     * @Route("/typeahead.{_format}/{name}",
+     *      name="api_contact_typeahead_remote_url",
+     *      defaults={"_format"="json"},
+     *      requirements={"_format"="json"})
+     *
+     * @return JsonResponse
+     */
+    public function typeaheadRemoteUrlAction($name)
+    {
+        $contacts = $this->get('oktolab.contact_provider')->getContactsByName($name);
+        $json = array();
+
+        foreach ($contacts as $contact) {
+            $json[] = array(
+                'name'          => $contact->getName(),
+                'value'         => $contact->getGuid(),
                 'tokens'        => explode(' ', $contact->getName()),
                 'id'            => $contact->getGuid()
             );
