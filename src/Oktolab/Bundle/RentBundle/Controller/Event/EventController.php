@@ -179,7 +179,7 @@ class EventController extends Controller
             }
 
             if (!$validation) {
-                $this->get('session')->getFlashBag()->add('success', 'Nope, nope, nope.');
+                $this->get('session')->getFlashBag()->add('error', 'Nope, nope, nope.');
                 return $this->redirect($this->generateUrl('rentbundle_dashboard'));
             }
 
@@ -219,15 +219,15 @@ class EventController extends Controller
                 'em'     => $this->getDoctrine()->getManager(),
                 'method' => 'PUT',
                 'action' => $this->generateUrl('OktolabRentBundle_Event_Completed', array('id' => $event->getId())),
-                'validation_groups'     => array('Event', 'Logic', 'Rent'),
+                'validation_groups' => array('Event', 'Logic', 'Rent'),
             )
         );
 
-        $form->remove('name')->add('name', 'text', array('disabled' => true));
-        $form->remove('costunit')->add('costunit', 'entity', array('class' => 'OktolabRentBundle:CostUnit', 'property' => 'id', 'required' => true, 'disabled' => true));
-        $form->remove('contact')->add('contact', 'entity', array('class' => 'OktolabRentBundle:Contact', 'property' => 'id','required' => true, 'disabled' => true));
-        $form->remove('begin')->add('begin', 'datetime', array('widget' => 'single_text', 'required' => true, 'disabled' => true));
-        $form->remove('objects')->add('objects', 'collection', array('type' => new \Oktolab\Bundle\RentBundle\Form\EventObjectType(), 'allow_add' => false, 'allow_delete' => false));
+//        $form->remove('name')->add('name', 'text', array('disabled' => true));
+//        $form->remove('costunit')->add('costunit', 'entity', array('class' => 'OktolabRentBundle:CostUnit', 'property' => 'id', 'required' => true, 'disabled' => true));
+//        $form->remove('contact')->add('contact', 'entity', array('class' => 'OktolabRentBundle:Contact', 'property' => 'id','required' => true, 'disabled' => true));
+//        $form->remove('begin')->add('begin', 'datetime', array('widget' => 'single_text', 'required' => true, 'disabled' => true));
+//        $form->remove('objects')->add('objects', 'collection', array('type' => new \Oktolab\Bundle\RentBundle\Form\EventObjectType(), 'allow_add' => false, 'allow_delete' => false));
 
         $objects = $this->get('oktolab.event_manager')->convertEventObjectsToEntites($event->getObjects());
 
@@ -240,6 +240,7 @@ class EventController extends Controller
      * @Configuration\Method("PUT")
      * @Configuration\Route("/event/{id}/complete", name="OktolabRentBundle_Event_Completed")
      * @Configuration\ParamConverter("event", class="OktolabRentBundle:Event")
+     * @Configuration\Template("OktolabRentBundle:Event:Event\edit.html.twig")
      *
      * @param \Symfony\Component\HttpFoundation\Request $request
      * @param \Oktolab\Bundle\RentBundle\Entity\Event   $event
@@ -248,7 +249,56 @@ class EventController extends Controller
      */
     public function completedAction(Request $request, Event $event)
     {
+        $form = $this->get('form.factory')->create(
+            'OktolabRentBundle_Event_Form',
+            $event,
+            array(
+                'em'     => $this->getDoctrine()->getManager(),
+                'method' => 'PUT',
+                'action' => $this->generateUrl('OktolabRentBundle_Event_Completed', array('id' => $event->getId())),
+                'validation_groups' => array('Event', 'Logic', 'Rent'),
+            )
+        );
 
+        $form->handleRequest($request);
+        if (!$form->isValid()) {
+            // Error while handling Form. Form is not valid - show errors.
+            $objects = $this->get('oktolab.event_manager')->convertEventObjectsToEntites($event->getObjects());
+            $this->get('session')->getFlashBag()->add('error', 'There was an error while saving the form.');
+
+            return array('form' => $form->createView(), 'objects' => $objects);
+        }
+
+        if ($form->get('rent')->isClicked()) { // User clicked Rent -> Forwarding to RENT Action
+            // @TODO: Validator needed!
+            $validation = true;
+            foreach ($event->getObjects() as $object) {
+                if (!$object->isScanned()) {
+                    $validation = false;
+                }
+            }
+
+            if (!$validation) {
+                $this->get('session')->getFlashBag()->add('error', 'Something happend wrong.');
+                return array('form' => $form->createView(), 'objects' => $objects);
+            }
+
+            $this->get('session')->getFlashBag()->add('success', 'Event successfully delivered.');
+            $event->setState(Event::STATE_DELIVERED);
+
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($event);
+            $em->flush();
+
+            return $this->redirect($this->generateUrl('rentbundle_dashboard'));
+        }
+
+        if ($form->get('cancel')->isClicked()) { // User clicked Abort -> Nothing to do here
+            $this->get('session')->getFlashBag()->add('success', 'Successfully canceled editing Event.');
+        }
+
+        // Done. Redirecting to Dashboard
+        return $this->redirect($this->generateUrl('rentbundle_dashboard'));
     }
 
 
