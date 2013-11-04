@@ -51,15 +51,15 @@ class InventoryAggregator extends BaseAggregator
     {
         $inventory = array();
 
-        $categories = $this->getCategories();
-        foreach ($categories as $category) {
-            $inventory[$category->getTitle()] = $category->getItems();
-        }
-
         // Append Sets only if we need to.
         if ($sets) {
             $sets = $this->getObjectives('Set');
             $inventory['Sets'] = $sets;
+        }
+
+        $categories = $this->getCategories();
+        foreach ($categories as $category) {
+            $inventory[$category->getTitle()] = $category->getItems();
         }
 
         return $inventory;
