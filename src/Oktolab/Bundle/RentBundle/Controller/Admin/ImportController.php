@@ -1,6 +1,6 @@
 <?php
 
-namespace Oktolab\Bundle\RentBundle\Controller\Inventory;
+namespace Oktolab\Bundle\RentBundle\Controller\Admin;
 
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -12,7 +12,6 @@ use Symfony\Component\Validator\Constraints\NotNull;
 use Symfony\Component\Validator\Constraints\File;
 use Symfony\Component\HttpFoundation\Response;
 
-use Oktolab\Bundle\RentBundle\Entity\Inventory\Item;
 use Oktolab\Bundle\RentBundle\Form\Inventory\ImportType;
 use Oktolab\Bundle\RentBundle\Entity\Inventory\Import;
 
@@ -40,7 +39,7 @@ class ImportController extends Controller
     /**
      * @Route("/", name="inventory_import_upload")
      * @Method("POST")
-     * @Template("OktolabRentBundle:Inventory\Import:verify.html.twig")
+     * @Template("OktolabRentBundle:Admin\Import:verify.html.twig")
      */
     public function uploadAction(Request $request)
     {
@@ -112,7 +111,7 @@ class ImportController extends Controller
 
         return new Response(
             $this->renderView(
-                'OktolabRentBundle:Inventory\Import:index.html.twig',
+                'OktolabRentBundle:Admin\Import:index.html.twig',
                 array('form'  => $form->createView())
             )
         );
@@ -137,5 +136,19 @@ class ImportController extends Controller
             $em->flush();
             return $this->redirect($this->generateUrl('inventory_item'));
         }
+    }
+
+    /**
+     * @Route("/example", name="admin_import_example")
+     * @Method("GET")
+     */
+    public function downloadExampleAction()
+    {
+        $response = new Response();
+        $response->setContent(file_get_contents(__DIR__.'/../../DataFixtures/Files/items.csv'));
+        $response->headers->set('Content-Type', 'text/csv');
+        $response->headers->set('Content-Disposition', 'attachment; filename="example.csv"');
+
+        return $response;
     }
 }

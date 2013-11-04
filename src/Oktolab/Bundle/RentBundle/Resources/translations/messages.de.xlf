@@ -775,6 +775,14 @@
                 <source>inventory.import.noBuyDate</source>
                 <target>Kein Kaufdatum angegeben</target>
             </trans-unit>
+            <trans-unit id="809">
+                <source>admin.import</source>
+                <target>Import</target>
+            </trans-unit>
+            <trans-unit id="810">
+                <source>admin.import.about</source>
+                <target>Importiert mittels CSV Datei eine beliebige Anzahl an Gegenständen. Diese müssen wie in der %linkstart%Beispieldatei%linkend% aussehen. Der Ort muss bereits Angelegt und exakt gleich benannt sein.</target>
+            </trans-unit>
 
             <trans-unit id="900">
                 <source>admin.costunit</source>
