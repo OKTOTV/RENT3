@@ -136,7 +136,7 @@ class EventTransformerTest extends \PHPUnit_Framework_TestCase
             ->with($this->equalTo('inventory_item_show'), $this->equalTo(array('id' => 5)))
             ->will($this->returnValue('/inventory/item/5'));
 
-        $events = $this->SUT->getFormattedActiveEvents(clone $date->modify('2013-10-31'), 'inventory');
+        $events = $this->SUT->getFormattedActiveEvents(new \DateTime(), 'inventory');
         $this->assertEquals($expected, $events, 'Expected formatted Events-Array');
     }
 }
