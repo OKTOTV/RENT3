@@ -59,4 +59,61 @@ class SetApiController extends Controller
 
         return new JsonResponse($json);
     }
+
+    /**
+     * Returns a JSON formatted Dataset for typeahead.js
+     *
+     * @Configuration\Method("GET")
+     * @Configuration\Route("/typeahead.{_format}/{setValue}",
+     *      name="inventory_set_typeahead_remote_url",
+     *      defaults={"_format"="json"},
+     *      requirements={"_format"="json"})
+     *
+     * @return JsonResponse
+     */
+    public function typeaheadRemoteAction($setValue)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $repository = $em->getRepository('OktolabRentBundle:Inventory\Set');
+        //SELECT * FROM set.s WHERE s.barcode LIKE %value% OR s.title LIKE %value%
+        $dq = $repository->createQueryBuilder('s');
+        $query = $dq->select()
+            ->where(
+            $dq->expr()->orX(
+                    $dq->expr()->like('s.barcode', ':value'),
+                    $dq->expr()->like('s.title', ':value')
+                )
+            )
+            ->setParameter('value', '%'.$setValue.'%')
+            ->getQuery();
+
+        $sets = $query->getResult();
+
+        $json = array();
+
+        foreach ($sets as $set) {
+
+            $items = array();
+            foreach($set->getItems() as $item) {
+                $items[] = sprintf('%s:%d', $item->getType(), $item->getId());
+            }
+
+            $json[] = array(
+                'name'          => $set->getTitle(),
+                'value'         => sprintf('%s:%d', $set->getType(), $set->getId()),
+                'type'          => $set->getType(),
+                'id'            => $set->getId(),
+                'description'   => $set->getDescription(),
+                'barcode'       => $set->getBarcode(),
+                'items'         => $items,
+                'tokens'        => array(
+                    $item->getBarcode(),
+                    $item->getDescription(),
+                    $item->getTitle()
+                )
+            );
+        }
+
+        return new JsonResponse($json);
+    }
 }

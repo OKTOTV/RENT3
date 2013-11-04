@@ -4,6 +4,8 @@
     oktolab.typeahead = {
         itemPrefetchUrl: oktolab.baseUrl + '/api/item/typeahead.json',
         itemRemoteUrl:   oktolab.baseUrl + '/api/item/typeahead.json/%QUERY',
+        setPrefetchUrl:  oktolab.baseUrl + '/api/set/typeahead.json',
+        setRemoteUrl:    oktolab.baseUrl + '/api/set/typeahead.json/%QUERY',
         contactPrefetchUrl: oktolab.baseUrl + '/api/contact/typeahead.json',
         contactRemoteUrl:   oktolab.baseUrl + '/api/contact/typeahead.json/%QUERY',
         costunitPrefetchUrl: oktolab.baseUrl + '/api/costunit/typeahead.json',
