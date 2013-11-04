@@ -14,6 +14,7 @@ jQuery(document).ready(function ($) {
         name:       'set-items',
         valueKey:   'name',
         prefetch:  { url: oktolab.typeahead.itemPrefetchUrl, ttl: 60000 },
+        remote: { url: oktolab.typeahead.itemRemoteUrl},
         template: [
             '<span class="aui-icon aui-icon-small aui-iconfont-devtools-file">Object</span>',
             '<p class="tt-object-name">{{name}}</p>',
