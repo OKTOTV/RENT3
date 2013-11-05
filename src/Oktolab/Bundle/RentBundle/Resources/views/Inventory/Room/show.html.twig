@@ -6,8 +6,10 @@
             <div class="aui-avatar aui-avatar-xlarge aui-avatar-project">
                 <div class="aui-avatar-inner">
                     {% if room.picture is not null %}
-                        <img src="{{ room.picture.getRelativePath | apply_filter('page_avatar') }}" />
-                    {% endif %}
+                    <img src="{{ room.picture.getRelativePath|apply_filter('page_avatar') }}" alt="{{ room.title }}" />
+                {% else %}
+                    <img src="{{ asset('bundles/oktolabrent/images/room.png') }}" alt="{{ room.title }}" />
+                {% endif %}
                 </div>
             </div>
         </div>

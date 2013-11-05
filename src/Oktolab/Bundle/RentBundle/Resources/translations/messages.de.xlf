@@ -832,6 +832,10 @@
                 <source>admin.costunit.noneFound</source>
                 <target>Keine Kostenstellen vorhanden</target>
             </trans-unit>
+            <trans-unit id="912">
+                <source>admin.costunit.deletesuccess</source>
+                <target>Kostenstelle erfolgreich gelöscht</target>
+            </trans-unit>
 
             <trans-unit id="1000">
                 <source>admin.contact</source>

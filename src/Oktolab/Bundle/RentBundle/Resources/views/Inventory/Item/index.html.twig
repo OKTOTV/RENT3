@@ -5,7 +5,7 @@
     <div class="aui-page-header-image">
         <div class="aui-avatar aui-avatar-xlarge aui-avatar-project">
             <div class="aui-avatar-inner">
-                <img src="{{ asset('aui-5.1/images/project-avatar-blue-64@2x.png') }}" />
+                <img src="{{ asset('bundles/oktolabrent/images/item.png') }}" />
             </div>
         </div>
     </div>
@@ -53,7 +53,7 @@
                     {% if item.picture is not null %}
                         <img src="{{ item.picture.getRelativePath|apply_filter('list_avatar') }}" alt="{{ item.title }}" />
                     {% else %}
-                        <img src="{{ asset('aui-5.1/images/project-avatar-blue-32@2x.png') }}" alt="{{ item.title }}" />
+                        <img src="{{ asset('bundles/oktolabrent/images/item.png') }}" alt="{{ item.title }}" />
                     {% endif %}
                 </td>
                 <td headers="item_table_title">
