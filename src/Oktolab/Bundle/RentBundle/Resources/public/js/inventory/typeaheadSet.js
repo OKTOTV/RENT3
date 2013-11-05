@@ -18,7 +18,8 @@ jQuery(document).ready(function ($) {
         template: [
             '<span class="aui-icon aui-icon-small aui-iconfont-devtools-file">Object</span>',
             '<p class="tt-object-name">{{name}}</p>',
-            '<p class="tt-object-addon">{{barcode}}</p>'
+            '<p class="tt-object-addon">{{barcode}}</p>',
+            '<p class="tt-object-addon">{{set}}</p>'
         ].join(''),
         engine: Hogan
     });

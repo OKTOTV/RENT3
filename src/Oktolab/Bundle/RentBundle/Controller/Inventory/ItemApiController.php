@@ -40,6 +40,7 @@ class ItemApiController extends Controller
                 'id'            => $item->getId(),
                 'description'   => $item->getDescription(),
                 'barcode'       => $item->getBarcode(),
+                'set'           => $item->getSet()->getTitle(),
                 'tokens'        => array(
                     $item->getBarcode(),
                     $item->getDescription(),
@@ -89,6 +90,7 @@ class ItemApiController extends Controller
                 'id'            => $item->getId(),
                 'description'   => $item->getDescription(),
                 'barcode'       => $item->getBarcode(),
+                'set'           => $item->getSet()->getTitle(),
                 'tokens'        => array(
                     $item->getBarcode(),
                     $item->getDescription(),
