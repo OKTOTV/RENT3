@@ -174,8 +174,8 @@
             var beginLabel = EventForm.data.container.find('label[for*=_begin]').html();
             var fieldGroup = $('<div />').addClass('field-group');
             var label = $('<label />', { 'for': EventForm.config.beginDate }).append(beginLabel);
-            var inputDate = $('<input />', { 'id': EventForm.config.beginDate }).addClass('aui-date-picker');
-            var inputTime = $('<select />', { 'id': EventForm.config.beginTime }).addClass('select');
+            var inputDate = $('<input />', { 'id': EventForm.config.beginDate }).addClass('aui-date-picker text event-date');
+            var inputTime = $('<select />', { 'id': EventForm.config.beginTime }).addClass('select event-select');
 
             fieldGroup.append(label).append(inputDate).append(inputTime);
             EventForm.data.container.find('fieldset:first').prepend(fieldGroup);
@@ -187,8 +187,8 @@
             var endLabel = EventForm.data.container.find('label[for*=_end]').html();
             var fieldGroup = $('<div />').addClass('field-group');
             var label = $('<label />', { 'for': EventForm.config.beginDate }).append(endLabel);
-            var inputDate = $('<input />', { 'id': EventForm.config.endDate }).addClass('aui-date-picker');
-            var inputTime = $('<select />', { 'id': EventForm.config.endTime }).addClass('select');
+            var inputDate = $('<input />', { 'id': EventForm.config.endDate }).addClass('aui-date-picker text event-date');
+            var inputTime = $('<select />', { 'id': EventForm.config.endTime }).addClass('select event-select');
 
             fieldGroup.append(label).append(inputDate).append(inputTime);
             EventForm.data.container.find('fieldset:first').prepend(fieldGroup);
