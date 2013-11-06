@@ -300,9 +300,9 @@ class Event
     }
 
     /**
-     * Begin must not after end.
+     * Begin must not be after end.
      *
-     * @Assert\True(message="Begin must not after end", groups={"Logic"})
+     * @Assert\True(message="Begin is not allowed to be after end", groups={"Logic"})
      *
      * @return boolean
      */

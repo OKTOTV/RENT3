@@ -188,6 +188,9 @@ class EventController extends Controller
 
             $em = $this->getDoctrine()->getManager();
             $em->persist($event);
+            foreach ($event->getObjects() as $object) {
+                $em->persist($object);
+            }
             $em->flush();
 
             return $this->redirect($this->generateUrl('rentbundle_dashboard'));
@@ -288,6 +291,9 @@ class EventController extends Controller
 
             $em = $this->getDoctrine()->getManager();
             $em->persist($event);
+            foreach ($event->getObjects() as $object) {
+                $em->persist($object);
+            }
             $em->flush();
 
             return $this->redirect($this->generateUrl('rentbundle_dashboard'));
@@ -315,7 +321,7 @@ class EventController extends Controller
      */
     public function rentPdfAction(Event $event)
     {
-        return $this->get('oktolab.rent_sheet_pdf')->generatePdf($event);
+        return $this->get('oktolab.rent_sheet_pdf')->generatePdf($event, $this->get('security.context')->getToken()->getUsername());
     }
 
     /**

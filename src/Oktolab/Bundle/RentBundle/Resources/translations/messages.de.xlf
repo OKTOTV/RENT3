@@ -976,8 +976,6 @@
                 <target>Kontakt</target>
             </trans-unit>
 
-
-
             <trans-unit id="1300">
                 <source>admin.setting.settings</source>
                 <target>Einstellungen</target>
@@ -1013,6 +1011,10 @@
             <trans-unit id="1308">
                 <source>admin.setting.company</source>
                 <target>Firmendaten</target>
+            </trans-unit>
+            <trans-unit id="1309">
+                <source>admin.setting.noAdditionalText</source>
+                <target>Kein Zusatztext angegeben.</target>
             </trans-unit>
         </body>
     </file>
