@@ -161,8 +161,6 @@ class EventManager
             }
         }
 
-//        var_dump($originalObjects); die();
-
         $this->em->getConnection()->beginTransaction();
         try {
             foreach ($event->getObjects() as $object) {
@@ -175,12 +173,11 @@ class EventManager
                     }
                 }
 
-                $event->addObject($object);
+//                $event->addObject($object);
                 $object->setEvent($event);
                 $this->em->persist($object);
             }
 
-//            var_dump($originalObjects); die();
             foreach ($originalObjects as $object) {
                 $event->removeObject($object);
                 $this->em->persist($object);

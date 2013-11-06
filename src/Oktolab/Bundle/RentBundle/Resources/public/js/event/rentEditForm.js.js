@@ -13,8 +13,11 @@
          * @param {typeahead-datum|object} object
          */
         var addObject = function (object) {
-            if (0 === collectionHolder.find('span[data-value="' + object.type + object.id + '"]').length) {
+            var tr = form.find('tr[data-value="' + object.value + '"]');
+            if (0 === tr.length) {
                 Oktolab.appendPrototypeTemplate(collectionHolder, object);
+            } else {
+                scanObject(tr);
             }
 
             // if the object is a Set, than add all known items
@@ -32,8 +35,11 @@
          * @param {Object} object
          */
         var removeObject = function (object) {
-            var value = object.data('value');
             object.closest('tr').remove();
+
+            if (checkScannedObjects()) {
+                formSubmit.attr('aria-disabled', false);
+            }
         };
 
         /**
@@ -42,7 +48,7 @@
          * @param {jQuery} object
          */
         var scanObject = function (object) {
-            object.closest('tr').find('.hidden input.scanner').val('1');
+            object.find('.hidden input.scanner').val('1');
             object.find('a.scan span').removeClass('aui-iconfont-approve').addClass('aui-icon-success');
 
             if (checkScannedObjects()) {
@@ -157,7 +163,7 @@
                 var suggestion = findSuggestion();
                 if ('undefined' !== typeof(suggestion)) {
                     addObject(suggestion);
-                    scanObject(collectionHolder.find('tr:last'));
+//                    scanObject(collectionHolder.find('tr:last'));
                     searchField.typeahead('setQuery', '');
                 }
 

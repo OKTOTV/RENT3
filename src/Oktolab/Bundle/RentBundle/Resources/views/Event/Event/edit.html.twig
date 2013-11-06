@@ -60,7 +60,7 @@
                                 {% set formobject = form.objects[loop.index0] %}
                                 {% set objective = '%s:%s'|format(object.type, object.id) %}
 
-                                <tr>
+                                <tr data-value="{{ objective }}">
                                     <td>{{ object.barcode }}</td>
                                     <td>{{ object.title }}</td>
                                     <td class="event-object-icons">
