@@ -23,8 +23,7 @@ AJS.$(document).ready(function() {
     // Activate typeahead quicksearch in project
 
     var template = [
-            '<span class="aui-icon aui-icon-small aui-iconfont-devtools-file">Object</span>',
-            '<p class="tt-object-name">{{name}}</p>',
+            '<p class="tt-object-addon">{{name}}</p>',
             '<p class="tt-object-addon">{{barcode}}</p>'
         ].join('');
 
