@@ -443,7 +443,7 @@
             </trans-unit>
             <trans-unit id="215">
                 <source>inventory.set.searchForItems</source>
-                <target>Suche nach Gegenständen</target>
+                <target>Suche nach Gegenständen für dieses Set</target>
             </trans-unit>
             <trans-unit id="216">
                 <source>inventory.set.title</source>
