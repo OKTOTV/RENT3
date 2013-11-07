@@ -177,6 +177,14 @@
             var inputDate = $('<input />', { 'id': EventForm.config.beginDate }).addClass('aui-date-picker text event-date');
             var inputTime = $('<select />', { 'id': EventForm.config.beginTime }).addClass('select event-select');
 
+            if (EventForm.data.container.find('input[id*=_begin]').val() !== '') {
+                var datetime = new Date(EventForm.data.container.find('input[id*=_begin]').val());
+                inputDate.val($.datepicker.formatDate('yy-mm-dd',datetime));
+                inputTime.append(
+                    $("<option></option>").text(datetime.getHours().toString()+':'+datetime.getMinutes().toString()+':'+datetime.getSeconds().toString())
+                );
+            }
+
             fieldGroup.append(label).append(inputDate).append(inputTime);
             EventForm.data.container.find('fieldset:first').prepend(fieldGroup);
             EventForm.data.beginDate = inputDate;
@@ -187,8 +195,17 @@
             var endLabel = EventForm.data.container.find('label[for*=_end]').html();
             var fieldGroup = $('<div />').addClass('field-group');
             var label = $('<label />', { 'for': EventForm.config.beginDate }).append(endLabel);
-            var inputDate = $('<input />', { 'id': EventForm.config.endDate }).addClass('aui-date-picker text event-date');
+            var inputDate = $('<input />', { 'id': EventForm.config.endDate }).addClass('aui-date-picker text event-date').val($.datepicker.formatDate('yy-mm-dd',datetime));
             var inputTime = $('<select />', { 'id': EventForm.config.endTime }).addClass('select event-select');
+
+            if (EventForm.data.container.find('input[id*=_end]').val() !== '') {
+                var datetime = new Date(EventForm.data.container.find('input[id*=_end]').val());
+                inputDate.val($.datepicker.formatDate('yy-mm-dd',datetime));
+                inputTime.append(
+                    $("<option></option>").text(datetime.getHours().toString()+':'+datetime.getMinutes().toString()+':'+datetime.getSeconds().toString())
+                );
+            }
+
 
             fieldGroup.append(label).append(inputDate).append(inputTime);
             EventForm.data.container.find('fieldset:first').prepend(fieldGroup);
@@ -197,7 +214,7 @@
         },
 
         _registerBeginTimeListener: function () {
-            EventForm.data.beginTime.on('click', function (){
+            EventForm.data.beginTime.on('mouseenter', function (){
                 var date = EventForm.data.beginDate.val();
                 date = parseInt(date.replace(/-/g, ''));
                 if (date != EventForm.data.beginTime.data('selected-date')) {
@@ -206,17 +223,19 @@
                     selectBox.empty(); // remove old options
 
                     var timeblocks = EventForm.data.beginContainer.data('timeblockstarts');
-                    selectBox.append("<option></option>");
-                    $.each(timeblocks[date], function(key, value) {
-                        selectBox.append($("<option></option>")
-                         .attr("value", value).text(value));
-                    });
+                    if (timeblocks) {
+                        selectBox.append("<option></option>");
+                        $.each(timeblocks[date], function(key, value) {
+                            selectBox.append($("<option></option>")
+                             .attr("value", value).text(value));
+                        });
+                    }
                 }
             });
         },
 
         _registerEndTimeListener: function () { //redundant!
-            EventForm.data.endTime.on('click', function (){
+            EventForm.data.endTime.on('mouseenter', function (){
                 var date = EventForm.data.endDate.val();
                 if (date != EventForm.data.endTime.data('selected-date')) {
                     EventForm.data.endTime.data('selected-date', date);
@@ -226,11 +245,13 @@
                     selectBox.empty(); // remove old options
 
                     var timeblocks = EventForm.data.endContainer.data('timeblockends');
-                    selectBox.append("<option></option>");
-                    $.each(timeblocks[date], function(key, value) {
-                        selectBox.append($("<option></option>")
-                         .attr("value", value).text(value));
-                    });
+                    if (timeblocks) {
+                        selectBox.append("<option></option>");
+                        $.each(timeblocks[date], function(key, value) {
+                            selectBox.append($("<option></option>")
+                             .attr("value", value).text(value));
+                        });
+                    }
                 }
             });
         },
@@ -239,8 +260,7 @@
             EventForm.data.beginTime.on('change', function (){
                var date = EventForm.data.beginDate.val();
                var time = EventForm.data.beginTime.val();
-               var datetime = new Date(date+'T'+time);
-               EventForm.data.beginContainer.val(datetime.toISOString());
+               EventForm.data.beginContainer.val(date+'T'+time);
             });
         },
 
@@ -248,8 +268,7 @@
             EventForm.data.endTime.on('change', function (){
                var date = EventForm.data.endDate.val();
                var time = EventForm.data.endTime.val();
-               var datetime = new Date(date+'T'+time);
-               EventForm.data.endContainer.val(datetime.toISOString());
+               EventForm.data.endContainer.val(date+'T'+time);
             });
         }
     };
