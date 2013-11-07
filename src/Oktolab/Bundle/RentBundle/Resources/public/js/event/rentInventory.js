@@ -10,30 +10,6 @@ oktolab.addTypeaheadObjectToEventForm = function(collectionHolder, datum) {
     var index    = collectionHolder.data('index');
     var template = Hogan.compile(collectionHolder.data('prototype'));
     var output   = template.render(AJS.$.extend(datum, { index: index + 1 }));
-    var value    = datum.value.split(':');
-
-    var fieldGroup = AJS.$('<div />', {
-        class: 'field-group',
-        'data-object': datum.value
-    }).appendTo(collectionHolder.closest('form'));
-
-    fieldGroup.append(
-            AJS.$('<input />', {
-                class: 'hidden',
-                id: 'OktolabRentBundle_Event_Form_' + index + '_type',
-                name: 'OktolabRentBundle_Event_Form[objects][' + index + '][type]',
-                value: value[0],
-            })
-    );
-
-    fieldGroup.append(
-            AJS.$('<input />', {
-                class: 'hidden',
-                id: 'OktolabRentBundle_Event_Form_objects_' + index + '_object',
-                name: 'OktolabRentBundle_Event_Form[objects][' + index + '][object]',
-                value: value[1],
-            })
-    );
 
     collectionHolder.data('index', index + 1);
     collectionHolder.append(output);

@@ -173,7 +173,6 @@ class EventManager
                     }
                 }
 
-//                $event->addObject($object);
                 $object->setEvent($event);
                 $this->em->persist($object);
             }
