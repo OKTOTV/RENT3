@@ -106,6 +106,7 @@ class SetApiController extends Controller
                 'description'   => $set->getDescription(),
                 'barcode'       => $set->getBarcode(),
                 'items'         => $items,
+                'showUrl'       => 'inventory/set/'.$set->getId(),
                 'tokens'        => array(
                     $item->getBarcode(),
                     $item->getDescription(),

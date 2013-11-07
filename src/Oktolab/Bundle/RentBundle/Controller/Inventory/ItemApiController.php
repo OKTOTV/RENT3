@@ -91,6 +91,7 @@ class ItemApiController extends Controller
                 'description'   => $item->getDescription(),
                 'barcode'       => $item->getBarcode(),
                 'set'           => $item->getSet() != null ? $item->getSet()->getTitle(): '',
+                'showUrl'       => 'inventory/item/'.$item->getId(),
                 'tokens'        => array(
                     $item->getBarcode(),
                     $item->getDescription(),

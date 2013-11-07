@@ -9,6 +9,7 @@
         contactPrefetchUrl: oktolab.baseUrl + '/api/contact/typeahead.json',
         contactRemoteUrl:   oktolab.baseUrl + '/api/contact/typeahead.json/%QUERY',
         costunitPrefetchUrl: oktolab.baseUrl + '/api/costunit/typeahead.json',
+        costunitRemoteUrl:  oktolab.baseUrl + '/api/costunit/typeahead.json/%QUERY',
         costunitcontactRemoteUrl: oktolab.baseUrl + '/api/costunit/__id__/typeahead.json'
     };
 
