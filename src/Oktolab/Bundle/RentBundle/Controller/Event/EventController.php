@@ -53,7 +53,12 @@ class EventController extends Controller
         $this->get('session')->getFlashBag()->add('error', 'There was an error while saving the form.');
         //$this->logAction('Event creation failed', array('event' => $event));
 
-        return array('form' => $form->createView(), 'objects' => $objects);
+        return array(
+            'form' => $form->createView(),
+            'objects' => $objects,
+            'timeblock_starts' => $this->get('oktolab.event_calendar_timeblock')->getBlockJsonForType('Inventory', true),
+            'timeblock_ends'   => $this->get('oktolab.event_calendar_timeblock')->getBlockJsonForType('Inventory', false),
+        );
     }
 
     /**
@@ -124,7 +129,12 @@ class EventController extends Controller
             $objects = $this->get('oktolab.event_manager')->convertEventObjectsToEntites($event->getObjects());
             $this->get('session')->getFlashBag()->add('error', 'There was an error while saving the form.');
 
-            return array('form' => $form->createView(), 'objects' => $objects);
+            return array(
+                'form' => $form->createView(),
+                'objects' => $objects,
+                'timeblock_starts' => $this->get('oktolab.event_calendar_timeblock')->getBlockJsonForType('Inventory', true),
+                'timeblock_ends'   => $this->get('oktolab.event_calendar_timeblock')->getBlockJsonForType('Inventory', false),
+            );
         }
 
         //TODO: new objects from reserved to lent won't get added.
