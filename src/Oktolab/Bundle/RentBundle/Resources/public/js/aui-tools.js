@@ -22,39 +22,39 @@ AJS.$(document).ready(function() {
 
     // Activate typeahead quicksearch in project
 
-    var template = [
+    var qichsearch_template = [
             '<p class="tt-object-addon">{{name}}</p>',
             '<p class="tt-object-addon">{{barcode}}</p>'
         ].join('');
 
     AJS.$('#quicksearch').typeahead([{
-            name:       'rent-items',
+            name:       'quicksearch-items',
             valueKey:   'name',
             remote:     { url: oktolab.typeahead.itemRemoteUrl },
-            template:   template,
-            header:     '<h3>Items</h3>',
+            template:   qichsearch_template,
+            header:     '<h3 style="color: black">Items</h3>',
             engine:     Hogan
         }, {
-            name:       'rent-sets',
+            name:       'quicksearch-sets',
             valueKey:   'name',
             remote:     { url: oktolab.typeahead.setRemoteUrl },
-            template:   template,
-            header:     '<h3>Sets</h3>',
+            template:   qichsearch_template,
+            header:     '<h3 style="color: black">Sets</h3>',
             engine:     Hogan
         }//, {
 //            name:       'rent-events',
 //            valueKey:   'name',
 //            remote:     { url: oktolab.typeahead.eventRemoteUrl },
 //            template:   template,
-//            header:     '<h3>Events</h3>',
+//            header:     '<h3 style="color: black">Events</h3>',
 //            engine:     Hogan
 //        }
             , {
-                name:   'rent-costunits',
+                name:   'quicksearch-costunits',
                 valueKey:   'name',
                 remote:     { url: oktolab.typeahead.costunitRemoteUrl },
-                template:   template,
-                header:     '<h3>Kostenstellen</h3>',
+                template:   qichsearch_template,
+                header:     '<h3 style="color: black">Kostenstellen</h3>',
                 engine:     Hogan
             }
 
