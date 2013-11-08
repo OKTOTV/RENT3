@@ -153,6 +153,7 @@ class EventManager
      */
     public function save(Event $event)
     {
+        $event->getBarcode() ? : $event->setBarcode($this->getUniqueBarcode());
         $originalObjects = array();
         $originalEvent = $this->getRepository('Event')->findOneBy(array('id' => $event->getId()));
         if (null !== $originalEvent) {
@@ -236,5 +237,10 @@ class EventManager
         }
 
         return $entities;
+    }
+
+    private function getUniqueBarcode() {
+        $barcode = substr(md5(rand(0, 1000000)), 0, 6);
+        return $barcode;
     }
 }

@@ -17,8 +17,10 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
  * Description of EventApiController
  *
  * @author rs
+ * @Route("/api/event")
+ *
  */
-class EventApiController
+class EventApiController extends Controller
 {
     /**
      * Returns a JSON formatted Dataset for typeahead.js
@@ -43,7 +45,7 @@ class EventApiController
                     $dq->expr()->like('i.name', ':value')
                 )
             )
-            ->setParameter('value', '%'.$itemValue.'%')
+            ->setParameter('value', '%'.$eventValue.'%')
             ->getQuery();
 
         $events = $query->getResult();
@@ -52,12 +54,9 @@ class EventApiController
 
         foreach ($events as $event) {
             $json[] = array(
-                'name'          => $event->getTitle(),
-                'value'         => sprintf('%s:%d', $item->getType(), $item->getId()),
-                'type'          => $event->getType(),
-                'id'            => $event->getId(),
+                'name'          => $event->getCostUnit()->getName().' '.$event->getBegin()->format('d.m.Y').' - '.$event->getEnd()->format('d.m.Y'),
                 'barcode'       => $event->getBarcode(),
-                'showUrl'       => 'event/'.$event->getId(),
+                'showUrl'       => 'event/'.$event->getId().'/edit',
                 'tokens'        => array(
                     $event->getBarcode(),
                     $event->getCostunit()->getName(),

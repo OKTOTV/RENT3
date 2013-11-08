@@ -7,6 +7,8 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Cache;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
+use Oktolab\Bundle\RentBundle\Entity\CostUnit;
 
 /**
  * @Route("/api/costunit")
@@ -80,6 +82,34 @@ class CostUnitApiController extends Controller
                 'tokens'        => explode(' ', $costunit->getName()),
                 'id'            => $costunit->getId(),
                 'showUrl'       => 'admin/costunit/'.$costunit->getId()
+            );
+        }
+
+        return new JsonResponse($json);
+    }
+
+    /**
+     * Returns a JSON formatted Dataset for typeahead.js
+     *
+     * @Method("GET")
+     * @Route("/{id}/typeahead.{_format}",
+     *      name="api_costunitcontacts_typeahead_remote",
+     *      defaults={"_format"="json"},
+     *      requirements={"_format"="json"})
+     * @ParamConverter("costunit", class="OktolabRentBundle:CostUnit")
+     * @return JsonResponse
+     */
+    public function typeaheadContactRemoteAction(CostUnit $costunit)
+    {
+        $contacts = $costunit->getContacts();
+        $json = array();
+
+        foreach ($contacts as $contact) {
+            $json[] = array(
+                'name'          => $contact->getName(),
+                'value'         => $contact->getId(),
+                'tokens'        => explode(' ', $contact->getName()),
+                'id'            => $contact->getId()
             );
         }
 

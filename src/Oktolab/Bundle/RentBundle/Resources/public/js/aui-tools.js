@@ -22,7 +22,7 @@ AJS.$(document).ready(function() {
 
     // Activate typeahead quicksearch in project
 
-    var qichsearch_template = [
+    var quicksearch_template = [
             '<p class="tt-object-addon">{{name}}</p>',
             '<p class="tt-object-addon">{{barcode}}</p>'
         ].join('');
@@ -31,33 +31,31 @@ AJS.$(document).ready(function() {
             name:       'quicksearch-items',
             valueKey:   'name',
             remote:     { url: oktolab.typeahead.itemRemoteUrl },
-            template:   qichsearch_template,
+            template:   quicksearch_template,
             header:     '<h3 style="color: black">Items</h3>',
             engine:     Hogan
         }, {
             name:       'quicksearch-sets',
             valueKey:   'name',
             remote:     { url: oktolab.typeahead.setRemoteUrl },
-            template:   qichsearch_template,
+            template:   quicksearch_template,
             header:     '<h3 style="color: black">Sets</h3>',
             engine:     Hogan
-        }//, {
-//            name:       'rent-events',
-//            valueKey:   'name',
-//            remote:     { url: oktolab.typeahead.eventRemoteUrl },
-//            template:   template,
-//            header:     '<h3 style="color: black">Events</h3>',
-//            engine:     Hogan
-//        }
-            , {
-                name:   'quicksearch-costunits',
-                valueKey:   'name',
-                remote:     { url: oktolab.typeahead.costunitRemoteUrl },
-                template:   qichsearch_template,
-                header:     '<h3 style="color: black">Kostenstellen</h3>',
-                engine:     Hogan
-            }
-
+        }, {
+            name:       'quicksearch-events',
+            valueKey:   'name',
+            remote:     { url: oktolab.typeahead.eventRemoteUrl },
+            template:   quicksearch_template,
+            header:     '<h3 style="color: black">Verleihscheine</h3>',
+            engine:     Hogan
+        }, {
+            name:   'quicksearch-costunits',
+            valueKey:   'name',
+            remote:     { url: oktolab.typeahead.costunitRemoteUrl },
+            template:   quicksearch_template,
+            header:     '<h3 style="color: black">Kostenstellen</h3>',
+            engine:     Hogan
+        }
     ]);
 
     AJS.$('#quicksearch').on('typeahead:selected', function (e, datum) {

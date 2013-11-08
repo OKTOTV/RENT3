@@ -10,7 +10,8 @@
         contactRemoteUrl:   oktolab.baseUrl + '/api/contact/typeahead.json/%QUERY',
         costunitPrefetchUrl: oktolab.baseUrl + '/api/costunit/typeahead.json',
         costunitRemoteUrl:  oktolab.baseUrl + '/api/costunit/typeahead.json/%QUERY',
-        costunitcontactRemoteUrl: oktolab.baseUrl + '/api/costunit/__id__/typeahead.json'
+        costunitcontactRemoteUrl: oktolab.baseUrl + '/api/costunit/__id__/typeahead.json',
+        eventRemoteUrl:     oktolab.baseUrl + '/api/event/typeahead.json/%QUERY'
     };
 
     oktolab.plupload = {

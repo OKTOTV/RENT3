@@ -119,7 +119,8 @@ class RentSheetPdfCreator
     protected function addHeader(Event $event)
     {
         $content = sprintf(
-            '%s: <br />%s<br />%s<br />%s',
+            '%s <br />%s <br />%s<br />%s<br />%s',
+            '<barcode code="'.$event->getBarcode().'" type="C39" size="0.5" height="1.0" />',
             $this->trans('event.pdf.costUnitName', array('%costUnitName%' => $event->getCostunit()->getName())),
             $this->trans('event.pdf.pickUpName', array('%pickUpName%' => $event->getContact()->getName())),
             $this->trans('event.pdf.lentAt', array('%rentFromDate%' => $event->getBegin()->format('d.m.Y'))),
