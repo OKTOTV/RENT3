@@ -23,7 +23,6 @@ class SecurityListener implements ListenerInterface
     public function handle(GetResponseEvent $event)
     {
         $request = $event->getRequest();
-
         if ($this->securityContext->getToken() === null) {
 
             try {
