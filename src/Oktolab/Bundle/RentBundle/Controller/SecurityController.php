@@ -23,7 +23,7 @@ class SecurityController extends Controller
         if ($this->get('security.context')->getToken()) {
             return $this->redirect($this->generateUrl('rentbundle_dashboard'));
         }
-
+        $error = null;
         if ($request->attributes->has(SecurityContext::AUTHENTICATION_ERROR)) {
             $error = $request->attributes->get(SecurityContext::AUTHENTICATION_ERROR);
         } else if ($request->getSession()->get(SecurityContext::AUTHENTICATION_ERROR)) {

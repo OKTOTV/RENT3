@@ -11,8 +11,6 @@ class DefaultControllerTest extends WebTestCase
         $this->client->request('GET', '/');
         $this->assertTrue($this->client->getResponse()->isSuccessful(), 'Response should be successful');
         $this->assertRegExp('/Dashboard/', $this->client->getResponse()->getContent());
-        $this->assertTrue($this->client->getResponse()->isCacheable(), 'Response should be cacheable');
-        $this->assertLessThan(24*60*60, $this->client->getResponse()->getTtl());
     }
 
     public function testAboutPageRendersCorrectly()
