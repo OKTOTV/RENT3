@@ -19,15 +19,12 @@ class SecurityController extends Controller
      */
     public function loginAction(Request $request)
     {
-        //die(var_dump($this->get('security.context')->getToken()));
-        if ($this->get('security.context')->getToken()) {
-            return $this->redirect($this->generateUrl('rentbundle_dashboard'));
-        }
         $error = null;
         if ($request->attributes->has(SecurityContext::AUTHENTICATION_ERROR)) {
             $error = $request->attributes->get(SecurityContext::AUTHENTICATION_ERROR);
         } else if ($request->getSession()->get(SecurityContext::AUTHENTICATION_ERROR)) {
-            $error = $request->getSession()->get(SecurityContext::AUTHENTICATION_ERROR) ;
+            $error = $request->getSession()->get(SecurityContext::AUTHENTICATION_ERROR);
+            $request->getSession()->remove(SecurityContext::AUTHENTICATION_ERROR);
         }
 
         return array(
