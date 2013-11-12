@@ -45,6 +45,8 @@ class RentSheetPdfCreator
      */
     protected $company;
 
+    protected $username;
+
     /**
      * Constructor.
      *
@@ -70,8 +72,10 @@ class RentSheetPdfCreator
      *
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function generatePdf(Event $event)
+    public function generatePdf(Event $event, $username)
     {
+        $this->username = $username;
+
         $this->loadStyles();
 
         $this->addHeader($event);
@@ -115,11 +119,12 @@ class RentSheetPdfCreator
     protected function addHeader(Event $event)
     {
         $content = sprintf(
-            '%s: <br />%s<br />%s<br />%s',
+            '%s <br />%s <br />%s<br />%s<br />%s',
+            '<barcode code="'.$event->getBarcode().'" type="C39" size="0.5" height="1.0" />',
             $this->trans('event.pdf.costUnitName', array('%costUnitName%' => $event->getCostunit()->getName())),
             $this->trans('event.pdf.pickUpName', array('%pickUpName%' => $event->getContact()->getName())),
-            $this->trans('event.pdf.lentAt', array('%rentFromDate%' => $event->getBegin()->format('Y-m-d'))),
-            $this->trans('event.pdf.planReturnAt', array('%rentTillDate%' => $event->getEnd()->format('Y-m-d')))
+            $this->trans('event.pdf.lentAt', array('%rentFromDate%' => $event->getBegin()->format('d.m.Y'))),
+            $this->trans('event.pdf.planReturnAt', array('%rentTillDate%' => $event->getEnd()->format('d.m.Y')))
         );
 
         $this->addBlock($content, 'p', 'rightTop');
@@ -159,7 +164,7 @@ class RentSheetPdfCreator
         $this->openTag('div class=lentText');
 
         $this->addBlock('Ausgabe', 'p', 'partTitle');
-        $this->addBlock($this->trans('event.pdf.lentgivenBy', array('%CompanyName%' => $this->company->getName())));
+        $this->addBlock($this->trans('event.pdf.lentgivenBy', array('%CompanyName%' => $this->company->getName(), '%coworkerName%' => $this->username)));
 
         $this->addBlock($this->company->getAdditionalText());
         $this->closeTag('div');

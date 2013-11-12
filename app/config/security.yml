@@ -35,6 +35,7 @@ security:
             provider: hub_authenticator
             form_login:
                 login_path: rentbundle_secure_login
+                default_target_path: rentbundle_dashboard
 
     access_control:
         - { path: ^/admin, roles: ROLE_ADMIN }

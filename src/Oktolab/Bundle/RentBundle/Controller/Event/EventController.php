@@ -53,7 +53,12 @@ class EventController extends Controller
         $this->get('session')->getFlashBag()->add('error', 'There was an error while saving the form.');
         //$this->logAction('Event creation failed', array('event' => $event));
 
-        return array('form' => $form->createView(), 'objects' => $objects);
+        return array(
+            'form' => $form->createView(),
+            'objects' => $objects,
+            'timeblock_starts' => $this->get('oktolab.event_calendar_timeblock')->getBlockJsonForType('Inventory', true),
+            'timeblock_ends'   => $this->get('oktolab.event_calendar_timeblock')->getBlockJsonForType('Inventory', false),
+        );
     }
 
     /**
@@ -80,11 +85,17 @@ class EventController extends Controller
             array(
                 'em'     => $this->getDoctrine()->getManager(),
                 'method' => 'PUT',
-                'action' => $this->generateUrl('OktolabRentBundle_Event_Update', array('id' => $event->getId())),
+                'action' => $this->generateUrl('OktolabRentBundle_Event_Update', array('id' => $event->getId()))
             )
         );
 
-        return array('form' => $form->createView(), 'objects' => $objects, 'event' => $event);
+        return array(
+            'form' => $form->createView(),
+            'objects' => $objects,
+            'event' => $event,
+            'timeblock_starts' => $this->get('oktolab.event_calendar_timeblock')->getBlockJsonForType('Inventory', true),
+            'timeblock_ends'   => $this->get('oktolab.event_calendar_timeblock')->getBlockJsonForType('Inventory', false),
+            );
     }
 
     /**
@@ -118,9 +129,15 @@ class EventController extends Controller
             $objects = $this->get('oktolab.event_manager')->convertEventObjectsToEntites($event->getObjects());
             $this->get('session')->getFlashBag()->add('error', 'There was an error while saving the form.');
 
-            return array('form' => $form->createView(), 'objects' => $objects);
+            return array(
+                'form' => $form->createView(),
+                'objects' => $objects,
+                'timeblock_starts' => $this->get('oktolab.event_calendar_timeblock')->getBlockJsonForType('Inventory', true),
+                'timeblock_ends'   => $this->get('oktolab.event_calendar_timeblock')->getBlockJsonForType('Inventory', false),
+            );
         }
 
+        //TODO: new objects from reserved to lent won't get added.
         if ($form->get('rent')->isClicked()) { // User clicked Rent -> Forwarding to RENT Action
             return $this->forward(
                 'OktolabRentBundle:Event\Event:rent',
@@ -188,6 +205,9 @@ class EventController extends Controller
 
             $em = $this->getDoctrine()->getManager();
             $em->persist($event);
+            foreach ($event->getObjects() as $object) {
+                $em->persist($object);
+            }
             $em->flush();
 
             return $this->redirect($this->generateUrl('rentbundle_dashboard'));
@@ -231,7 +251,12 @@ class EventController extends Controller
 
         $objects = $this->get('oktolab.event_manager')->convertEventObjectsToEntites($event->getObjects());
 
-        return array('form' => $form->createView(), 'objects' => $objects);
+        return array(
+            'form' => $form->createView(),
+            'objects' => $objects,
+            'timeblock_starts' => $this->get('oktolab.event_calendar_timeblock')->getBlockJsonForType('Inventory', true),
+            'timeblock_ends'   => $this->get('oktolab.event_calendar_timeblock')->getBlockJsonForType('Inventory', false)
+        );
     }
 
     /**
@@ -288,6 +313,9 @@ class EventController extends Controller
 
             $em = $this->getDoctrine()->getManager();
             $em->persist($event);
+            foreach ($event->getObjects() as $object) {
+                $em->persist($object);
+            }
             $em->flush();
 
             return $this->redirect($this->generateUrl('rentbundle_dashboard'));
@@ -315,7 +343,7 @@ class EventController extends Controller
      */
     public function rentPdfAction(Event $event)
     {
-        return $this->get('oktolab.rent_sheet_pdf')->generatePdf($event);
+        return $this->get('oktolab.rent_sheet_pdf')->generatePdf($event, $this->get('security.context')->getToken()->getUsername());
     }
 
     /**

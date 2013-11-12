@@ -15,6 +15,7 @@ jQuery(document).ready(function ($) {
         name:       'costunit-contacts',
         valueKey:   'name',
         prefetch:  { url: oktolab.typeahead.contactPrefetchUrl, ttl: 60000 },
+        remote:    { url: oktolab.typeahead.contactRemoteUrl},
         template: [
             '<span class="aui-icon aui-icon-small aui-iconfont-devtools-file">Object</span>',
             '<p class="tt-object-name">{{name}}</p>'

@@ -84,3 +84,12 @@
     float: left;
     margin-right: 2px;
 }
+
+.event-date {
+    width: 30% !important;
+    margin-right: 10px !important;
+}
+
+.event-select {
+    width: 30% !important;
+}

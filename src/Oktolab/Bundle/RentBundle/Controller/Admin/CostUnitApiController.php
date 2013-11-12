@@ -55,6 +55,43 @@ class CostUnitApiController extends Controller
      * Returns a JSON formatted Dataset for typeahead.js
      *
      * @Method("GET")
+     * @Route("/typeahead.{_format}/{costunitValue}",
+     *      name="api_costunit_typeahead_remote",
+     *      defaults={"_format"="json"},
+     *      requirements={"_format"="json"})
+     *
+     * @return JsonResponse
+     */
+    public function typeaheadRemoteAction($costunitValue)
+    {
+        $repository = $this->getDoctrine()->getManager()->getRepository('OktolabRentBundle:CostUnit');
+        $dq = $repository->createQueryBuilder('c');
+        $query = $dq->select()->where(
+                $dq->expr()->like('c.name', ':value')
+            )
+            ->setParameter('value', '%'.$costunitValue.'%')
+            ->getQuery();
+
+        $costunits = $query->getResult();
+
+        $json = array();
+        foreach ($costunits as $costunit) {
+            $json[] = array(
+                'name'          => $costunit->getName(),
+                'value'         => $costunit->getId(),
+                'tokens'        => explode(' ', $costunit->getName()),
+                'id'            => $costunit->getId(),
+                'showUrl'       => 'admin/costunit/'.$costunit->getId()
+            );
+        }
+
+        return new JsonResponse($json);
+    }
+
+    /**
+     * Returns a JSON formatted Dataset for typeahead.js
+     *
+     * @Method("GET")
      * @Route("/{id}/typeahead.{_format}",
      *      name="api_costunitcontacts_typeahead_remote",
      *      defaults={"_format"="json"},
@@ -62,7 +99,7 @@ class CostUnitApiController extends Controller
      * @ParamConverter("costunit", class="OktolabRentBundle:CostUnit")
      * @return JsonResponse
      */
-    public function typeaheadRemoteAction(CostUnit $costunit)
+    public function typeaheadContactRemoteAction(CostUnit $costunit)
     {
         $contacts = $costunit->getContacts();
         $json = array();

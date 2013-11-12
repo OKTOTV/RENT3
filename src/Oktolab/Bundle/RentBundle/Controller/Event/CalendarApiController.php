@@ -26,7 +26,7 @@ class CalendarApiController extends Controller
      */
     public function inventoryAction()
     {
-        $inventory = $this->get('oktolab.event_calendar_inventory')->getTransformedInventory();
+        $inventory = $this->get('oktolab.event_calendar_inventory')->getTransformedInventory(true);
         return new JsonResponse($inventory);
     }
 

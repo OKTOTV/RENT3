@@ -443,7 +443,7 @@
             </trans-unit>
             <trans-unit id="215">
                 <source>inventory.set.searchForItems</source>
-                <target>Suche nach Gegenständen</target>
+                <target>Suche nach Gegenständen für dieses Set</target>
             </trans-unit>
             <trans-unit id="216">
                 <source>inventory.set.title</source>
@@ -775,6 +775,14 @@
                 <source>inventory.import.noBuyDate</source>
                 <target>Kein Kaufdatum angegeben</target>
             </trans-unit>
+            <trans-unit id="809">
+                <source>admin.import</source>
+                <target>Import</target>
+            </trans-unit>
+            <trans-unit id="810">
+                <source>admin.import.about</source>
+                <target>Importiert mittels CSV Datei eine beliebige Anzahl an Gegenständen. Diese müssen wie in der %linkstart%Beispieldatei%linkend% aussehen. Der Ort muss bereits Angelegt und exakt gleich benannt sein.</target>
+            </trans-unit>
 
             <trans-unit id="900">
                 <source>admin.costunit</source>
@@ -823,6 +831,10 @@
             <trans-unit id="911">
                 <source>admin.costunit.noneFound</source>
                 <target>Keine Kostenstellen vorhanden</target>
+            </trans-unit>
+            <trans-unit id="912">
+                <source>admin.costunit.deletesuccess</source>
+                <target>Kostenstelle erfolgreich gelöscht</target>
             </trans-unit>
 
             <trans-unit id="1000">
@@ -964,8 +976,6 @@
                 <target>Kontakt</target>
             </trans-unit>
 
-
-
             <trans-unit id="1300">
                 <source>admin.setting.settings</source>
                 <target>Einstellungen</target>
@@ -1001,6 +1011,10 @@
             <trans-unit id="1308">
                 <source>admin.setting.company</source>
                 <target>Firmendaten</target>
+            </trans-unit>
+            <trans-unit id="1309">
+                <source>admin.setting.noAdditionalText</source>
+                <target>Kein Zusatztext angegeben.</target>
             </trans-unit>
         </body>
     </file>

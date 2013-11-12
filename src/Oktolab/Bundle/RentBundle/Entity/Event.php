@@ -103,6 +103,12 @@ class Event
      **/
     private $contact;
 
+    /**
+     *
+     * @ORM\Column(name="barcode", type="string", length=20, nullable=true)
+     *
+     */
+    private $barcode;
 
     /**
      * Constructor
@@ -300,9 +306,9 @@ class Event
     }
 
     /**
-     * Begin must not after end.
+     * Begin must not be after end.
      *
-     * @Assert\True(message="Begin must not after end", groups={"Logic"})
+     * @Assert\True(message="Begin is not allowed to be after end", groups={"Logic"})
      *
      * @return boolean
      */
@@ -355,5 +361,28 @@ class Event
     public function getContact()
     {
         return $this->contact;
+    }
+
+    /**
+     * Set barcode
+     *
+     * @param string $barcode
+     * @return Event
+     */
+    public function setBarcode($barcode)
+    {
+        $this->barcode = $barcode;
+
+        return $this;
+    }
+
+    /**
+     * Get barcode
+     *
+     * @return string
+     */
+    public function getBarcode()
+    {
+        return $this->barcode;
     }
 }
