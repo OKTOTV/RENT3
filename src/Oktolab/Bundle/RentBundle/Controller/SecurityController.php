@@ -7,7 +7,6 @@ use Symfony\Component\Security\Core\SecurityContext;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Cache;
 
 /**
  * @Route("/secure")
@@ -16,15 +15,16 @@ class SecurityController extends Controller
 {
     /**
      * @Route("/login", name="rentbundle_secure_login")
-     * @Cache(expires="+1 day", public="true")
      * @Template()
      */
     public function loginAction(Request $request)
     {
+        $error = null;
         if ($request->attributes->has(SecurityContext::AUTHENTICATION_ERROR)) {
             $error = $request->attributes->get(SecurityContext::AUTHENTICATION_ERROR);
-        } else {
+        } else if ($request->getSession()->get(SecurityContext::AUTHENTICATION_ERROR)) {
             $error = $request->getSession()->get(SecurityContext::AUTHENTICATION_ERROR);
+            $request->getSession()->remove(SecurityContext::AUTHENTICATION_ERROR);
         }
 
         return array(
