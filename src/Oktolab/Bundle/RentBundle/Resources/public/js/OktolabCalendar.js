@@ -102,6 +102,7 @@
 
                 group.appendTo(Calendar.data.containerInventory);
             });
+            $('.calendar-wrapper').height($('.calendar-inventory').height()+54);
         },
 
         /**
