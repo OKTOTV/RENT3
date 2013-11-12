@@ -181,7 +181,9 @@
                 var datetime = new Date(EventForm.data.container.find('input[id*=_begin]').val());
                 inputDate.val($.datepicker.formatDate('yy-mm-dd',datetime));
                 inputTime.append(
-                    $("<option></option>").text(datetime.getHours().toString()+':'+datetime.getMinutes().toString()+':'+datetime.getSeconds().toString())
+                    $("<option></option>").text(Oktolab.leadingZero(datetime.getHours().toString())
+                    +':'+Oktolab.leadingZero(datetime.getMinutes().toString())
+                    +':'+Oktolab.leadingZero(datetime.getSeconds().toString()))
                 );
             }
 
@@ -202,7 +204,9 @@
                 var datetime = new Date(EventForm.data.container.find('input[id*=_end]').val());
                 inputDate.val($.datepicker.formatDate('yy-mm-dd',datetime));
                 inputTime.append(
-                    $("<option></option>").text(datetime.getHours().toString()+':'+datetime.getMinutes().toString()+':'+datetime.getSeconds().toString())
+                    $("<option></option>").text(Oktolab.leadingZero(datetime.getHours().toString())
+                    +':'+Oktolab.leadingZero(datetime.getMinutes().toString())
+                    +':'+Oktolab.leadingZero(datetime.getSeconds().toString()))
                 );
             }
 
