@@ -19,6 +19,9 @@ class SecurityController extends Controller
      */
     public function loginAction(Request $request)
     {
+        if ($this->get('security.context')->isGranted('ROLE_USER')) {
+            return $this->redirect($this->generateUrl('rentbundle_dashboard'));
+        }
         $error = null;
         if ($request->attributes->has(SecurityContext::AUTHENTICATION_ERROR)) {
             $error = $request->attributes->get(SecurityContext::AUTHENTICATION_ERROR);
@@ -42,7 +45,6 @@ class SecurityController extends Controller
      */
     public function securityCheckAction()
     {
-        // The security layer will intercept this request
         return $this->redirect($this->generateUrl('rentbundle_dashboard'));
     }
 

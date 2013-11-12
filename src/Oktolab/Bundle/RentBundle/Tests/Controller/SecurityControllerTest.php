@@ -92,6 +92,18 @@ class SecurityControllerTest extends WebTestCase
     }
 
     /**
+     * @test
+     */
+    public function redirectUserFromLoginPage()
+    {
+        $this->logIn();
+        $crawler = $this->client->request('GET', '/secure/login');
+        $this->assertTrue($this->client->getResponse()->isRedirect(), 'Response is a redirect');
+        $this->client->followRedirect();
+        $this->assertTrue($this->client->getResponse()->isSuccessful(), 'Response is successful');
+    }
+
+    /**
      * Logs user as "user" in
      *
      */
