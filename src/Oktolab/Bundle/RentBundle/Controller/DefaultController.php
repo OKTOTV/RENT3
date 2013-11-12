@@ -14,7 +14,6 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 class DefaultController extends Controller
 {
     /**
-     * @Cache(expires="+5 minutes", public="true")
      * @Method("GET")
      * @Route("/", name="rentbundle_dashboard")
      * @Template()
