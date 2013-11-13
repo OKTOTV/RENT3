@@ -114,8 +114,16 @@ class EventTransformer
         $transformedObjects = array();
 
         foreach ($objects as $object) {
+
+            $route = '';
+            if ($object->getType() == 'item') {
+                $route = $this->router->generate('inventory_item_show', array('id' => $object->getId()));
+            } else if ($object->getType() == 'set') {
+                $route = $this->router->generate('inventory_set_show', array('id' => $object->getId()));
+            }
+
             $transformedObjects[] = array(
-                'uri'       => $this->router->generate('inventory_item_show', array('id' => $object->getId())),
+                'uri'       => $route,
                 'title'     => $object->getTitle(),
                 'object_id' => sprintf('%s:%s', $object->getType(), $object->getId()),
             );

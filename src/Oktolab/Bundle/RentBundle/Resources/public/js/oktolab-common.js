@@ -31,4 +31,11 @@
         return collection;
     };
 
+    Oktolab.leadingZero = function (padString) {
+        if (padString.length < 2) {
+            padString = "0" + padString;
+        }
+        return padString;
+    };
+
 })(window);

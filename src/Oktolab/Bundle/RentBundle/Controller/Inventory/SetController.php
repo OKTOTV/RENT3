@@ -4,7 +4,6 @@ namespace Oktolab\Bundle\RentBundle\Controller\Inventory;
 
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Cache;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
@@ -81,7 +80,6 @@ class SetController extends Controller
     /**
      * Displays a form to create a new Inventory\Set entity.
      *
-     * @Cache(expires="+1 day", public="true")
      * @Method("GET")
      * @Route("/new", name="inventory_set_new")
      * @Template()

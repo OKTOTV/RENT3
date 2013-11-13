@@ -89,7 +89,6 @@
          * @param {object} items
          */
         showInventory: function (items) {
-            console.log(items);
             $.each(items, function (key, item) {
                 var group = $('<div />').addClass('calendar-inventory-group').append($('<strong />').text(item.title));
                 var list = $('<ul />').appendTo(group);
@@ -102,6 +101,7 @@
 
                 group.appendTo(Calendar.data.containerInventory);
             });
+            $('.calendar-wrapper').height($('.calendar-inventory').height()+54);
         },
 
         /**
