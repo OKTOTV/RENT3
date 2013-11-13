@@ -106,7 +106,6 @@ class HubUserProvider implements UserProviderInterface
 
     /**
      * Whether this provider supports the given user class
-     * TODO: add rent userclass
      * @param string $class
      *
      * @return Boolean

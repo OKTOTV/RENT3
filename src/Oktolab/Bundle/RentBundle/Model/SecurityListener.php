@@ -23,20 +23,23 @@ class SecurityListener implements ListenerInterface
     public function handle(GetResponseEvent $event)
     {
         $request = $event->getRequest();
+
         if ($this->securityContext->getToken() === null) {
 
-            try {
-                $token = new UserToken();
-                $token->setAttribute('username', $request->get('_username'));
-                $token->setAttribute('password', $request->get('_password'));
-                $token = $this->authProvider->authenticate($token);
+            if ($request->get('_username') !== NULL && $request->get('_password') !== NULL) {
 
-                $this->securityContext->setToken($token);
-            } catch (\Exception $e) {
-                $request->attributes->set(SecurityContext::AUTHENTICATION_ERROR, 'Username/Passwort ungültig');
-                $request->getSession()
-                    ->set(SecurityContext::AUTHENTICATION_ERROR, array('message' =>'Username/Passwort ungültig'));
+                try {
+                    $token = new UserToken();
+                    $token->setAttribute('username', $request->get('_username'));
+                    $token->setAttribute('password', $request->get('_password'));
+                    $token = $this->authProvider->authenticate($token);
+
+                    $this->securityContext->setToken($token);
+                } catch (\Exception $e) {
+                    $request->attributes->set(SecurityContext::AUTHENTICATION_ERROR, 'Username/Passwort ungültig');
+                    $request->getSession()
+                        ->set(SecurityContext::AUTHENTICATION_ERROR, array('message' =>'Username/Passwort ungültig'));
+                }
             }
         }
     }
-}
