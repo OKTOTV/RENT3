@@ -93,6 +93,14 @@ class CostUnitControllerTest extends WebTestCase
 
     }
 
+    /**
+     * @test
+     */
+    public function removeContactFromCostUnit()
+    {
+        $this->markTestIncomplete();
+    }
+
     public function testDeleteCostUnitWithMembersWillFail()
     {
         $this->logIn('ROLE_ADMIN');

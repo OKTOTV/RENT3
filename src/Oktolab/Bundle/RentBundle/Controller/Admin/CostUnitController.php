@@ -178,23 +178,22 @@ class CostUnitController extends Controller
 
         $editForm = $this->createEditForm($costunit);
         $editForm->handleRequest($request);
-
+        
         if ($editForm->isValid()) {
-            $contacts = $editForm->get('contacts')->getData();
-            if ($contacts) {
-                foreach ($costunit->getContacts() as $contact) {
-                    $contact->setCostunit();
-                    $em->persist($contact);
-                }
+            $contacts = $em->getRepository('OktolabRentBundle:Contact')->findBy(array('costunit' => $costunit));
+            foreach ($contacts as $contact) {
+                $costunit->removeContact($contact);
+                $contact->setCostunit();
+                $em->persist($contact);
             }
-            $costunit->setContacts(array());
-            if ($contacts) {
-                foreach ($contacts as $contact) {
-                    $contact->setCostUnit($costunit);
-                    $em->persist($contact);
-                }
-                $costunit->setContacts($contacts);
+            $em->persist($costunit);
+
+            foreach ($editForm->get('contacts')->getData() as $contact) {
+                $contact->setCostUnit($costunit);
+                $costunit->addContact($contact);
+                $em->persist($contact);
             }
+
             $em->persist($costunit);
             $em->flush();
 
