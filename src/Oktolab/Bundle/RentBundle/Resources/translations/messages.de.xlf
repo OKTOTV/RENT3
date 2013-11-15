@@ -400,6 +400,18 @@
                 <source>inventory.item.origin_value_empty</source>
                 <target>Nicht angegeben</target>
             </trans-unit>
+            <trans-unit id="130">
+                <source>inventory.item.notice</source>
+                <target>Bemerkung</target>
+            </trans-unit>
+            <trans-unit id="131">
+                <source>inventory.item.notice_empty</source>
+                <target>Nicht angegeben</target>
+            </trans-unit>
+            <trans-unit id="132">
+                <source>inventory.item.noticePlaceholder</source>
+                <target>Anmerkungen zu diesem Gegenstand</target>
+            </trans-unit>
 
             <trans-unit id="201">
                 <source>inventory.set.removeFromSet</source>

@@ -77,6 +77,36 @@ class ItemControllerTest extends WebTestCase
         $this->assertEquals(1, $crawler->filter('section.aui-page-panel-content:contains("22.2")')->count());
     }
 
+        public function testSubmitFormToCreateAnItemWithOptionalNotice()
+    {
+        $this->loadFixtures(array('Oktolab\Bundle\RentBundle\Tests\DataFixtures\ORM\PlaceFixture'));
+
+        $this->client->request('GET', '/inventory/item/new');
+        $this->assertTrue($this->client->getResponse()->isSuccessful(), 'Response should be successful');
+
+        $form = $this->client->getCrawler()->selectButton('Speichern')->form(
+            array(
+                'oktolab_bundle_rentbundle_inventory_itemtype[title]'       => 'Test',
+                'oktolab_bundle_rentbundle_inventory_itemtype[description]' => 'Description',
+                'oktolab_bundle_rentbundle_inventory_itemtype[barcode]'     => 'ASDF01',
+                'oktolab_bundle_rentbundle_inventory_itemtype[place]'       => 1,
+                'oktolab_bundle_rentbundle_inventory_itemtype[notice]'      => 'Cool stuff'
+            )
+        );
+
+        $this->client->submit($form);
+        $this->assertTrue($this->client->getResponse()->isRedirection(), 'Response should be a redirection');
+
+        $crawler = $this->client->followRedirect();
+        $this->assertTrue($this->client->getResponse()->isSuccessful(), 'Response should be successful');
+        $this->assertGreaterThan(
+            0,
+            $crawler->filter('header.aui-page-header:contains("Test")')->count(),
+            'Missing element td:contains("Test")'
+        );
+        $this->assertEquals(1, $crawler->filter('section.aui-page-panel-content:contains("Cool stuff")')->count());
+    }
+
     public function testSubmitFormToEditAnItem()
     {
         $this->loadFixtures(array('Oktolab\Bundle\RentBundle\Tests\DataFixtures\ORM\ItemFixture'));

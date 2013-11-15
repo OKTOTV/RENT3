@@ -169,6 +169,11 @@ class Item implements RentableInterface, UploadableInterface
     private $daily_rent;
 
     /**
+     * @ORM\Column(name="notice", type="string", length=255, nullable=true)
+     */
+    private $notice;
+
+    /**
      * Get id
      *
      * @return integer
@@ -634,5 +639,28 @@ class Item implements RentableInterface, UploadableInterface
     public function getDailyRent()
     {
         return $this->daily_rent;
+    }
+
+    /**
+     * Set notice
+     *
+     * @param string $notice
+     * @return Item
+     */
+    public function setNotice($notice)
+    {
+        $this->notice = $notice;
+    
+        return $this;
+    }
+
+    /**
+     * Get notice
+     *
+     * @return string 
+     */
+    public function getNotice()
+    {
+        return $this->notice;
     }
 }

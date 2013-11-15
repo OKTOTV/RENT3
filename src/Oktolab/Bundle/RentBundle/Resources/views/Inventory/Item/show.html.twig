@@ -70,6 +70,10 @@
                 <span class="field-value">{{ item.description }}</span>
             </div>
             <div class="field-group viewMode">
+                <label>{{ 'inventory.item.notice'|trans }}</label>
+                <span class="field-value">{{ item.notice|default('inventory.item.notice_empty'|trans)}}</span>
+            </div>
+            <div class="field-group viewMode">
                 <label>{{ 'inventory.item.set'|trans }}</label>
                 <span class="field-value">
                     {% if item.set is not null %}
