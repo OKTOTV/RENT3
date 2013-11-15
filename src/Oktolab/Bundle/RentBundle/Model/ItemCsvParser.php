@@ -16,7 +16,11 @@ class ItemCsvParser implements ItemParserInterface
                 'serialnumber',
                 'vendor',
                 'modelnumber',
-                'place');
+                'place',
+                'origin_value',
+                'daily_rent',
+                'notice'
+    );
 
 
     public function __construct(EntityManager $manager)
@@ -39,7 +43,7 @@ class ItemCsvParser implements ItemParserInterface
 
             //todo: translate headers
 
-            if (count($data) == 8) {
+            if (count($data) == 11) {
                 foreach ($this->headers as $header) {
                     if (!in_array($header, $data)) {
                         return false;
@@ -82,6 +86,9 @@ class ItemCsvParser implements ItemParserInterface
             $item->setSerialNumber($data[$headers['serialnumber']]);
             $item->setVendor($data[$headers['vendor']]);
             $item->setModelNumber($data[$headers['modelnumber']]);
+            $item->setOriginValue(floatval($data[$headers['origin_value']]));
+            $item->setDailyRent(floatval($data[$headers['daily_rent']]));
+            $item->setNotice($data[$headers['notice']]);
 
             $place = $this->entityManager
                 ->getRepository('OktolabRentBundle:Inventory\Place')->findOneByTitle($data[$headers['place']]);
@@ -101,14 +108,17 @@ class ItemCsvParser implements ItemParserInterface
     private function getOrderOfHeaders(array $csvRows)
     {
         $rows = array(
-            'title' => 0,
-            'description' => 1,
-            'barcode' => 2,
-            'buydate' => 3,
-            'serialnumber' => 4,
-            'vendor' => 5,
-            'modelnumber' => 6,
-            'place' => 7
+            'title'         => 0,
+            'description'   => 1,
+            'barcode'       => 2,
+            'buydate'       => 3,
+            'serialnumber'  => 4,
+            'vendor'        => 5,
+            'modelnumber'   => 6,
+            'place'         => 7,
+            'origin_value'  => 8,
+            'daily_rent'    => 9,
+            'notice'        => 10
         );
         //TODO: autotranslate row headers.
         for ($i = 0; $i < count($csvRows); $i++) {
