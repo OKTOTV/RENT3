@@ -158,6 +158,15 @@ class Item implements RentableInterface, UploadableInterface
      */
     private $category;
 
+    /**
+     * @ORM\Column(name="origin_value", type="decimal", scale=2, nullable=true)
+     */
+    private $origin_value;
+
+    /**
+     * @ORM\Column(name="daily_rent", type="decimal", scale=2, nullable=true)
+     */
+    private $daily_rent;
 
     /**
      * Get id
@@ -579,5 +588,51 @@ class Item implements RentableInterface, UploadableInterface
     public function getCategory()
     {
         return $this->category;
+    }
+
+    /**
+     * Set origin_value
+     *
+     * @param float $originValue
+     * @return Item
+     */
+    public function setOriginValue($originValue)
+    {
+        $this->origin_value = $originValue;
+
+        return $this;
+    }
+
+    /**
+     * Get origin_value
+     *
+     * @return float
+     */
+    public function getOriginValue()
+    {
+        return $this->origin_value;
+    }
+
+    /**
+     * Set daily_rent
+     *
+     * @param float $dailyRent
+     * @return Item
+     */
+    public function setDailyRent($dailyRent)
+    {
+        $this->daily_rent = $dailyRent;
+
+        return $this;
+    }
+
+    /**
+     * Get daily_rent
+     *
+     * @return float
+     */
+    public function getDailyRent()
+    {
+        return $this->daily_rent;
     }
 }

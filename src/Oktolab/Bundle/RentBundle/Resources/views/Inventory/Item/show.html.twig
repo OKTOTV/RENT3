@@ -86,6 +86,14 @@
         <h3>{{ 'inventory.item.details'|trans }}</h3>
         <fieldset>
             <div class="field-group viewMode">
+                <label>{{ 'inventory.item.origin_value'|trans }}</label>
+                <span class="field-value">{{ item.originValue|default('inventory.item.origin_value_empty'|trans)}}</span>
+            </div>
+            <div class="field-group viewMode">
+                <label>{{ 'inventory.item.daily_rent'|trans }}</label>
+                <span class="field-value">{{ item.dailyRent|default('inventory.item.daily_rent_empty'|trans)}}</span>
+            </div>
+            <div class="field-group viewMode">
                 <label>{{ 'inventory.item.serialnumber'|trans }}</label>
                 <span class="field-value">{{ item.serialNumber }}</span>
             </div>

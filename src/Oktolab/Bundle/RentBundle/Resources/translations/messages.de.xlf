@@ -384,6 +384,22 @@
                 <source>inventory.item.details</source>
                 <target>Details</target>
             </trans-unit>
+            <trans-unit id="126">
+                <source>inventory.item.origin_value</source>
+                <target>Neuwert</target>
+            </trans-unit>
+            <trans-unit id="127">
+                <source>inventory.item.daily_rent</source>
+                <target>Tagesmiete</target>
+            </trans-unit>
+            <trans-unit id="128">
+                <source>inventory.item.daily_rent_empty</source>
+                <target>Nicht angegeben</target>
+            </trans-unit>
+            <trans-unit id="129">
+                <source>inventory.item.origin_value_empty</source>
+                <target>Nicht angegeben</target>
+            </trans-unit>
 
             <trans-unit id="201">
                 <source>inventory.set.removeFromSet</source>

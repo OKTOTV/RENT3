@@ -14,6 +14,8 @@ class ItemType extends AbstractType
         $builder
             ->add('title', 'text', array('label' => 'inventory.item.title'))
             ->add('description', 'textarea', array('label' => 'inventory.item.description'))
+            ->add('origin_value', 'text', array('label' => 'inventory.item.origin_value', 'required' => false))
+            ->add('daily_rent', 'text', array('label' => 'inventory.item.daily_rent', 'required' => false))
             ->add('barcode', 'text', array('label' => 'inventory.item.barcode'))
             ->add(
                 'buyDate',

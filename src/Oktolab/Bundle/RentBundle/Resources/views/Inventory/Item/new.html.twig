@@ -39,6 +39,8 @@
 
         <h3>{{ 'inventory.item.details'|trans }}</h3>
         <fieldset>
+            {{ form_row(form.origin_value) }}
+            {{ form_row(form.daily_rent) }}
             {{ form_row(form.serialNumber) }}
             {{ form_row(form.vendor) }}
             {{ form_row(form.modelNumber) }}
