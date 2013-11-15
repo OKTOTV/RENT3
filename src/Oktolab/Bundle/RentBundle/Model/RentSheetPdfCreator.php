@@ -99,16 +99,18 @@ class RentSheetPdfCreator
         $this->openTag('table');
         $this->openTag('thead');
         $this->openTag('tr');
-        $this->addBlock($this->trans('inventory.item.item'), 'th', 'item');
         $this->addBlock($this->trans('inventory.item.barcode'), 'th', 'barcode');
+        $this->addBlock($this->trans('inventory.item.item'), 'th', 'item');
+        $this->addBlock($this->trans('inventory.item.notice'), 'th', 'notice');
         $this->closeTag('tr');
         $this->closeTag('thead');
         $this->openTag('tbody');
 
         foreach ($objects as $object) {
             $this->openTag('tr');
-            $this->addBlock($object->getTitle(), 'td', 'title');
             $this->addBlock($object->getBarcode(), 'td', 'barcode');
+            $this->addBlock($object->getTitle(), 'td', 'title');
+            $this->addBlock($object->getNotice(), 'td', 'notice');
             $this->closeTag('tr');
         }
 
@@ -257,10 +259,18 @@ class RentSheetPdfCreator
                 border-bottom: 0.1mm solid #000000;
              }
              .barcode {
-                text-align: right;
+                text-align: left;
+                width: 20%;
              }
              .item {
                 text-align: left;
+                width: 40%;
+             }
+             .notice {
+                text-align: left;
+             }
+             td.notice {
+                font-size: 75%;
              }
              .rightTop {
                 text-align: right;
