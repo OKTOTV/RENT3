@@ -7,6 +7,8 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Cache;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration;
+use Oktolab\Bundle\RentBundle\Util\Configuration\DateTimeParamConverter;
 
 /**
  * @Route("/api/calendar")
@@ -50,16 +52,17 @@ class CalendarApiController extends Controller
     /**
      * //Cache(expires="+5 min", public="yes")
      * @Method("GET")
-     * @Route("/events.{_format}",
+     * @Route("/events.{_format}/{begin}/{end}",
      *      name="OktolabRentBundle_CalendarApi_Event",
-     *      defaults={"_format"="json"},
+     *      defaults={"_format"="json", "begin" = "default", "end" = "default"},
      *      requirements={"_format"="json|html"})
-     *
+     * @Configuration\ParamConverter("begin", converter="oktolab.datetime_converter", options={"default": "now"})
+     * @Configuration\ParamConverter("end", converter="oktolab.datetime_converter", options={"default": "+30 Days"})
      * @return \Symfony\Component\HttpFoundation\JsonResponse
      */
-    public function eventAction()
+    public function eventAction(\DateTime $begin, \DateTime $end)
     {
-        $events = $this->get('oktolab.event_calendar_event')->getFormattedActiveEvents(new \DateTime('+30 days 00:00'));
+        $events = $this->get('oktolab.event_calendar_event')->getFormattedActiveEvents($begin, $end);
         return new JsonResponse($events);
     }
 }

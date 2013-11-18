@@ -59,12 +59,15 @@ class EventTransformer
      * @param string    $type
      * @return array
      */
-    public function getFormattedActiveEvents(\DateTime $end, $type = 'inventory')
+    public function getFormattedActiveEvents(\DateTime $begin, \DateTime $end, $type = 'inventory')
     {
         $this->guardActiveEvents($end);
+        $this->guardActiveEvents($begin);
 
         $events = array();
-        $aggregatedEvents = $this->aggregator->getActiveEvents($end, $type);
+        $aggregatedEvents = $this->aggregator->getActiveEvents($begin, $end, $type);
+
+        die(var_dump($aggregatedEvents));
 
         foreach ($aggregatedEvents as $aggregatedEvent) {
             $events[$aggregatedEvent->getId()] = $this->transformAnEvent($aggregatedEvent);

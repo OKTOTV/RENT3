@@ -38,6 +38,9 @@ parameters:
     oktolab.event_calendar_event.class:                Oktolab\Bundle\RentBundle\Model\Event\Calendar\EventTransformer
     oktolab.inventory_transformer_cache_listener:      Oktolab\Bundle\RentBundle\EventListener\InventoryTransformerCacheListener
 
+    #paramconverter service-classes
+    oktolab.datetime_converter.class:       Oktolab\Bundle\RentBundle\Util\Configuration\DateTimeParamConverter
+
 services:
     oktolab.presavelistener:
         class:      %oktolab.presavelistener.class%
@@ -233,3 +236,8 @@ services:
         class:      %oktolab.setting.class%
         arguments:
             - @doctrine.orm.entity_manager
+
+    oktolab.datetime_converter:
+        class:      %oktolab.datetime_converter.class%
+        tags:
+            - { name: request.param_converter, priority: -2, converter: oktolab.datetime_converter }

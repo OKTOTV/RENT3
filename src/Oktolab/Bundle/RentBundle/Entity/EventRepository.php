@@ -4,6 +4,7 @@ namespace Oktolab\Bundle\RentBundle\Entity;
 
 use Doctrine\ORM\EntityRepository;
 use Oktolab\Bundle\RentBundle\Model\RentableInterface;
+use Oktolab\Bundle\RentBundle\Entity\Event;
 
 /**
  * EventRepository
@@ -17,26 +18,18 @@ class EventRepository extends EntityRepository
     /**
      * Finds all active Events until $end.
      *
+     * @param \DateTime $begin
      * @param \DateTime $end
-     * @param mixed $hydrationMode
-     *
+     * @param int $hydrationMode
+     * @TODO: add eventy state to query
      * @return array
      */
-    public function findActiveUntilEnd(\DateTime $end, $hydrationMode = null)
+    public function findActiveFromBeginToEnd(\DateTime $begin, \DateTime $end, $hydrationMode = null)
     {
-        $qb = $this->getEntityManager()->createQueryBuilder();
-        $qb->select('e')
-            ->from('OktolabRentBundle:Event', 'e')
-            ->where(
-                $qb->expr()->orX(
-                    $qb->expr()->andX($qb->expr()->gte('e.begin', ':begin'), $qb->expr()->lt('e.end', ':end')),
-                    $qb->expr()->andX($qb->expr()->lte('e.begin', ':begin'), $qb->expr()->gt('e.end', ':begin'))
-                )
-            )
-            ->orderBy('e.begin', 'ASC');
-
-        $qb->setParameter(':begin', new \DateTime('now'));
-        $qb->setParameter(':end', $end);
+        $qb = $this->getAllFromBeginToEndQuery($begin, $end);
+        $qb->andWhere(
+            $qb->expr()->not($qb->expr()->eq('e.state', Event::STATE_CANCELED))
+        );
 
         return $qb->getQuery()->getResult($hydrationMode);
     }
@@ -91,7 +84,7 @@ class EventRepository extends EntityRepository
     public function getAllFromBeginToEndQuery(\DateTime $begin, \DateTime $end)
     {
         $qb = $this->getEntityManager()->createQueryBuilder();
-        $qb->select('e.id')->from('OktolabRentBundle:Event', 'e')
+        $qb->select('e')->from('OktolabRentBundle:Event', 'e')
             ->where(
                 $qb->expr()->orX(
                     $qb->expr()->andX($qb->expr()->lte('e.begin', ':begin'), $qb->expr()->gt('e.end', ':begin')),
