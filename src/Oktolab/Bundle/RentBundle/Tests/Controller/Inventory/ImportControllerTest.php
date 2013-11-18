@@ -10,7 +10,12 @@ class ImportControllerTest extends WebTestCase
     public function testImportCsvWithItems()
     {
         $this->logIn('ROLE_ADMIN');
-        $this->loadFixtures(array('Oktolab\Bundle\RentBundle\Tests\DataFixtures\ORM\PlaceFixture'));
+        $this->loadFixtures(
+            array(
+                'Oktolab\Bundle\RentBundle\Tests\DataFixtures\ORM\PlaceFixture',
+                'Oktolab\Bundle\RentBundle\Tests\DataFixtures\ORM\CategoryFixture'
+            )
+        );
 
         $file = new UploadedFile(__DIR__.'/../../DataFixtures/items.csv', 'items.csv', 'text/csv', 399);
 
@@ -32,5 +37,8 @@ class ImportControllerTest extends WebTestCase
         $crawler = $this->client->followRedirect();
         $this->assertTrue($this->client->getResponse()->isSuccessful(), 'Response is successful.');
         $this->assertEquals(4, $crawler->filter('section.aui-page-panel-content table.aui tbody tr')->count());
+
+        $text = $crawler->filter('section.aui-page-panel-content table.aui tbody')->text();
+        $this->assertEquals(2, substr_count($text, 'Camera'));
     }
 }
