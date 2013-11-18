@@ -19,7 +19,8 @@ class ItemCsvParser implements ItemParserInterface
                 'place',
                 'origin_value',
                 'daily_rent',
-                'notice'
+                'notice',
+                'category'
     );
 
 
@@ -43,7 +44,7 @@ class ItemCsvParser implements ItemParserInterface
 
             //todo: translate headers
 
-            if (count($data) == 11) {
+            if (count($data) == 12) {
                 foreach ($this->headers as $header) {
                     if (!in_array($header, $data)) {
                         return false;
@@ -93,10 +94,16 @@ class ItemCsvParser implements ItemParserInterface
             $place = $this->entityManager
                 ->getRepository('OktolabRentBundle:Inventory\Place')->findOneByTitle($data[$headers['place']]);
 
+            $category = null;
+            if ($data[$headers['category']] != "") {
+                $category = $this->entityManager
+                    ->getRepository('OktolabRentBundle:Inventory\Category')->findOneByTitle($data[$headers['category']]);
+            }
             if (!$place) {
                 return array();
             }
             $item->setPlace($place);
+            $item->setCategory($category);
 
             $items[] = $item;
         }
@@ -118,7 +125,8 @@ class ItemCsvParser implements ItemParserInterface
             'place'         => 7,
             'origin_value'  => 8,
             'daily_rent'    => 9,
-            'notice'        => 10
+            'notice'        => 10,
+            'category'      => 11
         );
         //TODO: autotranslate row headers.
         for ($i = 0; $i < count($csvRows); $i++) {

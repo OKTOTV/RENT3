@@ -45,6 +45,7 @@
                         <th>{{'inventory.item.origin_value'|trans}}</th>
                         <th>{{'inventory.item.daily_rent'|trans}}</th>
                         <th>{{'inventory.item.notice'|trans}}</th>
+                        <th>{{'inventory.item.category'|trans}}<th>
                     </tr>
                 </thead>
                 <tbody>
@@ -67,6 +68,7 @@
                         <td>{{ item.originValue|default('') }}</td>
                         <td>{{ item.dailyRent|default('') }}</td>
                         <td>{{ item.notice|default('') }}</td>
+                        <td>{{ item.category.title|default('')}}<td>
                     </tr>
                 {% endfor %}
                 </tbody>
