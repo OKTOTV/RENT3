@@ -47,33 +47,3 @@
     </div>
 </div>
 {% endblock %}
-
-{# block content_header %}
-    <div class="aui-page-header-inner">
-        <div class="aui-page-header-image">
-            <div class="aui-avatar aui-avatar-xlarge aui-avatar-project">
-                <div class="aui-avatar-inner">
-                    {% if item.picture is not null %}
-                        <img src="{{ item.picture.getRelativePath | apply_filter('page_avatar') }}" />
-                    {% endif %}
-                </div>
-            </div>
-        </div>
-        <div class="aui-page-header-main">
-            <h1>{{'inventory.item.edit'|trans({'%itemTitle%': item.title})}}</h1>
-            <a href="{{ path('inventory_item_picture_upload', { 'id': item.id}) }}">{{ "inventory.item.uploadPicture" | trans }}</a>
-            {% if item.picture is not null %}
-                <a href="{{ path('inventory_item_attachment_delete', { 'entity_id': item.id, 'attachment_id': item.picture.getId }) }}">{{"inventory.item.deletePicture" | trans }}</a>
-            {% endif %}
-        </div>
-        <div class="aui-page-header-actions">
-            <div class="aui-buttons">
-                <div class="aui-buttons">
-                    <a class="aui-button" href="{{ path('inventory_item_show', { 'id': item.id }) }}">{{'generic.back'|trans}}</a>
-                    <a class="aui-button" href="{{ path('inventory_item') }}">{{'generic.backToList'|trans}}</a>
-                    <a class="aui-button" href="{{ path('inventory_item_delete', { 'id': item.id }) }}">{{'generic.delete'|trans}}</a>
-                </div>
-            </div>
-        </div>
-    </div>
-{% endblock #}

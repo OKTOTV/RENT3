@@ -61,13 +61,8 @@ class EventTransformer
      */
     public function getFormattedActiveEvents(\DateTime $begin, \DateTime $end, $type = 'inventory')
     {
-        $this->guardActiveEvents($end);
-        $this->guardActiveEvents($begin);
-
         $events = array();
         $aggregatedEvents = $this->aggregator->getActiveEvents($begin, $end, $type);
-
-        die(var_dump($aggregatedEvents));
 
         foreach ($aggregatedEvents as $aggregatedEvent) {
             $events[$aggregatedEvent->getId()] = $this->transformAnEvent($aggregatedEvent);
@@ -133,19 +128,5 @@ class EventTransformer
         }
 
         return $transformedObjects;
-    }
-
-    /**
-     * Guards to only accept future dates.
-     *
-     * @param \DateTime $date
-     *
-     * @throws \LogicException
-     */
-    protected function guardActiveEvents(\DateTime $date)
-    {
-        if ($date < new \DateTime('now')) {
-            throw new \LogicException(sprintf('Date must be greater than now, "%s" given.', $date->format('c')));
-        }
     }
 }

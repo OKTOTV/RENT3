@@ -37,7 +37,10 @@
                 events: $.getJSON(Calendar.buildUrl(Calendar.config.eventSrcUri)).promise(),
                 timeblocks: $.getJSON(Calendar.buildUrl(Calendar.config.timeblockSrcUri)).promise(),
                 items: [],
-                renderedTimeblocks: []
+                renderedTimeblocks: [],
+                today_button: $('#calendar-show-today'),
+                date_button:  $('#calendar-show-date'),
+                date_input:   $('#calendar-input-date')
             };
 
             Calendar.setup();
@@ -71,6 +74,72 @@
                 .append(Calendar.data.containerWrapper);
 
             Calendar.data.container.trigger('OktolabCalendar:rendered');
+
+            //add onclick to search and today button
+            Calendar.data.today_button.on('click', function () {
+                Calendar._loadCalendarStartingAtDate(new Date());
+            });
+
+            Calendar.data.date_button.on('click', function (){
+                if (Calendar.data.date_input.val() !== '') {
+                    Calendar._loadCalendarStartingAtDate(new Date(Calendar.data.date_input.val()));
+                }
+            });
+
+        },
+
+        /**
+         * Removes events from DOM, loads new Events starting at given date
+         */
+        _loadEventsStartingAtDate: function (date) {
+            var $date = new Date(date);
+            var eventUrl = Calendar.buildUrl(Calendar.config.eventSrcUri);
+            eventUrl = eventUrl+'/'+$.datepicker.formatDate('yy-mm-dd', $date);
+            $date.setDate($date.getDate()+30);
+            eventUrl = eventUrl+'/'+$.datepicker.formatDate('yy-mm-dd', $date);
+            console.log(eventUrl);
+
+            //load new events.
+            Calendar.data.events = $.getJSON(eventUrl).promise();
+            //render them if loading has finished.
+            $.when(Calendar.data.events).done(function (data) {
+                console.log('events 2');
+                Calendar.showEvents(data);
+            }).fail(function (datafail) {
+                console.log("'can't load event.json"+datafail);
+            });
+            console.log('events 1');
+        },
+
+        /**
+         * Removes timeblocks from DOM, loads new Timeblocks starting at given date
+         */
+        _loadTimeblocksStartingAtDate: function (date) {
+            var $date = new Date(date);
+            var timeBlockUrl = Calendar.buildUrl(Calendar.config.timeblockSrcUri);
+            timeBlockUrl = timeBlockUrl+ '/' + $.datepicker.formatDate('yy-mm-dd', $date);
+            $date.setDate($date.getDate()+30);
+            timeBlockUrl = timeBlockUrl+ '/' + $.datepicker.formatDate('yy-mm-dd', $date);
+            console.log(timeBlockUrl);
+
+            //load new timeblocks.
+            Calendar.data.timeblocks = $.getJSON(timeBlockUrl).promise();
+            //render new timeblocks
+            $.when(Calendar.data.timeblocks).done(function (data){
+                Calendar.showCalendarBackground(data);
+            }).fail(function (datafail) {
+                console.log("can't load timeblocks.json"+datafail);
+            });
+        },
+
+        /**
+         * Reloads Calendarinformation for Timeblocks and Events.
+         */
+        _loadCalendarStartingAtDate: function (date) {
+            Calendar.data.containerWrapper.empty();
+            Calendar._loadTimeblocksStartingAtDate(date);
+            Calendar._loadEventsStartingAtDate(date);
+            console.log('reloaded calendar for date:'+date);
         },
 
         /**
@@ -136,6 +205,7 @@
          * @returns {jQuery}
          */
         showEvents: function (events) {
+            console.log(events);
             $.each(events, function (key, event) {
                 var begin = Calendar.findBlockByDate(new Date(event.begin));
                 var end = Calendar.findBlockByDate(new Date(event.end));

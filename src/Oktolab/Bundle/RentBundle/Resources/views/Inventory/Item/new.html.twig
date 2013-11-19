@@ -48,16 +48,10 @@
             {{ form_row(form.place) }}
             {{ form_row(form.buyDate) }}
 
-            {#<field class="plupload" data-plupload="multiple"></field>
-            <div id="container" class= "field-group">
-                <div id="filelist">{{ 'generic.runtimeError' | trans }}</div>
-                <br />
-                <a id="pickfiles" href="#">[{{'generic.selectFiles' | trans}}]</a>
-            </div>#}
         </fieldset>
 
         <div class="buttons-container">
-            <button class="aui-button aui-button-primary" {#id="uploadfiles"#} type="submit">{{'generic.submit'|trans}}</button>
+            <button class="aui-button aui-button-primary" type="submit">{{'generic.submit'|trans}}</button>
             <a href="{{ path('inventory_set') }}" class="aui-button aui-button-link">{{ 'generic.cancel'|trans }}</a>
         </div>
 

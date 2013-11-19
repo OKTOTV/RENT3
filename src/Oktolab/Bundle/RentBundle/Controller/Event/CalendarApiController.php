@@ -35,17 +35,19 @@ class CalendarApiController extends Controller
     /**
      * @Cache(expires="+5 min", public="yes")
      * @Method("GET")
-     * @Route("/timeblock.{_format}",
+     * @Route("/timeblock.{_format}/{begin}/{end}",
      *      name="OktolabRentBundle_CalendarApi_Timeblock",
-     *      defaults={"_format"="json"},
+     *      defaults={"_format"="json", "begin" = "default", "end" = "default"},
      *      requirements={"_format"="json"})
+     * @Configuration\ParamConverter("begin", converter="oktolab.datetime_converter", options={"default": "today 00:00"})
+     * @Configuration\ParamConverter("end", converter="oktolab.datetime_converter", options={"default": "+30 days 00:00"})
      *
      * @return \Symfony\Component\HttpFoundation\JsonResponse
      */
-    public function timeblockAction()
+    public function timeblockAction(\DateTime $begin, \DateTime $end)
     {
         $timeblocks = $this->get('oktolab.event_calendar_timeblock')
-            ->getTransformedTimeblocks(new \DateTime('today 00:00'), new \DateTime('+30 days 00:00'));
+            ->getTransformedTimeblocks($begin, $end);
         return new JsonResponse($timeblocks);
     }
 
