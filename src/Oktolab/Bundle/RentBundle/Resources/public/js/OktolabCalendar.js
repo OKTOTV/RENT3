@@ -97,18 +97,13 @@
             eventUrl = eventUrl+'/'+$.datepicker.formatDate('yy-mm-dd', $date);
             $date.setDate($date.getDate()+30);
             eventUrl = eventUrl+'/'+$.datepicker.formatDate('yy-mm-dd', $date);
-            console.log(eventUrl);
 
             //load new events.
             Calendar.data.events = $.getJSON(eventUrl).promise();
             //render them if loading has finished.
-            $.when(Calendar.data.events).done(function (data) {
-                console.log('events 2');
-                Calendar.showEvents(data);
-            }).fail(function (datafail) {
-                console.log("'can't load event.json"+datafail);
-            });
-            console.log('events 1');
+            $.when(Calendar.data.events, Calendar.data.timeblocks).done(function (data) {
+                Calendar.showEvents(data[0]);
+            })
         },
 
         /**
@@ -120,15 +115,12 @@
             timeBlockUrl = timeBlockUrl+ '/' + $.datepicker.formatDate('yy-mm-dd', $date);
             $date.setDate($date.getDate()+30);
             timeBlockUrl = timeBlockUrl+ '/' + $.datepicker.formatDate('yy-mm-dd', $date);
-            console.log(timeBlockUrl);
 
             //load new timeblocks.
             Calendar.data.timeblocks = $.getJSON(timeBlockUrl).promise();
             //render new timeblocks
-            $.when(Calendar.data.timeblocks).done(function (data){
+            Calendar.data.timeblocks.then(function (data) {
                 Calendar.showCalendarBackground(data);
-            }).fail(function (datafail) {
-                console.log("can't load timeblocks.json"+datafail);
             });
         },
 
@@ -137,9 +129,10 @@
          */
         _loadCalendarStartingAtDate: function (date) {
             Calendar.data.containerWrapper.empty();
+            Calendar.data.renderedTimeblocks = [];
+
             Calendar._loadTimeblocksStartingAtDate(date);
             Calendar._loadEventsStartingAtDate(date);
-            console.log('reloaded calendar for date:'+date);
         },
 
         /**
@@ -205,7 +198,6 @@
          * @returns {jQuery}
          */
         showEvents: function (events) {
-            console.log(events);
             $.each(events, function (key, event) {
                 var begin = Calendar.findBlockByDate(new Date(event.begin));
                 var end = Calendar.findBlockByDate(new Date(event.end));
