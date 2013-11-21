@@ -6,6 +6,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -63,6 +64,124 @@ class EventApiController extends Controller
                     $event->getContact()->getName()
                 )
             );
+        }
+
+        return new JsonResponse($json);
+    }
+
+    /**
+     * Returns a JSON formatted Dataset for typeahead.js
+     *
+     * @Method("GET")
+     * @Route("/items/typeahead.{_format}/{itemValue}/{begin}/{end}",
+     *      name="inventory_event_item_typeahead_remote_url",
+     *      defaults={"_format"="json"},
+     *      requirements={"_format"="json"})
+     * @Configuration\ParamConverter("begin", options={"format": "Y-m-d"})
+     * @Configuration\ParamConverter("end", options={"format": "Y-m-d"})
+     * @return JsonResponse
+     */
+    public function typeaheadEventItemRemoteAction($itemValue, \DateTime $begin, \DateTime $end)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $repository = $em->getRepository('OktolabRentBundle:Inventory\Item');
+        //SELECT * FROM item.i WHERE i.barcode LIKE %value% OR i.title LIKE %value%
+        $dq = $repository->createQueryBuilder('i');
+        $query = $dq->where(
+            $dq->expr()->orX(
+                    $dq->expr()->like('i.barcode', ':value'),
+                    $dq->expr()->like('i.title', ':value')
+                )
+            )
+            ->setParameter('value', '%'.$itemValue.'%')
+            ->getQuery();
+
+        $items = $query->getResult();
+
+        $json = array();
+
+        $eventManager = $this->get('oktolab.event_manager');
+
+        foreach ($items as $item) {
+            if ($eventManager->isAvailable($item, $begin, $end)) {
+                $json[] = array(
+                    'name'          => $item->getTitle(),
+                    'value'         => sprintf('%s:%d', $item->getType(), $item->getId()),
+                    'type'          => $item->getType(),
+                    'id'            => $item->getId(),
+                    'description'   => $item->getDescription(),
+                    'barcode'       => $item->getBarcode(),
+                    'set'           => $item->getSet() != null ? $item->getSet()->getTitle(): '',
+                    'showUrl'       => 'inventory/item/'.$item->getId(),
+                    'tokens'        => array(
+                        $item->getBarcode(),
+                        $item->getDescription(),
+                        $item->getTitle()
+                    )
+                );
+            }
+        }
+
+        return new JsonResponse($json);
+    }
+
+    /**
+     * Returns a JSON formatted Dataset for typeahead.js
+     *
+     * @Configuration\Method("GET")
+     * @Configuration\Route("/sets/typeahead.{_format}/{setValue}/{begin}/{end}",
+     *      name="inventory_event_set_typeahead_remote_url",
+     *      defaults={"_format"="json"},
+     *      requirements={"_format"="json"})
+     * @Configuration\ParamConverter("begin", options={"format": "Y-m-d"})
+     * @Configuration\ParamConverter("end", options={"format": "Y-m-d"})
+     * @return JsonResponse
+     */
+    public function typeaheadEventSetRemoteAction($setValue, \DateTime $begin, \DateTime $end)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $repository = $em->getRepository('OktolabRentBundle:Inventory\Set');
+        //SELECT * FROM set.s WHERE s.barcode LIKE %value% OR s.title LIKE %value%
+        $dq = $repository->createQueryBuilder('s');
+        $query = $dq->select()
+            ->where(
+            $dq->expr()->orX(
+                    $dq->expr()->like('s.barcode', ':value'),
+                    $dq->expr()->like('s.title', ':value')
+                )
+            )
+            ->setParameter('value', '%'.$setValue.'%')
+            ->getQuery();
+
+        $sets = $query->getResult();
+
+        $json = array();
+
+        $eventManager = $this->get('oktolab.event_manager');
+
+        foreach ($sets as $set) {
+            if ($eventManager->isAvailable($set, $begin, $end)) {
+                $items = array();
+                foreach($set->getItems() as $item) {
+                    $items[] = sprintf('%s:%d', $item->getType(), $item->getId());
+                }
+
+                $json[] = array(
+                    'name'          => $set->getTitle(),
+                    'value'         => sprintf('%s:%d', $set->getType(), $set->getId()),
+                    'type'          => $set->getType(),
+                    'id'            => $set->getId(),
+                    'description'   => $set->getDescription(),
+                    'barcode'       => $set->getBarcode(),
+                    'items'         => $items,
+                    'showUrl'       => 'inventory/set/'.$set->getId(),
+                    'tokens'        => array(
+                        $item->getBarcode(),
+                        $item->getDescription(),
+                        $item->getTitle()
+                    )
+                );
+            }
         }
 
         return new JsonResponse($json);

@@ -11,7 +11,9 @@
         costunitPrefetchUrl: oktolab.baseUrl + '/api/costunit/typeahead.json',
         costunitRemoteUrl:  oktolab.baseUrl + '/api/costunit/typeahead.json/%QUERY',
         costunitcontactRemoteUrl: oktolab.baseUrl + '/api/costunit/__id__/typeahead.json',
-        eventRemoteUrl:     oktolab.baseUrl + '/api/event/typeahead.json/%QUERY'
+        eventRemoteUrl:     oktolab.baseUrl + '/api/event/typeahead.json/%QUERY',
+        eventItemRemoteUrl: oktolab.baseUrl + '/api/event/items/typeahead.json/%QUERY', //Add /begin/end as YYYY-MM-DD and you get all available items
+        eventSetRemoteUrl:  oktolab.baseUrl + '/api/event/sets/typeahead.json/%QUERY',  //Add /begin/end as YYYY-MM-DD and you get all available sets
     };
 
     oktolab.plupload = {

@@ -7,7 +7,6 @@ var collectionHolder = AJS.$('.event-objects');
  * @param TypeaheadDatum datum
  */
 oktolab.addTypeaheadObjectToEventForm = function(collectionHolder, datum) {
-    console.log('add item');
     var index    = collectionHolder.data('index');
     var template = Hogan.compile(collectionHolder.data('prototype'));
     var output   = template.render(AJS.$.extend(datum, { index: index + 1 }));
@@ -16,25 +15,20 @@ oktolab.addTypeaheadObjectToEventForm = function(collectionHolder, datum) {
     collectionHolder.append(output);
 };
 
-/**
- * Removes EventObject from Event Form
- *
- * @param jQueryEvent event
- */
-oktolab.removeEventObjectFromEventForm = function(object) {
-//    var object = AJS.$(this).data('value');
-//    var form   = collectionHolder.closest('form');
+oktolab.cleanObjectTable = function() {
+    //TODO: remove all objects
+//    AJS.$('.event-objects').empty();
+}
 
-    AJS.$(object).closest('tr').remove();
-//    form.find('div[data-object="' + object + '"]').remove();
-};
+oktolab.activateTypeaheadSearch = function(begin, end) {
+    AJS.$('#inventory-search-field').attr('disabled', false);
+    oktolab.cleanObjectTable();
+    console.log('enabled search input');
 
-AJS.$(document).ready(function() {
     AJS.$('#inventory-search-field').typeahead([{
         name: 'rent-items',
         valueKey: 'name',
-        prefetch: { url: oktolab.typeahead.itemPrefetchUrl, ttl: 60000 },
-        remote: { url: oktolab.typeahead.itemRemoteUrl },
+        remote: { url: oktolab.typeahead.eventItemRemoteUrl + '/'+begin+'/'+end },
         template: [
             '<span class="aui-icon aui-icon-small aui-iconfont-devtools-file">Object</span>',
             '<p class="tt-object-name">{{name}}</p>',
@@ -45,8 +39,7 @@ AJS.$(document).ready(function() {
     }, {
         name:       'rent-sets',
         valueKey:   'name',
-        prefetch:   { url: oktolab.typeahead.setPrefetchUrl, ttl: 60000 },
-        remote: { url: oktolab.typeahead.setRemoteUrl },
+        remote: { url: oktolab.typeahead.eventSetRemoteUrl + '/'+begin+'/'+end },
         template: [
             '<span class="aui-icon aui-icon-small aui-iconfont-devtools-file">Object</span>',
             '<p class="tt-object-name">{{name}}</p>',
@@ -55,6 +48,18 @@ AJS.$(document).ready(function() {
         header: '<h3>Sets</h3>',
         engine: Hogan
     }]);
+};
+
+/**
+ * Removes EventObject from Event Form
+ *
+ * @param jQueryEvent event
+ */
+oktolab.removeEventObjectFromEventForm = function(object) {
+    AJS.$(object).closest('tr').remove();
+};
+
+AJS.$(document).ready(function() {
 
     jQuery('#inventory-search-field').on('typeahead:selected', function (e, datum) {
         var form = collectionHolder.closest('form');
