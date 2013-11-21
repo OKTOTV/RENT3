@@ -61,12 +61,6 @@ class EventTransformerTest extends \PHPUnit_Framework_TestCase
         );
     }
 
-    public function testGetFormattedActiveEventsThrowsExceptionOnPastDate()
-    {
-        $this->setExpectedException('\LogicException');
-        $this->SUT->getFormattedActiveEvents(new \DateTime('-1 day'));
-    }
-
     /**
      * This test generates a lot of Test-Fixture in_memory to assert the TestCase.
      */
@@ -136,7 +130,7 @@ class EventTransformerTest extends \PHPUnit_Framework_TestCase
             ->with($this->equalTo('inventory_item_show'), $this->equalTo(array('id' => 5)))
             ->will($this->returnValue('/inventory/item/5'));
 
-        $events = $this->SUT->getFormattedActiveEvents(new \DateTime(), 'inventory');
+        $events = $this->SUT->getFormattedActiveEvents(new \DateTime(), new \DateTime('+30 days'), 'inventory');
         $this->assertEquals($expected, $events, 'Expected formatted Events-Array');
     }
 }
