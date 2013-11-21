@@ -21,7 +21,7 @@
 
 {% block content %}
     <div id="event-form">
-        <h2>{{ 'Edit' | trans }} - {{ form.vars.value.name }}</h2>
+        <h2>{{ 'generic.edit' | trans }} - {{ form.vars.value.name }}</h2>
         {{ form_start(form, {'attr': {'class': 'aui'} }) }}
             <fieldset>
                 {{ form_errors(form) }}
@@ -34,17 +34,17 @@
                 {{ form_row(form.end,  {'attr': {'data-timeblockEnds': timeblock_ends}}) }}
             </fieldset>
 
-            <h3>{{ 'Rentable Objects'|trans }}</h3>
+            <h3>{{ 'event.rentable_objects'|trans }}</h3>
             <fieldset>
                 <div class="field-group">
                     <label for="oktolabrentbundle_event_editform_searchfield">{{ 'generic.search'|trans }}</label>
                     <input class="text long-field" type="text" id="oktolabrentbundle_event_editform_searchfield" name="oktolab_rentbundle_editform_searchfield" title="{{ 'Search for Barcodes, Items, Sets, ...'|trans }}">
                     <span class="aui-icon aui-icon-small aui-iconfont-search">{{ 'generic.search'|trans }}</span>
-                    <div class="description">{{ 'Search for Barcodes, Items, Sets, ...'|trans }}</div>
+                    <div class="description">{{ 'event.searchFor'|trans }} {{'generic.barcodes'|trans}}, {{'inventory.items'|trans}}, {{'inventory.sets'|trans}}, ...</div>
                 </div>
 
                 <div class="field-group aui-oktolab-form-table">
-                    <label>{{ 'Objects'|trans }}</label>
+                    <label>{{ 'event.objects'|trans }}</label>
                     <table class="aui">
                         <thead>
                             <tr>

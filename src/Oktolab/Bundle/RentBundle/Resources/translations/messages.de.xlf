@@ -278,6 +278,10 @@
                 <source>generic.add</source>
                 <target>Anlegen</target>
             </trans-unit>
+            <trans-unit id="70">
+                <source>generic.barcodes</source>
+                <target>Barcodes</target>
+            </trans-unit>
 
 
             <trans-unit id="100">
@@ -1002,6 +1006,26 @@
             <trans-unit id="1211">
                 <source>event.contact</source>
                 <target>Kontakt</target>
+            </trans-unit>
+            <trans-unit id="1212">
+                <source>event.begin</source>
+                <target>Von</target>
+            </trans-unit>
+            <trans-unit id="1213">
+                <source>event.end</source>
+                <target>Bis</target>
+            </trans-unit>
+            <trans-unit id="1214">
+                <source>event.objects</source>
+                <target>Gegenstände</target>
+            </trans-unit>
+            <trans-unit id="1215">
+                <source>event.rentable_objects</source>
+                <target>Zu buchende Gegenstände</target>
+            </trans-unit>
+            <trans-unit id="1216">
+                <source>event.searchFor</source>
+                <target>Suche nach:</target>
             </trans-unit>
 
             <trans-unit id="1300">

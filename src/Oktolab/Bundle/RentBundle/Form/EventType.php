@@ -29,6 +29,7 @@ class EventType extends AbstractType
                 'entity',
                 array(
                     'class'     => 'OktolabRentBundle:Contact',
+                    'label'     => 'admin.contact',
                     'property' => 'id',
                     'required' => true,
                     'empty_value' => 'Choose a contact'
@@ -39,17 +40,26 @@ class EventType extends AbstractType
                 'entity',
                 array(
                     'class'     => 'OktolabRentBundle:CostUnit',
+                    'label'     => 'admin.costunit',
                     'property' => 'id',
                     'required' => true
                 )
             )
-            ->add('description', 'textarea', array('required' => false))
+            ->add(
+                'description',
+                'textarea',
+                array(
+                    'required' => false,
+                    'label'    => 'generic.description'
+                )
+            )
             ->add(
                 'begin',
                 'datetime',
                 array(
                     'widget'    => 'single_text',
                     'required'  => true,
+                    'label'     => 'event.begin'
                 )
             )
             ->add(
@@ -58,9 +68,19 @@ class EventType extends AbstractType
                 array(
                     'widget'    => 'single_text',
                     'required'  => true,
+                    'label'     => 'event.end'
                 )
             )
-            ->add('objects', 'collection', array('type' => new EventObjectType(), 'allow_add' => true, 'allow_delete' => true));
+            ->add(
+                'objects',
+                'collection',
+                array(
+                    'type' => new EventObjectType(),
+                    'allow_add' => true,
+                    'allow_delete' => true,
+                    'label'     => 'event.objects'
+                )
+            );
 
         $builder->add('cancel', 'submit', array('validation_groups' => false))
             ->add('update', 'submit')
