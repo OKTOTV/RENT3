@@ -17,8 +17,7 @@
     <div class="aui-page-header-actions">
         <div class="aui-buttons">
             <div class="aui-buttons">
-                <a class="aui-button" href="{{ path('inventory_room') }}">{% trans %}Back to list{% endtrans %}</a>
-                <a class="aui-button" href="{{ path('inventory_room_delete', { 'id': entity.id }) }}">{% trans %}Löschen{% endtrans %}</a>
+                <a class="aui-button" href="{{ path('inventory_set_show', {'id': entity.id}) }}">{{ 'generic.back'|trans}}</a>
             </div>
         </div>
     </div>

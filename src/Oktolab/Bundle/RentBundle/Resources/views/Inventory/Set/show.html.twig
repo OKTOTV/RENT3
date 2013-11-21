@@ -41,10 +41,10 @@
                 <div id="dropdown-menu-set" class="aui-dropdown2 aui-style-default">
                     <ul class="aui-list-truncate aui-dropdown2-section">
                         <li><a href="#">Anhänge (0)</a></li>
-                        <li><a href="#">Profilbild aktualisieren</a></li>
+                        <li><a href="{{ path('inventory_set_picture_upload', { 'id': set.id }) }}">Profilbild aktualisieren</a></li>
                     </ul>
                     <ul class="aui-list-truncate aui-dropdown2-section">
-                        <li><a href="#">Entfernen</a></li>
+                        <li><a href="{{ path('inventory_set_delete', { 'id': set.id }) }}">Entfernen</a></li>
                     </ul>
                 </div>
             </div>
