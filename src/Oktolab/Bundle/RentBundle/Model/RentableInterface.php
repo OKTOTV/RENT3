@@ -39,4 +39,10 @@ interface RentableInterface
      * @return string
      */
     public function getTitle();
+
+
+    /**
+     * Returns a User readable representation of the rentable object.
+     */
+    public function __toString();
 }

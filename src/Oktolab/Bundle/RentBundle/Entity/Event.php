@@ -6,6 +6,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Validator\Constraints as Assert;
 use Oktolab\Bundle\RentBundle\Entity\EventObject;
+use Oktolab\Bundle\RentBundle\Model\Validator as OktolabAssert;
 
 /**
  * Event Entity.
@@ -14,7 +15,7 @@ use Oktolab\Bundle\RentBundle\Entity\EventObject;
  *
  * @ORM\Table()
  * @ORM\Entity(repositoryClass="Oktolab\Bundle\RentBundle\Entity\EventRepository")
- *
+ * @OktolabAssert\AvailabilityConstrain()
  * @ Assert\GroupSequence({"Event", "Logic"})
  */
 class Event
@@ -82,7 +83,6 @@ class Event
     private $state;
 
     /**
-     *
      * @ORM\OneToMany(targetEntity="EventObject", mappedBy="event")
      */
     private $objects;

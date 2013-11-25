@@ -75,6 +75,32 @@ class EventRepository extends EntityRepository
     }
 
     /**
+     * Returns all active Events for given object in given timerange
+     *
+     * @param \Oktolab\Bundle\RentBundle\Entity\EventObject $object
+     * @param \DateTime $begin
+     * @param \DateTime $end
+     * @return events
+     */
+    public function findAllActiveForObject(RentableInterface $object, \DateTime $begin = null, \DateTime $end = null)
+    {
+        $qb = $this->getAllFromBeginToEndQuery($begin, $end);
+        return $qb->select('e')
+            ->join('OktolabRentBundle:EventObject', 'o')
+            ->andWhere(
+                $qb->expr()->andX(
+                    $qb->expr()->eq('o.type', ':objectType'),
+                    $qb->expr()->eq('o.object', ':objectId'),
+                    $qb->expr()->not($qb->expr()->eq('e.state', Event::STATE_CANCELED))
+                )
+            )
+
+            ->setParameter('objectType', $object->getType())
+            ->setParameter('objectId', $object->getId())
+            ->getQuery()->getResult();
+    }
+
+    /**
      * Returns QueryBuilder for all Events in and within the given time period
      * @param \DateTime $begin
      * @param \DateTime $end

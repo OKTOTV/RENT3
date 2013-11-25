@@ -650,17 +650,25 @@ class Item implements RentableInterface, UploadableInterface
     public function setNotice($notice)
     {
         $this->notice = $notice;
-    
+
         return $this;
     }
 
     /**
      * Get notice
      *
-     * @return string 
+     * @return string
      */
     public function getNotice()
     {
         return $this->notice;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function __toString()
+    {
+        return $this->getTitle().' '.$this->getBarcode();
     }
 }
