@@ -15,8 +15,8 @@ use Oktolab\Bundle\RentBundle\Model\Validator as OktolabAssert;
  *
  * @ORM\Table()
  * @ORM\Entity(repositoryClass="Oktolab\Bundle\RentBundle\Entity\EventRepository")
- * @OktolabAssert\AvailabilityConstrain()
  * @ Assert\GroupSequence({"Event", "Logic"})
+ * @OktolabAssert\AvailabilityConstrain()
  */
 class Event
 {

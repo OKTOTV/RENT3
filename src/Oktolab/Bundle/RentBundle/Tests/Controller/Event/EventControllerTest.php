@@ -98,7 +98,7 @@ class EventControllerTest extends WebTestCase
             array(
                 'OktolabRentBundle_Event_Form[name]'  => 'asdf',
                 'OktolabRentBundle_Event_Form[begin]' => '2013-10-11 12:00:00',
-                'OktolabRentBundle_Event_Form[end]'   => '', //invalid data
+                'OktolabRentBundle_Event_Form[end]'   => '2013-10-10 12:00:00', //invalid data
             )
         );
 
@@ -107,6 +107,7 @@ class EventControllerTest extends WebTestCase
 
         // @see https://github.com/symfony/symfony/issues/4124#issuecomment-13229362
         $crawler = $this->client->request($form->getMethod(), $form->getUri(), $values, $form->getPhpFiles());
+//        echo $this->client->getResponse()->getContent(); die();
         $this->assertTrue($this->client->getResponse()->isSuccessful(), 'Response is successful.');
         $this->assertRegExp('/There was an error while saving the form./', $this->client->getResponse()->getContent());
 

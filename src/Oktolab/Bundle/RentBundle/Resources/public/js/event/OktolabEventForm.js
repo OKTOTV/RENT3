@@ -265,6 +265,7 @@
                var date = EventForm.data.beginDate.val();
                var time = EventForm.data.beginTime.val();
                EventForm.data.beginContainer.val(date+'T'+time);
+               EventForm._checkTimesForSearch();
             });
         },
 
@@ -273,7 +274,19 @@
                var date = EventForm.data.endDate.val();
                var time = EventForm.data.endTime.val();
                EventForm.data.endContainer.val(date+'T'+time);
+               EventForm._checkTimesForSearch();
             });
+        },
+
+        _checkTimesForSearch: function() {
+            if (EventForm.data.beginContainer.val() !== "" &&
+                EventForm.data.endContainer.val() !== "") {
+                var beginDateTime = new Date(EventForm.data.beginContainer.val());
+                var endDateTime = new Date(EventForm.data.endContainer.val());
+
+                oktolab.activateTypeaheadSearch($.datepicker.formatDate('yy-mm-dd', beginDateTime),
+                $.datepicker.formatDate('yy-mm-dd', endDateTime));
+            }
         }
     };
 
