@@ -8,6 +8,7 @@ use Oktolab\Bundle\RentBundle\Model\Event\EventManager;
 use Oktolab\Bundle\RentBundle\Model\SettingService;
 use Oktolab\Bundle\RentBundle\Entity\CompanySetting;
 use Symfony\Component\Translation\TranslatorInterface as Translator;
+use Oktolab\Bundle\RentBundle\Entity\Inventory\Item;
 
 /**
  * Description of rentSheetPdfCreator
@@ -110,7 +111,7 @@ class RentSheetPdfCreator
             $this->openTag('tr');
             $this->addBlock($object->getBarcode(), 'td', 'barcode');
             $this->addBlock($object->getTitle(), 'td', 'title');
-            $this->addBlock($object->getNotice(), 'td', 'notice');
+            $this->addBlock(($object instanceof Item) ? $object->getNotice() : '', 'td', 'notice');
             $this->closeTag('tr');
         }
 
