@@ -326,4 +326,52 @@ class EventControllerTest extends WebTestCase
         $this->assertTrue($this->client->getResponse()->isSuccessful(), 'Response is successful.');
         $this->assertRegExp('/Event successfully rented./', $this->client->getResponse()->getContent());
     }
+
+    /**
+     * @test
+     */
+    public function rentItemInSameTimerangeGetsValidationError()
+    {
+        $this->loadFixtures(
+            array(
+                '\Oktolab\Bundle\RentBundle\Tests\DataFixtures\ORM\Event\EventFixture',
+                '\Oktolab\Bundle\RentBundle\Tests\DataFixtures\ORM\Event\ItemFixture',
+                '\Oktolab\Bundle\RentBundle\Tests\DataFixtures\ORM\ContactFixture',
+                '\Oktolab\Bundle\RentBundle\Tests\DataFixtures\ORM\CostUnitFixture'
+            )
+        );
+
+        $em = $this->getContainer()->get('doctrine.orm.entity_manager');
+        $itemA = $em->getRepository('OktolabRentBundle:Inventory\Item')->findOneBy(array('barcode' => 'F00B5R'));
+        $itemB = $em->getRepository('OktolabRentBundle:Inventory\Item')->findOneBy(array('barcode' => 'B5ZF00'));
+
+        $crawler = $this->client->request('GET', '/rent/inventory');
+        $this->assertTrue($this->client->getResponse()->isSuccessful(), 'Response should be successful.');
+
+        $form = $crawler->filter('#OktolabRentBundle_Event_Form_update')->form(
+            array(
+                'OktolabRentBundle_Event_Form[name]'        => 'My Event',
+                'OktolabRentBundle_Event_Form[begin]'       => '2013-10-14 12:00:00',
+                'OktolabRentBundle_Event_Form[end]'         => '2013-10-16 17:00:00',
+                'OktolabRentBundle_Event_Form[contact]'     => 1,
+                'OktolabRentBundle_Event_Form[costunit]'    => 1
+            )
+        );
+
+        $values = $form->getPhpValues();
+        $values['OktolabRentBundle_Event_Form']['objects'] = array(
+            0 => array('object' => $itemA->getId(), 'type' => $itemA->getType()),
+            1 => array('object' => $itemB->getId(), 'type' => $itemB->getType()),
+        );
+
+        // thx to: https://github.com/symfony/symfony/issues/4124#issuecomment-13229362
+        $this->client->request($form->getMethod(), $form->getUri(), $values, $form->getPhpFiles());
+        $this->assertTrue($this->client->getResponse()->isSuccessful(), 'Response should be successful.');
+
+        $crawler = $this->client->getCrawler();
+        $fieldError = $crawler->filter('div[class="error"]');
+
+        $this->assertSame(1, $fieldError->count(), 'An error message is rendered.');
+        $this->assertRegExp('/Object JVC Camera 123 F00B5R/', $fieldError->html());
+    }
 }

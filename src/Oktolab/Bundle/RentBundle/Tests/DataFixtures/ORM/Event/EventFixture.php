@@ -27,7 +27,7 @@ class EventFixture extends AbstractFixture
 
         $costunit = new CostUnit();
         $costunit->setName('Testcostunit');
-        $costunit->setGuid('1234567DUMMY');
+        $costunit->setGuid('12345678DUMMY');
 
 
         $eventObject = new EventObject();
