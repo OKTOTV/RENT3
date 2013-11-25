@@ -26,7 +26,7 @@ twig:
     strict_variables: %kernel.debug%
     globals:
       rent_documentation_url:  %rent_documentation_url%
-      project_name:             "Oktolab RENT 3.0.1"
+      project_name:             "Oktolab RENT 3.1"
     form:
       resources:
         - 'OktolabRentBundle:Form:fields.html.twig'
