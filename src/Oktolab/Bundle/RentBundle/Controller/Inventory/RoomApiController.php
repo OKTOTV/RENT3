@@ -67,7 +67,7 @@ class RoomApiController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
         $repository = $em->getRepository('OktolabRentBundle:Inventory\Room');
-        //SELECT * FROM item.i WHERE i.barcode LIKE %value% OR i.title LIKE %value%
+        //SELECT * FROM room.i WHERE i.barcode LIKE %value% OR i.title LIKE %value%
         $dq = $repository->createQueryBuilder('i');
         $query = $dq->where(
             $dq->expr()->orX(
