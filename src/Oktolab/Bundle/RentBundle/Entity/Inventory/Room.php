@@ -5,6 +5,7 @@ namespace Oktolab\Bundle\RentBundle\Entity\Inventory;
 use Doctrine\ORM\Mapping as ORM;
 use Oktolab\Bundle\RentBundle\Model\UploadableInterface;
 use Symfony\Component\Validator\Constraints as Assert;
+use Oktolab\Bundle\RentBundle\Model\RentableInterface;
 
 /**
  * Room
@@ -13,7 +14,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  * @ORM\Entity
  * @ORM\HasLifecycleCallbacks()
  */
-class Room implements UploadableInterface
+class Room implements UploadableInterface, RentableInterface
 {
     /**
      * @var integer
@@ -296,5 +297,29 @@ class Room implements UploadableInterface
     public function getPicture()
     {
         return $this->picture;
+    }
+
+    /**
+     *   {@inheritDoc}
+     */
+    public function __toString()
+    {
+        return $this->getBarcode().' '.$this->getTitle();
+    }
+
+    /**
+     *   {@inheritDoc}
+     */
+    public function getType()
+    {
+        return 'room';
+    }
+
+    /**
+     *   {@inheritDoc}
+     */
+    public function getState()
+    {
+        return 0;
     }
 }

@@ -13,7 +13,6 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Cache;
  */
 class ItemApiController extends Controller
 {
-
     /**
      * Returns a JSON formatted Dataset for typeahead.js
      *
@@ -41,6 +40,7 @@ class ItemApiController extends Controller
                 'description'   => $item->getDescription(),
                 'barcode'       => $item->getBarcode(),
                 'set'           => $item->getSet() != null ? $item->getSet()->getTitle(): '',
+                'showUrl'       => 'inventory/item/'.$item->getId(),
                 'tokens'        => array(
                     $item->getBarcode(),
                     $item->getDescription(),

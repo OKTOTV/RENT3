@@ -186,4 +186,60 @@ class EventApiController extends Controller
 
         return new JsonResponse($json);
     }
+
+    /**
+     * Returns a JSON formatted Dataset for typeahead.js
+     *
+     * @Configuration\Method("GET")
+     * @Configuration\Route("/rooms/typeahead.{_format}/{roomValue}/{begin}/{end}",
+     *      name="inventory_event_room_typeahead_remote_url",
+     *      defaults={"_format"="json"},
+     *      requirements={"_format"="json"})
+     * @Configuration\ParamConverter("begin", options={"format": "Y-m-d"})
+     * @Configuration\ParamConverter("end", options={"format": "Y-m-d"})
+     * @return JsonResponse
+     * @param type $roomValue
+     * @param \DateTime $begin
+     * @param \DateTime $end
+     */
+    public function typeaheadEventRoomRemoteAction($roomValue, \DateTime $begin, \DateTime $end)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $repository = $em->getRepository('OktolabRentBundle:Inventory\Room');
+        //SELECT * FROM item.i WHERE i.barcode LIKE %value% OR i.title LIKE %value%
+        $dq = $repository->createQueryBuilder('i');
+        $query = $dq->where(
+            $dq->expr()->orX(
+                    $dq->expr()->like('i.barcode', ':value'),
+                    $dq->expr()->like('i.title', ':value')
+                )
+            )
+            ->setParameter('value', '%'.$roomValue.'%')
+            ->getQuery();
+
+        $rooms = $query->getResult();
+
+        $json = array();
+
+        $eventManager = $this->get('oktolab.event_manager');
+
+        foreach ($rooms as $rooms) {
+            if ($eventManager->isAvailable($room, $begin, $end)) {
+                $json[] = array(
+                    'name'          => $room->getTitle(),
+                    'value'         => sprintf('%s:%d', $room->getType(), $room->getId()),
+                    'type'          => $room->getType(),
+                    'id'            => $room->getId(),
+                    'barcode'       => $room->getBarcode(),
+                    'showUrl'       => 'inventory/room/'.$room->getId(),
+                    'tokens'        => array(
+                        $room->getBarcode(),
+                        $room->getTitle()
+                    )
+                );
+            }
+        }
+
+        return new JsonResponse($json);
+    }
 }
