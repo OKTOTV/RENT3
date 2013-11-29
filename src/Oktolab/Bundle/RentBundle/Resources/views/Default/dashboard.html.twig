@@ -1,28 +1,59 @@
 {% extends "OktolabRentBundle::layout.html.twig" %}
 
 {% block title 'Dashboard' %}
-{% block content_header %}
-    <div class="aui-page-header-inner">
-        <div class="aui-page-header-main">
-            <h1>{{'generic.dashboard'|trans}}</h1>
+{% block content %}
+
+    <div class="aui-group">
+        <div class="aui-item">
+            <h3>{{'event.activeInventoryEvents'|trans}}</h3>
+            {% if inventoryEvents is not empty %}
+            <table class="aui">
+                <thead>
+                    <tr>
+                        <th id="costunit">{{'event.costunit'|trans}}</th>
+                        <th id="begin">{{'event.begin'|trans}}</th>
+                        <th id="end">{{'event.end'|trans}}</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for inventoryEvent in inventoryEvents %}
+                    <tr>
+                        <td headers="costunit">{{inventoryEvent.name }}</td>
+                        <td headers="begin">{{ inventoryEvent.begin|date('d.m.Y') }}</td>
+                        <td headers="end">{{ inventoryEvent.end|date('d.m.Y') }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            {% else %}
+                {{'events.noActiveEvents'|trans}}
+            {% endif %}
         </div>
-        <div class="aui-page-header-actions">
-            <div class="aui-buttons">
-                <input class="aui-date-picker aui-button" type="text" id="calendar-input-date" />
-                <button class="aui-button" id="calendar-show-date" ><span class="aui-icon aui-icon-small aui-iconfont-view">{{'generic.show'|trans}}</span> {{'generic.show'|trans}}</button>
-            </div>
-            <div class="aui-buttons">
-                <button class="aui-button" id="calendar-show-today">{{'generic.today'|trans}}</button>
-            </div>
+        <div class="aui-item">
+            <h3>{{'event.activeRoomEvents'|trans}}</h3>
+            {% if roomEvents is not empty %}
+            <table class="aui">
+                <thead>
+                    <tr>
+                        <th id="costunit">{{'event.costunit'|trans}}</th>
+                        <th id="begin">{{'event.begin'|trans}}</th>
+                        <th id="end">{{'event.end'|trans}}</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for roomEvent in roomEvents %}
+                    <tr>
+                        <td headers="costunit">{{roomEvent.name }}</td>
+                        <td headers="begin">{{ roomEvent.begin|date('d.m.Y') }}</td>
+                        <td headers="end">{{ roomEvent.end|date('d.m.Y') }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            {% else %}
+                {{'event.noActiveEvents'|trans}}
+            {% endif %}
         </div>
     </div>
-{% endblock %}
 
-{% block content %}
-    <div id="calendar" class="oktolab-calendar"></div>
-
-    {#<div id="qunit"></div>
-    <div id="qunit-fixture">
-        <div id="qunit-calendar"></div>
-    </div>#}
 {% endblock %}

@@ -92,15 +92,15 @@ class EventManager
     public function eventObjectIsAvailable(Event $event, $object)
     {
         if (!is_array($object)) {
-            $events = $this->getEventRepository()->findAllActiveForObject($object, $event->getBegin(), $event->getEnd());
-            if (count($events) == 0 || (count($events) == 1 && $event->getId() == $events[0]->getId())) {
+            $events = $this->getEventRepository()->findAllActiveForObject($object, $event->getBegin(), $event->getEnd(), $event->getType()->getName());
+            if (count($events) == 0 || (count($events) == 1 && $event->getId() == $events[0]->getId())) { //TODO: doesn't always work :(
                 return true;
             }
             return false;
         } else {
             foreach ($object as $setItem) {
                 $events = $this->getEventRepository()->findAllActiveForObject($setItem, $event->getBegin(), $event->getEnd());
-                if (count($events) > 1 || $events[0]->getId != $event->getId()) {
+                if (count($events) > 1 || $events[0]->getId() != $event->getId()) {
                     return false;
                 }
             }

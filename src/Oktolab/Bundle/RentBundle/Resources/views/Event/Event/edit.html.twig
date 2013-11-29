@@ -30,8 +30,8 @@
                 {{ form_row(form.costunit, { 'attr': { 'data-name': form.vars.value.costunit is not null ? form.vars.value.costunit.name : '' } }) }}
                 {{ form_row(form.contact, { 'attr': { 'data-name': form.vars.value.contact is not null ? form.vars.value.contact.name : '' } } ) }}
                 {{ form_row(form.description) }}
-                {{ form_row(form.begin, {'attr': {'data-timeblockStarts': timeblock_starts}}) }}
-                {{ form_row(form.end,  {'attr': {'data-timeblockEnds': timeblock_ends}}) }}
+                {{ form_row(form.begin, {'attr': {'data-timeblock-times': timeblock_times}}) }}
+                {{ form_row(form.end,  {'attr': {'data-timeblock-times': timeblock_times}}) }}
             </fieldset>
 
             <h3>{{ 'event.rentable_objects'|trans }}</h3>

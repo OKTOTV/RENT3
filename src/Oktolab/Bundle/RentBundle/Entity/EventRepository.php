@@ -24,13 +24,16 @@ class EventRepository extends EntityRepository
      * @TODO: add eventy state to query
      * @return array
      */
-    public function findActiveFromBeginToEnd(\DateTime $begin, \DateTime $end, $hydrationMode = null)
+    public function findActiveFromBeginToEnd(\DateTime $begin, \DateTime $end, $type = 'inventory', $hydrationMode = null)
     {
-        $qb = $this->getAllFromBeginToEndQuery($begin, $end);
+        $qb = $this->getAllFromBeginToEndQuery($begin, $end, $type);
         $qb->andWhere(
             $qb->expr()->not($qb->expr()->eq('e.state', Event::STATE_CANCELED))
         );
-
+//        var_dump($qb->getQuery()->getSQL());
+//
+//        var_dump($qb->getQuery()->getParameter('type'));
+//        die();
         return $qb->getQuery()->getResult($hydrationMode);
     }
 
@@ -39,13 +42,14 @@ class EventRepository extends EntityRepository
      *
      * @param \DateTime $begin
      * @param \DateTime $end
+     * @param string  $type
      * @param int       $hydrationMode
      *
      * @return array
      */
-    public function findAllFromBeginToEnd(\DateTime $begin, \DateTime $end, $hydrationMode = null)
+    public function findAllFromBeginToEnd(\DateTime $begin, \DateTime $end, $type = 'inventory', $hydrationMode = null)
     {
-        return $this->getAllFromBeginToEndQuery($begin, $end)
+        return $this->getAllFromBeginToEndQuery($begin, $end, $type)
             ->getQuery()->getResult($hydrationMode);
     }
 
@@ -58,9 +62,9 @@ class EventRepository extends EntityRepository
      *
      * @return integer
      */
-    public function findAllForObjectCount(EventObject $object, \DateTime $begin = null, \DateTime $end = null)
+    public function findAllForObjectCount(EventObject $object, \DateTime $begin = null, \DateTime $end = null, $type = 'inventory')
     {
-        $qb = $this->getAllFromBeginToEndQuery($begin, $end);
+        $qb = $this->getAllFromBeginToEndQuery($begin, $end, $type);
         return (int) $qb->select('COUNT(e.id)')
             ->join('OktolabRentBundle:EventObject', 'o')
             ->andWhere(
@@ -82,9 +86,9 @@ class EventRepository extends EntityRepository
      * @param \DateTime $end
      * @return events
      */
-    public function findAllActiveForObject(RentableInterface $object, \DateTime $begin = null, \DateTime $end = null)
+    public function findAllActiveForObject(RentableInterface $object, \DateTime $begin = null, \DateTime $end = null, $type = 'inventory')
     {
-        $qb = $this->getAllFromBeginToEndQuery($begin, $end);
+        $qb = $this->getAllFromBeginToEndQuery($begin, $end, $type);
         return $qb->select('e')
             ->join('OktolabRentBundle:EventObject', 'o')
             ->andWhere(
@@ -102,25 +106,37 @@ class EventRepository extends EntityRepository
 
     /**
      * Returns QueryBuilder for all Events in and within the given time period
+     *
      * @param \DateTime $begin
      * @param \DateTime $end
+     * @param string    $type
      *
      * @return \Doctrine\ORM\QueryBuilder
      */
-    public function getAllFromBeginToEndQuery(\DateTime $begin, \DateTime $end)
+    public function getAllFromBeginToEndQuery(\DateTime $begin, \DateTime $end, $type = 'inventory')
     {
+        $qb2 = $this->getEntityManager()->createQueryBuilder();
+        $qb2->select('et.id')->from('OktolabRentBundle:EventType', 'et')
+            ->where($qb2->expr()->eq('et.name', ':type'))
+            ;
+
         $qb = $this->getEntityManager()->createQueryBuilder();
-        $qb->select('e')->from('OktolabRentBundle:Event', 'e')
+        $qb->select('e')
+            ->from('OktolabRentBundle:Event', 'e')
             ->where(
-                $qb->expr()->orX(
-                    $qb->expr()->andX($qb->expr()->lte('e.begin', ':begin'), $qb->expr()->gt('e.end', ':begin')),
-                    $qb->expr()->andX($qb->expr()->gte('e.begin', ':begin'), $qb->expr()->lt('e.end', ':end')),
-                    $qb->expr()->andX($qb->expr()->lt('e.begin', ':end'), $qb->expr()->gte('e.end', ':end'))
+                $qb->expr()->andX(
+                    $qb->expr()->orX(
+                        $qb->expr()->andX($qb->expr()->lte('e.begin', ':begin'), $qb->expr()->gt('e.end', ':begin')),
+                        $qb->expr()->andX($qb->expr()->gte('e.begin', ':begin'), $qb->expr()->lt('e.end', ':end')),
+                        $qb->expr()->andX($qb->expr()->lt('e.begin', ':end'), $qb->expr()->gte('e.end', ':end'))
+                    ),
+                    $qb->expr()->in('e.type', $qb2->getDQL())
                 )
             );
 
         $qb->setParameter('begin', $begin);
         $qb->setParameter('end', $end);
+        $qb->setParameter('type', $type);
 
         return $qb;
     }

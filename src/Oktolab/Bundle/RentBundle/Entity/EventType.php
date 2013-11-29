@@ -24,7 +24,7 @@ class EventType
 
     /**
      * @var string
-     *
+     * TODO: change private property to title
      * @ORM\Column(name="title", type="string", length=255)
      */
     private $name;
@@ -32,7 +32,7 @@ class EventType
     /**
      * Get id
      *
-     * @return integer 
+     * @return integer
      */
     public function getId()
     {
@@ -48,14 +48,14 @@ class EventType
     public function setName($name)
     {
         $this->name = $name;
-    
+
         return $this;
     }
 
     /**
      * Get name
      *
-     * @return string 
+     * @return string
      */
     public function getName()
     {

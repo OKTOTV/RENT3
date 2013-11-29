@@ -4,8 +4,8 @@
             {{ form_errors(form) }}
 
             {{ form_row(form.name) }}
-            {{ form_row(form.begin, {'attr': {'data-timeblockStarts': timeblock_starts}}) }}
-            {{ form_row(form.end, {'attr': {'data-timeblockEnds': timeblock_ends}}) }}
+            {{ form_row(form.begin, {'attr': {'data-timeblock-times': timeblock_times, 'class': 'inventory-beginDate'}}) }}
+            {{ form_row(form.end, {'attr': {'data-timeblock-times': timeblock_times, 'class': 'inventory-endDate'}}) }}
 
         </fieldset>
 
@@ -13,7 +13,7 @@
         <fieldset>
             <div class="field-group">
                 <label for="inventory-search-field">{{ 'generic.search'|trans }}</label>
-                <input class="text long-field" type="text" id="inventory-search-field" name="inventory-search-field" title="{{ 'Search for Barcodes, Items, Sets, ...'|trans }}" disabled="disabled" />
+                <input class="text" type="text" id="inventory-search-field" name="inventory-search-field" title="{{ 'Search for Barcodes, Items, Sets, ...'|trans }}" disabled="disabled" />
                 <div class="description">{{ 'event.searchFor'|trans }} {{'generic.barcodes'|trans}}, {{'inventory.items'|trans}}, {{'inventory.sets'|trans}}, ...</div>
             </div>
 
@@ -22,12 +22,12 @@
                 <table class="aui">
                     <thead>
                         <tr>
-                            <th id="basic-barcode">{{ 'Barcode'|trans }}</th>
-                            <th id="basic-name">{{ 'Name'|trans }}</th>
+                            <th id="basic-barcode">{{ 'generic.barcode'|trans }}</th>
+                            <th id="basic-name">{{ 'generic.name'|trans }}</th>
                             <th id="basic-action"><span class="aui-icon aui-icon-small aui-iconfont-configure">{{ 'Actions'|trans }}</span></th>
                         </tr>
                     </thead>
-                    <tbody id="oktolabrentbundle_event_objects" class="event-objects" data-index="-1" data-prototype="{% filter escape %}{% include 'OktolabRentBundle:Event:eventObjectPrototype.html.twig' %}{% endfilter %}">
+                    <tbody id="oktolabrentbundle_event_objects" class="inventory-event-objects" data-index="-1" data-prototype="{% filter escape %}{% include 'OktolabRentBundle:Event:eventObjectPrototype.html.twig' %}{% endfilter %}">
                     </tbody>
                 </table>
             </div>

@@ -77,8 +77,8 @@ class EventApiController extends Controller
      *      name="inventory_event_item_typeahead_remote_url",
      *      defaults={"_format"="json"},
      *      requirements={"_format"="json"})
-     * @Configuration\ParamConverter("begin", options={"format": "Y-m-d"})
-     * @Configuration\ParamConverter("end", options={"format": "Y-m-d"})
+     * @Configuration\ParamConverter("begin")
+     * @Configuration\ParamConverter("end")
      * @return JsonResponse
      */
     public function typeaheadEventItemRemoteAction($itemValue, \DateTime $begin, \DateTime $end)
@@ -133,8 +133,8 @@ class EventApiController extends Controller
      *      name="inventory_event_set_typeahead_remote_url",
      *      defaults={"_format"="json"},
      *      requirements={"_format"="json"})
-     * @Configuration\ParamConverter("begin", options={"format": "Y-m-d"})
-     * @Configuration\ParamConverter("end", options={"format": "Y-m-d"})
+     * @Configuration\ParamConverter("begin")
+     * @Configuration\ParamConverter("end")
      * @return JsonResponse
      */
     public function typeaheadEventSetRemoteAction($setValue, \DateTime $begin, \DateTime $end)
@@ -195,8 +195,8 @@ class EventApiController extends Controller
      *      name="inventory_event_room_typeahead_remote_url",
      *      defaults={"_format"="json"},
      *      requirements={"_format"="json"})
-     * @Configuration\ParamConverter("begin", options={"format": "Y-m-d"})
-     * @Configuration\ParamConverter("end", options={"format": "Y-m-d"})
+     * @Configuration\ParamConverter("begin")
+     * @Configuration\ParamConverter("end")
      * @return JsonResponse
      * @param type $roomValue
      * @param \DateTime $begin
@@ -223,7 +223,7 @@ class EventApiController extends Controller
 
         $eventManager = $this->get('oktolab.event_manager');
 
-        foreach ($rooms as $rooms) {
+        foreach ($rooms as $room) {
             if ($eventManager->isAvailable($room, $begin, $end)) {
                 $json[] = array(
                     'name'          => $room->getTitle(),

@@ -56,8 +56,7 @@ class EventController extends Controller
         return array(
             'form' => $form->createView(),
             'objects' => $objects,
-            'timeblock_starts' => $this->get('oktolab.event_calendar_timeblock')->getBlockJsonForType('Inventory', true),
-            'timeblock_ends'   => $this->get('oktolab.event_calendar_timeblock')->getBlockJsonForType('Inventory', false),
+            'timeblock_times'  => $this->get('oktolab.event_calendar_timeblock')->getBlockJsonForType($form->getData()->getType()->getName())
         );
     }
 
@@ -93,8 +92,7 @@ class EventController extends Controller
             'form' => $form->createView(),
             'objects' => $objects,
             'event' => $event,
-            'timeblock_starts' => $this->get('oktolab.event_calendar_timeblock')->getBlockJsonForType('Inventory', true),
-            'timeblock_ends'   => $this->get('oktolab.event_calendar_timeblock')->getBlockJsonForType('Inventory', false),
+            'timeblock_times'  => $this->get('oktolab.event_calendar_timeblock')->getBlockJsonForType($event->getType()->getName())
             );
     }
 

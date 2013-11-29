@@ -111,6 +111,11 @@ class Event
     private $barcode;
 
     /**
+     * @ORM\ManyToOne(targetEntity="EventType")
+     */
+    private $type;
+
+    /**
      * Constructor
      */
     public function __construct()
@@ -384,5 +389,28 @@ class Event
     public function getBarcode()
     {
         return $this->barcode;
+    }
+
+    /**
+     * Set type
+     *
+     * @param \Oktolab\Bundle\RentBundle\Entity\EventType $type
+     * @return Event
+     */
+    public function setType(\Oktolab\Bundle\RentBundle\Entity\EventType $type = null)
+    {
+        $this->type = $type;
+
+        return $this;
+    }
+
+    /**
+     * Get type
+     *
+     * @return \Oktolab\Bundle\RentBundle\Entity\EventType
+     */
+    public function getType()
+    {
+        return $this->type;
     }
 }
