@@ -11,6 +11,7 @@
                 <thead>
                     <tr>
                         <th id="costunit">{{'event.costunit'|trans}}</th>
+                        <th id="contact">{{ 'event.contact'|trans }}</th>
                         <th id="begin">{{'event.begin'|trans}}</th>
                         <th id="end">{{'event.end'|trans}}</th>
                     </tr>
@@ -18,7 +19,8 @@
                 <tbody>
                     {% for inventoryEvent in inventoryEvents %}
                     <tr>
-                        <td headers="costunit">{{inventoryEvent.name }}</td>
+                        <td headers="costunit"><a href="{{ path('OktolabRentBundle_Event_Edit', { 'id': inventoryEvent.id }) }}">{{inventoryEvent.name }}</a></td>
+                        <td headers="contact">{{ inventoryEvent.contact.name}}</td>
                         <td headers="begin">{{ inventoryEvent.begin|date('d.m.Y') }}</td>
                         <td headers="end">{{ inventoryEvent.end|date('d.m.Y') }}</td>
                     </tr>
@@ -36,6 +38,7 @@
                 <thead>
                     <tr>
                         <th id="costunit">{{'event.costunit'|trans}}</th>
+                        <th id="contact">{{ 'event.contact'|trans }}</th>
                         <th id="begin">{{'event.begin'|trans}}</th>
                         <th id="end">{{'event.end'|trans}}</th>
                     </tr>
@@ -43,7 +46,8 @@
                 <tbody>
                     {% for roomEvent in roomEvents %}
                     <tr>
-                        <td headers="costunit">{{roomEvent.name }}</td>
+                        <td headers="costunit"><a href="{{ path('OktolabRentBundle_Event_Edit', { 'id': roomEvent.id }) }}">{{roomEvent.name }}</a></td>
+                        <td headers="contact">{{ roomEvent.contact.name}}</td>
                         <td headers="begin">{{ roomEvent.begin|date('d.m.Y') }}</td>
                         <td headers="end">{{ roomEvent.end|date('d.m.Y') }}</td>
                     </tr>

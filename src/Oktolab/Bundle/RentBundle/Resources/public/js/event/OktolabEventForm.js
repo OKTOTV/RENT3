@@ -21,8 +21,6 @@
                 EventForm._setup('newInventory');
             }
 
-
-            //TODO: setup room
             var roomSettings = {
                 container:          '#room_form',
                 objectSearch:       '#room-search-field',
@@ -37,6 +35,36 @@
                 EventForm._setup('newRoom');
             }
 
+            var editInventorySettings = {
+                container:          '#inventory-edit-form',
+                beginDate:          '.inventory-edit-beginDate',
+                beginHour:          'inventory-edit-beginHour',
+                endDate:            '.inventory-edit-endDate',
+                endHour:            'inventory-edit-endHour',
+                objectCollection:   '#inventory-edit-event-objects',
+                objectSearch:       '#inventory-edit-search-field'
+            };
+
+            if (EventForm._loadConfiguration(editInventorySettings, 'editInventory')) {
+                EventForm._setup('editInventory');
+                EventForm._activateObjectSearch('editInventory', false);
+            }
+
+            var editRoomSettings = {
+                container:          '#room-edit-form',
+                objectSearch:       '#room-edit-search-field',
+                objectCollection:   '#room-edit-event-objects',
+                beginDate:          '.room-edit-beginDate',
+                beginHour:          'room-edit-beginHour',
+                endDate:            '.room-edit-endDate',
+                endHour:            'room-editendHour',
+                type:               'room',
+            };
+
+            if (EventForm._loadConfiguration(editRoomSettings, 'editRoom')) {
+                EventForm._setup('editRoom');
+                EventForm._activateObjectSearch('editRoom', false);
+            }
         },
 
         /**
@@ -220,14 +248,14 @@
             var label = $('<label />', { 'for': EventForm.config[id].beginDate }).append(endLabel);
 
             var inputDate = $('<input />', { 'id': EventForm.config[id].endDate }).addClass('aui-date-picker text event-date').val($.datepicker.formatDate('yy-mm-dd',datetime));
-            var inputHour = $('<select />', { 'id': EventForm.config[id].endHour }).addClass('select event-select');
-            var inputMinute = $('<select />', { 'id': EventForm.config[id].endMinute }).addClass('select event-select');
+            var inputHour = $('<select />').addClass('select event-select ' + EventForm.config[id].endHour);
+            var inputMinute = $('<select />').addClass('select event-select');
 
             if ('' !== EventForm.data[id].container.find('input[id*=_end]').val()) {
                 var datetime = new Date(EventForm.data[id].container.find('input[id*=_end]').val());
                 inputDate.val($.datepicker.formatDate('yy-mm-dd',datetime));
                 inputHour.append($("<option></option>").text(Oktolab.leadingZero(datetime.getHours().toString())));
-                inputHour.append($("<option></option>").text(Oktolab.leadingZero(datetime.getMinutes().toString())));
+                inputMinute.append($("<option></option>").text(Oktolab.leadingZero(datetime.getMinutes().toString())));
             }
 
             fieldGroup.append(label).append(inputDate).append(inputHour).append(inputMinute);
@@ -347,13 +375,11 @@
             var min  = EventForm.data[id].beginMinute.val();
             if (date && hour && min) {
                 var datetime = date+'T'+hour+':'+min;
-//                if (datetime !== EventForm.data[id].beginContainer.val()) {
                 EventForm.data[id].beginContainer.val(datetime);
-//                }
             } else {
                 EventForm.data[id].beginContainer.val('');
             }
-            EventForm._activateObjectSearch(id);
+            EventForm._activateObjectSearch(id, true);
         },
 
         /**
@@ -365,20 +391,19 @@
             var min  = EventForm.data[id].endMinute.val();
             if (date && hour && min) {
                 var datetime = date+'T'+hour+':'+min;
-//                if (datetime !== EventForm.data[id].endContainer.val()) {
                 EventForm.data[id].endContainer.val(datetime);
-//                }
             } else {
                 EventForm.data[id].beginContainer.val('');
             }
-            EventForm._activateObjectSearch(id);
+            EventForm._activateObjectSearch(id, true);
         },
 
         /**
          * Sets the objectSearch to either room or inventory objects depending on EventForm.config[id].type
          */
-        _activateObjectSearch: function (id) {
-            EventForm._refreshObjectTable(id);
+        _activateObjectSearch: function (id, clearTable) {
+            if (clearTable) { EventForm._refreshObjectTable(id); }
+
             if ("" !== EventForm.data[id].beginContainer.val() && "" !== EventForm.data[id].endContainer.val()) {
                 var begin = EventForm.data[id].beginContainer.val();
                 var end = EventForm.data[id].endContainer.val();

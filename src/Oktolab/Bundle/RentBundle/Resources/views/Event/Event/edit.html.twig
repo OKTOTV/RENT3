@@ -1,5 +1,5 @@
 {% extends 'OktolabRentBundle::layoutFocusedTask.html.twig' %}
-
+{% set type = form.vars.value.type.name|lower %}
 {% block content_header %}
     <div class="aui-page-header-inner">
         <div class="aui-page-header-main">
@@ -22,7 +22,7 @@
 {% block content %}
     <div id="event-form">
         <h2>{{ 'generic.edit' | trans }} - {{ form.vars.value.name }}</h2>
-        {{ form_start(form, {'attr': {'class': 'aui'} }) }}
+        {{ form_start(form, {'attr': {'class': 'aui', 'id': type~'-edit-form'} }) }}
             <fieldset>
                 {{ form_errors(form) }}
 
@@ -30,17 +30,28 @@
                 {{ form_row(form.costunit, { 'attr': { 'data-name': form.vars.value.costunit is not null ? form.vars.value.costunit.name : '' } }) }}
                 {{ form_row(form.contact, { 'attr': { 'data-name': form.vars.value.contact is not null ? form.vars.value.contact.name : '' } } ) }}
                 {{ form_row(form.description) }}
-                {{ form_row(form.begin, {'attr': {'data-timeblock-times': timeblock_times}}) }}
-                {{ form_row(form.end,  {'attr': {'data-timeblock-times': timeblock_times}}) }}
+                {{ form_row(form.begin, {'attr': {'data-timeblock-times': timeblock_times, 'class': type~'-edit-beginDate'}}) }}
+                {{ form_row(form.end,  {'attr': {'data-timeblock-times': timeblock_times, 'class': type~'-edit-endDate'}}) }}
             </fieldset>
 
-            <h3>{{ 'event.rentable_objects'|trans }}</h3>
+            <h3>
+                {% if type == 'inventory' %}
+                    {{ 'event.rentable_objects'|trans }}
+                {% else %}
+                    {{ 'event.rentable_rooms'|trans }}
+                {% endif %}
+            </h3>
             <fieldset>
                 <div class="field-group">
                     <label for="oktolabrentbundle_event_editform_searchfield">{{ 'generic.search'|trans }}</label>
-                    <input class="text long-field" type="text" id="oktolabrentbundle_event_editform_searchfield" name="oktolab_rentbundle_editform_searchfield" title="{{ 'Search for Barcodes, Items, Sets, ...'|trans }}">
-                    <span class="aui-icon aui-icon-small aui-iconfont-search">{{ 'generic.search'|trans }}</span>
-                    <div class="description">{{ 'event.searchFor'|trans }} {{'generic.barcodes'|trans}}, {{'inventory.items'|trans}}, {{'inventory.sets'|trans}}, ...</div>
+                    <input class="text" type="text" id="{{type~'-edit-search-field'}}" disabled="disabled">
+                    <div class="description">
+                        {% if type == 'inventory' %}
+                            {{ 'event.searchFor'|trans }} {{'generic.barcodes'|trans}}, {{'inventory.items'|trans}}, {{'inventory.sets'|trans}}, ...
+                        {% else %}
+                            {{ 'event.searchFor'|trans }} {{'generic.barcodes'|trans}}, {{ 'generic.name'|trans}}
+                        {% endif %}
+                    </div>
                 </div>
 
                 <div class="field-group aui-oktolab-form-table">
@@ -54,6 +65,7 @@
                             </tr>
                         </thead>
                         <tbody class="event-objects"
+                               id="{{type~'-edit-event-objects'}}"
                                data-prototype="{% filter escape %}{% include 'OktolabRentBundle:Event:eventObjectPrototype.html.twig' %}{% endfilter %}"
                                data-index="{{ objects|length }}">
                             {% for object in objects if objects %}

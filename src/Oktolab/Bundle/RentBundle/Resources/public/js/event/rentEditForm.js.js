@@ -191,8 +191,8 @@
     };
 
     // If Found: Initialize OktolabRentBundle EditForm
-    if (0 !== $('#oktolabrentbundle_event_editform_searchfield').length) {
-        OktolabRentBundleEditForm();
-    }
+//    if (0 !== $('#oktolabrentbundle_event_editform_searchfield').length) {
+//        OktolabRentBundleEditForm();
+//    }
 
 }(window, document, jQuery, Oktolab));
