@@ -173,32 +173,18 @@ class EventManager
     public function save(Event $event)
     {
         $event->getBarcode() ? : $event->setBarcode($this->getUniqueBarcode());
-        $originalObjects = array();
-        $originalEvent = $this->getRepository('Event')->findOneBy(array('id' => $event->getId()));
-        if (null !== $originalEvent) {
-            foreach ($originalEvent->getObjects() as $object) {
-                $originalObjects[] = $object;
-            }
-        }
+        $oldEventObjects = $this->getRepository('EventObject')->findBy(array('event' => $event->getId()));
 
         $this->em->getConnection()->beginTransaction();
         try {
-            foreach ($event->getObjects() as $object) {
-                // Check for deletions in originalEvent
-                if (null !== $originalEvent) {
-                    foreach ($originalObjects as $key => $originalObject) {
-                        if ($originalObject->getId() === $object->getId()) {
-                            unset($originalObjects[$key]);
-                        }
-                    }
-                }
 
-                $object->setEvent($event);
+            foreach ($oldEventObjects as $object) {
+                $object->setEvent();
                 $this->em->persist($object);
             }
 
-            foreach ($originalObjects as $object) {
-                $event->removeObject($object);
+            foreach ($event->getObjects() as $object) {
+                $object->setEvent($event);
                 $this->em->persist($object);
             }
 
