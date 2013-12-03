@@ -10,7 +10,7 @@ class ItemControllerTest extends WebTestCase
 
     public function testIndexDisplaysEmptyList()
     {
-        $this->loadFixtures(array());
+        $this->loadFixtures(array('\Oktolab\Bundle\RentBundle\Tests\DataFixtures\ORM\Event\EventTypeFixture'));
 
         $crawler = $this->client->request('GET', '/inventory/items');
         $this->assertTrue($this->client->getResponse()->isSuccessful(), 'Response should be successful');
@@ -19,7 +19,10 @@ class ItemControllerTest extends WebTestCase
 
     public function testSubmitFormToCreateAnItemWithOptionalValue()
     {
-        $this->loadFixtures(array('Oktolab\Bundle\RentBundle\Tests\DataFixtures\ORM\PlaceFixture'));
+        $this->loadFixtures(array(
+            'Oktolab\Bundle\RentBundle\Tests\DataFixtures\ORM\PlaceFixture',
+            '\Oktolab\Bundle\RentBundle\Tests\DataFixtures\ORM\Event\EventTypeFixture'
+        ));
 
         $this->client->request('GET', '/inventory/item/new');
         $this->assertTrue($this->client->getResponse()->isSuccessful(), 'Response should be successful');
@@ -49,7 +52,10 @@ class ItemControllerTest extends WebTestCase
 
     public function testSubmitFormToCreateAnItemWithOptionalRent()
     {
-        $this->loadFixtures(array('Oktolab\Bundle\RentBundle\Tests\DataFixtures\ORM\PlaceFixture'));
+        $this->loadFixtures(array(
+            'Oktolab\Bundle\RentBundle\Tests\DataFixtures\ORM\PlaceFixture',
+            '\Oktolab\Bundle\RentBundle\Tests\DataFixtures\ORM\Event\EventTypeFixture'
+        ));
 
         $this->client->request('GET', '/inventory/item/new');
         $this->assertTrue($this->client->getResponse()->isSuccessful(), 'Response should be successful');
@@ -79,7 +85,10 @@ class ItemControllerTest extends WebTestCase
 
         public function testSubmitFormToCreateAnItemWithOptionalNotice()
     {
-        $this->loadFixtures(array('Oktolab\Bundle\RentBundle\Tests\DataFixtures\ORM\PlaceFixture'));
+        $this->loadFixtures(array(
+            'Oktolab\Bundle\RentBundle\Tests\DataFixtures\ORM\PlaceFixture',
+            '\Oktolab\Bundle\RentBundle\Tests\DataFixtures\ORM\Event\EventTypeFixture'
+        ));
 
         $this->client->request('GET', '/inventory/item/new');
         $this->assertTrue($this->client->getResponse()->isSuccessful(), 'Response should be successful');
@@ -109,7 +118,10 @@ class ItemControllerTest extends WebTestCase
 
     public function testSubmitFormToEditAnItem()
     {
-        $this->loadFixtures(array('Oktolab\Bundle\RentBundle\Tests\DataFixtures\ORM\ItemFixture'));
+        $this->loadFixtures(array(
+            'Oktolab\Bundle\RentBundle\Tests\DataFixtures\ORM\ItemFixture',
+            '\Oktolab\Bundle\RentBundle\Tests\DataFixtures\ORM\Event\EventTypeFixture'
+        ));
 
         $crawler = $this->client->request('GET', '/inventory/item/1');
         $crawler = $this->client->click($crawler->selectLink('Bearbeiten')->link());
@@ -137,7 +149,10 @@ class ItemControllerTest extends WebTestCase
 
     public function testEditItemThrowsErrorOnInvalidFormData()
     {
-        $this->loadFixtures(array('Oktolab\Bundle\RentBundle\Tests\DataFixtures\ORM\ItemFixture'));
+        $this->loadFixtures(array(
+            'Oktolab\Bundle\RentBundle\Tests\DataFixtures\ORM\ItemFixture',
+            '\Oktolab\Bundle\RentBundle\Tests\DataFixtures\ORM\Event\EventTypeFixture'
+        ));
 
         $this->client->request('GET', '/inventory/item/1/edit');
         $this->assertTrue($this->client->getResponse()->isSuccessful(), 'Response should be successful');
@@ -155,7 +170,10 @@ class ItemControllerTest extends WebTestCase
 
     public function testDeleteAnItem()
     {
-        $this->loadFixtures(array('Oktolab\Bundle\RentBundle\Tests\DataFixtures\ORM\ItemFixture'));
+        $this->loadFixtures(array(
+            'Oktolab\Bundle\RentBundle\Tests\DataFixtures\ORM\ItemFixture',
+            '\Oktolab\Bundle\RentBundle\Tests\DataFixtures\ORM\Event\EventTypeFixture'
+        ));
 
         $this->client->request('GET', '/inventory/item/1');
         $this->assertTrue($this->client->getResponse()->isSuccessful(), 'Response is successful.');
@@ -173,7 +191,7 @@ class ItemControllerTest extends WebTestCase
 
     public function testShowInvalidItemReturns404()
     {
-        $this->loadFixtures(array());
+        $this->loadFixtures(array('\Oktolab\Bundle\RentBundle\Tests\DataFixtures\ORM\Event\EventTypeFixture'));
 
         $this->client->request('GET', '/inventory/item/1');
         $this->assertTrue($this->client->getResponse()->isNotFound(), 'Response should return 404');
@@ -181,14 +199,14 @@ class ItemControllerTest extends WebTestCase
 
     public function testEditInvalidItemReturns404()
     {
-        $this->loadFixtures(array());
+        $this->loadFixtures(array('\Oktolab\Bundle\RentBundle\Tests\DataFixtures\ORM\Event\EventTypeFixture'));
         $this->client->request('GET', '/inventory/item/1/edit');
         $this->assertTrue($this->client->getResponse()->isNotFound(), 'Response should return 404');
     }
 
     public function testDeleteInvalidItemReturns404()
     {
-        $this->loadFixtures(array());
+        $this->loadFixtures(array('\Oktolab\Bundle\RentBundle\Tests\DataFixtures\ORM\Event\EventTypeFixture'));
 
         $this->client->request('GET', '/inventory/item/1/delete');
         $this->assertTrue($this->client->getResponse()->isNotFound(), 'Response should return 404');
@@ -197,7 +215,10 @@ class ItemControllerTest extends WebTestCase
     public function testNewItemWithAttachments()
     {
         $this->markTestIncomplete('Attachments should not be uploaded while creating new item.');
-        $this->loadFixtures(array('Oktolab\Bundle\RentBundle\Tests\DataFixtures\ORM\PlaceFixture'));
+        $this->loadFixtures(array(
+            'Oktolab\Bundle\RentBundle\Tests\DataFixtures\ORM\PlaceFixture',
+            '\Oktolab\Bundle\RentBundle\Tests\DataFixtures\ORM\Event\EventTypeFixture'
+        ));
 
         copy(__DIR__.'/../../DataFixtures/logo_okto.png', $filename = tempnam(sys_get_temp_dir(), 'OktolabRentBundle'));
         $file = new UploadedFile($filename, basename($filename), 'image/png', filesize($filename), null, true);
@@ -242,7 +263,10 @@ class ItemControllerTest extends WebTestCase
      */
     public function testBuyDateIsEmtyWhenEmpty()
     {
-        $this->loadFixtures(array('\Oktolab\Bundle\RentBundle\Tests\DataFixtures\ORM\ItemBuyDateFixture'));
+        $this->loadFixtures(array(
+            '\Oktolab\Bundle\RentBundle\Tests\DataFixtures\ORM\ItemBuyDateFixture',
+            '\Oktolab\Bundle\RentBundle\Tests\DataFixtures\ORM\Event\EventTypeFixture'
+        ));
 
         $this->client->request('GET', '/inventory/item/1');
         $this->assertTrue($this->client->getResponse()->isSuccessful());

@@ -31,10 +31,6 @@ class EventRepository extends EntityRepository
         $qb->andWhere(
             $qb->expr()->not($qb->expr()->eq('e.state', Event::STATE_CANCELED))
         );
-//        var_dump($qb->getQuery()->getSQL());
-//
-//        var_dump($qb->getQuery()->getParameter('type'));
-//        die();
         return $qb->getQuery()->getResult($hydrationMode);
     }
 

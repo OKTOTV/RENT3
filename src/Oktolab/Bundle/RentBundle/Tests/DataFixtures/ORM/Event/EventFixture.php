@@ -8,6 +8,7 @@ use Oktolab\Bundle\RentBundle\Entity\Event;
 use Oktolab\Bundle\RentBundle\Entity\EventObject;
 use Oktolab\Bundle\RentBundle\Entity\CostUnit;
 use Oktolab\Bundle\RentBundle\Entity\Contact;
+use Oktolab\Bundle\RentBundle\Entity\EventType;
 
 /**
  *  Loads a fixture Event.
@@ -29,6 +30,8 @@ class EventFixture extends AbstractFixture
         $costunit->setName('Testcostunit');
         $costunit->setGuid('12345678DUMMY');
 
+        $eventType = new EventType();
+        $eventType->setName('Inventory');
 
         $eventObject = new EventObject();
         $eventObject->setType('item')
@@ -42,12 +45,14 @@ class EventFixture extends AbstractFixture
             ->setEnd(new \DateTime('2013-10-15 17:00:00'))
             ->setContact($contact)
             ->setCostunit($costunit)
+            ->setType($eventType)
             ->addObject($eventObject);
 
         $eventObject->setEvent($event);
         $manager->persist($contact);
         $manager->persist($costunit);
         $manager->persist($eventObject);
+        $manager->persist($eventType);
         $manager->persist($event);
         $manager->flush();
     }

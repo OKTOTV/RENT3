@@ -9,7 +9,7 @@ class RoomControllerTest extends WebTestCase
 {
     public function testIndexDisplaysEmptyList()
     {
-        $this->loadFixtures(array());
+        $this->loadFixtures(array('\Oktolab\Bundle\RentBundle\Tests\DataFixtures\ORM\Event\EventTypeFixture'));
 
         $crawler = $this->client->request('GET', '/inventory/room/');
         $this->assertTrue($this->client->getResponse()->isSuccessful(), 'Response should be successful');
@@ -18,6 +18,7 @@ class RoomControllerTest extends WebTestCase
 
     public function testCreateNewRoom()
     {
+        $this->loadFixtures(array('\Oktolab\Bundle\RentBundle\Tests\DataFixtures\ORM\Event\EventTypeFixture'));
         $crawler = $this->client->request('GET', '/inventory/room/new');
         $form = $crawler->selectButton('Speichern')->form(
             array(
@@ -39,7 +40,10 @@ class RoomControllerTest extends WebTestCase
 
     public function testSubmitFormToEditARoom()
     {
-        $this->loadFixtures(array('Oktolab\Bundle\RentBundle\Tests\DataFixtures\ORM\RoomFixture'));
+        $this->loadFixtures(array(
+            'Oktolab\Bundle\RentBundle\Tests\DataFixtures\ORM\RoomFixture',
+            '\Oktolab\Bundle\RentBundle\Tests\DataFixtures\ORM\Event\EventTypeFixture'
+        ));
 
         $crawler = $this->client->request('GET', '/inventory/room/1');
         $crawler = $this->client->click($crawler->selectLink('Bearbeiten')->link());
@@ -67,7 +71,10 @@ class RoomControllerTest extends WebTestCase
 
     public function testDeleteRoom()
     {
-        $this->loadFixtures(array('Oktolab\Bundle\RentBundle\Tests\DataFixtures\ORM\RoomFixture'));
+        $this->loadFixtures(array(
+            'Oktolab\Bundle\RentBundle\Tests\DataFixtures\ORM\RoomFixture',
+            '\Oktolab\Bundle\RentBundle\Tests\DataFixtures\ORM\Event\EventTypeFixture'
+        ));
 
 
         $crawler = $this->client->request('GET', '/inventory/room/1');
@@ -84,7 +91,10 @@ class RoomControllerTest extends WebTestCase
 
     public function testEditRoomThrowsErrorOnInvalidFormData()
     {
-        $this->loadFixtures(array('Oktolab\Bundle\RentBundle\Tests\DataFixtures\ORM\RoomFixture'));
+        $this->loadFixtures(array(
+            'Oktolab\Bundle\RentBundle\Tests\DataFixtures\ORM\RoomFixture',
+            '\Oktolab\Bundle\RentBundle\Tests\DataFixtures\ORM\Event\EventTypeFixture'
+        ));
 
         $this->client->request('GET', '/inventory/room/1/edit');
         $this->assertTrue($this->client->getResponse()->isSuccessful(), 'Response should be successful');
@@ -102,7 +112,7 @@ class RoomControllerTest extends WebTestCase
 
     public function testNewSetWithAttachment()
     {
-        $this->loadFixtures(array());
+        $this->loadFixtures(array('\Oktolab\Bundle\RentBundle\Tests\DataFixtures\ORM\Event\EventTypeFixture'));
 
         $this->uploadTestFile();
 
@@ -132,7 +142,10 @@ class RoomControllerTest extends WebTestCase
 
     public function testDeleteRoomWithAttachments()
     {
-        $this->loadFixtures(array('Oktolab\Bundle\RentBundle\Tests\DataFixtures\ORM\RoomFixture'));
+        $this->loadFixtures(array(
+            'Oktolab\Bundle\RentBundle\Tests\DataFixtures\ORM\RoomFixture',
+            '\Oktolab\Bundle\RentBundle\Tests\DataFixtures\ORM\Event\EventTypeFixture'
+        ));
 
         $this->uploadTestFile();
 
@@ -171,6 +184,8 @@ class RoomControllerTest extends WebTestCase
 
     private function uploadTestFile()
     {
+        $this->loadFixtures(array('\Oktolab\Bundle\RentBundle\Tests\DataFixtures\ORM\Event\EventTypeFixture'));
+
         copy(__DIR__.'/../../DataFixtures/logo_okto.png', $filename = tempnam(sys_get_temp_dir(), 'OktolabRentBundle'));
         $file = new UploadedFile($filename, basename($filename), 'image/png', filesize($filename), null, true);
 

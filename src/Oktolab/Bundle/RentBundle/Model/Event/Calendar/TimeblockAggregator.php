@@ -21,7 +21,7 @@ class TimeblockAggregator extends BaseAggregator
      *
      * @return array
      */
-    public function getTimeblocks(\DateTime $begin = null, \DateTime $end = null, $type = 'inventory')
+    public function getTimeblocks(\DateTime $begin = null, \DateTime $end = null, $type = 'Inventory')
     {
         if (null === $this->getRepository('Timeblock')) {
             throw new RepositoryNotFoundException('Repository "Timeblock" not found.');

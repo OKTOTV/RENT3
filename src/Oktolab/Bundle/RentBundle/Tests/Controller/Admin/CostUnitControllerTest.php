@@ -14,7 +14,7 @@ class CostUnitControllerTest extends WebTestCase
     public function testSubmitFormToCreateNewCostUnit()
     {
         $this->logIn('ROLE_ADMIN');
-        $this->loadFixtures(array());
+        $this->loadFixtures(array('Oktolab\Bundle\RentBundle\Tests\DataFixtures\ORM\Event\EventTypeFixture'));
 
         $this->client->request('GET', '/admin/costunit/new');
         $this->assertTrue($this->client->getResponse()->isSuccessful(), 'Response should be successful');
@@ -40,7 +40,10 @@ class CostUnitControllerTest extends WebTestCase
     public function testSubmitFormToUpdateCostUnit()
     {
         $this->logIn('ROLE_ADMIN');
-        $this->loadFixtures(array('Oktolab\Bundle\RentBundle\Tests\DataFixtures\ORM\CostUnitFixture'));
+        $this->loadFixtures(array(
+            'Oktolab\Bundle\RentBundle\Tests\DataFixtures\ORM\CostUnitFixture',
+            'Oktolab\Bundle\RentBundle\Tests\DataFixtures\ORM\Event\EventTypeFixture'
+        ));
 
         // load page
         $this->client->request('GET', '/admin/costunit/1/edit');
@@ -66,7 +69,10 @@ class CostUnitControllerTest extends WebTestCase
     public function testAddContactToCostUnit()
     {
         $this->logIn('ROLE_ADMIN');
-        $this->loadFixtures(array('Oktolab\Bundle\RentBundle\Tests\DataFixtures\ORM\CostUnitFixture'));
+        $this->loadFixtures(array(
+            'Oktolab\Bundle\RentBundle\Tests\DataFixtures\ORM\CostUnitFixture',
+            'Oktolab\Bundle\RentBundle\Tests\DataFixtures\ORM\Event\EventTypeFixture'
+        ));
 
         $this->client->request('GET', '/admin/costunit/1/edit');
         $this->assertTrue($this->client->getResponse()->isSuccessful(), 'Response should be successful');
@@ -104,7 +110,10 @@ class CostUnitControllerTest extends WebTestCase
     public function testDeleteCostUnitWithMembersWillFail()
     {
         $this->logIn('ROLE_ADMIN');
-        $this->loadFixtures(array('Oktolab\Bundle\RentBundle\Tests\DataFixtures\ORM\CostUnitWithContactFixture'));
+        $this->loadFixtures(array(
+            'Oktolab\Bundle\RentBundle\Tests\DataFixtures\ORM\CostUnitWithContactFixture',
+            'Oktolab\Bundle\RentBundle\Tests\DataFixtures\ORM\Event\EventTypeFixture'
+        ));
         $this->client->request('GET', '/admin/costunit/page');
 
         $this->client->request('GET', '/admin/costunit/1/delete');
@@ -121,7 +130,10 @@ class CostUnitControllerTest extends WebTestCase
     public function testSuccessfullyDeleteACostUnit()
     {
         $this->logIn('ROLE_ADMIN');
-        $this->loadFixtures(array('Oktolab\Bundle\RentBundle\Tests\DataFixtures\ORM\CostUnitFixture'));
+        $this->loadFixtures(array(
+            'Oktolab\Bundle\RentBundle\Tests\DataFixtures\ORM\CostUnitFixture',
+            'Oktolab\Bundle\RentBundle\Tests\DataFixtures\ORM\Event\EventTypeFixture'
+        ));
         $this->client->request('GET', '/admin/costunit/1/delete');
         $this->assertTrue($this->client->getResponse()->isRedirect(), 'Response should be a redirect');
         $crawler = $this->client->followRedirect();

@@ -9,7 +9,7 @@ class CategoryControllerTest extends WebTestCase
     public function testSubmitFormToCreateNewCategory()
     {
         $this->logIn('ROLE_ADMIN');
-        $this->loadFixtures(array());
+        $this->loadFixtures(array('Oktolab\Bundle\RentBundle\Tests\DataFixtures\ORM\Event\EventTypeFixture'));
 
         $this->client->request('GET', '/admin/inventory/category/new');
         $this->assertTrue($this->client->getResponse()->isSuccessful(), 'Response should be successful');
@@ -35,7 +35,10 @@ class CategoryControllerTest extends WebTestCase
     public function testSubmitFormToUpdateACategory()
     {
         $this->logIn('ROLE_ADMIN');
-        $this->loadFixtures(array('Oktolab\Bundle\RentBundle\Tests\DataFixtures\ORM\CategoryFixture'));
+        $this->loadFixtures(array(
+            'Oktolab\Bundle\RentBundle\Tests\DataFixtures\ORM\CategoryFixture',
+            'Oktolab\Bundle\RentBundle\Tests\DataFixtures\ORM\Event\EventTypeFixture'
+        ));
 
         // load page
         $this->client->request('GET', '/admin/inventory/category/1/edit');
@@ -64,6 +67,7 @@ class CategoryControllerTest extends WebTestCase
         $this->loadFixtures(
             array(
                 'Oktolab\Bundle\RentBundle\Tests\DataFixtures\ORM\CategoryFixture',
+                'Oktolab\Bundle\RentBundle\Tests\DataFixtures\ORM\Event\EventTypeFixture',
                 'Oktolab\Bundle\RentBundle\Tests\DataFixtures\ORM\ItemFixture',
             )
         );
@@ -94,7 +98,10 @@ class CategoryControllerTest extends WebTestCase
     public function testSuccessfullyDeleteACategory()
     {
         $this->logIn('ROLE_ADMIN');
-        $this->loadFixtures(array('Oktolab\Bundle\RentBundle\Tests\DataFixtures\ORM\CategoryFixture'));
+        $this->loadFixtures(array(
+            'Oktolab\Bundle\RentBundle\Tests\DataFixtures\ORM\CategoryFixture',
+            'Oktolab\Bundle\RentBundle\Tests\DataFixtures\ORM\Event\EventTypeFixture'
+        ));
 
         // load page
         $this->client->request('GET', '/admin/inventory/category/1/delete');

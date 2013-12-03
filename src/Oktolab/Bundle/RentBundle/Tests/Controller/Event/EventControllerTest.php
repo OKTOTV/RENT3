@@ -12,19 +12,7 @@ use Oktolab\Bundle\RentBundle\Entity\Event;
  */
 class EventControllerTest extends WebTestCase
 {
-
     /**
-     * @test
-     */
-    public function createAnEventReturnsValidResponse()
-    {
-        $this->client->request('POST', '/event');
-        $this->assertTrue($this->client->getResponse()->isSuccessful(), 'Response should be successful.');
-        $this->assertFalse($this->client->getResponse()->isCacheable(), 'Response must not be cacheable.');
-    }
-
-    /**
-     * @depends createAnEventReturnsValidResponse
      * @test
      */
     public function createAnEventWithItems()
@@ -33,7 +21,8 @@ class EventControllerTest extends WebTestCase
             array(
                 '\Oktolab\Bundle\RentBundle\Tests\DataFixtures\ORM\Event\ItemFixture',
                 '\Oktolab\Bundle\RentBundle\Tests\DataFixtures\ORM\ContactFixture',
-                '\Oktolab\Bundle\RentBundle\Tests\DataFixtures\ORM\CostUnitFixture'
+                '\Oktolab\Bundle\RentBundle\Tests\DataFixtures\ORM\CostUnitFixture',
+                'Oktolab\Bundle\RentBundle\Tests\DataFixtures\ORM\Event\EventTypeFixture'
             )
         );
 
@@ -84,12 +73,15 @@ class EventControllerTest extends WebTestCase
     }
 
     /**
-     * @depends createAnEventReturnsValidResponse
+     * @depends createAnEventWithItems
      * @test
      */
     public function createAnEventDisplaysErrorsIfFormInputIsInvalid()
     {
-        $this->loadFixtures(array('\Oktolab\Bundle\RentBundle\Tests\DataFixtures\ORM\Event\ItemFixture'));
+        $this->loadFixtures(array(
+            '\Oktolab\Bundle\RentBundle\Tests\DataFixtures\ORM\Event\ItemFixture',
+            'Oktolab\Bundle\RentBundle\Tests\DataFixtures\ORM\Event\EventTypeFixture'
+        ));
 
         $crawler = $this->client->request('GET', '/rent/inventory');
         $this->assertTrue($this->client->getResponse()->isSuccessful(), 'Response is successful.');
@@ -107,7 +99,7 @@ class EventControllerTest extends WebTestCase
 
         // @see https://github.com/symfony/symfony/issues/4124#issuecomment-13229362
         $crawler = $this->client->request($form->getMethod(), $form->getUri(), $values, $form->getPhpFiles());
-//        echo $this->client->getResponse()->getContent(); die();
+
         $this->assertTrue($this->client->getResponse()->isSuccessful(), 'Response is successful.');
         $this->assertRegExp('/There was an error while saving the form./', $this->client->getResponse()->getContent());
 
@@ -121,7 +113,6 @@ class EventControllerTest extends WebTestCase
     }
 
     /**
-     * @depends createAnEventReturnsValidResponse
      * @test
      */
     public function createAnEventDisplaysErrorIfEventObjectNotFound()
@@ -130,7 +121,6 @@ class EventControllerTest extends WebTestCase
     }
 
     /**
-     * @depends createAnEventReturnsValidResponse
      * @test
      */
     public function createAnEventAddsToLog()
@@ -147,6 +137,7 @@ class EventControllerTest extends WebTestCase
             array(
                 '\Oktolab\Bundle\RentBundle\Tests\DataFixtures\ORM\Event\EventFixture',
                 '\Oktolab\Bundle\RentBundle\Tests\DataFixtures\ORM\Event\ItemFixture',
+                '\Oktolab\Bundle\RentBundle\Tests\DataFixtures\ORM\Event\EventTypeFixture'
             )
         );
 
@@ -174,6 +165,7 @@ class EventControllerTest extends WebTestCase
             array(
                 '\Oktolab\Bundle\RentBundle\Tests\DataFixtures\ORM\Event\EventFixture',
                 '\Oktolab\Bundle\RentBundle\Tests\DataFixtures\ORM\Event\ItemFixture',
+                '\Oktolab\Bundle\RentBundle\Tests\DataFixtures\ORM\Event\EventTypeFixture'
             )
         );
 
@@ -232,6 +224,7 @@ class EventControllerTest extends WebTestCase
             array(
                 '\Oktolab\Bundle\RentBundle\Tests\DataFixtures\ORM\Event\EventFixture',
                 '\Oktolab\Bundle\RentBundle\Tests\DataFixtures\ORM\Event\ItemFixture',
+                '\Oktolab\Bundle\RentBundle\Tests\DataFixtures\ORM\Event\EventTypeFixture'
             )
         );
 
@@ -279,6 +272,7 @@ class EventControllerTest extends WebTestCase
             array(
                 '\Oktolab\Bundle\RentBundle\Tests\DataFixtures\ORM\Event\EventFixture',
                 '\Oktolab\Bundle\RentBundle\Tests\DataFixtures\ORM\Event\ItemFixture',
+                '\Oktolab\Bundle\RentBundle\Tests\DataFixtures\ORM\Event\EventTypeFixture'
             )
         );
 
@@ -307,6 +301,7 @@ class EventControllerTest extends WebTestCase
             array(
                 '\Oktolab\Bundle\RentBundle\Tests\DataFixtures\ORM\Event\EventFixture',
                 '\Oktolab\Bundle\RentBundle\Tests\DataFixtures\ORM\Event\ItemFixture',
+                '\Oktolab\Bundle\RentBundle\Tests\DataFixtures\ORM\Event\EventTypeFixture'
             )
         );
 
@@ -335,6 +330,7 @@ class EventControllerTest extends WebTestCase
         $this->loadFixtures(
             array(
                 '\Oktolab\Bundle\RentBundle\Tests\DataFixtures\ORM\Event\EventFixture',
+                '\Oktolab\Bundle\RentBundle\Tests\DataFixtures\ORM\Event\EventTypeFixture',
                 '\Oktolab\Bundle\RentBundle\Tests\DataFixtures\ORM\Event\ItemFixture',
                 '\Oktolab\Bundle\RentBundle\Tests\DataFixtures\ORM\ContactFixture',
                 '\Oktolab\Bundle\RentBundle\Tests\DataFixtures\ORM\CostUnitFixture'

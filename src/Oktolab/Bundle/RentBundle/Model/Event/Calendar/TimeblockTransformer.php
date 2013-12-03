@@ -110,7 +110,7 @@ class TimeblockTransformer
      *
      * @return array
      */
-    public function getSeparatedTimeblocks(\DateTime $begin = null, \DateTime $end = null, $max = null, $type = 'inventory')
+    public function getSeparatedTimeblocks(\DateTime $begin = null, \DateTime $end = null, $max = null, $type = 'Inventory')
     {
         $this->guardTimeblockAggregation($begin, $end);
         $aggregatedTimeblocks = $this->aggregator->getTimeblocks($begin, $end, $type);
@@ -203,7 +203,7 @@ class TimeblockTransformer
      * @param type $type
      * @return type
      */
-    public function getBlockJsonForType($type = 'inventory')
+    public function getBlockJsonForType($type = 'Inventory')
     {
         $timeblocks = $this->getSeparatedTimeblocks(new \DateTime(), new \DateTime('+90 days'), 200, $type);
 
