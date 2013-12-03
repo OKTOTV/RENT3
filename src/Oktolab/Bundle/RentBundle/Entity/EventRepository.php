@@ -5,6 +5,7 @@ namespace Oktolab\Bundle\RentBundle\Entity;
 use Doctrine\ORM\EntityRepository;
 use Oktolab\Bundle\RentBundle\Model\RentableInterface;
 use Oktolab\Bundle\RentBundle\Entity\Event;
+use Doctrine\ORM\Query\Expr;
 
 /**
  * EventRepository
@@ -89,8 +90,8 @@ class EventRepository extends EntityRepository
     public function findAllActiveForObject(RentableInterface $object, \DateTime $begin = null, \DateTime $end = null, $type = 'inventory')
     {
         $qb = $this->getAllFromBeginToEndQuery($begin, $end, $type);
-        return $qb->select('e')
-            ->join('OktolabRentBundle:EventObject', 'o')
+        $query = $qb->select('e')
+            ->leftJoin('OktolabRentBundle:EventObject', 'o', Expr\Join::WITH, 'e.id = o.event')
             ->andWhere(
                 $qb->expr()->andX(
                     $qb->expr()->eq('o.type', ':objectType'),
@@ -101,7 +102,8 @@ class EventRepository extends EntityRepository
 
             ->setParameter('objectType', $object->getType())
             ->setParameter('objectId', $object->getId())
-            ->getQuery()->getResult();
+            ->getQuery();
+        return $query->getResult();
     }
 
     /**

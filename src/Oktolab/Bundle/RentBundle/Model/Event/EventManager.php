@@ -93,7 +93,7 @@ class EventManager
     {
         if (!is_array($object)) {
             $events = $this->getEventRepository()->findAllActiveForObject($object, $event->getBegin(), $event->getEnd(), $event->getType()->getName());
-            if (count($events) == 0 || (count($events) == 1 && $event->getId() == $events[0]->getId())) { //TODO: doesn't always work :(
+            if (count($events) == 0 || (count($events) == 1 && $event->getId() == $events[0]->getId())) {
                 return true;
             }
             return false;
