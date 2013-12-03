@@ -19,7 +19,6 @@ class CalendarApiControllerTest extends WebTestCase
             array(
                 '\Oktolab\Bundle\RentBundle\Tests\DataFixtures\ORM\EventApiTimeblockFixture',
                 '\Oktolab\Bundle\RentBundle\Tests\DataFixtures\ORM\EventApiInventoryFixture',
-                '\Oktolab\Bundle\RentBundle\Tests\DataFixtures\ORM\Event\EventTypeFixture'
             )
         );
     }

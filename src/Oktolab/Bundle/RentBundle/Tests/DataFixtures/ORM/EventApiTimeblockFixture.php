@@ -6,6 +6,7 @@ use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Common\Persistence\ObjectManager;
 
 use Oktolab\Bundle\RentBundle\Entity\Timeblock;
+use Oktolab\Bundle\RentBundle\Entity\EventType;
 
 /**
  * Description of EventApiTimeblockFixture
@@ -19,15 +20,21 @@ class EventApiTimeblockFixture extends AbstractFixture
      */
     public function load(ObjectManager $om)
     {
+        $eventType = new EventType();
+        $eventType->setName('Inventory');
+
         $timeblock = new Timeblock();
-        $timeblock->setIntervalBegin(new \DateTime('2013-01-01 00:00'))
-            ->setIntervalEnd(new \DateTime('2013-12-31 23:59'))
-            ->setBegin(new \DateTime('2013-01-01 08:00'))
-            ->setEnd(new \DateTime('2013-12-31 17:00'))
+        $timeblock
+            ->setIntervalBegin(new \DateTime('today 00:00'))
+            ->setIntervalEnd(new \DateTime('+30days 23:59'))
+            ->setBegin(new \DateTime('today 08:00'))
+            ->setEnd(new \DateTime('today 17:00'))
             ->setIsActive(true)
+            ->setEventType($eventType)
             ->setWeekdays(1016);    // All Weekdays
 
         $om->persist($timeblock);
+        $om->persist($eventType);
         $om->flush();
     }
 }
