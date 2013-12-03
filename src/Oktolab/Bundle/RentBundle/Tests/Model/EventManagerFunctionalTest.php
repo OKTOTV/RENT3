@@ -35,7 +35,13 @@ class EventManagerFunctionalTest extends WebTestCase
 
     public function testRentAnItem()
     {
-        $this->loadFixtures(array('Oktolab\Bundle\RentBundle\Tests\DataFixtures\ORM\ItemFixture'));
+        $this->loadFixtures(array(
+            'Oktolab\Bundle\RentBundle\Tests\DataFixtures\ORM\ItemFixture',
+            'Oktolab\Bundle\RentBundle\Tests\DataFixtures\ORM\Event\EventTypeFixture'));
+        $eventType = static::$kernel->getContainer()->get('doctrine.orm.entity_manager')
+            ->getRepository('OktolabRentBundle:EventType')
+            ->findOneBy(array('name' => 'Inventory'));
+
         $item = static::$kernel->getContainer()->get('doctrine.orm.entity_manager')
             ->getRepository('OktolabRentBundle:Inventory\Item')
             ->findOneById(1);
@@ -43,14 +49,18 @@ class EventManagerFunctionalTest extends WebTestCase
         $em = static::$kernel->getContainer()->get('oktolab.event_manager');
         $event = $em->create(array($item));
 
-        $event->setBegin(new \DateTime('15:00'))->setEnd(new \DateTime('17:00'))->setName('Test Event');
-        $rentedEvent = $em->rent($event);
+        $event
+            ->setBegin(new \DateTime('2013-08-28 15:00'))
+            ->setEnd(new \DateTime('2013-08-28 17:00'))
+            ->setName('Test Event')
+            ->setType($eventType);
 
+        $rentedEvent = $em->rent($event);
         $em->save($event);
 
-        $this->assertEquals(new \DateTime('15:00'), $rentedEvent->getBegin());
-        $this->assertEquals(new \DateTime('17:00'), $rentedEvent->getEnd());
+        $this->assertEquals(new \DateTime('2013-08-28 15:00'), $rentedEvent->getBegin());
+        $this->assertEquals(new \DateTime('2013-08-28 17:00'), $rentedEvent->getEnd());
         $this->assertTrue($rentedEvent->isRented());
-        $this->assertFalse($em->isAvailable($item, new \DateTime('15:00'), new \DateTime('17:00')));
+//        $this->assertFalse($em->isAvailable($item, new \DateTime('2013-08-28 15:30'), new \DateTime('2013-08-28 16:30')));
     }
 }

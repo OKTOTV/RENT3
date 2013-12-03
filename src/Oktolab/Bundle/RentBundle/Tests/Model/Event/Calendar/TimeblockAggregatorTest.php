@@ -4,6 +4,7 @@ namespace Oktolab\Bundle\RentBundle\Tests\Model\Event\Calendar;
 
 use Oktolab\Bundle\RentBundle\Model\Event\Calendar\TimeblockAggregator;
 use Oktolab\Bundle\RentBundle\Entity\Timeblock;
+use Oktolab\Bundle\RentBundle\Entity\EventType;
 
 class TimeblockAggregatorTest extends \PHPUnit_Framework_TestCase
 {
@@ -24,10 +25,16 @@ class TimeblockAggregatorTest extends \PHPUnit_Framework_TestCase
     public function testAggregateTimeblocksReturnsArray()
     {
         $timeblock = new Timeblock();
+        $eventType = new EventType();
+
         $repository = $this->getMockBuilder('Doctrine\ORM\EntityRepository')->disableOriginalConstructor()->getMock();
-        $repository->expects($this->once())->method('findAll')->will($this->returnValue(array($timeblock)));
+        $repository->expects($this->once())->method('findBy')->will($this->returnValue(array($timeblock)));
+
+        $repository2 = $this->getMockBuilder('Doctrine\ORM\EntityRepository')->disableOriginalConstructor()->getMock();
+        $repository2->expects($this->once())->method('findOneBy')->will($this->returnValue($eventType));
 
         $this->SUT->addRepository('Timeblock', $repository);
+        $this->SUT->addRepository('EventType', $repository2);
         $this->assertSame(array($timeblock), $this->SUT->getTimeblocks());
     }
 
