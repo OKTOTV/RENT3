@@ -28,7 +28,7 @@ class RentController extends Controller
     public function rentInventoryFormAction()
     {
         $event = new Event();
-        $eventType = $this->getDoctrine()->getManager()->getRepository('OktolabRentBundle:EventType')->findOneBy(array('name' => 'Inventory'));
+        $eventType = $this->getDoctrine()->getManager()->getRepository('OktolabRentBundle:EventType')->findOneBy(array('name' => 'inventory'));
         $event->setType($eventType);
         $form = $this->get('form.factory')->create(
             'OktolabRentBundle_Event_Form',
@@ -65,7 +65,7 @@ class RentController extends Controller
     public function rentRoomFormAction()
     {
         $event = new Event();
-        $eventType = $this->getDoctrine()->getManager()->getRepository('OktolabRentBundle:EventType')->findOneBy(array('name' => 'Room'));
+        $eventType = $this->getDoctrine()->getManager()->getRepository('OktolabRentBundle:EventType')->findOneBy(array('name' => 'room'));
         $event->setType($eventType);
 
         $form = $this->get('form.factory')->create(

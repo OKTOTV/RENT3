@@ -21,9 +21,9 @@ class EventTypeFixture extends AbstractFixture
     public function load(ObjectManager $om)
     {
         $eventTypeInventory = new EventType();
-        $eventTypeInventory->setName('Inventory');
+        $eventTypeInventory->setName('inventory');
         $eventTypeRoom = new EventType();
-        $eventTypeRoom->setName('Room');
+        $eventTypeRoom->setName('room');
 
         $om->persist($eventTypeInventory);
         $om->persist($eventTypeRoom);

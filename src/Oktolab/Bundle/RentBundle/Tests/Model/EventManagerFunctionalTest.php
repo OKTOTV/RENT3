@@ -40,7 +40,7 @@ class EventManagerFunctionalTest extends WebTestCase
             'Oktolab\Bundle\RentBundle\Tests\DataFixtures\ORM\Event\EventTypeFixture'));
         $eventType = static::$kernel->getContainer()->get('doctrine.orm.entity_manager')
             ->getRepository('OktolabRentBundle:EventType')
-            ->findOneBy(array('name' => 'Inventory'));
+            ->findOneBy(array('name' => 'inventory'));
 
         $item = static::$kernel->getContainer()->get('doctrine.orm.entity_manager')
             ->getRepository('OktolabRentBundle:Inventory\Item')
@@ -61,6 +61,6 @@ class EventManagerFunctionalTest extends WebTestCase
         $this->assertEquals(new \DateTime('2013-08-28 15:00'), $rentedEvent->getBegin());
         $this->assertEquals(new \DateTime('2013-08-28 17:00'), $rentedEvent->getEnd());
         $this->assertTrue($rentedEvent->isRented());
-//        $this->assertFalse($em->isAvailable($item, new \DateTime('2013-08-28 15:30'), new \DateTime('2013-08-28 16:30')));
+        $this->assertFalse($em->isAvailable($item, new \DateTime('2013-08-28 15:00'), new \DateTime('2013-08-28 17:00')));
     }
 }
