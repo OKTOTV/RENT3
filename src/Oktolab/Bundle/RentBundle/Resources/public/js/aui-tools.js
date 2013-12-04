@@ -30,7 +30,9 @@ AJS.$(document).ready(function() {
     AJS.$('#quicksearch').typeahead([{
             name:       'quicksearch-items',
             valueKey:   'name',
+            prefetchUrl: { url: oktolab.typeahead.itemPrefetchUrl, ttl: 604800000},
             remote:     { url: oktolab.typeahead.itemRemoteUrl },
+            limit:      10,
             template:   quicksearch_template,
             header:     '<h3 style="color: black">Items</h3>',
             engine:     Hogan
@@ -51,6 +53,7 @@ AJS.$(document).ready(function() {
         }, {
             name:   'quicksearch-costunits',
             valueKey:   'name',
+            prefetchUrl: { url : oktolab.typeahead.costunitPrefetchUrl, ttl: 604800000},
             remote:     { url: oktolab.typeahead.costunitRemoteUrl },
             template:   quicksearch_template,
             header:     '<h3 style="color: black">Kostenstellen</h3>',

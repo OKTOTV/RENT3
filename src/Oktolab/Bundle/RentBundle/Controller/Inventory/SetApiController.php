@@ -15,7 +15,7 @@ class SetApiController extends Controller
     /**
      * Returns a JSON formatted Dataset for typeahead.js
      *
-     * @Configuration\Cache(expires="+1 week", public="yes")
+     * @Configuration\Cache(expires="+30 days", public="yes")
      * @Configuration\Method("GET")
      * @Configuration\Route("/typeahead.{_format}",
      *      name="OktolabRentBundle_Set_Typeahead_Prefetch",
@@ -26,38 +26,8 @@ class SetApiController extends Controller
      */
     public function typeaheadPrefetchAction()
     {
-        $sets = $this->getDoctrine()
-            ->getManager()
-            ->createQuery('SELECT s, i FROM OktolabRentBundle:Inventory\Set s JOIN s.items i ORDER BY s.updated_at DESC')
-            ->setMaxResults(20)
-            ->setFetchMode('OktolabRentBundle:Inventory\Set', 'Items', 'EAGER')
-            ->setQueryCacheLifetime(3600)
-            ->getResult(\Doctrine\ORM\Query::HYDRATE_ARRAY);
-
-        $json = array();
-        foreach ($sets as $set) {
-            $items = array_map(
-                function ($item) {
-                    return sprintf('%s:%d', 'item', $item['id']);
-                },
-                $set['items']
-            );
-
-            $tokens = array($set['barcode'], $set['title']);
-
-            $json[] = array(
-                'name'          => $set['title'],
-                'value'         => sprintf('%s:%d', 'set', $set['id']),
-                'type'          => 'set',
-                'id'            => $set['id'],
-                'description'   => $set['description'],
-                'barcode'       => $set['barcode'],
-                'items'         => $items,
-                'tokens'        => $tokens,
-            );
-        }
-
-        return new JsonResponse($json);
+        $sets = $this->getDoctrine()->getManager()->getRepository('OktolabRentBundle:Inventory\Set')->findAll();
+        return new JsonResponse($this->getTypeaheadArrayFromSets($sets));
     }
 
     /**
@@ -73,9 +43,8 @@ class SetApiController extends Controller
      */
     public function typeaheadRemoteAction($setValue)
     {
-        $em = $this->getDoctrine()->getManager();
-        $repository = $em->getRepository('OktolabRentBundle:Inventory\Set');
-        //SELECT * FROM set.s WHERE s.barcode LIKE %value% OR s.title LIKE %value%
+        $repository = $this->getDoctrine()->getManager()->getRepository('OktolabRentBundle:Inventory\Set');
+        //SELECT * FROM set s WHERE s.barcode LIKE %value% OR s.title LIKE %value%
         $dq = $repository->createQueryBuilder('s');
         $query = $dq->select()
             ->where(
@@ -89,10 +58,18 @@ class SetApiController extends Controller
 
         $sets = $query->getResult();
 
+        return new JsonResponse($this->getTypeaheadArrayFromSets($sets));
+    }
+
+    /**
+     * return a typeahead friendly array out of a collection of sets
+     * @param DoctrineCollection $sets
+     * @return array
+     */
+    public function getTypeaheadArrayFromSets($sets)
+    {
         $json = array();
-
         foreach ($sets as $set) {
-
             $items = array();
             foreach($set->getItems() as $item) {
                 $items[] = sprintf('%s:%d', $item->getType(), $item->getId());
@@ -114,7 +91,6 @@ class SetApiController extends Controller
                 )
             );
         }
-
-        return new JsonResponse($json);
+        return $json;
     }
 }

@@ -24,7 +24,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration;
 class EventApiController extends Controller
 {
     /**
-     * Returns a JSON formatted Dataset for typeahead.js
+     * Returns  events for given eventValue for typeahead.js
      *
      * @Method("GET")
      * @Route("/typeahead.{_format}/{eventValue}",
@@ -70,7 +70,7 @@ class EventApiController extends Controller
     }
 
     /**
-     * Returns a JSON formatted Dataset for typeahead.js
+     * Returns available items for given itemValue and timerange for typeahead.js
      *
      * @Method("GET")
      * @Route("/items/typeahead.{_format}/{itemValue}/{begin}/{end}",
@@ -126,7 +126,7 @@ class EventApiController extends Controller
     }
 
     /**
-     * Returns a JSON formatted Dataset for typeahead.js
+     * Returns available sets for given setValue and timerange for typeahead.js
      *
      * @Configuration\Method("GET")
      * @Configuration\Route("/sets/typeahead.{_format}/{setValue}/{begin}/{end}",
@@ -188,7 +188,7 @@ class EventApiController extends Controller
     }
 
     /**
-     * Returns a JSON formatted Dataset for typeahead.js
+     * Returns available rooms for given roomValue and timerange for typeahead.js
      *
      * @Configuration\Method("GET")
      * @Configuration\Route("/rooms/typeahead.{_format}/{roomValue}/{begin}/{end}",
@@ -224,7 +224,7 @@ class EventApiController extends Controller
         $eventManager = $this->get('oktolab.event_manager');
 
         foreach ($rooms as $room) {
-            if ($eventManager->isAvailable($room, $begin, $end)) {
+            if ($eventManager->isAvailable($room, $begin, $end, 'room')) {
                 $json[] = array(
                     'name'          => $room->getTitle(),
                     'value'         => sprintf('%s:%d', $room->getType(), $room->getId()),
