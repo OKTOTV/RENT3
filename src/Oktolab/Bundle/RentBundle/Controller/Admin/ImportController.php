@@ -4,10 +4,7 @@ namespace Oktolab\Bundle\RentBundle\Controller\Admin;
 
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Cache;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration;
 use Symfony\Component\Validator\Constraints\NotNull;
 use Symfony\Component\Validator\Constraints\File;
 use Symfony\Component\HttpFoundation\Response;
@@ -18,17 +15,17 @@ use Oktolab\Bundle\RentBundle\Entity\Inventory\Import;
 /**
  * Inventory\Item controller.
  *
- * @Route("/admin/inventory/import")
+ * @Configuration\Route("/admin/inventory/import")
  */
 class ImportController extends Controller
 {
     /**
      * Lists all Inventory\Item entities.
      *
-     * @Route("/", name="inventory_import")
-     * @Method("GET")
-     * @Cache(expires="+1 year", public="true")
-     * @Template()
+     * @Configuration\Route("/", name="inventory_import")
+     * @Configuration\Method("GET")
+     * @Configuration\Cache(expires="+1 year", public="true")
+     * @Configuration\Template()
      */
     public function indexAction()
     {
@@ -37,9 +34,9 @@ class ImportController extends Controller
     }
 
     /**
-     * @Route("/", name="inventory_import_upload")
-     * @Method("POST")
-     * @Template("OktolabRentBundle:Admin\Import:verify.html.twig")
+     * @Configuration\Route("/", name="inventory_import_upload")
+     * @Configuration\Method("POST")
+     * @Configuration\Template("OktolabRentBundle:Admin\Import:verify.html.twig")
      */
     public function uploadAction(Request $request)
     {
@@ -98,12 +95,14 @@ class ImportController extends Controller
 
                 } else {
                     //items invalid
-                    $this->get('session')->getFlashBag()->add('error', $this->get('translator')->trans('message.import.fileContainsError'));
+                    $message = $this->get('translator')->trans('message.import.fileContainsError');
+                    $this->get('session')->getFlashBag()->add('error', $message);
                 }
 
             } else {
                 //file is invalid
-                $this->get('session')->getFlashBag()->add('error', $this->get('translator')->trans('message.import.fileInvalid'));
+                $message = $this->get('translator')->trans('message.import.fileInvalid');
+                $this->get('session')->getFlashBag()->add('error', $message);
             }
 
             return $this->redirect($this->generateUrl('inventory_import'));
@@ -118,8 +117,8 @@ class ImportController extends Controller
     }
 
     /**
-     * @Route("/create", name="inventory_import_create")
-     * @Method("POST")
+     * @Configuration\Route("/create", name="inventory_import_create")
+     * @Configuration\Method("POST")
      */
     public function createAction(Request $request)
     {
@@ -139,8 +138,8 @@ class ImportController extends Controller
     }
 
     /**
-     * @Route("/example", name="admin_import_example")
-     * @Method("GET")
+     * @Configuration\Route("/example", name="admin_import_example")
+     * @Configuration\Method("GET")
      */
     public function downloadExampleAction()
     {
