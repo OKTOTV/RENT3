@@ -2,13 +2,9 @@
 
 namespace Oktolab\Bundle\RentBundle\Controller\Admin;
 
-
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
-use Oktolab\Bundle\RentBundle\Entity\Contact;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration;
 
 /**
  * Contact controller.
@@ -21,15 +17,13 @@ class ContactController extends Controller
     /**
      * Lists all Contact entities.
      *
-     * @Route("/", name="admin_contact")
-     * @Method("GET")
-     * @Template()
+     * @Configuration\Route("/", name="admin_contact")
+     * @Configuration\Method("GET")
+     * @Configuration\Template()
      */
     public function indexAction()
     {
-        $em = $this->getDoctrine()->getManager();
-
-        $entities = $em->getRepository('OktolabRentBundle:Contact')->findAll();
+        $entities = $this->getDoctrine()->getManager()->getRepository('OktolabRentBundle:Contact')->findAll();
 
         return array(
             'contacts' => $entities,
@@ -39,15 +33,12 @@ class ContactController extends Controller
     /**
      * Finds and displays a Contact entity.
      *
-     * @Route("/{id}", name="admin_contact_show")
-     * @Method("GET")
-     * @ParamConverter("contact", class="OktolabRentBundle:Contact")
-     * @Template()
+     * @Configuration\Route("/{id}", name="admin_contact_show")
+     * @Configuration\Method("GET")
+     * @Configuration\ParamConverter("contact", class="OktolabRentBundle:Contact")
+     * @Configuration\Template("OktolabRentBundle:Admin\Contact:show.html.twig", vars={"contact"})
      */
-    public function showAction(Contact $contact)
+    public function showAction()
     {
-        return array(
-            'contact'      => $contact,
-        );
     }
 }
