@@ -1,13 +1,13 @@
 <?php
 
-namespace Oktolab\Bundle\RentBundle\DataFixtures\ORM;
+namespace Oktolab\Bundle\RentBundle\Tests\DataFixtures\ORM\Event;
 
 use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Common\Persistence\ObjectManager;
 use Oktolab\Bundle\RentBundle\Entity\EventType;
 
 /**
- * Description of EventTypeFixture
+ * Loads a EventTypeFixture
  *
  * @author rs
  */

@@ -43,3 +43,24 @@ services:
         factory_method:   getRepository
         arguments:        [ OktolabRentBundle:Contact ]
         public:            false
+
+    oktolab.orm.event_type_repository:
+        class:            %oktolab.orm.object_repository.class%
+        factory_service:  doctrine
+        factory_method:   getRepository
+        arguments:        [ OktolabRentBundle:EventType ]
+        public:            false
+
+    oktolab.orm.room_repository:
+        class:            %oktolab.orm.object_repository.class%
+        factory_service:  doctrine
+        factory_method:   getRepository
+        arguments:        [ OktolabRentBundle:Inventory\Room ]
+        public:            false
+
+    oktolab.orm.event_object_repository:
+        class:            %oktolab.orm.object_repository.class%
+        factory_service:  doctrine
+        factory_method:   getRepository
+        arguments:        [ OktolabRentBundle:EventObject ]
+        public:            false

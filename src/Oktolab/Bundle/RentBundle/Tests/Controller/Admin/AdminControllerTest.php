@@ -25,6 +25,8 @@ class AdminControllerTest extends WebTestCase
 
     public function testCallIndexAsAdminUser()
     {
+        $this->loadFixtures(array('Oktolab\Bundle\RentBundle\Tests\DataFixtures\ORM\Event\EventTypeFixture'));
+
         $this->logIn('ROLE_ADMIN');
         $this->client->request('GET', '/admin');
         $this->assertTrue($this->client->getResponse()->isSuccessful(), 'ROLE_ADMIN must have access to this page.');

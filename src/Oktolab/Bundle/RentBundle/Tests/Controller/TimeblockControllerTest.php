@@ -12,7 +12,10 @@ class TimeblockControllerTest extends WebTestCase
     public function listAllTimeBlocks()
     {
         $this->logIn('ROLE_ADMIN');
-        $this->loadFixtures(array('Oktolab\Bundle\RentBundle\Tests\DataFixtures\ORM\EventApiTimeblockFixture'));
+        $this->loadFixtures(array(
+            'Oktolab\Bundle\RentBundle\Tests\DataFixtures\ORM\EventApiTimeblockFixture',
+            '\Oktolab\Bundle\RentBundle\Tests\DataFixtures\ORM\Event\EventTypeFixture'
+        ));
 
         $this->client->request('GET', '/admin/timeblock/');
         $this->assertTrue($this->client->getResponse()->isSuccessful(), 'Response should be successful.');
@@ -25,7 +28,10 @@ class TimeblockControllerTest extends WebTestCase
     public function showTimeBlock()
     {
         $this->logIn('ROLE_ADMIN');
-        $this->loadFixtures(array('Oktolab\Bundle\RentBundle\Tests\DataFixtures\ORM\EventApiTimeblockFixture'));
+        $this->loadFixtures(array(
+            'Oktolab\Bundle\RentBundle\Tests\DataFixtures\ORM\EventApiTimeblockFixture',
+            '\Oktolab\Bundle\RentBundle\Tests\DataFixtures\ORM\Event\EventTypeFixture'
+        ));
 
         $this->client->request('GET', '/admin/timeblock/1');
         $this->assertTrue($this->client->getResponse()->isSuccessful(), 'Response should be successful.');
@@ -41,7 +47,10 @@ class TimeblockControllerTest extends WebTestCase
     public function updateTimeBlock()
     {
         $this->logIn('ROLE_ADMIN');
-        $this->loadFixtures(array('Oktolab\Bundle\RentBundle\Tests\DataFixtures\ORM\EventApiTimeblockFixture'));
+        $this->loadFixtures(array(
+            'Oktolab\Bundle\RentBundle\Tests\DataFixtures\ORM\EventApiTimeblockFixture',
+            '\Oktolab\Bundle\RentBundle\Tests\DataFixtures\ORM\Event\EventTypeFixture'
+        ));
 
         $this->client->request('GET', '/admin/timeblock/1/edit');
         $this->assertTrue($this->client->getResponse()->isSuccessful(), 'Response should be successful.');
@@ -62,6 +71,7 @@ class TimeblockControllerTest extends WebTestCase
      */
     public function createTimeBlock()
     {
+        $this->loadFixtures(array('\Oktolab\Bundle\RentBundle\Tests\DataFixtures\ORM\Event\EventTypeFixture'));
         $this->logIn('ROLE_ADMIN');
         $this->client->request('GET', '/admin/timeblock/new');
         $this->assertTrue($this->client->getResponse()->isSuccessful(), 'Response should be successful.');
@@ -94,7 +104,10 @@ class TimeblockControllerTest extends WebTestCase
     public function deleteTimeBlock()
     {
         $this->logIn('ROLE_ADMIN');
-        $this->loadFixtures(array('Oktolab\Bundle\RentBundle\Tests\DataFixtures\ORM\EventApiTimeblockFixture'));
+        $this->loadFixtures(array(
+            'Oktolab\Bundle\RentBundle\Tests\DataFixtures\ORM\EventApiTimeblockFixture',
+            '\Oktolab\Bundle\RentBundle\Tests\DataFixtures\ORM\Event\EventTypeFixture'
+        ));
 
         $this->client->request('GET', '/admin/timeblock/');
         $this->assertTrue($this->client->getResponse()->isSuccessful(), 'Response should be successful.');

@@ -9,7 +9,7 @@ class PlaceControllerTest extends WebTestCase
     public function testSubmitFormToCreateNewPlace()
     {
         $this->logIn('ROLE_ADMIN');
-        $this->loadFixtures(array());
+        $this->loadFixtures(array('Oktolab\Bundle\RentBundle\Tests\DataFixtures\ORM\Event\EventTypeFixture'));
 
         $this->client->request('GET', '/admin/inventory/place/new');
         $this->assertTrue($this->client->getResponse()->isSuccessful(), 'Response should be successful');
@@ -35,7 +35,10 @@ class PlaceControllerTest extends WebTestCase
     public function testSubmitFormToUpdateAPlace()
     {
         $this->logIn('ROLE_ADMIN');
-        $this->loadFixtures(array('Oktolab\Bundle\RentBundle\Tests\DataFixtures\ORM\PlaceFixture'));
+        $this->loadFixtures(array(
+            'Oktolab\Bundle\RentBundle\Tests\DataFixtures\ORM\PlaceFixture',
+            'Oktolab\Bundle\RentBundle\Tests\DataFixtures\ORM\Event\EventTypeFixture'
+        ));
 
         // load page
         $this->client->request('GET', '/admin/inventory/place/1/edit');
@@ -61,7 +64,10 @@ class PlaceControllerTest extends WebTestCase
     public function testDeletePlaceWithItemShouldFail()
     {
         $this->logIn('ROLE_ADMIN');
-        $this->loadFixtures(array('Oktolab\Bundle\RentBundle\Tests\DataFixtures\ORM\ItemFixture'));
+        $this->loadFixtures(array(
+            'Oktolab\Bundle\RentBundle\Tests\DataFixtures\ORM\ItemFixture',
+            'Oktolab\Bundle\RentBundle\Tests\DataFixtures\ORM\Event\EventTypeFixture'
+        ));
 
         // load page
         $this->client->request('GET', '/admin/inventory/place/1/delete');

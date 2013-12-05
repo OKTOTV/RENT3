@@ -176,11 +176,6 @@ services:
         class:      %oktolab.event_calendar_inventory.class%
         arguments:  [ @oktolab.event_calendar_inventory_aggregator, @oktolab.cache ]
 
-    oktolab.event_calendar_timeblock_aggregator:
-        class:  %oktolab.event_calendar_timeblock_aggregator.class%
-        calls:
-            - [ addRepository, [ "Timeblock", @oktolab.orm.timeblock_repository ] ]
-
     oktolab.event_calendar_timeblock:
         class:      %oktolab.event_calendar_timeblock.class%
         arguments:  [ @oktolab.event_calendar_timeblock_aggregator, @oktolab.event_calendar_timeblock_cache, @doctrine.orm.entity_manager ]

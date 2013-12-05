@@ -110,10 +110,10 @@ class TimeblockTransformer
      *
      * @return array
      */
-    public function getSeparatedTimeblocks(\DateTime $begin = null, \DateTime $end = null, $max = null)
+    public function getSeparatedTimeblocks(\DateTime $begin = null, \DateTime $end = null, $max = null, $type = 'Inventory')
     {
         $this->guardTimeblockAggregation($begin, $end);
-        $aggregatedTimeblocks = $this->aggregator->getTimeblocks($begin, $end);
+        $aggregatedTimeblocks = $this->aggregator->getTimeblocks($begin, $end, $type);
         $max = (null === $max) ? count($aggregatedTimeblocks) * 30 : $max;
 
         $timeblocks = array();
@@ -198,14 +198,25 @@ class TimeblockTransformer
         }
     }
 
-    public function getBlockJsonForType($type = 'Inventory', $start = true)
+    /**
+     * Returns a JSON with all Timeblocks for given type in half hour steps. Used for Eventforms.
+     * @param type $type
+     * @return type
+     */
+    public function getBlockJsonForType($type = 'Inventory')
     {
-        $timeblocks = $this->getSeparatedTimeblocks(new \DateTime(), new \DateTime('+90 days'), 200);
+        $timeblocks = $this->getSeparatedTimeblocks(new \DateTime(), new \DateTime('+90 days'), 200, $type);
 
         $json_timeblocks = array();
         foreach ($timeblocks as $timeblock) {
-            $block = $timeblock[($start) ? 'begin' : 'end']->format('H:i:s');
-            $json_timeblocks[$timeblock['date']->format('Ymd')][] = $block;
+            while($timeblock['begin'] < $timeblock['end']) {
+                $json_timeblocks[$timeblock['date']->format('Ymd')][$timeblock['begin']->format('H')] = array(
+                    $timeblock['begin']->format('i'),
+                    $timeblock['begin']->modify('+30min')->format('i')
+                );
+                $timeblock['begin'] = $timeblock['begin']->modify('+30min');
+            }
+            $json_timeblocks[$timeblock['date']->format('Ymd')][$timeblock['end']->format('H')] = array($timeblock['end']->format('i'));
         }
 
         return json_encode($json_timeblocks);

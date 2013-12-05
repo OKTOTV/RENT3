@@ -9,7 +9,7 @@ class RoomControllerTest extends WebTestCase
 {
     public function testIndexDisplaysEmptyList()
     {
-        $this->loadFixtures(array());
+        $this->loadFixtures(array('\Oktolab\Bundle\RentBundle\Tests\DataFixtures\ORM\Event\EventTypeFixture'));
 
         $crawler = $this->client->request('GET', '/inventory/room/');
         $this->assertTrue($this->client->getResponse()->isSuccessful(), 'Response should be successful');
@@ -18,6 +18,7 @@ class RoomControllerTest extends WebTestCase
 
     public function testCreateNewRoom()
     {
+        $this->loadFixtures(array('\Oktolab\Bundle\RentBundle\Tests\DataFixtures\ORM\Event\EventTypeFixture'));
         $crawler = $this->client->request('GET', '/inventory/room/new');
         $form = $crawler->selectButton('Speichern')->form(
             array(
@@ -39,7 +40,10 @@ class RoomControllerTest extends WebTestCase
 
     public function testSubmitFormToEditARoom()
     {
-        $this->loadFixtures(array('Oktolab\Bundle\RentBundle\Tests\DataFixtures\ORM\RoomFixture'));
+        $this->loadFixtures(array(
+            'Oktolab\Bundle\RentBundle\Tests\DataFixtures\ORM\RoomFixture',
+            '\Oktolab\Bundle\RentBundle\Tests\DataFixtures\ORM\Event\EventTypeFixture'
+        ));
 
         $crawler = $this->client->request('GET', '/inventory/room/1');
         $crawler = $this->client->click($crawler->selectLink('Bearbeiten')->link());
@@ -67,7 +71,10 @@ class RoomControllerTest extends WebTestCase
 
     public function testDeleteRoom()
     {
-        $this->loadFixtures(array('Oktolab\Bundle\RentBundle\Tests\DataFixtures\ORM\RoomFixture'));
+        $this->loadFixtures(array(
+            'Oktolab\Bundle\RentBundle\Tests\DataFixtures\ORM\RoomFixture',
+            '\Oktolab\Bundle\RentBundle\Tests\DataFixtures\ORM\Event\EventTypeFixture'
+        ));
 
 
         $crawler = $this->client->request('GET', '/inventory/room/1');
@@ -84,7 +91,10 @@ class RoomControllerTest extends WebTestCase
 
     public function testEditRoomThrowsErrorOnInvalidFormData()
     {
-        $this->loadFixtures(array('Oktolab\Bundle\RentBundle\Tests\DataFixtures\ORM\RoomFixture'));
+        $this->loadFixtures(array(
+            'Oktolab\Bundle\RentBundle\Tests\DataFixtures\ORM\RoomFixture',
+            '\Oktolab\Bundle\RentBundle\Tests\DataFixtures\ORM\Event\EventTypeFixture'
+        ));
 
         $this->client->request('GET', '/inventory/room/1/edit');
         $this->assertTrue($this->client->getResponse()->isSuccessful(), 'Response should be successful');
@@ -102,7 +112,7 @@ class RoomControllerTest extends WebTestCase
 
     public function testNewSetWithAttachment()
     {
-        $this->loadFixtures(array());
+        $this->loadFixtures(array('\Oktolab\Bundle\RentBundle\Tests\DataFixtures\ORM\Event\EventTypeFixture'));
 
         $this->uploadTestFile();
 
@@ -132,34 +142,28 @@ class RoomControllerTest extends WebTestCase
 
     public function testDeleteRoomWithAttachments()
     {
-        $this->loadFixtures(array('Oktolab\Bundle\RentBundle\Tests\DataFixtures\ORM\RoomFixture'));
+        $this->loadFixtures(array(
+            'Oktolab\Bundle\RentBundle\Tests\DataFixtures\ORM\RoomFixture',
+            '\Oktolab\Bundle\RentBundle\Tests\DataFixtures\ORM\Event\EventTypeFixture'
+        ));
 
         $this->uploadTestFile();
-
-        $crawler = $this->client->request('GET', '/inventory/room/1');
-        $crawler = $this->client->click($crawler->selectLink('Bearbeiten')->link());
-
         $this->client->request('GET', '/inventory/room/1/edit');
         $this->assertTrue($this->client->getResponse()->isSuccessful(), 'Response should be successful');
-
-
         $form = $this->client->getCrawler()->selectButton('Speichern')->form(
             array(
                 'oktolab_bundle_rentbundle_inventory_roomtype[title]'  => 'Foo',
             )
         );
-
         $this->client->submit($form);
         $this->assertTrue($this->client->getResponse()->isRedirection(), 'Response should be a redirection');
         $crawler = $this->client->followRedirect();
         $this->assertTrue($this->client->getResponse()->isSuccessful(), 'Response should be successful');
         $this->assertEquals(1, $crawler->filter('.aui-expander-content > img')->count(), 'Contains no Attachment');
-
         $attachment = $this->getContainer()
             ->get('doctrine.orm.entity_manager')
             ->getRepository('OktolabRentBundle:Inventory\Attachment')
             ->findOneBy(array('id' => 1));
-
         $uploadpath = $this->getContainer()
             ->getParameter('oktolab.web_dir').$this->getContainer()->getParameter('oktolab.upload_dir');
 

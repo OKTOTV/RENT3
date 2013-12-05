@@ -24,7 +24,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration;
 class EventApiController extends Controller
 {
     /**
-     * Returns a JSON formatted Dataset for typeahead.js
+     * Returns  events for given eventValue for typeahead.js
      *
      * @Method("GET")
      * @Route("/typeahead.{_format}/{eventValue}",
@@ -70,15 +70,15 @@ class EventApiController extends Controller
     }
 
     /**
-     * Returns a JSON formatted Dataset for typeahead.js
+     * Returns available items for given itemValue and timerange for typeahead.js
      *
      * @Method("GET")
      * @Route("/items/typeahead.{_format}/{itemValue}/{begin}/{end}",
      *      name="inventory_event_item_typeahead_remote_url",
      *      defaults={"_format"="json"},
      *      requirements={"_format"="json"})
-     * @Configuration\ParamConverter("begin", options={"format": "Y-m-d"})
-     * @Configuration\ParamConverter("end", options={"format": "Y-m-d"})
+     * @Configuration\ParamConverter("begin")
+     * @Configuration\ParamConverter("end")
      * @return JsonResponse
      */
     public function typeaheadEventItemRemoteAction($itemValue, \DateTime $begin, \DateTime $end)
@@ -126,15 +126,15 @@ class EventApiController extends Controller
     }
 
     /**
-     * Returns a JSON formatted Dataset for typeahead.js
+     * Returns available sets for given setValue and timerange for typeahead.js
      *
      * @Configuration\Method("GET")
      * @Configuration\Route("/sets/typeahead.{_format}/{setValue}/{begin}/{end}",
      *      name="inventory_event_set_typeahead_remote_url",
      *      defaults={"_format"="json"},
      *      requirements={"_format"="json"})
-     * @Configuration\ParamConverter("begin", options={"format": "Y-m-d"})
-     * @Configuration\ParamConverter("end", options={"format": "Y-m-d"})
+     * @Configuration\ParamConverter("begin")
+     * @Configuration\ParamConverter("end")
      * @return JsonResponse
      */
     public function typeaheadEventSetRemoteAction($setValue, \DateTime $begin, \DateTime $end)
@@ -188,15 +188,15 @@ class EventApiController extends Controller
     }
 
     /**
-     * Returns a JSON formatted Dataset for typeahead.js
+     * Returns available rooms for given roomValue and timerange for typeahead.js
      *
      * @Configuration\Method("GET")
      * @Configuration\Route("/rooms/typeahead.{_format}/{roomValue}/{begin}/{end}",
      *      name="inventory_event_room_typeahead_remote_url",
      *      defaults={"_format"="json"},
      *      requirements={"_format"="json"})
-     * @Configuration\ParamConverter("begin", options={"format": "Y-m-d"})
-     * @Configuration\ParamConverter("end", options={"format": "Y-m-d"})
+     * @Configuration\ParamConverter("begin")
+     * @Configuration\ParamConverter("end")
      * @return JsonResponse
      * @param type $roomValue
      * @param \DateTime $begin
@@ -223,8 +223,8 @@ class EventApiController extends Controller
 
         $eventManager = $this->get('oktolab.event_manager');
 
-        foreach ($rooms as $rooms) {
-            if ($eventManager->isAvailable($room, $begin, $end)) {
+        foreach ($rooms as $room) {
+            if ($eventManager->isAvailable($room, $begin, $end, 'room')) {
                 $json[] = array(
                     'name'          => $room->getTitle(),
                     'value'         => sprintf('%s:%d', $room->getType(), $room->getId()),

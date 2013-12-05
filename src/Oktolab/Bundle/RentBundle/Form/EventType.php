@@ -80,6 +80,14 @@ class EventType extends AbstractType
                     'allow_delete' => true,
                     'label'     => 'event.objects'
                 )
+            )
+            ->add(
+                'type',
+                'entity',
+                array(
+                    'class' => 'OktolabRentBundle:EventType',
+                    'property' => 'name'
+                )
             );
 
         $builder->add('cancel', 'submit', array('validation_groups' => false))

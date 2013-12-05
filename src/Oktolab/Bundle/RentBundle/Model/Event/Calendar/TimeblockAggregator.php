@@ -21,12 +21,16 @@ class TimeblockAggregator extends BaseAggregator
      *
      * @return array
      */
-    public function getTimeblocks(\DateTime $begin = null, \DateTime $end = null)
+    public function getTimeblocks(\DateTime $begin = null, \DateTime $end = null, $type = 'Inventory')
     {
         if (null === $this->getRepository('Timeblock')) {
             throw new RepositoryNotFoundException('Repository "Timeblock" not found.');
         }
+        if (null === $this->getRepository('EventType')) {
+            throw new RepositoryNotFoundException('Repository "EventType" not found.');
+        }
 
-        return $this->getRepository('Timeblock')->findAll();
+        $eventType = $this->getRepository('EventType')->findOneBy(array('name' => $type));
+        return $this->getRepository('Timeblock')->findBy(array('eventType' => $eventType->getId()));
     }
 }

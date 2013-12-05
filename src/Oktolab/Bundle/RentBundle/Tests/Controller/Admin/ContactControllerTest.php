@@ -8,7 +8,10 @@ class ContactControllerTest extends WebTestCase
 {
     public function testListAllContacts()
     {
-        $this->loadFixtures(array('Oktolab\Bundle\RentBundle\Tests\DataFixtures\ORM\ContactFixture'));
+        $this->loadFixtures(array(
+            'Oktolab\Bundle\RentBundle\Tests\DataFixtures\ORM\ContactFixture',
+            'Oktolab\Bundle\RentBundle\Tests\DataFixtures\ORM\Event\EventTypeFixture'
+        ));
         $this->logIn('ROLE_ADMIN');
 
         $this->client->request('GET', '/admin/contact/');
@@ -18,7 +21,10 @@ class ContactControllerTest extends WebTestCase
 
     public function testShowContact()
     {
-        $this->loadFixtures(array('Oktolab\Bundle\RentBundle\Tests\DataFixtures\ORM\ContactFixture'));
+        $this->loadFixtures(array(
+            'Oktolab\Bundle\RentBundle\Tests\DataFixtures\ORM\ContactFixture',
+            'Oktolab\Bundle\RentBundle\Tests\DataFixtures\ORM\Event\EventTypeFixture'
+        ));
         $this->logIn('ROLE_ADMIN');
 
         $crawler = $this->client->request('GET', '/admin/contact/1');

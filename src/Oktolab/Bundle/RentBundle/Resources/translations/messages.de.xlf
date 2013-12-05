@@ -282,6 +282,10 @@
                 <source>generic.barcodes</source>
                 <target>Barcodes</target>
             </trans-unit>
+            <trans-unit id="71">
+                <source>generic.name</source>
+                <target>Name</target>
+            </trans-unit>
 
 
             <trans-unit id="100">
@@ -1026,6 +1030,22 @@
             <trans-unit id="1216">
                 <source>event.searchFor</source>
                 <target>Suche nach:</target>
+            </trans-unit>
+            <trans-unit id="1217">
+                <source>event.activeInventoryEvents</source>
+                <target>Aktive Inventarbuchungen</target>
+            </trans-unit>
+            <trans-unit id="1218">
+                <source>event.activeRoomEvents</source>
+                <target>Aktive Raumbuchungen</target>
+            </trans-unit>
+            <trans-unit id="1219">
+                <source>event.noActiveEvents</source>
+                <target>Keine Aktiven Buchungen</target>
+            </trans-unit>
+            <trans-unit id="1220">
+                <source>event.rentable_rooms</source>
+                <target>Zu buchende Räume</target>
             </trans-unit>
 
             <trans-unit id="1300">

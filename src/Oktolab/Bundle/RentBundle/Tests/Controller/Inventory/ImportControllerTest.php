@@ -13,7 +13,8 @@ class ImportControllerTest extends WebTestCase
         $this->loadFixtures(
             array(
                 'Oktolab\Bundle\RentBundle\Tests\DataFixtures\ORM\PlaceFixture',
-                'Oktolab\Bundle\RentBundle\Tests\DataFixtures\ORM\CategoryFixture'
+                'Oktolab\Bundle\RentBundle\Tests\DataFixtures\ORM\CategoryFixture',
+                '\Oktolab\Bundle\RentBundle\Tests\DataFixtures\ORM\Event\EventTypeFixture'
             )
         );
 

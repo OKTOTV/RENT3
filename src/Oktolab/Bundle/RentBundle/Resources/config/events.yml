@@ -17,12 +17,12 @@ services:
             - [ addRepository, [ "Event", @oktolab.orm.event_repository ] ]
             - [ addRepository, [ "Item", @oktolab.orm.item_repository ] ]
             - [ addRepository, [ "Set", @oktolab.orm.set_repository ] ]
+            - [ addRepository, [ "Room", @oktolab.orm.room_repository ] ]
+            - [ addRepository, [ "EventObject", @oktolab.orm.event_object_repository ] ]
             - [ setEntityManager, [ @doctrine.orm.entity_manager ] ]
 
     oktolab.form.event:
         class:            %oktolab.event_form.class%
-#        calls:
-#            - [
         tags:
             - { name: form.type, alias: OktolabRentBundle_Event_Form }
 
@@ -33,6 +33,7 @@ services:
             - [ addRepository, [ "Set", @oktolab.orm.set_repository ] ]
             - [ addRepository, [ "Item", @oktolab.orm.item_repository ] ]
             - [ addRepository, [ "Category", @oktolab.orm.category_repository ] ]
+            - [ addRepository, [ "Room", @oktolab.orm.room_repository ] ]
 
     oktolab.event_calendar_inventory:
         class:      %oktolab.event_calendar_inventory.class%
@@ -43,6 +44,7 @@ services:
         public: false
         calls:
             - [ addRepository, [ "Timeblock", @oktolab.orm.timeblock_repository ] ]
+            - [ addRepository, [ "EventType", @oktolab.orm.event_type_repository ] ]
 
     oktolab.event_calendar_timeblock:
         class:      %oktolab.event_calendar_timeblock.class%

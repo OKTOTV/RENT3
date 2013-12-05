@@ -8,6 +8,7 @@ use Oktolab\Bundle\RentBundle\Entity\Event;
 use Oktolab\Bundle\RentBundle\Entity\EventObject;
 use Oktolab\Bundle\RentBundle\Entity\Inventory\Item;
 use Oktolab\Bundle\RentBundle\Entity\Inventory\Place;
+use Oktolab\Bundle\RentBundle\Entity\EventType;
 
 /**
  *  Loads a fixture Events
@@ -39,11 +40,16 @@ class EventManagerFixture extends AbstractFixture
 
         $manager->persist($eventObject);
 
+        $eventType = new EventType();
+        $eventType->setName('inventory');
+        $manager->persist($eventType);
+
         $event1 = new Event();
         $event1->setName('2013-08-28 12:00 - 13:00')
             ->setBegin(new \DateTime('2013-08-28 12:00'))
             ->setEnd(new \DateTime('2013-08-28 13:00'))
             ->addObject($eventObject)
+            ->setType($eventType)
             ->setState(Event::STATE_PREPARED);
 
         $eventObject = new EventObject();
@@ -57,6 +63,7 @@ class EventManagerFixture extends AbstractFixture
             ->setBegin(new \DateTime('2013-08-28 15:00'))
             ->setEnd(new \DateTime('2013-08-28 16:00'))
             ->addObject($eventObject)
+            ->setType($eventType)
             ->setState(Event::STATE_PREPARED);
 
         $manager->persist($event1);

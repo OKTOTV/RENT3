@@ -20,6 +20,23 @@ class DefaultController extends Controller
      */
     public function dashboardAction()
     {
+        $eventRepository = $this->get('oktolab.event_manager')->getEventRepository();
+        $roomEvents = $eventRepository->findActiveFromBeginToEnd(new \DateTime(), new \DateTime('+7 Days'), 'Room');
+        $inventoryEvents = $eventRepository->findActiveFromBeginToEnd(new \DateTime(), new \DateTime('+7 Days'), 'Inventory');
+
+        return array(
+            'roomEvents' => $roomEvents,
+            'inventoryEvents' => $inventoryEvents
+        );
+    }
+
+    /**
+     * @Method("GET")
+     * @Route("/calendar", name="rentbundle_calendar")
+     * @Template()
+     */
+    public function calendarAction()
+    {
         return array();
     }
 

@@ -56,8 +56,7 @@ class EventController extends Controller
         return array(
             'form' => $form->createView(),
             'objects' => $objects,
-            'timeblock_starts' => $this->get('oktolab.event_calendar_timeblock')->getBlockJsonForType('Inventory', true),
-            'timeblock_ends'   => $this->get('oktolab.event_calendar_timeblock')->getBlockJsonForType('Inventory', false),
+            'timeblock_times'  => $this->get('oktolab.event_calendar_timeblock')->getBlockJsonForType($form->getData()->getType()->getName())
         );
     }
 
@@ -93,8 +92,7 @@ class EventController extends Controller
             'form' => $form->createView(),
             'objects' => $objects,
             'event' => $event,
-            'timeblock_starts' => $this->get('oktolab.event_calendar_timeblock')->getBlockJsonForType('Inventory', true),
-            'timeblock_ends'   => $this->get('oktolab.event_calendar_timeblock')->getBlockJsonForType('Inventory', false),
+            'timeblock_times'  => $this->get('oktolab.event_calendar_timeblock')->getBlockJsonForType($event->getType()->getName())
             );
     }
 
@@ -125,15 +123,14 @@ class EventController extends Controller
 
         $form->handleRequest($request);
         if (!$form->isValid()) {
-            // Error while handling Form. Form is not valid - show errors.
+            //@TODO: trans this message
             $objects = $this->get('oktolab.event_manager')->convertEventObjectsToEntites($event->getObjects());
             $this->get('session')->getFlashBag()->add('error', 'There was an error while saving the form.');
 
             return array(
                 'form' => $form->createView(),
                 'objects' => $objects,
-                'timeblock_starts' => $this->get('oktolab.event_calendar_timeblock')->getBlockJsonForType('Inventory', true),
-                'timeblock_ends'   => $this->get('oktolab.event_calendar_timeblock')->getBlockJsonForType('Inventory', false),
+                'timeblock_times' => $this->get('oktolab.event_calendar_timeblock')->getBlockJsonForType($event->getType()->getName())
             );
         }
 
@@ -187,7 +184,7 @@ class EventController extends Controller
         $form->handleRequest($request);
         if ($form->isValid()) {
 
-            // @TODO: Validator needed!
+            // @TODO: Validator needed! ----------------
             $validation = true;
             foreach ($event->getObjects() as $object) {
                 if (!$object->isScanned()) {
@@ -199,6 +196,7 @@ class EventController extends Controller
                 $this->get('session')->getFlashBag()->add('error', 'Nope, nope, nope.');
                 return $this->redirect($this->generateUrl('rentbundle_dashboard'));
             }
+            //@TODO: add above to class validator ------
 
             $this->get('session')->getFlashBag()->add('success', 'Event successfully rented.');
             $event->setState(Event::STATE_LENT);

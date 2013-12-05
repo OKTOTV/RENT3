@@ -4,10 +4,8 @@ namespace Oktolab\Bundle\RentBundle\Controller\Inventory;
 
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Cache;
-
+use Sensio\Bundle\FrameworkExtraBundle\Configuration;
 /**
  * @Route("/api/item")
  */
@@ -16,9 +14,9 @@ class ItemApiController extends Controller
     /**
      * Returns a JSON formatted Dataset for typeahead.js
      *
-     * @Cache(expires="+1 week", public="yes")
-     * @Method("GET")
-     * @Route("/typeahead.{_format}",
+     * @Configuration\Cache(expires="+30 days", public="yes")
+     * @Configuration\Method("GET")
+     * @Configuration\Route("/typeahead.{_format}",
      *      name="inventory_item_typeahead_prefetch",
      *      defaults={"_format"="json"},
      *      requirements={"_format"="json"})
@@ -28,35 +26,16 @@ class ItemApiController extends Controller
     public function typeaheadPrefetchAction()
     {
         $em = $this->getDoctrine()->getManager();
-        $items = $em->getRepository('OktolabRentBundle:Inventory\Item')->findBy(array());
-        $json = array();
+        $items = $em->getRepository('OktolabRentBundle:Inventory\Item')->findAll();
 
-        foreach ($items as $item) {
-            $json[] = array(
-                'name'          => $item->getTitle(),
-                'value'         => sprintf('%s:%d', $item->getType(), $item->getId()),
-                'type'          => $item->getType(),
-                'id'            => $item->getId(),
-                'description'   => $item->getDescription(),
-                'barcode'       => $item->getBarcode(),
-                'set'           => $item->getSet() != null ? $item->getSet()->getTitle(): '',
-                'showUrl'       => 'inventory/item/'.$item->getId(),
-                'tokens'        => array(
-                    $item->getBarcode(),
-                    $item->getDescription(),
-                    $item->getTitle()
-                )
-            );
-        }
-
-        return new JsonResponse($json);
+        return new JsonResponse($this->getTypeaheadArrayFromItems($items));
     }
 
     /**
      * Returns a JSON formatted Dataset for typeahead.js
      *
-     * @Method("GET")
-     * @Route("/typeahead.{_format}/{itemValue}",
+     * @Configuration\Method("GET")
+     * @Configuration\Route("/typeahead.{_format}/{itemValue}",
      *      name="inventory_item_typeahead_remote_url",
      *      defaults={"_format"="json"},
      *      requirements={"_format"="json"})
@@ -80,9 +59,17 @@ class ItemApiController extends Controller
 
         $items = $query->getResult();
 
+        return new JsonResponse($this->getTypeaheadArrayFromItems($items));
+    }
+
+    public function getTypeaheadArrayFromItems($items)
+    {
         $json = array();
 
         foreach ($items as $item) {
+            $tokens = explode(' ', $item->getTitle());
+            $tokens[] = $item->getBarcode();
+
             $json[] = array(
                 'name'          => $item->getTitle(),
                 'value'         => sprintf('%s:%d', $item->getType(), $item->getId()),
@@ -92,14 +79,10 @@ class ItemApiController extends Controller
                 'barcode'       => $item->getBarcode(),
                 'set'           => $item->getSet() != null ? $item->getSet()->getTitle(): '',
                 'showUrl'       => 'inventory/item/'.$item->getId(),
-                'tokens'        => array(
-                    $item->getBarcode(),
-                    $item->getDescription(),
-                    $item->getTitle()
-                )
+                'tokens'        => $tokens
             );
         }
 
-        return new JsonResponse($json);
+        return $json;
     }
 }

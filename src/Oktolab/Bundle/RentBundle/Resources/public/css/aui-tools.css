@@ -91,5 +91,6 @@
 }
 
 .event-select {
-    width: 30% !important;
+    width: 15% !important;
+    margin-right: 10px !important;
 }

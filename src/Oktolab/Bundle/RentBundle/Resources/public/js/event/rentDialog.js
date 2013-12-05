@@ -13,11 +13,12 @@ createRentForm.addHeader('Neue Reservierung');
 createRentForm.addPanel('Inventar', '#rent-inventory-form');
 createRentForm.addPanel('R&auml;ume', '#rent-room-form');
 createRentForm.addButton('Erstellen', function (dialog, page) {
-    console.log(dialog);
-    console.log(page);
-    console.log(dialog.getCurrentPanel());
 
-    AJS.$('#rent-inventory-form > form').submit();
+    if (page.curtab == 0) {
+        AJS.$('#rent-inventory-form > form').submit();
+    } else if (page.curtab == 1) {
+        AJS.$('#rent-room-form > form').submit();
+    }
 });
 
 createRentForm.addLink('Abbrechen', function(dialog) {

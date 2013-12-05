@@ -27,6 +27,9 @@ class RentController extends Controller
      */
     public function rentInventoryFormAction()
     {
+        $event = new Event();
+        $eventType = $this->getDoctrine()->getManager()->getRepository('OktolabRentBundle:EventType')->findOneBy(array('name' => 'inventory'));
+        $event->setType($eventType);
         $form = $this->get('form.factory')->create(
             'OktolabRentBundle_Event_Form',
             new Event(),
@@ -45,8 +48,8 @@ class RentController extends Controller
 
         return array(
             'form' => $form->createView(),
-            'timeblock_starts' => $this->get('oktolab.event_calendar_timeblock')->getBlockJsonForType('Inventory', true),
-            'timeblock_ends'   => $this->get('oktolab.event_calendar_timeblock')->getBlockJsonForType('Inventory', false));
+            'timeblock_times'  => $this->get('oktolab.event_calendar_timeblock')->getBlockJsonForType($event->getType()->getName())
+        );
     }
 
     /**
@@ -61,8 +64,30 @@ class RentController extends Controller
      */
     public function rentRoomFormAction()
     {
-        $form = $this->createForm(new EventType(), null, array('em' => $this->getDoctrine()->getManager()));
+        $event = new Event();
+        $eventType = $this->getDoctrine()->getManager()->getRepository('OktolabRentBundle:EventType')->findOneBy(array('name' => 'room'));
+        $event->setType($eventType);
 
-        return array('form' => $form->createView());
+        $form = $this->get('form.factory')->create(
+            'OktolabRentBundle_Event_Form',
+            $event,
+            array(
+                'action' => $this->generateUrl('OktolabRentBundle_Event_Create'),
+                'method' => 'POST',
+                'em'     => $this->getDoctrine()->getManager(),
+            )
+        );
+
+        $form->remove('description');
+
+        $form->remove('cancel');
+        $form->remove('delete');
+        $form->remove('rent');
+        $form->remove('update');
+
+        return array(
+            'form' => $form->createView(),
+            'timeblock_times'  => $this->get('oktolab.event_calendar_timeblock')->getBlockJsonForType($event->getType()->getName())
+        );
     }
 }
