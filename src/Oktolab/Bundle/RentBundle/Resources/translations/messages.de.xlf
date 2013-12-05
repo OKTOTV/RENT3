@@ -1079,6 +1079,14 @@
                 <source>event.rent_success</source>
                 <target>Event erfolgreich ausgegeben.</target>
             </trans-unit>
+            <trans-unit id="1225">
+                <source>event.update_success</source>
+                <target>Event erfolgreich gespeichert</target>
+            </trans-unit>
+            <trans-unit id="1226">
+                <source>event.deliver_success</source>
+                <target>Event erfolgreich zurückgegeben</target>
+            </trans-unit>
 
             <trans-unit id="1300">
                 <source>admin.setting.settings</source>

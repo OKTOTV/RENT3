@@ -14,7 +14,6 @@ use Oktolab\Bundle\RentBundle\Entity\Event;
  */
 class EventController extends Controller
 {
-
     /**
      * Creates a new Event.
      *
@@ -51,7 +50,6 @@ class EventController extends Controller
 
         $objects = $this->get('oktolab.event_manager')->convertEventObjectsToEntites($form->getData()->getObjects());
         $this->get('session')->getFlashBag()->add('error', 'event.save_error');
-        //$this->logAction('Event creation failed', array('event' => $event));
 
         return array(
             'form' => $form->createView(),
@@ -123,7 +121,7 @@ class EventController extends Controller
 
         $form->handleRequest($request);
         if (!$form->isValid()) {
-            //@TODO: trans this message
+
             $objects = $this->get('oktolab.event_manager')->convertEventObjectsToEntites($event->getObjects());
             $this->get('session')->getFlashBag()->add('error', 'event.save_error');
 
@@ -148,7 +146,7 @@ class EventController extends Controller
 
         if ($form->get('update')->isClicked()) { // User clicked Update -> Save Event
             $this->get('oktolab.event_manager')->save($event);
-            $this->get('session')->getFlashBag()->add('success', 'Successfully updated Event.');
+            $this->get('session')->getFlashBag()->add('success', 'event.update_success');
             $this->get('logger')->info('Event updated.', array('id' => $form->getData()->getId()));
         }
 
@@ -301,7 +299,7 @@ class EventController extends Controller
             }
             //@TODO: Add above to eventclass validator
 
-            $this->get('session')->getFlashBag()->add('success', 'Event successfully delivered.');
+            $this->get('session')->getFlashBag()->add('success', 'event.deliver_success');
             $event->setState(Event::STATE_DELIVERED);
 
             $em = $this->getDoctrine()->getManager();
