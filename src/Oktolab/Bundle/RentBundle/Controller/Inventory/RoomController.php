@@ -58,21 +58,15 @@ class RoomController extends Controller
             $em->persist($entity);
             $em->flush();
 
-            $this->get('session')->getFlashBag()->add(
-                'success',
-                $this->get('translator')->trans(
-                    'room.message.saveSuccessful',
-                    array('%roomTitle%' => $entity->getTitle())
-                )
-            );
+            $message = $this
+                ->get('translator')
+                ->trans('room.message.saveSuccessful', array('%roomTitle%' => $entity->getTitle()));
+            $this->get('session')->getFlashBag()->add('success', $message);
 
             return $this->redirect($this->generateUrl('inventory_room_show', array('id' => $entity->getId())));
         }
 
-        $this->get('session')->getFlashBag()->add(
-            'warning',
-            $this->get('translator')->trans('room.message.saveFailure')
-        );
+        $this->get('session')->getFlashBag()->add('warning', 'room.message.saveFailure');
 
         return array(
             'entity' => $entity,
@@ -110,7 +104,7 @@ class RoomController extends Controller
      * @Method("GET")
      * @Template("OktolabRentBundle:Inventory\Room:show.html.twig", vars={"room"})
      */
-    public function showAction($id)
+    public function showAction()
     {
     }
 
@@ -120,7 +114,7 @@ class RoomController extends Controller
      * @Route("/{id}/edit", name="inventory_room_edit")
      * @ParamConverter("room", class="OktolabRentBundle:Inventory\Room")
      * @Method("GET")
-     * @Template
+     * @Template()
      */
     public function editAction(Room $room)
     {
@@ -162,22 +156,15 @@ class RoomController extends Controller
             $em->persist($room);
             $em->flush();
 
-            $this->get('session')->getFlashBag()->add(
-                'success',
-                $this->get('translator')->trans(
-                    'room.message.changeSuccessful',
-                    array('%roomTitle%' => $room->getTitle())
-                )
-            );
+            $message = $this
+                ->get('translator')
+                ->trans('room.message.changeSuccessful', array('%roomTitle%' => $room->getTitle()));
+            $this->get('session')->getFlashBag()->add('success', $message);
 
             return $this->redirect($this->generateUrl('inventory_room_show', array('id' => $room->getId())));
         }
 
-        $this->get('session')->getFlashBag()->add(
-            'warning',
-            $this->get('translator')->trans('room.message.changeFailure')
-        );
-
+        $this->get('session')->getFlashBag()->add('warning', 'room.message.changeFailure');
         return array(
             'entity'      => $room,
             'edit_form'   => $editForm->createView(),
