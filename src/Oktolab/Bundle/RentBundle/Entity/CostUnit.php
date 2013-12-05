@@ -8,7 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
  * CostUnit
  *
  * @ORM\Table()
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="Oktolab\Bundle\RentBundle\Entity\CostUnitRepository")
  */
 class CostUnit
 {

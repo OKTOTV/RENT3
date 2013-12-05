@@ -30,8 +30,7 @@ class CostUnitController extends Controller
         $em = $this->getDoctrine()->getManager();
 
         $resultsPerPage = 15;
-        $totalResults = count($em->getRepository('OktolabRentBundle:CostUnit')->findAll());
-        $maxPage = ceil($totalResults/$resultsPerPage);
+        $totalResults = $em->getRepository('OktolabRentBundle:CostUnit')->countAll();
 
         $entities = $em->getRepository('OktolabRentBundle:CostUnit')
                 ->findBy(array(), null, $resultsPerPage, $resultsPerPage * ($page - 1));
@@ -40,7 +39,7 @@ class CostUnitController extends Controller
             'entities'      => $entities,
             'currentPage'   => $page,
             'pages'         => floor($totalResults / $resultsPerPage),
-            'renderPages'   => 9
+            'renderPages'   => 9,
         );
     }
 
@@ -168,7 +167,7 @@ class CostUnitController extends Controller
      * Edits an existing CostUnit entity.
      *
      * @Configuration\Route("/{id}", name="admin_costunit_update")
-     * @Method("PUT")
+     * @Configuration\Method("PUT")
      * @Configuration\ParamConverter("costunit", class="OktolabRentBundle:CostUnit")
      * @Configuration\Template("OktolabRentBundle:Admin\CostUnit:edit.html.twig")
      */
@@ -211,7 +210,7 @@ class CostUnitController extends Controller
      *
      * @Configuration\Route("/{id}/delete", name="admin_costunit_delete")
      * @Configuration\ParamConverter("costunit", class="OktolabRentBundle:CostUnit")
-     * @Method("GET")
+     * @Configuration\Method("GET")
      */
     public function deleteAction(CostUnit $costunit)
     {
