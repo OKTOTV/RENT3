@@ -962,6 +962,18 @@
                 <source>admin.timeblock.edit</source>
                 <target>Zeitblock bearbeiten</target>
             </trans-unit>
+            <trans-unit id="1115">
+                <source>admin.timeblock.save_success</source>
+                <target>Zeitblock erfolgreich gespeichert</target>
+            </trans-unit>
+            <trans-unit id="1116">
+                <source>admin.timeblock.delete_success</source>
+                <target>Zeitblock erfolgreich gelöscht</target>
+            </trans-unit>
+            <trans-unit id="1117">
+                <source>admin.timeblock.create_success</source>
+                <target>Zeitblock erfolgreich angelegt</target>
+            </trans-unit>
 
             <trans-unit id="1200">
                 <source>event.pdf.signatureCompany</source>
