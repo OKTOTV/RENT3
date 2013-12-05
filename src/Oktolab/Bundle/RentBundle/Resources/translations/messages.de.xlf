@@ -1047,6 +1047,10 @@
                 <source>event.rentable_rooms</source>
                 <target>Zu buchende Räume</target>
             </trans-unit>
+            <trans-unit id="1221">
+                <source>event.state</source>
+                <target>Status</target>
+            </trans-unit>
 
             <trans-unit id="1300">
                 <source>admin.setting.settings</source>
