@@ -765,6 +765,10 @@
                 <source>admin.console.basics</source>
                 <target>Grundeinstellungen</target>
             </trans-unit>
+            <trans-unit id="618">
+                <source>admin.user.no_self_edit</source>
+                <target>Administratoren dürfen sich nicht selbst bearbeiten</target>
+            </trans-unit>
 
             <trans-unit id="700">
                 <source>event.book</source>
