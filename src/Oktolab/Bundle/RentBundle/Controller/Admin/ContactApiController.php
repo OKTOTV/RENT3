@@ -17,7 +17,7 @@ class ContactApiController extends Controller
     /**
      * Returns a JSON formatted Dataset for typeahead.js
      *
-     * @Cache(expires="+1 day", public="yes")
+     * @Cache(expires="+7 days", public="yes")
      * @Method("GET")
      * @Route("/typeahead.{_format}",
      *      name="api_contact_typeahead_prefetch",
@@ -29,18 +29,7 @@ class ContactApiController extends Controller
     public function typeaheadPrefetchAction()
     {
         $contacts = $this->getDoctrine()->getManager()->getRepository('OktolabRentBundle:Contact')->findAll();
-        $json = array();
-
-        foreach ($contacts as $contact) {
-            $json[] = array(
-                'name'          => $contact->getName(),
-                'value'         => $contact->getId(),
-                'tokens'        => explode(' ', $contact->getName()),
-                'id'            => $contact->getGuid()
-            );
-        }
-
-        return new JsonResponse($json);
+        return new JsonResponse($this->getTypeaheadArrayFromContacts($contacts));
     }
 
     /**
@@ -57,6 +46,15 @@ class ContactApiController extends Controller
     public function typeaheadRemoteUrlAction($name)
     {
         $contacts = $this->get('oktolab.contact_provider')->getContactsByName($name);
+        return new JsonResponse($this->getTypeaheadArrayFromContacts($contacts));
+    }
+
+    /**
+     * Returns typeahead friendly array
+     * @param DoctrineCollection $contacts
+     */
+    private function getTypeaheadArrayFromContacts($contacts)
+    {
         $json = array();
 
         foreach ($contacts as $contact) {
@@ -67,7 +65,6 @@ class ContactApiController extends Controller
                 'id'            => $contact->getGuid()
             );
         }
-
-        return new JsonResponse($json);
+        return $json;
     }
 }
