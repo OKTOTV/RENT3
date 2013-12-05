@@ -1077,7 +1077,7 @@
             </trans-unit>
             <trans-unit id="1224">
                 <source>event.rent_success</source>
-                <target>Event erfolgreich ausgegeben.</target>
+                <target>Event erfolgreich ausgegeben</target>
             </trans-unit>
             <trans-unit id="1225">
                 <source>event.update_success</source>

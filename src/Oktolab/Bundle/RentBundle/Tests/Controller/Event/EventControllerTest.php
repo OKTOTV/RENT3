@@ -101,7 +101,7 @@ class EventControllerTest extends WebTestCase
         $crawler = $this->client->request($form->getMethod(), $form->getUri(), $values, $form->getPhpFiles());
 
         $this->assertTrue($this->client->getResponse()->isSuccessful(), 'Response is successful.');
-        $this->assertRegExp('/There was an error while saving the form./', $this->client->getResponse()->getContent());
+        $this->assertRegExp('/Das Event konnte nicht gespeichert werden/', $this->client->getResponse()->getContent());
 
         $formValues = $crawler->filter('#content')->selectButton('Update')->form()->getValues();
         $this->assertSame('item', $formValues['OktolabRentBundle_Event_Form[objects][0][type]']);
@@ -240,7 +240,7 @@ class EventControllerTest extends WebTestCase
 
         $response = $this->client->getResponse();
         $this->assertTrue($response->isSuccessful(), 'Response is successful.');
-        $this->assertRegExp('/There was an error while saving the form./', $response->getContent());
+        $this->assertRegExp('/Das Event konnte nicht gespeichert werden/', $response->getContent());
 
         $crawler = $this->client->getCrawler();
         $fieldError = $crawler->filter('#OktolabRentBundle_Event_Form_name ~ div[class="error"]');
@@ -285,7 +285,7 @@ class EventControllerTest extends WebTestCase
         $form = $form->form(array('OktolabRentBundle_Event_Form[name]' => '')); // set to invalid data
         $this->client->submit($form);
         $this->assertTrue($this->client->getResponse()->isSuccessful(), 'Response is successful.');
-        $this->assertRegExp('/There was an error while saving the form./', $this->client->getResponse()->getContent());
+        $this->assertRegExp('/Das Event konnte nicht gespeichert werden/', $this->client->getResponse()->getContent());
 
         $formValues = $this->client->getCrawler()->filter('#content')->selectButton('Update')->form()->getValues();
         $this->assertSame('item', $formValues['OktolabRentBundle_Event_Form[objects][0][type]']);
@@ -319,7 +319,7 @@ class EventControllerTest extends WebTestCase
 
         $this->client->followRedirect();
         $this->assertTrue($this->client->getResponse()->isSuccessful(), 'Response is successful.');
-        $this->assertRegExp('/Event successfully rented./', $this->client->getResponse()->getContent());
+        $this->assertRegExp('/Event erfolgreich ausgegeben/', $this->client->getResponse()->getContent());
     }
 
     /**
