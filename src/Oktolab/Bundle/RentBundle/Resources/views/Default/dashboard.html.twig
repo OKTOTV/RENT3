@@ -39,6 +39,7 @@
             <table class="aui">
                 <thead>
                     <tr>
+                        <th id="state">{{ 'event.state'|trans }}</th>
                         <th id="costunit">{{'event.costunit'|trans}}</th>
                         <th id="contact">{{ 'event.contact'|trans }}</th>
                         <th id="begin">{{'event.begin'|trans}}</th>
@@ -48,6 +49,7 @@
                 <tbody>
                     {% for roomEvent in roomEvents %}
                     <tr>
+                        <td headers="state"><span class="aui-lozenge">{{ inventoryEvent.state(true) }}</span></td>
                         <td headers="costunit"><a href="{{ path('OktolabRentBundle_Event_Edit', { 'id': roomEvent.id }) }}">{{roomEvent.name }}</a></td>
                         <td headers="contact">{{ roomEvent.contact.name}}</td>
                         <td headers="begin">{{ roomEvent.begin|date('d.m.Y H:i') }}</td>
