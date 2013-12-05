@@ -41,7 +41,6 @@ class RentController extends Controller
         );
 
         $form->remove('description');
-
         $form->remove('cancel');
         $form->remove('delete');
         $form->remove('rent');
@@ -79,7 +78,6 @@ class RentController extends Controller
         );
 
         $form->remove('description');
-
         $form->remove('cancel');
         $form->remove('delete');
         $form->remove('rent');

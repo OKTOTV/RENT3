@@ -21,15 +21,15 @@
                     {% endif %}
 
                     {% for flashMessage in app.session.flashbag.get('error') %}
-                        {{ macro.aui_message(flashMessage, 'error') }}
+                        {{ macro.aui_message(flashMessage|trans, 'error') }}
                     {% endfor %}
 
                     {% for flashMessage in app.session.flashbag.get('success') %}
-                        {{ macro.aui_message(flashMessage, 'success') }}
+                        {{ macro.aui_message(flashMessage|trans, 'success') }}
                     {% endfor %}
 
                     {% for flashMessage in app.session.flashbag.get('warning') %}
-                        {{ macro.aui_message(flashMessage, 'warning') }}
+                        {{ macro.aui_message(flashMessage|trans, 'warning') }}
                     {% endfor %}
 
                     {% block content %}{% endblock %}

@@ -1051,6 +1051,18 @@
                 <source>event.state</source>
                 <target>Status</target>
             </trans-unit>
+            <trans-unit id="1222">
+                <source>event.save_error</source>
+                <target>Das Event konnte nicht gespeichert werden</target>
+            </trans-unit>
+            <trans-unit id="1223">
+                <source>event.cancel_success</source>
+                <target>Event bearbeiten abgebrochen</target>
+            </trans-unit>
+            <trans-unit id="1224">
+                <source>event.rent_success</source>
+                <target>Event erfolgreich ausgegeben.</target>
+            </trans-unit>
 
             <trans-unit id="1300">
                 <source>admin.setting.settings</source>
