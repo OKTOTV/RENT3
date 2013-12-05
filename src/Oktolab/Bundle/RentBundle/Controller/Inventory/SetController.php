@@ -61,15 +61,12 @@ class SetController extends Controller
             $this->get('oktolab.upload_manager')->saveAttachmentsToEntity($set);
             $em->persist($set);
             $em->flush();
-
-            $message = $this->get('translator')->trans('set.message.savesuccessful');
-            $this->get('session')->getFlashBag()->add('success', $message);
+            $this->get('session')->getFlashBag()->add('success', 'set.message.savesuccessful');
 
             return $this->redirect($this->generateUrl('inventory_set_show', array('id' => $set->getId())));
         }
 
-        $message = $this->get('translator')->trans('set.message.savefailure');
-        $this->get('session')->getFlashBag()->add('warning', $message);
+        $this->get('session')->getFlashBag()->add('warning', 'set.message.savefailure');
 
         return array(
             'form'   => $form->createView(),
@@ -106,7 +103,7 @@ class SetController extends Controller
      * @Method("GET")
      * @Template("OktolabRentBundle:Inventory\Set:show.html.twig", vars={"set"})
      */
-    public function showAction(Set $set)
+    public function showAction()
     {
     }
 
@@ -174,14 +171,12 @@ class SetController extends Controller
             $em->persist($set);
             $em->flush();
 
-            $message = $this->get('translator')->trans('set.message.changesuccessful');
-            $this->get('session')->getFlashBag()->add('success', $message);
+            $this->get('session')->getFlashBag()->add('success', 'set.message.changesuccessful');
 
             return $this->redirect($this->generateUrl('inventory_set_show', array('id' => $set->getId())));
         }
 
-        $message = $this->get('translator')->trans('set.message.changefailure');
-        $this->get('session')->getFlashBag()->add('warning', $message);
+        $this->get('session')->getFlashBag()->add('warning', 'set.message.changefailure');
 
         return array(
             'set'    => $set,
@@ -215,15 +210,11 @@ class SetController extends Controller
             $em->remove($attachment);
         }
         //-----------------------------
-
         $em->flush();
-        $this
-            ->get('session')
-            ->getFlashBag()
-            ->add(
-                'success',
-                $this->get('translator')->trans('set.message.deletesuccess', array('%title%' => $set->getTitle()))
-            );
+
+        $message = $this->get('translator')->trans('set.message.deletesuccess', array('%title%' => $set->getTitle()));
+        $this->get('session')->getFlashBag()->add('success', $message);
+
         return $this->redirect($this->generateUrl('inventory_set'));
     }
 
