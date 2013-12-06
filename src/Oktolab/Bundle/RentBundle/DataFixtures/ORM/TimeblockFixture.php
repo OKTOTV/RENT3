@@ -4,13 +4,13 @@ namespace Oktolab\Bundle\RentBundle\DataFixtures\ORM;
 
 use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Common\Persistence\ObjectManager;
-
+use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
 use Oktolab\Bundle\RentBundle\Entity\Timeblock;
 
 /**
  * Timeblock Fixtures
  */
-class TimeblockFixture extends AbstractFixture
+class TimeblockFixture extends AbstractFixture implements OrderedFixtureInterface
 {
     /**
      * Loads two Timeblocks from 08:00 - 12:00 and 13:00 - 17:00.
@@ -26,6 +26,7 @@ class TimeblockFixture extends AbstractFixture
                 ->setBegin(new \DateTime('2013-01-01 08:00'))
                 ->setEnd(new \DateTime('2013-01-01 12:00'))
                 ->setTitle('timeblockA')
+                ->setEventType($om->find('OktolabRentBundle:EventType', 1))
                 ->setIsActive(true);
 
         $timeblockB = clone $timeblockA;
@@ -37,5 +38,10 @@ class TimeblockFixture extends AbstractFixture
         $om->persist($timeblockB);
 
         $om->flush();
+    }
+
+    public function getOrder()
+    {
+        return 11;
     }
 }

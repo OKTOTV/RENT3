@@ -4,6 +4,7 @@ namespace Oktolab\Bundle\RentBundle\DataFixtures\ORM;
 
 use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Common\Persistence\ObjectManager;
+use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
 use Oktolab\Bundle\RentBundle\Entity\EventType;
 
 /**
@@ -11,7 +12,7 @@ use Oktolab\Bundle\RentBundle\Entity\EventType;
  *
  * @author rs
  */
-class EventTypeFixture extends AbstractFixture
+class EventTypeFixture extends AbstractFixture implements OrderedFixtureInterface
 {
     /**
      * Loads Inventory and Room EventType
@@ -22,6 +23,7 @@ class EventTypeFixture extends AbstractFixture
     {
         $eventTypeInventory = new EventType();
         $eventTypeInventory->setName('inventory');
+
         $eventTypeRoom = new EventType();
         $eventTypeRoom->setName('room');
 
@@ -29,5 +31,10 @@ class EventTypeFixture extends AbstractFixture
         $om->persist($eventTypeRoom);
 
         $om->flush();
+    }
+
+    public function getOrder()
+    {
+        return 10;
     }
 }
