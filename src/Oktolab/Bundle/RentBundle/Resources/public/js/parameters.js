@@ -8,8 +8,8 @@
         setPrefetchUrl:  oktolab.baseUrl + '/api/set/typeahead.json',
         setRemoteUrl:    oktolab.baseUrl + '/api/set/typeahead.json/%QUERY',
 
-        roomPrefetchUrl: oktolab.baseUrl + '/api/roomt/typeahead.json',
-        roomRemoteUrl: oktolab.baseUrl + '/api/roomt/typeahead.json/%QUERY',
+        roomPrefetchUrl: oktolab.baseUrl + '/api/room/typeahead.json',
+        roomRemoteUrl: oktolab.baseUrl + '/api/room/typeahead.json/%QUERY',
 
         contactPrefetchUrl: oktolab.baseUrl + '/api/contact/typeahead.json',
         contactRemoteUrl:   oktolab.baseUrl + '/api/contact/typeahead.json/%QUERY',
@@ -23,7 +23,6 @@
 
         eventItemRemoteUrl: oktolab.baseUrl + '/api/event/items/typeahead.json/%QUERY', //Add /begin/end as YYYY-MM-DD and you get all available items
         eventSetRemoteUrl:  oktolab.baseUrl + '/api/event/sets/typeahead.json/%QUERY',  //Add /begin/end as YYYY-MM-DD and you get all available sets
-
         eventRoomRemoteUrl: oktolab.baseUrl + '/api/event/rooms/typeahead.json/%QUERY', //Add /begin/end as YYYY-MM-DD and you get all available rooms
     };
 
