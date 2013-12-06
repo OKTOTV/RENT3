@@ -4,18 +4,14 @@ namespace Oktolab\Bundle\RentBundle\Controller\Admin;
 
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Cache;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration;
 use Oktolab\Bundle\RentBundle\Entity\Inventory\Place;
 use Oktolab\Bundle\RentBundle\Form\Inventory\PlaceType;
 
 /**
  * Inventory\Place controller.
  *
- * @Route("/admin/inventory/place")
+ * @Configuration\Route("/admin/inventory/place")
  */
 class PlaceController extends Controller
 {
@@ -23,9 +19,9 @@ class PlaceController extends Controller
     /**
      * Lists all Inventory\Place entities.
      *
-     * @Route("/", name="inventory_place")
-     * @Method("GET")
-     * @Template()
+     * @Configuration\Route("/", name="inventory_place")
+     * @Configuration\Method("GET")
+     * @Configuration\Template()
      */
     public function indexAction()
     {
@@ -36,9 +32,9 @@ class PlaceController extends Controller
     /**
      * Creates a new Inventory\Place entity.
      *
-     * @Route("/", name="inventory_place_create")
-     * @Method("POST")
-     * @Template("OktolabRentBundle:Admin\Place:new.html.twig")
+     * @Configuration\Route("/", name="inventory_place_create")
+     * @Configuration\Method("POST")
+     * @Configuration\Template("OktolabRentBundle:Admin\Place:new.html.twig")
      */
     public function createAction(Request $request)
     {
@@ -72,10 +68,10 @@ class PlaceController extends Controller
     /**
      * Displays a form to create a new Inventory\Place entity.
      *
-     * @Route("/new", name="inventory_place_new")
-     * @Method("GET")
-     * @Cache(expires="next year")
-     * @Template()
+     * @Configuration\Route("/new", name="inventory_place_new")
+     * @Configuration\Method("GET")
+     * @Configuration\Cache(expires="next year")
+     * @Configuration\Template()
      */
     public function newAction()
     {
@@ -91,22 +87,22 @@ class PlaceController extends Controller
     /**
      * Finds and displays a Inventory\Place entity.
      *
-     * @Route("/{id}", name="inventory_place_show")
-     * @ParamConverter("place", class="OktolabRentBundle:Inventory\Place")
-     * @Template("OktolabRentBundle:Admin\Place:show.html.twig", vars={"place"})
-     * @Method("GET")
+     * @Configuration\Route("/{id}", name="inventory_place_show")
+     * @Configuration\ParamConverter("place", class="OktolabRentBundle:Inventory\Place")
+     * @Configuration\Template("OktolabRentBundle:Admin\Place:show.html.twig", vars={"place"})
+     * @Configuration\Method("GET")
      */
-    public function showAction(Place $place)
+    public function showAction()
     {
     }
 
     /**
      * Displays a form to edit an existing Inventory\Place entity.
      *
-     * @Route("/{id}/edit", name="inventory_place_edit")
-     * @ParamConverter("place", class="OktolabRentBundle:Inventory\Place")
-     * @Method("GET")
-     * @Template()
+     * @Configuration\Route("/{id}/edit", name="inventory_place_edit")
+     * @Configuration\ParamConverter("place", class="OktolabRentBundle:Inventory\Place")
+     * @Configuration\Method("GET")
+     * @Configuration\Template()
      */
     public function editAction(Place $place)
     {
@@ -128,10 +124,10 @@ class PlaceController extends Controller
     /**
      * Edits an existing Inventory\Place entity.
      *
-     * @Route("/{id}", name="inventory_place_update")
-     * @ParamConverter("place", class="OktolabRentBundle:Inventory\Place")
-     * @Method("PUT")
-     * @Template("OktolabRentBundle:Admin\Place:edit.html.twig")
+     * @Configuration\Route("/{id}", name="inventory_place_update")
+     * @Configuration\ParamConverter("place", class="OktolabRentBundle:Inventory\Place")
+     * @Configuration\Method("PUT")
+     * @Configuration\Template("OktolabRentBundle:Admin\Place:edit.html.twig")
      */
     public function updateAction(Request $request, Place $place)
     {
@@ -172,9 +168,9 @@ class PlaceController extends Controller
     /**
      * Deletes a Inventory\Place entity.
      *
-     * @Route("/{id}/delete", name="inventory_place_delete")
-     * @ParamConverter("place", class="OktolabRentBundle:Inventory\Place")
-     * @Method("GET")
+     * @Configuration\Route("/{id}/delete", name="inventory_place_delete")
+     * @Configuration\ParamConverter("place", class="OktolabRentBundle:Inventory\Place")
+     * @Configuration\Method("GET")
      */
     public function deleteAction(Place $place)
     {

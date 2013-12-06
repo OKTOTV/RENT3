@@ -55,12 +55,5 @@
             <script type="text/javascript" src="{{ asset_url }}"></script>
         {% endjavascripts %}
         {% block javascripts %}{% endblock %}
-
-        {#% if app.environment in ['dev', 'test'] %}
-            {% javascripts
-                '@OktolabRentBundle/Resources/public/js/test/*' %}
-                <script type="text/javascript" src="{{ asset_url }}"></script>
-            {% endjavascripts %}
-        {% endif %#}
     </body>
 </html>

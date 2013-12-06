@@ -4,17 +4,14 @@ namespace Oktolab\Bundle\RentBundle\Controller\Admin;
 
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration;
 use Oktolab\Bundle\RentBundle\Entity\Timeblock;
 use Oktolab\Bundle\RentBundle\Form\TimeblockType;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 
 /**
  * Timeblock controller.
  *
- * @Route("/admin/timeblock")
+ * @Configuration\Route("/admin/timeblock")
  */
 class TimeblockController extends Controller
 {
@@ -22,9 +19,9 @@ class TimeblockController extends Controller
     /**
      * Lists all Timeblock entities.
      *
-     * @Route("/", name="admin_timeblock")
-     * @Method("GET")
-     * @Template()
+     * @Configuration\Route("/", name="admin_timeblock")
+     * @Configuration\Method("GET")
+     * @Configuration\Template()
      */
     public function indexAction()
     {
@@ -40,9 +37,9 @@ class TimeblockController extends Controller
     /**
      * Creates a new Timeblock entity.
      *
-     * @Route("/", name="admin_timeblock_create")
-     * @Method("POST")
-     * @Template("OktolabRentBundle:Timeblock:new.html.twig")
+     * @Configuration\Route("/", name="admin_timeblock_create")
+     * @Configuration\Method("POST")
+     * @Configuration\Template("OktolabRentBundle:Timeblock:new.html.twig")
      */
     public function createAction(Request $request)
     {
@@ -51,11 +48,10 @@ class TimeblockController extends Controller
         $form->handleRequest($request);
 
         if ($form->isValid()) {
-            //die(var_dump($entity));
             $em = $this->getDoctrine()->getManager();
             $em->persist($entity);
             $em->flush();
-
+            $this->get('session')->getFlashBag()->add('success', 'admin.timeblock.create_success');
             return $this->redirect($this->generateUrl('admin_timeblock_show', array('id' => $entity->getId())));
         }
         return array(
@@ -85,9 +81,9 @@ class TimeblockController extends Controller
     /**
      * Displays a form to create a new Timeblock entity.
      *
-     * @Route("/new", name="admin_timeblock_new")
-     * @Method("GET")
-     * @Template()
+     * @Configuration\Route("/new", name="admin_timeblock_new")
+     * @Configuration\Method("GET")
+     * @Configuration\Template()
      */
     public function newAction()
     {
@@ -103,10 +99,10 @@ class TimeblockController extends Controller
     /**
      * Finds and displays a Timeblock entity.
      *
-     * @Route("/{id}", name="admin_timeblock_show")
-     * @ParamConverter("timeblock", class="OktolabRentBundle:Timeblock")
-     * @Method("GET")
-     * @Template()
+     * @Configuration\Route("/{id}", name="admin_timeblock_show")
+     * @Configuration\ParamConverter("timeblock", class="OktolabRentBundle:Timeblock")
+     * @Configuration\Method("GET")
+     * @Configuration\Template()
      */
     public function showAction(Timeblock $timeblock)
     {
@@ -116,10 +112,10 @@ class TimeblockController extends Controller
     /**
      * Displays a form to edit an existing Timeblock entity.
      *
-     * @Route("/{id}/edit", name="admin_timeblock_edit")
-     * @ParamConverter("timeblock", class="OktolabRentBundle:Timeblock")
-     * @Method("GET")
-     * @Template()
+     * @Configuration\Route("/{id}/edit", name="admin_timeblock_edit")
+     * @Configuration\ParamConverter("timeblock", class="OktolabRentBundle:Timeblock")
+     * @Configuration\Method("GET")
+     * @Configuration\Template()
      */
     public function editAction(Timeblock $timeblock)
     {
@@ -151,10 +147,10 @@ class TimeblockController extends Controller
     /**
      * Edits an existing Timeblock entity.
      *
-     * @Route("/{id}", name="admin_timeblock_update")
-     * @Method("PUT")
-     * @ParamConverter("timeblock", class="OktolabRentBundle:Timeblock")
-     * @Template("OktolabRentBundle:Timeblock:edit.html.twig")
+     * @Configuration\Route("/{id}", name="admin_timeblock_update")
+     * @Configuration\Method("PUT")
+     * @Configuration\ParamConverter("timeblock", class="OktolabRentBundle:Timeblock")
+     * @Configuration\Template("OktolabRentBundle:Timeblock:edit.html.twig")
      */
     public function updateAction(Request $request, Timeblock $timeblock)
     {
@@ -165,7 +161,7 @@ class TimeblockController extends Controller
             $em = $this->getDoctrine()->getManager();
             $em->persist($timeblock);
             $em->flush();
-
+            $this->get('session')->getFlashBag()->add('success', 'admin.timeblock.save_success');
             return $this->redirect($this->generateUrl('admin_timeblock_show', array('id' => $timeblock->getId())));
         }
 
@@ -177,16 +173,16 @@ class TimeblockController extends Controller
     /**
      * Deletes a Timeblock entity.
      *
-     * @Route("/{id}/delete", name="admin_timeblock_delete")
-     * @ParamConverter("timeblock", class="OktolabRentBundle:Timeblock")
-     * @Method("GET")
+     * @Configuration\Route("/{id}/delete", name="admin_timeblock_delete")
+     * @Configuration\ParamConverter("timeblock", class="OktolabRentBundle:Timeblock")
+     * @Configuration\Method("GET")
      */
     public function deleteAction(Timeblock $timeblock)
     {
-        //TODO: check constrains
         $em = $this->getDoctrine()->getManager();
         $em->remove($timeblock);
         $em->flush();
+        $this->get('session')->getFlashBag()->add('success', 'admin.timeblock.delete_success');
         return $this->redirect($this->generateUrl('admin_timeblock'));
     }
 }

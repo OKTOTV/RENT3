@@ -26,7 +26,7 @@ class EventApiTimeblockFixture extends AbstractFixture
         $timeblock = new Timeblock();
         $timeblock
             ->setIntervalBegin(new \DateTime('today 00:00'))
-            ->setIntervalEnd(new \DateTime('+30days 23:59'))
+            ->setIntervalEnd(new \DateTime('+1 year 00:00'))
             ->setBegin(new \DateTime('today 08:00'))
             ->setEnd(new \DateTime('today 17:00'))
             ->setIsActive(true)

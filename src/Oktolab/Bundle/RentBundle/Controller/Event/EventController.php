@@ -14,7 +14,6 @@ use Oktolab\Bundle\RentBundle\Entity\Event;
  */
 class EventController extends Controller
 {
-
     /**
      * Creates a new Event.
      *
@@ -50,8 +49,7 @@ class EventController extends Controller
         }
 
         $objects = $this->get('oktolab.event_manager')->convertEventObjectsToEntites($form->getData()->getObjects());
-        $this->get('session')->getFlashBag()->add('error', 'There was an error while saving the form.');
-        //$this->logAction('Event creation failed', array('event' => $event));
+        $this->get('session')->getFlashBag()->add('error', 'event.save_error');
 
         return array(
             'form' => $form->createView(),
@@ -123,9 +121,9 @@ class EventController extends Controller
 
         $form->handleRequest($request);
         if (!$form->isValid()) {
-            //@TODO: trans this message
+
             $objects = $this->get('oktolab.event_manager')->convertEventObjectsToEntites($event->getObjects());
-            $this->get('session')->getFlashBag()->add('error', 'There was an error while saving the form.');
+            $this->get('session')->getFlashBag()->add('error', 'event.save_error');
 
             return array(
                 'form' => $form->createView(),
@@ -143,12 +141,12 @@ class EventController extends Controller
         }
 
         if ($form->get('cancel')->isClicked()) { // User clicked Abort -> Nothing to do here
-            $this->get('session')->getFlashBag()->add('success', 'Successfully canceled editing Event.');
+            $this->get('session')->getFlashBag()->add('success', 'event.cancel_success');
         }
 
         if ($form->get('update')->isClicked()) { // User clicked Update -> Save Event
             $this->get('oktolab.event_manager')->save($event);
-            $this->get('session')->getFlashBag()->add('success', 'Successfully updated Event.');
+            $this->get('session')->getFlashBag()->add('success', 'event.update_success');
             $this->get('logger')->info('Event updated.', array('id' => $form->getData()->getId()));
         }
 
@@ -193,12 +191,12 @@ class EventController extends Controller
             }
 
             if (!$validation) {
-                $this->get('session')->getFlashBag()->add('error', 'Nope, nope, nope.');
+                $this->get('session')->getFlashBag()->add('error', 'event.save_error');
                 return $this->redirect($this->generateUrl('rentbundle_dashboard'));
             }
             //@TODO: add above to class validator ------
 
-            $this->get('session')->getFlashBag()->add('success', 'Event successfully rented.');
+            $this->get('session')->getFlashBag()->add('success', 'event.rent_success');
             $event->setState(Event::STATE_LENT);
 
             $em = $this->getDoctrine()->getManager();
@@ -241,19 +239,13 @@ class EventController extends Controller
             )
         );
 
-//        $form->remove('name')->add('name', 'text', array('disabled' => true));
-//        $form->remove('costunit')->add('costunit', 'entity', array('class' => 'OktolabRentBundle:CostUnit', 'property' => 'id', 'required' => true, 'disabled' => true));
-//        $form->remove('contact')->add('contact', 'entity', array('class' => 'OktolabRentBundle:Contact', 'property' => 'id','required' => true, 'disabled' => true));
-//        $form->remove('begin')->add('begin', 'datetime', array('widget' => 'single_text', 'required' => true, 'disabled' => true));
-//        $form->remove('objects')->add('objects', 'collection', array('type' => new \Oktolab\Bundle\RentBundle\Form\EventObjectType(), 'allow_add' => false, 'allow_delete' => false));
-
         $objects = $this->get('oktolab.event_manager')->convertEventObjectsToEntites($event->getObjects());
 
         return array(
             'form' => $form->createView(),
             'objects' => $objects,
-            'timeblock_starts' => $this->get('oktolab.event_calendar_timeblock')->getBlockJsonForType('Inventory', true),
-            'timeblock_ends'   => $this->get('oktolab.event_calendar_timeblock')->getBlockJsonForType('Inventory', false)
+            'timeblock_starts' => $this->get('oktolab.event_calendar_timeblock')->getBlockJsonForType($event->getType()->getName()),
+            'timeblock_ends'   => $this->get('oktolab.event_calendar_timeblock')->getBlockJsonForType($event->getType()->getName())
         );
     }
 
@@ -287,7 +279,7 @@ class EventController extends Controller
         if (!$form->isValid()) {
             // Error while handling Form. Form is not valid - show errors.
             $objects = $this->get('oktolab.event_manager')->convertEventObjectsToEntites($event->getObjects());
-            $this->get('session')->getFlashBag()->add('error', 'There was an error while saving the form.');
+            $this->get('session')->getFlashBag()->add('error', 'event.save_error');
 
             return array('form' => $form->createView(), 'objects' => $objects);
         }
@@ -302,11 +294,12 @@ class EventController extends Controller
             }
 
             if (!$validation) {
-                $this->get('session')->getFlashBag()->add('error', 'Something happend wrong.');
+                $this->get('session')->getFlashBag()->add('error', 'event.save_error');
                 return array('form' => $form->createView(), 'objects' => $objects);
             }
+            //@TODO: Add above to eventclass validator
 
-            $this->get('session')->getFlashBag()->add('success', 'Event successfully delivered.');
+            $this->get('session')->getFlashBag()->add('success', 'event.deliver_success');
             $event->setState(Event::STATE_DELIVERED);
 
             $em = $this->getDoctrine()->getManager();
@@ -320,9 +313,8 @@ class EventController extends Controller
         }
 
         if ($form->get('cancel')->isClicked()) { // User clicked Abort -> Nothing to do here
-            $this->get('session')->getFlashBag()->add('success', 'Successfully canceled editing Event.');
+            $this->get('session')->getFlashBag()->add('success', 'event.cancel_success');
         }
-
         // Done. Redirecting to Dashboard
         return $this->redirect($this->generateUrl('rentbundle_dashboard'));
     }

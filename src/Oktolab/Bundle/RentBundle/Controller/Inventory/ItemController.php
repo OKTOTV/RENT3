@@ -67,25 +67,22 @@ class ItemController extends Controller
             $em->persist($entity);
             $em->flush();
 
-            $message = $this->get('translator')->trans('item.message.savesuccessful');
-            $this->get('session')->getFlashBag()->add('success', $message);
+            $this->get('session')->getFlashBag()->add('success', 'item.message.savesuccessful');
 
             return $this->redirect($this->generateUrl('inventory_item_show', array('id' => $entity->getId())));
         }
 
-        $message = $this->get('translator')->trans('item.message.savefailure');
-        $this->get('session')->getFlashBag()->add('warning', $message);
-
+        $this->get('session')->getFlashBag()->add('warning', 'item.message.savefailure');
         return array('entity' => $entity, 'form' => $form->createView());
     }
 
     /**
      * Displays a form to create a new Inventory\Item entity.
-     * TODO: cache me
      *
      * @Configuration\Method("GET")
      * @Configuration\Route("/new", name="inventory_item_new")
      * @Configuration\Template()
+     * @Configuration\Cache(expires="+30 days", public="yes")
      */
     public function newAction()
     {
@@ -111,7 +108,6 @@ class ItemController extends Controller
      */
     public function showAction(Request $request, Item $item)
     {
-        // Configuration FTW.
     }
 
     /**
@@ -156,14 +152,11 @@ class ItemController extends Controller
             $em->persist($item);
             $em->flush();
 
-            $message = $this->get('translator')->trans('item.message.changessuccessful');
-            $this->get('session')->getFlashBag()->add('success', $message);
-
+            $this->get('session')->getFlashBag()->add('success', 'item.message.changessuccessful');
             return $this->redirect($this->generateUrl('inventory_item_show', array('id' => $item->getId())));
         }
 
-        $message = $this->get('translator')->trans('item.message.changefailure');
-        $this->get('session')->getFlashBag()->add('warning', $message);
+        $this->get('session')->getFlashBag()->add('warning', 'item.message.changefailure');
 
         return array('item' => $item, 'form' => $editForm->createView());
     }
