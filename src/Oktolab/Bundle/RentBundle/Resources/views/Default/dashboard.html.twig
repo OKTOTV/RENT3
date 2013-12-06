@@ -5,8 +5,8 @@
 
     <div class="aui-group">
         <div class="aui-item">
-            <h3>{{'event.activeInventoryEvents'|trans}}</h3>
-            {% if inventoryEvents is not empty %}
+            <h3>{{'event.comingInventoryEvents'|trans}}</h3>
+            {% if comingInventoryEvents is not empty %}
             <table class="aui">
                 <thead>
                     <tr>
@@ -14,28 +14,52 @@
                         <th id="costunit">{{'event.costunit'|trans}}</th>
                         <th id="contact">{{ 'event.contact'|trans }}</th>
                         <th id="begin">{{'event.begin'|trans}}</th>
-                        <th id="end">{{'event.end'|trans}}</th>
                     </tr>
                 </thead>
                 <tbody>
-                    {% for inventoryEvent in inventoryEvents %}
+                    {% for inventoryEvent in comingInventoryEvents %}
                     <tr>
                         <td headers="state"><span class="aui-lozenge">{{ inventoryEvent.state(true) }}</span></td>
                         <td headers="costunit"><a href="{{ path('OktolabRentBundle_Event_Edit', { 'id': inventoryEvent.id }) }}">{{inventoryEvent.name }}</a></td>
                         <td headers="contact">{{ inventoryEvent.contact.name}}</td>
                         <td headers="begin">{{ inventoryEvent.begin|date('d.m.Y H:i') }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            {% else %}
+                {{'event.noActiveEvents'|trans}}
+            {% endif %}
+
+            <h3>{{'event.endingInventoryEvents'|trans}}</h3>
+            {% if endingInventoryEvents is not empty %}
+            <table class="aui">
+                <thead>
+                    <tr>
+                        <th id="state">{{ 'event.state'|trans }}</th>
+                        <th id="costunit">{{'event.costunit'|trans}}</th>
+                        <th id="contact">{{ 'event.contact'|trans }}</th>
+                        <th id="end">{{'event.end'|trans}}</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for inventoryEvent in endingInventoryEvents %}
+                    <tr>
+                        <td headers="state"><span class="aui-lozenge">{{ inventoryEvent.state(true) }}</span></td>
+                        <td headers="costunit"><a href="{{ path('OktolabRentBundle_Event_Edit', { 'id': inventoryEvent.id }) }}">{{inventoryEvent.name }}</a></td>
+                        <td headers="contact">{{ inventoryEvent.contact.name}}</td>
                         <td headers="end">{{ inventoryEvent.end|date('d.m.Y H:i') }}</td>
                     </tr>
                     {% endfor %}
                 </tbody>
             </table>
             {% else %}
-                {{'events.noActiveEvents'|trans}}
+                {{'event.noActiveEvents'|trans}}
             {% endif %}
         </div>
         <div class="aui-item">
-            <h3>{{'event.activeRoomEvents'|trans}}</h3>
-            {% if roomEvents is not empty %}
+            <h3>{{'event.comingRoomEvents'|trans}}</h3>
+            {% if comingRoomEvents is not empty %}
             <table class="aui">
                 <thead>
                     <tr>
@@ -43,16 +67,40 @@
                         <th id="costunit">{{'event.costunit'|trans}}</th>
                         <th id="contact">{{ 'event.contact'|trans }}</th>
                         <th id="begin">{{'event.begin'|trans}}</th>
-                        <th id="end">{{'event.end'|trans}}</th>
                     </tr>
                 </thead>
                 <tbody>
-                    {% for roomEvent in roomEvents %}
+                    {% for roomEvent in comingRoomEvents %}
                     <tr>
                         <td headers="state"><span class="aui-lozenge">{{ roomEvent.state(true) }}</span></td>
                         <td headers="costunit"><a href="{{ path('OktolabRentBundle_Event_Edit', { 'id': roomEvent.id }) }}">{{roomEvent.name }}</a></td>
                         <td headers="contact">{{ roomEvent.contact.name}}</td>
                         <td headers="begin">{{ roomEvent.begin|date('d.m.Y H:i') }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            {% else %}
+                {{'event.noActiveEvents'|trans}}
+            {% endif %}
+
+            <h3>{{'event.endingRoomEvents'|trans}}</h3>
+            {% if endingRoomEvents is not empty %}
+            <table class="aui">
+                <thead>
+                    <tr>
+                        <th id="state">{{ 'event.state'|trans }}</th>
+                        <th id="costunit">{{'event.costunit'|trans}}</th>
+                        <th id="contact">{{ 'event.contact'|trans }}</th>
+                        <th id="end">{{'event.end'|trans}}</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for roomEvent in endingRoomEvents %}
+                    <tr>
+                        <td headers="state"><span class="aui-lozenge">{{ roomEvent.state(true) }}</span></td>
+                        <td headers="costunit"><a href="{{ path('OktolabRentBundle_Event_Edit', { 'id': roomEvent.id }) }}">{{roomEvent.name }}</a></td>
+                        <td headers="contact">{{ roomEvent.contact.name}}</td>
                         <td headers="end">{{ roomEvent.end|date('d.m.Y H:i') }}</td>
                     </tr>
                     {% endfor %}
