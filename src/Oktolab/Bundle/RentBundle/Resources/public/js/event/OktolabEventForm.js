@@ -270,8 +270,6 @@
          */
         _registerBeginTimeListener: function (id) {
             EventForm.data[id].beginHour.on('mouseenter', function (){
-                console.log(EventForm.data[id].beginDate);
-                console.log(EventForm.data[id].beginDate.val());
                 var date = EventForm.data[id].beginDate.val();
                 var selectBox = EventForm.data[id].beginHour;
                 var timeblocks = EventForm.data[id].beginContainer.data('timeblock-times');

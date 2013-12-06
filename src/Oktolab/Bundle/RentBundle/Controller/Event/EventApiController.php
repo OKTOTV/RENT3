@@ -180,7 +180,7 @@ class EventApiController extends Controller
                 $tokens = explode(' ', $object->getTitle());
                 $tokens[] = $object->getBarcode();
 
-                $items = $this->getItemsToSet($set);
+                $items = $this->getItemsToSet($object);
 
                 $json[] = array(
                     'name'          => $object->getTitle(),
