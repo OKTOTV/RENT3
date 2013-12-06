@@ -120,6 +120,11 @@ class EventController extends Controller
         );
 
         $form->handleRequest($request);
+
+        if ($form->get('cancel')->isClicked()) { // User clicked Abort -> Nothing to do here
+            $this->get('session')->getFlashBag()->add('success', 'event.cancel_success');
+        }
+        
         if (!$form->isValid()) {
 
             $objects = $this->get('oktolab.event_manager')->convertEventObjectsToEntites($event->getObjects());
@@ -140,9 +145,6 @@ class EventController extends Controller
             );
         }
 
-        if ($form->get('cancel')->isClicked()) { // User clicked Abort -> Nothing to do here
-            $this->get('session')->getFlashBag()->add('success', 'event.cancel_success');
-        }
 
         if ($form->get('update')->isClicked()) { // User clicked Update -> Save Event
             $this->get('oktolab.event_manager')->save($event);
