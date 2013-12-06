@@ -23,7 +23,7 @@ AJS.$(document).ready(function() {
     // Activate typeahead quicksearch in project
 
     var quicksearch_template = [
-            '<p class="tt-object-addon">{{name}}</p>',
+            '<p class="tt-object-addon">{{title}}</p>',
             '<p class="tt-object-addon">{{barcode}}</p>'
         ].join('');
 
@@ -64,7 +64,8 @@ AJS.$(document).ready(function() {
             valueKey:       'name',
             prefetchUrl:    { url: oktolab.typeahead.roomPrefetchUrl, ttl: 604800000},
             remote:         { url: oktolab.typeahead.roomRemoteUrl },
-            template:       '<h3 style="color: black">Räume</h3>',
+            template:       quicksearch_template,
+            header:         '<h3 style="color: black">Räume</h3>',
             engine:         Hogan
         }
     ]);

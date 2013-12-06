@@ -36,7 +36,8 @@ class CostUnitApiController extends Controller
         $json = array();
         foreach ($costunits as $costunit) {
             $json[] = array(
-                'name'          => $costunit->getName(),
+                'name'          => $costunit->getName().$costunit->getId(),
+                'title'         => $costunit->getName(),
                 'value'         => $costunit->getId(),
                 'tokens'        => explode(' ', $costunit->getName()),
                 'id'            => $costunit->getId(),
@@ -72,7 +73,8 @@ class CostUnitApiController extends Controller
         $json = array();
         foreach ($costunits as $costunit) {
             $json[] = array(
-                'name'          => $costunit->getName(),
+                'name'          => $costunit->getName().$costunit->getId(),
+                'title'         => $costunit->getName(),
                 'value'         => $costunit->getId(),
                 'tokens'        => explode(' ', $costunit->getName()),
                 'id'            => $costunit->getId(),
@@ -101,7 +103,8 @@ class CostUnitApiController extends Controller
 
         foreach ($contacts as $contact) {
             $json[] = array(
-                'name'          => $contact->getName(),
+                'name'          => $contact->getName().$contact->getId(),
+                'title'         => $contact->getName(),
                 'value'         => $contact->getId(),
                 'tokens'        => explode(' ', $contact->getName()),
                 'id'            => $contact->getId()

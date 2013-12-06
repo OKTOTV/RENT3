@@ -71,7 +71,8 @@ class ItemApiController extends Controller
             $tokens[] = $item->getBarcode();
 
             $json[] = array(
-                'name'          => $item->getTitle(),
+                'name'          => $item->getTitle().$item->getId(),
+                'title'         => $item->getTitle(),
                 'value'         => sprintf('%s:%d', $item->getType(), $item->getId()),
                 'type'          => $item->getType(),
                 'id'            => $item->getId(),

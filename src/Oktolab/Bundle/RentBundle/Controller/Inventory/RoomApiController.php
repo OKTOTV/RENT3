@@ -75,7 +75,8 @@ class RoomApiController extends Controller
             $tokens[] = $room->getTitle();
 
             $json[] = array(
-                'name'          => $room->getTitle(),
+                'name'          => $room->getTitle().$room->getId(),
+                'title'         => $room->getTitle(),
                 'value'         => sprintf('%s:%d', $room->getType(), $room->getId()),
                 'type'          => $room->getType(),
                 'id'            => $room->getId(),

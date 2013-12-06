@@ -51,7 +51,8 @@ class EventApiController extends Controller
             $tokens[] = $event->getBarcode();
 
             $json[] = array(
-                'name'          => $event->getCostUnit()->getName().' '.$event->getBegin()->format('d.m.Y').' - '.$event->getEnd()->format('d.m.Y'),
+                'title'         => $event->getCostUnit()->getName().' '.$event->getBegin()->format('d.m.Y').' - '.$event->getEnd()->format('d.m.Y'),
+                'name'          => $event->getCostUnit()->getName().$event->getId(),
                 'barcode'       => $event->getBarcode(),
                 'showUrl'       => 'event/'.$event->getId().'/edit',
                 'tokens'        => $tokens
@@ -183,7 +184,8 @@ class EventApiController extends Controller
                 $items = $this->getItemsToSet($object);
 
                 $json[] = array(
-                    'name'          => $object->getTitle(),
+                    'name'          => $object->getTitle().$object->getId(),
+                    'title'         => $object->getTitle(),
                     'value'         => sprintf('%s:%d', $object->getType(), $object->getId()),
                     'type'          => $object->getType(),
                     'items'         => $items,
