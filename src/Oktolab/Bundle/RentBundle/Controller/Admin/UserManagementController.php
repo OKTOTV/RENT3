@@ -80,7 +80,7 @@ class UserManagementController extends Controller
 
             $message = $this
                 ->get('translator')
-                ->trans('user.message.updateSuccess',array('%username%' => $user->getDisplayname()));
+                ->trans('user.message.updateSuccess', array('%username%' => $user->getDisplayname()));
             $this->get('session')->getFlashBag()->add('success', $message);
 
             return $this->redirect($this->generateUrl('security_user'));
