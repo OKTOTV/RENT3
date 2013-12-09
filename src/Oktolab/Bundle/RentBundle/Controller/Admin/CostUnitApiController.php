@@ -16,7 +16,6 @@ class CostUnitApiController extends Controller
     /**
      * Returns a JSON formatted Dataset for typeahead.js
      *
-     * @Configuration\Cache(expires="+30 days", public="yes")
      * @Configuration\Method("GET")
      * @Configuration\Route("/typeahead.{_format}",
      *      name="api_costunit_typeahead_prefetch",
@@ -55,7 +54,7 @@ class CostUnitApiController extends Controller
      *      name="api_costunit_typeahead_remote",
      *      defaults={"_format"="json"},
      *      requirements={"_format"="json"})
-     * 
+     *
      * @return JsonResponse
      */
     public function typeaheadRemoteAction($costunitValue)
