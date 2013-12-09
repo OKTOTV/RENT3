@@ -10,6 +10,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Cache;
 
 /**
  * Description of RoomApiController
+ * @TODO: move the typeahead array creation to a service
  * @Route("/api/room")
  * @author rs
  */
@@ -30,26 +31,9 @@ class RoomApiController extends Controller
     public function typeaheadPrefetchAction()
     {
         $em = $this->getDoctrine()->getManager();
-        $rooms = $em->getRepository('OktolabRentBundle:Inventory\Room')->findBy(array());
-        $json = array();
+        $rooms = $em->getRepository('OktolabRentBundle:Inventory\Room')->findAll();
 
-        foreach ($rooms as $room) {
-            $json[] = array(
-                'name'          => $room->getTitle(),
-                'value'         => sprintf('%s:%d', $room->getType(), $room->getId()),
-                'type'          => $room->getType(),
-                'id'            => $room->getId(),
-                'description'   => $room->getDescription(),
-                'barcode'       => $room->getBarcode(),
-                'showUrl'       => 'inventory/room/'.$room->getId(),
-                'tokens'        => array(
-                    $room->getBarcode(),
-                    $room->getTitle()
-                )
-            );
-        }
-
-        return new JsonResponse($json);
+        return new JsonResponse($this->getTypeaheadArrayForRooms($rooms));
     }
 
         /**
@@ -80,25 +64,29 @@ class RoomApiController extends Controller
 
         $rooms = $query->getResult();
 
-        $json = array();
+        return new JsonResponse($this->getTypeaheadArrayForRooms($rooms));
+    }
 
+    private function getTypeaheadArrayForRooms($rooms)
+    {
+        $json = array();
         foreach ($rooms as $room) {
+            $tokens = explode(' ', $room->getTitle());
+            $tokens[] = $room->getTitle();
+
             $json[] = array(
-                'name'          => $room->getTitle(),
+                'name'          => $room->getTitle().$room->getId(),
+                'title'         => $room->getTitle(),
                 'value'         => sprintf('%s:%d', $room->getType(), $room->getId()),
                 'type'          => $room->getType(),
                 'id'            => $room->getId(),
                 'description'   => $room->getDescription(),
                 'barcode'       => $room->getBarcode(),
                 'showUrl'       => 'inventory/room/'.$room->getId(),
-                'tokens'        => array(
-                    $room->getBarcode(),
-                    $room->getDescription(),
-                    $room->getTitle()
-                )
+                'tokens'        => $tokens
             );
         }
 
-        return new JsonResponse($json);
+        return $json;
     }
 }

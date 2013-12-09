@@ -27,81 +27,86 @@
                 <target>Der Barcode darf maximal 20 Zeichen lang sein</target>
             </trans-unit>
 
-            <trans-unit id="7">
+            <trans-unit id="100">
                 <source>set.title.notblank</source>
                 <target>Du musst einen Titel angeben</target>
             </trans-unit>
-            <trans-unit id="8">
+            <trans-unit id="101">
                 <source>set.title.lengthMax</source>
                 <target>Der Titel darf maximal 255 Zeichen lang sein</target>
             </trans-unit>
-            <trans-unit id="9">
+            <trans-unit id="102">
                 <source>set.description.notblank</source>
                 <target>Du musst eine Beschreibung angeben</target>
             </trans-unit>
-            <trans-unit id="10">
+            <trans-unit id="103">
                 <source>set.description.lengthMax</source>
                 <target>Die Beschreibung darf maximal 500 Zeichen lang sein</target>
             </trans-unit>
-            <trans-unit id="11">
+            <trans-unit id="104">
                 <source>set.barcode.notblank</source>
                 <target>Du musst einen Barcode angeben</target>
             </trans-unit>
-            <trans-unit id="12">
+            <trans-unit id="105">
                 <source>set.barcode.lengthMax</source>
                 <target>Der Barcode darf maximal 20 Zeichen lang sein</target>
             </trans-unit>
 
-            <trans-unit id="13">
+            <trans-unit id="200">
                 <source>room.title.notblank</source>
                 <target>Du musst einen Titel angeben</target>
             </trans-unit>
-            <trans-unit id="14">
+            <trans-unit id="201">
                 <source>room.title.lengthMax</source>
                 <target>Der Titel darf maximal 255 Zeichen lang sein</target>
             </trans-unit>
-            <trans-unit id="15">
+            <trans-unit id="202">
                 <source>room.description.notblank</source>
                 <target>Du musst eine Beschreibung angeben</target>
             </trans-unit>
-            <trans-unit id="16">
+            <trans-unit id="203">
                 <source>room.description.lengthMax</source>
                 <target>Die Beschreibung darf maximal 500 Zeichen lang sein</target>
             </trans-unit>
-            <trans-unit id="17">
+            <trans-unit id="204">
                 <source>room.barcode.notblank</source>
                 <target>Du musst einen Barcode angeben</target>
             </trans-unit>
-            <trans-unit id="18">
+            <trans-unit id="205">
                 <source>room.barcode.lengthMax</source>
                 <target>Der Barcode darf maximal 20 Zeichen lang sein</target>
             </trans-unit>
 
-            <trans-unit id="19">
+            <trans-unit id="300">
                 <source>place.title.notblank</source>
                 <target>Du musst einen Titel angeben</target>
             </trans-unit>
-            <trans-unit id="20">
+            <trans-unit id="301">
                 <source>place.title.lengthMax</source>
                 <target>Der Titel darf maximal 255 Zeichen lang sein</target>
             </trans-unit>
 
-            <trans-unit id="21">
+            <trans-unit id="400">
                 <source>import.data.notblank</source>
                 <target>Du musst eine Datei angeben</target>
             </trans-unit>
-            <trans-unit id="22">
+            <trans-unit id="401">
                 <source>import.data.filetype</source>
                 <target>Der Dateityp muss CSV sein</target>
             </trans-unit>
 
-            <trans-unit id="23">
+            <trans-unit id="500">
                 <source>category.title.notblank</source>
                 <target>Du musst einen Titel angeben</target>
             </trans-unit>
-            <trans-unit id="24">
+            <trans-unit id="501">
                 <source>category.title.lengthMax</source>
                 <target>Der Titel darf maximal 255 Zeichen lang sein</target>
+            </trans-unit>
+
+            <trans-unit id="600">
+                <source>event.begin_after_end</source>
+                <target>Der Beginzeitpunkt darf nicht während oder nach dem Endzeitpunkt sein</target>
             </trans-unit>
         </body>
     </file>

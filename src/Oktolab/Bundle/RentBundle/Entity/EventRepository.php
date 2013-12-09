@@ -137,4 +137,52 @@ class EventRepository extends EntityRepository
 
         return $qb;
     }
+
+    public function getAllActiveBeginningBetweenBeginToEnd(\DateTime $begin, \DateTime $end, $type = 'inventory')
+    {
+        $qb = $this->getEntityManager()->createQueryBuilder();
+        $qb->select('et.id')->from('OktolabRentBundle:EventType', 'et')
+            ->where($qb->expr()->eq('et.name', ':type'));
+
+        $qb2 = $this->getEntityManager()->createQueryBuilder();
+        $qb2->select('e')->from('OktolabRentBundle:Event', 'e')
+            ->where(
+                $qb2->expr()->andX(
+                    $qb2->expr()->gte('e.begin', ':begin'),
+                    $qb2->expr()->lte('e.begin', ':end'),
+                    $qb2->expr()->in('e.type', $qb->getDQL())
+                )
+            )
+            ->addOrderBy('e.begin', 'ASC')
+        ;
+        $qb2->setParameter('begin', $begin);
+        $qb2->setParameter('end', $end);
+        $qb2->setParameter('type', $type);
+
+        return $qb2->getQuery()->getResult();
+    }
+
+    public function getAllActiveEndingBetweenBeginToEnd(\DateTime $begin, \DateTime $end, $type = 'inventory')
+    {
+                $qb = $this->getEntityManager()->createQueryBuilder();
+        $qb->select('et.id')->from('OktolabRentBundle:EventType', 'et')
+            ->where($qb->expr()->eq('et.name', ':type'));
+
+        $qb2 = $this->getEntityManager()->createQueryBuilder();
+        $qb2->select('e')->from('OktolabRentBundle:Event', 'e')
+            ->where(
+                $qb2->expr()->andX(
+                    $qb2->expr()->gte('e.end', ':begin'),
+                    $qb2->expr()->lte('e.end', ':end'),
+                    $qb2->expr()->in('e.type', $qb->getDQL())
+                )
+            )
+            ->addOrderBy('e.end', 'ASC')
+        ;
+        $qb2->setParameter('begin', $begin);
+        $qb2->setParameter('end', $end);
+        $qb2->setParameter('type', $type);
+
+        return $qb2->getQuery()->getResult();
+    }
 }

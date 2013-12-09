@@ -15,7 +15,6 @@ use Oktolab\Bundle\RentBundle\Model\Validator as OktolabAssert;
  *
  * @ORM\Table()
  * @ORM\Entity(repositoryClass="Oktolab\Bundle\RentBundle\Entity\EventRepository")
- * @ Assert\GroupSequence({"Event", "Logic"})
  * @OktolabAssert\AvailabilityConstrain()
  */
 class Event
@@ -313,7 +312,7 @@ class Event
     /**
      * Begin must not be after end.
      *
-     * @Assert\True(message="Begin is not allowed to be after end", groups={"Logic"})
+     * @Assert\True(message="event.begin_after_end", groups={"Logic"})
      *
      * @return boolean
      */

@@ -270,8 +270,6 @@
          */
         _registerBeginTimeListener: function (id) {
             EventForm.data[id].beginHour.on('mouseenter', function (){
-                console.log(EventForm.data[id].beginDate);
-                console.log(EventForm.data[id].beginDate.val());
                 var date = EventForm.data[id].beginDate.val();
                 var selectBox = EventForm.data[id].beginHour;
                 var timeblocks = EventForm.data[id].beginContainer.data('timeblock-times');
@@ -442,7 +440,7 @@
                 remote: { url: oktolab.typeahead.eventRoomRemoteUrl + '/'+begin+'/'+end },
                 template: [
                     '<span class="aui-icon aui-icon-small aui-iconfont-devtools-file">Object</span>',
-                    '<p class="tt-object-name">{{name}}</p>',
+                    '<p class="tt-object-name">{{title}}</p>',
                     '<p class="tt-object-addon">{{barcode}}</p>'
                 ].join(''),
                 header: '<h3>Räume</h3>',
@@ -463,7 +461,7 @@
                 remote: { url: oktolab.typeahead.eventItemRemoteUrl + '/'+begin+'/'+end },
                 template: [
                     '<span class="aui-icon aui-icon-small aui-iconfont-devtools-file">Object</span>',
-                    '<p class="tt-object-name">{{name}}</p>',
+                    '<p class="tt-object-name">{{title}}</p>',
                     '<p class="tt-object-addon">{{barcode}}</p>'
                 ].join(''),
                 header: '<h3>Items</h3>',
@@ -474,7 +472,7 @@
                 remote: { url: oktolab.typeahead.eventSetRemoteUrl + '/'+begin+'/'+end },
                 template: [
                     '<span class="aui-icon aui-icon-small aui-iconfont-devtools-file">Object</span>',
-                    '<p class="tt-object-name">{{name}}</p>',
+                    '<p class="tt-object-name">{{title}}</p>',
                     '<p class="tt-object-addon">{{barcode}}</p>'
                 ].join(''),
                 header: '<h3>Sets</h3>',

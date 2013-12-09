@@ -28,65 +28,66 @@ class EventType extends AbstractType
                 'contact',
                 'entity',
                 array(
-                    'class'     => 'OktolabRentBundle:Contact',
-                    'label'     => 'admin.contact',
-                    'property' => 'id',
-                    'required' => true,
-                    'empty_value' => 'Choose a contact'
+                    'class'         => 'OktolabRentBundle:Contact',
+                    'label'         => 'admin.contact',
+                    'property'      => 'id',
+                    'required'      => true,
+                    'empty_value'   => ''
                 )
             )
             ->add(
                 'costunit',
                 'entity',
                 array(
-                    'class'     => 'OktolabRentBundle:CostUnit',
-                    'label'     => 'admin.costunit',
-                    'property' => 'id',
-                    'required' => true
+                    'class'         => 'OktolabRentBundle:CostUnit',
+                    'label'         => 'admin.costunit',
+                    'property'      => 'id',
+                    'required'      => true,
+                    'empty_value'   => ''
                 )
             )
             ->add(
                 'description',
                 'textarea',
                 array(
-                    'required' => false,
-                    'label'    => 'generic.description'
+                    'required'      => false,
+                    'label'         => 'generic.description'
                 )
             )
             ->add(
                 'begin',
                 'datetime',
                 array(
-                    'widget'    => 'single_text',
-                    'required'  => true,
-                    'label'     => 'event.begin'
+                    'widget'        => 'single_text',
+                    'required'      => true,
+                    'label'         => 'event.begin'
                 )
             )
             ->add(
                 'end',
                 'datetime',
                 array(
-                    'widget'    => 'single_text',
-                    'required'  => true,
-                    'label'     => 'event.end'
+                    'widget'        => 'single_text',
+                    'required'      => true,
+                    'label'         => 'event.end'
                 )
             )
             ->add(
                 'objects',
                 'collection',
                 array(
-                    'type' => new EventObjectType(),
-                    'allow_add' => true,
-                    'allow_delete' => true,
-                    'label'     => 'event.objects'
+                    'type'          => new EventObjectType(),
+                    'allow_add'     => true,
+                    'allow_delete'  => true,
+                    'label'         => 'event.objects'
                 )
             )
             ->add(
                 'type',
                 'entity',
                 array(
-                    'class' => 'OktolabRentBundle:EventType',
-                    'property' => 'name'
+                    'class'         => 'OktolabRentBundle:EventType',
+                    'property'      => 'name'
                 )
             );
 

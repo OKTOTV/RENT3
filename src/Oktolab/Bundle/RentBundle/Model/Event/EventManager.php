@@ -82,10 +82,10 @@ class EventManager
      *
      * @return boolean
      */
-    public function isAvailable($object, \DateTime $begin, \DateTime $end)
+    public function isAvailable($object, \DateTime $begin, \DateTime $end, $type = 'inventory')
     {
         $eventObjects = $this->prepareEventObjects(array($object));
-        $results = $this->getEventRepository()->findAllForObjectCount($eventObjects[0], $begin, $end);
+        $results = $this->getEventRepository()->findAllForObjectCount($eventObjects[0], $begin, $end, $type);
         return 0 === $results;
     }
 

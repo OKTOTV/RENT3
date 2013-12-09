@@ -56,7 +56,7 @@ class RoomApiControllerTest extends WebTestCase
         $rooms = json_decode($response->getContent());
 
         $this->assertEquals(1, count($rooms));
-        $this->assertEquals('RoomTitle', $rooms[0]->name);
+        $this->assertEquals('RoomTitle', $rooms[0]->title);
         $this->assertEquals('room:1', $rooms[0]->value);
     }
 
@@ -78,7 +78,7 @@ class RoomApiControllerTest extends WebTestCase
         $rooms = json_decode($response->getContent());
 
         $this->assertEquals(1, count($rooms));
-        $this->assertEquals('RoomTitle', $rooms[0]->name);
+        $this->assertEquals('RoomTitle', $rooms[0]->title);
         $this->assertEquals('room:1', $rooms[0]->value);
     }
 }
