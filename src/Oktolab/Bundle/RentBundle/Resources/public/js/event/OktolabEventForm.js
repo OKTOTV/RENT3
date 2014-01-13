@@ -158,11 +158,12 @@
 
             EventForm.data[id].costUnitSearchContainer.typeahead({
                 name:       'costunits',
-                valueKey:   'name',
-                prefetch: { url: oktolab.typeahead.costunitPrefetchUrl, ttl: 5 },
+                valueKey:   'displayName',
+                prefetch: { url: oktolab.typeahead.costunitPrefetchUrl },
+                remote: { url: oktolab.typeahead.costunitRemoteUrl },
                 template: [
                     '<span class="aui-icon aui-icon-small aui-iconfont-devtools-file">Object</span>',
-                    '<p class="tt-object-name">{{name}}</p>',
+                    '<p class="tt-object-name">{{displayName}}</p>',
                     '<p class="tt-object-addon">{{barcode}}</p>'
                 ].join(''),
                 engine: Hogan
@@ -196,17 +197,17 @@
 
                 // Set Values to hidden input fields
                 EventForm.data[id].costUnitContainer.val(datum.id);
-                EventForm.data[id].nameContainer.val(datum.name);
+                EventForm.data[id].nameContainer.val(datum.displayName);
 
                 // load new Typeahead on Contacts
                 EventForm.data[id].contactSearchContainer.typeahead('destroy');
                 EventForm.data[id].contactSearchContainer.attr('disabled', false).typeahead({
                     name:       'costunit-contacts-' + datum.id,
-                    valueKey:   'name',
+                    valueKey:   'title',
                     prefetch :  remoteUrl,
                     template: [
                         '<span class="aui-icon aui-icon-small aui-iconfont-devtools-file">Object</span>',
-                        '<p class="tt-object-name">{{name}}</p>'
+                        '<p class="tt-object-name">{{title}}</p>'
                     ].join(''),
                     engine: Hogan
                 });
@@ -440,7 +441,7 @@
                 remote: { url: oktolab.typeahead.eventRoomRemoteUrl + '/'+begin+'/'+end },
                 template: [
                     '<span class="aui-icon aui-icon-small aui-iconfont-devtools-file">Object</span>',
-                    '<p class="tt-object-name">{{title}}</p>',
+                    '<p class="tt-object-name">{{displayName}}</p>',
                     '<p class="tt-object-addon">{{barcode}}</p>'
                 ].join(''),
                 header: '<h3>Räume</h3>',
@@ -461,7 +462,7 @@
                 remote: { url: oktolab.typeahead.eventItemRemoteUrl + '/'+begin+'/'+end },
                 template: [
                     '<span class="aui-icon aui-icon-small aui-iconfont-devtools-file">Object</span>',
-                    '<p class="tt-object-name">{{title}}</p>',
+                    '<p class="tt-object-name">{{displayName}}</p>',
                     '<p class="tt-object-addon">{{barcode}}</p>'
                 ].join(''),
                 header: '<h3>Items</h3>',
@@ -472,7 +473,7 @@
                 remote: { url: oktolab.typeahead.eventSetRemoteUrl + '/'+begin+'/'+end },
                 template: [
                     '<span class="aui-icon aui-icon-small aui-iconfont-devtools-file">Object</span>',
-                    '<p class="tt-object-name">{{title}}</p>',
+                    '<p class="tt-object-name">{{displayName}}</p>',
                     '<p class="tt-object-addon">{{barcode}}</p>'
                 ].join(''),
                 header: '<h3>Sets</h3>',
@@ -520,7 +521,7 @@
                        }
                 });
             }
-        }
+        },
     };
 
     // Register EventForm

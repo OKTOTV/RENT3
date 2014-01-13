@@ -29,7 +29,7 @@ AJS.$(document).ready(function() {
 
     AJS.$('#quicksearch').typeahead([{
             name:           'quicksearch-items',
-            valueKey:       'name',
+            valueKey:       'title',
             prefetchUrl:    { url: oktolab.typeahead.itemPrefetchUrl, ttl: 604800000},
             remote:         { url: oktolab.typeahead.itemRemoteUrl },
             limit:          10,
@@ -38,7 +38,7 @@ AJS.$(document).ready(function() {
             engine:         Hogan
         }, {
             name:           'quicksearch-sets',
-            valueKey:       'name',
+            valueKey:       'title',
             prefetchUrl:    { url: oktolab.typeahead.setPrefetchUrl, ttl: 604800000},
             remote:         { url: oktolab.typeahead.setRemoteUrl },
             template:       quicksearch_template,
@@ -46,14 +46,14 @@ AJS.$(document).ready(function() {
             engine:         Hogan
         }, {
             name:           'quicksearch-events',
-            valueKey:       'name',
+            valueKey:       'title',
             remote:         { url: oktolab.typeahead.eventRemoteUrl },
             template:       quicksearch_template,
             header:         '<h3 style="color: black">Verleihscheine</h3>',
             engine:         Hogan
         }, {
             name:           'quicksearch-costunits',
-            valueKey:       'name',
+            valueKey:       'displayName',
             prefetchUrl:    { url: oktolab.typeahead.costunitPrefetchUrl, ttl: 604800000},
             remote:         { url: oktolab.typeahead.costunitRemoteUrl },
             template:       quicksearch_template,
@@ -61,7 +61,7 @@ AJS.$(document).ready(function() {
             engine:         Hogan
         }, {
             name:           'quicksearch-rooms',
-            valueKey:       'name',
+            valueKey:       'title',
             prefetchUrl:    { url: oktolab.typeahead.roomPrefetchUrl, ttl: 604800000},
             remote:         { url: oktolab.typeahead.roomRemoteUrl },
             template:       quicksearch_template,

@@ -72,7 +72,7 @@ class ItemApiController extends Controller
 
             $json[] = array(
                 'name'          => $item->getTitle().$item->getId(),
-                'title'         => $item->getTitle(),
+                'displayName'   => $item->getTitle(),
                 'value'         => sprintf('%s:%d', $item->getType(), $item->getId()),
                 'type'          => $item->getType(),
                 'id'            => $item->getId(),

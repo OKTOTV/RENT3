@@ -33,19 +33,7 @@ class CostUnitApiController extends Controller
             ->getRepository('OktolabRentBundle:CostUnit')
             ->findAll();
 
-        $json = array();
-        foreach ($costunits as $costunit) {
-            $json[] = array(
-                'name'          => $costunit->getName().$costunit->getId(),
-                'title'         => $costunit->getName(),
-                'value'         => $costunit->getId(),
-                'tokens'        => explode(' ', $costunit->getName()),
-                'id'            => $costunit->getId(),
-                'showUrl'       => 'admin/costunit/'.$costunit->getId()
-            );
-        }
-
-        return new JsonResponse($json);
+        return new JsonResponse($this->getTypeaheadArrayFromCostUnits($costunits));
     }
 
     /**
@@ -70,19 +58,7 @@ class CostUnitApiController extends Controller
 
         $costunits = $query->getResult();
 
-        $json = array();
-        foreach ($costunits as $costunit) {
-            $json[] = array(
-                'name'          => $costunit->getName().$costunit->getId(),
-                'title'         => $costunit->getName(),
-                'value'         => $costunit->getId(),
-                'tokens'        => explode(' ', $costunit->getName()),
-                'id'            => $costunit->getId(),
-                'showUrl'       => 'admin/costunit/'.$costunit->getId()
-            );
-        }
-
-        return new JsonResponse($json);
+        return new JsonResponse($this->getTypeaheadArrayFromCostUnits($costunits));
     }
 
     /**
@@ -103,6 +79,7 @@ class CostUnitApiController extends Controller
 
         foreach ($contacts as $contact) {
             $json[] = array(
+                'displayName'       => $contact->getName(),
                 'name'          => $contact->getName().$contact->getId(),
                 'title'         => $contact->getName(),
                 'value'         => $contact->getId(),
@@ -112,5 +89,22 @@ class CostUnitApiController extends Controller
         }
 
         return new JsonResponse($json);
+    }
+
+    private function getTypeaheadArrayFromCostUnits($costunits)
+    {
+        $datums = array();
+        foreach ($costunits as $costunit) {
+            $datums[] = array(
+                'name'          => $costunit->getName().$costunit->getId(),
+                'displayName'   => $costunit->getName(),
+                'value'         => $costunit->getId(),
+                'tokens'        => explode(' ', $costunit->getName()),
+                'id'            => $costunit->getId(),
+                'showUrl'       => 'admin/costunit/'.$costunit->getId()
+            );
+        }
+
+        return $datums;
     }
 }

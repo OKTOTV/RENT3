@@ -77,7 +77,7 @@ class SetApiController extends Controller
 
             $json[] = array(
                 'name'          => $set->getTitle().$set->getId(),
-                'title'         => $set->getTitle(),
+                'displayName'         => $set->getTitle(),
                 'value'         => sprintf('%s:%d', $set->getType(), $set->getId()),
                 'type'          => $set->getType(),
                 'id'            => $set->getId(),

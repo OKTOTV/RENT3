@@ -185,7 +185,7 @@ class EventApiController extends Controller
 
                 $json[] = array(
                     'name'          => $object->getTitle().$object->getId(),
-                    'title'         => $object->getTitle(),
+                    'displayName'   => $object->getTitle(),
                     'value'         => sprintf('%s:%d', $object->getType(), $object->getId()),
                     'type'          => $object->getType(),
                     'items'         => $items,

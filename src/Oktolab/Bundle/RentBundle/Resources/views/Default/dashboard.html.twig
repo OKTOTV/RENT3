@@ -20,7 +20,7 @@
                     {% for inventoryEvent in comingInventoryEvents %}
                     <tr>
                         <td headers="state"><span class="aui-lozenge">{{ inventoryEvent.state(true) }}</span></td>
-                        <td headers="costunit"><a href="{{ path('OktolabRentBundle_Event_Edit', { 'id': inventoryEvent.id }) }}">{{inventoryEvent.name }}</a></td>
+                        <td headers="costunit"><a href="{{ path('OktolabRentBundle_Event_Edit', { 'id': inventoryEvent.id }) }}">{{inventoryEvent.costunit.name }}</a></td>
                         <td headers="contact">{{ inventoryEvent.contact.name}}</td>
                         <td headers="begin">{{ inventoryEvent.begin|date('d.m.Y H:i') }}</td>
                     </tr>
@@ -46,7 +46,7 @@
                     {% for inventoryEvent in endingInventoryEvents %}
                     <tr>
                         <td headers="state"><span class="aui-lozenge">{{ inventoryEvent.state(true) }}</span></td>
-                        <td headers="costunit"><a href="{{ path('OktolabRentBundle_Event_Edit', { 'id': inventoryEvent.id }) }}">{{inventoryEvent.name }}</a></td>
+                        <td headers="costunit"><a href="{{ path('OktolabRentBundle_Event_Edit', { 'id': inventoryEvent.id }) }}">{{inventoryEvent.costunit.name }}</a></td>
                         <td headers="contact">{{ inventoryEvent.contact.name}}</td>
                         <td headers="end">{{ inventoryEvent.end|date('d.m.Y H:i') }}</td>
                     </tr>
@@ -73,7 +73,7 @@
                     {% for roomEvent in comingRoomEvents %}
                     <tr>
                         <td headers="state"><span class="aui-lozenge">{{ roomEvent.state(true) }}</span></td>
-                        <td headers="costunit"><a href="{{ path('OktolabRentBundle_Event_Edit', { 'id': roomEvent.id }) }}">{{roomEvent.name }}</a></td>
+                        <td headers="costunit"><a href="{{ path('OktolabRentBundle_Event_Edit', { 'id': roomEvent.id }) }}">{{roomEvent.costunit.name }}</a></td>
                         <td headers="contact">{{ roomEvent.contact.name}}</td>
                         <td headers="begin">{{ roomEvent.begin|date('d.m.Y H:i') }}</td>
                     </tr>
@@ -99,7 +99,7 @@
                     {% for roomEvent in endingRoomEvents %}
                     <tr>
                         <td headers="state"><span class="aui-lozenge">{{ roomEvent.state(true) }}</span></td>
-                        <td headers="costunit"><a href="{{ path('OktolabRentBundle_Event_Edit', { 'id': roomEvent.id }) }}">{{roomEvent.name }}</a></td>
+                        <td headers="costunit"><a href="{{ path('OktolabRentBundle_Event_Edit', { 'id': roomEvent.id }) }}">{{roomEvent.costunit.name }}</a></td>
                         <td headers="contact">{{ roomEvent.contact.name}}</td>
                         <td headers="end">{{ roomEvent.end|date('d.m.Y H:i') }}</td>
                     </tr>

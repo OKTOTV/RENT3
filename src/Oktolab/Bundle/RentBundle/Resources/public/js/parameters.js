@@ -19,7 +19,7 @@
         costunitcontactRemoteUrl: oktolab.baseUrl + '/api/costunit/__id__/typeahead.json',
 
         eventRemoteUrl:     oktolab.baseUrl + '/api/event/typeahead.json/%QUERY',
-        //TODO: eventPrefetchUrl ? Why not?
+        // TODO: eventPrefetchUrl ? Why not?
 
         eventItemRemoteUrl: oktolab.baseUrl + '/api/event/items/typeahead.json/%QUERY', //Add /begin/end as YYYY-MM-DD and you get all available items
         eventSetRemoteUrl:  oktolab.baseUrl + '/api/event/sets/typeahead.json/%QUERY',  //Add /begin/end as YYYY-MM-DD and you get all available sets
