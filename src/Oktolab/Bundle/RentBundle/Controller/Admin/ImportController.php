@@ -95,12 +95,14 @@ class ImportController extends Controller
 
                 } else {
                     //items invalid
-                    $this->get('session')->getFlashBag()->add('error', $this->get('translator')->trans('message.import.fileContainsError'));
+                    $message = $this->get('translator')->trans('message.import.fileContainsError');
+                    $this->get('session')->getFlashBag()->add('error', $message);
                 }
 
             } else {
                 //file is invalid
-                $this->get('session')->getFlashBag()->add('error', $this->get('translator')->trans('message.import.fileInvalid'));
+                $message = $this->get('translator')->trans('message.import.fileInvalid');
+                $this->get('session')->getFlashBag()->add('error', $message);
             }
 
             return $this->redirect($this->generateUrl('inventory_import'));

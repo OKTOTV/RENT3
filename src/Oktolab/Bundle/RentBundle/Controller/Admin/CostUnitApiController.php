@@ -4,12 +4,11 @@ namespace Oktolab\Bundle\RentBundle\Controller\Admin;
 
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Oktolab\Bundle\RentBundle\Entity\CostUnit;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration;
+use Oktolab\Bundle\RentBundle\Entity\CostUnit;
 
 /**
- * @Route("/api/costunit")
+ * @Configuration\Route("/api/costunit")
  */
 class CostUnitApiController extends Controller
 {
@@ -17,7 +16,6 @@ class CostUnitApiController extends Controller
     /**
      * Returns a JSON formatted Dataset for typeahead.js
      *
-     * @Configuration\Cache(expires="+30 days", public="yes")
      * @Configuration\Method("GET")
      * @Configuration\Route("/typeahead.{_format}",
      *      name="api_costunit_typeahead_prefetch",
@@ -44,15 +42,15 @@ class CostUnitApiController extends Controller
      *      name="api_costunit_typeahead_remote",
      *      defaults={"_format"="json"},
      *      requirements={"_format"="json"})
+     *
      * @return JsonResponse
      */
     public function typeaheadRemoteAction($costunitValue)
     {
         $repository = $this->getDoctrine()->getManager()->getRepository('OktolabRentBundle:CostUnit');
         $dq = $repository->createQueryBuilder('c');
-        $query = $dq->select()->where(
-                $dq->expr()->like('c.name', ':value')
-            )
+        $query = $dq->select()
+            ->where($dq->expr()->like('c.name', ':value'))
             ->setParameter('value', '%'.$costunitValue.'%')
             ->getQuery();
 
@@ -70,6 +68,7 @@ class CostUnitApiController extends Controller
      *      defaults={"_format"="json"},
      *      requirements={"_format"="json"})
      * @Configuration\ParamConverter("costunit", class="OktolabRentBundle:CostUnit")
+     *
      * @return JsonResponse
      */
     public function typeaheadContactRemoteAction(CostUnit $costunit)

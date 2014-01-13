@@ -2,10 +2,7 @@
 
 namespace Oktolab\Bundle\RentBundle\Controller;
 
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Cache;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
 /**
@@ -14,9 +11,13 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 class DefaultController extends Controller
 {
     /**
-     * @Method("GET")
-     * @Route("/", name="rentbundle_dashboard")
-     * @Template()
+     * Displays Inventory/Room Events for the next 7 days.
+     *
+     * @Configuration\Method("GET")
+     * @Configuration\Route("/", name="rentbundle_dashboard")
+     * @Configuration\Template()
+     *
+     * @return array
      */
     public function dashboardAction()
     {
@@ -35,9 +36,13 @@ class DefaultController extends Controller
     }
 
     /**
-     * @Method("GET")
-     * @Route("/calendar", name="rentbundle_calendar")
-     * @Template()
+     * Renders OktolabCalendar.js.
+     *
+     * @Configuration\Method("GET")
+     * @Configuration\Route("/calendar", name="rentbundle_calendar")
+     * @Configuration\Template()
+     *
+     * @return array
      */
     public function calendarAction()
     {
@@ -45,10 +50,14 @@ class DefaultController extends Controller
     }
 
     /**
-     * @Cache(expires="next year", public="true")
-     * @Method("GET")
-     * @Route("/about", name="rentbundle_about")
-     * @Template()
+     * Displays about page.
+     *
+     * @Configuration\Cache(expires="next year", public="true")
+     * @Configuration\Method("GET")
+     * @Configuration\Route("/about", name="rentbundle_about")
+     * @Configuration\Template()
+     *
+     * @return array
      */
     public function aboutAction()
     {

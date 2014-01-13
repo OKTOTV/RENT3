@@ -4,52 +4,51 @@ namespace Oktolab\Bundle\RentBundle\Controller\Admin;
 
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration;
 use Oktolab\Bundle\RentBundle\Entity\CostUnit;
 use Oktolab\Bundle\RentBundle\Form\CostUnitType;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 
 /**
- * CostUnit controller.
+ * CostUnit Controller.
  *
- * @Route("/admin/costunit")
+ * @Configuration\Route("/admin/costunit")
  */
 class CostUnitController extends Controller
 {
 
     /**
-     * Lists all CostUnit entities.
+     * Lists all CostUnits.
      *
-     * @Method("GET")
-     * @Route("/page={page}", name="admin_costunit", defaults={"page"=1}, requirements={"page"= "\d+"})
-     * @Template()
+     * @Configuration\Method("GET")
+     * @Configuration\Route("/page={page}", name="admin_costunit", defaults={"page"=1}, requirements={"page"= "\d+"})
+     * @Configuration\Template()
+     *
+     * @return array
      */
     public function indexAction($page)
     {
         $em = $this->getDoctrine()->getManager();
 
         $resultsPerPage = 15;
-        $totalResults = count($em->getRepository('OktolabRentBundle:CostUnit')->findAll());
-        $maxPage = ceil($totalResults/$resultsPerPage);
+        $totalResults = $em->getRepository('OktolabRentBundle:CostUnit')->countAll();
 
-        $entities = $em->getRepository('OktolabRentBundle:CostUnit')->findBy(array(), null, $resultsPerPage, $resultsPerPage*($page-1));
+        $entities = $em->getRepository('OktolabRentBundle:CostUnit')
+                ->findBy(array(), null, $resultsPerPage, $resultsPerPage * ($page - 1));
 
         return array(
-            'entities' => $entities,
-            'currentPage' => $page,
-            'pages'  => floor($totalResults / $resultsPerPage),
-            'renderPages' => 9
+            'entities'      => $entities,
+            'currentPage'   => $page,
+            'pages'         => floor($totalResults / $resultsPerPage),
+            'renderPages'   => 9,
         );
     }
 
     /**
-     * Creates a new CostUnit entity.
+     * Creates a new CostUnit Entity.
      *
-     * @Route("/", name="admin_costunit_create")
-     * @Method("POST")
-     * @Template("OktolabRentBundle:Admin\CostUnit:new.html.twig")
+     * @Configuration\Route("/", name="admin_costunit_create")
+     * @Configuration\Method("POST")
+     * @Configuration\Template("OktolabRentBundle:Admin\CostUnit:new.html.twig")
      */
     public function createAction(Request $request)
     {
@@ -101,9 +100,9 @@ class CostUnitController extends Controller
     /**
      * Displays a form to create a new CostUnit entity.
      *
-     * @Route("/new", name="admin_costunit_new")
-     * @Method("GET")
-     * @Template()
+     * @Configuration\Route("/new", name="admin_costunit_new")
+     * @Configuration\Method("GET")
+     * @Configuration\Template()
      */
     public function newAction()
     {
@@ -119,10 +118,10 @@ class CostUnitController extends Controller
     /**
      * Finds and displays a CostUnit entity.
      *
-     * @Route("/{id}", name="admin_costunit_show")
-     * @ParamConverter("costunit", class="OktolabRentBundle:CostUnit")
-     * @Method("GET")
-     * @Template()
+     * @Configuration\Route("/{id}", name="admin_costunit_show")
+     * @Configuration\ParamConverter("costunit", class="OktolabRentBundle:CostUnit")
+     * @Configuration\Method("GET")
+     * @Configuration\Template()
      */
     public function showAction(CostUnit $costunit)
     {
@@ -132,10 +131,10 @@ class CostUnitController extends Controller
     /**
      * Displays a form to edit an existing CostUnit entity.
      *
-     * @Route("/{id}/edit", name="admin_costunit_edit")
-     * @ParamConverter("costunit", class="OktolabRentBundle:CostUnit")
-     * @Method("GET")
-     * @Template()
+     * @Configuration\Route("/{id}/edit", name="admin_costunit_edit")
+     * @Configuration\ParamConverter("costunit", class="OktolabRentBundle:CostUnit")
+     * @Configuration\Method("GET")
+     * @Configuration\Template()
      */
     public function editAction(CostUnit $costunit)
     {
@@ -167,10 +166,10 @@ class CostUnitController extends Controller
     /**
      * Edits an existing CostUnit entity.
      *
-     * @Route("/{id}", name="admin_costunit_update")
-     * @Method("PUT")
-     * @ParamConverter("costunit", class="OktolabRentBundle:CostUnit")
-     * @Template("OktolabRentBundle:Admin\CostUnit:edit.html.twig")
+     * @Configuration\Route("/{id}", name="admin_costunit_update")
+     * @Configuration\Method("PUT")
+     * @Configuration\ParamConverter("costunit", class="OktolabRentBundle:CostUnit")
+     * @Configuration\Template("OktolabRentBundle:Admin\CostUnit:edit.html.twig")
      */
     public function updateAction(Request $request, CostUnit $costunit)
     {
@@ -178,7 +177,7 @@ class CostUnitController extends Controller
 
         $editForm = $this->createEditForm($costunit);
         $editForm->handleRequest($request);
-        
+
         if ($editForm->isValid()) {
             $contacts = $em->getRepository('OktolabRentBundle:Contact')->findBy(array('costunit' => $costunit));
             foreach ($contacts as $contact) {
@@ -209,9 +208,9 @@ class CostUnitController extends Controller
     /**
      * Deletes a CostUnit entity.
      *
-     * @Route("/{id}/delete", name="admin_costunit_delete")
-     * @ParamConverter("costunit", class="OktolabRentBundle:CostUnit")
-     * @Method("GET")
+     * @Configuration\Route("/{id}/delete", name="admin_costunit_delete")
+     * @Configuration\ParamConverter("costunit", class="OktolabRentBundle:CostUnit")
+     * @Configuration\Method("GET")
      */
     public function deleteAction(CostUnit $costunit)
     {
@@ -222,7 +221,7 @@ class CostUnitController extends Controller
                 ->add(
                     'warning',
                     $this->get('translator')->trans('costunit.message.deletefailure')
-            );
+                );
         } else {
             $em = $this->get('doctrine.orm.entity_manager');
             $em->remove($costunit);
@@ -234,7 +233,7 @@ class CostUnitController extends Controller
                 ->add(
                     'success',
                     $this->get('translator')->trans('costunit.message.deletesuccess')
-            );
+                );
         }
 
         return $this->redirect($this->generateUrl('admin_costunit'));

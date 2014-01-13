@@ -8,72 +8,69 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Oktolab\Bundle\RentBundle\Model\CostUnitProvider;
 
+/**
+ * Command to update CostUnits from Oktolab FLOW.
+ */
 class UpdateCostUnitsCommand extends ContainerAwareCommand
 {
-     protected function configure()
-     {
-         $this->setName('rentBundle:updateCostUnits')
-                ->addOption('dryrun', 'd', InputOption::VALUE_NONE, 'Makes a Dryrun and gives you a number of costunits that WOULD be imported');
-     }
+    /**
+     * {@inheritDoc}
+     */
+    protected function configure()
+    {
+        $this->setName('rent:update-costunits')
+               ->setDescription('Updates CostUnits from Oktolab FLOW.')
+               ->addOption('dry-run', 'd', InputOption::VALUE_NONE, 'Makes a dry run.');
+    }
 
-     protected function execute(InputInterface $input, OutputInterface $output)
-     {
-         $CostUnitProvider = $this->getContainer()->get('oktolab.cost_unit_provider');
+    /**
+     * {@inheritDoc}
+     */
+    protected function execute(InputInterface $input, OutputInterface $output)
+    {
+        $costUnitProvider = $this->getContainer()->get('oktolab.cost_unit_provider');
+        $flowCostUnits = $costUnitProvider->getCostUnitsFromResource();
+        $localCostUnits = $costUnitProvider->getCostUnitsFromResource(CostUnitProvider::$Resource_RENT);
+        $newCostUnits = $this->getNewCostUnits($flowCostUnits, $localCostUnits);
 
-         if ($input->getOption('verbose')) {
-             $output->writeln('Start getting CostUnits from FLOW');
-         }
+        if ($input->getOption('verbose')) {
+            $output->writeln(sprintf('Found %d CostUnits in Oktolab FLOW.', count($flowCostUnits)));
+            $output->writeln(sprintf('Found %d CostUnits in Oktolab RENT.', count($localCostUnits)));
+            $output->writeln(sprintf('Will update %d CostUnits in Oktolab RENT.', count($newCostUnits)));
+        }
 
-         $flowCostUnits = $CostUnitProvider->getCostUnitsFromResource();
+        if (!$input->getOption('dry-run')) {
+            $output->writeln('Updating database. This could take a while ...');
+            $costUnitProvider->addCostUnitsToRent($newCostUnits);
 
-         if ($input->getOption('verbose')) {
-             $output->writeln(sprintf('Found %s CostUnits in FLOW', count($flowCostUnits)));
-         }
+            // @TODO: Check if the update was *really* successful (e.g. return true/false ...)
+            $output->writeln('Update successful!');
+        }
+    }
 
-         $localCostUnits = $CostUnitProvider->getCostUnitsFromResource(CostUnitProvider::$Resource_RENT);
+    /**
+     * Returns delta of new CostUnits.
+     *
+     * @param array $flowCostUnits
+     * @param array $localCostUnits
+     *
+     * @return array
+     */
+    private function getNewCostUnits($flowCostUnits, $localCostUnits)
+    {
+        if (!$localCostUnits) {
+            return $flowCostUnits;
+        }
 
-         if ($input->getOption('verbose')) {
-             $output->writeln(sprintf('Found %s CostUnits in RENT (local)', count($localCostUnits)));
-             $output->writeln('Start search for new ones');
-         }
-
-         $newCostUnits = $this->getNewCostUnits($flowCostUnits, $localCostUnits);
-
-         if ($input->getOption('verbose')) {
-             $output->writeln(sprintf('Found %s CostUnits to import to RENT!', count($newCostUnits)));
-         }
-
-         if (!$input->getOption('dryrun')) {
-            if ($input->getOption('verbose')) {
-                $output->writeln('Start import to Database. This could take a while');
+        $costUnits = $flowCostUnits;
+        foreach ($flowCostUnits as $key => $flowCostUnit) {
+            foreach ($localCostUnits as $localCostUnit) {
+                if ($flowCostUnit->getGuid() == $localCostUnit->getGuid()) {
+                    unset($costUnits[$key]);
+                }
             }
+        }
 
-            $CostUnitProvider->addCostUnitsToRent($newCostUnits);
-
-            if ($input->getOption('verbose')) {
-                $output->writeln('Import successful!');
-            }
-         }
-
-         if ($input->getOption('verbose') && !$input->getOption('dryrun')) {
-             $output->writeln(sprintf('%s CostUnits now in RENT', count($CostUnitProvider->getCostUnitsFromResource(CostUnitProvider::$Resource_RENT))));
-         }
-     }
-
-     private function getNewCostUnits($flowCostUnits, $localCostUnits)
-     {
-         $costUnits = $flowCostUnits;
-
-         if ($localCostUnits) {
-             foreach($flowCostUnits as $key=>$flowCostUnit) {
-                 foreach($localCostUnits as $localCostUnit) {
-
-                     if ($flowCostUnit->getGuid() == $localCostUnit->getGuid()) {
-                         unset($costUnits[$key]);
-                     }
-                 }
-             }
-         }
-         return $costUnits;
-     }
+        return $costUnits;
+    }
 }
