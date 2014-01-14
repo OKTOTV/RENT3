@@ -22,16 +22,13 @@ class DefaultController extends Controller
     public function dashboardAction()
     {
         $eventRepository = $this->get('oktolab.event_manager')->getEventRepository();
-        $comingRoomEvents = $eventRepository->getAllActiveBeginningBetweenBeginToEnd(new \DateTime(), new \DateTime('+7 Days'), 'Room');
-        $endingRoomEvents = $eventRepository->getAllActiveEndingBetweenBeginToEnd(new \DateTime(), new \DateTime('+7 Days'), 'Room');
-        $comingInventoryEvents = $eventRepository->getAllActiveBeginningBetweenBeginToEnd(new \DateTime(), new \DateTime('+7 Days'), 'Inventory');
-        $endingInventoryEvents = $eventRepository->getAllActiveEndingBetweenBeginToEnd(new \DateTime(), new \DateTime('+7 Days'));
-        
+
+        $begin = new \DateTime();
+        $end = new \DateTime('+7 Days');
+
         return array(
-            'comingRoomEvents'      => $comingRoomEvents,
-            'endingRoomEvents'      => $endingRoomEvents,
-            'comingInventoryEvents' => $comingInventoryEvents,
-            'endingInventoryEvents' => $endingInventoryEvents
+            'roomEvents'      => $eventRepository->findActiveFromBeginToEnd($begin, $end, 'Room'),
+            'inventoryEvents' => $eventRepository->findActiveFromBeginToEnd($begin, $end, 'Inventory'),
         );
     }
 

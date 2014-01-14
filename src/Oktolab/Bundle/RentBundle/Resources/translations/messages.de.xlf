@@ -1048,12 +1048,12 @@
                 <target>Suche nach:</target>
             </trans-unit>
             <trans-unit id="1217">
-                <source>event.comingInventoryEvents</source>
-                <target>Kommende Inventarbuchungen</target>
+                <source>event.activeInventoryEvents</source>
+                <target>Aktive Inventarbuchungen</target>
             </trans-unit>
             <trans-unit id="1218">
-                <source>event.comingRoomEvents</source>
-                <target>Kommende Raumbuchungen</target>
+                <source>event.activeRoomEvents</source>
+                <target>Aktive Raumbuchungen</target>
             </trans-unit>
             <trans-unit id="1219">
                 <source>event.noActiveEvents</source>
@@ -1086,14 +1086,6 @@
             <trans-unit id="1226">
                 <source>event.deliver_success</source>
                 <target>Event erfolgreich zurückgegeben</target>
-            </trans-unit>
-            <trans-unit id="1227">
-                <source>event.endingInventoryEvents</source>
-                <target>Ausstehende Inventarbuchungen</target>
-            </trans-unit>
-            <trans-unit id="1228">
-                <source>event.endingRoomEvents</source>
-                <target>Ausstehende Raumbuchungen</target>
             </trans-unit>
 
             <trans-unit id="1300">
