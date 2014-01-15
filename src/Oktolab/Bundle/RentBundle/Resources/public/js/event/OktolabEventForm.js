@@ -42,7 +42,8 @@
                 endDate:            '.inventory-edit-endDate',
                 endHour:            'inventory-edit-endHour',
                 objectCollection:   '#inventory-edit-event-objects',
-                objectSearch:       '#inventory-edit-search-field'
+                objectSearch:       '#inventory-edit-search-field',
+                submitButton:       '#OktolabRentBundle_Event_Form_rent'
             };
 
             if (EventForm._loadConfiguration(editInventorySettings, 'editInventory')) {
@@ -59,6 +60,7 @@
                 endDate:            '.room-edit-endDate',
                 endHour:            'room-editendHour',
                 type:               'room',
+                submitButton:       '#OktolabRentBundle_Event_Form_rent'
             };
 
             if (EventForm._loadConfiguration(editRoomSettings, 'editRoom')) {
@@ -116,6 +118,7 @@
             EventForm.data[id].beginContainer = $(EventForm.config[id].beginDate);
             EventForm.data[id].endContainer = $(EventForm.config[id].endDate);
             EventForm.data[id].objectSearch = $(EventForm.config[id].objectSearch);
+            EventForm.data[id].submitButton = $(EventForm.config[id].submitButton);
 
             // Hide some form fields
             EventForm.data[id].costUnitContainer.closest('div.field-group').addClass('hidden');
@@ -143,6 +146,11 @@
             EventForm._registerBeginTimeChange(id);
             EventForm._registerEndTimeChange(id);
             EventForm._registerRemoveClick(id);
+            EventForm._registerKeyDownInSearch(id);
+            EventForm._registerKeyUpInSearch(id);
+
+            // TODO: remove in Prod env
+            EventForm._registerCheckClick(id);
         },
 
         _renderCostUnitField: function (id) {
@@ -337,18 +345,7 @@
          */
         _registerTypeaheadSelect: function(id) {
             EventForm.data[id].objectSearch.on('typeahead:selected', function (e, datum) {
-                var form = EventForm.data[id].objectCollection.closest('form');
-                if (0 === form.find('div[data-object="' + datum.value + '"]').length) {
-//                    oktolab.addTypeaheadObjectToEventForm(EventForm.data[id].objectCollection, datum);
-
-                    var index    = EventForm.data[id].objectCollection.data('index');
-                    var template = Hogan.compile(EventForm.data[id].objectCollection.data('prototype'));
-                    var output   = template.render(AJS.$.extend(datum, { index: index + 1 }));
-
-                    EventForm.data[id].objectCollection.data('index', index + 1);
-                    EventForm.data[id].objectCollection.append(output);
-
-                }
+                EventForm._addObjectToTable(id, datum);
                 jQuery(this).typeahead('setQuery', '');
             });
         },
@@ -363,6 +360,111 @@
                 e.preventDefault();
                 $(e.currentTarget).closest('tr').remove();
             });
+        },
+
+        _registerKeyDownInSearch: function(id) {
+            EventForm.data[id].objectSearch.keydown(function (e) {
+                var keyCode = e.which || e.keyCode;
+
+                if (keyCode === 13 ||                       // ENTER
+                    keyCode === 9 ||                        // TAB
+                    (keyCode === 74 && e.ctrlKey == true)   // LF (Barcode Scanner)
+                ) {
+                    e.preventDefault();
+                }
+            });
+        },
+
+        _registerKeyUpInSearch: function(id) {
+            EventForm.data[id].objectSearch.keyup(function (e) {
+                var keyCode = e.which || e.keyCode;
+
+                // block keys: *, /, -, +, ... from numpad (barcode scanner ...)
+                if ((keyCode >= 106 && keyCode <= 111) || keyCode === 16 || keyCode === 17 || keyCode === 18) {
+                    e.preventDefault();
+                    return;
+                }
+
+                if ((keyCode === 13 && e.ctrlKey == true) || (keyCode === 74 && e.ctrlKey == true) || keyCode === 9) {
+                    e.preventDefault();
+
+                    var suggestion = EventForm._findSuggestion(id);
+                    if ('undefined' !== typeof(suggestion)) {
+                        console.log('not undefined. add me');
+                        EventForm._addObjectToTable(id, suggestion);
+                        EventForm.data[id].objectSearch.typeahead('setQuery', '');
+                    }
+
+                    EventForm.data[id].objectSearch.focus();
+                }
+            });
+        },
+
+        //@TODO: remove this in production. It's only for dev.
+        _registerCheckClick: function(id) {
+            EventForm.data[id].objectCollection.on('click', 'a.scan', function(e) {
+                e.preventDefault();
+                EventForm._scanObjectInTable(id, $(e.currentTarget).closest('tr'));
+            });
+        },
+
+        /**
+         * Finds suggested Datum.
+         *
+         * @return {typeahead-datum|object}
+         */
+        _findSuggestion: function(id) {
+            var searchValue = EventForm.data[id].objectSearch.val();
+            var datum;
+            $.each(EventForm.data[id].objectSearch.data().ttView.datasets, function (datasetKey, dataset) {
+                console.log(dataset.itemHash);
+                $.each(dataset.itemHash, function (itemKey, itemHash) {
+                    console.log('wow, many itemHash.datums');
+                    if (searchValue === itemHash.datum.barcode) {
+                        datum = itemHash.datum;
+                    }
+                });
+            });
+
+            return datum;
+        },
+
+        _addObjectToTable: function(id, datum) {
+            var form = EventForm.data[id].objectCollection.closest('form');
+            var tr = form.find('tr[data-value="' + datum.value + '"]');
+
+            if (0 === tr.length) {
+                var index    = EventForm.data[id].objectCollection.data('index');
+                var template = Hogan.compile(EventForm.data[id].objectCollection.data('prototype'));
+                var output   = template.render(AJS.$.extend(datum, { index: index + 1 }));
+
+                EventForm.data[id].objectCollection.data('index', index + 1);
+                EventForm.data[id].objectCollection.append(output);
+            } else {
+                EventForm._scanObjectInTable(id, tr);
+            }
+        },
+
+        _scanObjectInTable: function(id, object) {
+            object.find('.hidden input.scanner').val('1');
+            object.find('a.scan span').removeClass('aui-iconfont-approve').addClass('aui-icon-success');
+
+            if (EventForm._checkScannedObjects(id)) {
+                EventForm.data[id].submitButton.attr('aria-disabled', false);
+            }
+        },
+
+        _checkScannedObjects: function(id) {
+            var inputs = EventForm.data[id].objectCollection.find('input[name*=scanned]');
+            var allChecked = true;
+
+            $.each(inputs, function (key, input) {
+                if (1 != $(input).val()) {
+                    allChecked = false;
+                }
+            });
+
+            return allChecked;
         },
 
         /**
@@ -410,10 +512,10 @@
 
                 if (EventForm.config[id].type === "room") {
                     console.log('activate room search');
-                    EventForm._typeaheadRoom(EventForm.data[id].objectSearch, begin, end);
+                    EventForm._typeaheadRoom(id, EventForm.data[id].objectSearch, begin, end);
                 } else if (EventForm.config[id].type === "inventory") {
                     console.log('activate inventory search');
-                    EventForm._typeaheadInventory(EventForm.data[id].objectSearch, begin, end);
+                    EventForm._typeaheadInventory(id, EventForm.data[id].objectSearch, begin, end);
                 }
                 EventForm._registerTypeaheadSelect(id);
             } else {
@@ -425,7 +527,7 @@
         _refreshObjectTable: function (id) {
             console.log(id);
             //(TODO: add api the get availabilityinformation for each item and highlight unavailable ones
-            $(EventForm.data[id].objectCollection).empty();
+            //$(EventForm.data[id].objectCollection).empty(); + empty table
         },
 
         /**
@@ -434,10 +536,10 @@
          * @param {string} begin datetime string (yy-mm-ddThh:mm)
          * @param {string} end   datetime string (yy-mm-ddThh:mm)
          */
-        _typeaheadRoom: function (searchInput, begin, end) {
+        _typeaheadRoom: function (id, searchInput, begin, end) {
             searchInput.typeahead([{
                 name: 'rent-rooms',
-                valueKey: 'name',
+                valueKey: 'displayName',
                 remote: { url: oktolab.typeahead.eventRoomRemoteUrl + '/'+begin+'/'+end },
                 template: [
                     '<span class="aui-icon aui-icon-small aui-iconfont-devtools-file">Object</span>',
@@ -455,11 +557,15 @@
          * @param {string} begin datetime string (yy-mm-ddThh:mm)
          * @param {string} end   datetime string (yy-mm-ddThh:mm)
          */
-        _typeaheadInventory: function (searchInput, begin, end) {
+        _typeaheadInventory: function (id, searchInput, begin, end) {
+            var eventId = EventForm.data[id].container.data('value');
+            console.log('id: ' + eventId);
+            console.log(oktolab.typeahead.eventItemPrefetchUrl + '/' + eventId + '/'+begin+'/'+end);
             searchInput.typeahead([{
                 name: 'rent-items',
-                valueKey: 'name',
+                valueKey: 'displayName',
                 remote: { url: oktolab.typeahead.eventItemRemoteUrl + '/'+begin+'/'+end },
+                prefetch: { url: oktolab.typeahead.eventItemPrefetchUrl + '/' + eventId + '/'+begin+'/'+end, ttl: 3600 },
                 template: [
                     '<span class="aui-icon aui-icon-small aui-iconfont-devtools-file">Object</span>',
                     '<p class="tt-object-name">{{displayName}}</p>',
@@ -469,7 +575,7 @@
                 engine: Hogan
             }, {
                 name:       'rent-sets',
-                valueKey:   'name',
+                valueKey:   'displayName',
                 remote: { url: oktolab.typeahead.eventSetRemoteUrl + '/'+begin+'/'+end },
                 template: [
                     '<span class="aui-icon aui-icon-small aui-iconfont-devtools-file">Object</span>',

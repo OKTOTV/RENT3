@@ -778,6 +778,22 @@
                 <source>event.bookings</source>
                 <target>Buchungen</target>
             </trans-unit>
+            <trans-unit id="702">
+                <source>event.deliver</source>
+                <target>Rücknehmen</target>
+            </trans-unit>
+            <trans-unit id="703">
+                <source>event.printPdf</source>
+                <target>Drucken</target>
+            </trans-unit>
+            <trans-unit id="704">
+                <source>event.update</source>
+                <target>Speichern</target>
+            </trans-unit>
+            <trans-unit id="705">
+                <source>event.rent</source>
+                <target>Ausgeben</target>
+            </trans-unit>
 
             <trans-unit id="800">
                 <source>inventory.import</source>
@@ -1049,11 +1065,11 @@
             </trans-unit>
             <trans-unit id="1217">
                 <source>event.activeInventoryEvents</source>
-                <target>Aktive Inventarbuchungen</target>
+                <target>Inventar</target>
             </trans-unit>
             <trans-unit id="1218">
                 <source>event.activeRoomEvents</source>
-                <target>Aktive Raumbuchungen</target>
+                <target>Räume</target>
             </trans-unit>
             <trans-unit id="1219">
                 <source>event.noActiveEvents</source>
@@ -1085,7 +1101,7 @@
             </trans-unit>
             <trans-unit id="1226">
                 <source>event.deliver_success</source>
-                <target>Event erfolgreich zurückgegeben</target>
+                <target>Event erfolgreich zurückgenommen</target>
             </trans-unit>
 
             <trans-unit id="1300">

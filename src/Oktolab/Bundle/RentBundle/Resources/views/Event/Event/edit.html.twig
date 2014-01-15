@@ -22,7 +22,7 @@
 {% block content %}
     <div id="event-form">
         <h2>{{ 'generic.edit' | trans }} - {{ form.vars.value.name }}</h2>
-        {{ form_start(form, {'attr': {'class': 'aui', 'id': type~'-edit-form'} }) }}
+        {{ form_start(form, {'attr': {'class': 'aui', 'id': type~'-edit-form', 'data-value':form.vars.value.id } }) }}
             <fieldset>
                 {{ form_errors(form) }}
 
@@ -94,18 +94,18 @@
             <div class="buttons-container">
                 <div class="buttons">
                     {% if form.vars.value.state == 2 %}
-                        {{ form_widget(form.rent, {'attr': { 'class': 'aui-button aui-button-primary', 'aria-disabled': 'true' }, 'label': 'Deliver' }) }}
+                        {{ form_widget(form.rent, {'attr': { 'class': 'aui-button aui-button-primary', 'aria-disabled': 'true' }, 'label': 'event.deliver'|trans }) }}
                     {% else %}
-                        {{ form_widget(form.rent, {'attr': { 'class': 'aui-button aui-button-primary', 'aria-disabled': 'true' } }) }}
-                        {{ form_widget(form.update, {'attr': { 'class': 'aui-button' } }) }}
+                        {{ form_widget(form.rent, {'attr': { 'class': 'aui-button aui-button-primary', 'aria-disabled': 'true' }, 'label': 'event.rent'|trans }) }}
+                        {{ form_widget(form.update, {'attr': { 'class': 'aui-button' }, 'label': 'event.update'|trans }) }}
                     {% endif %}
 
                     {% if form.vars.value.id is not null %}
-                        <a href="{{ path('event_pdf', { 'id': form.vars.value.id }) }}" class="aui-button">{{ 'Print Sheet'|trans }}</a>
+                        <a href="{{ path('event_pdf', { 'id': form.vars.value.id }) }}" class="aui-button">{{ 'event.printPdf'|trans }}</a>
                     {% endif %}
 
                     {# form_widget(form.delete, {'attr': { 'class': 'aui-button' } }) #}
-                    {{ form_widget(form.cancel, {'attr': { 'class': 'aui-button aui-button-link' } }) }}
+                    {{ form_widget(form.cancel, {'attr': { 'class': 'aui-button aui-button-link' }, 'label': 'generic.cancel'|trans }) }}
                 </div>
             </div>
 

@@ -124,7 +124,7 @@ class EventController extends Controller
         if ($form->get('cancel')->isClicked()) { // User clicked Abort -> Nothing to do here
             $this->get('session')->getFlashBag()->add('success', 'event.cancel_success');
         }
-        
+
         if (!$form->isValid()) {
 
             $objects = $this->get('oktolab.event_manager')->convertEventObjectsToEntites($event->getObjects());
@@ -246,8 +246,7 @@ class EventController extends Controller
         return array(
             'form' => $form->createView(),
             'objects' => $objects,
-            'timeblock_starts' => $this->get('oktolab.event_calendar_timeblock')->getBlockJsonForType($event->getType()->getName()),
-            'timeblock_ends'   => $this->get('oktolab.event_calendar_timeblock')->getBlockJsonForType($event->getType()->getName())
+            'timeblock_times' => $this->get('oktolab.event_calendar_timeblock')->getBlockJsonForType($event->getType()->getName())
         );
     }
 
@@ -299,7 +298,7 @@ class EventController extends Controller
                 $this->get('session')->getFlashBag()->add('error', 'event.save_error');
                 return array('form' => $form->createView(), 'objects' => $objects);
             }
-            //@TODO: Add above to eventclass validator
+            // @TODO: Add above to eventclass validator
 
             $this->get('session')->getFlashBag()->add('success', 'event.deliver_success');
             $event->setState(Event::STATE_DELIVERED);

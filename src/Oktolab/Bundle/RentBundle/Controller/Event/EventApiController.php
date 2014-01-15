@@ -95,6 +95,36 @@ class EventApiController extends Controller
     }
 
     /**
+     * Returns Json with all Available items including items in given event.
+     * This is used to enable quick barcode scanning.
+     *
+     * @Configuration\Method("GET")
+     * @Configuration\Route("/items/prefetch/typeahead.{_format}/{event}/{begin}/{end}",
+     *      name="inventory_event_item_typeahead_prefetch_url",
+     *      defaults={"_format"="json"},
+     *      requirements={"_format"="json"})
+     * @Configuration\ParamConverter("event", class="OktolabRentBundle:Event")
+     * @Configuration\ParamConverter("begin")
+     * @Configuration\ParamConverter("end")
+     *
+     * @param Event $event
+     * @param \DateTime $begin
+     * @param \DateTime $end
+     */
+    public function typeaheadEventItemPrefetchAction($event, \DateTime $begin, \DateTime $end)
+    {
+        $AllItems = $this->getDoctrine()->getManager()->getRepository('OktolabRentBundle:Inventory\Item')->findAll();
+        $availableItems = $this->getTypeaheadArrayFromObjects($AllItems, $begin, $end);
+        $eventRentables = $this->get('oktolab.event_manager')->convertEventObjectsToEntites($event->getObjects());
+
+        foreach ($eventRentables as $eventRentable) {
+            $availableItems[] = $this->getDatumForObject($eventRentable);
+        }
+
+        return new JsonResponse($availableItems);
+    }
+
+    /**
      * Returns available sets for given setValue and timerange for typeahead.js
      *
      * @Configuration\Method("GET")
@@ -178,21 +208,7 @@ class EventApiController extends Controller
 
         foreach ($objects as $object) {
             if ($eventManager->isAvailable($object, $begin, $end, $type)) {
-                $tokens = explode(' ', $object->getTitle());
-                $tokens[] = $object->getBarcode();
-
-                $items = $this->getItemsToSet($object);
-
-                $json[] = array(
-                    'name'          => $object->getTitle().$object->getId(),
-                    'displayName'   => $object->getTitle(),
-                    'value'         => sprintf('%s:%d', $object->getType(), $object->getId()),
-                    'type'          => $object->getType(),
-                    'items'         => $items,
-                    'id'            => $object->getId(),
-                    'barcode'       => $object->getBarcode(),
-                    'tokens'        => $tokens
-                );
+                $json[] = $this->getDatumForObject($object);
             }
         }
         return $json;
@@ -212,5 +228,32 @@ class EventApiController extends Controller
             }
         }
         return $items;
+    }
+
+    /**
+     * Creates the datum used by typeahead.
+     * Caution, changing this may lead to unexpected behaviors in the whole project
+     * @param RentableInterface $object
+     * @return array
+     */
+    private function getDatumForObject($object)
+    {
+        $tokens = explode(' ', $object->getTitle());
+        $tokens[] = $object->getBarcode();
+
+        $items = $this->getItemsToSet($object);
+
+        $datum = array(
+            'name'          => $object->getTitle().$object->getId(),
+            'displayName'   => $object->getTitle(),
+            'value'         => sprintf('%s:%d', $object->getType(), $object->getId()),
+            'type'          => $object->getType(),
+            'items'         => $items,
+            'id'            => $object->getId(),
+            'barcode'       => $object->getBarcode(),
+            'tokens'        => $tokens
+        );
+
+        return $datum;
     }
 }
