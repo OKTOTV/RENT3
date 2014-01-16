@@ -11,12 +11,25 @@
             <label>{{ 'admin.contact.name' | trans }}</label>
             <span class="field-value">{{ contact.name }}</span>
         </div>
-        <div class="field-group viewMode">
-            <label>{{ 'admin.contact.costunit'|trans }}</label>
-            {% if contact.costunit is not null %}
-                <span class="field-value">{{ contact.costunit.name }}</span>
+        <div class="field-group viewMode aui-oktolab-form-table">
+            <label>{{ 'admin.contact.costunits' | trans }}</label>
+            {% if contact.costunits|length == 0 %}
+                <span class="field-value">{{'admin.contact.noCostunit'|trans}}</span>
             {% else %}
-               <span class="field-value">{{ 'admin.contact.noCostunit' | trans }}</span>
+                <table class="aui">
+                    <thead>
+                        <tr>
+                            <th id="name">{{ 'admin.contact.costunit' | trans }}</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for costunit in contact.costunits %}
+                            <tr>
+                                <td headers="name"><a href="{{ path('admin_costunit_show', {'id': costunit.id}) }}">{{ costunit.name }}</a></td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
             {% endif %}
         </div>
     </fieldset>

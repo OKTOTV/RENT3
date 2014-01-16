@@ -24,7 +24,6 @@ class EventFixture extends AbstractFixture
         $contact = new Contact();
         $contact->setName('Testcontact');
         $contact->setGuid('12345678');
-        $contact->setFeePayed(false);
 
         $costunit = new CostUnit();
         $costunit->setName('Testcostunit');

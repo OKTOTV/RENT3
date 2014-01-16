@@ -22,13 +22,12 @@ class CostUnitWithContactFixture extends AbstractFixture
         $contact = new Contact();
         $contact->setName('Dummy Contact');
         $contact->setGuid('7654321DUMMY');
-        $contact->setFeePayed(true);
 
         $costunit = new CostUnit();
         $costunit->setName('Dummy Costunit');
         $costunit->setGuid('1234567DUMMY');
         $costunit->addContact($contact);
-        $contact->setCostunit($costunit);
+        $contact->addCostunit($costunit);
 
         $manager->persist($contact);
         $manager->persist($costunit);

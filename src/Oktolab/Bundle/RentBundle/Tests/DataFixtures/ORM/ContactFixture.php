@@ -20,7 +20,6 @@ class ContactFixture extends AbstractFixture
         $contact = new Contact();
         $contact->setName('John Appleseed');
         $contact->setGuid('12345678');
-        $contact->setFeePayed(false);
 
         $manager->persist($contact);
         $manager->flush();

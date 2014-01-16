@@ -31,7 +31,6 @@ class HubFetchService extends Client
 
             if (!$contact) {
                 $contact = new Contact();
-                $contact->setFeePayed(false);
                 $contact->setName($contactcard['cn'][0]);
                 $contact->setGuid($contactcard['uniqueidentifier'][0]);
             }

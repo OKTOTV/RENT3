@@ -61,7 +61,7 @@ class CostUnitController extends Controller
 
             if ($form->get('contacts')->getData()) {
                 foreach ($form->get('contacts')->getData() as $contact) {
-                    $contact->setCostunit($entity);
+                    $contact->addCostunit($entity);
                     $em->persist($contact);
                 }
                 $entity->setContacts($form->get('contacts')->getData());
@@ -194,7 +194,7 @@ class CostUnitController extends Controller
                 $costunit->addContact($contact);
                 $contact->addCostunit($costunit);
             }
-            
+
             $em->persist($costunit);
             $em->flush();
 

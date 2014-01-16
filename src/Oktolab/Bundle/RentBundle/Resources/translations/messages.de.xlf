@@ -921,6 +921,10 @@
                 <source>admin.contact.zeroContacts</source>
                 <target>Keine Kontakte</target>
             </trans-unit>
+            <trans-unit id="1007">
+                <source>admin.contact.costunits</source>
+                <target>Kostenstellen</target>
+            </trans-unit>
 
             <trans-unit id="1100">
                 <source>admin.timeblock.timeblocks</source>

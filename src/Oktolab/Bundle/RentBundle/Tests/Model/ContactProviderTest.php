@@ -25,7 +25,6 @@ class ContactProviderTest extends WebTestCase
         $this->assertEquals(count($contacts), 24);
         $this->assertEquals($contacts[1]->getName(), 'Sara Goldschmidt');
         $this->assertEquals($contacts[1]->getGuid(), '4b51690b-702e-1d30-f03c-679f35e7b1f1');
-        $this->assertEquals($contacts[1]->getFeePayed(), false);
     }
 
     public function testAddContactsToRent()

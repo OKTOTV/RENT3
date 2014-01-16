@@ -103,7 +103,7 @@ class EventControllerTest extends WebTestCase
         $this->assertTrue($this->client->getResponse()->isSuccessful(), 'Response is successful.');
         $this->assertRegExp('/Das Event konnte nicht gespeichert werden/', $this->client->getResponse()->getContent());
 
-        $formValues = $crawler->filter('#content')->selectButton('Update')->form()->getValues();
+        $formValues = $crawler->filter('#content')->selectButton('Speichern')->form()->getValues();
         $this->assertSame('item', $formValues['OktolabRentBundle_Event_Form[objects][0][type]']);
         $this->assertSame('1', $formValues['OktolabRentBundle_Event_Form[objects][0][object]']);
 
@@ -147,7 +147,7 @@ class EventControllerTest extends WebTestCase
         $filter = '#content form > input[name="_method"][value="PUT"]';
         $this->assertEquals(1, $crawler->filter($filter)->count(), 'Form method was expected to be "PUT"');
 
-        $form = $crawler->filter('#content')->selectButton('Update')->form();
+        $form = $crawler->filter('#content')->selectButton('Speichern')->form();
         $url = $this->client->getContainer()
                 ->get('router')
                 ->generate('OktolabRentBundle_Event_Update', array('id' => 1));
@@ -172,7 +172,7 @@ class EventControllerTest extends WebTestCase
         $this->client->request('GET', '/event/1/edit');
         $this->assertTrue($this->client->getResponse()->isSuccessful(), 'Response should be successful.');
 
-        $form = $this->client->getCrawler()->filter('#content')->selectButton('Update')->form(
+        $form = $this->client->getCrawler()->filter('#content')->selectButton('Speichern')->form(
             array(
                 'OktolabRentBundle_Event_Form[name]' => 'I edited the name',
                 'OktolabRentBundle_Event_Form[end]'  => '2013-10-16 17:00:00',
@@ -231,7 +231,7 @@ class EventControllerTest extends WebTestCase
         $crawler = $this->client->request('GET', '/event/1/edit');
         $this->assertTrue($this->client->getResponse()->isSuccessful(), 'Response is successful.');
 
-        $form = $crawler->filter('#content')->selectButton('Update');
+        $form = $crawler->filter('#content')->selectButton('Speichern');
         $this->assertSame(1, $form->count(), 'The EventForm is rendered');
 
         // set to invalid data
@@ -254,7 +254,7 @@ class EventControllerTest extends WebTestCase
             'Form method is "PUT"'
         );
 
-        $form = $crawler->filter('#content')->selectButton('Update')->form();
+        $form = $crawler->filter('#content')->selectButton('Speichern')->form();
         $url = $this->client->getContainer()
                 ->get('router')
                 ->generate('OktolabRentBundle_Event_Update', array('id' => 1));
@@ -279,7 +279,7 @@ class EventControllerTest extends WebTestCase
         $crawler = $this->client->request('GET', '/event/1/edit');
         $this->assertTrue($this->client->getResponse()->isSuccessful(), 'Response is successful.');
 
-        $form = $crawler->filter('#content')->selectButton('Update');
+        $form = $crawler->filter('#content')->selectButton('Speichern');
         $this->assertSame(1, $form->count(), 'The EventForm is rendered');
 
         $form = $form->form(array('OktolabRentBundle_Event_Form[name]' => '')); // set to invalid data
@@ -287,7 +287,7 @@ class EventControllerTest extends WebTestCase
         $this->assertTrue($this->client->getResponse()->isSuccessful(), 'Response is successful.');
         $this->assertRegExp('/Das Event konnte nicht gespeichert werden/', $this->client->getResponse()->getContent());
 
-        $formValues = $this->client->getCrawler()->filter('#content')->selectButton('Update')->form()->getValues();
+        $formValues = $this->client->getCrawler()->filter('#content')->selectButton('Speichern')->form()->getValues();
         $this->assertSame('item', $formValues['OktolabRentBundle_Event_Form[objects][0][type]']);
         $this->assertSame('1', $formValues['OktolabRentBundle_Event_Form[objects][0][object]']);
     }
@@ -308,7 +308,7 @@ class EventControllerTest extends WebTestCase
         $crawler = $this->client->request('GET', '/event/1/edit');
         $this->assertTrue($this->client->getResponse()->isSuccessful(), 'Response is successful.');
 
-        $form = $crawler->filter('#content')->selectButton('Rent')->form(
+        $form = $crawler->filter('#content')->selectButton('Ausgeben')->form(
             array(
                 'OktolabRentBundle_Event_Form[objects][0][scanned]' => '1',
             )

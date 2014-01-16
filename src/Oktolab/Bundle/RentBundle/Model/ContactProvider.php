@@ -80,7 +80,6 @@ class ContactProvider extends Client
             $contact = new Contact();
             $contact->setName($contactcard->getDisplayName());
             $contact->setGuid($contactcard->getGuid());
-            $contact->setFeePayed(false);
             $contacts[] = $contact;
         }
 

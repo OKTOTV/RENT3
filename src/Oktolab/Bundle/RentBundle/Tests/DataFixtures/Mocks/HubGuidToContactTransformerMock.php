@@ -16,7 +16,6 @@ class HubGuidToContactTransformerMock extends HubGuidToContactTransformer
         $contact = new Contact();
         $contact->setGuid('12345');
         $contact->setName('contact name');
-        $contact->setFeePayed(true);
         return array($contact);
     }
 }

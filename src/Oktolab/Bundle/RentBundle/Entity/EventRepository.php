@@ -67,7 +67,7 @@ class EventRepository extends EntityRepository
                 $qb->expr()->andX(
                     $qb->expr()->eq('o.type', ':objectType'),
                     $qb->expr()->eq('o.object', ':objectId'),
-                    $qb->expr()->notIn('e.state', array(6,5,0))
+                    $qb->expr()->notIn('e.state', array(6,5))
                 )
             )
             ->setParameter('objectType', $object->getType())
