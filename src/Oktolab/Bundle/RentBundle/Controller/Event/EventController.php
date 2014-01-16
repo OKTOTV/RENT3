@@ -301,7 +301,8 @@ class EventController extends Controller
             // @TODO: Add above to eventclass validator
 
             $this->get('session')->getFlashBag()->add('success', 'event.deliver_success');
-            $event->setState(Event::STATE_DELIVERED);
+            // @TODO: we set the state to completed instead of delivered till QMS is built
+            $event->setState(Event::STATE_COMPLETED);
 
             $em = $this->getDoctrine()->getManager();
             $em->persist($event);

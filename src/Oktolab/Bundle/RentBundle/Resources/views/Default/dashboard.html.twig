@@ -20,8 +20,8 @@
                 <tbody>
                     {% for inventoryEvent in inventoryEvents %}
                     <tr>
-                        <td><span class="aui-lozenge">{{ inventoryEvent.state(true) }}</span></td>
-                        <td headers="costunit"><a href="{{ path('OktolabRentBundle_Event_Edit', { 'id': inventoryEvent.id }) }}">{{inventoryEvent.costunit.name }}</a></td>
+                        <td><a href="{{ path('OktolabRentBundle_Event_Edit', { 'id': inventoryEvent.id }) }}"><span class="aui-lozenge">{{ inventoryEvent.state(true) }}</span></a></td>
+                        <td headers="costunit">{{inventoryEvent.costunit.name }}</td>
                         <td headers="contact">{{ inventoryEvent.contact.name}}</td>
                         <td headers="begin"><span style="display:none">{{inventoryEvent.begin|date('U')}}</span>{{ inventoryEvent.begin|date('d.m.Y H:i') }}</td>
                         <td headers="end"><span style="display:none">{{inventoryEvent.end|date('U')}}</span>{{ inventoryEvent.end|date('d.m.Y H:i') }}</td>

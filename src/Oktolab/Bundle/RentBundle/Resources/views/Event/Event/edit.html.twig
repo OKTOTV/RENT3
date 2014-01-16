@@ -93,18 +93,17 @@
 
             <div class="buttons-container">
                 <div class="buttons">
-                    {% if form.vars.value.state == 2 %}
-                        {{ form_widget(form.rent, {'attr': { 'class': 'aui-button aui-button-primary', 'aria-disabled': 'true' }, 'label': 'event.deliver'|trans }) }}
-                    {% else %}
+
+                    {% if form.vars.value.state == 1 or form.vars.value.state == 0%} {# event is reserved, can be lent#}
                         {{ form_widget(form.rent, {'attr': { 'class': 'aui-button aui-button-primary', 'aria-disabled': 'true' }, 'label': 'event.rent'|trans }) }}
                         {{ form_widget(form.update, {'attr': { 'class': 'aui-button' }, 'label': 'event.update'|trans }) }}
+                    {% elseif form.vars.value.state == 2 %} {# event is lent, can be taken back #}
+                        {{ form_widget(form.rent, {'attr': { 'class': 'aui-button aui-button-primary', 'aria-disabled': 'true' }, 'label': 'event.deliver'|trans }) }}
                     {% endif %}
 
                     {% if form.vars.value.id is not null %}
                         <a href="{{ path('event_pdf', { 'id': form.vars.value.id }) }}" class="aui-button">{{ 'event.printPdf'|trans }}</a>
                     {% endif %}
-
-                    {# form_widget(form.delete, {'attr': { 'class': 'aui-button' } }) #}
                     {{ form_widget(form.cancel, {'attr': { 'class': 'aui-button aui-button-link' }, 'label': 'generic.cancel'|trans }) }}
                 </div>
             </div>

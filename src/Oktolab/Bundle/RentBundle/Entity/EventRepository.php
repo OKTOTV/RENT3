@@ -29,7 +29,7 @@ class EventRepository extends EntityRepository
     {
         $qb = $this->getAllFromBeginToEndQuery($begin, $end, $type);
         $qb->andWhere($qb->expr()->not($qb->expr()->eq('e.state', Event::STATE_CANCELED)));
-        
+
         return $qb->getQuery()->getResult($hydrationMode);
     }
 
@@ -66,7 +66,8 @@ class EventRepository extends EntityRepository
             ->andWhere(
                 $qb->expr()->andX(
                     $qb->expr()->eq('o.type', ':objectType'),
-                    $qb->expr()->eq('o.object', ':objectId')
+                    $qb->expr()->eq('o.object', ':objectId'),
+                    $qb->expr()->notIn('e.state', array(6,5,0))
                 )
             )
             ->setParameter('objectType', $object->getType())
