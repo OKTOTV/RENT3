@@ -173,26 +173,28 @@ class CostUnitController extends Controller
      */
     public function updateAction(Request $request, CostUnit $costunit)
     {
+        $allContacts = array();
+        foreach($costunit->getContacts() as $contact) {
+            $allContacts[] = $contact;
+        }
+
         $em = $this->getDoctrine()->getManager();
 
         $editForm = $this->createEditForm($costunit);
         $editForm->handleRequest($request);
 
         if ($editForm->isValid()) {
-            $contacts = $em->getRepository('OktolabRentBundle:Contact')->findBy(array('costunit' => $costunit));
-            foreach ($contacts as $contact) {
+
+            foreach ($allContacts as $contact) {
                 $costunit->removeContact($contact);
-                $contact->setCostunit();
-                $em->persist($contact);
+                $contact->removeCostunit($costunit);
             }
-            $em->persist($costunit);
 
             foreach ($editForm->get('contacts')->getData() as $contact) {
-                $contact->setCostUnit($costunit);
                 $costunit->addContact($contact);
-                $em->persist($contact);
+                $contact->addCostunit($costunit);
             }
-
+            //die(var_dump(count($costunit->getContacts())));
             $em->persist($costunit);
             $em->flush();
 
@@ -200,8 +202,8 @@ class CostUnitController extends Controller
         }
 
         return array(
-            'costunit'      => $costunit,
-            'form'   => $editForm->createView()
+            'costunit' =>   $costunit,
+            'form'     =>   $editForm->createView()
         );
     }
 

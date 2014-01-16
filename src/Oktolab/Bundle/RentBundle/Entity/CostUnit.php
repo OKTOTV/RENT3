@@ -31,7 +31,7 @@ class CostUnit
     /**
      * var \Doctrine\Common\Collections\ArrayCollection
      *
-     * @ORM\OneToOne(targetEntity="Contact")
+     * @ORM\ManyToOne(targetEntity="Contact")
      * @ORM\JoinColumn(name="mainContact_id", referencedColumnName="id")
      */
     private $mainContact;
@@ -39,7 +39,7 @@ class CostUnit
     /**
      * @var \Doctrine\Common\Collections\ArrayCollection
      *
-     * @ORM\OneToMany(targetEntity="Contact", mappedBy="costunit")
+     * @ORM\ManyToMany(targetEntity="Contact", mappedBy="costunits", cascade={"persist"})
      */
     private $contacts;
 

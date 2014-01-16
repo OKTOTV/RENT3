@@ -29,13 +29,6 @@ class Contact
     private $name;
 
     /**
-     * @var boolean
-     *
-     * @ORM\Column(name="fee_payed", type="boolean")
-     */
-    private $feePayed;
-
-    /**
      * @var string
      *
      * @ORM\Column(name="guid", type="string", length=255)
@@ -43,10 +36,12 @@ class Contact
     private $guid;
 
     /**
-     * @ORM\ManyToOne(targetEntity="CostUnit", inversedBy="contacts")
-     * @ORM\JoinColumn(name="costunit_id", referencedColumnName="id")
+     * @var \Doctrine\Common\Collections\ArrayCollection
+     *
+     * @ORM\ManyToMany(targetEntity="CostUnit", inversedBy="contacts")
+     * @ORM\JoinTable(name="costunits_contacts")
      */
-    private $costunit;
+    private $costunits;
 
     /**
      * @ORM\OneToMany(targetEntity="Event", mappedBy="contact")
@@ -87,29 +82,6 @@ class Contact
     }
 
     /**
-     * Set feePayed
-     *
-     * @param boolean $feePayed
-     * @return Contact
-     */
-    public function setFeePayed($feePayed)
-    {
-        $this->feePayed = $feePayed;
-
-        return $this;
-    }
-
-    /**
-     * Get feePayed
-     *
-     * @return boolean
-     */
-    public function getFeePayed()
-    {
-        return $this->feePayed;
-    }
-
-    /**
      * Set guid
      *
      * @param string $guid
@@ -132,28 +104,6 @@ class Contact
         return $this->guid;
     }
 
-    /**
-     * Set costunit
-     *
-     * @param \Oktolab\Bundle\RentBundle\Entity\CostUnit $costunit
-     * @return Contact
-     */
-    public function setCostunit(\Oktolab\Bundle\RentBundle\Entity\CostUnit $costunit = null)
-    {
-        $this->costunit = $costunit;
-
-        return $this;
-    }
-
-    /**
-     * Get costunit
-     *
-     * @return \Oktolab\Bundle\RentBundle\Entity\CostUnit
-     */
-    public function getCostunit()
-    {
-        return $this->costunit;
-    }
     /**
      * Constructor
      */
@@ -193,5 +143,38 @@ class Contact
     public function getEvents()
     {
         return $this->events;
+    }
+
+    /**
+     * Add costunits
+     *
+     * @param \Oktolab\Bundle\RentBundle\Entity\CostUnit $costunits
+     * @return Contact
+     */
+    public function addCostunit(\Oktolab\Bundle\RentBundle\Entity\CostUnit $costunits)
+    {
+        $this->costunits[] = $costunits;
+
+        return $this;
+    }
+
+    /**
+     * Remove costunits
+     *
+     * @param \Oktolab\Bundle\RentBundle\Entity\CostUnit $costunits
+     */
+    public function removeCostunit(\Oktolab\Bundle\RentBundle\Entity\CostUnit $costunits)
+    {
+        $this->costunits->removeElement($costunits);
+    }
+
+    /**
+     * Get costunits
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getCostunits()
+    {
+        return $this->costunits;
     }
 }

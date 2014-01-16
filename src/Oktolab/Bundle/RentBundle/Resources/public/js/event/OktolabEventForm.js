@@ -212,7 +212,7 @@
                 EventForm.data[id].contactSearchContainer.attr('disabled', false).typeahead({
                     name:       'costunit-contacts-' + datum.id,
                     valueKey:   'title',
-                    prefetch :  remoteUrl,
+                    remote :  remoteUrl,
                     template: [
                         '<span class="aui-icon aui-icon-small aui-iconfont-devtools-file">Object</span>',
                         '<p class="tt-object-name">{{title}}</p>'
