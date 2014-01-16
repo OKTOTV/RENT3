@@ -559,13 +559,12 @@
          */
         _typeaheadInventory: function (id, searchInput, begin, end) {
             var eventId = EventForm.data[id].container.data('value');
-            console.log('id: ' + eventId);
-            console.log(oktolab.typeahead.eventItemPrefetchUrl + '/' + eventId + '/'+begin+'/'+end);
+
             searchInput.typeahead([{
                 name: 'rent-items',
                 valueKey: 'displayName',
                 remote: { url: oktolab.typeahead.eventItemRemoteUrl + '/'+begin+'/'+end },
-                prefetch: { url: oktolab.typeahead.eventItemPrefetchUrl + '/' + eventId + '/'+begin+'/'+end, ttl: 3600 },
+                prefetch: { url: oktolab.typeahead.eventItemPrefetchUrl + '/' + eventId + '/'+begin+'/'+end, ttl: 0 },
                 template: [
                     '<span class="aui-icon aui-icon-small aui-iconfont-devtools-file">Object</span>',
                     '<p class="tt-object-name">{{displayName}}</p>',

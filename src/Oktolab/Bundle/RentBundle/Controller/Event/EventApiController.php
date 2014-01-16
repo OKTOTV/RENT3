@@ -103,7 +103,6 @@ class EventApiController extends Controller
      *      name="inventory_event_item_typeahead_prefetch_url",
      *      defaults={"_format"="json"},
      *      requirements={"_format"="json"})
-     * @Configuration\ParamConverter("event", class="OktolabRentBundle:Event")
      * @Configuration\ParamConverter("begin")
      * @Configuration\ParamConverter("end")
      *
@@ -113,14 +112,19 @@ class EventApiController extends Controller
      */
     public function typeaheadEventItemPrefetchAction($event, \DateTime $begin, \DateTime $end)
     {
-        $AllItems = $this->getDoctrine()->getManager()->getRepository('OktolabRentBundle:Inventory\Item')->findAll();
+        $em = $this->getDoctrine()->getManager();
+
+        $AllItems = $em->getRepository('OktolabRentBundle:Inventory\Item')->findAll();
         $availableItems = $this->getTypeaheadArrayFromObjects($AllItems, $begin, $end);
-        $eventRentables = $this->get('oktolab.event_manager')->convertEventObjectsToEntites($event->getObjects());
 
-        foreach ($eventRentables as $eventRentable) {
-            $availableItems[] = $this->getDatumForObject($eventRentable);
+        if ($event != "undefined") {
+            $event = $em->getRepository('OktolabRentBundle:Event')->findOneBy(array('id' => $event));
+
+            $eventRentables = $this->get('oktolab.event_manager')->convertEventObjectsToEntites($event->getObjects());
+            foreach ($eventRentables as $eventRentable) {
+                $availableItems[] = $this->getDatumForObject($eventRentable);
+            }
         }
-
         return new JsonResponse($availableItems);
     }
 
@@ -207,10 +211,13 @@ class EventApiController extends Controller
         $eventManager = $this->get('oktolab.event_manager');
 
         foreach ($objects as $object) {
+//            var_dump($object->getTitle());
+//            var_dump($eventManager->isAvailable($object, $begin, $end, $type));
             if ($eventManager->isAvailable($object, $begin, $end, $type)) {
                 $json[] = $this->getDatumForObject($object);
             }
         }
+//        die();
         return $json;
     }
 

@@ -102,6 +102,9 @@ class RentSheetPdfCreator
         $this->openTag('tr');
         $this->addBlock($this->trans('inventory.item.barcode'), 'th', 'barcode');
         $this->addBlock($this->trans('inventory.item.item'), 'th', 'item');
+        $this->addBlock($this->trans('inventory.item.vendor'), 'th', 'vendor');
+        $this->addBlock($this->trans('inventory.item.serialnumber'), 'th', 'serialnumber');
+        $this->addBlock($this->trans('inventory.item.modelnumber'), 'th', 'modelnumber');
         $this->addBlock($this->trans('inventory.item.notice'), 'th', 'notice');
         $this->closeTag('tr');
         $this->closeTag('thead');
@@ -111,6 +114,9 @@ class RentSheetPdfCreator
             $this->openTag('tr');
             $this->addBlock($object->getBarcode(), 'td', 'barcode');
             $this->addBlock($object->getTitle(), 'td', 'title');
+            $this->addBlock(($object instanceof Item) ? $object->getVendor() : '', 'td', 'vendor');
+        $this->addBlock(($object instanceof Item) ? $object->getSerialNumber() : '', 'td', 'serialnumber');
+            $this->addBlock(($object instanceof Item) ? $object->getModelNumber() : '', 'td', 'modelnumber');
             $this->addBlock(($object instanceof Item) ? $object->getNotice() : '', 'td', 'notice');
             $this->closeTag('tr');
         }
@@ -126,8 +132,8 @@ class RentSheetPdfCreator
             '<barcode code="'.$event->getBarcode().'" type="C39" size="0.5" height="1.0" />',
             $this->trans('event.pdf.costUnitName', array('%costUnitName%' => $event->getCostunit()->getName())),
             $this->trans('event.pdf.pickUpName', array('%pickUpName%' => $event->getContact()->getName())),
-            $this->trans('event.pdf.lentAt', array('%rentFromDate%' => $event->getBegin()->format('d.m.Y'))),
-            $this->trans('event.pdf.planReturnAt', array('%rentTillDate%' => $event->getEnd()->format('d.m.Y')))
+            $this->trans('event.pdf.lentAt', array('%rentFromDate%' => $event->getBegin()->format('d.m.Y H:i'))),
+            $this->trans('event.pdf.planReturnAt', array('%rentTillDate%' => $event->getEnd()->format('d.m.Y H:i')))
         );
 
         $this->addBlock($content, 'p', 'rightTop');
@@ -256,22 +262,22 @@ class RentSheetPdfCreator
                 border: 0;
                 width: 100%;
              }
+             th {
+                font-size: 0.7em;
+                text-align: left;
+             }
              td {
                 border-bottom: 0.1mm solid #000000;
+                font-size: 0.7em;
+                text-align: left;
              }
              .barcode {
                 text-align: left;
-                width: 20%;
+                width: 10%;
              }
              .item {
                 text-align: left;
-                width: 40%;
-             }
-             .notice {
-                text-align: left;
-             }
-             td.notice {
-                font-size: 75%;
+                width: 25%;
              }
              .rightTop {
                 text-align: right;

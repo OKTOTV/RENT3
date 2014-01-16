@@ -139,6 +139,7 @@ class EventController extends Controller
 
         //TODO: new objects from reserved to lent won't get added.
         if ($form->get('rent')->isClicked()) { // User clicked Rent -> Forwarding to RENT Action
+            $this->get('oktolab.event_manager')->save($event);
             return $this->forward(
                 'OktolabRentBundle:Event\Event:rent',
                 array('request' => $request, 'event' => $event->getId())

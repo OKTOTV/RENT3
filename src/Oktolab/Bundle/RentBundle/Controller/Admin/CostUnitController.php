@@ -194,7 +194,7 @@ class CostUnitController extends Controller
                 $costunit->addContact($contact);
                 $contact->addCostunit($costunit);
             }
-            //die(var_dump(count($costunit->getContacts())));
+            
             $em->persist($costunit);
             $em->flush();
 
