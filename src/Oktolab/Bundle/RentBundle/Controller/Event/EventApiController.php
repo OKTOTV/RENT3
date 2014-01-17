@@ -211,13 +211,10 @@ class EventApiController extends Controller
         $eventManager = $this->get('oktolab.event_manager');
 
         foreach ($objects as $object) {
-//            var_dump($object->getTitle());
-//            var_dump($eventManager->isAvailable($object, $begin, $end, $type));
             if ($eventManager->isAvailable($object, $begin, $end, $type)) {
                 $json[] = $this->getDatumForObject($object);
             }
         }
-//        die();
         return $json;
     }
 

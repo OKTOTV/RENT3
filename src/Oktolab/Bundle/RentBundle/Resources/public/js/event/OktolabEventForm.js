@@ -417,9 +417,7 @@
             var searchValue = EventForm.data[id].objectSearch.val();
             var datum;
             $.each(EventForm.data[id].objectSearch.data().ttView.datasets, function (datasetKey, dataset) {
-                console.log(dataset.itemHash);
                 $.each(dataset.itemHash, function (itemKey, itemHash) {
-                    console.log('wow, many itemHash.datums');
                     if (searchValue === itemHash.datum.barcode) {
                         datum = itemHash.datum;
                     }
