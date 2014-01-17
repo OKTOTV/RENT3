@@ -23,14 +23,14 @@ AJS.$(document).ready(function() {
     // Activate typeahead quicksearch in project
 
     var quicksearch_template = [
-            '<p class="tt-object-addon">{{title}}</p>',
+            '<p class="tt-object-addon">{{displayName}}</p>',
             '<p class="tt-object-addon">{{barcode}}</p>'
         ].join('');
 
     AJS.$('#quicksearch').typeahead([{
             name:           'quicksearch-items',
-            valueKey:       'title',
-            prefetchUrl:    { url: oktolab.typeahead.itemPrefetchUrl, ttl: 604800000},
+            valueKey:       'displayName',
+            prefetch:    { url: oktolab.typeahead.itemPrefetchUrl, ttl: 604800000},
             remote:         { url: oktolab.typeahead.itemRemoteUrl },
             limit:          10,
             template:       quicksearch_template,
@@ -38,15 +38,15 @@ AJS.$(document).ready(function() {
             engine:         Hogan
         }, {
             name:           'quicksearch-sets',
-            valueKey:       'title',
-            prefetchUrl:    { url: oktolab.typeahead.setPrefetchUrl, ttl: 604800000},
+            valueKey:       'displayName',
+            prefetch:    { url: oktolab.typeahead.setPrefetchUrl, ttl: 604800000},
             remote:         { url: oktolab.typeahead.setRemoteUrl },
             template:       quicksearch_template,
             header:         '<h3 style="color: black">Sets</h3>',
             engine:         Hogan
         }, {
             name:           'quicksearch-events',
-            valueKey:       'title',
+            valueKey:       'displayName',
             remote:         { url: oktolab.typeahead.eventRemoteUrl },
             template:       quicksearch_template,
             header:         '<h3 style="color: black">Verleihscheine</h3>',
@@ -54,15 +54,15 @@ AJS.$(document).ready(function() {
         }, {
             name:           'quicksearch-costunits',
             valueKey:       'displayName',
-            prefetchUrl:    { url: oktolab.typeahead.costunitPrefetchUrl, ttl: 604800000},
+            prefetch:    { url: oktolab.typeahead.costunitPrefetchUrl, ttl: 604800000},
             remote:         { url: oktolab.typeahead.costunitRemoteUrl },
-            template:       quicksearch_template,
+            template:       '<p class="tt-object-addon">{{displayName}}</p>',
             header:         '<h3 style="color: black">Kostenstellen</h3>',
             engine:         Hogan
         }, {
             name:           'quicksearch-rooms',
-            valueKey:       'title',
-            prefetchUrl:    { url: oktolab.typeahead.roomPrefetchUrl, ttl: 604800000},
+            valueKey:       'displayName',
+            prefetch:    { url: oktolab.typeahead.roomPrefetchUrl, ttl: 604800000},
             remote:         { url: oktolab.typeahead.roomRemoteUrl },
             template:       quicksearch_template,
             header:         '<h3 style="color: black">Räume</h3>',

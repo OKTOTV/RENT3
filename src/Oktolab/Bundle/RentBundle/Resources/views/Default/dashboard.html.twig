@@ -20,7 +20,14 @@
                 <tbody>
                     {% for inventoryEvent in inventoryEvents %}
                     <tr>
-                        <td><a href="{{ path('OktolabRentBundle_Event_Edit', { 'id': inventoryEvent.id }) }}"><span class="aui-lozenge">{{ inventoryEvent.state(true) }}</span></a></td>
+                        <td>
+                            {% if inventoryEvent.state(false) == 2 %}
+                                <a href="{{ path('OktolabRentBundle_Event_Deliver', { 'id': inventoryEvent.id }) }}"><span class="aui-lozenge">{{ inventoryEvent.state(true) }}</span></a>
+                            {% else %}
+                                <a href="{{ path('OktolabRentBundle_Event_Edit', { 'id': inventoryEvent.id }) }}"><span class="aui-lozenge">{{ inventoryEvent.state(true) }}</span></a>
+                            {% endif %}
+
+                        </td>
                         <td headers="costunit">{{inventoryEvent.costunit.name }}</td>
                         <td headers="contact">{{ inventoryEvent.contact.name}}</td>
                         <td headers="begin"><span style="display:none">{{inventoryEvent.begin|date('U')}}</span>{{ inventoryEvent.begin|date('d.m.Y H:i') }}</td>
@@ -51,7 +58,13 @@
                     {% for roomEvent in roomEvents %}
                     <tr>
                         <td headers="state"><span class="aui-lozenge">{{ roomEvent.state(true) }}</span></td>
-                        <td headers="costunit"><a href="{{ path('OktolabRentBundle_Event_Edit', { 'id': roomEvent.id }) }}">{{roomEvent.costunit.name }}</a></td>
+                        <td headers="costunit">
+                            {% if roomEvent.state(false) == 2 %}
+                            <a href="{{ path('OktolabRentBundle_Event_Deliver', { 'id': roomEvent.id }) }}">{{roomEvent.costunit.name }}</a>
+                            {% else %}
+                                <a href="{{ path('OktolabRentBundle_Event_Edit', { 'id': roomEvent.id }) }}">{{roomEvent.costunit.name }}</a>
+                            {% endif %}
+                        </td>
                         <td headers="contact">{{ roomEvent.contact.name}}</td>
                         <td headers="begin"><span style="display:none">{{roomEvent.begin|date('U')}}</span>{{ roomEvent.begin|date('d.m.Y H:i') }}</td>
                         <td headers="end"><span style="display:none">{{roomEvent.end|date('U')}}</span>{{ roomEvent.end|date('d.m.Y H:i') }}</td>

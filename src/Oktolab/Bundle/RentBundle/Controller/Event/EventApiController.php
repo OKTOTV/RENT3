@@ -16,7 +16,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration;
 class EventApiController extends Controller
 {
     /**
-     * Returns  events for given eventValue for typeahead.js
+     * Returns events for given eventValue for typeahead.js
      *
      * @Configuration\Method("GET")
      * @Configuration\Route("/typeahead.{_format}/{eventValue}",
@@ -46,17 +46,17 @@ class EventApiController extends Controller
         $json = array();
 
         foreach ($events as $event) {
-            $tokens = explode(' ', $event->getCostunit()->getName());
-            $tokens[] = $event->getContact()->getName();
+            $tokens = explode(' ', $event->getName());
             $tokens[] = $event->getBarcode();
 
-            $json[] = array(
-                'title'         => $event->getCostUnit()->getName().' '.$event->getBegin()->format('d.m.Y').' - '.$event->getEnd()->format('d.m.Y'),
-                'name'          => $event->getCostUnit()->getName().$event->getId(),
+            $datum = array(
+                'name'          => $event->getName().$event->getId(),
+                'displayName'   => $event->getName(),
+                'id'            => $event->getId(),
                 'barcode'       => $event->getBarcode(),
-                'showUrl'       => 'event/'.$event->getId().'/edit',
                 'tokens'        => $tokens
             );
+            $json[] = $datum;
         }
 
         return new JsonResponse($json);
