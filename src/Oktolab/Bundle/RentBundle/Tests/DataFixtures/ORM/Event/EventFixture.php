@@ -9,6 +9,8 @@ use Oktolab\Bundle\RentBundle\Entity\EventObject;
 use Oktolab\Bundle\RentBundle\Entity\CostUnit;
 use Oktolab\Bundle\RentBundle\Entity\Contact;
 use Oktolab\Bundle\RentBundle\Entity\EventType;
+use Oktolab\Bundle\RentBundle\Entity\Inventory\Item;
+use Oktolab\Bundle\RentBundle\Entity\Inventory\Place;
 
 /**
  *  Loads a fixture Event.
@@ -29,15 +31,29 @@ class EventFixture extends AbstractFixture
         $costunit->setName('Testcostunit');
         $costunit->setGuid('12345678DUMMY');
 
+        $place = new Place();
+        $place->setTitle('new place');
+
+        $item = new Item();
+        $item->setBarcode('YXCV');
+        $item->setTitle('Events Item');
+        $item->setDescription('Descriptive description');
+        $item->setPlace($place);
+        $manager->persist($place);
+        $manager->persist($item);
+
         $eventType = new EventType();
-        $eventType->setName('Inventory');
+        $eventType->setName('inventory');
+        $manager->persist($eventType);
+        $manager->flush();
 
         $eventObject = new EventObject();
         $eventObject->setType('item')
-            ->setObject(1);
+            ->setObject($item->getId());
+
 
         $event = new Event();
-        $event->setName('My Event.')
+        $event->setName('My Event')
             ->setState(Event::STATE_PREPARED)
             ->setDescription('There is a description for this event.')
             ->setBegin(new \DateTime('2013-10-14 11:00:00'))
@@ -51,7 +67,6 @@ class EventFixture extends AbstractFixture
         $manager->persist($contact);
         $manager->persist($costunit);
         $manager->persist($eventObject);
-        $manager->persist($eventType);
         $manager->persist($event);
         $manager->flush();
     }

@@ -75,7 +75,7 @@ class CategoryControllerTest extends WebTestCase
         // prepare fixtures
         $em       = $this->getContainer()->get('doctrine.orm.entity_manager');
         $category = $em->getRepository('OktolabRentBundle:Inventory\Category')->findOneBy(array('id' => 1));
-        $item     = $em->getRepository('OktolabRentBundle:Inventory\Item')->findOneBy(array('id' => 1));
+        $item     = $em->getRepository('OktolabRentBundle:Inventory\Item')->findOneBy(array('barcode' => 'ITEM0'));
 
         $item->setCategory($category);
         $em->persist($item);
