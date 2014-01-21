@@ -45,10 +45,13 @@ class RoomControllerTest extends WebTestCase
             '\Oktolab\Bundle\RentBundle\Tests\DataFixtures\ORM\Event\EventTypeFixture'
         ));
 
-        $crawler = $this->client->request('GET', '/inventory/room/1');
+        $em = $this->getContainer()->get('doctrine.orm.entity_manager');
+        $room = $em->getRepository('OktolabRentBundle:Inventory\Room')->findOneBy(array('barcode' => 'ASDF'));
+
+        $crawler = $this->client->request('GET', '/inventory/room/'.$room->getId());
         $crawler = $this->client->click($crawler->selectLink('Bearbeiten')->link());
 
-        $this->client->request('GET', '/inventory/room/1/edit');
+        $this->client->request('GET', '/inventory/room/'.$room->getId().'/edit');
         $this->assertTrue($this->client->getResponse()->isSuccessful(), 'Response should be successful');
 
 
@@ -76,8 +79,10 @@ class RoomControllerTest extends WebTestCase
             '\Oktolab\Bundle\RentBundle\Tests\DataFixtures\ORM\Event\EventTypeFixture'
         ));
 
+        $em = $this->getContainer()->get('doctrine.orm.entity_manager');
+        $room = $em->getRepository('OktolabRentBundle:Inventory\Room')->findOneBy(array('barcode' => 'ASDF'));
 
-        $crawler = $this->client->request('GET', '/inventory/room/1');
+        $crawler = $this->client->request('GET', '/inventory/room/'.$room->getId());
         $crawler = $this->client->click($crawler->selectLink('Bearbeiten')->link());
 
         $this->client->click($crawler->selectLink('Löschen')->link());
@@ -96,7 +101,10 @@ class RoomControllerTest extends WebTestCase
             '\Oktolab\Bundle\RentBundle\Tests\DataFixtures\ORM\Event\EventTypeFixture'
         ));
 
-        $this->client->request('GET', '/inventory/room/1/edit');
+        $em = $this->getContainer()->get('doctrine.orm.entity_manager');
+        $room = $em->getRepository('OktolabRentBundle:Inventory\Room')->findOneBy(array('barcode' => 'ASDF'));
+
+        $this->client->request('GET', '/inventory/room/'.$room->getId().'/edit');
         $this->assertTrue($this->client->getResponse()->isSuccessful(), 'Response should be successful');
 
         $form = $this->client->getCrawler()->selectButton('Speichern')->form(
@@ -147,8 +155,11 @@ class RoomControllerTest extends WebTestCase
             '\Oktolab\Bundle\RentBundle\Tests\DataFixtures\ORM\Event\EventTypeFixture'
         ));
 
+        $em = $this->getContainer()->get('doctrine.orm.entity_manager');
+        $room = $em->getRepository('OktolabRentBundle:Inventory\Room')->findOneBy(array('barcode' => 'ASDF'));
+
         $this->uploadTestFile();
-        $this->client->request('GET', '/inventory/room/1/edit');
+        $this->client->request('GET', '/inventory/room/'.$room->getId().'/edit');
         $this->assertTrue($this->client->getResponse()->isSuccessful(), 'Response should be successful');
         $form = $this->client->getCrawler()->selectButton('Speichern')->form(
             array(
@@ -162,14 +173,14 @@ class RoomControllerTest extends WebTestCase
         $this->assertEquals(1, $crawler->filter('.aui-expander-content > img')->count(), 'Contains no Attachment');
         $attachment = $this->getContainer()
             ->get('doctrine.orm.entity_manager')
-            ->getRepository('OktolabRentBundle:Inventory\Attachment')
-            ->findOneBy(array('id' => 1));
+            ->createQuery('Select a From OktolabRentBundle:Inventory\Attachment a')
+            ->getSingleResult();
         $uploadpath = $this->getContainer()
             ->getParameter('oktolab.web_dir').$this->getContainer()->getParameter('oktolab.upload_dir');
 
         $this->assertTrue(file_exists($uploadpath.$attachment->getPath().'/'.$attachment->getTitle()));
 
-        $this->client->request('GET', '/inventory/room/1/delete');
+        $this->client->request('GET', '/inventory/room/'.$room->getId().'/delete');
         $this->assertFalse(file_exists($uploadpath.$attachment->getPath().'/'.$attachment->getTitle()));
     }
 

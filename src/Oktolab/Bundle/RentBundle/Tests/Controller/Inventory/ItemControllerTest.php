@@ -7,6 +7,15 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 class ItemControllerTest extends WebTestCase
 {
+    private $em = null;
+
+    private function getEm()
+    {
+        if ($this->em == null) {
+            $this->em = $this->getContainer()->get('doctrine.orm.entity_manager');
+        }
+        return $this->em;
+    }
 
     public function testIndexDisplaysEmptyList()
     {
@@ -23,8 +32,7 @@ class ItemControllerTest extends WebTestCase
             'Oktolab\Bundle\RentBundle\Tests\DataFixtures\ORM\PlaceFixture',
             '\Oktolab\Bundle\RentBundle\Tests\DataFixtures\ORM\Event\EventTypeFixture'
         ));
-        $em = $this->getContainer()->get('doctrine.orm.entity_manager');
-        $place = $em->getRepository('OktolabRentBundle:Inventory\Place')->findOneBy(array('title' => 'Testplace'));
+        $place = $this->getEm()->getRepository('OktolabRentBundle:Inventory\Place')->findOneBy(array('title' => 'Testplace'));
 
         $this->client->request('GET', '/inventory/item/new');
         $this->assertTrue($this->client->getResponse()->isSuccessful(), 'Response should be successful');
@@ -58,8 +66,7 @@ class ItemControllerTest extends WebTestCase
             'Oktolab\Bundle\RentBundle\Tests\DataFixtures\ORM\PlaceFixture',
             '\Oktolab\Bundle\RentBundle\Tests\DataFixtures\ORM\Event\EventTypeFixture'
         ));
-        $em = $this->getContainer()->get('doctrine.orm.entity_manager');
-        $place = $em->getRepository('OktolabRentBundle:Inventory\Place')->findOneBy(array('title' => 'Testplace'));
+        $place = $this->getEm()->getRepository('OktolabRentBundle:Inventory\Place')->findOneBy(array('title' => 'Testplace'));
 
         $this->client->request('GET', '/inventory/item/new');
         $this->assertTrue($this->client->getResponse()->isSuccessful(), 'Response should be successful');
@@ -93,8 +100,7 @@ class ItemControllerTest extends WebTestCase
             'Oktolab\Bundle\RentBundle\Tests\DataFixtures\ORM\PlaceFixture',
             '\Oktolab\Bundle\RentBundle\Tests\DataFixtures\ORM\Event\EventTypeFixture'
         ));
-        $em = $this->getContainer()->get('doctrine.orm.entity_manager');
-        $place = $em->getRepository('OktolabRentBundle:Inventory\Place')->findOneBy(array('title' => 'Testplace'));
+        $place = $this->getEm()->getRepository('OktolabRentBundle:Inventory\Place')->findOneBy(array('title' => 'Testplace'));
 
         $this->client->request('GET', '/inventory/item/new');
         $this->assertTrue($this->client->getResponse()->isSuccessful(), 'Response should be successful');
@@ -128,8 +134,7 @@ class ItemControllerTest extends WebTestCase
             'Oktolab\Bundle\RentBundle\Tests\DataFixtures\ORM\ItemFixture',
             '\Oktolab\Bundle\RentBundle\Tests\DataFixtures\ORM\Event\EventTypeFixture'
         ));
-        $em = $this->getContainer()->get('doctrine.orm.entity_manager');
-        $item = $em->getRepository('OktolabRentBundle:Inventory\Item')->findOneBy(array('barcode' => 'ITEM0'));
+        $item = $this->getEm()->getRepository('OktolabRentBundle:Inventory\Item')->findOneBy(array('barcode' => 'ITEM0'));
 
         $crawler = $this->client->request('GET', '/inventory/item/'.$item->getId());
         $crawler = $this->client->click($crawler->selectLink('Bearbeiten')->link());
@@ -161,8 +166,7 @@ class ItemControllerTest extends WebTestCase
             'Oktolab\Bundle\RentBundle\Tests\DataFixtures\ORM\ItemFixture',
             '\Oktolab\Bundle\RentBundle\Tests\DataFixtures\ORM\Event\EventTypeFixture'
         ));
-        $em = $this->getContainer()->get('doctrine.orm.entity_manager');
-        $item = $em->getRepository('OktolabRentBundle:Inventory\Item')->findOneBy(array('barcode' => 'ITEM0'));
+        $item = $this->getEm()->getRepository('OktolabRentBundle:Inventory\Item')->findOneBy(array('barcode' => 'ITEM0'));
 
         $this->client->request('GET', '/inventory/item/'.$item->getId().'/edit');
         $this->assertTrue($this->client->getResponse()->isSuccessful(), 'Response should be successful');
@@ -279,9 +283,8 @@ class ItemControllerTest extends WebTestCase
             '\Oktolab\Bundle\RentBundle\Tests\DataFixtures\ORM\ItemBuyDateFixture',
             '\Oktolab\Bundle\RentBundle\Tests\DataFixtures\ORM\Event\EventTypeFixture'
         ));
-        $em = $this->getContainer()->get('doctrine.orm.entity_manager');
-        $item = $em->getRepository('OktolabRentBundle:Inventory\Item')->findOneBy(array('barcode' => '123456'));
-        $item2 = $em->getRepository('OktolabRentBundle:Inventory\Item')->findOneBy(array('barcode' => 'QWERT'));
+        $item = $this->getEm()->getRepository('OktolabRentBundle:Inventory\Item')->findOneBy(array('barcode' => '123456'));
+        $item2 = $this->getEm()->getRepository('OktolabRentBundle:Inventory\Item')->findOneBy(array('barcode' => 'QWERT'));
 
         $this->client->request('GET', '/inventory/item/'.$item->getId());
         $this->assertTrue($this->client->getResponse()->isSuccessful());

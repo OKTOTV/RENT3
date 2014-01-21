@@ -47,6 +47,9 @@ class RoomApiControllerTest extends WebTestCase
         $this->loadFixtures(array('Oktolab\Bundle\RentBundle\Tests\DataFixtures\ORM\RoomFixture'));
         $this->client->request('GET', '/api/room/typeahead.json/ASD');
 
+        $em = $this->getContainer()->get('doctrine.orm.entity_manager');
+        $room = $em->getRepository('OktolabRentBundle:Inventory\Room')->findOneBy(array('barcode' => 'ASDF'));
+
         $response = $this->client->getResponse();
         $this->assertTrue($response->isSuccessful(), 'Response is successful.');
         $this->assertTrue(!$response->isCacheable(), 'Response is not cacheable.');
@@ -57,7 +60,7 @@ class RoomApiControllerTest extends WebTestCase
 
         $this->assertEquals(1, count($rooms));
         $this->assertEquals('RoomTitle', $rooms[0]->displayName);
-        $this->assertEquals('room:1', $rooms[0]->value);
+        $this->assertEquals($room->getType().':'.$room->getId(), $rooms[0]->value);
     }
 
 
@@ -69,6 +72,9 @@ class RoomApiControllerTest extends WebTestCase
         $this->loadFixtures(array('Oktolab\Bundle\RentBundle\Tests\DataFixtures\ORM\RoomFixture'));
         $this->client->request('GET', '/api/room/typeahead.json');
 
+        $em = $this->getContainer()->get('doctrine.orm.entity_manager');
+        $room = $em->getRepository('OktolabRentBundle:Inventory\Room')->findOneBy(array('barcode' => 'ASDF'));
+
         $response = $this->client->getResponse();
         $this->assertTrue($response->isSuccessful(), 'Response is successful.');
         $this->assertTrue($response->isCacheable(), 'Response is cacheable.');
@@ -79,6 +85,6 @@ class RoomApiControllerTest extends WebTestCase
 
         $this->assertEquals(1, count($rooms));
         $this->assertEquals('RoomTitle', $rooms[0]->displayName);
-        $this->assertEquals('room:1', $rooms[0]->value);
+        $this->assertEquals($room->getType().':'.$room->getId(), $rooms[0]->value);
     }
 }

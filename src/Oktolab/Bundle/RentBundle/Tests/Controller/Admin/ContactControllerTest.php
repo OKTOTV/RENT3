@@ -27,7 +27,10 @@ class ContactControllerTest extends WebTestCase
         ));
         $this->logIn('ROLE_ADMIN');
 
-        $crawler = $this->client->request('GET', '/admin/contact/1');
+        $em       = $this->getContainer()->get('doctrine.orm.entity_manager');
+        $contact = $em->getRepository('OktolabRentBundle:Contact')->findOneBy(array('guid' => '12345678'));
+
+        $crawler = $this->client->request('GET', '/admin/contact/'.$contact->getId());
         $this->assertTrue($this->client->getResponse()->isSuccessful(), 'Response should be successful');
         $this->assertEquals(1, $crawler->filter('.aui-page-panel-content:contains("John Appleseed")')->count());
     }

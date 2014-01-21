@@ -40,8 +40,11 @@ class CategoryControllerTest extends WebTestCase
             'Oktolab\Bundle\RentBundle\Tests\DataFixtures\ORM\Event\EventTypeFixture'
         ));
 
+        $em = $this->getContainer()->get('doctrine.orm.entity_manager');
+        $category = $em->getRepository('OktolabRentBundle:Inventory\Category')->findOneBy(array('title' => 'Camera'));
+
         // load page
-        $this->client->request('GET', '/admin/inventory/category/1/edit');
+        $this->client->request('GET', '/admin/inventory/category/'.$category->getId().'/edit');
         $this->assertTrue($this->client->getResponse()->isSuccessful(), 'Response should be successful');
 
         // fill form and submit it
@@ -74,7 +77,7 @@ class CategoryControllerTest extends WebTestCase
 
         // prepare fixtures
         $em       = $this->getContainer()->get('doctrine.orm.entity_manager');
-        $category = $em->getRepository('OktolabRentBundle:Inventory\Category')->findOneBy(array('id' => 1));
+        $category = $em->getRepository('OktolabRentBundle:Inventory\Category')->findOneBy(array('title' => 'Camera'));
         $item     = $em->getRepository('OktolabRentBundle:Inventory\Item')->findOneBy(array('barcode' => 'ITEM0'));
 
         $item->setCategory($category);
@@ -82,7 +85,7 @@ class CategoryControllerTest extends WebTestCase
         $em->flush();
 
         // load page
-        $this->client->request('GET', '/admin/inventory/category/1/delete');
+        $this->client->request('GET', '/admin/inventory/category/'.$category->getId().'/delete');
         $this->assertTrue($this->client->getResponse()->isRedirect(), 'Response should be a redirect.');
 
         // check redirect and page content
@@ -103,8 +106,11 @@ class CategoryControllerTest extends WebTestCase
             'Oktolab\Bundle\RentBundle\Tests\DataFixtures\ORM\Event\EventTypeFixture'
         ));
 
+        $em       = $this->getContainer()->get('doctrine.orm.entity_manager');
+        $category = $em->getRepository('OktolabRentBundle:Inventory\Category')->findOneBy(array('title' => 'Camera'));
+
         // load page
-        $this->client->request('GET', '/admin/inventory/category/1/delete');
+        $this->client->request('GET', '/admin/inventory/category/'.$category->getId().'/delete');
         $this->assertTrue($this->client->getResponse()->isRedirect(), 'Response should be a redirect.');
 
         // check redirect and page content
