@@ -1,6 +1,13 @@
 {% extends "OktolabRentBundle::layout.html.twig" %}
 
 {% block title 'Dashboard' %}
+{% block content_header %}
+    <div class="aui-page-header-inner">
+        <div class="aui-page-header-main">
+            <h1>{{'generic.dashboard'|trans}}</h1>
+        </div>
+    </div>
+{% endblock %}
 {% block content %}
 
     <div class="aui-group">
