@@ -31,7 +31,8 @@ class EventApiTimeblockFixture extends AbstractFixture
             ->setEnd(new \DateTime('today 17:00'))
             ->setIsActive(true)
             ->setEventType($eventType)
-            ->setWeekdays(1016);    // All Weekdays
+            ->setWeekdays(1016)    // All Weekdays
+            ->setTitle('testtimeblock');
 
         $om->persist($timeblock);
         $om->persist($eventType);

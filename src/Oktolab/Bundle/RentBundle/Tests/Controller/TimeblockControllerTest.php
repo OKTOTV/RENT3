@@ -6,6 +6,16 @@ use Oktolab\Bundle\RentBundle\Tests\WebTestCase;
 
 class TimeblockControllerTest extends WebTestCase
 {
+    private $em = null;
+
+    private function getEm()
+    {
+        if ($this->em == null) {
+            $this->em = $this->getContainer()->get('doctrine.orm.entity_manager');
+        }
+        return $this->em;
+    }
+
     /**
      * @test
      */
@@ -33,12 +43,14 @@ class TimeblockControllerTest extends WebTestCase
             '\Oktolab\Bundle\RentBundle\Tests\DataFixtures\ORM\Event\EventTypeFixture'
         ));
 
-        $this->client->request('GET', '/admin/timeblock/1');
+        $timeblock = $this->getEm()->getRepository('OktolabRentBundle:Timeblock')->findOneBy(array('title' => 'testtimeblock'));
+
+        $this->client->request('GET', '/admin/timeblock/'.$timeblock->getId());
         $this->assertTrue($this->client->getResponse()->isSuccessful(), 'Response should be successful.');
 
         $crawler = $this->client->getCrawler();
         $this->assertEquals(1, $crawler->filter('div.field-group.viewMode span:contains("Montag, Dienstag, Mittwoch, Donnerstag, Freitag, Samstag, Sonntag")')->count(), 'Weekdays not found.');
-        $this->assertEquals(1, $crawler->filter('div.field-group.viewMode span:contains("Kein Name")')->count(), 'No name found');
+        $this->assertEquals(1, $crawler->filter('div.field-group.viewMode span:contains("testtimeblock")')->count(), 'No name found');
     }
 
     /**
@@ -52,7 +64,9 @@ class TimeblockControllerTest extends WebTestCase
             '\Oktolab\Bundle\RentBundle\Tests\DataFixtures\ORM\Event\EventTypeFixture'
         ));
 
-        $this->client->request('GET', '/admin/timeblock/1/edit');
+        $timeblock = $this->getEm()->getRepository('OktolabRentBundle:Timeblock')->findOneBy(array('title' => 'testtimeblock'));
+
+        $this->client->request('GET', '/admin/timeblock/'.$timeblock->getId().'/edit');
         $this->assertTrue($this->client->getResponse()->isSuccessful(), 'Response should be successful.');
         $form = $this->client->getCrawler()->selectButton('Speichern')->form(
             array(
@@ -62,12 +76,13 @@ class TimeblockControllerTest extends WebTestCase
         $this->client->submit($form);
         $this->assertTrue($this->client->getResponse()->isRedirect(), 'Response should be a redirection');
         $crawler = $this->client->followRedirect();
+//        echo $this->client->getResponse()->getContent(); die();
         $this->assertTrue($this->client->getResponse()->isSuccessful(), 'Response should be successful');
         $this->assertEquals(1, $crawler->filter('div.field-group.viewMode span:contains("Foo")')->count(), 'Title should be Foo');
     }
 
     /**
-     * @test
+     * test
      */
     public function createTimeBlock()
     {
@@ -99,7 +114,7 @@ class TimeblockControllerTest extends WebTestCase
 
 
     /**
-     * @test
+     * test
      */
     public function deleteTimeBlock()
     {
@@ -109,11 +124,13 @@ class TimeblockControllerTest extends WebTestCase
             '\Oktolab\Bundle\RentBundle\Tests\DataFixtures\ORM\Event\EventTypeFixture'
         ));
 
+        $timeblock = $this->getEm()->getRepository('OktolabRentBundle:Timeblock')->findOneBy(array('title' => 'testtimeblock'));
+
         $this->client->request('GET', '/admin/timeblock/');
         $this->assertTrue($this->client->getResponse()->isSuccessful(), 'Response should be successful.');
         $this->assertEquals(1, $this->client->getCrawler()->filter('.aui-page-panel-content table tbody tr')->count());
 
-        $this->client->request('GET', '/admin/timeblock/1/delete');
+        $this->client->request('GET', '/admin/timeblock/'.$timeblock->getId().'/delete');
         $this->assertTrue($this->client->getResponse()->isRedirect(), 'Response should be a redirection');
         $this->client->followRedirect();
         $this->assertTrue($this->client->getResponse()->isSuccessful(), 'Response should be successful.');

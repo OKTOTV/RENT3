@@ -22,15 +22,17 @@ class EventManagerFixture extends AbstractFixture
     {
         $place = new Place();
         $place->setTitle('Test Place');
-
         $manager->persist($place);
+
+        $eventType = new EventType();
+        $eventType->setName('Inventory');
+        $manager->persist($eventType);
 
         $item = new Item();
         $item->setTitle('eventItem')
             ->setDescription('bar')
             ->setBarcode('ASDF')
             ->setPlace($place);
-
         $manager->persist($item);
         $manager->flush();
 
@@ -38,35 +40,32 @@ class EventManagerFixture extends AbstractFixture
         $eventObject->setType($item->getType())
             ->setObject($item->getId());
 
-        $manager->persist($eventObject);
-
-        $eventType = new EventType();
-        $eventType->setName('inventory');
-        $manager->persist($eventType);
-
         $event1 = new Event();
         $event1->setName('2013-08-28 12:00 - 13:00')
             ->setBegin(new \DateTime('2013-08-28 12:00'))
             ->setEnd(new \DateTime('2013-08-28 13:00'))
             ->addObject($eventObject)
             ->setType($eventType)
-            ->setState(Event::STATE_PREPARED);
-
-        $eventObject = new EventObject();
-        $eventObject->setType($item->getType())
-            ->setObject($item->getId());
+            ->setState(Event::STATE_RESERVED);
+        $eventObject->setEvent($event1);
 
         $manager->persist($eventObject);
+        $manager->persist($event1);
+
+        $eventObject2 = new EventObject();
+        $eventObject2->setType($item->getType())
+            ->setObject($item->getId());
 
         $event2 = new Event();
         $event2->setName('2013-08-28 15:00 - 16:00')
             ->setBegin(new \DateTime('2013-08-28 15:00'))
             ->setEnd(new \DateTime('2013-08-28 16:00'))
-            ->addObject($eventObject)
+            ->addObject($eventObject2)
             ->setType($eventType)
-            ->setState(Event::STATE_PREPARED);
+            ->setState(Event::STATE_RESERVED);
+        $eventObject2->setEvent($event2);
 
-        $manager->persist($event1);
+        $manager->persist($eventObject2);
         $manager->persist($event2);
 
         $manager->flush();

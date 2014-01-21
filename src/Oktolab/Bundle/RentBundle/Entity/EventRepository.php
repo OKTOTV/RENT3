@@ -73,7 +73,6 @@ class EventRepository extends EntityRepository
             ->setParameter('objectType', $object->getType())
             ->setParameter('objectId', $object->getObject())
             ->getQuery();
-
         return (int) $query->getSingleScalarResult();
     }
 
@@ -97,7 +96,6 @@ class EventRepository extends EntityRepository
                     $qb->expr()->notIn('e.state', array(Event::STATE_CANCELED, Event::STATE_COMPLETED))
                 )
             )
-
             ->setParameter('objectType', $object->getType())
             ->setParameter('objectId', $object->getId())
             ->getQuery();

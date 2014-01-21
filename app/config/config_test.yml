@@ -17,9 +17,12 @@ swiftmailer:
 
 doctrine:
   dbal:
-        driver: pdo_sqlite
-        path: %kernel.cache_dir%/test.db
-        charset: UTF8
+        driver: pdo_mysql
+        host: 127.0.0.1
+        port: null
+        dbname: rentTest
+        user: rentTest
+        password: rentTest
 
 liip_functional_test:
   cache_sqlite_db: true

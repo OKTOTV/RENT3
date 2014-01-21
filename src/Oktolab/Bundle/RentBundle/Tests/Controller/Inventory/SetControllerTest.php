@@ -44,6 +44,9 @@ class SetControllerTest extends WebTestCase
             '\Oktolab\Bundle\RentBundle\Tests\DataFixtures\ORM\Event\EventTypeFixture'
         ));
 
+        $em = $this->getContainer()->get('doctrine.orm.entity_manager');
+        $room = $em->getRepository('OktolabRentBundle:Inventory\Place')->findOneBy(array('title' => 'Testplace'));
+
         $crawler = $this->client->request('GET', '/inventory/set/new');
         $this->assertTrue($this->client->getResponse()->isSuccessful(), 'Response should be successful');
 
@@ -53,7 +56,7 @@ class SetControllerTest extends WebTestCase
                 'oktolab_rentbundle_inventory_set[title]'       => 'TestSet',
                 'oktolab_rentbundle_inventory_set[description]' => 'TestDescription',
                 'oktolab_rentbundle_inventory_set[barcode]'     => 'ASDF0',
-                'oktolab_rentbundle_inventory_set[place]'       => 1
+                'oktolab_rentbundle_inventory_set[place]'       => $room->getId()
             )
         );
 
@@ -76,7 +79,10 @@ class SetControllerTest extends WebTestCase
             '\Oktolab\Bundle\RentBundle\Tests\DataFixtures\ORM\Event\EventTypeFixture'
         ));
 
-        $this->client->request('GET', '/inventory/set/1/edit');
+        $em = $this->getContainer()->get('doctrine.orm.entity_manager');
+        $set = $em->getRepository('OktolabRentBundle:Inventory\Set')->findOneBy(array('barcode' => 'ASDF'));
+
+        $this->client->request('GET', '/inventory/set/'.$set->getId().'/edit');
         $this->assertTrue($this->client->getResponse()->isSuccessful(), 'Response should be successful');
 
         $form = $this->client->getCrawler()->selectButton('Speichern')->form(
@@ -87,7 +93,7 @@ class SetControllerTest extends WebTestCase
 
         $this->client->submit($form);
         $this->assertTrue(
-            $this->client->getResponse()->isRedirect('/inventory/set/1'),
+            $this->client->getResponse()->isRedirect('/inventory/set/'.$set->getId()),
             'Response should be a redirect to Set'
         );
         $crawler = $this->client->followRedirect();
@@ -105,7 +111,11 @@ class SetControllerTest extends WebTestCase
             'Oktolab\Bundle\RentBundle\Tests\DataFixtures\ORM\SetFixture',
             '\Oktolab\Bundle\RentBundle\Tests\DataFixtures\ORM\Event\EventTypeFixture'
         ));
-        $crawler = $this->client->request('GET', '/inventory/set/1/edit');
+
+        $em = $this->getContainer()->get('doctrine.orm.entity_manager');
+        $set = $em->getRepository('OktolabRentBundle:Inventory\Set')->findOneBy(array('barcode' => 'ASDF'));
+
+        $crawler = $this->client->request('GET', '/inventory/set/'.$set->getId().'/edit');
 
         $form = $crawler->selectButton('Speichern')->form(
             array(
@@ -125,7 +135,10 @@ class SetControllerTest extends WebTestCase
             '\Oktolab\Bundle\RentBundle\Tests\DataFixtures\ORM\Event\EventTypeFixture'
         ));
 
-        $this->client->request('GET', '/inventory/set/1/delete');
+        $em = $this->getContainer()->get('doctrine.orm.entity_manager');
+        $set = $em->getRepository('OktolabRentBundle:Inventory\Set')->findOneBy(array('barcode' => 'ASDF'));
+
+        $this->client->request('GET', '/inventory/set/'.$set->getId().'/delete');
         $this->assertTrue(
             $this->client->getResponse()->isRedirect('/inventory/set/'),
             'Response should be a redirect to Set index'
@@ -144,12 +157,16 @@ class SetControllerTest extends WebTestCase
             array(
                 'Oktolab\Bundle\RentBundle\Tests\DataFixtures\ORM\SetFixture',
                 'Oktolab\Bundle\RentBundle\Tests\DataFixtures\ORM\ItemFixture',
-                'Oktolab\Bundle\RentBundle\Tests\DataFixtures\ORM\PlaceFixture',
                 '\Oktolab\Bundle\RentBundle\Tests\DataFixtures\ORM\Event\EventTypeFixture'
             )
         );
 
-        $this->client->request('GET', '/inventory/set/1/edit');
+        $em = $this->getContainer()->get('doctrine.orm.entity_manager');
+        $set = $em->getRepository('OktolabRentBundle:Inventory\Set')->findOneBy(array('barcode' => 'ASDF'));
+        $place = $em->getRepository('OktolabRentBundle:Inventory\Place')->findOneBy(array('title' => 'Test Place'));
+        $item = $em->getRepository('OktolabRentBundle:Inventory\Item')->findeneBy(array('barcode' => 'ITEM0'));
+
+        $this->client->request('GET', '/inventory/set/'.$set->getId().'/edit');
         $this->assertTrue($this->client->getResponse()->isSuccessful(), 'Response should be successful');
 
         $form = $this->client->getCrawler()->selectButton('Speichern')->form();
@@ -162,13 +179,13 @@ class SetControllerTest extends WebTestCase
                     'title'       => 'TestSet',
                     'description' => 'TestDescription',
                     'barcode'     => 'ASDF0',
-                    'items'       => array(0 => '1'),
-                    'place'       => 1
+                    'items'       => array(0 => $item->getId()),
+                    'place'       => $place->getId()
                 )
             )
         );
         $this->assertTrue(
-            $this->client->getResponse()->isRedirect('/inventory/set/1'),
+            $this->client->getResponse()->isRedirect('/inventory/set/'.$set->getId()),
             'Response should be a redirect to Set'
         );
 
@@ -188,7 +205,12 @@ class SetControllerTest extends WebTestCase
             )
         );
 
-        $this->client->request('GET', '/inventory/set/1/edit');
+        $em = $this->getContainer()->get('doctrine.orm.entity_manager');
+        $set = $em->getRepository('OktolabRentBundle:Inventory\Set')->findOneBy(array('barcode' => 'ASDF'));
+        $place = $em->getRepository('OktolabRentBundle:Inventory\Place')->findOneBy(array('title' => 'Test Place'));
+        $item = $em->getRepository('OktolabRentBundle:Inventory\Item')->findOneBy(array('barcode' => 'ITEM0'));
+
+        $this->client->request('GET', '/inventory/set/'.$set->getId().'/edit');
         $this->assertTrue($this->client->getResponse()->isSuccessful(), 'Response should be successful');
         $form = $this->client->getCrawler()->selectButton('Speichern')->form();
         $crawler = $this->client->request(
@@ -200,12 +222,12 @@ class SetControllerTest extends WebTestCase
                     'title'         => 'SetWithoutItem',
                     'description'   => 'SetWithoutItemDescription',
                     'barcode'       => 'ASDF0',
-                    'place'         => 1
+                    'place'         => $place->getId()
                 )
             )
         );
         $this->assertTrue(
-            $this->client->getResponse()->isRedirect('/inventory/set/1'),
+            $this->client->getResponse()->isRedirect('/inventory/set/'.$set->getId()),
             'Response should be a redirect to Set'
         );
 
@@ -220,7 +242,11 @@ class SetControllerTest extends WebTestCase
             '\Oktolab\Bundle\RentBundle\Tests\DataFixtures\ORM\Event\EventTypeFixture'
         ));
 
-        $this->client->request('GET', '/inventory/set/1/delete');
+        $em = $this->getContainer()->get('doctrine.orm.entity_manager');
+        $set = $em->getRepository('OktolabRentBundle:Inventory\Set')->findOneBy(array('barcode' => 'ASDF0'));
+        $item = $em->getRepository('OktolabRentBundle:Inventory\Item')->findOneBy(array('barcode' => 'METI123'));
+
+        $this->client->request('GET', '/inventory/set/'.$set->getId().'/delete');
         $this->assertTrue(
             $this->client->getResponse()->isRedirect('/inventory/set/'),
             'Expected to be redirected to Set index'
@@ -234,7 +260,7 @@ class SetControllerTest extends WebTestCase
             'Set should be deleted'
         );
 
-        $this->client->request('GET', '/inventory/item/1');
+        $this->client->request('GET', '/inventory/item/'.$item->getId());
         $this->assertTrue($this->client->getResponse()->isSuccessful(), 'Response should be successful');
         $this->assertEquals(
             1,

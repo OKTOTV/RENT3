@@ -31,7 +31,7 @@ class ItemBuyDateFixture extends AbstractFixture
         $itemB = new Item();
         $itemB->setTitle('Without Buy Date')
                 ->setDescription('An item without a buy date.')
-                ->setBarcode('123456')
+                ->setBarcode('QWERT')
                 ->setPlace($place);
 
         $manager->persist($place);

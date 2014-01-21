@@ -12,13 +12,14 @@ class EventManagerFunctionalTest extends WebTestCase
      */
     public function testItemIsAvailable($begin, $end, $comment, $assertion)
     {
+        //$this->markTestIncomplete('This test doesnt work in sqlite due to query');
         $this->loadFixtures(array('Oktolab\Bundle\RentBundle\Tests\DataFixtures\ORM\EventManagerFixture'));
 
         $em = static::$kernel->getContainer()->get('oktolab.event_manager');
-        $item = static::$kernel->getContainer()->get('doctrine.orm.entity_manager')
+        $entityManager = static::$kernel->getContainer()->get('doctrine.orm.entity_manager');
+        $item = $entityManager
             ->getRepository('OktolabRentBundle:Inventory\Item')
-            ->findOneBy(array('id' => 1));
-
+            ->findOneBy(array('barcode' => 'ASDF'));
         $this->assertSame($em->isAvailable($item, $begin, $end), $assertion, $comment);
     }
 
@@ -44,7 +45,7 @@ class EventManagerFunctionalTest extends WebTestCase
 
         $item = static::$kernel->getContainer()->get('doctrine.orm.entity_manager')
             ->getRepository('OktolabRentBundle:Inventory\Item')
-            ->findOneById(1);
+            ->findOneBy(array('barcode' => 'ITEM0'));
 
         $em = static::$kernel->getContainer()->get('oktolab.event_manager');
         $event = $em->create(array($item));

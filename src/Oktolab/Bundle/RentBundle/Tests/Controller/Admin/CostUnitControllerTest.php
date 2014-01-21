@@ -45,8 +45,11 @@ class CostUnitControllerTest extends WebTestCase
             'Oktolab\Bundle\RentBundle\Tests\DataFixtures\ORM\Event\EventTypeFixture'
         ));
 
+        $em       = $this->getContainer()->get('doctrine.orm.entity_manager');
+        $costunit = $em->getRepository('OktolabRentBundle:CostUnit')->findOneBy(array('guid' => '1234567DUMMY'));
+
         // load page
-        $this->client->request('GET', '/admin/costunit/1/edit');
+        $this->client->request('GET', '/admin/costunit/'.$costunit->getId().'/edit');
         $this->assertTrue($this->client->getResponse()->isSuccessful(), 'Response should be successful');
 
         // fill form and submit it
@@ -74,7 +77,10 @@ class CostUnitControllerTest extends WebTestCase
             'Oktolab\Bundle\RentBundle\Tests\DataFixtures\ORM\Event\EventTypeFixture'
         ));
 
-        $this->client->request('GET', '/admin/costunit/1/edit');
+        $em       = $this->getContainer()->get('doctrine.orm.entity_manager');
+        $costunit = $em->getRepository('OktolabRentBundle:CostUnit')->findOneBy(array('guid' => '1234567DUMMY'));
+
+        $this->client->request('GET', '/admin/costunit/'.$costunit->getId().'/edit');
         $this->assertTrue($this->client->getResponse()->isSuccessful(), 'Response should be successful');
         $form = $this->client->getCrawler()->selectButton('Speichern')->form();
         $this->client->request(
@@ -114,9 +120,13 @@ class CostUnitControllerTest extends WebTestCase
             'Oktolab\Bundle\RentBundle\Tests\DataFixtures\ORM\CostUnitWithContactFixture',
             'Oktolab\Bundle\RentBundle\Tests\DataFixtures\ORM\Event\EventTypeFixture'
         ));
+
+        $em       = $this->getContainer()->get('doctrine.orm.entity_manager');
+        $costunit = $em->getRepository('OktolabRentBundle:CostUnit')->findOneBy(array('guid' => '1234567DUMMY'));
+
         $this->client->request('GET', '/admin/costunit/page');
 
-        $this->client->request('GET', '/admin/costunit/1/delete');
+        $this->client->request('GET', '/admin/costunit/'.$costunit->getId().'/delete');
         $this->assertTrue($this->client->getResponse()->isRedirect(), 'Response should be a redirect');
         $crawler = $this->client->followRedirect();
 
@@ -134,7 +144,11 @@ class CostUnitControllerTest extends WebTestCase
             'Oktolab\Bundle\RentBundle\Tests\DataFixtures\ORM\CostUnitFixture',
             'Oktolab\Bundle\RentBundle\Tests\DataFixtures\ORM\Event\EventTypeFixture'
         ));
-        $this->client->request('GET', '/admin/costunit/1/delete');
+
+        $em       = $this->getContainer()->get('doctrine.orm.entity_manager');
+        $costunit = $em->getRepository('OktolabRentBundle:CostUnit')->findOneBy(array('guid' => '1234567DUMMY'));
+
+        $this->client->request('GET', '/admin/costunit/'.$costunit->getId().'/delete');
         $this->assertTrue($this->client->getResponse()->isRedirect(), 'Response should be a redirect');
         $crawler = $this->client->followRedirect();
         $this->assertEquals(

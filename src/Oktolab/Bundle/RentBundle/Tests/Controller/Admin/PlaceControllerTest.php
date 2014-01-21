@@ -40,8 +40,11 @@ class PlaceControllerTest extends WebTestCase
             'Oktolab\Bundle\RentBundle\Tests\DataFixtures\ORM\Event\EventTypeFixture'
         ));
 
+        $em       = $this->getContainer()->get('doctrine.orm.entity_manager');
+        $place = $em->getRepository('OktolabRentBundle:Inventory\Place')->findOneBy(array('title' => 'Testplace'));
+
         // load page
-        $this->client->request('GET', '/admin/inventory/place/1/edit');
+        $this->client->request('GET', '/admin/inventory/place/'.$place->getId().'/edit');
         $this->assertTrue($this->client->getResponse()->isSuccessful(), 'Response should be successful.');
 
         // fill and submit form
@@ -69,8 +72,11 @@ class PlaceControllerTest extends WebTestCase
             'Oktolab\Bundle\RentBundle\Tests\DataFixtures\ORM\Event\EventTypeFixture'
         ));
 
+        $em       = $this->getContainer()->get('doctrine.orm.entity_manager');
+        $item = $em->getRepository('OktolabRentBundle:Inventory\Item')->findOneBy(array('barcode' => 'ITEM0'));
+
         // load page
-        $this->client->request('GET', '/admin/inventory/place/1/delete');
+        $this->client->request('GET', '/admin/inventory/place/'.$item->getPlace()->getId().'/delete');
         $this->assertTrue($this->client->getResponse()->isRedirect(), 'Response should be a redirection.');
 
         // follow redirection and check values
