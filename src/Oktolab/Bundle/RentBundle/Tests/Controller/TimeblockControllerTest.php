@@ -76,7 +76,6 @@ class TimeblockControllerTest extends WebTestCase
         $this->client->submit($form);
         $this->assertTrue($this->client->getResponse()->isRedirect(), 'Response should be a redirection');
         $crawler = $this->client->followRedirect();
-//        echo $this->client->getResponse()->getContent(); die();
         $this->assertTrue($this->client->getResponse()->isSuccessful(), 'Response should be successful');
         $this->assertEquals(1, $crawler->filter('div.field-group.viewMode span:contains("Foo")')->count(), 'Title should be Foo');
     }
