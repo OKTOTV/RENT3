@@ -73,7 +73,7 @@ class TimeblockControllerTest extends WebTestCase
                 'oktolab_bundle_rentbundle_timeblock[title]'  => 'Foo',
             )
         );
-        $this->client->submit($form
+        $this->client->submit($form);
         $this->assertTrue($this->client->getResponse()->isRedirect(), 'Response should be a redirection');
         $crawler = $this->client->followRedirect();
         $this->assertTrue($this->client->getResponse()->isSuccessful(), 'Response should be successful');
