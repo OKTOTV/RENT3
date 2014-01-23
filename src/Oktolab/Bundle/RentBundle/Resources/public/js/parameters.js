@@ -25,6 +25,7 @@
         eventItemPrefetchUrl: oktolab.baseUrl + '/api/event/items/prefetch/typeahead.json',     //Add /eventID/begin/end as YYYY-MM-DD and you get available items including items in event
         eventSetRemoteUrl:  oktolab.baseUrl + '/api/event/sets/typeahead.json/%QUERY',  //Add /begin/end as YYYY-MM-DD and you get all available sets
         eventRoomRemoteUrl: oktolab.baseUrl + '/api/event/rooms/typeahead.json/%QUERY', //Add /begin/end as YYYY-MM-DD and you get all available rooms
+        eventCategoryPrefetchUrl: oktolab.baseUrl + '/api/event/category/typeahead.json' //Add /begin/end as YYYY-MM-DD and you get all available items in categories
     };
 
     oktolab.plupload = {

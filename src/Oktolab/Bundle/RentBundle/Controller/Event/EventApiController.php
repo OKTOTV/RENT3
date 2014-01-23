@@ -86,6 +86,7 @@ class EventApiController extends Controller
                     $dq->expr()->like('i.title', ':value')
                 )
             )
+            ->andWhere('i.category IS NULL')
             ->setParameter('value', '%'.$itemValue.'%')
             ->getQuery();
 
@@ -95,7 +96,7 @@ class EventApiController extends Controller
     }
 
     /**
-     * Returns Json with all Available items including items in given event.
+     * Returns Json with all Available items without category including items in given event.
      * This is used to enable quick barcode scanning.
      *
      * @Configuration\Method("GET")
@@ -114,7 +115,8 @@ class EventApiController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
 
-        $AllItems = $em->getRepository('OktolabRentBundle:Inventory\Item')->findAll();
+        $qb = $em->getRepository('OktolabRentBundle:Inventory\Item')->createQueryBuilder('i');
+        $AllItems = $qb->select()->where('i.category IS NULL')->getQuery()->getResult();
         $availableItems = $this->getTypeaheadArrayFromObjects($AllItems, $begin, $end);
 
         if ($event != "undefined") {
@@ -197,6 +199,32 @@ class EventApiController extends Controller
     }
 
     /**
+     * Returns a JSON formatted Dataset for typeahead.js
+     *
+     * @Configuration\Cache(expires="+30 days", public="yes")
+     * @Configuration\Method("GET")
+     * @Configuration\Route("/category/typeahead.{_format}/{begin}/{end}",
+     *      name="inventory_category_typeahead_prefetch",
+     *      defaults={"_format"="json"},
+     *      requirements={"_format"="json"})
+     * @Configuration\ParamConverter("begin")
+     * @Configuration\ParamConverter("end")
+     *
+     * @return JsonResponse
+     */
+    public function typeaheadEventCategoryPrefetchAction(\DateTime $begin, \DateTime $end)
+    {
+        $qb = $this->getDoctrine()->getManager()->createQueryBuilder();
+        $items = $qb->select('i')
+            ->from('OktolabRentBundle:Inventory\Item', 'i')
+            ->where('i.category IS NOT NULL')
+            ->getQuery()
+            ->getResult();
+
+        return new JsonResponse($this->getTypeaheadArrayForCategories($items, $begin, $end));
+    }
+
+    /**
      * Returns Typeahead friendly Array
      * @param DoctrineCollection $objects
      * @param DateTime begin of the timerange
@@ -259,5 +287,33 @@ class EventApiController extends Controller
         );
 
         return $datum;
+    }
+
+    private function getTypeaheadArrayForCategories($items, $begin, $end, $type = 'inventory')
+    {
+        $json = array();
+        $eventManager = $this->get('oktolab.event_manager');
+
+        foreach ($items as $item) {
+            if ($eventManager->isAvailable($item, $begin, $end, $type)) {
+                $tokens = explode(' ', $item->getCategory()->getTitle());
+                $namepieces = explode(' ', $item->getTitle());
+                foreach ($namepieces as $token) {
+                    $tokens[] = $token;
+                }
+
+                $json[] = array(
+                    'name'          => 'category'.$item->getTitle().$item->getId(),
+                    'displayName'   => $item->getTitle(),
+                    'value'         => sprintf('%s:%d', $item->getType(), $item->getId()),
+                    'type'          => $item->getType(),
+                    'id'            => $item->getId(),
+                    'barcode'       => $item->getBarcode(),
+                    'showUrl'       => 'inventory/item/'.$item->getId(),
+                    'tokens'        => $tokens
+                );
+            }
+        }
+        return $json;
     }
 }

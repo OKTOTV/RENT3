@@ -581,6 +581,17 @@
                 ].join(''),
                 header: '<h3>Sets</h3>',
                 engine: Hogan
+            }, {
+                name:       'category',
+                valueKey:   'displayName',
+                prefetch:   { url: oktolab.typeahead.eventCategoryPrefetchUrl + '/'+begin+'/'+end, ttl:0 },
+                template:   [
+                    '<span class="aui-icon aui-icon-small aui-iconfont-devtools-file">Object</span>',
+                    '<p class="tt-object-name">{{displayName}}</p>',
+                    '<p class="tt-object-addon">{{barcode}}</p>'
+                ].join(''),
+                header: '<h3>Kategorie</h3>',
+                engine: Hogan
             }]);
         },
 
