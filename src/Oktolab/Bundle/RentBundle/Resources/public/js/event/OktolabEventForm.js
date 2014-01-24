@@ -346,6 +346,12 @@
         _registerTypeaheadSelect: function(id) {
             EventForm.data[id].objectSearch.on('typeahead:selected', function (e, datum) {
                 EventForm._addObjectToTable(id, datum);
+                if ('set' == datum.type) {
+                    $.each(datum.items, function(key, itemValue) {
+                       var itemDatum = EventForm._ItemDatumByValue(id, itemValue);
+                       EventForm._addObjectToTable(id, itemDatum);
+                    });
+                }
                 jQuery(this).typeahead('setQuery', '');
             });
         },
@@ -419,6 +425,26 @@
             $.each(EventForm.data[id].objectSearch.data().ttView.datasets, function (datasetKey, dataset) {
                 $.each(dataset.itemHash, function (itemKey, itemHash) {
                     if (searchValue === itemHash.datum.barcode) {
+                        datum = itemHash.datum;
+                    }
+                });
+            });
+
+            return datum;
+        },
+
+        /**
+         * Returns TypeaheadDatum By Sets information
+         * @param {iteger} id
+         * @param {value} itemValue like item:31
+         * @returns {undefined}
+         */
+        _ItemDatumByValue: function(id, itemValue) {
+            var searchValue = EventForm.data[id].objectSearch.val();
+            var datum;
+            $.each(EventForm.data[id].objectSearch.data().ttView.datasets, function (datasetKey, dataset) {
+                $.each(dataset.itemHash, function (itemKey, itemHash) {
+                    if (itemValue === itemHash.datum.value) {
                         datum = itemHash.datum;
                     }
                 });
