@@ -12,12 +12,12 @@ jQuery(document).ready(function ($) {
 
     searchItemsField.typeahead({
         name:       'set-items',
-        valueKey:   'name',
+        valueKey:   'displayName',
         prefetch:  { url: oktolab.typeahead.itemPrefetchUrl, ttl: 60000 },
         remote: { url: oktolab.typeahead.itemRemoteUrl},
         template: [
             '<span class="aui-icon aui-icon-small aui-iconfont-devtools-file">Object</span>',
-            '<p class="tt-object-name">{{name}}</p>',
+            '<p class="tt-object-name">{{displayName}}</p>',
             '<p class="tt-object-addon">{{barcode}}</p>',
             '<p class="tt-object-addon">{{set}}</p>'
         ].join(''),

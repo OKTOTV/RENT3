@@ -568,7 +568,7 @@
                     '<p class="tt-object-name">{{displayName}}</p>',
                     '<p class="tt-object-addon">{{barcode}}</p>'
                 ].join(''),
-                header: '<h3>Items</h3>',
+                header: '<h3>Gegenstände</h3>',
                 engine: Hogan
             }, {
                 name:       'rent-sets',

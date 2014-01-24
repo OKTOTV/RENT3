@@ -297,6 +297,7 @@ class EventApiController extends Controller
         foreach ($items as $item) {
             if ($eventManager->isAvailable($item, $begin, $end, $type)) {
                 $tokens = explode(' ', $item->getCategory()->getTitle());
+                $tokens[] = $item->getBarcode();
                 $namepieces = explode(' ', $item->getTitle());
                 foreach ($namepieces as $token) {
                     $tokens[] = $token;
