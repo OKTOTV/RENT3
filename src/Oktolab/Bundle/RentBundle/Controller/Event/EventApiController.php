@@ -200,6 +200,8 @@ class EventApiController extends Controller
 
     /**
      * Returns a JSON formatted Dataset for typeahead.js
+     * Returns all Items where category is not null and are free in given time range.
+     *
      *
      * @Configuration\Cache(expires="+30 days", public="yes")
      * @Configuration\Method("GET")
