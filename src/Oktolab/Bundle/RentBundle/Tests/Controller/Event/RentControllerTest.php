@@ -14,6 +14,11 @@ class RentControllerTest extends WebTestCase
      */
     public function rentInventoryResponse()
     {
+        $this->loadFixtures(
+            array(
+                'Oktolab\Bundle\RentBundle\Tests\DataFixtures\ORM\Event\EventTypeFixture'
+            )
+        );
         $this->client->request('GET', '/rent/inventory');
         $this->assertTrue($this->client->getResponse()->isSuccessful(), 'Response should be successful');
         $this->assertTrue($this->client->getResponse()->isCacheable(), 'Response should be cacheable');

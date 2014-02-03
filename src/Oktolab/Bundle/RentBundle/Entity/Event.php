@@ -115,6 +115,11 @@ class Event
     private $type;
 
     /**
+     * @ORM\OneToMany(targetEntity="\Oktolab\Bundle\RentBundle\Entity\Inventory\Qms", mappedBy="item")
+     */
+    private $qmss;
+
+    /**
      * Constructor
      */
     public function __construct()
@@ -411,5 +416,38 @@ class Event
     public function getType()
     {
         return $this->type;
+    }
+
+    /**
+     * Add qmss
+     *
+     * @param \Oktolab\Bundle\RentBundle\Entity\Qms $qmss
+     * @return Event
+     */
+    public function addQms(\Oktolab\Bundle\RentBundle\Entity\Qms $qmss)
+    {
+        $this->qmss[] = $qmss;
+
+        return $this;
+    }
+
+    /**
+     * Remove qmss
+     *
+     * @param \Oktolab\Bundle\RentBundle\Entity\Qms $qmss
+     */
+    public function removeQms(\Oktolab\Bundle\RentBundle\Entity\Qms $qmss)
+    {
+        $this->qmss->removeElement($qmss);
+    }
+
+    /**
+     * Get qmss
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getQmss()
+    {
+        return $this->qmss;
     }
 }

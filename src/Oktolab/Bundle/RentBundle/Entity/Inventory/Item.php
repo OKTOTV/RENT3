@@ -174,6 +174,17 @@ class Item implements RentableInterface, UploadableInterface
     private $notice;
 
     /**
+     * @ORM\OneToMany(targetEntity="Qms", mappedBy="item")
+     */
+    private $qmss;
+
+    /**
+     * @ORM\Column(name="active", type="boolean", options={"default" = 1})
+     * @var boolean
+     */
+    private $active;
+
+    /**
      * Get id
      *
      * @return integer
@@ -476,6 +487,7 @@ class Item implements RentableInterface, UploadableInterface
     public function __construct()
     {
         $this->attachments = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->active = true;
     }
 
     /**
@@ -670,5 +682,61 @@ class Item implements RentableInterface, UploadableInterface
     public function __toString()
     {
         return $this->getTitle().' '.$this->getBarcode();
+    }
+
+    /**
+     * Add qmss
+     *
+     * @param \Oktolab\Bundle\RentBundle\Entity\Inventory\Qms $qmss
+     * @return Item
+     */
+    public function addQms(\Oktolab\Bundle\RentBundle\Entity\Inventory\Qms $qmss)
+    {
+        $this->qmss[] = $qmss;
+
+        return $this;
+    }
+
+    /**
+     * Remove qmss
+     *
+     * @param \Oktolab\Bundle\RentBundle\Entity\Inventory\Qms $qmss
+     */
+    public function removeQms(\Oktolab\Bundle\RentBundle\Entity\Inventory\Qms $qmss)
+    {
+        $this->qmss->removeElement($qmss);
+    }
+
+    /**
+     * Get qmss
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getQmss()
+    {
+        return $this->qmss;
+    }
+
+    /**
+     * Set active
+     *
+     * @param boolean $active
+     * @return Item
+     */
+    public function setActive($active)
+    {
+        $this->active = $active;
+
+        return $this;
+    }
+
+    /**
+     * Get active
+     *
+     * @return boolean
+     */
+    public function getActive()
+    {
+        return $this->active;
     }
 }
