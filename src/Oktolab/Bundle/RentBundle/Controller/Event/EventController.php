@@ -8,6 +8,8 @@ use Symfony\Component\HttpFoundation\Request;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration;
 
 use Oktolab\Bundle\RentBundle\Entity\Event;
+use Oktolab\Bundle\RentBundle\Entity\Inventory\Qms;
+use Oktolab\Bundle\RentBundle\Form\EventQMSType;
 
 /**
  * Event Controller.
@@ -286,24 +288,14 @@ class EventController extends Controller
             return array('form' => $form->createView(), 'objects' => $objects);
         }
 
-        if ($form->get('rent')->isClicked()) { // User clicked Rent -> Forwarding to RENT Action
-            // @TODO: Validator needed!
-            $validation = true;
-            foreach ($event->getObjects() as $object) {
-                if (!$object->isScanned()) {
-                    $validation = false;
-                }
-            }
+        if ($form->get('cancel')->isClicked()) { // User clicked Abort -> Nothing to do here
+            $this->get('session')->getFlashBag()->add('success', 'event.cancel_success');
+        }
 
-            if (!$validation) {
-                $this->get('session')->getFlashBag()->add('error', 'event.save_error');
-                return array('form' => $form->createView(), 'objects' => $objects);
-            }
-            // @TODO: Add above to eventclass validator
+        if ($form->get('rent')->isClicked()) { // User clicked Rent -> Forwarding to RENT Action
 
             $this->get('session')->getFlashBag()->add('success', 'event.deliver_success');
-            // @TODO: we set the state to completed instead of delivered till QMS is built
-            $event->setState(Event::STATE_COMPLETED);
+            $event->setState(Event::STATE_DELIVERED);
 
             $em = $this->getDoctrine()->getManager();
             $em->persist($event);
@@ -314,14 +306,65 @@ class EventController extends Controller
 
             return $this->redirect($this->generateUrl('rentbundle_dashboard'));
         }
-
-        if ($form->get('cancel')->isClicked()) { // User clicked Abort -> Nothing to do here
-            $this->get('session')->getFlashBag()->add('success', 'event.cancel_success');
-        }
         // Done. Redirecting to Dashboard
         return $this->redirect($this->generateUrl('rentbundle_dashboard'));
     }
 
+    /**
+     * Checks an Event.
+     *
+     * @Configuration\Route("/event/{id}/check", name="ORB_Event_Check")
+     * @Configuration\ParamConverter("event", class="OktolabRentBundle:Event")
+     * @Configuration\Template("OktolabRentBundle:Event:Event\check.html.twig")
+     *
+     * @param \Oktolab\Bundle\RentBundle\Entity\Event   $event
+     *
+     * @return Response
+     */
+    public function checkAction(Event $event)
+    {
+        // Check Form
+        $qmss = array();
+
+        $entities = $this->get('oktolab.event_manager')->convertEventObjectsToEntites($event->getObjects());
+        foreach ($entities as $item) {
+            if ($item->getType() == 'item') {
+                $qms = new Qms();
+                $qms->setItem($item);
+                $qms->setEvent($event);
+                $event->addQms($qms);
+            }
+        }
+        $form = $this->createForm(
+            new EventQMSType(),
+            $event,
+            array(
+                'action' => $this->generateUrl('ORB_Event_CheckComplete', array('id' => $event->getId())),
+                'method' => 'PUT'
+                )
+            );
+
+        return array('form' => $form->createView());
+    }
+
+    /**
+     * Finishes an Event.
+     *
+     * @Configuration\Method("PUT")
+     * @Configuration\Route("/event/{id}/check_complete", name="ORB_Event_CheckComplete")
+     * @Configuration\ParamConverter("event", class="OktolabRentBundle:Event")
+     * @Configuration\Template("OktolabRentBundle:Event:Event\edit.html.twig")
+     *
+     * @param \Symfony\Component\HttpFoundation\Request $request
+     * @param \Oktolab\Bundle\RentBundle\Entity\Event   $event
+     *
+     * @return Response
+     */
+    public function checkCompleteAction(Request $request, Event $event)
+    {
+        // Create QMS entries and set item states.
+        die('hurra!');
+    }
 
     /**
      * Creates the rent PDF out of a template.

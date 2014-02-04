@@ -98,7 +98,7 @@
                         {{ form_widget(form.rent, {'attr': { 'class': 'aui-button aui-button-primary', 'aria-disabled': 'true' }, 'label': 'event.rent'|trans }) }}
                         {{ form_widget(form.update, {'attr': { 'class': 'aui-button' }, 'label': 'event.update'|trans }) }}
                     {% elseif form.vars.value.state == 2 %} {# event is lent, can be taken back #}
-                        {{ form_widget(form.rent, {'attr': { 'class': 'aui-button aui-button-primary', 'aria-disabled': 'true' }, 'label': 'event.deliver'|trans }) }}
+                        {{ form_widget(form.rent, {'attr': { 'class': 'aui-button aui-button-primary'}, 'label': 'event.deliver'|trans }) }}
                     {% endif %}
 
                     {% if form.vars.value.id is not null %}

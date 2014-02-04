@@ -12,6 +12,14 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Qms
 {
+    const STATE_OKAY        = 0;    // Everything is fine
+    const STATE_FLAW        = 1;    // Somethings not correct (battery empty, storage not formatted)
+    const STATE_DAMAGED     = 2;    // Got damaged, but funtional
+    const STATE_DESTROYED   = 3;    // Is fucked up beyond all recognition (fubar)
+    const STATE_STOLEN      = 4;    // Item is stolen
+    const STATE_MAINTENANCE = 5;    // Is in repair
+    const STATE_DISCARDED   = 6;    // Won't get used anymore
+
     /**
      * @var integer
      *
@@ -270,7 +278,7 @@ class Qms
      * @param \Oktolab\Bundle\RentBundle\Entity\Inventory\Event $event
      * @return Qms
      */
-    public function setEvent(\Oktolab\Bundle\RentBundle\Entity\Inventory\Event $event = null)
+    public function setEvent(\Oktolab\Bundle\RentBundle\Entity\Event $event = null)
     {
         $this->event = $event;
 

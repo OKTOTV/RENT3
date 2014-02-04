@@ -424,7 +424,7 @@ class Event
      * @param \Oktolab\Bundle\RentBundle\Entity\Qms $qmss
      * @return Event
      */
-    public function addQms(\Oktolab\Bundle\RentBundle\Entity\Qms $qmss)
+    public function addQms(\Oktolab\Bundle\RentBundle\Entity\Inventory\Qms $qmss)
     {
         $this->qmss[] = $qmss;
 
@@ -436,7 +436,7 @@ class Event
      *
      * @param \Oktolab\Bundle\RentBundle\Entity\Qms $qmss
      */
-    public function removeQms(\Oktolab\Bundle\RentBundle\Entity\Qms $qmss)
+    public function removeQms(\Oktolab\Bundle\RentBundle\Entity\Inventory\Qms $qmss)
     {
         $this->qmss->removeElement($qmss);
     }
