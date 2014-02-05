@@ -1217,6 +1217,10 @@
                 <source>qms.date</source>
                 <target>Datum</target>
             </trans-unit>
+            <trans-unit id="1412">
+                <source>qms.no_description</source>
+                <target>Unverändert</target>
+            </trans-unit>
 
             <trans-unit id="1500">
                 <source>PREPARED</source>
