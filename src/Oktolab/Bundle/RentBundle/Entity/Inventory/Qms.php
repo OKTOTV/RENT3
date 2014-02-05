@@ -290,6 +290,28 @@ class Qms
         return $this;
     }
 
+    public function getStatusString()
+    {
+        switch ($this->getStatus()) {
+            case 0:
+                return 'qms.okay';
+            case 1:
+                return 'qms.flaw';
+            case 2:
+                return 'qms.damaged';
+            case 3:
+                return 'qms.destroyed';
+            case 4:
+                return 'qms.lost';
+            case 5:
+                return 'qms.maintenance';
+            case 6:
+                return 'qms.discarded';
+            default:
+                return 'unknown';
+        }
+    }
+
     /**
      * Get event
      *

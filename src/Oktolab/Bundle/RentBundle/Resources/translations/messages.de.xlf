@@ -794,6 +794,10 @@
                 <source>event.rent</source>
                 <target>Ausgeben</target>
             </trans-unit>
+            <trans-unit id="706">
+                <source>event.booking</source>
+                <target>Buchung</target>
+            </trans-unit>
 
             <trans-unit id="800">
                 <source>inventory.import</source>
@@ -1196,6 +1200,14 @@
             <trans-unit id="1409">
                 <source>qms.submit</source>
                 <target>Abschließen</target>
+            </trans-unit>
+            <trans-unit id="1410">
+                <source>qms.history</source>
+                <target>Bericht</target>
+            </trans-unit>
+            <trans-unit id="1411">
+                <source>qms.date</source>
+                <target>Datum</target>
             </trans-unit>
         </body>
     </file>

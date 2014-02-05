@@ -106,7 +106,7 @@ class ItemController extends Controller
      * @Configuration\ParamConverter("item", class="OktolabRentBundle:Inventory\Item")
      * @Configuration\Template("OktolabRentBundle:Inventory\Item:show.html.twig", vars={"item"})
      */
-    public function showAction(Request $request, Item $item)
+    public function showAction(Item $item)
     {
     }
 

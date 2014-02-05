@@ -118,6 +118,47 @@
                 <span class="field-value" id="inventory-item-buyDate">{{ item.buyDate is empty ? '' : item.buyDate|date('d.m.Y') }}</span>
             </div>
         </fieldset>
+
+        <h3>{{'qms.history'|trans}}</h3>
+        <fieldset>
+            <table class="aui aui-table-sortable">
+                <thead>
+                    <tr>
+                        <th>{{ 'qms.date'|trans }}</th>
+                        <th class="aui-table-column-unsortable">{{ 'qms.history'|trans }}</th>
+                        <th class="aui-table-column-unsortable">{{ 'qms.status'|trans }}</th>
+                        <th class="aui-table-column-unsortable">{{ 'event.booking'|trans }}</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for qms in item.qmss%}
+                    <tr>
+                        <td>
+                            <span style="display:none">{{qms.createdAt|date('U')}}</span>
+                            {{ qms.createdAt|date('H:i d.m.Y') }}
+                        </td>
+                        <td>
+                            {% if qms.description is empty %}
+                                {{ 'qms.no_description'|trans }}
+                            {% else %}
+                                {{ qms.description }}
+                            {% endif %}
+                        </td>
+                        <td>
+                            <span class="aui-lozenge">{{ qms.statusString|trans}}</span>
+                        </td>
+                        <td>
+                            {% if qms.event is empty %}
+                                {{ 'qms.no_event'|trans }}
+                            {% else %}
+                                {{ qms.event.costunit.name }}
+                            {% endif %}
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </fieldset>
     </form>
 {% endblock %}
 
