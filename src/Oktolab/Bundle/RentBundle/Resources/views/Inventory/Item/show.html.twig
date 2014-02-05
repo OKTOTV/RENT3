@@ -121,6 +121,9 @@
 
         <h3>{{'qms.history'|trans}}</h3>
         <fieldset>
+            {% if item.qmss is empty %}
+                {{ 'inventory.item.no_qms'|trans }}
+            {% else %}
             <table class="aui aui-table-sortable">
                 <thead>
                     <tr>
@@ -158,6 +161,7 @@
                     {% endfor %}
                 </tbody>
             </table>
+            {% endif %}
         </fieldset>
     </form>
 {% endblock %}

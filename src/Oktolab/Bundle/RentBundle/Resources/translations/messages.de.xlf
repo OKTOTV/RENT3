@@ -420,6 +420,10 @@
                 <source>inventory.item.noticePlaceholder</source>
                 <target>Anmerkungen zu diesem Gegenstand</target>
             </trans-unit>
+            <trans-unit id="133">
+                <source>inventory.item.no_qms</source>
+                <target>Noch keine Buchungen</target>
+            </trans-unit>
 
             <trans-unit id="201">
                 <source>inventory.set.removeFromSet</source>
