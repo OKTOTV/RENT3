@@ -306,7 +306,11 @@ class Qms
     public function isDescriptionValid()
     {
         //if an item is okay, there is no need for a description
-        return $this->getStatus() == Qms::STATE_OKAY;
+        if ($this->getStatus() == Qms::STATE_OKAY) {
+            return true;
+        } else {
+            return $this->getDescription() != "";
+        }
     }
 
     /**
