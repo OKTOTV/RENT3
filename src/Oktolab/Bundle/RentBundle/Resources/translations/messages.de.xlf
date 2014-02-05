@@ -802,6 +802,10 @@
                 <source>event.booking</source>
                 <target>Buchung</target>
             </trans-unit>
+            <trans-unit id="707">
+                <source>event.booking_for_costunit</source>
+                <target>Buchung für %costunit%</target>
+            </trans-unit>
 
             <trans-unit id="800">
                 <source>inventory.import</source>
@@ -1212,6 +1216,39 @@
             <trans-unit id="1411">
                 <source>qms.date</source>
                 <target>Datum</target>
+            </trans-unit>
+
+            <trans-unit id="1500">
+                <source>PREPARED</source>
+                <target>Reserviert</target>
+            </trans-unit>
+            <trans-unit id="1501">
+                <source>RESERVED</source>
+                <target>Reserviert</target>
+            </trans-unit>
+            <trans-unit id="1502">
+                <source>LENT</source>
+                <target>Ausgegeben</target>
+            </trans-unit>
+            <trans-unit id="1503">
+                <source>DELIVERED</source>
+                <target>Rückgegeben</target>
+            </trans-unit>
+            <trans-unit id="1504">
+                <source>CHECKED</source>
+                <target>Geprüft</target>
+            </trans-unit>
+            <trans-unit id="1505">
+                <source>COMPLETED</source>
+                <target>Abgeschlossen</target>
+            </trans-unit>
+            <trans-unit id="1506">
+                <source>CANCELED</source>
+                <target>Storniert</target>
+            </trans-unit>
+            <trans-unit id="1507">
+                <source>DEFERRED</source>
+                <target>In Verzug</target>
             </trans-unit>
         </body>
     </file>

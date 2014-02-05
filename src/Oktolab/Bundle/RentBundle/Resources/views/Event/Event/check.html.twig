@@ -1,37 +1,41 @@
 {% extends 'OktolabRentBundle::layoutFocusedTask.html.twig' %}
 {% block content_header %}
-    <div class="aui-page-header-inner">
-        <div class="aui-page-header-actions">
-            <ol class="aui-progress-tracker aui-progress-tracker-inverted">
-                {% set state = form.vars.value.state %}
-                {% set current = 'aui-progress-tracker-step-current' %}
+        <div class="aui-page-header-inner">
 
-                <li class="aui-progress-tracker-step"><span>{{ 'Erstellen'|trans }}</span></li>
-                <li class="aui-progress-tracker-step {{ state is constant('\\Oktolab\\Bundle\\RentBundle\\Entity\\Event::STATE_PREPARED') ? current : '' }}"><span>{{ 'Bearbeiten'|trans }}</span></li>
-                <li class="aui-progress-tracker-step {{ state is constant('\\Oktolab\\Bundle\\RentBundle\\Entity\\Event::STATE_LENT') ? current : '' }}"><span>{{ 'Ausgeben'|trans }}</span></li>
-                <li class="aui-progress-tracker-step {{ state is constant('\\Oktolab\\Bundle\\RentBundle\\Entity\\Event::STATE_DELIVERED') ? current : '' }}"><span>{{ 'Abgeschlossen'|trans }}</span></li>
-            </ol>
+                <ol class="aui-progress-tracker aui-progress-tracker-inverted" style="width: 600px">
+                    {% set state = form.vars.value.state %}
+                    {% set current = 'aui-progress-tracker-step-current' %}
+
+                    <li class="aui-progress-tracker-step"><span>{{ 'Reservieren'|trans }}</span></li>
+                    <li class="aui-progress-tracker-step {{ state <= constant('\\Oktolab\\Bundle\\RentBundle\\Entity\\Event::STATE_RESERVED') ? current : '' }}"><span>{{ 'Ausgeben oder Ändern'|trans }}</span></li>
+                    <li class="aui-progress-tracker-step {{ state is constant('\\Oktolab\\Bundle\\RentBundle\\Entity\\Event::STATE_LENT') ? current : '' }}"><span>{{ 'Rücknehmen'|trans }}</span></li>
+                    <li class="aui-progress-tracker-step {{ state is constant('\\Oktolab\\Bundle\\RentBundle\\Entity\\Event::STATE_DELIVERED') ? current : '' }}"><span>{{ 'Abschließen'|trans }}</span></li>
+                    <li class="aui-progress-tracker-step {{ state is constant('\\Oktolab\\Bundle\\RentBundle\\Entity\\Event::STATE_COMPLETED') ? current : '' }}"><span>{{ 'Abgeschlossen'|trans }}</span></li>
+                </ol>
+
         </div>
-    </div>
 {% endblock %}
 {% block content %}
-{{ form_start(form, {'attr': {'class': 'aui'} }) }}
-     <fieldset>
-        {{ form_errors(form) }}
+    <div id="event-form">
+        <h2>{{ 'event.booking_for_costunit'|trans({'%costunit%': form.vars.value.costunit.name}) }}</h2>
+        {{ form_start(form, {'attr': {'class': 'aui'} }) }}
+        <fieldset>
+           {{ form_errors(form) }}
 
-        {% for i in 0..form.vars.value.qmss|length -1 %}
-            <h3>{{ form.vars.value.qmss[i].item.title }}</h3>
-            {{ form_row(form.qmss[i].status) }}
-            {{ form_errors(form.qmss[i]) }}
-            {{ form_row(form.qmss[i].description, {'attr': {'rows': 3} }) }}
-            <div class="hidden">
-               {{ form_row(form.qmss[i].item, {'attr': {'class': 'hidden'} }) }}
-               {{ form_row(form.qmss[i].event, {'attr': {'class': 'hidden'} }) }}
-            </div>
-        {% endfor %}
-     </fieldset>
-    <div class="buttons-container">
-        {{ form_widget(form.save, {'attr': {'class': 'aui-button aui-button-primary'} }) }}
+           {% for i in 0..form.vars.value.qmss|length -1 %}
+               <h3>{{ form.vars.value.qmss[i].item.title }}</h3>
+               {{ form_row(form.qmss[i].status) }}
+               {{ form_errors(form.qmss[i]) }}
+               {{ form_row(form.qmss[i].description, {'attr': {'rows': 3} }) }}
+               <div class="hidden">
+                  {{ form_row(form.qmss[i].item, {'attr': {'class': 'hidden'} }) }}
+                  {{ form_row(form.qmss[i].event, {'attr': {'class': 'hidden'} }) }}
+               </div>
+           {% endfor %}
+        </fieldset>
+        <div class="buttons-container">
+            {{ form_widget(form.save, {'attr': {'class': 'aui-button aui-button-primary'} }) }}
+        </div>
+    {{ form_end(form) }}
     </div>
-{{ form_end(form) }}
 {% endblock %}

@@ -30,16 +30,34 @@
                         <td>
                             <span style="display:none">{{ inventoryEvent.state(false) }}</span>
                             {% if inventoryEvent.state(false) == 2 %}
-                                <a href="{{ path('OktolabRentBundle_Event_Deliver', { 'id': inventoryEvent.id }) }}"><span class="aui-lozenge">{{ inventoryEvent.state(true) }}</span></a>
+                                <a href="{{ path('OktolabRentBundle_Event_Deliver', { 'id': inventoryEvent.id }) }}">
+                                    <span class="aui-lozenge aui-lozenge-moved aui-lozenge-subtle">{{ inventoryEvent.state(true)|trans }}</span>
+                                </a>
+                            {% elseif inventoryEvent.state(false) == 3 %}
+                                <a href="{{ path('ORB_Event_Check', { 'id': inventoryEvent.id }) }}">
+                                    <span class="aui-lozenge aui-lozenge-current aui-lozenge-subtle">{{ inventoryEvent.state(true)|trans }}</span>
+                                </a>
+                            {% elseif inventoryEvent.state(false) == 5 %}
+                                <a href="{{ path('OktolabRentBundle_Event_Edit', { 'id': inventoryEvent.id }) }}">
+                                    <span class="aui-lozenge aui-lozenge-success aui-lozenge-subtle">{{ inventoryEvent.state(true)|trans }}</span>
+                                </a>
                             {% else %}
-                                <a href="{{ path('OktolabRentBundle_Event_Edit', { 'id': inventoryEvent.id }) }}"><span class="aui-lozenge">{{ inventoryEvent.state(true) }}</span></a>
+                                <a href="{{ path('OktolabRentBundle_Event_Edit', { 'id': inventoryEvent.id }) }}">
+                                    <span class="aui-lozenge aui-lozenge-complete">{{ inventoryEvent.state(true)|trans }}</span>
+                                </a>
                             {% endif %}
 
                         </td>
                         <td headers="costunit">{{inventoryEvent.costunit.name }}</td>
                         <td headers="contact">{{ inventoryEvent.contact.name}}</td>
-                        <td headers="begin"><span style="display:none">{{inventoryEvent.begin|date('U')}}</span>{{ inventoryEvent.begin|date('d.m.Y H:i') }}</td>
-                        <td headers="end"><span style="display:none">{{inventoryEvent.end|date('U')}}</span>{{ inventoryEvent.end|date('d.m.Y H:i') }}</td>
+                        <td headers="begin">
+                            <span style="display:none">{{inventoryEvent.begin|date('U')}}</span>
+                            {{ inventoryEvent.begin|date('d.m.Y H:i') }}
+                        </td>
+                        <td headers="end">
+                            <span style="display:none">{{inventoryEvent.end|date('U')}}</span>
+                            {{ inventoryEvent.end|date('d.m.Y H:i') }}
+                        </td>
                     </tr>
                     {% endfor %}
                 </tbody>

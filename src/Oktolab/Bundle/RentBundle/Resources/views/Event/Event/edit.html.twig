@@ -1,27 +1,25 @@
 {% extends 'OktolabRentBundle::layoutFocusedTask.html.twig' %}
 {% set type = form.vars.value.type.name|lower %}
 {% block content_header %}
-    <div class="aui-page-header-inner">
-        <div class="aui-page-header-main">
-            <h1>{{ 'Rental Track'|trans }}</h1>
-        </div>
-        <div class="aui-page-header-actions">
-            <ol class="aui-progress-tracker aui-progress-tracker-inverted">
-                {% set state = form.vars.value.state %}
-                {% set current = 'aui-progress-tracker-step-current' %}
+        <div class="aui-page-header-inner">
 
-                <li class="aui-progress-tracker-step"><span>{{ 'Erstellen'|trans }}</span></li>
-                <li class="aui-progress-tracker-step {{ state is constant('\\Oktolab\\Bundle\\RentBundle\\Entity\\Event::STATE_PREPARED') ? current : '' }}"><span>{{ 'Bearbeiten'|trans }}</span></li>
-                <li class="aui-progress-tracker-step {{ state is constant('\\Oktolab\\Bundle\\RentBundle\\Entity\\Event::STATE_LENT') ? current : '' }}"><span>{{ 'Ausgeben'|trans }}</span></li>
-                <li class="aui-progress-tracker-step {{ state is constant('\\Oktolab\\Bundle\\RentBundle\\Entity\\Event::STATE_DELIVERED') ? current : '' }}"><span>{{ 'Abgeschlossen'|trans }}</span></li>
-            </ol>
+                <ol class="aui-progress-tracker aui-progress-tracker-inverted" style="width: 600px">
+                    {% set state = form.vars.value.state %}
+                    {% set current = 'aui-progress-tracker-step-current' %}
+
+                    <li class="aui-progress-tracker-step"><span>{{ 'Reservieren'|trans }}</span></li>
+                    <li class="aui-progress-tracker-step {{ state <= constant('\\Oktolab\\Bundle\\RentBundle\\Entity\\Event::STATE_RESERVED') ? current : '' }}"><span>{{ 'Ausgeben oder Ändern'|trans }}</span></li>
+                    <li class="aui-progress-tracker-step {{ state is constant('\\Oktolab\\Bundle\\RentBundle\\Entity\\Event::STATE_LENT') ? current : '' }}"><span>{{ 'Rücknehmen'|trans }}</span></li>
+                    <li class="aui-progress-tracker-step {{ state is constant('\\Oktolab\\Bundle\\RentBundle\\Entity\\Event::STATE_DELIVERED') ? current : '' }}"><span>{{ 'Abschließen'|trans }}</span></li>
+                    <li class="aui-progress-tracker-step {{ state is constant('\\Oktolab\\Bundle\\RentBundle\\Entity\\Event::STATE_COMPLETED') ? current : '' }}"><span>{{ 'Abgeschlossen'|trans }}</span></li>
+                </ol>
+
         </div>
-    </div>
 {% endblock %}
 
 {% block content %}
     <div id="event-form">
-        <h2>{{ 'generic.edit' | trans }} - {{ form.vars.value.name }}</h2>
+        <h2>{{ 'event.booking_for_costunit'|trans({'%costunit%': form.vars.value.costunit.name}) }}</h2>
         {{ form_start(form, {'attr': {'class': 'aui', 'id': type~'-edit-form', 'data-value':form.vars.value.id } }) }}
             <fieldset>
                 {{ form_errors(form) }}
@@ -111,6 +109,7 @@
             {% do form.objects.setRendered %}
             {% do form.update.setRendered %}
             {% do form.delete.setRendered %}
+            {% do form.rent.setRendered %}
         {{ form_end(form) }}
     </div>
 {% endblock %}
