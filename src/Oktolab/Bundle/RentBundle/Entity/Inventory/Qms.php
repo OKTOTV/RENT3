@@ -3,12 +3,14 @@
 namespace Oktolab\Bundle\RentBundle\Entity\Inventory;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Qms
  *
  * @ORM\Table()
  * @ORM\Entity
+ * @ORM\HasLifecycleCallbacks()
  */
 class Qms
 {
@@ -16,7 +18,7 @@ class Qms
     const STATE_FLAW        = 1;    // Somethings not correct (battery empty, storage not formatted)
     const STATE_DAMAGED     = 2;    // Got damaged, but funtional
     const STATE_DESTROYED   = 3;    // Is fucked up beyond all recognition (fubar)
-    const STATE_STOLEN      = 4;    // Item is stolen
+    const STATE_LOST        = 4;    // Item is lost or stolen
     const STATE_MAINTENANCE = 5;    // Is in repair
     const STATE_DISCARDED   = 6;    // Won't get used anymore
 
@@ -37,8 +39,7 @@ class Qms
 
     /**
      * @var string
-     *
-     * @ORM\Column(name="description", type="string", length=255)
+     * @ORM\Column(name="description", type="string", length=255, nullable=true)
      */
     private $description;
 
@@ -77,6 +78,10 @@ class Qms
      */
     private $updatedAt;
 
+    public function __construct()
+    {
+        $this->setActive(true);
+    }
 
     /**
      * Get id
@@ -293,5 +298,31 @@ class Qms
     public function getEvent()
     {
         return $this->event;
+    }
+
+    /**
+     * @Assert\True(message="qms.descriptionNeeded")
+     */
+    public function isDescriptionValid()
+    {
+        //if an item is okay, there is no need for a description
+        return $this->getStatus() == Qms::STATE_OKAY;
+    }
+
+    /**
+     * @ORM\PrePersist
+     */
+    public function setLifecycleCreatedAt()
+    {
+        $this->setCreatedAt(new \DateTime());
+        $this->setUpdatedAt(new \DateTime());
+    }
+
+    /**
+     * @ORM\PreUpdate
+     */
+    public function setLifecycleUpdatedAt()
+    {
+        $this->setUpdatedAt(new \DateTime());
     }
 }

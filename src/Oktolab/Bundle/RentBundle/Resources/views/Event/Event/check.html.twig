@@ -1,9 +1,6 @@
 {% extends 'OktolabRentBundle::layoutFocusedTask.html.twig' %}
 {% block content_header %}
     <div class="aui-page-header-inner">
-        <div class="aui-page-header-main">
-            <h1>{{ 'Rental Track'|trans }}</h1>
-        </div>
         <div class="aui-page-header-actions">
             <ol class="aui-progress-tracker aui-progress-tracker-inverted">
                 {% set state = form.vars.value.state %}
@@ -25,6 +22,7 @@
         {% for i in 0..form.vars.value.qmss|length -1 %}
             <h3>{{ form.vars.value.qmss[i].item.title }}</h3>
             {{ form_row(form.qmss[i].status) }}
+            {{ form_errors(form.qmss[i]) }}
             {{ form_row(form.qmss[i].description, {'attr': {'rows': 3} }) }}
             <div class="hidden">
                {{ form_row(form.qmss[i].item, {'attr': {'class': 'hidden'} }) }}

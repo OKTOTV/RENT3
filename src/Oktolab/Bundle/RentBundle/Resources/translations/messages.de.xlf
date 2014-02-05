@@ -1107,6 +1107,14 @@
                 <source>event.deliver_success</source>
                 <target>Event erfolgreich zurückgenommen</target>
             </trans-unit>
+            <trans-unit id="1227">
+                <source>event.complete_success</source>
+                <target>Event erfolgreich abgeschlossen</target>
+            </trans-unit>
+            <trans-unit id="1228">
+                <source>event.complete_error</source>
+                <target>Event konnte nicht erfolgreich abgeschlossen werden</target>
+            </trans-unit>
 
             <trans-unit id="1300">
                 <source>admin.setting.settings</source>
@@ -1166,8 +1174,8 @@
                 <target>Zerstört</target>
             </trans-unit>
             <trans-unit id="1404">
-                <source>qms.stolen</source>
-                <target>Gestohlen</target>
+                <source>qms.lost</source>
+                <target>Verloren</target>
             </trans-unit>
             <trans-unit id="1405">
                 <source>qms.maintenance</source>

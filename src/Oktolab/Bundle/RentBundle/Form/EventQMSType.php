@@ -16,7 +16,13 @@ class EventQMSType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('qmss', 'collection', array('type' => new QMSType()))
+            ->add(
+                'qmss',
+                'collection',
+                array(
+                    'type' => new QMSType()
+                )
+            )
             ->add('save', 'submit', array('label' => 'qms.submit'));
     }
 
@@ -24,6 +30,7 @@ class EventQMSType extends AbstractType
     {
         $resolver->setDefaults(array(
             'data_class' => 'Oktolab\Bundle\RentBundle\Entity\Event',
+            'cascade_validation' => true
         ));
     }
 

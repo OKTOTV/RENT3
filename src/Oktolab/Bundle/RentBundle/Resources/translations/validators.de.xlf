@@ -108,6 +108,11 @@
                 <source>event.begin_after_end</source>
                 <target>Der Beginzeitpunkt darf nicht während oder nach dem Endzeitpunkt sein</target>
             </trans-unit>
+
+            <trans-unit id="700">
+                <source>qms.descriptionNeeded</source>
+                <target>Du musst zu diesem Zustand eine Information eintragen</target>
+            </trans-unit>
         </body>
     </file>
 </xliff>

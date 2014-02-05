@@ -21,7 +21,7 @@ class QMSType extends AbstractType
             QMS::STATE_FLAW => 'qms.flaw',
             QMS::STATE_DAMAGED => 'qms.damaged',
             QMS::STATE_DESTROYED => 'qms.destroyed',
-            QMS::STATE_STOLEN => 'qms.stolen'
+            QMS::STATE_LOST => 'qms.lost'
         );
 
         $builder
@@ -49,6 +49,7 @@ class QMSType extends AbstractType
     {
         $resolver->setDefaults(array(
             'data_class' => 'Oktolab\Bundle\RentBundle\Entity\Inventory\Qms',
+            'error_bubbling' => false
         ));
     }
 
