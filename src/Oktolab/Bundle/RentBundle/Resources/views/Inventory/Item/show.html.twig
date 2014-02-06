@@ -21,7 +21,10 @@
         </ol>
         <h1>
             <span id="title-text">
-                <a href="{{ path('inventory_item_show', { 'id': item.id }) }}">{{ item.title }} - {{ item.barcode }}</a>
+                {% if not item.active%}
+                    <span class="aui-lozenge aui-lozenge-error">{{ 'inventory.item.not_active'|trans}}</span>
+                {% endif %}
+                {{ item.title }} - {{ item.barcode }}
             </span>
         </h1>
     </div>
@@ -155,7 +158,7 @@
                             {% elseif qms.status is constant('\\Oktolab\\Bundle\\RentBundle\\Entity\\Inventory\\Qms::STATE_DAMAGED')%}
                                 <span class="aui-lozenge aui-lozenge-current aui-lozenge-subtle">{{ qms.statusString|trans}}</span>
                             {% elseif qms.status is constant('\\Oktolab\\Bundle\\RentBundle\\Entity\\Inventory\\Qms::STATE_DESTROYED')%}
-                                <span class="aui-lozenge aui-lozenge-error aui-lozenge-subtle">{{ qms.statusString|trans}}</span>
+                                <span class="aui-lozenge aui-lozenge-error">{{ qms.statusString|trans}}</span>
                             {% elseif qms.status is constant('\\Oktolab\\Bundle\\RentBundle\\Entity\\Inventory\\Qms::STATE_LOST')%}
                                 <span class="aui-lozenge aui-lozenge-error">{{ qms.statusString|trans}}</span>
                             {% elseif qms.status is constant('\\Oktolab\\Bundle\\RentBundle\\Entity\\Inventory\\Qms::STATE_MAINTENANCE')%}

@@ -424,6 +424,10 @@
                 <source>inventory.item.no_qms</source>
                 <target>Noch keine Buchungen</target>
             </trans-unit>
+            <trans-unit id="134">
+                <source>inventory.item.not_active</source>
+                <target>Nicht Verfügbar</target>
+            </trans-unit>
 
             <trans-unit id="201">
                 <source>inventory.set.removeFromSet</source>

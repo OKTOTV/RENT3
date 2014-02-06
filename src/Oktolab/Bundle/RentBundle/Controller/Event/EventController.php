@@ -380,10 +380,6 @@ class EventController extends Controller
         $form->handleRequest($request);
 
         if ($form->isValid()) {
-            foreach($form->getData()->getQmss() as $qms) {
-                var_dump($qms->getStatus());
-            }
-            die();
             $this->get('oktolab.qms')->createQMSFromEvent($event);
             $event->setState(Event::STATE_COMPLETED);
             $em = $this->getDoctrine()->getManager();
