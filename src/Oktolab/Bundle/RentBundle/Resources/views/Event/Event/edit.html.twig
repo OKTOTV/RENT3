@@ -19,7 +19,13 @@
 
 {% block content %}
     <div id="event-form">
-        <h2>{{ 'event.booking_for_costunit'|trans({'%costunit%': form.vars.value.costunit.name}) }}</h2>
+        <h2>
+            {% if form.vars.value.costunit is empty %}
+                {{ 'event.booking'|trans }}
+            {% else %}
+                {{ 'event.booking_for_costunit'|trans({'%costunit%': form.vars.value.costunit.name}) }}
+            {% endif %}
+        </h2>
         {{ form_start(form, {'attr': {'class': 'aui', 'id': type~'-edit-form', 'data-value':form.vars.value.id } }) }}
             <fieldset>
                 {{ form_errors(form) }}
