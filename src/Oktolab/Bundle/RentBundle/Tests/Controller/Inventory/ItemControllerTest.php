@@ -191,10 +191,10 @@ class ItemControllerTest extends WebTestCase
         $em = $this->getContainer()->get('doctrine.orm.entity_manager');
         $item = $em->getRepository('OktolabRentBundle:Inventory\Item')->findOneBy(array('barcode' => 'ITEM0'));
 
-        $this->client->request('GET', '/inventory/item/'.$item->getId());
+        $this->client->request('GET', '/inventory/item/'.$item->getId().'/edit');
         $this->assertTrue($this->client->getResponse()->isSuccessful(), 'Response is successful.');
 
-        $this->client->click($this->client->getCrawler()->selectLink('Entfernen')->link());
+        $this->client->click($this->client->getCrawler()->selectLink('Löschen')->link());
         $this->assertTrue($this->client->getResponse()->isRedirect(), 'Response is redirect.');
 
         $crawler = $this->client->followRedirect();
