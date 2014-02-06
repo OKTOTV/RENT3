@@ -428,6 +428,34 @@
                 <source>inventory.item.not_active</source>
                 <target>Nicht Verfügbar</target>
             </trans-unit>
+            <trans-unit id="135">
+                <source>inventory.item.return_maintenance</source>
+                <target>Aus Reparatur nehmen</target>
+            </trans-unit>
+            <trans-unit id="136">
+                <source>inventory.item.return_maintenance</source>
+                <target>Aus Reparatur nehmen</target>
+            </trans-unit>
+            <trans-unit id="137">
+                <source>inventory.item.reactivate</source>
+                <target>Reaktivieren</target>
+            </trans-unit>
+            <trans-unit id="138">
+                <source>inventory.item.new_qms</source>
+                <target>Neuer Zustand</target>
+            </trans-unit>
+            <trans-unit id="139">
+                <source>inventory.item.new_qms_status</source>
+                <target>Neuer Zustand für "%itemName%"</target>
+            </trans-unit>
+            <trans-unit id="140">
+                <source>inventory.item.add_qms_error</source>
+                <target>Zustand konnte nicht gespeichert werden</target>
+            </trans-unit>
+            <trans-unit id="141">
+                <source>inventory.item.add_qms_success</source>
+                <target>Zustand erfolgreich gespeichert</target>
+            </trans-unit>
 
             <trans-unit id="201">
                 <source>inventory.set.removeFromSet</source>
@@ -809,6 +837,22 @@
             <trans-unit id="707">
                 <source>event.booking_for_costunit</source>
                 <target>Buchung für %costunit%</target>
+            </trans-unit>
+            <trans-unit id="708">
+                <source>event.cannot_check</source>
+                <target>Diese Buchung kann nicht mehr geprüft werden</target>
+            </trans-unit>
+            <trans-unit id="709">
+                <source>event.no_contact</source>
+                <target>Kein Kontakt eingetragen</target>
+            </trans-unit>
+            <trans-unit id="710">
+                <source>event.no_description</source>
+                <target>Keine Beschreibung eingetragen</target>
+            </trans-unit>
+            <trans-unit id="711">
+                <source>event.no_costunit</source>
+                <target>Keine Kostenstelle eingetragen</target>
             </trans-unit>
 
             <trans-unit id="800">

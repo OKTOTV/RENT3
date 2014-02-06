@@ -51,4 +51,21 @@ class QMSService
 
         $this->em->flush();
     }
+
+    /**
+     * Prepares event with qms for given items
+     * @param \Oktolab\Bundle\RentBundle\Entity\Event $event
+     * @param type $entities
+     */
+    public function prepareEvent(Event $event, $entities)
+    {
+        foreach ($entities as $item) {
+            if ($item->getType() == 'item') {
+                $qms = new Qms();
+                $qms->setItem($item);
+                $qms->setEvent($event);
+                $event->addQms($qms);
+            }
+        }
+    }
 }

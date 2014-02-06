@@ -9,6 +9,8 @@ use Oktolab\Bundle\RentBundle\Entity\Inventory\Item;
 use Oktolab\Bundle\RentBundle\Entity\Inventory\Attachment;
 use Oktolab\Bundle\RentBundle\Form\Inventory\ItemType;
 use Oktolab\Bundle\RentBundle\Form\Inventory\PictureType;
+use Oktolab\Bundle\RentBundle\Entity\Inventory\Qms;
+use Oktolab\Bundle\RentBundle\Form\QMSType;
 
 /**
  * Inventory\Item controller.
@@ -250,5 +252,66 @@ class ItemController extends Controller
         $em->flush();
 
         return $this->redirect($this->generateUrl('inventory_item_show', array('id' => $item->getId())));
+    }
+
+    /**
+     * Form to change current qms of an Item.
+     *
+     * @Configuration\Method({"GET", "POST"})
+     * @Configuration\Route("/{id}/change_qms", name="inventory_item_create_qms")
+     * @Configuration\ParamConverter("item", class="OktolabRentBundle:Inventory\Item")
+     * @Configuration\Template("OktolabRentBundle:Inventory\Item:create_qms.html.twig")
+     */
+    public function createQmsAction(Request $request, Item $item)
+    {
+        $states = array(
+            QMS::STATE_DAMAGED,
+            QMS::STATE_DESTROYED,
+            QMS::STATE_LOST,
+            QMS::STATE_MAINTENANCE,
+            Qms::STATE_DISCARDED
+        );
+
+        $qms = new Qms();
+        $qms->setStatus(Qms::STATE_OKAY);
+        $qms->setItem($item);
+        $form = $this->createForm(
+            new QMSType($states),
+            $qms,
+            array(
+                'action' => $this->generateUrl('inventory_item_create_qms', array('id' => $item->getId())),
+                'method' => 'POST'
+                )
+            )
+            ->add('save', 'submit');
+
+        if ($request->getMethod() == "GET") { // wants form
+            return array('form' => $form->createView());
+        } elseif ($request->getMethod() == "POST") { // posts form
+            $form->handleRequest($request);
+            if ($form->isValid()) {
+                $message = $this->get('translator')->trans('inventory.item.add_qms_success');
+                $this->get('session')->getFlashBag()->add('success', $message);
+                $this->get('oktolab.qms')->createQMS($qms);
+            }
+            $message = $this->get('translator')->trans('inventory.item.add_qms_error');
+            $this->get('session')->getFlashBag()->add('error', $message);
+            return array('form' => $form->createView());
+        } else { //What sorcery is this?
+            $message = $this->get('translator')->trans('inventory.item.add_qms_error');
+            $this->get('session')->getFlashBag()->add('error', $message);
+            return $this->redirect($this->generateUlr('inventory_item'));
+        }
+    }
+
+    /**
+     * Form to change old qmss and give the item a new state
+     * This form should be used when the item comes back from maintenance or inactivity.
+     * @param \Symfony\Component\HttpFoundation\Request $request
+     * @param \Oktolab\Bundle\RentBundle\Entity\Inventory\Item $item
+     */
+    public function changeQmsAction(Request $request, Item $item)
+    {
+
     }
 }

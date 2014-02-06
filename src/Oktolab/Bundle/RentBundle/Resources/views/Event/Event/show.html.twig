@@ -1,0 +1,89 @@
+{% extends 'OktolabRentBundle::layoutFocusedTask.html.twig' %}
+{% set type = event.type.name|lower %}
+{% block content_header %}
+        <div class="aui-page-header-inner">
+
+                <ol class="aui-progress-tracker aui-progress-tracker-inverted" style="width: 600px">
+                    {% set state = event.state %}
+                    {% set current = 'aui-progress-tracker-step-current' %}
+
+                    <li class="aui-progress-tracker-step"><span>{{ 'Reservieren'|trans }}</span></li>
+                    <li class="aui-progress-tracker-step {{ state <= constant('\\Oktolab\\Bundle\\RentBundle\\Entity\\Event::STATE_RESERVED') ? current : '' }}"><span>{{ 'Ausgeben oder Ändern'|trans }}</span></li>
+                    <li class="aui-progress-tracker-step {{ state is constant('\\Oktolab\\Bundle\\RentBundle\\Entity\\Event::STATE_LENT') ? current : '' }}"><span>{{ 'Rücknehmen'|trans }}</span></li>
+                    <li class="aui-progress-tracker-step {{ state is constant('\\Oktolab\\Bundle\\RentBundle\\Entity\\Event::STATE_DELIVERED') ? current : '' }}"><span>{{ 'Abschließen'|trans }}</span></li>
+                    <li class="aui-progress-tracker-step {{ state is constant('\\Oktolab\\Bundle\\RentBundle\\Entity\\Event::STATE_COMPLETED') ? current : '' }}"><span>{{ 'Abgeschlossen'|trans }}</span></li>
+                </ol>
+
+        </div>
+{% endblock %}
+
+{% block content %}
+    <form class="aui">
+        <h2>
+            {% if event.costunit is empty %}
+                {{ 'event.booking'|trans }}
+            {% else %}
+                {{ 'event.booking_for_costunit'|trans({'%costunit%': event.costunit.name}) }}
+            {% endif %}
+        </h2>
+            <fieldset>
+                <div class="field-group viewMode">
+                    <label>{{ 'admin.costunit'|trans }}</label>
+                    <span class='field-value'>{{ event.costunit.name|default('event.no_costunit'|trans) }}</span>
+                </div>
+                <div class="field-group viewMode">
+                    <label>{{ 'admin.contact'|trans }}</label>
+                    <span class='field-value'>{{ event.contact.name|default('event.no_contact'|trans) }}</span>
+                </div>
+                <div class="field-group viewMode">
+                    <label>{{ 'generic.description'|trans }}</label>
+                    <span class='field-value'>{{ event.description|default('event.no_description'|trans) }}</span>
+                </div>
+                <div class="field-group viewMode">
+                    <label>{{ 'event.begin'|trans }}</label>
+                    <span class='field-value'>{{ event.begin|date('H:i d.m.Y') }}</span>
+                </div>
+                <div class="field-group viewMode">
+                    <label>{{ 'event.end'|trans }}</label>
+                    <span class='field-value'>{{ event.end|date('H:i d.m.Y') }}</span>
+                </div>
+            </fieldset>
+
+            <h3>
+                {% if type == 'inventory' %}
+                    {{ 'event.rentable_objects'|trans }}
+                {% else %}
+                    {{ 'event.rentable_rooms'|trans }}
+                {% endif %}
+            </h3>
+            <fieldset>
+                <div class="field-group aui-oktolab-form-table">
+                    <label>{{ 'event.objects'|trans }}</label>
+                    <table class="aui">
+                        <thead>
+                            <tr>
+                                <th id="basic-barcode">{{ 'Barcode'|trans }}</th>
+                                <th id="basic-name">{{ 'Name'|trans }}</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for object in objects if objects %}
+                                <tr>
+                                    <td>{{ object.barcode }}</td>
+                                    <td>{{ object.title }}</td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </fieldset>
+            <div class="buttons-container">
+                <div class="buttons">
+                    {% if event.state == 1 or event.state == 0%} {# event is reserved, can be lent#}
+                    {% elseif event.state == 2 %} {# event is lent, can be taken back #}
+                    {% endif %}
+                    <a href="{{ path('event_pdf', { 'id': event.id }) }}" class="aui-button">{{ 'event.printPdf'|trans }}</a>
+                </div>
+            </div>
+        </form>
+{% endblock %}

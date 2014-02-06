@@ -36,20 +36,6 @@
                     <span class="aui-icon aui-icon-small aui-iconfont-edit">Edit</span>
                     {{ 'generic.edit'|trans }}
                 </a>
-
-                <button class="aui-button aui-dropdown2-trigger" aria-owns="dropdown-menu-set" aria-haspopup="true" aria-controls="dropdown-menu-set">
-                    <span class="aui-icon aui-icon-small aui-iconfont-configure">Configure</span>
-                    {{ 'generic.tools'|trans }}
-                </button>
-                <div id="dropdown-menu-set" class="aui-dropdown2 aui-style-default">
-                    <ul class="aui-list-truncate aui-dropdown2-section">
-                        <li><a href="#">Anhänge (0)</a></li>
-                        <li><a href="#">Profilbild aktualisieren</a></li>
-                    </ul>
-                    <ul class="aui-list-truncate aui-dropdown2-section">
-                        <li><a href="{{ path('inventory_item_delete', { 'id': item.id }) }}">{{ 'generic.remove'|trans }}</a></li>
-                    </ul>
-                </div>
             </div>
         </div>
     </div>

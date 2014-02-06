@@ -38,7 +38,7 @@
                                     <span class="aui-lozenge aui-lozenge-current aui-lozenge-subtle">{{ inventoryEvent.state(true)|trans }}</span>
                                 </a>
                             {% elseif inventoryEvent.state(false) == 5 %}
-                                <a href="{{ path('OktolabRentBundle_Event_Edit', { 'id': inventoryEvent.id }) }}">
+                                <a href="{{ path('orb_event_show', { 'id': inventoryEvent.id }) }}">
                                     <span class="aui-lozenge aui-lozenge-success aui-lozenge-subtle">{{ inventoryEvent.state(true)|trans }}</span>
                                 </a>
                             {% else %}
@@ -46,7 +46,6 @@
                                     <span class="aui-lozenge aui-lozenge-complete">{{ inventoryEvent.state(true)|trans }}</span>
                                 </a>
                             {% endif %}
-
                         </td>
                         <td headers="costunit">{{inventoryEvent.costunit.name }}</td>
                         <td headers="contact">{{ inventoryEvent.contact.name}}</td>

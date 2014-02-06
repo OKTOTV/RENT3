@@ -13,6 +13,8 @@ use Oktolab\Bundle\RentBundle\Form\QMSType;
  */
 class EventQMSType extends AbstractType
 {
+    private $qmsStates;
+
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
@@ -20,7 +22,7 @@ class EventQMSType extends AbstractType
                 'qmss',
                 'collection',
                 array(
-                    'type' => new QMSType()
+                    'type' => new QMSType($this->qmsStates)
                 )
             )
             ->add('save', 'submit', array('label' => 'qms.submit'));
@@ -37,5 +39,10 @@ class EventQMSType extends AbstractType
     public function getName()
     {
         return 'ORB_Event_QMS_Check_Form';
+    }
+
+    public function __construct(array $states = null)
+    {
+        $this->qmsStates = $states;
     }
 }

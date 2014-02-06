@@ -304,7 +304,7 @@ class EventController extends Controller
             }
             $em->flush();
 
-            return $this->redirect($this->generateUrl('rentbundle_dashboard'));
+            return $this->redirect($this->generateUrl('ORB_Event_Check', array('id' => $event->getId())));
         }
         // Done. Redirecting to Dashboard
         return $this->redirect($this->generateUrl('rentbundle_dashboard'));
@@ -312,7 +312,7 @@ class EventController extends Controller
 
     /**
      * Checks an Event.
-     *
+     * @Configuration\Method({"GET", "POST"})
      * @Configuration\Route("/event/{id}/check", name="ORB_Event_Check")
      * @Configuration\ParamConverter("event", class="OktolabRentBundle:Event")
      * @Configuration\Template("OktolabRentBundle:Event:Event\check.html.twig")
@@ -321,77 +321,52 @@ class EventController extends Controller
      *
      * @return Response
      */
-    public function checkAction(Event $event)
+    public function checkAction(Request $request, Event $event)
     {
-        $entities = $this->get('oktolab.event_manager')->convertEventObjectsToEntites($event->getObjects());
-        foreach ($entities as $item) {
-            if ($item->getType() == 'item') {
-                $qms = new Qms();
-                $qms->setItem($item);
-                $qms->setEvent($event);
-                $event->addQms($qms);
-            }
-        }
-        $form = $this->createForm(
-            new EventQMSType(),
-            $event,
-            array(
-                'action' => $this->generateUrl('ORB_Event_CheckComplete', array('id' => $event->getId())),
-                'method' => 'PUT'
-                )
-            );
-
-        return array('form' => $form->createView());
-    }
-
-    /**
-     * Finishes an Event.
-     *
-     * @Configuration\Method("PUT")
-     * @Configuration\Route("/event/{id}/check_complete", name="ORB_Event_CheckComplete")
-     * @Configuration\ParamConverter("event", class="OktolabRentBundle:Event")
-     * @Configuration\Template("OktolabRentBundle:Event:Event\check.html.twig")
-     *
-     * @param \Symfony\Component\HttpFoundation\Request $request
-     * @param \Oktolab\Bundle\RentBundle\Entity\Event   $event
-     *
-     * @return Response
-     */
-    public function checkCompleteAction(Request $request, Event $event)
-    {
-        $entities = $this->get('oktolab.event_manager')->convertEventObjectsToEntites($event->getObjects());
-        foreach ($entities as $item) {
-            if ($item->getType() == 'item') {
-                $qms = new Qms();
-                $qms->setItem($item);
-                $qms->setEvent($event);
-                $event->addQms($qms);
-            }
-        }
-
-        $form = $this->createForm(
-            new EventQMSType(),
-            $event,
-            array(
-                'action' => $this->generateUrl('ORB_Event_CheckComplete', array('id' => $event->getId())),
-                'method' => 'PUT'
-                )
-            );
-        $form->handleRequest($request);
-
-        if ($form->isValid()) {
-            $this->get('oktolab.qms')->createQMSFromEvent($event);
-            $event->setState(Event::STATE_COMPLETED);
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($event);
-            $em->flush();
-
-            $this->get('session')->getFlashBag()->add('success', 'event.complete_success');
+        if ($event->getState() > Event::STATE_DELIVERED) {
+            $message = $this->get('translator')->trans('event.cannot_check');
+            $this->get('session')->getFlashBag()->add('warning', $message);
             return $this->redirect($this->generateUrl('rentbundle_dashboard'));
         }
 
-        $this->get('session')->getFlashBag()->add('error', 'event.complete_error');
-        return array('form' => $form->createView());
+        $entities = $this->get('oktolab.event_manager')->convertEventObjectsToEntites($event->getObjects());
+        $this->get('oktolab.qms')->prepareEvent($event, $entities);
+
+        $states = array(
+            Qms::STATE_OKAY,
+            QMS::STATE_FLAW,
+            QMS::STATE_DAMAGED,
+            QMS::STATE_DESTROYED,
+            QMS::STATE_LOST
+        );
+
+        $form = $this->createForm(
+            new EventQMSType($states),
+            $event,
+            array(
+                'action' => $this->generateUrl('ORB_Event_Check', array('id' => $event->getId())),
+                'method' => 'POST'
+                )
+            );
+        if ($request->getMethod() == 'GET') { // wants form
+            return array('form' => $form->createView());
+        } else { // posts form
+            $form->handleRequest($request);
+
+            if ($form->isValid()) {
+                $this->get('oktolab.qms')->createQMSFromEvent($event);
+                $event->setState(Event::STATE_COMPLETED);
+                $em = $this->getDoctrine()->getManager();
+                $em->persist($event);
+                $em->flush();
+
+                $this->get('session')->getFlashBag()->add('success', 'event.complete_success');
+                return $this->redirect($this->generateUrl('rentbundle_dashboard'));
+            }
+
+            $this->get('session')->getFlashBag()->add('error', 'event.complete_error');
+            return array('form' => $form->createView());
+        }
     }
 
     /**
@@ -426,5 +401,17 @@ class EventController extends Controller
         );
 
         $this->get('logger')->debug($message, $context);
+    }
+
+    /**
+     * @Configuration\Method("GET")
+     * @Configuration\Route("/event/{id}/show", name="orb_event_show")
+     * @Configuration\ParamConverter("event", class="OktolabRentBundle:Event")
+     * @Configuration\Template("OktolabRentBundle:Event:Event\show.html.twig")
+     */
+    public function showAction(Event $event)
+    {
+        $entities = $this->get('oktolab.event_manager')->convertEventObjectsToEntites($event->getObjects());
+        return array('event' => $event, 'objects' => $entities);
     }
 }
