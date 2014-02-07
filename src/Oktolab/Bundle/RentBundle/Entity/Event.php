@@ -115,7 +115,7 @@ class Event
     private $type;
 
     /**
-     * @ORM\OneToMany(targetEntity="\Oktolab\Bundle\RentBundle\Entity\Inventory\Qms", mappedBy="item")
+     * @ORM\OneToMany(targetEntity="\Oktolab\Bundle\RentBundle\Entity\Inventory\Qms", mappedBy="event")
      */
     private $qmss;
 

@@ -739,4 +739,34 @@ class Item implements RentableInterface, UploadableInterface
     {
         return $this->active;
     }
+
+    /**
+     * returns true if item is in maintenance, false if otherwise
+     * @return boolean
+     */
+    public function maintenance()
+    {
+        $in_maintenance = false;
+        foreach ($this->getQmss() as $qms) {
+            if ($qms->getActive() && $qms->getStatus() == Qms::STATE_MAINTENANCE) {
+                $in_maintenance = true;
+            }
+        }
+        return $in_maintenance;
+    }
+
+    /**
+     * returns true if item is discarded, false if otherwise
+     * @return boolean
+     */
+    public function discarded()
+    {
+        $discarded = false;
+        foreach ($this->getQmss() as $qms) {
+            if ($qms->getActive() && $qms->getStatus() == Qms::STATE_DISCARDED) {
+                $discarded = true;
+            }
+        }
+        return $discarded;
+    }
 }

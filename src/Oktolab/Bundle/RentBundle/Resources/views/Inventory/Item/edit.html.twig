@@ -19,7 +19,12 @@
             <li class="aui-nav-selected"><a href="{{ path('inventory_item') }}">{{ 'inventory.item.items'|trans }}</a></li>
             <li><a href="{{ path('inventory_item_show', { 'id': item.id }) }}">{{ item.title }}</a></li>
         </ol>
-        <h1>{{ 'generic.edit'|trans }}</h1>
+        {% if not item.active or item.maintenance %}
+            <span class="aui-lozenge aui-lozenge-error">{{ 'inventory.item.not_active'|trans}}</span>
+        {% elseif item.discarded %}
+            <span class="aui-lozenge aui-lozenge-default">{{ 'qms.discarded'|trans}}</span>
+        {% endif %}
+        <h1>{{ 'inventory.item.edit'|trans({'%itemTitle%': item.title}) }}</h1>
     </div>
     <div class="aui-page-header-actions">
         <div class="aui-buttons">
@@ -35,11 +40,24 @@
                 </button>
                 <div id="dropdown-menu-item" class="aui-dropdown2 aui-style-default">
                     <ul class="aui-list-truncate aui-dropdown2-section">
-                        <li><a href="#">Anhänge (0)</a></li>
-                        <li><a href="#">Profilbild aktualisieren</a></li>
+                        {% if item.maintenance %}
+                            <li><a href='#'>{{ 'inventory.item.return_maintance'|trans }}</a></li>
+                        {% elseif item.discarded %}
+                            <li><a href='#'>{{ 'inventory.item.reactivate'|trans }}</a></li>
+                        {% else %}
+                            <li>
+                                <a href='{{ path('inventory_item_create_qms', { 'id': item.id }) }}'>
+                                    {{ 'inventory.item.new_qms'|trans }}
+                                </a>
+                            </li>
+                        {% endif %}
                     </ul>
                     <ul class="aui-list-truncate aui-dropdown2-section">
-                        <li><a href="#">Entfernen</a></li>
+                        <li><a href="#">Anhänge (0)</a></li>
+                        <li><a href="{{ path('inventory_item_picture_upload', {'id': item.id}) }}">{{ 'inventory.item.uploadPicture'|trans }}</a></li>
+                    </ul>
+                    <ul class="aui-list-truncate aui-dropdown2-section">
+                        <li><a href="{{ path('inventory_item_delete', {'id': item.id}) }}">{{ 'generic.delete'|trans }}</a></li>
                     </ul>
                 </div>
             </div>

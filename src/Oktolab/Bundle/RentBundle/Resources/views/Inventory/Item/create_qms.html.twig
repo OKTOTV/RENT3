@@ -1,5 +1,5 @@
 {% extends 'OktolabRentBundle::layoutFocusedTask.html.twig' %}
-{% block content_header %}
+{# % block content_header %}
         <div class="aui-page-header-inner">
 
                 <ol class="aui-progress-tracker aui-progress-tracker-inverted" style="width: 600px">
@@ -14,27 +14,22 @@
                 </ol>
 
         </div>
-{% endblock %}
+{% endblock % #}
 {% block content %}
-    <div id="event-form">
-        <h2>{{ 'event.booking_for_costunit'|trans({'%costunit%': form.vars.value.costunit.name}) }}</h2>
+    <div id="qms-form">
+        <h2>{{ 'inventory.item.new_qms_status'|trans({'%itemName%': form.vars.value.item.title}) }}</h2>
         {{ form_start(form, {'attr': {'class': 'aui', 'novalidate': 'novalidate'} }) }}
         <fieldset>
-           {{ form_errors(form) }}
-
-           {% for i in 0..form.vars.value.qmss|length -1 %}
-               <h3>{{ form.vars.value.qmss[i].item.title }}</h3>
-               {{ form_row(form.qmss[i].status) }}
-               {{ form_errors(form.qmss[i]) }}
-               {{ form_row(form.qmss[i].description, {'attr': {'rows': 3} }) }}
-               <div class="hidden">
-                  {{ form_row(form.qmss[i].item, {'attr': {'class': 'hidden'} }) }}
-                  {{ form_row(form.qmss[i].event, {'attr': {'class': 'hidden'} }) }}
-               </div>
-           {% endfor %}
+            {{ form_errors(form) }}
+            {{ form_row(form.status) }}
+            {{ form_row(form.description, {'attr': {'rows': 3} }) }}
+            <div class="hidden">
+               {{ form_row(form.item, {'attr': {'class': 'hidden'} }) }}
+               {{ form_row(form.event, {'attr': {'class': 'hidden'} }) }}
+            </div>
         </fieldset>
         <div class="buttons-container">
-            {{ form_widget(form.save, {'attr': {'class': 'aui-button aui-button-primary'} }) }}
+            {{ form_widget(form.save, {'attr': {'class': 'aui-button aui-button-primary'}, 'label': 'generic.submit'|trans }) }}
         </div>
     {{ form_end(form) }}
     </div>

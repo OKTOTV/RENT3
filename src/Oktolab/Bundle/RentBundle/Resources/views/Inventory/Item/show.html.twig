@@ -21,7 +21,10 @@
         </ol>
         <h1>
             <span id="title-text">
-                <a href="{{ path('inventory_item_show', { 'id': item.id }) }}">{{ item.title }} - {{ item.barcode }}</a>
+                {% if not item.active%}
+                    <span class="aui-lozenge aui-lozenge-error">{{ 'inventory.item.not_active'|trans}}</span>
+                {% endif %}
+                {{ item.title }} - {{ item.barcode }}
             </span>
         </h1>
     </div>
@@ -33,20 +36,6 @@
                     <span class="aui-icon aui-icon-small aui-iconfont-edit">Edit</span>
                     {{ 'generic.edit'|trans }}
                 </a>
-
-                <button class="aui-button aui-dropdown2-trigger" aria-owns="dropdown-menu-set" aria-haspopup="true" aria-controls="dropdown-menu-set">
-                    <span class="aui-icon aui-icon-small aui-iconfont-configure">Configure</span>
-                    {{ 'generic.tools'|trans }}
-                </button>
-                <div id="dropdown-menu-set" class="aui-dropdown2 aui-style-default">
-                    <ul class="aui-list-truncate aui-dropdown2-section">
-                        <li><a href="#">Anhänge (0)</a></li>
-                        <li><a href="#">Profilbild aktualisieren</a></li>
-                    </ul>
-                    <ul class="aui-list-truncate aui-dropdown2-section">
-                        <li><a href="{{ path('inventory_item_delete', { 'id': item.id }) }}">{{ 'generic.remove'|trans }}</a></li>
-                    </ul>
-                </div>
             </div>
         </div>
     </div>
@@ -121,6 +110,9 @@
 
         <h3>{{'qms.history'|trans}}</h3>
         <fieldset>
+            {% if item.qmss is empty %}
+                {{ 'inventory.item.no_qms'|trans }}
+            {% else %}
             <table class="aui aui-table-sortable">
                 <thead>
                     <tr>
@@ -145,7 +137,21 @@
                             {% endif %}
                         </td>
                         <td>
-                            <span class="aui-lozenge">{{ qms.statusString|trans}}</span>
+                            {% if qms.status is constant('\\Oktolab\\Bundle\\RentBundle\\Entity\\Inventory\\Qms::STATE_OKAY')%}
+                                <span class="aui-lozenge aui-lozenge-success aui-lozenge-subtle">{{ qms.statusString|trans}}</span>
+                            {% elseif qms.status is constant('\\Oktolab\\Bundle\\RentBundle\\Entity\\Inventory\\Qms::STATE_FLAW')%}
+                                <span class="aui-lozenge aui-lozenge-complete aui-lozenge-subtle">{{ qms.statusString|trans}}</span>
+                            {% elseif qms.status is constant('\\Oktolab\\Bundle\\RentBundle\\Entity\\Inventory\\Qms::STATE_DAMAGED')%}
+                                <span class="aui-lozenge aui-lozenge-current aui-lozenge-subtle">{{ qms.statusString|trans}}</span>
+                            {% elseif qms.status is constant('\\Oktolab\\Bundle\\RentBundle\\Entity\\Inventory\\Qms::STATE_DESTROYED')%}
+                                <span class="aui-lozenge aui-lozenge-error">{{ qms.statusString|trans}}</span>
+                            {% elseif qms.status is constant('\\Oktolab\\Bundle\\RentBundle\\Entity\\Inventory\\Qms::STATE_LOST')%}
+                                <span class="aui-lozenge aui-lozenge-error">{{ qms.statusString|trans}}</span>
+                            {% elseif qms.status is constant('\\Oktolab\\Bundle\\RentBundle\\Entity\\Inventory\\Qms::STATE_MAINTENANCE')%}
+                                <span class="aui-lozenge aui-lozenge-moved">{{ qms.statusString|trans}}</span>
+                            {% elseif qms.status is constant('\\Oktolab\\Bundle\\RentBundle\\Entity\\Inventory\\Qms::STATE_DISCARDED')%}
+                                <span class="aui-lozenge aui-lozenge-default">{{ qms.statusString|trans}}</span>
+                            {% endif %}
                         </td>
                         <td>
                             {% if qms.event is empty %}
@@ -158,6 +164,7 @@
                     {% endfor %}
                 </tbody>
             </table>
+            {% endif %}
         </fieldset>
     </form>
 {% endblock %}
