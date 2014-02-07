@@ -28,7 +28,7 @@
                <div class="field-group">
                    {{form_label(form.qmss[i].description)}}
                    {{form_widget(form.qmss[i].description)}}
-                   <div class="error">{{ form_errors(form.qmss[i]) }}</div>
+                   {{ form_errors(form.qmss[i]) }}
                </div>
                <div class="hidden">
                   {{ form_row(form.qmss[i].item, {'attr': {'class': 'hidden'} }) }}
