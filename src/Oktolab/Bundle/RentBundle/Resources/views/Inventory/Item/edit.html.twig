@@ -41,9 +41,9 @@
                 <div id="dropdown-menu-item" class="aui-dropdown2 aui-style-default">
                     <ul class="aui-list-truncate aui-dropdown2-section">
                         {% if item.maintenance %}
-                            <li><a href='#'>{{ 'inventory.item.return_maintance'|trans }}</a></li>
+                            <li><a href='{{ path('inventory_item_change_qms', {'id': item.id}) }}'>{{ 'inventory.item.return_maintenance'|trans }}</a></li>
                         {% elseif item.discarded %}
-                            <li><a href='#'>{{ 'inventory.item.reactivate'|trans }}</a></li>
+                            <li><a href='{{ path('inventory_item_change_qms', {'id': item.id}) }}'>{{ 'inventory.item.reactivate'|trans }}</a></li>
                         {% else %}
                             <li>
                                 <a href='{{ path('inventory_item_create_qms', { 'id': item.id }) }}'>

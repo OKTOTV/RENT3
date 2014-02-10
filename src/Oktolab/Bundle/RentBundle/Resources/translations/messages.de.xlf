@@ -456,6 +456,14 @@
                 <source>inventory.item.add_qms_success</source>
                 <target>Zustand erfolgreich gespeichert</target>
             </trans-unit>
+            <trans-unit id="142">
+                <source>inventory.item.no_set</source>
+                <target>Kein Set eingetragen</target>
+            </trans-unit>
+            <trans-unit id="143">
+                <source>inventory.item.return_maintenance</source>
+                <target>Aus Reparatur nehmen</target>
+            </trans-unit>
 
             <trans-unit id="201">
                 <source>inventory.set.removeFromSet</source>
@@ -1268,6 +1276,14 @@
             <trans-unit id="1412">
                 <source>qms.no_description</source>
                 <target>Unverändert</target>
+            </trans-unit>
+            <trans-unit id="1413">
+                <source>qms.no_event</source>
+                <target>Interner Status</target>
+            </trans-unit>
+            <trans-unit id="1414">
+                <source>qms.active</source>
+                <target>Aktiv</target>
             </trans-unit>
 
             <trans-unit id="1500">

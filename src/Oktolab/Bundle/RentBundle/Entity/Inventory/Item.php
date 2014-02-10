@@ -174,7 +174,7 @@ class Item implements RentableInterface, UploadableInterface
     private $notice;
 
     /**
-     * @ORM\OneToMany(targetEntity="Qms", mappedBy="item")
+     * @ORM\OneToMany(targetEntity="Qms", mappedBy="item", cascade="persist")
      */
     private $qmss;
 

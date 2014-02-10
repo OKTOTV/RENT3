@@ -65,8 +65,10 @@
             <div class="field-group viewMode">
                 <label>{{ 'inventory.item.set'|trans }}</label>
                 <span class="field-value">
-                    {% if item.set is not null %}
+                    {% if item.set is not empty %}
                         <a href="{{ path('inventory_set_show', { 'id': item.set.id }) }}">{{ item.set.title }}</a>
+                    {% else %}
+                        {{ 'inventory.item.no_set'|trans }}
                     {% endif %}
                 </span>
             </div>
@@ -124,43 +126,30 @@
                 </thead>
                 <tbody>
                     {% for qms in item.qmss%}
-                    <tr>
-                        <td>
-                            <span style="display:none">{{qms.createdAt|date('U')}}</span>
-                            {{ qms.createdAt|date('H:i d.m.Y') }}
-                        </td>
-                        <td>
-                            {% if qms.description is empty %}
-                                {{ 'qms.no_description'|trans }}
-                            {% else %}
-                                {{ qms.description }}
-                            {% endif %}
-                        </td>
-                        <td>
-                            {% if qms.status is constant('\\Oktolab\\Bundle\\RentBundle\\Entity\\Inventory\\Qms::STATE_OKAY')%}
-                                <span class="aui-lozenge aui-lozenge-success aui-lozenge-subtle">{{ qms.statusString|trans}}</span>
-                            {% elseif qms.status is constant('\\Oktolab\\Bundle\\RentBundle\\Entity\\Inventory\\Qms::STATE_FLAW')%}
-                                <span class="aui-lozenge aui-lozenge-complete aui-lozenge-subtle">{{ qms.statusString|trans}}</span>
-                            {% elseif qms.status is constant('\\Oktolab\\Bundle\\RentBundle\\Entity\\Inventory\\Qms::STATE_DAMAGED')%}
-                                <span class="aui-lozenge aui-lozenge-current aui-lozenge-subtle">{{ qms.statusString|trans}}</span>
-                            {% elseif qms.status is constant('\\Oktolab\\Bundle\\RentBundle\\Entity\\Inventory\\Qms::STATE_DESTROYED')%}
-                                <span class="aui-lozenge aui-lozenge-error">{{ qms.statusString|trans}}</span>
-                            {% elseif qms.status is constant('\\Oktolab\\Bundle\\RentBundle\\Entity\\Inventory\\Qms::STATE_LOST')%}
-                                <span class="aui-lozenge aui-lozenge-error">{{ qms.statusString|trans}}</span>
-                            {% elseif qms.status is constant('\\Oktolab\\Bundle\\RentBundle\\Entity\\Inventory\\Qms::STATE_MAINTENANCE')%}
-                                <span class="aui-lozenge aui-lozenge-moved">{{ qms.statusString|trans}}</span>
-                            {% elseif qms.status is constant('\\Oktolab\\Bundle\\RentBundle\\Entity\\Inventory\\Qms::STATE_DISCARDED')%}
-                                <span class="aui-lozenge aui-lozenge-default">{{ qms.statusString|trans}}</span>
-                            {% endif %}
-                        </td>
-                        <td>
-                            {% if qms.event is empty %}
-                                {{ 'qms.no_event'|trans }}
-                            {% else %}
-                                {{ qms.event.costunit.name }}
-                            {% endif %}
-                        </td>
-                    </tr>
+                        <tr>
+                            <td>
+                                <span style="display:none">{{qms.createdAt|date('U')}}</span>
+                                {{ qms.createdAt|date('d.m.Y') }}
+                            </td>
+                            <td>
+                                {% if qms.description is empty %}
+                                    {{ 'qms.no_description'|trans }}
+                                {% else %}
+                                    {{ qms.description }}
+                                {% endif %}
+                            </td>
+                            <td>
+                                {% set vars = {'qms': qms }%}
+                                {% include 'OktolabRentBundle:Inventory/Item:_item_status_lozenge.html.twig' with vars%}
+                            </td>
+                            <td>
+                                {% if qms.event is empty %}
+                                    {{ 'qms.no_event'|trans }}
+                                {% else %}
+                                    <a href="{{ path('orb_event_show', {'id': qms.event.id }) }}">{{ qms.event.costunit.name }}</a>
+                                {% endif %}
+                            </td>
+                        </tr>
                     {% endfor %}
                 </tbody>
             </table>

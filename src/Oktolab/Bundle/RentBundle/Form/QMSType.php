@@ -21,6 +21,7 @@ class QMSType extends AbstractType
         $builder
             ->add('status', 'choice', array('choices' => $this->states, 'label' => 'qms.status'))
             ->add('description', 'textarea', array('label' => 'qms.description'))
+            ->add('active', 'checkbox', array('label' => 'qms.active', 'required' => false))
             ->add(
                 'item',
                 'entity',
@@ -35,7 +36,7 @@ class QMSType extends AbstractType
                 array(
                     'class' => 'OktolabRentBundle:Event',
                     'property' => 'id',
-                    'required' => true)
+                    'required' => false)
                 );
     }
 
@@ -66,7 +67,7 @@ class QMSType extends AbstractType
 
         $statesToUse = array();
         if (null == $states) {
-            $this->states = $statePossibilitys;
+            $statesToUse = $statePossibilitys;
         } else {
             foreach ($states as $key => $value) {
                 $statesToUse[$value] = $statePossibilitys[$value];

@@ -45,7 +45,7 @@ class Qms
 
     /**
      * @ORM\ManyToOne(targetEntity="\Oktolab\Bundle\RentBundle\Entity\Event", inversedBy="qmss")
-     * @ORM\JoinColumn(name="event_id", referencedColumnName="id")
+     * @ORM\JoinColumn(name="event_id", referencedColumnName="id", nullable=true)
      */
     private $event;
 

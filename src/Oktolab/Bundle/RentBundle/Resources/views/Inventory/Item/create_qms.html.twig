@@ -1,20 +1,4 @@
 {% extends 'OktolabRentBundle::layoutFocusedTask.html.twig' %}
-{# % block content_header %}
-        <div class="aui-page-header-inner">
-
-                <ol class="aui-progress-tracker aui-progress-tracker-inverted" style="width: 600px">
-                    {% set state = form.vars.value.state %}
-                    {% set current = 'aui-progress-tracker-step-current' %}
-
-                    <li class="aui-progress-tracker-step"><span>{{ 'Reservieren'|trans }}</span></li>
-                    <li class="aui-progress-tracker-step {{ state <= constant('\\Oktolab\\Bundle\\RentBundle\\Entity\\Event::STATE_RESERVED') ? current : '' }}"><span>{{ 'Ausgeben oder Ändern'|trans }}</span></li>
-                    <li class="aui-progress-tracker-step {{ state is constant('\\Oktolab\\Bundle\\RentBundle\\Entity\\Event::STATE_LENT') ? current : '' }}"><span>{{ 'Rücknehmen'|trans }}</span></li>
-                    <li class="aui-progress-tracker-step {{ state is constant('\\Oktolab\\Bundle\\RentBundle\\Entity\\Event::STATE_DELIVERED') ? current : '' }}"><span>{{ 'Abschließen'|trans }}</span></li>
-                    <li class="aui-progress-tracker-step {{ state is constant('\\Oktolab\\Bundle\\RentBundle\\Entity\\Event::STATE_COMPLETED') ? current : '' }}"><span>{{ 'Abgeschlossen'|trans }}</span></li>
-                </ol>
-
-        </div>
-{% endblock % #}
 {% block content %}
     <div id="qms-form">
         <h2>{{ 'inventory.item.new_qms_status'|trans({'%itemName%': form.vars.value.item.title}) }}</h2>
@@ -26,6 +10,7 @@
             <div class="hidden">
                {{ form_row(form.item, {'attr': {'class': 'hidden'} }) }}
                {{ form_row(form.event, {'attr': {'class': 'hidden'} }) }}
+               {{ form_row(form.active, {'attr': {'class': 'hidden'} }) }}
             </div>
         </fieldset>
         <div class="buttons-container">

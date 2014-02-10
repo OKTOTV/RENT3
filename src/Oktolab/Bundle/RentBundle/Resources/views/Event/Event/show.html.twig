@@ -48,22 +48,14 @@
                     <span class='field-value'>{{ event.end|date('H:i d.m.Y') }}</span>
                 </div>
             </fieldset>
-
-            <h3>
-                {% if type == 'inventory' %}
-                    {{ 'event.rentable_objects'|trans }}
-                {% else %}
-                    {{ 'event.rentable_rooms'|trans }}
-                {% endif %}
-            </h3>
             <fieldset>
                 <div class="field-group aui-oktolab-form-table">
                     <label>{{ 'event.objects'|trans }}</label>
                     <table class="aui">
                         <thead>
                             <tr>
-                                <th id="basic-barcode">{{ 'Barcode'|trans }}</th>
-                                <th id="basic-name">{{ 'Name'|trans }}</th>
+                                <th id="basic-barcode">{{ 'generic.barcode'|trans }}</th>
+                                <th id="basic-name">{{ 'generic.name'|trans }}</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -77,12 +69,48 @@
                     </table>
                 </div>
             </fieldset>
-            <div class="buttons-container">
+            <fieldset>
+                <div class="field-group aui-oktolab-form-table">
+                    <label>{{ 'qms.history'|trans }}</label>
+                    <table class="aui">
+                        <thead>
+                            <tr>
+                                <th><span>{{ 'qms.status'|trans }}</span></th>
+                                <th>{{ 'inventory.item.item'|trans }}</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for qms in event.qmss if event.qmss %}
+                            <tr>
+                                <td>
+                                    {% if qms.status is constant('\\Oktolab\\Bundle\\RentBundle\\Entity\\Inventory\\Qms::STATE_OKAY')%}
+                                        <span class="aui-lozenge aui-lozenge-success aui-lozenge-subtle">{{ qms.statusString|trans}}</span>
+                                    {% elseif qms.status is constant('\\Oktolab\\Bundle\\RentBundle\\Entity\\Inventory\\Qms::STATE_FLAW')%}
+                                        <span class="aui-lozenge aui-lozenge-complete aui-lozenge-subtle">{{ qms.statusString|trans}}</span>
+                                    {% elseif qms.status is constant('\\Oktolab\\Bundle\\RentBundle\\Entity\\Inventory\\Qms::STATE_DAMAGED')%}
+                                        <span class="aui-lozenge aui-lozenge-current aui-lozenge-subtle">{{ qms.statusString|trans}}</span>
+                                    {% elseif qms.status is constant('\\Oktolab\\Bundle\\RentBundle\\Entity\\Inventory\\Qms::STATE_DESTROYED')%}
+                                        <span class="aui-lozenge aui-lozenge-error">{{ qms.statusString|trans}}</span>
+                                    {% elseif qms.status is constant('\\Oktolab\\Bundle\\RentBundle\\Entity\\Inventory\\Qms::STATE_LOST')%}
+                                        <span class="aui-lozenge aui-lozenge-error">{{ qms.statusString|trans}}</span>
+                                    {% elseif qms.status is constant('\\Oktolab\\Bundle\\RentBundle\\Entity\\Inventory\\Qms::STATE_MAINTENANCE')%}
+                                        <span class="aui-lozenge aui-lozenge-moved">{{ qms.statusString|trans}}</span>
+                                    {% elseif qms.status is constant('\\Oktolab\\Bundle\\RentBundle\\Entity\\Inventory\\Qms::STATE_DISCARDED')%}
+                                        <span class="aui-lozenge aui-lozenge-default">{{ qms.statusString|trans}}</span>
+                                    {% endif %}
+                                </td>
+                                <td><a href="{{ path('inventory_item_show', {'id': qms.item.id}) }}">{{ qms.item.title }}</a></td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </fieldset>
+            <div class="event-controls buttons-container">
                 <div class="buttons">
-                    {% if event.state == 1 or event.state == 0%} {# event is reserved, can be lent#}
-                    {% elseif event.state == 2 %} {# event is lent, can be taken back #}
-                    {% endif %}
-                    <a href="{{ path('event_pdf', { 'id': event.id }) }}" class="aui-button">{{ 'event.printPdf'|trans }}</a>
+                    <a href="{{ path('rentbundle_dashboard') }}" class="aui-button aui-button-link">{{ 'generic.dashboard'|trans }}</a>
+                    <span class="event-hyperlink-separator">·</span>
+                    <a href="{{ path('event_pdf', { 'id': event.id }) }}" class="aui-button aui-button-primary">{{ 'event.printPdf'|trans }}</a>
                 </div>
             </div>
         </form>

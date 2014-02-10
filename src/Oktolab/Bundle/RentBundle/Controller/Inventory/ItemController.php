@@ -11,6 +11,7 @@ use Oktolab\Bundle\RentBundle\Form\Inventory\ItemType;
 use Oktolab\Bundle\RentBundle\Form\Inventory\PictureType;
 use Oktolab\Bundle\RentBundle\Entity\Inventory\Qms;
 use Oktolab\Bundle\RentBundle\Form\QMSType;
+use Oktolab\Bundle\RentBundle\Form\ItemQMSType;
 
 /**
  * Inventory\Item controller.
@@ -258,7 +259,7 @@ class ItemController extends Controller
      * Form to change current qms of an Item.
      *
      * @Configuration\Method({"GET", "POST"})
-     * @Configuration\Route("/{id}/change_qms", name="inventory_item_create_qms")
+     * @Configuration\Route("/{id}/new_status", name="inventory_item_create_qms")
      * @Configuration\ParamConverter("item", class="OktolabRentBundle:Inventory\Item")
      * @Configuration\Template("OktolabRentBundle:Inventory\Item:create_qms.html.twig")
      */
@@ -273,7 +274,7 @@ class ItemController extends Controller
         );
 
         $qms = new Qms();
-        $qms->setStatus(Qms::STATE_OKAY);
+        $qms->setStatus(Qms::STATE_DAMAGED);
         $qms->setItem($item);
         $form = $this->createForm(
             new QMSType($states),
@@ -287,31 +288,64 @@ class ItemController extends Controller
 
         if ($request->getMethod() == "GET") { // wants form
             return array('form' => $form->createView());
-        } elseif ($request->getMethod() == "POST") { // posts form
+        } else { // posts form
             $form->handleRequest($request);
             if ($form->isValid()) {
                 $message = $this->get('translator')->trans('inventory.item.add_qms_success');
                 $this->get('session')->getFlashBag()->add('success', $message);
                 $this->get('oktolab.qms')->createQMS($qms);
+                return $this->redirect($this->generateUrl('inventory_item_show', array('id' => $item->getId())));
             }
             $message = $this->get('translator')->trans('inventory.item.add_qms_error');
             $this->get('session')->getFlashBag()->add('error', $message);
             return array('form' => $form->createView());
-        } else { //What sorcery is this?
-            $message = $this->get('translator')->trans('inventory.item.add_qms_error');
-            $this->get('session')->getFlashBag()->add('error', $message);
-            return $this->redirect($this->generateUlr('inventory_item'));
         }
     }
 
     /**
      * Form to change old qmss and give the item a new state
      * This form should be used when the item comes back from maintenance or inactivity.
+     * @Configuration\Method({"GET", "POST"})
+     * @Configuration\Route("/{id}/change_status", name="inventory_item_change_qms")
+     * @Configuration\ParamConverter("item", class="OktolabRentBundle:Inventory\Item")
+     * @Configuration\Template("OktolabRentBundle:Inventory\Item:change_qms.html.twig")
+     *
      * @param \Symfony\Component\HttpFoundation\Request $request
      * @param \Oktolab\Bundle\RentBundle\Entity\Inventory\Item $item
      */
     public function changeQmsAction(Request $request, Item $item)
     {
+        $form = $this->createForm(
+            new ItemQMSType(),
+            $item,
+            array(
+                'action' => $this->generateUrl('inventory_item_change_qms', array('id' => $item->getId())),
+                'method' => 'POST'
+                )
+            )
+            ->add('save', 'submit');
 
+        if ($request->getMethod() == "GET") { // wants form
+            return array('form' => $form->createView());
+        } else { // posts form
+            $form->handleRequest($request);
+            if ($form->isValid()) {
+                $message = $this->get('translator')->trans('inventory.item.add_qms_success');
+                $this->get('session')->getFlashBag()->add('success', $message);
+
+                $qms = $form['qms']->getData();
+                $qms->setItem($item);
+                $this->get('oktolab.qms')->createQMS($qms);
+
+                $em = $this->getDoctrine()->getManager();
+                $em->persist($item);
+                $em->flush();
+                
+                return $this->redirect($this->generateUrl('inventory_item_show', array('id' => $item->getId())));
+            }
+            $message = $this->get('translator')->trans('inventory.item.add_qms_error');
+            $this->get('session')->getFlashBag()->add('error', $message);
+            return array('form' => $form->createView());
+        }
     }
 }

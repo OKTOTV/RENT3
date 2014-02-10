@@ -1,0 +1,48 @@
+{% extends 'OktolabRentBundle::layoutFocusedTask.html.twig' %}
+{% block content %}
+    <div id="qms-form">
+        <h2>{{ 'inventory.item.new_qms_status'|trans({'%itemName%': form.vars.value.title}) }}</h2>
+        {{ form_start(form, {'attr': {'class': 'aui', 'novalidate': 'novalidate'} }) }}
+        <fieldset>
+            {{ form_errors(form) }}
+            {{ form_row(form.qms.status) }}
+            {{ form_row(form.qms.description) }}
+            <div class="hidden">
+                {{ form_row(form.qms.active) }}
+                {{ form_row(form.qms.item) }}
+                {{ form_row(form.qms.event) }}
+            </div>
+        </fieldset>
+        <h3>{{ 'qms.history'|trans }}</h3>
+        <fieldset>
+            {% for qms in form.qmss %}
+                {% if qms.vars.value.status > constant('\\Oktolab\\Bundle\\RentBundle\\Entity\\Inventory\\Qms::STATE_FLAW') and qms.vars.value.active %}
+                    {% set vars = {'qms': qms.vars.value }%}
+                    <div class="field-group">
+                        <label>{% include 'OktolabRentBundle:Inventory/Item:_item_status_lozenge.html.twig' with vars%}</label>
+                        <p>{{ qms.vars.value.description }}</p>
+                    </div>
+                       {{ form_row(qms.active) }}
+                        <div class="hidden">
+                            {{ form_row(qms.item) }}
+                            {{ form_row(qms.event) }}
+                            {{ form_row(qms.status) }}
+                            {{ form_row(qms.description) }}
+                        </div>
+                {% else %}
+                    <div class="hidden">
+                        {{ form_row(qms.active) }}
+                        {{ form_row(qms.item) }}
+                        {{ form_row(qms.event) }}
+                        {{ form_row(qms.status) }}
+                        {{ form_row(qms.description) }}
+                    </div>
+                {% endif %}
+            {% endfor %}
+        </fieldset>
+        <div class="buttons-container">
+            {{ form_widget(form.save, {'attr': {'class': 'aui-button aui-button-primary'}, 'label': 'generic.submit'|trans }) }}
+        </div>
+    {{ form_end(form) }}
+    </div>
+{% endblock %}

@@ -44,11 +44,19 @@ class QMSService
     public function createQMS(Qms $qms)
     {
         $this->em->persist($qms);
+
         if ($qms->getStatus() > Qms::STATE_DAMAGED) {
             $qms->getItem()->setActive(false);
-            $this->em->persist($qms->getItem());
+        } else {
+            $qms->getItem()->setActive(true);
         }
 
+        foreach ($qms->getItem()->getQmss() as $old_qms) {
+            if ($old_qms->getActive() && $old_qms->getStatus() > Qms::STATE_DAMAGED) {
+                $qms->getItem()->setActive(false);
+            }
+        }
+        $this->em->persist($qms->getItem());
         $this->em->flush();
     }
 
