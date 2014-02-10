@@ -31,7 +31,9 @@ class AvailabilityConstrainValidator extends ConstraintValidator
         $entities = $this->eventManager->convertEventObjectsToEntites($event->getObjects());
 
         foreach ($entities as $entity) {
-            if (!$this->eventManager->eventObjectIsAvailable($event, $entity)) {
+            if ($entity->getType() == 'item' && !$entity->getActive()) {
+                $this->context->addViolation($constraint->message, array('%string%' => $entity));
+            } elseif (!$this->eventManager->eventObjectIsAvailable($event, $entity)) {
                 $this->context->addViolation(
                     $constraint->message,
                     array('%string%' => $entity)

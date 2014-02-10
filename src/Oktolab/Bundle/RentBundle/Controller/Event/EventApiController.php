@@ -87,6 +87,7 @@ class EventApiController extends Controller
                 )
             )
             ->andWhere('i.category IS NULL')
+            ->andWhere('i.active = 1')
             ->setParameter('value', '%'.$itemValue.'%')
             ->getQuery();
 
@@ -116,7 +117,7 @@ class EventApiController extends Controller
         $em = $this->getDoctrine()->getManager();
 
         $qb = $em->getRepository('OktolabRentBundle:Inventory\Item')->createQueryBuilder('i');
-        $AllItems = $qb->select()->where('i.category IS NULL')->getQuery()->getResult();
+        $AllItems = $qb->select()->where('i.category IS NULL')->andWhere('i.active = 1')->getQuery()->getResult();
         $availableItems = $this->getTypeaheadArrayFromObjects($AllItems, $begin, $end);
 
         if ($event != "undefined") {
@@ -220,6 +221,7 @@ class EventApiController extends Controller
         $items = $qb->select('i')
             ->from('OktolabRentBundle:Inventory\Item', 'i')
             ->where('i.category IS NOT NULL')
+            ->andWhere('i.active = 1')
             ->getQuery()
             ->getResult();
 
@@ -297,7 +299,7 @@ class EventApiController extends Controller
         $eventManager = $this->get('oktolab.event_manager');
 
         foreach ($items as $item) {
-            if ($eventManager->isAvailable($item, $begin, $end, $type)) {
+            if ($eventManager->isAvailable($item, $begin, $end, $type) && $item->getActive()) {
                 $tokens = explode(' ', $item->getCategory()->getTitle());
                 $tokens[] = $item->getBarcode();
                 $namepieces = explode(' ', $item->getTitle());
