@@ -4,7 +4,7 @@ namespace Oktolab\Bundle\RentBundle\Tests\Controller\Event;
 
 use Oktolab\Bundle\RentBundle\Tests\WebTestCase;
 use Oktolab\Bundle\RentBundle\Entity\Event;
-
+use Oktolab\Bundle\RentBundle\Entity\Inventory\Qms;
 /**
  * Event Controller Test
  *
@@ -381,5 +381,83 @@ class EventControllerTest extends WebTestCase
 
         $this->assertSame(1, $fieldError->count(), 'An error message is rendered.');
         $this->assertRegExp('/'.$itemNotFree->getTitle().'/', $fieldError->html());
+    }
+
+     /**
+     * @test
+     */
+    public function testQmsFormWithoutDescription()
+    {
+        $this->loadFixtures(
+            array(
+                '\Oktolab\Bundle\RentBundle\Tests\DataFixtures\ORM\Event\EventTypeFixture',
+                '\Oktolab\Bundle\RentBundle\Tests\DataFixtures\ORM\QmsFixture'
+            ));
+
+       $em = $this->getContainer()->get('doctrine.orm.entity_manager');
+       $event = $em->getRepository('OktolabRentBundle:Event')->findOneBy(array('name' => 'My Event'));
+
+       $this->client->request('GET', '/event/'.$event->getId().'/check');
+       $this->assertTrue($this->client->getResponse()->isSuccessful(), 'Response should be successful.');
+
+       $form = $this->client->getCrawler()->selectButton('Abschließen')->form(
+            array(
+                'ORB_Event_QMS_Check_Form[qmss][0][status]'                 => Qms::STATE_OKAY,
+                'ORB_Event_QMS_Check_Form[qmss][0][description]'            => '',
+                'ORB_Event_QMS_Check_Form[qmss][1][status]'                 => Qms::STATE_FLAW,
+                'ORB_Event_QMS_Check_Form[qmss][1][description]'            => '',
+                'ORB_Event_QMS_Check_Form[qmss][2][status]'                 => Qms::STATE_DAMAGED,
+                'ORB_Event_QMS_Check_Form[qmss][2][description]'            => '',
+                'ORB_Event_QMS_Check_Form[qmss][3][status]'                 => Qms::STATE_DESTROYED,
+                'ORB_Event_QMS_Check_Form[qmss][3][description]'            => '',
+                'ORB_Event_QMS_Check_Form[qmss][4][status]'                 => Qms::STATE_LOST,
+                'ORB_Event_QMS_Check_Form[qmss][4][description]'            => '',
+            )
+        );
+       $this->client->submit($form);
+       $this->assertTrue($this->client->getResponse()->isSuccessful(), 'Response should be successful.');
+       $fieldError = $this->client->getCrawler()->filter('div[class="error"]');
+       $this->assertEquals(4, $fieldError->count(), 'There should be exact 4 errors.');
+    }
+
+    /**
+     * @test
+     */
+    public function testQmsFormWithDescription()
+    {
+        $this->loadFixtures(
+            array(
+                '\Oktolab\Bundle\RentBundle\Tests\DataFixtures\ORM\Event\EventTypeFixture',
+                '\Oktolab\Bundle\RentBundle\Tests\DataFixtures\ORM\QmsFixture'
+            ));
+
+       $em = $this->getContainer()->get('doctrine.orm.entity_manager');
+       $event = $em->getRepository('OktolabRentBundle:Event')->findOneBy(array('name' => 'My Event'));
+
+       $this->client->request('GET', '/event/'.$event->getId().'/check');
+       $this->assertTrue($this->client->getResponse()->isSuccessful(), 'Response should be successful.');
+
+       $form = $this->client->getCrawler()->selectButton('Abschließen')->form(
+            array(
+                'ORB_Event_QMS_Check_Form[qmss][0][status]'                 => Qms::STATE_OKAY,
+                'ORB_Event_QMS_Check_Form[qmss][0][description]'            => 'random description',
+                'ORB_Event_QMS_Check_Form[qmss][1][status]'                 => Qms::STATE_FLAW,
+                'ORB_Event_QMS_Check_Form[qmss][1][description]'            => 'random description',
+                'ORB_Event_QMS_Check_Form[qmss][2][status]'                 => Qms::STATE_DAMAGED,
+                'ORB_Event_QMS_Check_Form[qmss][2][description]'            => 'random description',
+                'ORB_Event_QMS_Check_Form[qmss][3][status]'                 => Qms::STATE_DESTROYED,
+                'ORB_Event_QMS_Check_Form[qmss][3][description]'            => 'random description',
+                'ORB_Event_QMS_Check_Form[qmss][4][status]'                 => Qms::STATE_LOST,
+                'ORB_Event_QMS_Check_Form[qmss][4][description]'            => 'random description',
+            )
+        );
+       $this->client->submit($form);
+       $this->assertTrue($this->client->getResponse()->isRedirection(), 'Response should be a redirection');
+       $this->client->followRedirect();
+       $this->assertTrue($this->client->getResponse()->isSuccessful(), 'Response should be successful');
+
+       $successMessage = $this->client->getCrawler()->filter('div[class="aui-message success"]');
+       $this->assertEquals(1, $successMessage->count(), 'There should be a success message.');
+       $this->assertRegExp('/Event erfolgreich abgeschlossen/', $successMessage->html());
     }
 }
