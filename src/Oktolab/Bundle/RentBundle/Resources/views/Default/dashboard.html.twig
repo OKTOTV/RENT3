@@ -29,23 +29,8 @@
                     <tr>
                         <td>
                             <span style="display:none">{{ inventoryEvent.state(false) }}</span>
-                            {% if inventoryEvent.state(false) == 2 %}
-                                <a href="{{ path('OktolabRentBundle_Event_Deliver', { 'id': inventoryEvent.id }) }}">
-                                    <span class="aui-lozenge aui-lozenge-moved aui-lozenge-subtle">{{ inventoryEvent.state(true)|trans }}</span>
-                                </a>
-                            {% elseif inventoryEvent.state(false) == 3 %}
-                                <a href="{{ path('ORB_Event_Check', { 'id': inventoryEvent.id }) }}">
-                                    <span class="aui-lozenge aui-lozenge-current aui-lozenge-subtle">{{ inventoryEvent.state(true)|trans }}</span>
-                                </a>
-                            {% elseif inventoryEvent.state(false) == 5 %}
-                                <a href="{{ path('orb_event_show', { 'id': inventoryEvent.id }) }}">
-                                    <span class="aui-lozenge aui-lozenge-success aui-lozenge-subtle">{{ inventoryEvent.state(true)|trans }}</span>
-                                </a>
-                            {% else %}
-                                <a href="{{ path('OktolabRentBundle_Event_Edit', { 'id': inventoryEvent.id }) }}">
-                                    <span class="aui-lozenge aui-lozenge-complete">{{ inventoryEvent.state(true)|trans }}</span>
-                                </a>
-                            {% endif %}
+                            {% set vars = {'event': inventoryEvent }%}
+                            {% include 'OktolabRentBundle:Event/Event:_event_status_lozenge.html.twig' with vars%}
                         </td>
                         <td headers="costunit">{{inventoryEvent.costunit.name }}</td>
                         <td headers="contact">{{ inventoryEvent.contact.name}}</td>
@@ -85,11 +70,8 @@
                         <td><span class="aui-lozenge">{{ roomEvent.state(true) }}</span></td>
                         <td>
                             <span style="display:none">{{ inventoryEvent.state(false) }}</span>
-                            {% if roomEvent.state(false) == 2 %}
-                                <a href="{{ path('OktolabRentBundle_Event_Deliver', { 'id': roomEvent.id }) }}">{{roomEvent.costunit.name }}</a>
-                            {% else %}
-                                <a href="{{ path('OktolabRentBundle_Event_Edit', { 'id': roomEvent.id }) }}">{{roomEvent.costunit.name }}</a>
-                            {% endif %}
+                            {% set vars = {'event': roomEvent }%}
+                            {% include 'OktolabRentBundle:Event/Event:_event_status_lozenge.html.twig' with vars%}
                         </td>
                         <td>{{ roomEvent.contact.name}}</td>
                         <td><span style="display:none">{{roomEvent.begin|date('U')}}</span>{{ roomEvent.begin|date('d.m.Y H:i') }}</td>

@@ -960,6 +960,18 @@
                 <source>admin.costunit.deletesuccess</source>
                 <target>Kostenstelle erfolgreich gelöscht</target>
             </trans-unit>
+            <trans-unit id="913">
+                <source>admin.costunit.no_events</source>
+                <target>Keine Buchungen vorhanden</target>
+            </trans-unit>
+            <trans-unit id="914">
+                <source>admin.costunit.events</source>
+                <target>Buchungen</target>
+            </trans-unit>
+            <trans-unit id="915">
+                <source>admin.costunit.event_time</source>
+                <target>Zeitraum</target>
+            </trans-unit>
 
             <trans-unit id="1000">
                 <source>admin.contact</source>
