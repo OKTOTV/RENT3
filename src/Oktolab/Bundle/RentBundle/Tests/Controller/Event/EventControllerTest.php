@@ -417,7 +417,7 @@ class EventControllerTest extends WebTestCase
        $this->client->submit($form);
        $this->assertTrue($this->client->getResponse()->isSuccessful(), 'Response should be successful.');
        $fieldError = $this->client->getCrawler()->filter('div[class="error"]');
-       $this->assertEquals(4, $fieldError->count(), 'There should be exact 4 errors.');
+       $this->assertEquals(4, $fieldError->count(), 'There should  be exact 4 errors.');
     }
 
     /**
@@ -459,5 +459,33 @@ class EventControllerTest extends WebTestCase
        $successMessage = $this->client->getCrawler()->filter('div[class="aui-message success"]');
        $this->assertEquals(1, $successMessage->count(), 'There should be a success message.');
        $this->assertRegExp('/Event erfolgreich abgeschlossen/', $successMessage->html());
+    }
+
+    /**
+     * @test
+     */
+    public function testQmsShow()
+    {
+        $this->loadFixtures(
+            array(
+                '\Oktolab\Bundle\RentBundle\Tests\DataFixtures\ORM\Event\EventTypeFixture',
+                '\Oktolab\Bundle\RentBundle\Tests\DataFixtures\ORM\QmsFixture'
+            ));
+
+        $em = $this->getContainer()->get('doctrine.orm.entity_manager');
+        $event = $em->getRepository('OktolabRentBundle:Event')->findOneBy(array('name' => 'My Event'));
+
+        $this->client->request('GET', '/event/'.$event->getId().'/show');
+        $this->assertTrue($this->client->getResponse()->isSuccessful(), 'Response should be successful.');
+
+        $this->assertEquals(1, count($this->client->getCrawler()->filter('body h2:contains("Testcostunit")')), 'There should be a costunit header.');
+        $this->assertEquals(1, count($this->client->getCrawler()->filter('body fieldset div:contains("Testcostunit")')), 'There should be a costunit.');
+        $this->assertEquals(1, count($this->client->getCrawler()->filter('body fieldset div:contains("There is a description for this event.")')), 'There should be a description.');
+        $this->assertEquals(1, count($this->client->getCrawler()->filter('body fieldset div:contains("11:00 14.10.2013")')), 'There should be a start Date.');
+        $this->assertEquals(1, count($this->client->getCrawler()->filter('body fieldset div:contains("17:00 15.10.2013")')), 'There should be a end Date.');
+
+        //$barcode = $this->client->getCrawler()->filter('th[id="basic-barcode"]');
+        //$this->assertEquals(1, $barcode->count(), 'There should be a barcode.');
+
     }
 }

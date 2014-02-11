@@ -23,10 +23,10 @@ class ItemBuyDateFixture extends AbstractFixture
 
         $itemA = new Item();
         $itemA->setTitle('With Buy Date')
-                ->setDescription('An item with a buy date.')
-                ->setBarcode('123456')
-                ->setPlace($place)
-                ->setBuyDate(new \DateTime('1991-10-27 12:00:00'));
+              ->setDescription('An item with a buy date.')
+              ->setBarcode('123456')
+              ->setPlace($place)
+              ->setBuyDate(new \DateTime('1991-10-27 12:00:00'));
 
         $itemB = new Item();
         $itemB->setTitle('Without Buy Date')
