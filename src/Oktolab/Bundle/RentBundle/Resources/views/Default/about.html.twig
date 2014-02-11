@@ -19,17 +19,7 @@
                     <h2 style="margin-top: 20px;">Drittanbieter Lizenzen</h2>
                     {% for header, license in licenses %}
                         <h3>{{ header }}</h3>
-                        <div id="reveal-text-content-{{ loop.index }}" class="aui-expander-content" style="min-height: 6.0em">
-                            {{ license | markdown }}
-                            <a id="reveal-text-trigger"
-                               data-replace-text="Show less"
-                               data-replace-selector=".reveal-text-trigger-text"
-                               class="aui-expander-trigger aui-expander-reveal-text"
-                               aria-controls="reveal-text-content-{{ loop.index }}"
-                               style="float:right">
-                                <span class="reveal-text-trigger-text">Show more</span>
-                            </a>
-                        </div>
+                        {{ license | markdown }}
                     {% endfor %}
                 </section>
             </div>
