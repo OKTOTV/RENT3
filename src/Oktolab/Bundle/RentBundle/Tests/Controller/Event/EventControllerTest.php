@@ -417,7 +417,7 @@ class EventControllerTest extends WebTestCase
        $this->client->submit($form);
        $this->assertTrue($this->client->getResponse()->isSuccessful(), 'Response should be successful.');
        $fieldError = $this->client->getCrawler()->filter('div[class="error"]');
-       $this->assertEquals(4, $fieldError->count(), 'There should be exact 4 errors.');
+       $this->assertEquals(4, $fieldError->count(), 'There should  be exact 4 errors.');
     }
 
     /**
