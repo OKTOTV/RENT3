@@ -460,4 +460,24 @@ class EventControllerTest extends WebTestCase
        $this->assertEquals(1, $successMessage->count(), 'There should be a success message.');
        $this->assertRegExp('/Event erfolgreich abgeschlossen/', $successMessage->html());
     }
+
+    /**
+     * @test
+     */
+    public function testQmsShow()
+    {
+        $this->loadFixtures(
+            array(
+                '\Oktolab\Bundle\RentBundle\Tests\DataFixtures\ORM\Event\EventTypeFixture',
+                '\Oktolab\Bundle\RentBundle\Tests\DataFixtures\ORM\QmsFixture'
+            ));
+
+        $em = $this->getContainer()->get('doctrine.orm.entity_manager');
+        $event = $em->getRepository('OktolabRentBundle:Event')->findOneBy(array('name' => 'My Event'));
+
+        $this->client->request('GET', '/event/'.$event->getId().'/show');
+        $this->assertTrue($this->client->getResponse()->isSuccessful(), 'Response should be successful.');
+
+
+    }
 }
