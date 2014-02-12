@@ -62,6 +62,7 @@ class QMSService
 
     /**
      * Prepares event with qms for given items
+     * Used to create the EventQmsForm
      * @param \Oktolab\Bundle\RentBundle\Entity\Event $event
      * @param type $entities
      */
