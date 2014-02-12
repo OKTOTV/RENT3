@@ -37,4 +37,9 @@ class WebTestCase extends LiipWebTestCase
             $this->client->getCookieJar()->set($cookie);
         }
     }
+
+    public function tearDown(){
+        $this->getContainer()->get('doctrine')->getConnection()->close();
+        parent::tearDown();
+    }
 }
