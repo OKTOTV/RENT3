@@ -67,12 +67,12 @@
                 <tbody>
                     {% for roomEvent in roomEvents %}
                     <tr>
-                        <td><span class="aui-lozenge">{{ roomEvent.state(true) }}</span></td>
                         <td>
                             <span style="display:none">{{ inventoryEvent.state(false) }}</span>
                             {% set vars = {'event': roomEvent }%}
                             {% include 'OktolabRentBundle:Event/Event:_event_status_lozenge.html.twig' with vars%}
                         </td>
+                        <td>{{ roomEvent.costunit.name }}</td>
                         <td>{{ roomEvent.contact.name}}</td>
                         <td><span style="display:none">{{roomEvent.begin|date('U')}}</span>{{ roomEvent.begin|date('d.m.Y H:i') }}</td>
                         <td><span style="display:none">{{roomEvent.end|date('U')}}</span>{{ roomEvent.end|date('d.m.Y H:i') }}</td>
