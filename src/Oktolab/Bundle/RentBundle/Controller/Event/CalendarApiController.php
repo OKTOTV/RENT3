@@ -47,7 +47,7 @@ class CalendarApiController extends Controller
      *
      * @Configuration\ParamConverter("end",
      *      converter="oktolab.datetime_converter",
-     *      options={"default": "+30 days 00:00"})
+     *      options={"default": "+7 days 00:00"})
      *
      * @return JsonResponse
      */
@@ -68,7 +68,7 @@ class CalendarApiController extends Controller
      *      requirements={"_format"="json|html"})
      *
      * @Configuration\ParamConverter("begin", converter="oktolab.datetime_converter", options={"default": "now"})
-     * @Configuration\ParamConverter("end", converter="oktolab.datetime_converter", options={"default": "+30 Days"})
+     * @Configuration\ParamConverter("end", converter="oktolab.datetime_converter", options={"default": "+7 Days"})
      *
      * @return JsonResponse
      */

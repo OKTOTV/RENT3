@@ -99,8 +99,8 @@ class CalendarApiControllerTest extends WebTestCase
 
         $timeblocks = $this->client->getContainer()
             ->get('oktolab.event_calendar_timeblock')
-            ->getTransformedTimeblocks(new \DateTime('today 00:00'), new \DateTime('+30 days 00:00'));
-        $this->assertCount(30, $timeblocks);
+            ->getTransformedTimeblocks(new \DateTime('today 00:00'), new \DateTime('+7 days 00:00'));
+        $this->assertCount(8, $timeblocks);
         $this->assertJsonStringEqualsJsonString(
             json_encode($timeblocks),
             $response->getContent(),

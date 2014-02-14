@@ -87,7 +87,7 @@ class EventTransformer
             'end'           => $event->getEnd()->format('c'),
             'description'   => $event->getDescription(),
             'state'         => $event->getState(true),
-            'uri'           => $this->getARoute($route, array('id' => $event->getId())),
+            'uri'           => $this->getEventRoute($event),
             'objects'       => $this->transformEventObjects($event->getObjects()),
             'begin_view'    => $this->transformAnEventDate($event->getBegin()),
             'end_view'      => $this->transformAnEventDate($event->getEnd()),
@@ -101,8 +101,29 @@ class EventTransformer
         return sprintf('%s, %s', $germanWeekdays[$date->format('w')], $date->format('d.m. H:i'));
     }
 
-    protected function getARoute($name, array $options = array())
+    protected function getEventRoute($event)
     {
+        switch($event->getState()) {
+            case 0:
+                return $this->router->generate('OktolabRentBundle_Event_Edit', array('id' => $event->getId()));
+            case 1:
+                return $this->router->generate('OktolabRentBundle_Event_Edit', array('id' => $event->getId()));
+            case 2:
+                return $this->router->generate('OktolabRentBundle_Event_Deliver', array('id' => $event->getId()));
+            case 3:
+                return $this->router->generate('ORB_Event_Check', array('id' => $event->getId()));
+            case 4:
+                return $this->router->generate('ORB_Event_Check', array('id' => $event->getId()));
+            case 5:
+                return $this->router->generate('orb_event_show', array('id' => $event->getId()));
+            case 6:
+                return $this->router->generate('orb_event_show', array('id' => $event->getId()));
+            case 7:
+                return $this->router->generate('orb_event_show', array('id' => $event->getId()));
+            default:
+
+        }
+
         return $this->router->generate($name, $options);
     }
 
