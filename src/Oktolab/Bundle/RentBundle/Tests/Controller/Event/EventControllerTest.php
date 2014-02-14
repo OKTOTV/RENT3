@@ -469,7 +469,7 @@ class EventControllerTest extends WebTestCase
         $this->loadFixtures(
             array(
                 '\Oktolab\Bundle\RentBundle\Tests\DataFixtures\ORM\Event\EventTypeFixture',
-                '\Oktolab\Bundle\RentBundle\Tests\DataFixtures\ORM\QmsFixture'
+                '\Oktolab\Bundle\RentBundle\Tests\DataFixtures\ORM\EventShowFixture'
             ));
 
         $em = $this->getContainer()->get('doctrine.orm.entity_manager');
@@ -484,8 +484,16 @@ class EventControllerTest extends WebTestCase
         $this->assertEquals(1, count($this->client->getCrawler()->filter('body fieldset div:contains("11:00 14.10.2013")')), 'There should be a start Date.');
         $this->assertEquals(1, count($this->client->getCrawler()->filter('body fieldset div:contains("17:00 15.10.2013")')), 'There should be a end Date.');
 
-        //$barcode = $this->client->getCrawler()->filter('th[id="basic-barcode"]');
-        //$this->assertEquals(1, $barcode->count(), 'There should be a barcode.');
+        $this->assertEquals('Barcode', $this->client->getCrawler()->filter('body thead th')->eq(0)->text(), 'There should be an barcode table header.');
+        $this->assertEquals('Name', $this->client->getCrawler()->filter('body thead th')->eq(1)->text(), 'There should be an name table header.');
 
+        $this->assertEquals('F00B51', $this->client->getCrawler()->filter('body tbody tr td')->eq(0)->text(), 'There should be an item barcode.');
+        $this->assertEquals('JVC Camera 1', $this->client->getCrawler()->filter('body tbody tr td')->eq(1)->text(), 'There should be an item title.');
+
+        $this->assertEquals('Zustand', $this->client->getCrawler()->filter('body section[id="content"] thead')->eq(1)->filter('th')->text(), 'There should be an item state table header.');
+        $this->assertEquals('Gegenstand', $this->client->getCrawler()->filter('body section[id="content"] thead')->eq(1)->filter('th')->eq(1)->text(), 'There should be an item name table header.');
+
+        $this->assertEquals('In Ordnung', $this->client->getCrawler()->filter('body section[id="content"] fieldset')->eq(2)->filter('tbody td span')->eq(0)->text(), 'There should be an item qms state.');
+        $this->assertEquals('JVC Camera 1', $this->client->getCrawler()->filter('body section[id="content"] fieldset')->eq(2)->filter('tbody td')->eq(1)->text(), 'There should be an item name.');
     }
 }
