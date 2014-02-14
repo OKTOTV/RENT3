@@ -226,7 +226,8 @@
          * @returns {String}
          */
         _renderEventChip: function (event, inventoryObject, begin, end) {
-            var template = '<div class="calendar-event" style="position:absolute; top:{{style_top}}px; left:{{style_left}}px; width:{{style_width}}px" id="{{eventIdentfier}}"><a href="#"><span class="aui-icon aui-icon-small aui-iconfont-info">Info</span></a><strong style="display: block; width: 100%; height: inherit">{{title}}</strong></div>';
+            var icon = Calendar._getIconForEvent(event);
+            var template = '<div class="calendar-event" style="position:absolute; top:{{style_top}}px; left:{{style_left}}px; width:{{style_width}}px" id="{{eventIdentfier}}"><a href="#">'+icon+'</a><strong style="display: block; width: 100%; height: inherit">{{title}}</strong></div>';
             var template = Hogan.compile(template);
             var objectId = 'event-' + event.id + '-' + inventoryObject.attr('id').replace(':', '-');
             var eventView = $.extend({}, event, {
@@ -248,7 +249,9 @@
          * @param {string} eventIdentifier
          */
         _renderEventDescription: function (event, eventIdentifier) {
-            var description = '<div class="calendar-event-description"><div class="event-image"><img width="50px" height="50px" src="{{image}}" alt="{{image_alt}}" /></div><div class="event-fields"><div class="event-field event-summary"><strong>{{name}}</strong> <span class="aui-lozenge">{{state}}</span></div><div class="event-field event-duration"><em>{{begin_view}}</em> - <em>{{end_view}}</em></div><div class="event-field event-description">{{description}}</div><div class="event-field event-objects">{{{objects}}}</div></div><div class="event-controls buttons-container"><div class="buttons"><a class="aui-button aui-button-link" href="{{uri}}">Loeschen</a> <span class="event-hyperlink-separator">·</span><a class="aui-button aui-button-primary" href="{{uri}}">Bearbeiten</a></div></div></div>';
+            var lozenge = Calendar._getLozengeForEvent(event);
+
+            var description = '<div class="calendar-event-description"><div class="event-image"><img width="50px" height="50px" src="{{image}}" alt="{{image_alt}}" /></div><div class="event-fields"><div class="event-field event-summary"><strong>{{name}}</strong>'+lozenge+'</div><div class="event-field event-duration"><em>{{begin_view}}</em> - <em>{{end_view}}</em></div><div class="event-field event-description">{{description}}</div><div class="event-field event-objects">{{{objects}}}</div></div><div class="event-controls buttons-container"><div class="buttons"><a class="aui-button aui-button-link" href="{{uri}}">Stornieren</a> <span class="event-hyperlink-separator">·</span><a class="aui-button aui-button-primary" href="{{uri}}">Bearbeiten</a></div></div></div>';
             var description = Hogan.compile(description);
             var eventView = $.extend({}, event, {
                 image:   oktolab.baseUrl + '/../aui-5.1/images/user-avatar-blue-48@2x.png',
@@ -305,6 +308,52 @@
                 if (block.date >= date) {
                     return block;
                 }
+            }
+        },
+
+        _getLozengeForEvent: function (event) {
+            switch(event.state) { //see event entity
+                case 'PREPARED':
+                    return '<span class="aui-lozenge aui-lozenge-complete">Reserviert</span>';
+                case 'RESERVED':
+                    return '<span class="aui-lozenge aui-lozenge-complete">Reserviert</span>';
+                case 'LENT':
+                    return '<span class="aui-lozenge aui-lozenge-moved aui-lozenge-subtle">Ausgegeben</span>';
+                case 'DELIVERED':
+                    return '<span class="aui-lozenge aui-lozenge-current aui-lozenge-subtle">Rückgegeben</span>';
+                case 'CHECKED':
+                    return '<span class="aui-lozenge aui-lozenge-current aui-lozenge-subtle">Geprüft</span>';
+                case 'COMPLETED':
+                    return '<span class="aui-lozenge aui-lozenge-success aui-lozenge-subtle">Abgeschlossen</span>';
+                case 'CANCELED':
+                    return '<span class="aui-lozenge">Storniert</span>';
+                case 'DEFERRED':
+                    return '<span class="aui-lozenge aui-lozenge-error aui-lozenge-subtle">In Verzug</span>';
+                default:
+                    return '<span class="aui-lozenge">Unknown</span>';
+            }
+        },
+
+        _getIconForEvent: function (event) {
+            switch(event.state) { //see event entity
+                case 'PREPARED':
+                    return '<span class="aui-icon aui-icon-info">Reserviert</span>';
+                case 'RESERVED':
+                    return '<span class="aui-icon aui-icon-info">Reserviert</span>';
+                case 'LENT':
+                    return '<span class="aui-icon aui-icon-small aui-iconfont-devtools-task-in-progress">Ausgegeben</span>';
+                case 'DELIVERED':
+                    return '<span class="aui-icon aui-icon-warning">Rückgegeben</span>';
+                case 'CHECKED':
+                    return '<span class="aui-icon aui-icon-success">Geprüft</span>';
+                case 'COMPLETED':
+                    return '<span class="aui-icon aui-icon-success">Reserviert</span>';
+                case 'CANCELED':
+                    return '<span class="aui-icon aui-icon-close">Storniert</span>';
+                case 'DEFERRED':
+                    return '<span class="aui-icon aui-icon-error">In Verzug</span>';
+                default:
+                    return '<span class="aui-lozenge">Unknown</span>';
             }
         }
     };
