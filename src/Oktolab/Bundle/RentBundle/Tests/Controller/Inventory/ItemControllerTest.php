@@ -324,11 +324,9 @@ class ItemControllerTest extends WebTestCase
         $this->assertEquals(1, count($qmsTable->filter('tr')), 'There should be one qms in this table.');
         $this->assertEquals(4, count($qmsTable->filter('tr td')), 'There should be four table data per row.');
 
-        $this->assertEquals
-              (1, count($qmsTable->filter('tr > td:contains("'.$qmss[0]->getCreatedAt()->format('d.m.Y').'")')), 'There should be a DateTime.');
+        $this->assertEquals(1, count($qmsTable->filter('tr > td:contains("'.$qmss[0]->getCreatedAt()->format('d.m.Y').'")')), 'There should be a DateTime.');
         $this->assertEquals(1, count($qmsTable->filter('tr > td:contains("random description")')), 'There should be a QmsDescription.');
         $this->assertEquals(1, count($qmsTable->filter('tr > td:contains("In Ordnung")')), 'The Qms State should be STATE_OKAY.');
         $this->assertEquals(1, count($qmsTable->filter('tr > td:contains("Interner Status")')), 'The Qms Cost Unit should be Interner Status.');
     }
 }
-
