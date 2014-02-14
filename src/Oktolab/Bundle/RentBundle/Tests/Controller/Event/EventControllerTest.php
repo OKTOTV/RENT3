@@ -478,22 +478,73 @@ class EventControllerTest extends WebTestCase
         $this->client->request('GET', '/event/'.$event->getId().'/show');
         $this->assertTrue($this->client->getResponse()->isSuccessful(), 'Response should be successful.');
 
-        $this->assertEquals(1, count($this->client->getCrawler()->filter('body h2:contains("Testcostunit")')), 'There should be a costunit header.');
-        $this->assertEquals(1, count($this->client->getCrawler()->filter('body fieldset div:contains("Testcostunit")')), 'There should be a costunit.');
-        $this->assertEquals(1, count($this->client->getCrawler()->filter('body fieldset div:contains("There is a description for this event.")')), 'There should be a description.');
-        $this->assertEquals(1, count($this->client->getCrawler()->filter('body fieldset div:contains("11:00 14.10.2013")')), 'There should be a start Date.');
-        $this->assertEquals(1, count($this->client->getCrawler()->filter('body fieldset div:contains("17:00 15.10.2013")')), 'There should be a end Date.');
+        $this->assertEquals(1, count(
+              $this->client->getCrawler()
+              ->filter('body h2:contains("Testcostunit")')), 'There should be a costunit header.');
+        $this->assertEquals(1, count(
+              $this->client->getCrawler()
+              ->filter('body fieldset div:contains("Testcostunit")')), 'There should be a costunit.');
+        $this->assertEquals(1, count(
+              $this->client->getCrawler()
+              ->filter('body fieldset div:contains("There is a description for this event.")')),
+              'There should be a description.');
+        $this->assertEquals(1, count(
+              $this->client->getCrawler()
+              ->filter('body fieldset div:contains("11:00 14.10.2013")')), 'There should be a start Date.');
+        $this->assertEquals(1, count(
+              $this->client->getCrawler()
+              ->filter('body fieldset div:contains("17:00 15.10.2013")')), 'There should be a end Date.');
 
-        $this->assertEquals('Barcode', $this->client->getCrawler()->filter('body thead th')->eq(0)->text(), 'There should be an barcode table header.');
-        $this->assertEquals('Name', $this->client->getCrawler()->filter('body thead th')->eq(1)->text(), 'There should be an name table header.');
+        $this->assertEquals('Barcode',
+              $this->client->getCrawler()
+              ->filter('body thead th')
+              ->eq(0)
+              ->text(), 'There should be an barcode table header.');
+        $this->assertEquals('Name',
+              $this->client->getCrawler()
+              ->filter('body thead th')
+              ->eq(1)
+              ->text(), 'There should be an name table header.');
 
-        $this->assertEquals('F00B51', $this->client->getCrawler()->filter('body tbody tr td')->eq(0)->text(), 'There should be an item barcode.');
-        $this->assertEquals('JVC Camera 1', $this->client->getCrawler()->filter('body tbody tr td')->eq(1)->text(), 'There should be an item title.');
+        $this->assertEquals('F00B51',
+              $this->client->getCrawler()
+              ->filter('body tbody tr td')
+              ->eq(0)
+              ->text(), 'There should be an item barcode.');
+        $this->assertEquals('JVC Camera 1',
+              $this->client->getCrawler()
+              ->filter('body tbody tr td')
+              ->eq(1)
+              ->text(), 'There should be an item title.');
 
-        $this->assertEquals('Zustand', $this->client->getCrawler()->filter('body section[id="content"] thead')->eq(1)->filter('th')->text(), 'There should be an item state table header.');
-        $this->assertEquals('Gegenstand', $this->client->getCrawler()->filter('body section[id="content"] thead')->eq(1)->filter('th')->eq(1)->text(), 'There should be an item name table header.');
+        $this->assertEquals('Zustand',
+              $this->client->getCrawler()
+              ->filter('body section[id="content"] thead')
+              ->eq(1)
+              ->filter('th')
+              ->text(), 'There should be an item state table header.');
+        $this->assertEquals('Gegenstand',
+              $this->client->getCrawler()
+              ->filter('body section[id="content"] thead')
+              ->eq(1)
+              ->filter('th')
+              ->eq(1)
+              ->text(), 'There should be an item name table header.');
 
-        $this->assertEquals('In Ordnung', $this->client->getCrawler()->filter('body section[id="content"] fieldset')->eq(2)->filter('tbody td span')->eq(0)->text(), 'There should be an item qms state.');
-        $this->assertEquals('JVC Camera 1', $this->client->getCrawler()->filter('body section[id="content"] fieldset')->eq(2)->filter('tbody td')->eq(1)->text(), 'There should be an item name.');
+        $this->assertEquals('In Ordnung',
+              $this->client
+              ->getCrawler()
+              ->filter('body section[id="content"] fieldset')
+              ->eq(2)
+              ->filter('tbody td span')
+              ->eq(0)
+              ->text(), 'There should be an item qms state.');
+        $this->assertEquals('JVC Camera 1',
+              $this->client->getCrawler()
+              ->filter('body section[id="content"] fieldset')
+              ->eq(2)
+              ->filter('tbody td')
+              ->eq(1)
+              ->text(), 'There should be an item name.');
     }
 }
