@@ -95,7 +95,7 @@
             var $date = new Date(date);
             var eventUrl = Calendar.buildUrl(Calendar.config.eventSrcUri);
             eventUrl = eventUrl+'/'+$.datepicker.formatDate('yy-mm-dd', $date);
-            $date.setDate($date.getDate()+30);
+            $date.setDate($date.getDate()+7);
             eventUrl = eventUrl+'/'+$.datepicker.formatDate('yy-mm-dd', $date);
 
             //load new events.
@@ -113,7 +113,7 @@
             var $date = new Date(date);
             var timeBlockUrl = Calendar.buildUrl(Calendar.config.timeblockSrcUri);
             timeBlockUrl = timeBlockUrl+ '/' + $.datepicker.formatDate('yy-mm-dd', $date);
-            $date.setDate($date.getDate()+30);
+            $date.setDate($date.getDate()+7);
             timeBlockUrl = timeBlockUrl+ '/' + $.datepicker.formatDate('yy-mm-dd', $date);
 
             //load new timeblocks.
@@ -130,6 +130,7 @@
         _loadCalendarStartingAtDate: function (date) {
             Calendar.data.containerWrapper.empty();
             Calendar.data.renderedTimeblocks = [];
+            Calendar.data.events = [];
 
             Calendar._loadTimeblocksStartingAtDate(date);
             Calendar._loadEventsStartingAtDate(date);
