@@ -7,19 +7,19 @@
         <br />
         {{ 'inventory.category.noneFound' | trans }}
     {% else %}
-        <ul class="category_sortable">
+        <div class="category_sortable">
             {% for category in categories %}
-            <div>
-                <h3>{{ category.title }}</h3>
-                <ul>
+            <div data-value="{{ category.id }}">
+                <h3 class="category-header">{{ category.title }}</h3>
+                <ul class="item_sortable">
                     {% for item in category.items %}
-                    <li class="item_sortable">
+                    <li data-value="{{ item.id }}">
                         {{ item.title }}
                     </li>
                     {% endfor %}
                 </ul>
             </div>
             {% endfor %}
-        </ul>
+        </div>
     {% endif %}
 {% endblock %}
