@@ -1,0 +1,25 @@
+{% extends 'OktolabRentBundle:Admin\\CalendarSorting:base.html.twig' %}
+
+{% block content %}
+    {{ parent() }}
+
+    {% if categories|length == 0 %}
+        <br />
+        {{ 'inventory.category.noneFound' | trans }}
+    {% else %}
+        <ul class="category_sortable">
+            {% for category in categories %}
+            <div>
+                <h3>{{ category.title }}</h3>
+                <ul>
+                    {% for item in category.items %}
+                    <li class="item_sortable">
+                        {{ item.title }}
+                    </li>
+                    {% endfor %}
+                </ul>
+            </div>
+            {% endfor %}
+        </ul>
+    {% endif %}
+{% endblock %}

@@ -185,6 +185,13 @@ class Item implements RentableInterface, UploadableInterface
     private $active;
 
     /**
+     *
+     * @var type integer
+     * @ORM\Column(name="sortnumber", type="integer", nullable=true)
+     */
+    private $sortnumber;
+
+    /**
      * Get id
      *
      * @return integer
@@ -768,5 +775,28 @@ class Item implements RentableInterface, UploadableInterface
             }
         }
         return $discarded;
+    }
+
+    /**
+     * Set sortnumber
+     *
+     * @param integer $sortnumber
+     * @return Item
+     */
+    public function setSortnumber($sortnumber)
+    {
+        $this->sortnumber = $sortnumber;
+    
+        return $this;
+    }
+
+    /**
+     * Get sortnumber
+     *
+     * @return integer 
+     */
+    public function getSortnumber()
+    {
+        return $this->sortnumber;
     }
 }
