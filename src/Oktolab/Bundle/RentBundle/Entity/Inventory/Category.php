@@ -37,7 +37,7 @@ class Category
 
     /**
      * @ORM\OneToMany(targetEntity="Item", mappedBy="category")
-     *
+     * @ORM\OrderBy({"sortnumber" = "ASC"})
      */
     private $items;
 
@@ -130,14 +130,14 @@ class Category
     public function setSortnumber($sortnumber)
     {
         $this->sortnumber = $sortnumber;
-    
+
         return $this;
     }
 
     /**
      * Get sortnumber
      *
-     * @return integer 
+     * @return integer
      */
     public function getSortnumber()
     {

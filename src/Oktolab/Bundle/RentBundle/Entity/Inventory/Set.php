@@ -114,6 +114,12 @@ class Set implements UploadableInterface, RentableInterface
      */
     private $place;
 
+    /**
+     * @var type integer
+     * @ORM\Column(name="sortnumber", type="integer", nullable=true)
+     */
+    private $sortnumber;
+
     public function __toString()
     {
         return $this->title;
@@ -399,5 +405,28 @@ class Set implements UploadableInterface, RentableInterface
     public function getType()
     {
         return 'set';
+    }
+
+    /**
+     * Set sortnumber
+     *
+     * @param integer $sortnumber
+     * @return Set
+     */
+    public function setSortnumber($sortnumber)
+    {
+        $this->sortnumber = $sortnumber;
+    
+        return $this;
+    }
+
+    /**
+     * Get sortnumber
+     *
+     * @return integer 
+     */
+    public function getSortnumber()
+    {
+        return $this->sortnumber;
     }
 }

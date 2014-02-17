@@ -17,7 +17,6 @@
    });
    $('.item_sortable').sortable({
        update: function (event, ui) {
-//           console.log(ui.item.parent());
             var json = new Object();
             ui.item.parent().children().each(function (key, value) {
                 json[$(value).data('value')] = $(value).index();
