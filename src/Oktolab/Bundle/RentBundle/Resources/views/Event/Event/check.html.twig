@@ -25,16 +25,44 @@
            {% for i in 0..form.vars.value.qmss|length -1 %}
                <h3>{{ form.vars.value.qmss[i].item.title }}</h3>
                {{ form_row(form.qmss[i].status) }}
+
                <div class="field-group">
                    {{form_label(form.qmss[i].description)}}
                    {{form_widget(form.qmss[i].description)}}
                    {{ form_errors(form.qmss[i]) }}
+                       <p>{{ 'qms.history'|trans }}</p>
+                       <p>{{ form.vars.value.qmss[i].item.notice }}</p>
+                       <table class="aui">
+                           <thead>
+                            <tr>
+                                <th>{{ 'qms.status'|trans }}</th>
+                                <th>{{ 'inventory.item.notice'|trans }}</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+
+                            {% for qms in form.vars.value.qmss[i].item.qmss %}
+                                {% if qms.status == constant('\\Oktolab\\Bundle\\RentBundle\\Entity\\Inventory\\Qms::STATE_DAMAGED') and qms.active %}
+                                    <tr>
+                                        <td>
+                                            {{ qms.statusString|trans }}
+                                        </td>
+                                        <td>
+                                            {{ qms.description }}
+                                        </td>
+                                    </tr>
+                                {% endif %}
+                            {% endfor %}
+                        </tbody>
+                       </table>
                </div>
+
                <div class="hidden">
                   {{ form_row(form.qmss[i].item, {'attr': {'class': 'hidden'} }) }}
                   {{ form_row(form.qmss[i].event, {'attr': {'class': 'hidden'} }) }}
                   {{ form_row(form.qmss[i].active, {'attr': {'class': 'hidden'} }) }}
                </div>
+
            {% endfor %}
         </fieldset>
         <div class="buttons-container">
