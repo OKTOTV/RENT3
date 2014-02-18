@@ -34,7 +34,8 @@
 
     oktolab.jquery = {
         calendarCategorySortUrl: oktolab.baseUrl + '/admin/calendar/sorting/update_category', //Post a json object with ajax to sort
-        calendarItemSortUrl: oktolab.baseUrl + '/admin/calendar/sorting/update_items' //Post a json object with ajax to sort
+        calendarItemSortUrl: oktolab.baseUrl + '/admin/calendar/sorting/update_items', //Post a json object with ajax to sort
+        calendarSetSortUrl: oktolab.baseUrl + '/admin/calendar/sorting/update_sets' //Post a json object with ajax to sort
     };
 
 })();

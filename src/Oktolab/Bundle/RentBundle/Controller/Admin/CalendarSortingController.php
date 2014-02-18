@@ -5,6 +5,7 @@ namespace Oktolab\Bundle\RentBundle\Controller\Admin;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration;
+use \Symfony\Component\HttpFoundation\Response;
 
 /**
  * CalendarSortingController lists all items and categories sorted by current sorting
@@ -29,6 +30,20 @@ class CalendarSortingController extends Controller
     }
 
     /**
+     * Lists all Sets by sorting and allows resorting
+     *
+     * @Configuration\Route("/sets", name="orb_calendar_sorting_sets")
+     * @Configuration\Method("GET")
+     * @Configuration\Template()
+     */
+    public function setAction()
+    {
+        $em = $this->getDoctrine()->getManager();
+        $sets = $em->getRepository('OktolabRentBundle:Inventory\Set')->findBy(array(), array('sortnumber' => 'asc'));
+        return array('sets' => $sets);
+    }
+
+    /**
      * Sets sortindex of category
      *
      * @Configuration\Route("/update_category", name="orb_calendar_update_category_sorting")
@@ -44,7 +59,7 @@ class CalendarSortingController extends Controller
             $em->persist($category);
         }
         $em->flush();
-        return new \Symfony\Component\HttpFoundation\Response(null, 200);
+        return new Response(null, 200);
     }
 
     /**
@@ -63,6 +78,25 @@ class CalendarSortingController extends Controller
             $em->persist($item);
         }
         $em->flush();
-        return new \Symfony\Component\HttpFoundation\Response(null, 200);
+        return new Response(null, 200);
+    }
+
+    /**
+     * Sets sortindex of sets
+     *
+     * @Configuration\Route("/update_sets", name="orb_calendar_update_set_sorting")
+     */
+    public function updateSetSorting(Request $request)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $params = json_decode($request->getContent(), true);
+
+        foreach ($params as $key => $value) {
+            $item = $em->getRepository('OktolabRentBundle:Inventory\Set')->findOneBy(array('id' => $key));
+            $item->setSortnumber($value);
+            $em->persist($item);
+        }
+        $em->flush();
+        return new Response(null, 200);
     }
 }

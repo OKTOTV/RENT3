@@ -821,6 +821,14 @@
                 <source>calendar.sorting.about</source>
                 <target>Per Drag&amp;Drop kann die reihenfolge der Elemente im Kalender angepasst werden.</target>
             </trans-unit>
+            <trans-unit id="621">
+                <source>calendar.sorting.index</source>
+                <target>Kategorien</target>
+            </trans-unit>
+            <trans-unit id="622">
+                <source>calendar.sorting.sets</source>
+                <target>Sets</target>
+            </trans-unit>
 
             <trans-unit id="700">
                 <source>event.book</source>
