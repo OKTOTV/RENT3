@@ -59,7 +59,13 @@ class InventoryAggregator extends BaseAggregator
 
         $categories = $this->getCategories();
         foreach ($categories as $category) {
-            $inventory[$category->getTitle()] = $category->getItems();
+            $itemsInCat = array();
+            foreach ($category->getItems() as $item) {
+                if ($item->getSet() == null) {
+                    $itemsInCat[] = $item;
+                }
+            }
+            $inventory[$category->getTitle()] = $itemsInCat;
         }
 
         return $inventory;
