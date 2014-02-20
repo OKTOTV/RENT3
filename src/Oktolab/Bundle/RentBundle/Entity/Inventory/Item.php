@@ -175,6 +175,7 @@ class Item implements RentableInterface, UploadableInterface
 
     /**
      * @ORM\OneToMany(targetEntity="Qms", mappedBy="item", cascade="persist")
+     * @ORM\OrderBy({"createdAt" = "DESC"})
      */
     private $qmss;
 
@@ -786,14 +787,14 @@ class Item implements RentableInterface, UploadableInterface
     public function setSortnumber($sortnumber)
     {
         $this->sortnumber = $sortnumber;
-    
+
         return $this;
     }
 
     /**
      * Get sortnumber
      *
-     * @return integer 
+     * @return integer
      */
     public function getSortnumber()
     {
