@@ -28,7 +28,7 @@ class EventRepository extends EntityRepository
     public function findActiveFromBeginToEnd(\DateTime $begin, \DateTime $end, $type = 'inventory', $hydrationMode = null)
     {
         $qb = $this->getAllFromBeginToEndQuery($begin, $end, $type);
-        $qb->andWhere($qb->expr()->not($qb->expr()->eq('e.state', Event::STATE_CANCELED)));
+        $qb->andWhere($qb->expr()->not($qb->expr()->eq('e.state', Event::STATE_CANCELED)))->add('orderBy', 'e.state ASC');
 
         return $qb->getQuery()->getResult($hydrationMode);
     }
