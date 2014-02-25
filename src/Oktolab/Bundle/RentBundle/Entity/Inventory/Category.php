@@ -37,9 +37,16 @@ class Category
 
     /**
      * @ORM\OneToMany(targetEntity="Item", mappedBy="category")
-     *
+     * @ORM\OrderBy({"sortnumber" = "ASC"})
      */
     private $items;
+
+    /**
+     *
+     * @var type int
+     * @ORM\Column(name="sortnumber", type="integer", nullable=true)
+     */
+    private $sortnumber;
 
     /**
      * Get id
@@ -112,5 +119,28 @@ class Category
     public function getItems()
     {
         return $this->items;
+    }
+
+    /**
+     * Set sortnumber
+     *
+     * @param integer $sortnumber
+     * @return Category
+     */
+    public function setSortnumber($sortnumber)
+    {
+        $this->sortnumber = $sortnumber;
+
+        return $this;
+    }
+
+    /**
+     * Get sortnumber
+     *
+     * @return integer
+     */
+    public function getSortnumber()
+    {
+        return $this->sortnumber;
     }
 }

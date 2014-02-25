@@ -79,7 +79,7 @@
         {% if set.items|length == 0 %}
             <span class="field-value">{{ 'inventory.set.zeroItems'|trans }}</span>
         {% else %}
-            <table class="aui">
+            <table class="aui aui-table-sortable">
                 <thead>
                     <tr>
                         <th id="set_item_table_title">{{ 'inventory.item.title'|trans }}</th>

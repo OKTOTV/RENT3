@@ -1,0 +1,22 @@
+{% extends 'OktolabRentBundle:Admin\\CalendarSorting:base.html.twig' %}
+
+{%block buttons%}
+    <a class="aui-button" href="{{ path('orb_calendar_sorting_index') }}">{{ 'calendar.sorting.index' | trans }}</a>
+{%endblock%}
+{% block content %}
+    {{ parent() }}
+
+    {% if sets|length == 0 %}
+    <br />
+    {{ 'inventory.category.noneFound' | trans }}
+    {% else %}
+        <div class="category-header aui-nav-heading"><strong>{{ 'inventory.set.sets'|trans }}</strong></div>
+        <ul class="set_sortable aui-nav">
+            {% for set in sets %}
+                <li data-value="{{ set.id }}">
+                    {{ set.title }}
+                </li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+{% endblock %}

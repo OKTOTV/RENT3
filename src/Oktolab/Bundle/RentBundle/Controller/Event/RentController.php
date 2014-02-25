@@ -14,7 +14,6 @@ use Oktolab\Bundle\RentBundle\Form\EventType;
  */
 class RentController extends Controller
 {
-
     /**
      * Returns a new Inventory EventForm.
      *

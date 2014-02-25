@@ -68,7 +68,7 @@
                     {% for roomEvent in roomEvents %}
                     <tr>
                         <td>
-                            <span style="display:none">{{ inventoryEvent.state(false) }}</span>
+                            <span style="display:none">{{ roomEvent.state(false) }}</span>
                             {% set vars = {'event': roomEvent }%}
                             {% include 'OktolabRentBundle:Event/Event:_event_status_lozenge.html.twig' with vars%}
                         </td>

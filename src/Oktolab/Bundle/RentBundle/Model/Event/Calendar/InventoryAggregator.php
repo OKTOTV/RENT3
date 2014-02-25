@@ -22,7 +22,7 @@ class InventoryAggregator extends BaseAggregator
             throw new RepositoryNotFoundException(sprintf('Repository "%s" not found.', $repository));
         }
 
-        return $this->getRepository($repository)->findAll();
+        return $this->getRepository($repository)->findBy(array(), array('sortnumber' => 'asc'));
     }
 
     /**
@@ -37,7 +37,7 @@ class InventoryAggregator extends BaseAggregator
             throw new RepositoryNotFoundException('Repository "Category" not found.');
         }
 
-        return $this->getRepository('Category')->findAll();
+        return $this->getRepository('Category')->findBy(array(), array('sortnumber' => 'asc'));
     }
 
     /**
@@ -59,7 +59,13 @@ class InventoryAggregator extends BaseAggregator
 
         $categories = $this->getCategories();
         foreach ($categories as $category) {
-            $inventory[$category->getTitle()] = $category->getItems();
+            $itemsInCat = array();
+            foreach ($category->getItems() as $item) {
+                if ($item->getSet() == null) {
+                    $itemsInCat[] = $item;
+                }
+            }
+            $inventory[$category->getTitle()] = $itemsInCat;
         }
 
         return $inventory;
