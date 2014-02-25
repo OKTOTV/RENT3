@@ -12,4 +12,6 @@
     <span class="aui-lozenge aui-lozenge-moved">{{ qms.statusString|trans}}</span>
 {% elseif qms.status is constant('\\Oktolab\\Bundle\\RentBundle\\Entity\\Inventory\\Qms::STATE_DISCARDED')%}
     <span class="aui-lozenge aui-lozenge-default">{{ qms.statusString|trans}}</span>
+{% elseif qms.status is constant('\\Oktolab\\Bundle\\RentBundle\\Entity\\Inventory\\Qms::STATE_DEFERRED')%}
+    <span class="aui-lozenge aui-lozenge-error">{{ qms.statusString|trans }}</span>
 {% endif %}

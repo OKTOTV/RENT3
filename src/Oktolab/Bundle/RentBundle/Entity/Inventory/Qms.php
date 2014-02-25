@@ -21,6 +21,7 @@ class Qms
     const STATE_LOST        = 4;    // Item is lost or stolen
     const STATE_MAINTENANCE = 5;    // Is in repair
     const STATE_DISCARDED   = 6;    // Won't get used anymore
+    const STATE_DEFERRED    = 7;    // Item didn't come back
 
     /**
      * @var integer
@@ -292,20 +293,22 @@ class Qms
     public function getStatusString()
     {
         switch ($this->getStatus()) {
-            case 0:
+            case Qms::STATE_OKAY:
                 return 'qms.okay';
-            case 1:
+            case Qms::STATE_FLAW:
                 return 'qms.flaw';
-            case 2:
+            case Qms::STATE_DAMAGED:
                 return 'qms.damaged';
-            case 3:
+            case Qms::STATE_DESTROYED:
                 return 'qms.destroyed';
-            case 4:
+            case Qms::STATE_LOST:
                 return 'qms.lost';
-            case 5:
+            case Qms::STATE_MAINTENANCE:
                 return 'qms.maintenance';
-            case 6:
+            case Qms::STATE_DISCARDED:
                 return 'qms.discarded';
+            case Qms::STATE_DEFERRED:
+                return 'qms.deferred';
             default:
                 return 'unknown';
         }

@@ -317,8 +317,6 @@ class EventController extends Controller
      * @Configuration\ParamConverter("event", class="OktolabRentBundle:Event")
      * @Configuration\Template("OktolabRentBundle:Event:Event\check.html.twig")
      *
-     * @param \Oktolab\Bundle\RentBundle\Entity\Event   $event
-     *
      * @return Response
      */
     public function checkAction(Request $request, Event $event)
@@ -337,7 +335,8 @@ class EventController extends Controller
             QMS::STATE_FLAW,
             QMS::STATE_DAMAGED,
             QMS::STATE_DESTROYED,
-            QMS::STATE_LOST
+            QMS::STATE_LOST,
+            Qms::STATE_DEFERRED
         );
 
         $form = $this->createForm(
@@ -413,5 +412,22 @@ class EventController extends Controller
     {
         $entities = $this->get('oktolab.event_manager')->convertEventObjectsToEntites($event->getObjects());
         return array('event' => $event, 'objects' => $entities);
+    }
+
+    /**
+     * Cancel an Event
+     * @Configuration\Method("GET")
+     * @Configuration\Route("/event/{id}/cancel", name="orb_event_cancel")
+     * @Configuration\ParamConverter("event", class="OktolabRentBundle:Event")
+     */
+    public function cancelAction(Event $event)
+    {
+        if ($event->getState() <= Event::STATE_RESERVED) {
+            $this->get('oktolab.event_manager')->cancel($event);
+            $this->get('session')->getFlashBag()->add('success', 'event.cancelation_success');
+        } else {
+            $this->get('session')->getFlashBag()->add('error', 'event.cancelation_error');
+        }
+        $this->redirect($this->generateUrl('rentbundle_dashboard'));
     }
 }

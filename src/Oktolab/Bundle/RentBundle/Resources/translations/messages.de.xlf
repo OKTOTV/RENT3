@@ -1211,6 +1211,18 @@
                 <source>event.complete_error</source>
                 <target>Event konnte nicht erfolgreich abgeschlossen werden</target>
             </trans-unit>
+            <trans-unit id="1229">
+                <source>event.cancelation_error</source>
+                <target>Event kann nicht storniert werden</target>
+            </trans-unit>
+            <trans-unit id="1230">
+                <source>event.cancelation_success</source>
+                <target>Event erfolgreich storniert</target>
+            </trans-unit>
+            <trans-unit id="1231">
+                <source>event.cancel</source>
+                <target>Stornieren</target>
+            </trans-unit>
 
             <trans-unit id="1300">
                 <source>admin.setting.settings</source>
@@ -1312,6 +1324,10 @@
             <trans-unit id="1414">
                 <source>qms.active</source>
                 <target>Aktiv</target>
+            </trans-unit>
+            <trans-unit id="1415">
+                <source>qms.deferred</source>
+                <target>Überzogen</target>
             </trans-unit>
 
             <trans-unit id="1500">

@@ -62,7 +62,8 @@ class QMSType extends AbstractType
             QMS::STATE_DESTROYED    => 'qms.destroyed',
             QMS::STATE_LOST         => 'qms.lost',
             QMS::STATE_MAINTENANCE  => 'qms.maintenance',
-            QMS::STATE_DISCARDED    => 'qms.discarded'
+            QMS::STATE_DISCARDED    => 'qms.discarded',
+            QMS::STATE_DEFERRED     => 'qms.deferred'
         );
 
         $statesToUse = array();
