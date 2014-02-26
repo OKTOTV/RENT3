@@ -878,6 +878,26 @@
                 <source>event.no_costunit</source>
                 <target>Keine Kostenstelle eingetragen</target>
             </trans-unit>
+            <trans-unit id="712">
+                <source>event.reserve</source>
+                <target>Reservieren</target>
+            </trans-unit>
+            <trans-unit id="713">
+                <source>event.lent_or_change</source>
+                <target>Ausleihen oder Ändern</target>
+            </trans-unit>
+            <trans-unit id="714">
+                <source>event.complete</source>
+                <target>Abschließen</target>
+            </trans-unit>
+            <trans-unit id="715">
+                <source>event.deferred</source>
+                <target>Überzogen</target>
+            </trans-unit>
+            <trans-unit id="716">
+                <source>event.completed</source>
+                <target>Abgeschlossen</target>
+            </trans-unit>
 
             <trans-unit id="800">
                 <source>inventory.import</source>

@@ -141,6 +141,7 @@ class EventController extends Controller
 
         //TODO: new objects from reserved to lent won't get added.
         if ($form->get('rent')->isClicked()) { // User clicked Rent -> Forwarding to RENT Action
+            $event->setState(Event::STATE_RESERVED);
             $this->get('oktolab.event_manager')->save($event);
             return $this->forward(
                 'OktolabRentBundle:Event\Event:rent',
@@ -321,12 +322,6 @@ class EventController extends Controller
      */
     public function checkAction(Request $request, Event $event)
     {
-        if ($event->getState() > Event::STATE_DELIVERED) {
-            $message = $this->get('translator')->trans('event.cannot_check');
-            $this->get('session')->getFlashBag()->add('warning', $message);
-            return $this->redirect($this->generateUrl('rentbundle_dashboard'));
-        }
-
         $entities = $this->get('oktolab.event_manager')->convertEventObjectsToEntites($event->getObjects());
         $this->get('oktolab.qms')->prepareEvent($event, $entities);
 
@@ -354,10 +349,6 @@ class EventController extends Controller
 
             if ($form->isValid()) {
                 $this->get('oktolab.qms')->createQMSFromEvent($event);
-                $event->setState(Event::STATE_COMPLETED);
-                $em = $this->getDoctrine()->getManager();
-                $em->persist($event);
-                $em->flush();
 
                 $this->get('session')->getFlashBag()->add('success', 'event.complete_success');
                 return $this->redirect($this->generateUrl('rentbundle_dashboard'));
@@ -418,7 +409,6 @@ class EventController extends Controller
      * Cancel an Event
      * @Configuration\Method("GET")
      * @Configuration\Route("/event/{id}/cancel", name="orb_event_cancel")
-     * @Configuration\ParamConverter("event", class="OktolabRentBundle:Event")
      */
     public function cancelAction(Event $event)
     {

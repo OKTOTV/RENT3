@@ -27,13 +27,19 @@ class QMSService
      */
     public function createQMSFromEvent(Event $event)
     {
+        $event->setState(Event::STATE_COMPLETED);
         foreach ($event->getQmss() as $qms) {
-            if ($qms->getStatus() > Qms::STATE_DAMAGED) {
+            $qms->getItem()->setActive(true);
+            if ($qms->getStatus() > Qms::STATE_DAMAGED && $qms->getActive()) {
                 $qms->getItem()->setActive(false);
                 $this->em->persist($qms->getItem());
+                if ($qms->getStatus() == Qms::STATE_DEFERRED) {
+                    $event->setState(Event::STATE_DEFERRED);
+                }
             }
             $this->em->persist($qms);
         }
+        $this->em->persist($event);
         $this->em->flush();
     }
 
@@ -68,13 +74,34 @@ class QMSService
      */
     public function prepareEvent(Event $event, $entities)
     {
-        foreach ($entities as $item) {
-            if ($item->getType() == 'item') {
-                $qms = new Qms();
-                $qms->setItem($item);
-                $qms->setEvent($event);
-                $event->addQms($qms);
+        // Deferred event.
+        // Deferred items of this event get a new QMS. The old one gets inactive.
+        if ($event->getState() == Event::STATE_DEFERRED) {
+            foreach ($event->getQmss() as $qms) {
+                if ($qms->getStatus() == Qms::STATE_DEFERRED) {
+                    $qms->setActive(false);
+                    $this->addQms($event, $qms->getItem());
+                }
             }
+        } else {
+            foreach ($entities as $item) {
+                $this->addQms($event, $item);
+            }
+        }
+    }
+
+    /**
+     * Prepares QMS and adds them to the event based on state
+     * @param type $event
+     * @param type $item
+     */
+    private function addQms($event, $item)
+    {
+        if ($item->getType() == 'item') {
+            $qms = new Qms();
+            $qms->setItem($item);
+            $qms->setEvent($event);
+            $event->addQms($qms);
         }
     }
 }

@@ -108,7 +108,7 @@
                     {% if form.vars.value.id is not null %}
                         <a href="{{ path('event_pdf', { 'id': form.vars.value.id }) }}" class="aui-button">{{ 'event.printPdf'|trans }}</a>
                     {% endif %}
-                    {% if form.vars.value.state <= 1 %}
+                    {% if form.vars.value.state == 1 %}
                         <a href="{{ path('orb_event_cancel', { 'id': form.vars.value.id }) }}" class="aui-button aui-button-link">{{ 'event.cancel'|trans }}</a>
                     {% endif %}
                 </div>

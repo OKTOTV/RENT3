@@ -10,6 +10,10 @@
     <a href="{{ path('orb_event_show', { 'id': event.id }) }}">
         <span class="aui-lozenge aui-lozenge-success aui-lozenge-subtle">{{ event.state(true)|trans }}</span>
     </a>
+{% elseif event.state(false) == 7 %}
+    <a href="{{ path('orb_event_show', { 'id': event.id }) }}">
+        <span class="aui-lozenge aui-lozenge-error">{{ event.state(true)|trans }}</span>
+    </a>
 {% else %}
     <a href="{{ path('OktolabRentBundle_Event_Edit', { 'id': event.id }) }}">
         <span class="aui-lozenge aui-lozenge-complete">{{ event.state(true)|trans }}</span>

@@ -328,7 +328,7 @@
                 case 'CANCELED':
                     return '<span class="aui-lozenge">Storniert</span>';
                 case 'DEFERRED':
-                    return '<span class="aui-lozenge aui-lozenge-error aui-lozenge-subtle">In Verzug</span>';
+                    return '<span class="aui-lozenge aui-lozenge-error">In Verzug</span>';
                 default:
                     return '<span class="aui-lozenge">Unknown</span>';
             }

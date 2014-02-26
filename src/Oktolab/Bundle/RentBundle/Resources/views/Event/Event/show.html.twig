@@ -95,6 +95,9 @@
             </fieldset>
             <div class="event-controls buttons-container">
                 <div class="buttons">
+                    {% if event.state is constant('\\Oktolab\\Bundle\\RentBundle\\Entity\\Event::STATE_DEFERRED')%}
+                    <a href="{{ path('ORB_Event_Check', {'id': event.id}) }}" class="aui-button">{{ 'event.deliver'|trans }}</a>
+                    {% endif %}
                     <a href="{{ path('rentbundle_dashboard') }}" class="aui-button aui-button-link">{{ 'generic.dashboard'|trans }}</a>
                     <span class="event-hyperlink-separator">·</span>
                     <a href="{{ path('event_pdf', { 'id': event.id }) }}" class="aui-button aui-button-primary">{{ 'event.printPdf'|trans }}</a>
