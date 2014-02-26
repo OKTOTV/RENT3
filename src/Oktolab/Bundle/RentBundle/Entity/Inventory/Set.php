@@ -416,17 +416,28 @@ class Set implements UploadableInterface, RentableInterface
     public function setSortnumber($sortnumber)
     {
         $this->sortnumber = $sortnumber;
-    
+
         return $this;
     }
 
     /**
      * Get sortnumber
      *
-     * @return integer 
+     * @return integer
      */
     public function getSortnumber()
     {
         return $this->sortnumber;
+    }
+
+    public function available()
+    {
+        $available = true;
+        foreach ($this->getItems() as $item) {
+            if (!$item->getActive()) {
+                $available = false;
+            }
+        }
+        return $available;
     }
 }

@@ -464,6 +464,14 @@
                 <source>inventory.item.return_maintenance</source>
                 <target>Aus Reparatur nehmen</target>
             </trans-unit>
+            <trans-unit id="144">
+                <source>inventory.item.state</source>
+                <target>Status</target>
+            </trans-unit>
+            <trans-unit id="145">
+                <source>inventory.item.active</source>
+                <target>Verfügbar</target>
+            </trans-unit>
 
             <trans-unit id="201">
                 <source>inventory.set.removeFromSet</source>
@@ -548,6 +556,14 @@
             <trans-unit id="221">
                 <source>inventory.set.set</source>
                 <target>Übersicht</target>
+            </trans-unit>
+            <trans-unit id="222">
+                <source>inventory.set.available</source>
+                <target>Verfügbar</target>
+            </trans-unit>
+            <trans-unit id="223">
+                <source>inventory.set.not_available</source>
+                <target>Nicht Verfügbar</target>
             </trans-unit>
 
             <trans-unit id="300">
