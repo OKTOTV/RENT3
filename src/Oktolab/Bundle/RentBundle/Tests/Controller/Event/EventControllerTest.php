@@ -547,4 +547,50 @@ class EventControllerTest extends WebTestCase
               ->eq(1)
               ->text(), 'There should be an item name.');
     }
+
+    /**
+     * checks the deferred check qms page. this should contain the deactivated old deffered qms and a new one.
+     */
+    public function testDeferredQmsShow()
+    {
+        $this->loadFixtures(
+            array(
+                '\Oktolab\Bundle\RentBundle\Tests\DataFixtures\ORM\Event\EventTypeFixture',
+                '\Oktolab\Bundle\RentBundle\Tests\DataFixtures\ORM\Event\EventDeferredShowFixture'
+            ));
+
+        $em = $this->getContainer()->get('doctrine.orm.entity_manager');
+        $event = $em->getRepository('OktolabRentBundle:Event')->findOneBy(array('name' => 'My Event'));
+
+        $crawler = $this->client->request('GET', '/event/'.$event->getId().'/check');
+        $this->assertTrue($this->client->getResponse()->isSuccessful(), 'Response should be successful.');
+
+        $this->assertEquals('JVC Camera 1', $crawler->filter('body div#event-form h3')->text());
+        $this->assertEquals('Bemerkung', $crawler->filter('body div#event-form div.field-group')->eq(6)->filter('label')->text());
+        $this->assertEquals('Nicht angegeben', $crawler->filter('body div#event-form div.field-group')->eq(6)->filter('span')->text());
+    }
+
+    public function testSendDeferredQms()
+    {
+        $this->loadFixtures(
+            array(
+                '\Oktolab\Bundle\RentBundle\Tests\DataFixtures\ORM\Event\EventTypeFixture',
+                '\Oktolab\Bundle\RentBundle\Tests\DataFixtures\ORM\Event\EventDeferredShowFixture'
+            ));
+
+        $em = $this->getContainer()->get('doctrine.orm.entity_manager');
+        $event = $em->getRepository('OktolabRentBundle:Event')->findOneBy(array('name' => 'My Event'));
+
+        $this->client->request('GET', '/event/'.$event->getId().'/check');
+        $this->assertTrue($this->client->getResponse()->isSuccessful(), 'Response should be successful.');
+
+        $form = $this->client->getCrawler()->selectButton('Abschließen')->form();
+        $this->client->submit($form);
+
+        $this->client->followRedirect();
+        $this->assertTrue($this->client->getResponse()->isSuccessful(), 'Response should be successful.');
+
+        $item = $em->getRepository('OktolabRentBundle:Inventory\Item')->findOneBy(array('barcode' => 'F00B51'));
+        $this->assertTrue(true, $item->getActive());
+    }
 }
