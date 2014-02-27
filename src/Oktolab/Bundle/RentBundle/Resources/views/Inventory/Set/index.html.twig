@@ -40,6 +40,7 @@
         <tr>
             <th id="set_table_title" colspan="2">{{ 'inventory.set.sets'|trans }}</th>
             <th id="set_table_barcode">{{ 'inventory.set.barcode'|trans }}</th>
+            <th>{{ 'inventory.set.available'|trans }}<th>
         </tr>
     </thead>
     <tbody>
@@ -63,6 +64,8 @@
                     </div>
                 </td>
                 <td headers="set_table_barcode">{{ entity.barcode }}</td>
+                {% set vars ={'set': entity} %}
+                <td>{% include 'OktolabRentBundle:Inventory/Set:_set_active_lozenge.html.twig' with vars %}</td>
             </tr>
         {% endfor %}
     </tbody>

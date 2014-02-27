@@ -5,6 +5,8 @@ namespace Oktolab\Bundle\RentBundle\Model\Validator;
 use Symfony\Component\Validator\Constraint;
 use Symfony\Component\Validator\ConstraintValidator;
 use Oktolab\Bundle\RentBundle\Model\Event\EventManager as OktolabEventManager;
+use Oktolab\Bundle\RentBundle\Entity\Event;
+
 /**
  * Description of AvailabilityValidator
  *
@@ -28,16 +30,18 @@ class AvailabilityConstrainValidator extends ConstraintValidator
      */
     public function validate($event, Constraint $constraint)
     {
-        $entities = $this->eventManager->convertEventObjectsToEntites($event->getObjects());
+        if ($event->getState() != Event::STATE_DEFERRED) {
+            $entities = $this->eventManager->convertEventObjectsToEntites($event->getObjects());
 
-        foreach ($entities as $entity) {
-            if ($entity->getType() == 'item' && !$entity->getActive()) {
-                $this->context->addViolation($constraint->message, array('%string%' => $entity));
-            } elseif (!$this->eventManager->eventObjectIsAvailable($event, $entity)) {
-                $this->context->addViolation(
-                    $constraint->message,
-                    array('%string%' => $entity)
-                );
+            foreach ($entities as $entity) {
+                if ($entity->getType() == 'item' && !$entity->getActive()) {
+                    $this->context->addViolation($constraint->message, array('%string%' => $entity));
+                } elseif (!$this->eventManager->eventObjectIsAvailable($event, $entity)) {
+                    $this->context->addViolation(
+                        $constraint->message,
+                        array('%string%' => $entity)
+                    );
+                }
             }
         }
     }

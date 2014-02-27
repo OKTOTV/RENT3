@@ -464,6 +464,14 @@
                 <source>inventory.item.return_maintenance</source>
                 <target>Aus Reparatur nehmen</target>
             </trans-unit>
+            <trans-unit id="144">
+                <source>inventory.item.state</source>
+                <target>Status</target>
+            </trans-unit>
+            <trans-unit id="145">
+                <source>inventory.item.active</source>
+                <target>Verfügbar</target>
+            </trans-unit>
 
             <trans-unit id="201">
                 <source>inventory.set.removeFromSet</source>
@@ -548,6 +556,14 @@
             <trans-unit id="221">
                 <source>inventory.set.set</source>
                 <target>Übersicht</target>
+            </trans-unit>
+            <trans-unit id="222">
+                <source>inventory.set.available</source>
+                <target>Verfügbar</target>
+            </trans-unit>
+            <trans-unit id="223">
+                <source>inventory.set.not_available</source>
+                <target>Nicht Verfügbar</target>
             </trans-unit>
 
             <trans-unit id="300">
@@ -877,6 +893,26 @@
             <trans-unit id="711">
                 <source>event.no_costunit</source>
                 <target>Keine Kostenstelle eingetragen</target>
+            </trans-unit>
+            <trans-unit id="712">
+                <source>event.reserve</source>
+                <target>Reservieren</target>
+            </trans-unit>
+            <trans-unit id="713">
+                <source>event.lent_or_change</source>
+                <target>Ausleihen oder Ändern</target>
+            </trans-unit>
+            <trans-unit id="714">
+                <source>event.complete</source>
+                <target>Abschließen</target>
+            </trans-unit>
+            <trans-unit id="715">
+                <source>event.deferred</source>
+                <target>Überzogen</target>
+            </trans-unit>
+            <trans-unit id="716">
+                <source>event.completed</source>
+                <target>Abgeschlossen</target>
             </trans-unit>
 
             <trans-unit id="800">
@@ -1211,6 +1247,18 @@
                 <source>event.complete_error</source>
                 <target>Event konnte nicht erfolgreich abgeschlossen werden</target>
             </trans-unit>
+            <trans-unit id="1229">
+                <source>event.cancelation_error</source>
+                <target>Event kann nicht storniert werden</target>
+            </trans-unit>
+            <trans-unit id="1230">
+                <source>event.cancelation_success</source>
+                <target>Event erfolgreich storniert</target>
+            </trans-unit>
+            <trans-unit id="1231">
+                <source>event.cancel</source>
+                <target>Stornieren</target>
+            </trans-unit>
 
             <trans-unit id="1300">
                 <source>admin.setting.settings</source>
@@ -1312,6 +1360,10 @@
             <trans-unit id="1414">
                 <source>qms.active</source>
                 <target>Aktiv</target>
+            </trans-unit>
+            <trans-unit id="1415">
+                <source>qms.deferred</source>
+                <target>Überzogen</target>
             </trans-unit>
 
             <trans-unit id="1500">

@@ -778,6 +778,17 @@ class Item implements RentableInterface, UploadableInterface
         return $discarded;
     }
 
+    public function deferred()
+    {
+        $deferred = false;
+        foreach ($this->getQmss() as $qms) {
+            if ($qms->getActive() && $qms->getStatus() == Qms::STATE_DEFERRED) {
+                $deferred = true;
+            }
+        }
+        return $deferred;
+    }
+
     /**
      * Set sortnumber
      *

@@ -21,7 +21,10 @@
         </ol>
         <h1>
             <span id="title-text">
-                <a href="{{ path('inventory_set_show', { 'id': set.id }) }}">{{ set.title }} - {{ set.barcode }}</a>
+                {% if not set.available %}
+                    <span class="aui-lozenge aui-lozenge-error">{{ 'inventory.set.not_active'|trans}}</span>
+                {% endif %}
+                {{ set.title }} - {{ set.barcode }}
             </span>
         </h1>
     </div>
@@ -82,6 +85,7 @@
             <table class="aui aui-table-sortable">
                 <thead>
                     <tr>
+                        <th>{{'inventory.item.state'| trans }}</th>
                         <th id="set_item_table_title">{{ 'inventory.item.title'|trans }}</th>
                         <th id="set_item_table_barcode">{{ 'inventory.item.barcode'|trans }}</th>
                         <th id="set_item_table_vendor">{{ 'inventory.item.vendor'|trans }}</th>
@@ -91,6 +95,7 @@
                 <tbody>
                     {% for item in set.items %}
                         <tr>
+                            <td>{% include 'OktolabRentBundle:Inventory/Item:_item_active_lozenge.html.twig' %}</td>
                             <td headers="set_item_table_title">
                                 <a href="{{ path('inventory_item_show', { 'id': item.id }) }}">{{ item.title }}</a>
                             </td>

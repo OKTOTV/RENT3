@@ -158,7 +158,9 @@ class EventManager
      */
     public function cancel(Event $event)
     {
-
+        $event->setState(Event::STATE_CANCELED);
+        $this->em->persist($event);
+        $this->em->flush($event);
     }
 
     /**

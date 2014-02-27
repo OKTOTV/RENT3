@@ -1,0 +1,5 @@
+{% if not item.active%}
+    <span class="aui-lozenge aui-lozenge-error">{{ 'inventory.item.not_active'|trans}}</span>
+{% else %}
+    <span class="aui-lozenge aui-lozenge-success aui-lozenge-subtle">{{ 'inventory.item.active'|trans}}</span>
+{% endif %}

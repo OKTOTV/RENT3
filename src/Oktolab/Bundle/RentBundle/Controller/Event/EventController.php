@@ -141,6 +141,7 @@ class EventController extends Controller
 
         //TODO: new objects from reserved to lent won't get added.
         if ($form->get('rent')->isClicked()) { // User clicked Rent -> Forwarding to RENT Action
+            $event->setState(Event::STATE_RESERVED);
             $this->get('oktolab.event_manager')->save($event);
             return $this->forward(
                 'OktolabRentBundle:Event\Event:rent',
@@ -317,18 +318,10 @@ class EventController extends Controller
      * @Configuration\ParamConverter("event", class="OktolabRentBundle:Event")
      * @Configuration\Template("OktolabRentBundle:Event:Event\check.html.twig")
      *
-     * @param \Oktolab\Bundle\RentBundle\Entity\Event   $event
-     *
      * @return Response
      */
     public function checkAction(Request $request, Event $event)
     {
-        if ($event->getState() > Event::STATE_DELIVERED) {
-            $message = $this->get('translator')->trans('event.cannot_check');
-            $this->get('session')->getFlashBag()->add('warning', $message);
-            return $this->redirect($this->generateUrl('rentbundle_dashboard'));
-        }
-
         $entities = $this->get('oktolab.event_manager')->convertEventObjectsToEntites($event->getObjects());
         $this->get('oktolab.qms')->prepareEvent($event, $entities);
 
@@ -337,7 +330,8 @@ class EventController extends Controller
             QMS::STATE_FLAW,
             QMS::STATE_DAMAGED,
             QMS::STATE_DESTROYED,
-            QMS::STATE_LOST
+            QMS::STATE_LOST,
+            Qms::STATE_DEFERRED
         );
 
         $form = $this->createForm(
@@ -355,10 +349,6 @@ class EventController extends Controller
 
             if ($form->isValid()) {
                 $this->get('oktolab.qms')->createQMSFromEvent($event);
-                $event->setState(Event::STATE_COMPLETED);
-                $em = $this->getDoctrine()->getManager();
-                $em->persist($event);
-                $em->flush();
 
                 $this->get('session')->getFlashBag()->add('success', 'event.complete_success');
                 return $this->redirect($this->generateUrl('rentbundle_dashboard'));
@@ -413,5 +403,21 @@ class EventController extends Controller
     {
         $entities = $this->get('oktolab.event_manager')->convertEventObjectsToEntites($event->getObjects());
         return array('event' => $event, 'objects' => $entities);
+    }
+
+    /**
+     * Cancel an Event
+     * @Configuration\Method("GET")
+     * @Configuration\Route("/event/{id}/cancel", name="orb_event_cancel")
+     */
+    public function cancelAction(Event $event)
+    {
+        if ($event->getState() <= Event::STATE_RESERVED) {
+            $this->get('oktolab.event_manager')->cancel($event);
+            $this->get('session')->getFlashBag()->add('success', 'event.cancelation_success');
+        } else {
+            $this->get('session')->getFlashBag()->add('error', 'event.cancelation_error');
+        }
+        $this->redirect($this->generateUrl('rentbundle_dashboard'));
     }
 }

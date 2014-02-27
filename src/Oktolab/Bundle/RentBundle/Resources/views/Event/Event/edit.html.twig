@@ -108,7 +108,9 @@
                     {% if form.vars.value.id is not null %}
                         <a href="{{ path('event_pdf', { 'id': form.vars.value.id }) }}" class="aui-button">{{ 'event.printPdf'|trans }}</a>
                     {% endif %}
-                    {{ form_widget(form.cancel, {'attr': { 'class': 'aui-button aui-button-link' }, 'label': 'generic.cancel'|trans }) }}
+                    {% if form.vars.value.state == 1 %}
+                        <a href="{{ path('orb_event_cancel', { 'id': form.vars.value.id }) }}" class="aui-button aui-button-link">{{ 'event.cancel'|trans }}</a>
+                    {% endif %}
                 </div>
             </div>
 
@@ -116,6 +118,7 @@
             {% do form.update.setRendered %}
             {% do form.delete.setRendered %}
             {% do form.rent.setRendered %}
+            {% do form.cancel.setRendered %}
         {{ form_end(form) }}
     </div>
 {% endblock %}
