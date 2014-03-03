@@ -19,8 +19,8 @@ use Oktolab\Bundle\RentBundle\Entity\EventType;
  *
  * @author rt
  */
-class CategoryApiFixture extends AbstractFixture{
-
+class CategoryApiFixture extends AbstractFixture
+{
     /**
      * {@inheritDoc}
      */
