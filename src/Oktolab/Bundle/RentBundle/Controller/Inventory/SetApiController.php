@@ -75,6 +75,11 @@ class SetApiController extends Controller
                 $items[] = sprintf('%s:%d', $item->getType(), $item->getId());
             }
 
+            $title = explode(' ', $set->getTitle());
+            $desc = explode(' ', $set->getDescription());
+            $tokens = array_merge($title, $desc);
+            $tokens[] = $set->getBarcode();
+
             $json[] = array(
                 'name'          => $set->getTitle().$set->getId(),
                 'displayName'         => $set->getTitle(),
@@ -85,11 +90,7 @@ class SetApiController extends Controller
                 'barcode'       => $set->getBarcode(),
                 'items'         => $items,
                 'showUrl'       => 'inventory/set/'.$set->getId(),
-                'tokens'        => array(
-                    $item->getBarcode(),
-                    $item->getDescription(),
-                    $item->getTitle()
-                )
+                'tokens'        => $tokens
             );
         }
         return $json;
