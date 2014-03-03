@@ -157,4 +157,9 @@ class CostUnitControllerTest extends WebTestCase
             'The Costunit should be deleted.'
         );
     }
+
+    public function testAbbreviationPlaceholder()
+    {
+        
+    }
 }
