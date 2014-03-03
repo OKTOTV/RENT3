@@ -56,6 +56,12 @@ class CostUnit
     private $events;
 
     /**
+     * @ORM\Column(name="abbreviation", type="string", nullable=true)
+     * @var type string
+     */
+    private $abbreviation;
+
+    /**
      * Get id
      *
      * @return integer
@@ -215,5 +221,28 @@ class CostUnit
     public function getEvents()
     {
         return $this->events;
+    }
+
+    /**
+     * Set abbreviation
+     *
+     * @param string $abbreviation
+     * @return CostUnit
+     */
+    public function setAbbreviation($abbreviation)
+    {
+        $this->abbreviation = $abbreviation;
+    
+        return $this;
+    }
+
+    /**
+     * Get abbreviation
+     *
+     * @return string 
+     */
+    public function getAbbreviation()
+    {
+        return $this->abbreviation;
     }
 }

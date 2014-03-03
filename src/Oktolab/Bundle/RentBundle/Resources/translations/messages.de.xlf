@@ -1024,6 +1024,14 @@
                 <source>admin.costunit.event_time</source>
                 <target>Zeitraum</target>
             </trans-unit>
+            <trans-unit id="916">
+                <source>admin.costunit.abbreviation</source>
+                <target>Kürzel</target>
+            </trans-unit>
+            <trans-unit id="917">
+                <source>admin.costunit.no_abbreviation</source>
+                <target>Kein Kürzel eingetragen</target>
+            </trans-unit>
 
             <trans-unit id="1000">
                 <source>admin.contact</source>

@@ -50,7 +50,12 @@ class CostUnitApiController extends Controller
         $repository = $this->getDoctrine()->getManager()->getRepository('OktolabRentBundle:CostUnit');
         $dq = $repository->createQueryBuilder('c');
         $query = $dq->select()
-            ->where($dq->expr()->like('c.name', ':value'))
+            ->where(
+                $dq->expr()->orX(
+                    $dq->expr()->like('c.name', ':value'),
+                    $dq->expr()->like('c.abbreviation', ':value')
+                    )
+                )
             ->setParameter('value', '%'.$costunitValue.'%')
             ->getQuery();
 
@@ -94,11 +99,15 @@ class CostUnitApiController extends Controller
     {
         $datums = array();
         foreach ($costunits as $costunit) {
+
+            $tokens = explode(' ', $costunit->getName());
+            $tokens[] = $costunit->getAbbreviation();
+
             $datums[] = array(
                 'name'          => $costunit->getName().$costunit->getId(),
                 'displayName'   => $costunit->getName(),
                 'value'         => $costunit->getId(),
-                'tokens'        => explode(' ', $costunit->getName()),
+                'tokens'        => $tokens,
                 'id'            => $costunit->getId(),
                 'showUrl'       => 'admin/costunit/'.$costunit->getId()
             );

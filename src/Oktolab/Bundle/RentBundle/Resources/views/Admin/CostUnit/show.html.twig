@@ -14,6 +14,10 @@
             <span class="field-value">{{ costunit.name }}</span>
         </div>
         <div class="field-group viewMode">
+            <label>{{ 'admin.costunit.abbreviation' | trans }}</label>
+            <span class="field-value">{{ costunit.abbreviation|default('admin.costunit.no_abbreviation'|trans) }}</span>
+        </div>
+        <div class="field-group viewMode">
             <label>{{ 'admin.costunit.mainContact' | trans }}</label>
             {% if  costunit.mainContact is not null %}
                 <span class="field-value">{{ costunit.mainContact.name }}</span>

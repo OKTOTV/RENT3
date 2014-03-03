@@ -19,6 +19,7 @@ class CostUnitType extends AbstractType
 
         $builder
             ->add('name', 'text', array('label' => 'admin.costunit.name'))
+            ->add('abbreviation', 'text', array('label' => 'admin.costunit.abbreviation', 'required' => false))
             ->add(
                 'mainContact',
                 'entity',
