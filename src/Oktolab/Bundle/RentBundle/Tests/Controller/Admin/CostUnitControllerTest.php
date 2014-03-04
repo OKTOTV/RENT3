@@ -157,4 +157,63 @@ class CostUnitControllerTest extends WebTestCase
             'The Costunit should be deleted.'
         );
     }
+
+public function testAbbreviationPlaceholder()
+    {
+        $this->logIn('ROLE_ADMIN');
+        $this->loadFixtures(array(
+            'Oktolab\Bundle\RentBundle\Tests\DataFixtures\ORM\CostUnitFixture',
+            'Oktolab\Bundle\RentBundle\Tests\DataFixtures\ORM\Event\EventTypeFixture'
+        ));
+
+        $em       = $this->getContainer()->get('doctrine.orm.entity_manager');
+        $costunit = $em->getRepository('OktolabRentBundle:CostUnit')->findOneBy(array('guid' => '1234567DUMMY'));
+
+        $this->client->request('GET', '/admin/costunit/'.$costunit->getId());
+        $this->assertTrue($this->client->getResponse()->isSuccessful(), 'Response should be successful');
+
+        $this->assertEquals('Kein Kürzel eingetragen',
+              $this->client->getCrawler()
+              ->filter('body section[id="content"]')
+              ->eq(0)
+              ->filter('form div')
+              ->eq(1)
+              ->filter('span')
+              ->text(), 'There should be an default abbreviation');
+    }
+
+    public function testSubmitFormToUpdateAbbreviation()
+    {
+        $this->logIn('ROLE_ADMIN');
+        $this->loadFixtures(array(
+            'Oktolab\Bundle\RentBundle\Tests\DataFixtures\ORM\CostUnitFixture',
+            'Oktolab\Bundle\RentBundle\Tests\DataFixtures\ORM\Event\EventTypeFixture'
+        ));
+
+        $em       = $this->getContainer()->get('doctrine.orm.entity_manager');
+        $costunit = $em->getRepository('OktolabRentBundle:CostUnit')->findOneBy(array('guid' => '1234567DUMMY'));
+
+        // load page
+        $this->client->request('GET', '/admin/costunit/'.$costunit->getId().'/edit');
+        $this->assertTrue($this->client->getResponse()->isSuccessful(), 'Response should be successful');
+
+        // fill form and submit it
+        $this->client->submit(
+            $this->client->getCrawler()->selectButton('Speichern')->form(),
+            array('oktolab_bundle_rentbundle_costunit[abbreviation]' => 'Changed Abbreviation Name')
+        );
+        $this->assertTrue($this->client->getResponse()->isRedirect(), 'Response should be a redirect');
+
+        // check redirect and page content
+        $crawler = $this->client->followRedirect();
+        $this->assertTrue($this->client->getResponse()->isSuccessful(), 'Response should be successful');
+        $this->assertEquals('Changed Abbreviation Name',
+              $this->client->getCrawler()
+              ->filter('body section[id="content"]')
+              ->eq(0)
+              ->filter('form div')
+              ->eq(1)
+              ->filter('span')
+              ->text(), 'There should be an default abbreviation');
+    }
 }
