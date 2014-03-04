@@ -15,6 +15,7 @@
             <thead>
                 <tr>
                     <th id="title">{{'admin.costunit.name'|trans}}</th>
+                    <th>{{'admin.costunit.abbreviation'|trans}}</th>
                     <th id="items">{{'generic.numberThings'|trans({'%thing%':'admin.costunit.contacts'|trans})}}</th>
                     <th id="action">{{'generic.actions'|trans}}</th>
                 </tr>
@@ -23,6 +24,7 @@
             {% for entity in entities %}
                 <tr>
                     <td headers="title">{{ entity.name }}</td>
+                    <td>{{ entity.abbreviation|default('admin.costunit.no_abbreviation'|trans)}}</td>
                     {% if entity.contacts |length == 0%}
                         <td headers="items">{{ 'generic.none'|trans({'%what%':'admin.costunit.contacts'|trans}) }}</td>
                     {% else %}
