@@ -4,6 +4,7 @@ namespace Oktolab\Bundle\RentBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * SeriesEvent
@@ -57,6 +58,16 @@ class SeriesEvent
      * @ORM\Column(name="end", type="datetime")
      */
     private $end;
+
+    /**
+     * @Assert\NotBlank()
+     */
+    private $event_begin;
+
+    /**
+     * @Assert\NotBlank()
+     */
+    private $event_end;
 
     /**
      * @ORM\OneToMany(targetEntity="Event", mappedBy="seriesEvent")
@@ -246,5 +257,10 @@ class SeriesEvent
     public function isBeginForEnd()
     {
         return $this->begin < $this->end;
+    }
+
+    public function isEventBeginForEnd()
+    {
+        return $this->event_begin < $this->event_end;
     }
 }
