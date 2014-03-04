@@ -120,6 +120,12 @@ class Event
     private $qmss;
 
     /**
+     * @ORM\ManyToOne(targetEntity="seriesEvent", inversedBy="events")
+     * @ORM\JoinColumn(name="event_id", referencedColumnName="id")
+     */
+    private $seriesEvent;
+
+    /**
      * Constructor
      */
     public function __construct()
@@ -449,5 +455,28 @@ class Event
     public function getQmss()
     {
         return $this->qmss;
+    }
+
+    /**
+     * Set seriesEvent
+     *
+     * @param \Oktolab\Bundle\RentBundle\Entity\seriesEvent $seriesEvent
+     * @return Event
+     */
+    public function setSeriesEvent(\Oktolab\Bundle\RentBundle\Entity\seriesEvent $seriesEvent = null)
+    {
+        $this->seriesEvent = $seriesEvent;
+    
+        return $this;
+    }
+
+    /**
+     * Get seriesEvent
+     *
+     * @return \Oktolab\Bundle\RentBundle\Entity\seriesEvent 
+     */
+    public function getSeriesEvent()
+    {
+        return $this->seriesEvent;
     }
 }

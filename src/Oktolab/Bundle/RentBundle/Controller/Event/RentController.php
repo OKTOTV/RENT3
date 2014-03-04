@@ -87,4 +87,9 @@ class RentController extends Controller
             'timeblock_times'  => $this->get('oktolab.event_calendar_timeblock')->getBlockJsonForType($event->getType()->getName())
         );
     }
+
+    public function rentInventorySeriesAction()
+    {
+        $series_event = new SeriesEvent();
+    }
 }
