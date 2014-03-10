@@ -204,6 +204,30 @@ class SeriesEvent
         return $this->end;
     }
 
+    public function getEventBegin()
+    {
+        return $this->event_begin;
+    }
+
+    public function setEventBegin($event_begin)
+    {
+        $this->event_begin = $event_begin;
+
+        return $this;
+    }
+
+    public function getEventEnd()
+    {
+        return $this->event_end;
+    }
+
+    public function setEventEnd($event_end)
+    {
+        $this->event_end = $event_end;
+
+        return $this;
+    }
+
     /**
      * Add events
      *

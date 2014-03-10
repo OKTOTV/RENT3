@@ -69,7 +69,7 @@
 {% block date_widget %}
     {% spaceless %}
         <input
-            class="aui-date-picker" type="date" {{ block('widget_attributes') }}
+            class="{{attr.class|default('aui-date-picker')}}" type="date" {{ block('widget_attributes') }}
             {% if value is not empty %} value="{{ value }}"{% endif %}
         />
     {% endspaceless %}

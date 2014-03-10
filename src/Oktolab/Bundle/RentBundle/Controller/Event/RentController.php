@@ -6,6 +6,8 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration;
 use Oktolab\Bundle\RentBundle\Entity\Event;
 use Oktolab\Bundle\RentBundle\Form\EventType;
+use Oktolab\Bundle\RentBundle\Entity\SeriesEvent;
+use Oktolab\Bundle\RentBundle\Form\SeriesEventType;
 
 /**
  * Rent Controller.
@@ -88,8 +90,25 @@ class RentController extends Controller
         );
     }
 
+    /**
+     * Returns a new Inventoy SeriesEvent Form
+     * @Configuration\Method("GET")
+     * @Configuration\Route("/series_inventory", name="orb_create_series_inventory")
+     * @Configuration\Template("OktolabRentBundle:Event\SeriesEvent:seriesRentInventoryForm.html.twig")
+     */
     public function rentInventorySeriesAction()
     {
         $series_event = new SeriesEvent();
+
+        $form = $this->createForm(
+            new SeriesEventType(),
+            $series_event,
+            array(
+                'method' => 'POST'
+            ));
+
+        return array(
+            'form' => $form->createView()
+        );
     }
 }

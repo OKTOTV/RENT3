@@ -12,12 +12,15 @@ var createRentForm = new AJS.Dialog({
 createRentForm.addHeader('Neue Reservierung');
 createRentForm.addPanel('Inventar', '#rent-inventory-form');
 createRentForm.addPanel('R&auml;ume', '#rent-room-form');
+createRentForm.addPanel('Inventar Serie', '#rent-series-inventory-form');
 createRentForm.addButton('Erstellen', function (dialog, page) {
 
     if (page.curtab == 0) {
         AJS.$('#rent-inventory-form > form').submit();
     } else if (page.curtab == 1) {
         AJS.$('#rent-room-form > form').submit();
+    } else if (page.curtab == 2) {
+        AJS.$('#rent-series-inventory-form > form').submit();
     }
 });
 

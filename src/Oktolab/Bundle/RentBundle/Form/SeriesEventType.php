@@ -17,11 +17,11 @@ class SeriesEventType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('description', 'text', array('label' => 'series_event.description'))
-            ->add('begin', 'date', array('label' => 'series_event.begin'))
-            ->add('end', 'date', array('label' => 'series_event.end'))
-            ->add('event_begin', 'date', array('label' => 'series_event.event_begin'))
-            ->add('event_end', 'date', array('label' => 'series_event.event_end'))
+            ->add('description', 'textarea', array('label' => 'series_event.description'))
+            ->add('begin', 'datetime', array('label' => 'series_event.begin', 'widget' => 'single_text'))
+            ->add('end', 'datetime', array('label' => 'series_event.end', 'widget' => 'single_text'))
+            ->add('event_begin', 'datetime', array('label' => 'series_event.event_begin', 'widget' => 'single_text'))
+            ->add('event_end', 'datetime', array('label' => 'series_event.event_end', 'widget' => 'single_text'))
             ->add('events', 'collection', array('label' => 'series_event.events'));
     }
 

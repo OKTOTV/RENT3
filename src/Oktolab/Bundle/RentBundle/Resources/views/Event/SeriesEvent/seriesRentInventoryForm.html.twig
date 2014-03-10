@@ -1,0 +1,43 @@
+<div id="rent-series-inventory-form">
+    {{ form_start(form, {'attr': {'class': 'aui'} }) }}
+        <fieldset>
+            {{ form_errors(form) }}
+
+            {{ form_row(form.begin, {'attr': {'class': 'text datetime'} }) }}
+            {{ form_row(form.end, {'attr': {'class': 'text datetime'} }) }}
+            {{ form_row(form.description) }}
+
+            {{ form_row(form.event_begin, {'attr': {'class': 'text datetime'} }) }}
+            {{ form_row(form.event_end, {'attr': {'class': 'text datetime'} }) }}
+        </fieldset>
+
+        <h3>{{ 'event.rentable_objects'|trans }}</h3>
+        <fieldset>
+            <div class="field-group">
+                <label for="inventory-search-field">{{ 'generic.search'|trans }}</label>
+                <input class="text" type="text" id="inventory-search-field" name="inventory-search-field" title="{{ 'Search for Barcodes, Items, Sets, ...'|trans }}" disabled="disabled" />
+                <div class="description">{{ 'event.searchFor'|trans }} {{'generic.barcodes'|trans}}, {{'inventory.items'|trans}}, {{'inventory.sets'|trans}}, ...</div>
+            </div>
+
+            <div class="field-group aui-oktolab-form-table">
+                <label>{{ 'event.objects'|trans }}</label>
+                <table class="aui">
+                    <thead>
+                        <tr>
+                            <th id="basic-barcode">{{ 'generic.barcode'|trans }}</th>
+                            <th id="basic-name">{{ 'generic.name'|trans }}</th>
+                            <th id="basic-action"><span class="aui-icon aui-icon-small aui-iconfont-configure">{{ 'Actions'|trans }}</span></th>
+                        </tr>
+                    </thead>
+                    <tbody id="inventory-event-objects" class="event-objects" data-index="-1" data-prototype="{% filter escape %}{% include 'OktolabRentBundle:Event:eventObjectPrototype.html.twig' %}{% endfilter %}">
+                    </tbody>
+                </table>
+            </div>
+        </fieldset>
+
+        <div class="buttons-container">
+            <div class="buttons">
+            </div>
+        </div>
+    {{ form_end(form) }}
+</div>

@@ -1406,6 +1406,27 @@
                 <source>DEFERRED</source>
                 <target>In Verzug</target>
             </trans-unit>
+
+            <trans-unit id="1600">
+                <source>series_event.begin</source>
+                <target>Serienzeitraum von</target>
+            </trans-unit>
+            <trans-unit id="1601">
+                <source>series_event.end</source>
+                <target>Serienzeitraum bis</target>
+            </trans-unit>
+            <trans-unit id="1602">
+                <source>series_event.description</source>
+                <target>Beschreibung</target>
+            </trans-unit>
+            <trans-unit id="1603">
+                <source>series_event.event_begin</source>
+                <target>Buchungsbeginn</target>
+            </trans-unit>
+            <trans-unit id="1604">
+                <source>series_event.event_end</source>
+                <target>Buchungsende</target>
+            </trans-unit>
         </body>
     </file>
 </xliff>
