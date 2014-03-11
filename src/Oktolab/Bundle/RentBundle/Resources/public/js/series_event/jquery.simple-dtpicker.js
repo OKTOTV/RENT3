@@ -408,7 +408,6 @@
 	};
 
 	var draw_date = function($picker, option, date) {
-		//console.log("draw_date - " + date.toString());
 		draw($picker, option, date.getFullYear(), date.getMonth(), date.getDate(), date.getHours(), date.getMinutes());
 	};
 	var translate = function(locale, s) {
@@ -680,11 +679,13 @@
 						"isAnim": false,
 						"isOutputToInputObject": true
 					}, targetDate.getFullYear(), targetDate.getMonth(), targetDate.getDate(), selectedDate.getHours(), selectedDate.getMinutes());
-	                                if ($picker.data("dateOnly") == true && $picker.data("isInline") == false && $picker.data("closeOnSelected")){
-	                                        // Close a picker
-	                                        ActivePickerId = -1;
-	                                        $picker.hide();
-	                                }
+                    if ($picker.data("dateOnly") == true && $picker.data("isInline") == false && $picker.data("closeOnSelected")){
+                            // Close a picker
+                            console.log('hide picker. but no message :(');
+                            ActivePickerId = -1;
+                            $picker.hide();
+                           // @rs onHide wont be called here.
+                    }
 				});
 
 
@@ -763,6 +764,13 @@
 								// Close a picker
 								ActivePickerId = -1;
 								$picker.hide();
+                                // rs. onHide function will be called now.
+                                var func = $picker.data('onHide');
+                                console.log(func);
+                                if (func != null) {
+                                    console.log("dtpicker- Call the onHide handler");
+                                    func($picker);
+                                }
 							}
 						});
 
@@ -795,7 +803,6 @@
 
 						var $picker = getParentPickerObject($(this));
 						var date = getPickedDate($picker);
-                        console.log(date);
 						var hour = $(this).data("hour");
 						var min = $(this).data("min");
 						draw($picker, {
@@ -1148,7 +1155,6 @@
 
 				/* Set onClick event handler for input-field */
 				$(input).on('click, focus',function(){
-					console.log("onClick");
 					var $input = $(this);
 					var $picker = $(PickerObjects[$input.data('pickerId')]);
 

@@ -61,6 +61,11 @@ class CostUnit
      */
     private $abbreviation;
 
+    public function __toString()
+    {
+        return $this->getName();
+    }
+
     /**
      * Get id
      *
@@ -232,14 +237,14 @@ class CostUnit
     public function setAbbreviation($abbreviation)
     {
         $this->abbreviation = $abbreviation;
-    
+
         return $this;
     }
 
     /**
      * Get abbreviation
      *
-     * @return string 
+     * @return string
      */
     public function getAbbreviation()
     {

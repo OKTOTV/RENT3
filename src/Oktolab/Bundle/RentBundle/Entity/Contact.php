@@ -48,6 +48,11 @@ class Contact
      **/
     private $events;
 
+    public function __toString()
+    {
+        return $this->getName();
+    }
+
     /**
      * Get id
      *

@@ -1,21 +1,28 @@
 <div id="rent-series-inventory-form">
-    {{ form_start(form, {'attr': {'class': 'aui'} }) }}
+    {{ form_start(form, {'attr': {'class': 'aui', 'data-value': form.vars.id } }) }}
         <fieldset>
             {{ form_errors(form) }}
-
+            <h3>{{ 'series_event.form'|trans }}</h3>
             {{ form_row(form.begin, {'attr': {'class': 'text datetime'} }) }}
             {{ form_row(form.end, {'attr': {'class': 'text datetime'} }) }}
+            {{ form_row(form.repetition) }}
             {{ form_row(form.description) }}
+            <h3>{{'series_event.event_form'|trans }}</h3>
+            <div class="field-group">
+                {{ form_label(form.costunit) }}
+                <input type="text" id="orb_series_costunit_typeahead" class="text">
+            </div>
 
-            {{ form_row(form.event_begin, {'attr': {'class': 'text datetime'} }) }}
-            {{ form_row(form.event_end, {'attr': {'class': 'text datetime'} }) }}
+            {{ form_row(form.contact) }}
+            {{ form_row(form.event_begin, {'attr': {'class': 'text event-datetime'} }) }}
+            {{ form_row(form.event_end, {'attr': {'class': 'text event-datetime'} }) }}
         </fieldset>
 
         <h3>{{ 'event.rentable_objects'|trans }}</h3>
         <fieldset>
             <div class="field-group">
                 <label for="inventory-search-field">{{ 'generic.search'|trans }}</label>
-                <input class="text" type="text" id="inventory-search-field" name="inventory-search-field" title="{{ 'Search for Barcodes, Items, Sets, ...'|trans }}" disabled="disabled" />
+                <input class="text" type="text" id="orb_series_event_form_inventory_search" name="inventory-search-field" title="{{ 'Search for Barcodes, Items, Sets, ...'|trans }}" disabled="disabled" />
                 <div class="description">{{ 'event.searchFor'|trans }} {{'generic.barcodes'|trans}}, {{'inventory.items'|trans}}, {{'inventory.sets'|trans}}, ...</div>
             </div>
 
@@ -29,15 +36,20 @@
                             <th id="basic-action"><span class="aui-icon aui-icon-small aui-iconfont-configure">{{ 'Actions'|trans }}</span></th>
                         </tr>
                     </thead>
-                    <tbody id="inventory-event-objects" class="event-objects" data-index="-1" data-prototype="{% filter escape %}{% include 'OktolabRentBundle:Event:eventObjectPrototype.html.twig' %}{% endfilter %}">
+                    <tbody id="orb_series_event_form_object_table" class="event-objects" data-index="-1" data-prototype="{% filter escape %}{% include 'OktolabRentBundle:Event:eventObjectPrototype.html.twig' %}{% endfilter %}">
                     </tbody>
                 </table>
             </div>
         </fieldset>
+        <div class="hidden">
+            {{ form_row(form.costunit) }}
+        </div>
 
         <div class="buttons-container">
             <div class="buttons">
             </div>
         </div>
+        {% do form.events.setRendered %}
+        {% do form.objects.setRendered %}
     {{ form_end(form) }}
 </div>

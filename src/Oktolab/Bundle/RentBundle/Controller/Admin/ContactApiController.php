@@ -7,6 +7,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Cache;
+use Oktolab\Bundle\RentBundle\Entity\CostUnit;
 
 /**
  * @Route("/api/contact")
@@ -47,6 +48,23 @@ class ContactApiController extends Controller
     {
         $contacts = $this->get('oktolab.contact_provider')->getContactsByName($name);
         return new JsonResponse($this->getTypeaheadArrayFromContacts($contacts));
+    }
+
+    /**
+     * Returns a JSON with all contacts inside given costunit
+     * @Method("GET")
+     * @Route("/contacts_for_costunit/{costunit}", name="api_contacts_for_costunit")
+     *
+     * @param \Oktolab\Bundle\RentBundle\Entity\CostUnit $costunit
+     * @return JsonResponse
+     */
+    public function contactsForCostunitAction(CostUnit $costunit)
+    {
+        $contacts = array();
+        foreach ($costunit->getContacts() as $contact) {
+            $contacts[] = array('id' => $contact->getId(), 'name' => $contact->getName());
+        }
+        return new JsonResponse($contacts);
     }
 
     /**

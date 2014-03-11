@@ -1427,6 +1427,18 @@
                 <source>series_event.event_end</source>
                 <target>Buchungsende</target>
             </trans-unit>
+            <trans-unit id="1605">
+                <source>series_event.repetition</source>
+                <target>Tage bis wiederholung</target>
+            </trans-unit>
+            <trans-unit id="1606">
+                <source>series_event.form</source>
+                <target>Serienbuchung</target>
+            </trans-unit>
+            <trans-unit id="1607">
+                <source>series_event.event_form</source>
+                <target>Erste Buchung</target>
+            </trans-unit>
         </body>
     </file>
 </xliff>
