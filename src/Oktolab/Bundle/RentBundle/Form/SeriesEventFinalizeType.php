@@ -5,13 +5,14 @@ namespace Oktolab\Bundle\RentBundle\Form;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
+use Oktolab\Bundle\RentBundle\Form\EventType;
 
 /**
- * SeriesEventType for a bunch of events!
- *
  * @author rs
+ * SeriesEventFinalizeType gives the form with prepared events.
+ * This eventtype contains all thing of a series event to enable a "update" function.
  */
-class SeriesEventType extends AbstractType
+class SeriesEventFinalizeType extends AbstractType
 {
     private $repetitions = array();
 
@@ -79,7 +80,20 @@ class SeriesEventType extends AbstractType
                     'allow_delete'  => true,
                     'label'         => 'event.objects',
                 )
+            )
+            ->add(
+                'events',
+                'collection',
+                array(
+                    'type'  => new EventType(),
+                    'label' => 'event.objects'
+                )
             );
+    }
+
+    public function getName()
+    {
+        return 'orb_series_event_finalize_form';
     }
 
     public function setDefaultOptions(OptionsResolverInterface $resolver)
@@ -93,10 +107,5 @@ class SeriesEventType extends AbstractType
     public function __construct($repetitions = array(7 => 7, 14 => 14, 21 => 21, 28 => 28))
     {
         $this->repetitions = $repetitions;
-    }
-
-    public function getName()
-    {
-        return 'orb_series_event_form';
     }
 }

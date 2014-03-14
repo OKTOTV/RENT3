@@ -16,6 +16,7 @@ parameters:
     oktolab.rent_sheet_pdf.class:             Oktolab\Bundle\RentBundle\Model\RentSheetPdfCreator
     oktolab.setting.class:                    Oktolab\Bundle\RentBundle\Model\SettingService
     oktolab.qms.class:                        Oktolab\Bundle\RentBundle\Model\QMSService
+    oktolab.series_event.class:               Oktolab\Bundle\RentBundle\Model\SeriesEvent\SeriesEventService
 
     # upload service-classes
     oktolab.upload_manager.class:             Oktolab\Bundle\RentBundle\Model\UploadManager
@@ -250,3 +251,7 @@ services:
     oktolab.qms:
          class:     %oktolab.qms.class%
          arguments: [@doctrine.orm.entity_manager]
+
+    oktolab.series_event:
+        class:      %oktolab.series_event.class%
+        arguments:  [@doctrine.orm.entity_manager, @oktolab.event_manager]

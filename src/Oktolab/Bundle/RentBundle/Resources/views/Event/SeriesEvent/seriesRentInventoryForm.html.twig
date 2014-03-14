@@ -3,10 +3,8 @@
         <fieldset>
             {{ form_errors(form) }}
             <h3>{{ 'series_event.form'|trans }}</h3>
-            {{ form_row(form.begin, {'attr': {'class': 'text datetime'} }) }}
             {{ form_row(form.end, {'attr': {'class': 'text datetime'} }) }}
             {{ form_row(form.repetition) }}
-            {{ form_row(form.description) }}
             <h3>{{'series_event.event_form'|trans }}</h3>
             <div class="field-group">
                 {{ form_label(form.costunit) }}
@@ -36,7 +34,7 @@
                             <th id="basic-action"><span class="aui-icon aui-icon-small aui-iconfont-configure">{{ 'Actions'|trans }}</span></th>
                         </tr>
                     </thead>
-                    <tbody id="orb_series_event_form_object_table" class="event-objects" data-index="-1" data-prototype="{% filter escape %}{% include 'OktolabRentBundle:Event:eventObjectPrototype.html.twig' %}{% endfilter %}">
+                    <tbody id="orb_series_event_form_object_table" class="event-objects" data-index="-1" data-prototype="{% filter escape %}{% include 'OktolabRentBundle:Event/SeriesEvent:objectPrototype.html.twig' %}{% endfilter %}">
                     </tbody>
                 </table>
             </div>
@@ -49,7 +47,7 @@
             <div class="buttons">
             </div>
         </div>
-        {% do form.events.setRendered %}
+
         {% do form.objects.setRendered %}
     {{ form_end(form) }}
 </div>

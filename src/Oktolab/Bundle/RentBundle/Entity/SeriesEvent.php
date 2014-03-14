@@ -9,6 +9,10 @@ use Symfony\Component\Validator\Constraints as Assert;
 /**
  * SeriesEvent
  *
+ * validation groups:
+ *   create: only the simple creation. who, when, what. no events needed.
+ *   finalize: full series with all events and their event_objects.
+ *
  * @ORM\Table()
  * @ORM\Entity
  * @ORM\HasLifecycleCallbacks()
@@ -42,37 +46,64 @@ class SeriesEvent
      * @var string
      *
      * @ORM\Column(name="description", type="string", length=255)
+     * @Assert\Length(max = "255", groups={"create", "finalize"})
      */
     private $description;
 
     /**
+     * When does the series end?
      * @var \DateTime
-     * @Assert\NotBlank()
-     * @ORM\Column(name="begin", type="datetime")
-     */
-    private $begin;
-
-    /**
-     * @var \DateTime
-     * @Assert\NotBlank()
+     * @Assert\NotBlank(groups={"create", "finalize"})
      * @ORM\Column(name="end", type="datetime")
      */
     private $end;
 
     /**
-     * @Assert\NotBlank()
+     * start of the first event in the series
+     * @Assert\NotBlank(groups={"create"})
      */
     private $event_begin;
 
     /**
-     * @Assert\NotBlank()
+     * end of the first event in the series
+     * @Assert\NotBlank(groups={"create"})
      */
     private $event_end;
 
     /**
+     * all events for this series
+     * @Assert\NotNull(groups={"finalize"})
      * @ORM\OneToMany(targetEntity="Event", mappedBy="seriesEvent")
      */
     private $events;
+
+    /**
+     * What objects will be selected for the events?
+     * @var type
+     * @Assert\NotNull(groups={"create"})
+     */
+    private $objects;
+
+    /**
+     * What repetition schema is used?
+     * @var type
+     * @Assert\NotNull(groups={"create"})
+     */
+    private $repetition;
+
+    /**
+     * Who will get the events?
+     * @var type
+     * @Assert\NotNull(groups={"create"})
+     */
+    private $contact;
+
+    /**
+     * Which costunt gets the events?
+     * @var type
+     * @Assert\NotNull(groups={"create"})
+     */
+    private $costunit;
 
     public function __construct()
     {
@@ -156,29 +187,6 @@ class SeriesEvent
     public function getDescription()
     {
         return $this->description;
-    }
-
-    /**
-     * Set begin
-     *
-     * @param \DateTime $begin
-     * @return SeriesEvent
-     */
-    public function setBegin($begin)
-    {
-        $this->begin = $begin;
-
-        return $this;
-    }
-
-    /**
-     * Get begin
-     *
-     * @return \DateTime
-     */
-    public function getBegin()
-    {
-        return $this->begin;
     }
 
     /**
@@ -278,13 +286,63 @@ class SeriesEvent
         $this->setUpdatedAt(new \DateTime());
     }
 
-    public function isBeginForEnd()
-    {
-        return $this->begin < $this->end;
-    }
-
     public function isEventBeginForEnd()
     {
         return $this->event_begin < $this->event_end;
+    }
+
+    public function getContact()
+    {
+        return $this->contact;
+    }
+
+    public function setContact($contact)
+    {
+        $this->contact = $contact;
+        return $this;
+    }
+
+    public function getCostUnit()
+    {
+        return $this->costunit;
+    }
+
+    public function setCostUnit($costunit)
+    {
+        $this->costunit = $costunit;
+        return $this;
+    }
+
+    public function getRepetition()
+    {
+        return $this->repetition;
+    }
+
+    public function setRepetition($repetition)
+    {
+        $this->repetition = $repetition;
+        return $this;
+    }
+
+    public function getObjects()
+    {
+        return $this->objects;
+    }
+
+    public function addObject($object)
+    {
+        $this->objects[] = $object;
+
+        return $this;
+    }
+
+    public function removeObject($object)
+    {
+        $this->objects->removeObject($object);
+    }
+
+    public function setEvents($events = null)
+    {
+        $this->events = $events;
     }
 }

@@ -110,8 +110,8 @@ class EventType extends AbstractType
             )
         );
 
-        $resolver->setRequired(array('em'));
-        $resolver->setAllowedTypes(array('em' => 'Doctrine\ORM\EntityManager'));
+//        $resolver->setRequired(array('em'));
+//        $resolver->setAllowedTypes(array('em' => 'Doctrine\ORM\EntityManager'));
     }
 
     /**

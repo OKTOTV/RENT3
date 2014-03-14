@@ -37,7 +37,7 @@ class RentController extends Controller
             array(
                 'action' => $this->generateUrl('OktolabRentBundle_Event_Create'),
                 'method' => 'POST',
-                'em'     => $this->getDoctrine()->getManager(),
+//                'em'     => $this->getDoctrine()->getManager(),
             )
         );
 
@@ -74,7 +74,7 @@ class RentController extends Controller
             array(
                 'action' => $this->generateUrl('OktolabRentBundle_Event_Create'),
                 'method' => 'POST',
-                'em'     => $this->getDoctrine()->getManager(),
+//                'em'     => $this->getDoctrine()->getManager(),
             )
         );
 
@@ -104,7 +104,9 @@ class RentController extends Controller
             new SeriesEventType(),
             $series_event,
             array(
-                'method' => 'POST'
+                'method' => 'POST',
+                'action' => $this->generateUrl('orb_create_series_event'),
+//                'em'     => $this->getDoctrine()->getManager()
             ));
 
         return array(

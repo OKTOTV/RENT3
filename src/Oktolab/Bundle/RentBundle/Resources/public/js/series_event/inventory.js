@@ -58,15 +58,17 @@ jQuery(document).ready(function ($) {
 
     var addObjectToTable = function(datum) {
         var form = $('orb_series_event_form');
-        var prototype = $('#orb_series_event_form_object_table').data('prototype');
-        console.log(prototype);
+        var table = $('#orb_series_event_form_object_table');
+        var prototype = table.data('prototype');
 
         var tr = form.find('tr[data-value="' + datum.value + '"]');
         if (0 === tr.length) { //item is not in table yet. add it
+            var index    = table.data('index');
             var template = Hogan.compile(prototype);
-            var tablerow = template.render(datum);
-//            console.log(tablerow);
-            $('#orb_series_event_form_object_table').append(tablerow);
+            var tablerow = template.render($.extend(datum, {'index': index +1}));
+
+            table.data('index', index +1);
+            table.append(tablerow);
         }
     };
 
@@ -85,23 +87,33 @@ jQuery(document).ready(function ($) {
     });
 
     // make all .datetime input fields into nice usable datetimepickers
-    $('.datetime').appendDtpicker({
-        "firstDayOfWeek": 1,
-        "futureOnly"    : true,
-        "calendarMouseScroll": false,
-        "closeOnSelected": true
+    $('.datetime').each(function(index, input) {
+        input = $(input);
+        var val = input.val();
+        console.log(input);
+        input.appendDtpicker({
+            "firstDayOfWeek": 1,
+            "futureOnly"    : true,
+            "calendarMouseScroll": false,
+            "closeOnSelected": true
+        });
+        input.val(val);
     });
 
     // makes all .event-datetime into datetimepickers and
-    // (maybe) enable the item search!
-    $('.event-datetime').appendDtpicker({
-        "firstDayOfWeek": 1,
-        "futureOnly"    : true,
-        "calendarMouseScroll": false,
-        "closeOnSelected": true,
-        "onHide": function(handler){
-            enableItemSearch();
-            }
+    // (depends) enable the item search!
+    $('.event-datetime').each(function(index, input) {
+        input = $(input);
+        var val = input.val();
+        console.log(val);
+        input.appendDtpicker({
+            "firstDayOfWeek": 1,
+            "futureOnly"    : true,
+            "calendarMouseScroll": false,
+            "closeOnSelected": true,
+            "onHide": function(handler){ enableItemSearch(); }
+        });
+        input.val(val);
     });
 
     // enable contact selectbox depending on selected costunit
@@ -130,9 +142,6 @@ jQuery(document).ready(function ($) {
         addObjectToTable(datum);
     });
 
-    // clear the datetime inputs. otherwise, they will contain the "now" date.
-    $('.datetime').val('');
-    $('.event-datetime').val('');
     // disable the contact selectbox to prevent searching for contact before searching for costunit.
     $('#orb_series_event_form_contact').prop('disabled', true);
 });
