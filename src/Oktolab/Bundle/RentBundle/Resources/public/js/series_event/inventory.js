@@ -56,6 +56,7 @@ jQuery(document).ready(function ($) {
         }
     };
 
+    // adds a typeahead datum to the tablerow
     var addObjectToTable = function(e, datum) {
         console.log(e);
         var form = $('orb_series_event_form');
@@ -71,6 +72,10 @@ jQuery(document).ready(function ($) {
             table.data('index', index +1);
             table.append(tablerow);
         }
+    };
+
+    var itemDatumForValue = function(item) {
+
     };
 
     // make a input field into a typeahead search for costunits
@@ -141,6 +146,12 @@ jQuery(document).ready(function ($) {
     // add event object to tablerow, so the form gets the selected items
     $('#orb_series_event_form_inventory_search').on('typeahead:selected', function(e, datum) {
         addObjectToTable(e, datum);
+        if ('set' == datum.type) {
+            $.each(datum.items, function(key, itemValue) {
+               var itemDatum = itemDatumForValue(itemValue);
+               addObjectToTable(e, datum);
+            });
+        }
     });
 
     // disable the contact selectbox to prevent searching for contact before searching for costunit.
