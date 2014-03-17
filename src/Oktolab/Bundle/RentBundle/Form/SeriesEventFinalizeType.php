@@ -86,6 +86,8 @@ class SeriesEventFinalizeType extends AbstractType
                 'collection',
                 array(
                     'type'  => new EventType(),
+                    'allow_add'     => true,
+                    'allow_delete'  => true,
                     'label' => 'event.objects'
                 )
             );

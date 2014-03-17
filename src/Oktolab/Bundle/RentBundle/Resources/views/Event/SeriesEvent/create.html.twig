@@ -1,3 +1,15 @@
-{{ form_start(form)}}
-{{ form_errors(form) }}
+{% extends 'OktolabRentBundle::layoutFocusedTask.html.twig' %}
+{% block content_header %}
+        <div class="aui-page-header-inner">
+
+            <h3>{{ 'series_event.form'|trans }}</h3>
+
+        </div>
+{% endblock %}
+{% block content %}
+{{ form_start(form, {'attr': {'class': 'aui'} }) }}
+    <fieldset>
+        {{ form_errors(form) }}
+    </fieldset>
 {{ form_end(form)}}
+{% endblock %}

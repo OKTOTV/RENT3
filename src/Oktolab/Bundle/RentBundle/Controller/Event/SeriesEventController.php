@@ -48,6 +48,7 @@ class SeriesEventController extends Controller
                     'action' => $this->generateUrl('orb_finalize_series_event'),
                     'validation_groups' => 'finalize'
                  ));
+            $finalize_form->add('submit', 'submit');
             $objects = $this->get('oktolab.event_manager')->convertEventObjectsToEntites($seriesEvent->getObjects());
             return $this->render(
                 'OktolabRentBundle:Event/SeriesEvent:finalize.html.twig',
@@ -79,17 +80,29 @@ class SeriesEventController extends Controller
                 'method' => 'POST',
                 'validation_groups' => 'finalize'
              ));
+        $form->add('submit', 'submit');
         $form->handleRequest($request);
         $objects = $this->get('oktolab.event_manager')->convertEventObjectsToEntites($series_event->getObjects());
 
         if ($form->isValid()) {
-            // @TODO: series service save it.
+            $this->get('oktolab.series_event')->save($series_event);
             $this->get('session')->getFlashBag()->add('success', 'series_event.finalize_success');
-            return $this->redirect('rentbundle_dashboard');
+            return $this->redirect($this->generateUrl('rentbundle_dashboard'));
         }
-        $this->get('session')->getFlahsBag()->add('error', 'series_event.finalize_error');
+        $this->get('session')->getFlashBag()->add('error', 'series_event.finalize_error');
         return array(
             'form' => $form->createView(),
-            'objects' => $objects);
+            'objects' => $objects
+        );
+    }
+
+    /**
+     * @Configuration\Method({"GET"})
+     * @Configuration\Template()
+     * @Configuration\Route("/{series_event}/show", name="orb_show_series_event")
+     */
+    public function showAction(SeriesEvent $series_event)
+    {
+        return array('series_event' => $series_event);
     }
 }

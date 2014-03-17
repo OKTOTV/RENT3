@@ -38,8 +38,13 @@ class SeriesEventService
      * saves given SeriesEvent to the database using the given EntityManager
      * @param \Oktolab\Bundle\RentBundle\Entity\SeriesEvent $series_event
      */
-    public function saveSeriesEvent(SeriesEvent $series_event)
+    public function save(SeriesEvent $series_event)
     {
+        foreach ($series_event->getEvents() as $event) {
+            $event->setState(Event::STATE_RESERVED);
+            $event->setSeriesEvent($series_event);
+            $this->event_service->save($event);
+        }
         $this->em->persist($series_event);
         $this->em->flush();
     }

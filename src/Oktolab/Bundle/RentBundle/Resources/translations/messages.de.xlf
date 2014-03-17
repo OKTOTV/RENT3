@@ -914,6 +914,10 @@
                 <source>event.completed</source>
                 <target>Abgeschlossen</target>
             </trans-unit>
+            <trans-unit id="717">
+                <source>event.series_booking_for_costunit</source>
+                <target>%link_start%Serienbuchung%link_end% für %costunit%</target>
+            </trans-unit>
 
             <trans-unit id="800">
                 <source>inventory.import</source>
@@ -1267,6 +1271,10 @@
                 <source>event.cancel</source>
                 <target>Stornieren</target>
             </trans-unit>
+            <trans-unit id="1232">
+                <source>event.event_time</source>
+                <target>Zeitraum</target>
+            </trans-unit>
 
             <trans-unit id="1300">
                 <source>admin.setting.settings</source>
@@ -1438,6 +1446,26 @@
             <trans-unit id="1607">
                 <source>series_event.event_form</source>
                 <target>Erste Buchung</target>
+            </trans-unit>
+            <trans-unit id="1608">
+                <source>series_event.finalize_form</source>
+                <target>Serienbuchung abschließen</target>
+            </trans-unit>
+            <trans-unit id="1609">
+                <source>series_event.events</source>
+                <target>Buchungen</target>
+            </trans-unit>
+            <trans-unit id="1610">
+                <source>series_event.finalize_success</source>
+                <target>Serienbuchung erfolgreich angelegt</target>
+            </trans-unit>
+            <trans-unit id="1611">
+                <source>series_event.finalize_error</source>
+                <target>Serienbuchung kann nicht angelegt werden</target>
+            </trans-unit>
+            <trans-unit id="1612">
+                <source>series_event.no_description</source>
+                <target>Nicht angegeben</target>
             </trans-unit>
         </body>
     </file>

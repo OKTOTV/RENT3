@@ -466,14 +466,14 @@ class Event
     public function setSeriesEvent(\Oktolab\Bundle\RentBundle\Entity\seriesEvent $seriesEvent = null)
     {
         $this->seriesEvent = $seriesEvent;
-    
+
         return $this;
     }
 
     /**
      * Get seriesEvent
      *
-     * @return \Oktolab\Bundle\RentBundle\Entity\seriesEvent 
+     * @return \Oktolab\Bundle\RentBundle\Entity\seriesEvent
      */
     public function getSeriesEvent()
     {

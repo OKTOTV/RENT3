@@ -33,7 +33,7 @@ class EventController extends Controller
             'OktolabRentBundle_Event_Form',
             new Event(),
             array(
-                'em'     => $this->getDoctrine()->getManager(),
+//                'em'     => $this->getDoctrine()->getManager(),
                 'method' => 'POST',
                 'action' => $this->generateUrl('OktolabRentBundle_Event_Create'),
             )
@@ -82,7 +82,7 @@ class EventController extends Controller
             'OktolabRentBundle_Event_Form',
             $event,
             array(
-                'em'     => $this->getDoctrine()->getManager(),
+//                'em'     => $this->getDoctrine()->getManager(),
                 'method' => 'PUT',
                 'action' => $this->generateUrl('OktolabRentBundle_Event_Update', array('id' => $event->getId()))
             )
@@ -115,7 +115,7 @@ class EventController extends Controller
             'OktolabRentBundle_Event_Form',
             $event,
             array(
-                'em'     => $this->getDoctrine()->getManager(),
+//                'em'     => $this->getDoctrine()->getManager(),
                 'method' => 'PUT',
                 'action' => $this->generateUrl('OktolabRentBundle_Event_Update', array('id' => $event->getId())),
             )
@@ -178,7 +178,7 @@ class EventController extends Controller
             'OktolabRentBundle_Event_Form',
             $event,
             array(
-                'em'     => $this->getDoctrine()->getManager(),
+//                'em'     => $this->getDoctrine()->getManager(),
                 'method' => 'PUT',
                 'action' => $this->generateUrl('OktolabRentBundle_Event_Update', array('id' => $event->getId())),
                 'validation_groups'     => array('Event', 'Logic', 'Rent'),
@@ -238,7 +238,7 @@ class EventController extends Controller
             'OktolabRentBundle_Event_Form',
             $event,
             array(
-                'em'     => $this->getDoctrine()->getManager(),
+//                'em'     => $this->getDoctrine()->getManager(),
                 'method' => 'PUT',
                 'action' => $this->generateUrl('OktolabRentBundle_Event_Completed', array('id' => $event->getId())),
                 'validation_groups' => array('Event', 'Logic', 'Rent'),
@@ -273,7 +273,7 @@ class EventController extends Controller
             'OktolabRentBundle_Event_Form',
             $event,
             array(
-                'em'     => $this->getDoctrine()->getManager(),
+//                'em'     => $this->getDoctrine()->getManager(),
                 'method' => 'PUT',
                 'action' => $this->generateUrl('OktolabRentBundle_Event_Completed', array('id' => $event->getId())),
                 'validation_groups' => array('Event', 'Logic', 'Rent'),

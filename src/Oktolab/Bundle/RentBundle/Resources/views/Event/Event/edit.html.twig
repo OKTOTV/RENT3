@@ -22,8 +22,14 @@
         <h2>
             {% if form.vars.value.costunit is empty %}
                 {{ 'event.booking'|trans }}
+            {% elseif form.vars.value.seriesEvent is not null %}
+                {{ 'event.series_booking_for_costunit'|trans|replace({
+                    '%costunit%': form.vars.value.costunit.name,
+                    '%link_start%': '<a href="'~path('orb_show_series_event', {'series_event': form.vars.value.seriesEvent.id})~'">',
+                    '%link_end%': '</a>'})|raw
+                }}
             {% else %}
-                {{ 'event.booking_for_costunit'|trans({'%costunit%': form.vars.value.costunit.name}) }}
+                {{ 'event.booking_for_costunit'|trans({'%costunit%': form.vars.value.costunit.name})}}
             {% endif %}
         </h2>
         {{ form_start(form, {'attr': {'class': 'aui', 'id': type~'-edit-form', 'data-value':form.vars.value.id } }) }}
