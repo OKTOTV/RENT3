@@ -121,7 +121,7 @@ class Event
 
     /**
      * @ORM\ManyToOne(targetEntity="seriesEvent", inversedBy="events")
-     * @ORM\JoinColumn(name="event_id", referencedColumnName="id")
+     * @ORM\JoinColumn(name="series_event_id", referencedColumnName="id")
      */
     private $seriesEvent;
 

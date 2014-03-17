@@ -56,7 +56,8 @@ jQuery(document).ready(function ($) {
         }
     };
 
-    var addObjectToTable = function(datum) {
+    var addObjectToTable = function(e, datum) {
+        console.log(e);
         var form = $('orb_series_event_form');
         var table = $('#orb_series_event_form_object_table');
         var prototype = table.data('prototype');
@@ -139,9 +140,16 @@ jQuery(document).ready(function ($) {
 
     // add event object to tablerow, so the form gets the selected items
     $('#orb_series_event_form_inventory_search').on('typeahead:selected', function(e, datum) {
-        addObjectToTable(datum);
+        addObjectToTable(e, datum);
     });
 
     // disable the contact selectbox to prevent searching for contact before searching for costunit.
     $('#orb_series_event_form_contact').prop('disabled', true);
+
+    // enables removing of event objects
+   $('.remove').on('click', function (e) {
+        e.preventDefault();
+        console.log('remove click');
+        $(e.currentTarget).closest('tr').remove();
+    });
 });
