@@ -120,7 +120,7 @@ class Event
     private $qmss;
 
     /**
-     * @ORM\ManyToOne(targetEntity="seriesEvent", inversedBy="events")
+     * @ORM\ManyToOne(targetEntity="SeriesEvent", inversedBy="events")
      * @ORM\JoinColumn(name="series_event_id", referencedColumnName="id")
      */
     private $seriesEvent;
