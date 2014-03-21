@@ -286,6 +286,10 @@
                 <source>generic.name</source>
                 <target>Name</target>
             </trans-unit>
+            <trans-unit id="72">
+                <source>generic.create</source>
+                <target>Erstellen</target>
+            </trans-unit>
 
 
             <trans-unit id="100">
@@ -1466,6 +1470,10 @@
             <trans-unit id="1612">
                 <source>series_event.no_description</source>
                 <target>Nicht angegeben</target>
+            </trans-unit>
+            <trans-unit id="1613">
+                <source>series_event.create_error</source>
+                <target>Serienbuchung konnte nicht angelegt werden</target>
             </trans-unit>
         </body>
     </file>

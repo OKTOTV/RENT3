@@ -1,9 +1,7 @@
 {% extends 'OktolabRentBundle::layoutFocusedTask.html.twig' %}
 {% block content_header %}
         <div class="aui-page-header-inner">
-
             <h3>{{ 'series_event.finalize_form'|trans }}</h3>
-
         </div>
 {% endblock %}
 
@@ -40,7 +38,7 @@
                 <fieldset>
                     <div class="field-group">
                         <label for="inventory-search-field">{{ 'generic.search'|trans }}</label>
-                        <input class="text" type="text" id="orb_series_event_form_inventory_search" name="inventory-search-field" title="{{ 'Search for Barcodes, Items, Sets, ...'|trans }}" disabled="disabled" />
+                        <input class="text orb_series_event_form_inventory_search" type="text" name="inventory-search-field" title="{{ 'Search for Barcodes, Items, Sets, ...'|trans }}" disabled="disabled" />
                         <div class="description">{{ 'event.searchFor'|trans }} {{'generic.barcodes'|trans}}, {{'inventory.items'|trans}}, {{'inventory.sets'|trans}}, ...</div>
                     </div>
                     <div class="field-group aui-oktolab-form-table">

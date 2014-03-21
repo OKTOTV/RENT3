@@ -12,18 +12,17 @@
             </div>
 
             {{ form_row(form.contact) }}
-            {{ form_row(form.event_begin, {'attr': {'class': 'text event-datetime'} }) }}
-            {{ form_row(form.event_end, {'attr': {'class': 'text event-datetime'} }) }}
         </fieldset>
-
-        <h3>{{ 'event.rentable_objects'|trans }}</h3>
         <fieldset>
-            <div class="field-group">
-                <label for="inventory-search-field">{{ 'generic.search'|trans }}</label>
-                <input class="text" type="text" id="orb_series_event_form_inventory_search" name="inventory-search-field" title="{{ 'Search for Barcodes, Items, Sets, ...'|trans }}" />
-                <div class="description">{{ 'event.searchFor'|trans }} {{'generic.barcodes'|trans}}, {{'inventory.items'|trans}}, {{'inventory.sets'|trans}}, ...</div>
+            <div class="object-date-search">
+                {{ form_row(form.event_begin, {'attr': {'class': 'text event-datetime'} }) }}
+                {{ form_row(form.event_end, {'attr': {'class': 'text event-datetime'} }) }}
+                <div class="field-group">
+                    <label for="inventory-search-field">{{ 'generic.search'|trans }}</label>
+                    <input class="text orb_series_event_form_inventory_search" type="text" name="inventory-search-field" title="{{ 'Search for Barcodes, Items, Sets, ...'|trans }}" disabled="disabled"/>
+                    <div class="description">{{ 'event.searchFor'|trans }} {{'generic.barcodes'|trans}}, {{'inventory.items'|trans}}, {{'inventory.sets'|trans}}, ...</div>
+                </div>
             </div>
-
             <div class="field-group aui-oktolab-form-table">
                 <label>{{ 'event.objects'|trans }}</label>
                 <table class="aui">

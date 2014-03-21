@@ -7,16 +7,18 @@ jQuery(document).ready(function ($) {
     var createForm = $('#rent-series-inventory-form');
 
     // enables itemsearch typeahead if the selected timerange makes sense.
-    var enableItemSearch = function () {
+    var enableItemSearch = function (handler) {
+        var formGroup = handler.parents(".object-date-search"); // yeah, more searches on one page!
+        var searchfield = $(formGroup.find(".orb_series_event_form_inventory_search"));
         var eventId = createForm.data('value');
-        var begin = $('#orb_series_event_form_event_begin').val();
-        var end = $('#orb_series_event_form_event_end').val();
+        var begin = $(formGroup.find('#orb_series_event_form_event_begin')).val();
+        var end = $(formGroup.find('#orb_series_event_form_event_end')).val();
 
         if (begin !== "" && end !== "") {
             begin = begin.replace('/ /g', 'T');
             end = end.replace('/ /g', 'T');
-            $('#orb_series_event_form_inventory_search').prop('disabled', false);
-            $('#orb_series_event_form_inventory_search').typeahead([{
+            searchfield.prop('disabled', false);
+            searchfield.typeahead([{
                 name: 'rent-items',
                 valueKey: 'displayName',
                 remote: { url: oktolab.typeahead.eventItemRemoteUrl + '/'+begin+'/'+end },
@@ -52,7 +54,7 @@ jQuery(document).ready(function ($) {
                 engine: Hogan
             }]);
         } else {
-            $('#orb_series_event_form_inventory_search').prop('disabled', true);
+            $('.orb_series_event_form_inventory_search').prop('disabled', true);
         }
     };
 
@@ -96,7 +98,6 @@ jQuery(document).ready(function ($) {
     $('.datetime').each(function(index, input) {
         input = $(input);
         var val = input.val();
-        console.log(input);
         input.appendDtpicker({
             "firstDayOfWeek": 1,
             "futureOnly"    : true,
@@ -111,13 +112,13 @@ jQuery(document).ready(function ($) {
     $('.event-datetime').each(function(index, input) {
         input = $(input);
         var val = input.val();
-        console.log(val);
+        // handler is the jquery object with the datetimepicker
         input.appendDtpicker({
             "firstDayOfWeek": 1,
             "futureOnly"    : true,
             "calendarMouseScroll": false,
             "closeOnSelected": true,
-            "onHide": function(handler){ enableItemSearch(); }
+            "onHide": function(handler){ enableItemSearch(handler); }
         });
         input.val(val);
     });
@@ -144,7 +145,7 @@ jQuery(document).ready(function ($) {
     });
 
     // add event object to tablerow, so the form gets the selected items
-    $('#orb_series_event_form_inventory_search').on('typeahead:selected', function(e, datum) {
+    $('.orb_series_event_form_inventory_search').on('typeahead:selected', function(e, datum) {
         addObjectToTable(e, datum);
         if ('set' == datum.type) {
             $.each(datum.items, function(key, itemValue) {

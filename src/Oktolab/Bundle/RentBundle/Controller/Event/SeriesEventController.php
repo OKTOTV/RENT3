@@ -33,8 +33,9 @@ class SeriesEventController extends Controller
                 'method' => 'POST',
                 'validation_groups' => "create"
             ));
+        $form->add('submit', 'submit');
         $form->handleRequest($request);
-
+        $objects = $this->get('oktolab.event_manager')->convertEventObjectsToEntites($seriesEvent->getObjects());
         //The Series Event per se is valid. Move on to the finalize form
         if ($form->isValid()) {
             $seriesEventService = $this->get('oktolab.series_event');
@@ -49,7 +50,6 @@ class SeriesEventController extends Controller
                     'validation_groups' => 'finalize'
                  ));
             $finalize_form->add('submit', 'submit');
-            $objects = $this->get('oktolab.event_manager')->convertEventObjectsToEntites($seriesEvent->getObjects());
             return $this->render(
                 'OktolabRentBundle:Event/SeriesEvent:finalize.html.twig',
                 array(
@@ -59,7 +59,9 @@ class SeriesEventController extends Controller
             );
         } else {
             $this->get('session')->getFlashBag()->add('error', 'series_event.create_error');
-            return array('form' => $form->createView());
+            return array(
+                'form' => $form->createView(),
+                'objects' => $objects);
         }
     }
 

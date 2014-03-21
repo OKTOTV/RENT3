@@ -766,7 +766,6 @@
 								$picker.hide();
                                 // rs. onHide function will be called now.
                                 var func = $picker.data('onHide');
-                                console.log(func);
                                 if (func != null) {
                                     console.log("dtpicker- Call the onHide handler");
                                     func($picker);
