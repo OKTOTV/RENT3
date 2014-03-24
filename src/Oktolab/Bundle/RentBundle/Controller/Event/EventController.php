@@ -418,6 +418,6 @@ class EventController extends Controller
         } else {
             $this->get('session')->getFlashBag()->add('error', 'event.cancelation_error');
         }
-        $this->redirect($this->generateUrl('rentbundle_dashboard'));
+        return $this->redirect($this->generateUrl('rentbundle_dashboard'));
     }
 }

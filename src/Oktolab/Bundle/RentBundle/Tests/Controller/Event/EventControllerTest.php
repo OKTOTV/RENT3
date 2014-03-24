@@ -474,7 +474,6 @@ class EventControllerTest extends WebTestCase
 
         $em = $this->getContainer()->get('doctrine.orm.entity_manager');
         $event = $em->getRepository('OktolabRentBundle:Event')->findOneBy(array('name' => 'My Event'));
-
         $this->client->request('GET', '/event/'.$event->getId().'/show');
         $this->assertTrue($this->client->getResponse()->isSuccessful(), 'Response should be successful.');
 
@@ -483,7 +482,7 @@ class EventControllerTest extends WebTestCase
               ->filter('body h2:contains("Testcostunit")')), 'There should be a costunit header.');
         $this->assertEquals(1, count(
               $this->client->getCrawler()
-              ->filter('body fieldset div:contains("Testcostunit")')), 'There should be a costunit.');
+              ->filter('body span:contains("Testcostunit")')), 'There should be a costunit.');
         $this->assertEquals(1, count(
               $this->client->getCrawler()
               ->filter('body fieldset div:contains("There is a description for this event.")')),
