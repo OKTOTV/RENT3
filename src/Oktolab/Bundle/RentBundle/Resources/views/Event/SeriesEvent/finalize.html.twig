@@ -32,48 +32,50 @@
                     {{ form_row(eventform.contact) }}
                     {{ form_row(eventform.costunit) }}
                 </div>
-                {{ form_row(eventform.begin, {'attr': {'class': 'text event-datetime', 'data-value': eventform.vars.value.begin|date('d-m-Y H:i')} }) }}
-                {{ form_row(eventform.end, {'attr': {'class': 'text event-datetime', 'data-value': eventform.vars.value.end|date('d-m-Y H:i')} }) }}
                 {{ form_row(eventform.description) }}
                 <fieldset>
-                    <div class="field-group">
-                        <label for="inventory-search-field">{{ 'generic.search'|trans }}</label>
-                        <input class="text orb_series_event_form_inventory_search" type="text" name="inventory-search-field" title="{{ 'Search for Barcodes, Items, Sets, ...'|trans }}" disabled="disabled" />
-                        <div class="description">{{ 'event.searchFor'|trans }} {{'generic.barcodes'|trans}}, {{'inventory.items'|trans}}, {{'inventory.sets'|trans}}, ...</div>
-                    </div>
-                    <div class="field-group aui-oktolab-form-table">
-                        <label>{{ 'event.objects'|trans }}</label>
-                        <table class="aui">
-                            <thead>
-                                <tr>
-                                    <th id="basic-barcode">{{ 'Barcode'|trans }}</th>
-                                    <th id="basic-name">{{ 'Name'|trans }}</th>
-                                    <th id="basic-action"><span class="aui-icon aui-icon-small aui-iconfont-configure">{{ 'Actions'|trans }}</span></th>
-                                </tr>
-                            </thead>
-                            <tbody class="event-objects"
-                                   data-prototype="{% filter escape %}{% include 'OktolabRentBundle:Event/SeriesEvent:objectFinalize.html.twig' with {'eventIndex': loop.index0} %}{% endfilter %}"
-                                   >
-                                {% for object in objects %}
-                                    {% set formobject = eventform.objects[loop.index0] %}
-                                    {% set objective = '%s:%s'|format(object.type, object.id) %}
-
-                                    <tr data-value="{{ objective }}">
-                                        <td>{{ object.barcode }}</td>
-                                        <td>{{ object.title }}</td>
-                                        <td class="event-object-icons">
-                                            <a href="#" class="remove" data-value="{{ objective }} ">
-                                                <span class="aui-icon aui-icon-small aui-iconfont-remove">{{ 'Remove'|trans }}</span>
-                                            </a>
-                                            <a href="#" class="scan" data-value="{{ objective }}">
-                                                <span class="aui-icon aui-icon-small aui-iconfont-approve">{{ 'Scan'|trans }}</span>
-                                            </a>
-                                        </td>
-                                        <td class="hidden">{{ form_row(formobject, { 'attr': { 'data-value': objective } }) }}</td>
+                    <div class="object-date-search">
+                        {{ form_row(eventform.begin, {'attr': {'class': 'text event-datetime orb_series_event_form_event_begin', 'data-value': eventform.vars.value.begin|date('d-m-Y H:i')} }) }}
+                        {{ form_row(eventform.end, {'attr': {'class': 'text event-datetime orb_series_event_form_event_end', 'data-value': eventform.vars.value.end|date('d-m-Y H:i')} }) }}
+                        <div class="field-group">
+                            <label for="inventory-search-field">{{ 'generic.search'|trans }}</label>
+                            <input class="text orb_series_event_form_inventory_search" type="text" name="inventory-search-field" title="{{ 'Search for Barcodes, Items, Sets, ...'|trans }}" disabled="disabled" />
+                            <div class="description">{{ 'event.searchFor'|trans }} {{'generic.barcodes'|trans}}, {{'inventory.items'|trans}}, {{'inventory.sets'|trans}}, ...</div>
+                        </div>
+                        <div class="field-group aui-oktolab-form-table">
+                            <label>{{ 'event.objects'|trans }}</label>
+                            <table class="aui">
+                                <thead>
+                                    <tr>
+                                        <th id="basic-barcode">{{ 'Barcode'|trans }}</th>
+                                        <th id="basic-name">{{ 'Name'|trans }}</th>
+                                        <th id="basic-action"><span class="aui-icon aui-icon-small aui-iconfont-configure">{{ 'Actions'|trans }}</span></th>
                                     </tr>
-                                {% endfor %}
-                            </tbody>
-                        </table>
+                                </thead>
+                                <tbody class="event-objects"
+                                       data-prototype="{% filter escape %}{% include 'OktolabRentBundle:Event/SeriesEvent:objectFinalize.html.twig' with {'eventIndex': loop.index0} %}{% endfilter %}"
+                                       data-index="0">
+                                    {% for object in objects %}
+                                        {% set formobject = eventform.objects[loop.index0] %}
+                                        {% set objective = '%s:%s'|format(object.type, object.id) %}
+
+                                        <tr data-value="{{ objective }}">
+                                            <td>{{ object.barcode }}</td>
+                                            <td>{{ object.title }}</td>
+                                            <td class="event-object-icons">
+                                                <a href="#" class="remove" data-value="{{ objective }} ">
+                                                    <span class="aui-icon aui-icon-small aui-iconfont-remove">{{ 'Remove'|trans }}</span>
+                                                </a>
+                                                <a href="#" class="scan" data-value="{{ objective }}">
+                                                    <span class="aui-icon aui-icon-small aui-iconfont-approve">{{ 'Scan'|trans }}</span>
+                                                </a>
+                                            </td>
+                                            <td class="hidden">{{ form_row(formobject, { 'attr': { 'data-value': objective } }) }}</td>
+                                        </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
                 </fieldset>
             {% endfor %}

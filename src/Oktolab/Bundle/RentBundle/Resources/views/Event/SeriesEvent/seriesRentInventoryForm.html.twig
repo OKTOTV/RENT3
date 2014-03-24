@@ -15,27 +15,27 @@
         </fieldset>
         <fieldset>
             <div class="object-date-search">
-                {{ form_row(form.event_begin, {'attr': {'class': 'text event-datetime'} }) }}
-                {{ form_row(form.event_end, {'attr': {'class': 'text event-datetime'} }) }}
+                {{ form_row(form.event_begin, {'attr': {'class': 'text event-datetime orb_series_event_form_event_begin'} }) }}
+                {{ form_row(form.event_end, {'attr': {'class': 'text event-datetime orb_series_event_form_event_end'} }) }}
                 <div class="field-group">
                     <label for="inventory-search-field">{{ 'generic.search'|trans }}</label>
                     <input class="text orb_series_event_form_inventory_search" type="text" name="inventory-search-field" title="{{ 'Search for Barcodes, Items, Sets, ...'|trans }}" disabled="disabled"/>
                     <div class="description">{{ 'event.searchFor'|trans }} {{'generic.barcodes'|trans}}, {{'inventory.items'|trans}}, {{'inventory.sets'|trans}}, ...</div>
                 </div>
-            </div>
-            <div class="field-group aui-oktolab-form-table">
-                <label>{{ 'event.objects'|trans }}</label>
-                <table class="aui">
-                    <thead>
-                        <tr>
-                            <th id="basic-barcode">{{ 'generic.barcode'|trans }}</th>
-                            <th id="basic-name">{{ 'generic.name'|trans }}</th>
-                            <th id="basic-action"><span class="aui-icon aui-icon-small aui-iconfont-configure">{{ 'Actions'|trans }}</span></th>
-                        </tr>
-                    </thead>
-                    <tbody id="orb_series_event_form_object_table" class="event-objects" data-index="-1" data-prototype="{% filter escape %}{% include 'OktolabRentBundle:Event/SeriesEvent:objectPrototype.html.twig' %}{% endfilter %}">
-                    </tbody>
-                </table>
+                <div class="field-group aui-oktolab-form-table">
+                    <label>{{ 'event.objects'|trans }}</label>
+                    <table class="aui">
+                        <thead>
+                            <tr>
+                                <th id="basic-barcode">{{ 'generic.barcode'|trans }}</th>
+                                <th id="basic-name">{{ 'generic.name'|trans }}</th>
+                                <th id="basic-action"><span class="aui-icon aui-icon-small aui-iconfont-configure">{{ 'Actions'|trans }}</span></th>
+                            </tr>
+                        </thead>
+                        <tbody id="orb_series_event_form_object_table" class="event-objects" data-index="-1" data-prototype="{% filter escape %}{% include 'OktolabRentBundle:Event/SeriesEvent:objectPrototype.html.twig' %}{% endfilter %}">
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </fieldset>
         <div class="hidden">

@@ -82,7 +82,7 @@ class Event
     private $state;
 
     /**
-     * @ORM\OneToMany(targetEntity="EventObject", mappedBy="event")
+     * @ORM\OneToMany(targetEntity="EventObject", mappedBy="event", cascade={"persist"})
      */
     private $objects;
 

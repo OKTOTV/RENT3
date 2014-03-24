@@ -8,11 +8,11 @@ jQuery(document).ready(function ($) {
 
     // enables itemsearch typeahead if the selected timerange makes sense.
     var enableItemSearch = function (handler) {
+        var eventId = createForm.data('value');
         var formGroup = handler.parents(".object-date-search"); // yeah, more searches on one page!
         var searchfield = $(formGroup.find(".orb_series_event_form_inventory_search"));
-        var eventId = createForm.data('value');
-        var begin = $(formGroup.find('#orb_series_event_form_event_begin')).val();
-        var end = $(formGroup.find('#orb_series_event_form_event_end')).val();
+        var begin = $(formGroup.find('.orb_series_event_form_event_begin')).val();
+        var end = $(formGroup.find('.orb_series_event_form_event_end')).val();
 
         if (begin !== "" && end !== "") {
             begin = begin.replace('/ /g', 'T');
@@ -54,19 +54,18 @@ jQuery(document).ready(function ($) {
                 engine: Hogan
             }]);
         } else {
-            $('.orb_series_event_form_inventory_search').prop('disabled', true);
+            searchfield.prop('disabled', true);
         }
     };
 
-    // adds a typeahead datum to the tablerow
+    // adds a typeahead datum to the tablerow in e
     var addObjectToTable = function(e, datum) {
-        console.log(e);
-        var form = $('orb_series_event_form');
-        var table = $('#orb_series_event_form_object_table');
+        var formGroup = $(e.currentTarget).parents(".object-date-search");
+        var table = formGroup.find('.event-objects');
         var prototype = table.data('prototype');
 
-        var tr = form.find('tr[data-value="' + datum.value + '"]');
-        if (0 === tr.length) { //item is not in table yet. add it
+        var tr = table.find('tr[data-value="' + datum.value + '"]');
+        if (0 === tr.length) { //item is not in table yet. add it!
             var index    = table.data('index');
             var template = Hogan.compile(prototype);
             var tablerow = template.render($.extend(datum, {'index': index +1}));
@@ -144,7 +143,8 @@ jQuery(document).ready(function ($) {
         $('#orb_series_event_form_contact').prop('disabled', false);
     });
 
-    // add event object to tablerow, so the form gets the selected items
+    // TODO: get table next to searchfield
+    // add event object to tablerow next to the searchfield, so the form gets the selected items
     $('.orb_series_event_form_inventory_search').on('typeahead:selected', function(e, datum) {
         addObjectToTable(e, datum);
         if ('set' == datum.type) {
@@ -159,7 +159,7 @@ jQuery(document).ready(function ($) {
     $('#orb_series_event_form_contact').prop('disabled', true);
 
     // enables removing of event objects
-   $('.remove').on('click', function (e) {
+   $('.aui-oktolab-form-table').on('click', 'a.remove', function (e) {
         e.preventDefault();
         console.log('remove click');
         $(e.currentTarget).closest('tr').remove();

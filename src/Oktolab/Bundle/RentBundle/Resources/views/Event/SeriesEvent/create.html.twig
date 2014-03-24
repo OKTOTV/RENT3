@@ -22,8 +22,8 @@
     </fieldset>
     <fieldset>
         <div class="object-date-search">
-            {{ form_row(form.event_begin, {'attr': {'class': 'text event-datetime', 'data-value' : form.vars.value.eventBegin|date('d-m-Y H:i')} }) }}
-            {{ form_row(form.event_end, {'attr': {'class': 'text event-datetime', 'data-value': form.vars.value.eventEnd|date('d-m-Y H:i')} }) }}
+            {{ form_row(form.event_begin, {'attr': {'class': 'text event-datetime orb_series_event_form_event_begin', 'data-value' : form.vars.value.eventBegin|date('d-m-Y H:i')} }) }}
+            {{ form_row(form.event_end, {'attr': {'class': 'text event-datetime orb_series_event_form_event_end', 'data-value': form.vars.value.eventEnd|date('d-m-Y H:i')} }) }}
             <div class="field-group">
                 <label for="inventory-search-field">{{ 'generic.search'|trans }}</label>
                 <input class="text orb_series_event_form_inventory_search" type="text" name="inventory-search-field" title="{{ 'Search for Barcodes, Items, Sets, ...'|trans }}" disabled="disabled"/>

@@ -254,4 +254,4 @@ services:
 
     oktolab.series_event:
         class:      %oktolab.series_event.class%
-        arguments:  [@doctrine.orm.entity_manager, @oktolab.event_manager]
+        arguments:  [@doctrine.orm.entity_manager]

@@ -16,12 +16,10 @@ use Symfony\Component\HttpFoundation\Request;
 class SeriesEventService
 {
     protected $em = null;
-    protected $event_service = null;
 
-    public function __construct(EntityManager $manager, EventManager $event_manager)
+    public function __construct(EntityManager $manager)
     {
         $this->em = $manager;
-        $this->event_service = $event_manager;
     }
 
     /**
@@ -43,7 +41,10 @@ class SeriesEventService
         foreach ($series_event->getEvents() as $event) {
             $event->setState(Event::STATE_RESERVED);
             $event->setSeriesEvent($series_event);
-            $this->event_service->save($event);
+            foreach($event->getObjects() as $eventObject) {
+                $eventObject->setEvent($event);
+            }
+            $this->em->persist($event);
         }
         $this->em->persist($series_event);
         $this->em->flush();

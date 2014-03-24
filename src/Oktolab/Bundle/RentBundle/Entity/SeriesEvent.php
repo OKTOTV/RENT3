@@ -73,7 +73,7 @@ class SeriesEvent
     /**
      * all events for this series
      * @Assert\NotNull(groups={"finalize"})
-     * @ORM\OneToMany(targetEntity="Event", mappedBy="seriesEvent")
+     * @ORM\OneToMany(targetEntity="Event", mappedBy="seriesEvent", cascade={"persist"})
      */
     private $events;
 
