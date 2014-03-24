@@ -43,7 +43,7 @@ class SeriesEventController extends Controller
 
             $finalize_form = $this->createForm(
                 new SeriesEventFinalizeType(),
-                $seriesEventService->prepareSeriesEvent($seriesEvent),
+                $seriesEventService->prepareSeriesEvent($seriesEvent, $type),
                 array(
                     'method' => 'POST',
                     'action' => $this->generateUrl('orb_finalize_series_event'),

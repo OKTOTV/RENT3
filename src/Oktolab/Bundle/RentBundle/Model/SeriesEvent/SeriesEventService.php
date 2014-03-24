@@ -27,7 +27,7 @@ class SeriesEventService
      * this still need binding by a form object to fill out everything else
      * @param \Symfony\Component\HttpFoundation\Request $request
      */
-    public function prepareSeriesEvent(SeriesEvent $series_event, $type = 'inventory')
+    public function prepareSeriesEvent(SeriesEvent $series_event, $type = 'Inventory')
     {
         return $this->createEvents($series_event, $type);
     }
@@ -59,7 +59,7 @@ class SeriesEventService
     private function createEvents(SeriesEvent $series_event, $type = 'Inventory')
     {
         $series_event->setEvents();
-        $type   = $this->em->getRepository('OktolabRentBundle:EventType')->findOneBy(array('title' => $type));
+        $type   = $this->em->getRepository('OktolabRentBundle:EventType')->findOneBy(array('name' => $type));
         $begin  = clone $series_event->getEventBegin();
         $end    = clone $series_event->getEventEnd();
 
