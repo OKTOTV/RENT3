@@ -1,4 +1,4 @@
-<div id="rent-series-inventory-form">
+<div id="rent-series-room-form">
     {{ form_start(form, {'attr': {'class': 'aui', 'data-value': form.vars.id } }) }}
         <fieldset>
             {{ form_errors(form) }}
@@ -23,11 +23,11 @@
                 {{ form_row(form.event_end, {'attr': {'class': 'text event-datetime orb_series_event_form_event_end'} }) }}
                 <div class="field-group">
                     <label for="inventory-search-field">{{ 'generic.search'|trans }}</label>
-                    <input class="text orb_series_event_form_inventory_search" type="text" name="inventory-search-field" title="{{ 'Search for Barcodes, Items, Sets, ...'|trans }}" disabled="disabled"/>
-                    <div class="description">{{ 'event.searchFor'|trans }} {{'generic.barcodes'|trans}}, {{'inventory.items'|trans}}, {{'inventory.sets'|trans}}, ...</div>
+                    <input class="text orb_series_event_form_room_search" type="text" name="inventory-search-field" title="{{ 'Search for Barcodes, Items, Sets, ...'|trans }}" disabled="disabled"/>
+                    <div class="description">{{ 'event.searchFor'|trans }} {{'generic.barcodes'|trans}}, {{'generic.name'|trans}}</div>
                 </div>
                 <div class="field-group aui-oktolab-form-table">
-                    <label>{{ 'event.objects'|trans }}</label>
+                    <label>{{ 'inventory.room.rooms'|trans }}</label>
                     <table class="aui">
                         <thead>
                             <tr>

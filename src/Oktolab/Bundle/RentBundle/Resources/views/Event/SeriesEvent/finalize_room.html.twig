@@ -1,0 +1,89 @@
+{% extends 'OktolabRentBundle::layoutFocusedTask.html.twig' %}
+{% block content_header %}
+        <div class="aui-page-header-inner">
+            <h3>{{ 'series_event.finalize_form'|trans }}</h3>
+        </div>
+{% endblock %}
+
+{% block content %}
+    <div id="rent-series-finalize-form">
+        {{ form_start(form, {'attr': {'class': 'aui'} }) }}
+            <fieldset>
+                {{ form_errors(form) }}
+                {{ form_row(form.end, {'attr': {'class': 'text datetime'} }) }}
+                {{ form_row(form.repetition) }}
+                {{ form_row(form.costunit) }}
+                {{ form_row(form.contact) }}
+                {{ form_row(form.event_begin, {'attr': {'class': 'text event-datetime', 'data-value' : form.vars.value.eventBegin|date('d-m-Y H:i')} }) }}
+                {{ form_row(form.event_end, {'attr': {'class': 'text event-datetime', 'data-value': form.vars.value.eventEnd|date('d-m-Y H:i')} }) }}
+            </fieldset>
+            <h3>{{ 'series_event.events'|trans }}</h3>
+            {% for eventform in form.events %}
+            <h3>{{ eventform.vars.value.begin|date('d.m.Y H:i') }} - {{ eventform.vars.value.end|date('d.m.Y H:i') }}</h3>
+                {% do eventform.update.setRendered %}
+                {% do eventform.delete.setRendered %}
+                {% do eventform.rent.setRendered %}
+                {% do eventform.cancel.setRendered %}
+
+                <div class="hidden">
+                    {{ form_row(form.objects) }}
+                    {{ form_row(eventform.type) }}
+                    {{ form_row(eventform.name) }}
+                    {{ form_row(eventform.contact) }}
+                    {{ form_row(eventform.costunit) }}
+                </div>
+                {{ form_row(eventform.description) }}
+                <fieldset>
+                    <div class="object-date-search">
+                        {{ form_row(eventform.begin, {'attr': {'class': 'text event-datetime orb_series_event_form_event_begin', 'data-value': eventform.vars.value.begin|date('d-m-Y H:i')} }) }}
+                        {{ form_row(eventform.end, {'attr': {'class': 'text event-datetime orb_series_event_form_event_end', 'data-value': eventform.vars.value.end|date('d-m-Y H:i')} }) }}
+                        <div class="field-group">
+                            <label for="inventory-search-field">{{ 'generic.search'|trans }}</label>
+                            <input class="text orb_series_event_form_room_search" type="text" name="inventory-search-field" title="{{ 'Search for Barcodes, Names'|trans }}" disabled="disabled" />
+                            <div class="description">{{ 'event.searchFor'|trans }} {{'generic.barcodes'|trans}}, {{'generic.name'|trans}}</div>
+                        </div>
+                        <div class="field-group aui-oktolab-form-table">
+                            <label>{{ 'inventory.room.rooms'|trans }}</label>
+                            <table class="aui">
+                                <thead>
+                                    <tr>
+                                        <th id="basic-barcode">{{ 'Barcode'|trans }}</th>
+                                        <th id="basic-name">{{ 'Name'|trans }}</th>
+                                        <th id="basic-action"><span class="aui-icon aui-icon-small aui-iconfont-configure">{{ 'Actions'|trans }}</span></th>
+                                    </tr>
+                                </thead>
+                                <tbody class="event-objects"
+                                       data-prototype="{% filter escape %}{% include 'OktolabRentBundle:Event/SeriesEvent:objectFinalize.html.twig' with {'eventIndex': loop.index0} %}{% endfilter %}"
+                                       data-index="0">
+                                    {% for object in objects %}
+                                        {% set formobject = eventform.objects[loop.index0] %}
+                                        {% set objective = '%s:%s'|format(object.type, object.id) %}
+
+                                        <tr data-value="{{ objective }}">
+                                            <td>{{ object.barcode }}</td>
+                                            <td>{{ object.title }}</td>
+                                            <td class="event-object-icons">
+                                                <a href="#" class="remove" data-value="{{ objective }} ">
+                                                    <span class="aui-icon aui-icon-small aui-iconfont-remove">{{ 'Remove'|trans }}</span>
+                                                </a>
+                                                <a href="#" class="scan" data-value="{{ objective }}">
+                                                    <span class="aui-icon aui-icon-small aui-iconfont-approve">{{ 'Scan'|trans }}</span>
+                                                </a>
+                                            </td>
+                                            <td class="hidden">{{ form_row(formobject, { 'attr': { 'data-value': objective } }) }}</td>
+                                        </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </fieldset>
+            {% endfor %}
+            <div class="buttons-container">
+                <div class="buttons">
+                        {{ form_widget(form.submit, {'attr': { 'class': 'aui-button aui-button-primary'}, 'label': 'generic.submit'|trans }) }}
+                </div>
+            </div>
+        {{ form_end(form) }}
+    </div>
+{% endblock %}

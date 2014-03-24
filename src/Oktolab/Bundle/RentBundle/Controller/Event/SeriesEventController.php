@@ -19,11 +19,11 @@ use Oktolab\Bundle\RentBundle\Form\SeriesEventFinalizeType;
 class SeriesEventController extends Controller
 {
     /**
-     * @Configuration\Route("/create", name="orb_create_series_event")
+     * @Configuration\Route("/create/{type}", name="orb_create_series_event")
      * @Configuration\Template()
      * @param \Symfony\Component\HttpFoundation\Request $request
      */
-    public function createAction(Request $request)
+    public function createAction(Request $request, $type)
     {
         $seriesEvent = new SeriesEvent();
         $form = $this->createForm(
@@ -39,7 +39,7 @@ class SeriesEventController extends Controller
         //The Series Event per se is valid. Move on to the finalize form
         if ($form->isValid()) {
             $seriesEventService = $this->get('oktolab.series_event');
-            $seriesEvent = $seriesEventService->prepareSeriesEvent($seriesEvent);
+            $seriesEvent = $seriesEventService->prepareSeriesEvent($seriesEvent, $type);
 
             $finalize_form = $this->createForm(
                 new SeriesEventFinalizeType(),
@@ -50,6 +50,15 @@ class SeriesEventController extends Controller
                     'validation_groups' => 'finalize'
                  ));
             $finalize_form->add('submit', 'submit');
+            if ($type != "inventory") {
+                return $this->render(
+                    'OktolabRentBundle:Event/SeriesEvent:finalize_room.html.twig',
+                    array(
+                        'form'  => $finalize_form->createView(),
+                        'objects' => $objects
+                    )
+                );
+            }
             return $this->render(
                 'OktolabRentBundle:Event/SeriesEvent:finalize.html.twig',
                 array(
@@ -57,11 +66,12 @@ class SeriesEventController extends Controller
                     'objects' => $objects
                 )
             );
-        } else {
+        } else { // series event is not valid.
             $this->get('session')->getFlashBag()->add('error', 'series_event.create_error');
             return array(
                 'form' => $form->createView(),
-                'objects' => $objects);
+                'objects' => $objects
+                );
         }
     }
 

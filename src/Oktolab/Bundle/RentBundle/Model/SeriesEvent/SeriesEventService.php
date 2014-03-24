@@ -56,10 +56,10 @@ class SeriesEventService
      * @param type $type
      * @return \Oktolab\Bundle\RentBundle\Entity\SeriesEvent
      */
-    private function createEvents(SeriesEvent $series_event, $type = 'inventory')
+    private function createEvents(SeriesEvent $series_event, $type = 'Inventory')
     {
         $series_event->setEvents();
-        $type   = $this->em->getRepository('OktolabRentBundle:EventType')->findOneBy(array('name' => $type));
+        $type   = $this->em->getRepository('OktolabRentBundle:EventType')->findOneBy(array('title' => $type));
         $begin  = clone $series_event->getEventBegin();
         $end    = clone $series_event->getEventEnd();
 

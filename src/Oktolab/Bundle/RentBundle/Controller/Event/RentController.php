@@ -36,8 +36,7 @@ class RentController extends Controller
             new Event(),
             array(
                 'action' => $this->generateUrl('OktolabRentBundle_Event_Create'),
-                'method' => 'POST',
-//                'em'     => $this->getDoctrine()->getManager(),
+                'method' => 'POST'
             )
         );
 
@@ -73,8 +72,7 @@ class RentController extends Controller
             $event,
             array(
                 'action' => $this->generateUrl('OktolabRentBundle_Event_Create'),
-                'method' => 'POST',
-//                'em'     => $this->getDoctrine()->getManager(),
+                'method' => 'POST'
             )
         );
 
@@ -105,8 +103,30 @@ class RentController extends Controller
             $series_event,
             array(
                 'method' => 'POST',
-                'action' => $this->generateUrl('orb_create_series_event'),
-//                'em'     => $this->getDoctrine()->getManager()
+                'action' => $this->generateUrl('orb_create_series_event', array('type' => 'Inventory'))
+            ));
+
+        return array(
+            'form' => $form->createView()
+        );
+    }
+
+    /**
+     * Returns a new Room SeriesEvent Form
+     * @Configuration\Method("GET")
+     * @Configuration\Route("/series_room", name="orb_create_series_room")
+     * @Configuration\Template("OktolabRentBundle:Event\SeriesEvent:seriesRentRoomForm.html.twig")
+     */
+    public function rentRoomSeriesAction()
+    {
+        $series_event = new SeriesEvent();
+
+        $form = $this->createForm(
+            new SeriesEventType(),
+            $series_event,
+            array(
+                'method' => 'POST',
+                'action' => $this->generateUrl('orb_create_series_event', array('type' => 'Room'))
             ));
 
         return array(
