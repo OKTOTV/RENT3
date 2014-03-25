@@ -165,6 +165,24 @@ class EventApiController extends Controller
     }
 
     /**
+     * Returns available sets for given setValue and timerange for typeahead.js
+     *
+     * @Configuration\Method("GET")
+     * @Configuration\Route("/sets/prefetch/typeahead.{_format}/{begin}/{end}",
+     *      name="inventory_event_set_typeahead_prefetch_url",
+     *      defaults={"_format"="json"},
+     *      requirements={"_format"="json"})
+     * @Configuration\ParamConverter("begin")
+     * @Configuration\ParamConverter("end")
+     * @return JsonResponse
+     */
+    public function typeaheadEventSetPrefetchAction(\DateTime $begin, \DateTime $end)
+    {
+        $sets = $this->getDoctrine()->getManager()->getRepository('OktolabRentBundle:Inventory\Set')->findAll();
+        return new JsonResponse($this->getTypeaheadArrayFromObjects($sets, $begin, $end));
+    }
+
+    /**
      * Returns available rooms for given roomValue and timerange for typeahead.js
      *
      * @Configuration\Method("GET")

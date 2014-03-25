@@ -36,6 +36,7 @@ jQuery(document).ready(function ($) {
                 name:       'rent-sets',
                 valueKey:   'displayName',
                 remote: { url: oktolab.typeahead.eventSetRemoteUrl + '/'+begin+'/'+end },
+                prefetch: { url: oktolab.typeahead.eventSetPrefetchUrl + '/'+begin+'/'+end, ttl: 0 },
                 template: [
                     '<span class="aui-icon aui-icon-small aui-iconfont-devtools-file">Object</span>',
                     '<p class="tt-object-name">{{displayName}}</p>',
@@ -92,8 +93,17 @@ jQuery(document).ready(function ($) {
         }
     };
 
-    var itemDatumForValue = function(item) {
-
+    var itemDatumForValue = function(e, item) {
+        var typeaheadSearch = $(e.currentTarget);
+        var datum;
+        $.each(typeaheadSearch.data().ttView.datasets, function(datasetKey, dataset) {
+           $.each(dataset.itemHash, function (itemKey, itemHash) {
+              if (item === itemHash.datum.value) {
+                  datum = itemHash.datum;
+              }
+           });
+        });
+        return datum;
     };
 
     // make a input field into a typeahead search for costunits
@@ -167,8 +177,8 @@ jQuery(document).ready(function ($) {
         addObjectToTable(e, datum);
         if ('set' == datum.type) { // todo: add setitems!
             $.each(datum.items, function(key, itemValue) {
-               var itemDatum = itemDatumForValue(itemValue);
-               addObjectToTable(e, datum);
+                var itemDatum = itemDatumForValue(e, itemValue);
+                addObjectToTable(e, itemDatum);
             });
         }
     });
