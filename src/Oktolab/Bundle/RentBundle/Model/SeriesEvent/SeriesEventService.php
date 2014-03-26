@@ -48,6 +48,7 @@ class SeriesEventService
         }
         $this->em->persist($series_event);
         $this->em->flush();
+        $this->em->clear();
     }
 
     /**

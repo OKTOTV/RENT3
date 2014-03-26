@@ -32,7 +32,7 @@
     };
 
     Oktolab.leadingZero = function (padString) {
-        if (padString.length < 2) {
+        if (padString.length < 2 || padString < 10) {
             padString = "0" + padString;
         }
         return padString;

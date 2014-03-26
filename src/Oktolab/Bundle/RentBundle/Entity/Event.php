@@ -89,7 +89,7 @@ class Event
     /**
      * @Assert\NotBlank()
      *
-     * @ORM\ManyToOne(targetEntity="CostUnit", inversedBy="events")
+     * @ORM\ManyToOne(targetEntity="CostUnit", inversedBy="events", cascade="persist")
      * @ORM\JoinColumn(name="costunit_id", referencedColumnName="id")
      **/
     private $costunit;
@@ -97,7 +97,7 @@ class Event
     /**
      * @Assert\NotBlank()
      *
-     * @ORM\ManyToOne(targetEntity="Contact", inversedBy="events")
+     * @ORM\ManyToOne(targetEntity="Contact", inversedBy="events", cascade="persist")
      * @ORM\JoinColumn(name="contact_id", referencedColumnName="id")
      **/
     private $contact;
@@ -110,7 +110,7 @@ class Event
     private $barcode;
 
     /**
-     * @ORM\ManyToOne(targetEntity="EventType")
+     * @ORM\ManyToOne(targetEntity="EventType", cascade="persist")
      */
     private $type;
 
@@ -120,7 +120,7 @@ class Event
     private $qmss;
 
     /**
-     * @ORM\ManyToOne(targetEntity="SeriesEvent", inversedBy="events")
+     * @ORM\ManyToOne(targetEntity="SeriesEvent", inversedBy="events", cascade="persist")
      * @ORM\JoinColumn(name="series_event_id", referencedColumnName="id")
      */
     private $seriesEvent;

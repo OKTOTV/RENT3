@@ -124,6 +124,7 @@ jQuery(document).ready(function ($) {
     $('.datetime').each(function(index, input) {
         input = $(input);
         var val = input.val();
+
         input.appendDtpicker({
             "firstDayOfWeek": 1,
             "futureOnly"    : true,
@@ -138,15 +139,24 @@ jQuery(document).ready(function ($) {
     $('.event-datetime').each(function(index, input) {
         input = $(input);
         var val = input.val();
+        var current = new Date(val);
+        input.val('');
+        var currentStamp = current.getFullYear();
+        currentStamp = currentStamp+"-"+Oktolab.leadingZero(current.getMonth()+1);
+        currentStamp = currentStamp+'-'+Oktolab.leadingZero(current.getDate().toString());
+        currentStamp = currentStamp+' '+Oktolab.leadingZero(current.getHours().toString());
+        currentStamp = currentStamp+':'+Oktolab.leadingZero(current.getMinutes().toString());
+        console.log(currentStamp);
         // handler is the jquery object with the datetimepicker
         input.appendDtpicker({
             "firstDayOfWeek": 1,
             "futureOnly"    : true,
             "calendarMouseScroll": false,
             "closeOnSelected": true,
+            "current": currentStamp,//"2014-03-27 17:30",
             "onHide": function(handler){ enableItemSearch(handler); }
         });
-        input.val(val);
+//        input.val(val);
     });
 
     // enable contact selectbox depending on selected costunit
