@@ -14,8 +14,7 @@ jQuery(document).ready(function ($) {
         var roomSearchField = $(formGroup.find(".orb_series_event_form_room_search"));
         var begin = $(formGroup.find('.orb_series_event_form_event_begin')).val();
         var end = $(formGroup.find('.orb_series_event_form_event_end')).val();
-
-        if (begin !== "" && end !== "") {
+        if ((begin !== undefined && begin !== "" )&& (end !== "" && end !== undefined)) {
             begin = begin.replace('/ /g', 'T');
             end = end.replace('/ /g', 'T');
             // enable inventory search
@@ -146,7 +145,6 @@ jQuery(document).ready(function ($) {
         currentStamp = currentStamp+'-'+Oktolab.leadingZero(current.getDate().toString());
         currentStamp = currentStamp+' '+Oktolab.leadingZero(current.getHours().toString());
         currentStamp = currentStamp+':'+Oktolab.leadingZero(current.getMinutes().toString());
-        console.log(currentStamp);
         // handler is the jquery object with the datetimepicker
         input.appendDtpicker({
             "firstDayOfWeek": 1,
@@ -156,7 +154,7 @@ jQuery(document).ready(function ($) {
             "current": currentStamp,//"2014-03-27 17:30",
             "onHide": function(handler){ enableItemSearch(handler); }
         });
-//        input.val(val);
+        enableItemSearch(input);
     });
 
     // enable contact selectbox depending on selected costunit
@@ -203,7 +201,6 @@ jQuery(document).ready(function ($) {
     // enables removing of event objects
    $('.aui-oktolab-form-table').on('click', 'a.remove', function (e) {
         e.preventDefault();
-        console.log('remove click');
         $(e.currentTarget).closest('tr').remove();
     });
 });

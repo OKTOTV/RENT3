@@ -10,12 +10,30 @@
         {{ form_start(form, {'attr': {'class': 'aui'} }) }}
             <fieldset>
                 {{ form_errors(form) }}
-                {{ form_row(form.end, {'attr': {'class': 'text datetime'} }) }}
-                {{ form_row(form.repetition) }}
-                {{ form_row(form.costunit) }}
-                {{ form_row(form.contact) }}
-                {{ form_row(form.event_begin, {'attr': {'class': 'text event-datetime', 'data-value' : form.vars.value.eventBegin|date('d-m-Y H:i')} }) }}
-                {{ form_row(form.event_end, {'attr': {'class': 'text event-datetime', 'data-value': form.vars.value.eventEnd|date('d-m-Y H:i')} }) }}
+                <div class="field-group viewMode">
+                    {{ form_label(form.end)}}
+                    <span class="field-value">{{ form.end.vars.value|date('d.m.Y H:i') }}</span>
+                </div>
+                <div class="field-group viewMode">
+                    {{ form_label(form.repetition)}}
+                    <span class="field-value">{{ form.repetition.vars.value }}</span>
+                </div>
+                <div class="field-group viewMode">
+                    {{ form_label(form.costunit)}}
+                    <span class="field-value">{{ form.costunit.vars.data.name}}</span>
+                </div>
+                <div class="field-group viewMode">
+                    {{ form_label(form.contact)}}
+                    <span class="field-value">{{ form.contact.vars.data.name}}</span>
+                </div>
+                <div class="hidden">
+                    {{ form_row(form.end, {'attr': {'class': 'text'} }) }}
+                    {{ form_row(form.repetition) }}
+                    {{ form_row(form.costunit) }}
+                    {{ form_row(form.contact) }}
+                    {{ form_row(form.event_begin, {'attr': {'class': 'text'} }) }}
+                    {{ form_row(form.event_end, {'attr': {'class': 'text'} }) }}
+                </div>
             </fieldset>
             <h3>{{ 'series_event.events'|trans }}</h3>
             {% for eventform in form.events %}
@@ -65,9 +83,6 @@
                                             <td class="event-object-icons">
                                                 <a href="#" class="remove" data-value="{{ objective }} ">
                                                     <span class="aui-icon aui-icon-small aui-iconfont-remove">{{ 'Remove'|trans }}</span>
-                                                </a>
-                                                <a href="#" class="scan" data-value="{{ objective }}">
-                                                    <span class="aui-icon aui-icon-small aui-iconfont-approve">{{ 'Scan'|trans }}</span>
                                                 </a>
                                             </td>
                                             <td class="hidden">{{ form_row(formobject, { 'attr': { 'data-value': objective } }) }}</td>
