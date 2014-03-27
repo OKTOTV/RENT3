@@ -15,8 +15,8 @@ jQuery(document).ready(function ($) {
         var begin = $(formGroup.find('.orb_series_event_form_event_begin')).val();
         var end = $(formGroup.find('.orb_series_event_form_event_end')).val();
         if ((begin !== undefined && begin !== "" )&& (end !== "" && end !== undefined)) {
-            begin = begin.replace('/ /g', 'T');
-            end = end.replace('/ /g', 'T');
+            begin = begin.replace(' ', 'T');
+            end = end.replace(' ', 'T');
             // enable inventory search
             searchfield.prop('disabled', false);
             searchfield.typeahead([{
