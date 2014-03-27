@@ -296,7 +296,11 @@ class EventController extends Controller
         if ($form->get('rent')->isClicked()) { // User clicked Rent -> Forwarding to RENT Action
 
             $this->get('session')->getFlashBag()->add('success', 'event.deliver_success');
+            if ($event->getType()->getName() == 'inventory') {
             $event->setState(Event::STATE_DELIVERED);
+            } else {
+                $event->setState(Event::STATE_COMPLETED);
+            }
 
             $em = $this->getDoctrine()->getManager();
             $em->persist($event);
@@ -304,8 +308,9 @@ class EventController extends Controller
                 $em->persist($object);
             }
             $em->flush();
-
-            return $this->redirect($this->generateUrl('ORB_Event_Check', array('id' => $event->getId())));
+            if ($event->getType()->getName() == 'inventory') {
+                return $this->redirect($this->generateUrl('ORB_Event_Check', array('id' => $event->getId())));
+            }
         }
         // Done. Redirecting to Dashboard
         return $this->redirect($this->generateUrl('rentbundle_dashboard'));
