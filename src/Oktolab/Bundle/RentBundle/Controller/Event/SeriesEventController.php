@@ -50,7 +50,7 @@ class SeriesEventController extends Controller
                     'validation_groups' => 'finalize'
                  ));
             $finalize_form->add('submit', 'submit');
-            if ($type != "Inventory") {
+            if ($type != "inventory") {
                 return $this->render(
                     'OktolabRentBundle:Event/SeriesEvent:finalize_room.html.twig',
                     array(

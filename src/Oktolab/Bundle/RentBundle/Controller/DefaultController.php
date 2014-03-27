@@ -27,8 +27,8 @@ class DefaultController extends Controller
         $end = new \DateTime('+7 Days');
 
         return array(
-            'roomEvents'      => $eventRepository->findActiveFromBeginToEnd($begin, $end, 'Room'),
-            'inventoryEvents' => $eventRepository->findActiveFromBeginToEnd($begin, $end, 'Inventory'),
+            'roomEvents'      => $eventRepository->findActiveFromBeginToEnd($begin, $end, 'room'),
+            'inventoryEvents' => $eventRepository->findActiveFromBeginToEnd($begin, $end, 'inventory'),
         );
     }
 

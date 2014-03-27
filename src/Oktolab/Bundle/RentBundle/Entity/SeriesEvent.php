@@ -205,13 +205,17 @@ class SeriesEvent
     /**
      * Get end
      *
-     * @return \DateTime
+     * @return \DateTime end of first event
      */
     public function getEnd()
     {
         return $this->end;
     }
 
+    /**
+     *
+     * @return \DateTime begin of first event
+     */
     public function getEventBegin()
     {
         return $this->event_begin;
@@ -289,6 +293,22 @@ class SeriesEvent
     public function isEventBeginForEnd()
     {
         return $this->event_begin < $this->event_end;
+    }
+
+    /**
+     * @Assert\True(message = "series_event.stupidtimerange", groups={"create"})
+     * @return boolean
+     */
+    public function isSeriesTimerangeOkay()
+    {
+        //maximum amount of seconds for a single event in the repetition
+        $repetitionrange = $this->getRepetition() * 24 * 3600;
+        //amount of seconds for a single event
+        $eventrange = $this->getEventEnd()->getTimestamp() - $this->getEventBegin()->getTimestamp();
+        if ($eventrange > $repetitionrange) {
+            // event would overlap with next event
+            return false;
+        }
     }
 
     public function getContact()

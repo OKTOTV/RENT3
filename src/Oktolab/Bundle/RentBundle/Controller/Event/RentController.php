@@ -103,7 +103,7 @@ class RentController extends Controller
             $series_event,
             array(
                 'method' => 'POST',
-                'action' => $this->generateUrl('orb_create_series_event', array('type' => 'Inventory'))
+                'action' => $this->generateUrl('orb_create_series_event', array('type' => 'inventory'))
             ));
 
         return array(
@@ -126,7 +126,7 @@ class RentController extends Controller
             $series_event,
             array(
                 'method' => 'POST',
-                'action' => $this->generateUrl('orb_create_series_event', array('type' => 'Room'))
+                'action' => $this->generateUrl('orb_create_series_event', array('type' => 'room'))
             ));
 
         return array(
