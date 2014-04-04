@@ -239,11 +239,11 @@ class EventManager
     public function convertEventObjectsToEntites($eventObjects)
     {
         $entities = array();
-        if (is_array($eventObjects) && count($eventObjects) != 0) {
+        //if (is_array($eventObjects) && count($eventObjects) != 0) {
             foreach ($eventObjects as $object) {
                 $entities[] = $this->getRepository($object->getType())->findOneBy(array('id' => $object->getObject()));
             }
-        }
+        //}
 
         return $entities;
     }

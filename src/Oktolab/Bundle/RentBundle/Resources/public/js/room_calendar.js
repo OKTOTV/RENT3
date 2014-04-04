@@ -199,14 +199,17 @@
          */
         showEvents: function (events) {
             $.each(events, function (key, event) {
+                console.log('render event');
                 var begin = Calendar.findBlockByDate(new Date(event.begin));
                 var end = Calendar.findBlockByDate(new Date(event.end));
 
                 $.each(event.objects, function (key, object) {
+                    console.log(object);
                     var inventoryObject = Calendar._getInventoryObjectByIdentifier(object.object_id.toLowerCase());
                     if (typeof(inventoryObject) === 'undefined') {
                         return true;    // skip object
                     }
+                    console.log('render chip');
 
                     var eventIdentifier = Calendar._renderEventChip(event, inventoryObject, begin.block, end.block);
                     Calendar._renderEventDescription(event, eventIdentifier);

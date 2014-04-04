@@ -119,7 +119,7 @@ class CalendarApiController extends Controller
      */
     public function RoomTimeblockAction(\DateTime $begin, \DateTime $end)
     {
-        $timeblocks = $this->get('oktolab.event_calendar_timeblock')->getTransformedTimeblocks($begin, $end, 'room');
+        $timeblocks = $this->get('oktolab.event_calendar_timeblock')->getTransformedTimeblocks($begin, $end, null, 'room');
 
         return new JsonResponse($timeblocks);
     }

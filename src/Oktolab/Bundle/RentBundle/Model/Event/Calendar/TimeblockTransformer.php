@@ -54,17 +54,17 @@ class TimeblockTransformer
      *
      * @return array
      */
-    public function getTransformedTimeblocks(\DateTime $begin, \DateTime $end, $max = null)
+    public function getTransformedTimeblocks(\DateTime $begin, \DateTime $end, $max = null, $type = 'inventory')
     {
         $this->guardTimeblockAggregation($begin, $end);
 
         // Look-Up cache
-        if ($this->cache->contains(sprintf('%s::%s', self::CACHE_ID, $begin->format('z')))) {
-            return $this->cache->fetch(sprintf('%s::%s', self::CACHE_ID, $begin->format('z')));
-        }
+//        if ($this->cache->contains(sprintf('%s::%s', self::CACHE_ID, $begin->format('z')))) {
+//            return $this->cache->fetch(sprintf('%s::%s', self::CACHE_ID, $begin->format('z')));
+//        }
 
         // Transform Timeblocks for use by Javascript
-        $separatedTimeblocks = $this->getSeparatedTimeblocks($begin, $end, $max);
+        $separatedTimeblocks = $this->getSeparatedTimeblocks($begin, $end, $max, $type);
         $timeblocks = array();
         $date = null;
 
@@ -96,7 +96,7 @@ class TimeblockTransformer
         }
 
         // Store in cache for one day
-        $this->cache->save(sprintf('%s::%s', self::CACHE_ID, $begin->format('z')), $timeblocks, 86400);
+//        $this->cache->save(sprintf('%s::%s', self::CACHE_ID, $begin->format('z')), $timeblocks, 86400);
 
         return $timeblocks;
     }
