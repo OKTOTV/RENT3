@@ -80,7 +80,7 @@ class SeriesEvent
     /**
      * What objects will be selected for the events?
      * @var type
-     * @Assert\NotNull(groups={"create"})
+     * @Assert\NotNull(message = "series_event.noObjects", groups={"create"})
      */
     private $objects;
 
@@ -94,14 +94,14 @@ class SeriesEvent
     /**
      * Who will get the events?
      * @var type
-     * @Assert\NotNull(groups={"create"})
+     * @Assert\NotNull(message = "series_event.noContact", groups={"create"})
      */
     private $contact;
 
     /**
      * Which costunt gets the events?
      * @var type
-     * @Assert\NotNull(groups={"create"})
+     * @Assert\NotNull(message = "series_event.noCostunit", groups={"create"})
      */
     private $costunit;
 

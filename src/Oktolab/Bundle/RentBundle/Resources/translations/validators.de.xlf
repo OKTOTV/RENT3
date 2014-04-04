@@ -118,6 +118,22 @@
                 <source>series_event.stupidtimerange</source>
                 <target>Die länge einer Buchung darf sich nicht mit dem Begin der nächsten Wiederholung überschneiden</target>
             </trans-unit>
+            <trans-unit id="801">
+                <source>series_event.beginAfterEnd</source>
+                <target>Der Endzeitpunkt einer Buchung kann nicht vor ihrem Begin sein</target>
+            </trans-unit>
+            <trans-unit id="802">
+                <source>series_event.noObjects</source>
+                <target>Du musst mindestens Ein Objekt Buchen</target>
+            </trans-unit>
+            <trans-unit id="803">
+                <source>series_event.noCostunit</source>
+                <target>Du musst eine Kostenstelle auswählen</target>
+            </trans-unit>
+            <trans-unit id="804">
+                <source>series_event.noContact</source>
+                <target>Du musst einen Kontakt auswählen</target>
+            </trans-unit>
         </body>
     </file>
 </xliff>
