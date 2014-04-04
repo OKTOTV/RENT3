@@ -18,6 +18,10 @@ AJS.$(document).ready(function() {
         console.timeEnd('rendercalendar');
     }
 
+    if (AJS.$('#room-calendar').length) {
+        Oktolab.RoomCalendar.init();
+    }
+
     AJS.$('a.fancybox').fancybox();
 
     // Activate typeahead quicksearch in project

@@ -40,6 +40,9 @@ parameters:
     oktolab.event_calendar_event.class:                Oktolab\Bundle\RentBundle\Model\Event\Calendar\EventTransformer
     oktolab.inventory_transformer_cache_listener:      Oktolab\Bundle\RentBundle\EventListener\InventoryTransformerCacheListener
 
+    # calendar api (room)
+    oktolab.room_api_service.class:                    Oktolab\Bundle\RentBundle\Model\Event\Calendar\RoomApiService
+
     #paramconverter service-classes
     oktolab.datetime_converter.class:       Oktolab\Bundle\RentBundle\Util\Configuration\DateTimeParamConverter
 
@@ -255,3 +258,7 @@ services:
     oktolab.series_event:
         class:      %oktolab.series_event.class%
         arguments:  [@doctrine.orm.entity_manager]
+
+    oktolab.room_api_service:
+        class:      %oktolab.room_api_service.class%
+        arguments:  [@doctrine.orm.entity_manager, @oktolab.cache]

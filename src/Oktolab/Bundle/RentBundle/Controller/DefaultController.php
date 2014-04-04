@@ -47,6 +47,20 @@ class DefaultController extends Controller
     }
 
     /**
+     * Renders OktolabRoomCalendar.js
+     *
+     * @Configuration\Method("GET")
+     * @Configuration\Route("/room_calendar", name="orb_room_calendar")
+     * @Configuration\Template()
+     *
+     * @return array
+     */
+    public function roomCalendarAction()
+    {
+        return array();
+    }
+
+    /**
      * Displays about page.
      *
      * @Configuration\Cache(expires="next year", public="true")

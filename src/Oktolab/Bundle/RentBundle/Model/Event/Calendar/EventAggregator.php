@@ -13,7 +13,7 @@ class EventAggregator extends BaseAggregator
     const TYPE_INVENTORY = 'inventory';
     const TYPE_ROOM      = 'room';
 
-    public function getActiveEvents(\DateTime $begin = null, \DateTime $end = null, $type = 'inventory')
+    public function getActiveEvents(\DateTime $begin = null, \DateTime $end = null, $type = self::TYPE_INVENTORY)
     {
         $begin = ($begin === null) ? new \DateTime() : $begin;
         $end = ($end === null) ? new \DateTime('+30 Days'): $end;
@@ -22,6 +22,6 @@ class EventAggregator extends BaseAggregator
             throw new RepositoryNotFoundException('Repository "Event" not found.');
         }
 
-        return $this->getRepository('Event')->findActiveFromBeginToEnd($begin, $end);
+        return $this->getRepository('Event')->findActiveFromBeginToEnd($begin, $end, $type);
     }
 }

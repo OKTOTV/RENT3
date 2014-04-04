@@ -290,6 +290,10 @@
                 <source>generic.create</source>
                 <target>Erstellen</target>
             </trans-unit>
+            <trans-unit id="73">
+                <source>generic.room_calendar</source>
+                <target>Raum Kalender</target>
+            </trans-unit>
 
 
             <trans-unit id="100">

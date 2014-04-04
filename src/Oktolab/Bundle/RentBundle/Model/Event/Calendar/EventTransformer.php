@@ -78,7 +78,6 @@ class EventTransformer
      */
     public function transformAnEvent(Event $event)
     {
-        $route = $event->getState() === Event::STATE_LENT ? 'OktolabRentBundle_Event_Deliver' : 'OktolabRentBundle_Event_Edit';
         return array(
             'id'            => $event->getId(),
             'title'         => $event->getName(),

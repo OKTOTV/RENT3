@@ -9,6 +9,7 @@ use Oktolab\Bundle\RentBundle\Entity\Inventory\Set;
 use Oktolab\Bundle\RentBundle\Entity\Inventory\Category;
 use Oktolab\Bundle\RentBundle\Entity\Inventory\Item;
 use Oktolab\Bundle\RentBundle\Model\Event\Calendar\InventoryTransformer;
+use Oktolab\Bundle\RentBundle\Model\Event\Calendar\RoomApiService;
 
 /**
  * Clears Caches used by InventoryTransformer
@@ -75,6 +76,9 @@ class InventoryTransformerCacheListener
             if ($this->cache->contains(InventoryTransformer::CACHE_ID)) {
                 $this->cache->delete(InventoryTransformer::CACHE_ID);
             }
+        }
+        if ($entity instanceof Room) {
+            $this->cache->delete(RoomApiService::ROOM_CACHE);
         }
 
         return;

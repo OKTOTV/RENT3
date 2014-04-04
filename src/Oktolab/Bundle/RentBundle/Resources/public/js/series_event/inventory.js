@@ -123,7 +123,6 @@ jQuery(document).ready(function ($) {
     $('.datetime').each(function(index, input) {
         input = $(input);
         var val = input.val();
-        console.log(val);
         var current = new Date(val);
         input.val('');
         var currentStamp = current.getFullYear();
@@ -131,8 +130,7 @@ jQuery(document).ready(function ($) {
         currentStamp = currentStamp+'-'+Oktolab.leadingZero(current.getDate().toString());
         currentStamp = currentStamp+' '+Oktolab.leadingZero(current.getHours().toString());
         currentStamp = currentStamp+':'+Oktolab.leadingZero(current.getMinutes().toString());
-        console.log('series end:');
-        console.log(currentStamp);
+
         input.appendDtpicker({
             "firstDayOfWeek": 1,
             "futureOnly"    : true,
