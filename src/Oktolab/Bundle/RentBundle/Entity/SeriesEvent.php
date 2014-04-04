@@ -290,13 +290,17 @@ class SeriesEvent
         $this->setUpdatedAt(new \DateTime());
     }
 
+    /**
+     * @Assert\True(message = "series_event.beginAfterEnd", groups = {"create"})
+     * @return type
+     */
     public function isEventBeginForEnd()
     {
         return $this->event_begin < $this->event_end;
     }
 
     /**
-     * @Assert\True(message = "series_event.stupidtimerange", groups={"create"})
+     * @Assert\True(message = "series_event.stupidtimerange", groups = {"create"})
      * @return boolean
      */
     public function isSeriesTimerangeOkay()
