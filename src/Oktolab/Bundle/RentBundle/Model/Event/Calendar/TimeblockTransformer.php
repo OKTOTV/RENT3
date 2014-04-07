@@ -19,6 +19,7 @@ class TimeblockTransformer
      * Used for caching identifier
      */
     const CACHE_ID = 'oktolab.calendar_timeblock_transformer';
+    const CACHE_ID_ROOM = 'oktolab.calendar_room_timeblock_transformer_cache';
 
 
     /**
@@ -59,9 +60,10 @@ class TimeblockTransformer
         $this->guardTimeblockAggregation($begin, $end);
 
         // Look-Up cache
-//        if ($this->cache->contains(sprintf('%s::%s', self::CACHE_ID, $begin->format('z')))) {
-//            return $this->cache->fetch(sprintf('%s::%s', self::CACHE_ID, $begin->format('z')));
-//        }
+        $cache = $this->loadCache($type, $begin);
+        if ($cache) {
+            return $cache;
+        }
 
         // Transform Timeblocks for use by Javascript
         $separatedTimeblocks = $this->getSeparatedTimeblocks($begin, $end, $max, $type);
@@ -96,7 +98,7 @@ class TimeblockTransformer
         }
 
         // Store in cache for one day
-//        $this->cache->save(sprintf('%s::%s', self::CACHE_ID, $begin->format('z')), $timeblocks, 86400);
+        $this->saveCache($type, $begin, $timeblocks);
 
         return $timeblocks;
     }
@@ -220,5 +222,33 @@ class TimeblockTransformer
         }
 
         return json_encode($json_timeblocks);
+    }
+
+    private function loadCache($type = 'inventory', $begin)
+    {
+        switch($type) {
+        case 'inventory':
+            if ($this->cache->contains(sprintf('%s::%s', self::CACHE_ID, $begin->format('z')))) {
+                return $this->cache->fetch(sprintf('%s::%s', self::CACHE_ID, $begin->format('z')));
+            }
+            return false;
+        case 'room':
+            if ($this->cache->contains(sprintf('%s::%s', self::CACHE_ID_ROOM, $begin->format('z')))) {
+                return $this->cache->fetch(sprintf('%s::%s', self::CACHE_ID_ROOM, $begin->format('z')));
+            }
+            return false;
+        }
+    }
+
+    private function saveCache($type = 'inventory', $begin, $timeblocks)
+    {
+        switch($type) {
+        case 'inventory':
+            $this->cache->save(sprintf('%s::%s', self::CACHE_ID, $begin->format('z')), $timeblocks, 86400);
+            break;
+        case 'room':
+            $this->cache->save(sprintf('%s::%s', self::CACHE_ID_ROOM, $begin->format('z')), $timeblocks, 86400);
+            break;
+        }
     }
 }
