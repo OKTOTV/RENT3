@@ -1,0 +1,23 @@
+{% extends "OktolabRentBundle::layout.html.twig" %}
+
+{% block title 'Room Day Calendar' %}
+{% block content_header %}
+    <div class="aui-page-header-inner">
+        <div class="aui-page-header-main">
+            <h1>{{'generic.room_day_calendar'|trans}}</h1>
+        </div>
+        <div class="aui-page-header-actions">
+            <div class="aui-buttons">
+                <input class="aui-date-picker aui-button" type="text" id="calendar-input-date" />
+                <button class="aui-button" id="calendar-show-date" ><span class="aui-icon aui-icon-small aui-iconfont-view">{{'generic.show'|trans}}</span> {{'generic.show'|trans}}</button>
+            </div>
+            <div class="aui-buttons">
+                <button class="aui-button" id="calendar-show-today">{{'generic.today'|trans}}</button>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block content %}
+    <div id="room-day-calendar" class="oktolab-calendar"></div>
+{% endblock %}

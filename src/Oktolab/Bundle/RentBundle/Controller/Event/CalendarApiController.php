@@ -124,6 +124,35 @@ class CalendarApiController extends Controller
         return new JsonResponse($timeblocks);
     }
 
+    /** Returns JSON formatted Timeblocks for rooms
+     *
+     * @Configuration\Cache(expires="+5 min", public="yes")
+     * @Configuration\Method("GET")
+     * @Configuration\Route("/room_day_timeblock.{_format}/{begin}/{end}",
+     *      name="orb_calendar_api_room_day_timeblocks",
+     *      defaults={"_format"="json", "begin" = "default", "end" = "default"},
+     *      requirements={"_format"="json"})
+     *
+     * @Configuration\ParamConverter("begin",
+     *      converter="oktolab.datetime_converter",
+     *      options={"default": "today 00:00"})
+     *
+     * @Configuration\ParamConverter("end",
+     *      converter="oktolab.datetime_converter",
+     *      options={"default": "today 23:59"})
+     *
+     * @return JsonResponse
+     *
+     * @param \DateTime $begin
+     * @param \DateTime $end
+     * @return JsonResponse
+     */
+    public function RoomDayTimeblockAction(\DateTime $begin, \DateTime $end)
+    {
+        $timeblocks = $this->get('oktolab.event_calendar_timeblock')->getDayTimeblocks($begin, $end, 'room');
+        return new JsonResponse($timeblocks);
+    }
+
     /**
      * Returns JSON formatted Events.
      *

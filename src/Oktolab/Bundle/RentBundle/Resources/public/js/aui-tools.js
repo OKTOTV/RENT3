@@ -22,6 +22,10 @@ AJS.$(document).ready(function() {
         Oktolab.RoomCalendar.init();
     }
 
+    if (AJS.$('#room-day-calendar').length) {
+        Oktolab.RoomDayCalendar.init();
+    }
+
     AJS.$('a.fancybox').fancybox();
 
     // Activate typeahead quicksearch in project

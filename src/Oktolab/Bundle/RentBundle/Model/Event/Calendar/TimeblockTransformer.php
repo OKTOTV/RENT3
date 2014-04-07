@@ -103,6 +103,40 @@ class TimeblockTransformer
         return $timeblocks;
     }
 
+    public function getDayTimeblocks(\Datetime $begin, \Datetime $end, $type = 'inventory')
+    {
+        //@TODO: Add caching
+        $separatedTimeblocks = $this->getSeparatedTimeblocks($begin, $end, null, $type);
+        $timeblocks = array();
+        $date = null;
+
+        // @TODO: This is evil! Inject INTL/i18n service an do this right!
+        $germanWeekdays = array(1 => 'Mo', 2 => 'Di', 3 => 'Mi', 4 => 'Do', 5 => 'Fr', 6 => 'Sa', 0 => 'So');
+
+        foreach ($separatedTimeblocks as $timeblock) {
+            if (null === $date || $date < $timeblock['date']) {
+                $date = $timeblock['date'];
+                $block = array(
+                    'title'  => '',//sprintf('%s, %s', $germanWeekdays[$date->format('w')], $date->format('d.m')),
+                    'blocks' => array()
+                );
+            }
+            $time = clone $timeblock['begin'];
+            while ($timeblock['end'] >= $time) { // add half hour blocks to the day starting with begin of timeblock and stop at end
+                $block['blocks'][] = array(
+                'title' => sprintf('%s<sup>%s</sup>', $time->format('H'), $time->format('i')),
+                'begin' => $time->format('c'),
+                'end'   => $time->modify('+30min')->format('c'),
+                );
+//                $time->modify('+30min');
+            }
+
+            $timeblocks[$date->format('c')] = $block;
+        }
+
+        return $timeblocks;
+    }
+
     /**
      * Seperates Timeblocks for easy use.
      * @TODO: remove max. Its not necessary
