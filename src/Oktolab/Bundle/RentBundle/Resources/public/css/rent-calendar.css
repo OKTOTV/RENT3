@@ -121,7 +121,7 @@
     overflow: hidden;
 }
 
-.oktolab-calendar .calendar-date {
+.oktolab-calendar .calendar-date .calendar-day-date {
     float: left;
     width: 170px;
     height: 100%;
