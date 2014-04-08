@@ -26,6 +26,10 @@ AJS.$(document).ready(function() {
         Oktolab.RoomDayCalendar.init();
     }
 
+    if (AJS.$('#inventory-day-calendar').length) {
+        Oktolab.InventoryDayCalendar.init();
+    }
+
     AJS.$('a.fancybox').fancybox();
 
     // Activate typeahead quicksearch in project
