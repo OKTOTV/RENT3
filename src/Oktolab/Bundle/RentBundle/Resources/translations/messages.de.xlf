@@ -298,6 +298,10 @@
                 <source>generic.room_day_calendar</source>
                 <target>Tageskalender Räume</target>
             </trans-unit>
+            <trans-unit id="75">
+                <source>generic.inventory_day_calendar</source>
+                <target>Tageskalender Inventar</target>
+            </trans-unit>
 
 
             <trans-unit id="100">
@@ -864,6 +868,14 @@
             <trans-unit id="624">
                 <source>calendar.show_room_day</source>
                 <target>Tagesansicht</target>
+            </trans-unit>
+            <trans-unit id="625">
+                <source>calendar.show_inventory_day</source>
+                <target>Tagesansicht</target>
+            </trans-unit>
+            <trans-unit id="626">
+                <source>calendar.show_inventory_week</source>
+                <target>Wochenansicht</target>
             </trans-unit>
 
             <trans-unit id="700">
