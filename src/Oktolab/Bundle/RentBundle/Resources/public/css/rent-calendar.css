@@ -10,7 +10,7 @@
 /* **********************************************
 /* ***************** colors *********************
  ********************************************** */
-.oktolab-calendar .calendar-date .calendar-day-date {
+.oktolab-calendar .calendar-date {
     background-color: #F5F5F5;
     border-right: 1px solid #CCCCCC;
 }
@@ -121,21 +121,14 @@
     overflow: hidden;
 }
 
-.oktolab-calendar .calendar-date .calendar-day-date {
+.oktolab-calendar .calendar-date {
     float: left;
     width: 170px;
     height: 100%;
     position: relative;
 }
 
-.oktolab-calendar .calendar-day-date {
-    float: left;
-    width: 1000px;
-    height: 100%;
-    position: relative;
-}
-
-.oktolab-calendar .calendar-date .calendar-day-date .calendar-title {
+.oktolab-calendar .calendar-date .calendar-title {
     display: block;
     width: 100%;
 }

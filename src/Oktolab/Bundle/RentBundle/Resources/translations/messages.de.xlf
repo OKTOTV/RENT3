@@ -294,6 +294,10 @@
                 <source>generic.room_calendar</source>
                 <target>Raum Kalender</target>
             </trans-unit>
+            <trans-unit id="74">
+                <source>generic.room_day_calendar</source>
+                <target>Tageskalender Räume</target>
+            </trans-unit>
 
 
             <trans-unit id="100">
@@ -852,6 +856,14 @@
             <trans-unit id="622">
                 <source>calendar.sorting.sets</source>
                 <target>Sets</target>
+            </trans-unit>
+            <trans-unit id="623">
+                <source>calendar.show_room_week</source>
+                <target>Wochenansicht</target>
+            </trans-unit>
+            <trans-unit id="624">
+                <source>calendar.show_room_day</source>
+                <target>Tagesansicht</target>
             </trans-unit>
 
             <trans-unit id="700">

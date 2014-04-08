@@ -110,9 +110,6 @@ class TimeblockTransformer
         $timeblocks = array();
         $date = null;
 
-        // @TODO: This is evil! Inject INTL/i18n service an do this right!
-        $germanWeekdays = array(1 => 'Mo', 2 => 'Di', 3 => 'Mi', 4 => 'Do', 5 => 'Fr', 6 => 'Sa', 0 => 'So');
-
         foreach ($separatedTimeblocks as $timeblock) {
             if (null === $date || $date < $timeblock['date']) {
                 $date = $timeblock['date'];
@@ -128,9 +125,7 @@ class TimeblockTransformer
                 'begin' => $time->format('c'),
                 'end'   => $time->modify('+30min')->format('c'),
                 );
-//                $time->modify('+30min');
             }
-
             $timeblocks[$date->format('c')] = $block;
         }
 

@@ -1,10 +1,10 @@
 {% extends "OktolabRentBundle::layout.html.twig" %}
 
-{% block title 'generic.room_calendar'|trans %}
+{% block title {{'generic.inventory_day_calendar'|trans}} %}
 {% block content_header %}
     <div class="aui-page-header-inner">
         <div class="aui-page-header-main">
-            <h1>{{'generic.room_calendar'|trans}}</h1>
+            <h1>{{'generic.inventory_day_calendar'|trans}}</h1>
         </div>
         <div class="aui-page-header-actions">
             <div class="aui-buttons">
@@ -13,8 +13,8 @@
             </div>
             <div class="aui-buttons">
                 <button class="aui-button" id="calendar-show-today">{{'generic.today'|trans}}</button>
-                <a class="aui-button" href="{{ path('orb_room_day_calendar') }}">
-                    {{'calendar.show_room_day'|trans}}
+                <a class="aui-button" href="{{ path('orb_room_calendar') }}">
+                    {{'calendar.show_room_week'|trans}}
                 </a>
             </div>
         </div>
@@ -22,5 +22,5 @@
 {% endblock %}
 
 {% block content %}
-    <div id="room-calendar" class="oktolab-calendar"></div>
+    <div id="inventory-day-calendar" class="oktolab-calendar"></div>
 {% endblock %}

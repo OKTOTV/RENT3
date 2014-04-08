@@ -18,6 +18,7 @@
          * @param {array} settings Key-Value Settings for Calendar
          */
         init: function (settings) {
+
             Calendar.config = {
                 container:       '#room-day-calendar',
                 eventSrcUri:     '/api/calendar/room_events.json',
@@ -27,14 +28,26 @@
 
             $.extend({}, Calendar.config, settings);
 
+            var date = new Date();
+
+            var timeBlockUrl = Calendar.buildUrl(Calendar.config.timeblockSrcUri);
+            timeBlockUrl = timeBlockUrl+ '/' + $.datepicker.formatDate('yy-mm-dd', date);
+            date.setDate(date.getDate());
+            timeBlockUrl = timeBlockUrl+ '/' + $.datepicker.formatDate('yy-mm-dd', date);
+
+            var eventUrl = Calendar.buildUrl(Calendar.config.eventSrcUri);
+            eventUrl = eventUrl+'/'+$.datepicker.formatDate('yy-mm-dd', date);
+            date.setDate(date.getDate()+1);
+            eventUrl = eventUrl+'/'+$.datepicker.formatDate('yy-mm-dd', date);
+
             Calendar.data = {
                 container: $(Calendar.config.container),
                 containerWrapper: $('<div class="calendar-wrapper" />'),
                 containerTimeblocks: $('<div class="calendar-timeblocks" />'),
                 containerInventory: $('<div class="calendar-inventory" />'),
                 inventory: $.getJSON(Calendar.buildUrl(Calendar.config.roomSrcUri)).promise(),
-                events: $.getJSON(Calendar.buildUrl(Calendar.config.eventSrcUri)).promise(),
-                timeblocks: $.getJSON(Calendar.buildUrl(Calendar.config.timeblockSrcUri)).promise(),
+                events: $.getJSON(eventUrl).promise(),
+                timeblocks: $.getJSON(timeBlockUrl).promise(),
                 items: [],
                 renderedTimeblocks: [],
                 today_button: $('#calendar-show-today'),
@@ -52,7 +65,6 @@
          * @fires OktolabCalendar:rendered
          */
         setup: function () {
-            console.log('init room calendar');
             Calendar.data.timeblocks.then(function (data) {
                 Calendar.showCalendarBackground(data);
             });
@@ -95,7 +107,7 @@
             var $date = new Date(date);
             var eventUrl = Calendar.buildUrl(Calendar.config.eventSrcUri);
             eventUrl = eventUrl+'/'+$.datepicker.formatDate('yy-mm-dd', $date);
-            $date.setDate($date.getDate()+7);
+            $date.setDate($date.getDate()+1);
             eventUrl = eventUrl+'/'+$.datepicker.formatDate('yy-mm-dd', $date);
 
             //load new events.
@@ -113,7 +125,7 @@
             var $date = new Date(date);
             var timeBlockUrl = Calendar.buildUrl(Calendar.config.timeblockSrcUri);
             timeBlockUrl = timeBlockUrl+ '/' + $.datepicker.formatDate('yy-mm-dd', $date);
-            $date.setDate($date.getDate()+7);
+            $date.setDate($date.getDate());
             timeBlockUrl = timeBlockUrl+ '/' + $.datepicker.formatDate('yy-mm-dd', $date);
 
             //load new timeblocks.
@@ -200,17 +212,14 @@
          */
         showEvents: function (events) {
             $.each(events, function (key, event) {
-                console.log('render event');
                 var begin = Calendar.findBlockByDate(new Date(event.begin));
                 var end = Calendar.findBlockByDate(new Date(event.end));
 
                 $.each(event.objects, function (key, object) {
-                    console.log(object);
                     var inventoryObject = Calendar._getInventoryObjectByIdentifier(object.object_id.toLowerCase());
                     if (typeof(inventoryObject) === 'undefined') {
                         return true;    // skip object
                     }
-                    console.log('render chip');
 
                     var eventIdentifier = Calendar._renderEventChip(event, inventoryObject, begin.block, end.block);
                     Calendar._renderEventDescription(event, eventIdentifier);
@@ -307,10 +316,7 @@
 
             for (block in Calendar.data.renderedTimeblocks) {
                 var block = Calendar.data.renderedTimeblocks[block];
-                console.log('block');
-                console.log(block);
-                console.log(date);
-                if (block.date >= date) {
+                if (block.date > date) {
                     return block;
                 }
             }

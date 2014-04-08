@@ -47,7 +47,7 @@ class DefaultController extends Controller
     }
 
     /**
-     * Renders OktolabRoomCalendar.js
+     * Renders day_room_calendar.js
      *
      * @Configuration\Method("GET")
      * @Configuration\Route("/room_day_calendar", name="orb_room_day_calendar")
@@ -56,6 +56,20 @@ class DefaultController extends Controller
      * @return array
      */
     public function roomDayCalendarAction()
+    {
+        return array();
+    }
+
+    /**
+     * Renders day_inventory_calendar.js
+     *
+     * @Configuration\Method("GET")
+     * @Configuration\Route("/inventory_day_calendar", name="orb_inventory_day_calendar")
+     * @Configuration\Template()
+     *
+     * @return array
+     */
+    public function inventoryDayCalendarAction()
     {
         return array();
     }
