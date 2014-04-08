@@ -1503,6 +1503,11 @@
                 <source>series_event.create_error</source>
                 <target>Serienbuchung konnte nicht angelegt werden</target>
             </trans-unit>
+
+            <trans-unit id="1700">
+                <source>dashboard.event_timeroom</source>
+                <target>Aktive Buchungen im Zeitraum %begin% bis %end%</target>
+            </trans-unit>
         </body>
     </file>
 </xliff>

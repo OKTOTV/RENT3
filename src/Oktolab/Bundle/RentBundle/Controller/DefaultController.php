@@ -11,7 +11,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 class DefaultController extends Controller
 {
     /**
-     * Displays Inventory/Room Events for the next 7 days.
+     * Displays Inventory/Room Events for the next days.
      *
      * @Configuration\Method("GET")
      * @Configuration\Route("/", name="rentbundle_dashboard")
@@ -24,11 +24,46 @@ class DefaultController extends Controller
         $eventRepository = $this->get('oktolab.event_manager')->getEventRepository();
 
         $begin = new \DateTime();
-        $end = new \DateTime('+7 Days');
+        $end = new \DateTime('+3 Days');
 
         return array(
             'roomEvents'      => $eventRepository->findActiveFromBeginToEnd($begin, $end, 'room'),
             'inventoryEvents' => $eventRepository->findActiveFromBeginToEnd($begin, $end, 'inventory'),
+            'begin'           => $begin,
+            'end'             => $end
+        );
+    }
+
+    /**
+     * Displays Inventory/Room Events for the next days.
+     *
+     * @Configuration\Method("GET")
+     * @Configuration\Route("/dashboard/{begin}/{end}",
+     *      name="rentbundle_dashboard_specific",
+     *      defaults={"begin" = "default", "end" = "default"})
+     * @Configuration\ParamConverter("begin",
+     *      converter="oktolab.datetime_converter",
+     *      options={"default": "today 00:00"})
+     *
+     * @Configuration\ParamConverter("end",
+     *      converter="oktolab.datetime_converter",
+     *      options={"default": "+3 days 00:00"})
+     *
+     * @param \DateTime $begin
+     * @param \DateTime $end
+     * @Configuration\Template("OktolabRentBundle:Default:dashboard.html.twig")
+     *
+     * @return array
+     */
+    public function dashboardBrowseAction(\DateTime $begin, \DateTime $end)
+    {
+        $eventRepository = $this->get('oktolab.event_manager')->getEventRepository();
+
+        return array(
+            'roomEvents'      => $eventRepository->findActiveFromBeginToEnd($begin, $end, 'room'),
+            'inventoryEvents' => $eventRepository->findActiveFromBeginToEnd($begin, $end, 'inventory'),
+            'begin'           => $begin,
+            'end'             => $end
         );
     }
 
