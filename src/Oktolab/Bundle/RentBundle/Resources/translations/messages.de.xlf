@@ -302,6 +302,10 @@
                 <source>generic.inventory_day_calendar</source>
                 <target>Tageskalender Inventar</target>
             </trans-unit>
+            <trans-unit id="76">
+                <source>generic.inventory_calendar</source>
+                <target>Inventar Kalender</target>
+            </trans-unit>
 
 
             <trans-unit id="100">

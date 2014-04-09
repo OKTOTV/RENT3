@@ -7,8 +7,14 @@
                 <div class="aui-dropdown2 aui-style-default aui-dropdown2-in-header" id="dropdown2-header7" style="display: none; top: 40px; min-width: 160px; left: 1213px; " aria-hidden="true">
                     <div class="aui-dropdown2-section">
                         <ul>
-                            <li><a href="{{ path('rentbundle_calendar') }}" class="aui-nav-imagelink">{{'generic.calendar'|trans}}</a></li>
+                            <li><a href="{{ path('rentbundle_calendar') }}" class="aui-nav-imagelink">{{'generic.inventory_calendar'|trans}}</a></li>
                             <li><a href="{{ path('orb_room_calendar') }}" class="aui-nav-imagelink">{{'generic.room_calendar'|trans}}</a></li>
+                        </ul>
+                    </div>
+                    <div class="aui-dropdown2-section">
+                        <ul>
+                          <li><a href="{{ path('orb_inventory_day_calendar') }}" class="aui-nav-imagelink">{{'generic.inventory_day_calendar'|trans}}</a></li>
+                            <li><a href="{{ path('orb_room_day_calendar') }}" class="aui-nav-imagelink">{{'generic.room_day_calendar'|trans}}</a></li>
                         </ul>
                     </div>
                 </div>
@@ -40,7 +46,6 @@
                     <div class="aui-dropdown2-section">
                         <ul>
                             <li><a href="{{ rent_documentation_url }}" class="active">{{'generic.onlineHelp'|trans}}</a></li>
-                            {# <li><a href="http://example.com/">Keyboard shortcuts</a></li> #}
                             <li><a href="{{ path('rentbundle_about') }}">{{'generic.about'|trans}}</a></li>
                         </ul>
                     </div>
