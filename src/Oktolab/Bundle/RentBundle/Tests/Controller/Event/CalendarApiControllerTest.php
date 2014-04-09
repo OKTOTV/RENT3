@@ -122,9 +122,37 @@ class CalendarApiControllerTest extends WebTestCase
     /**
      * @test
      */
-    public function eventActionReturnsEventsAsJson()
+    public function calendarInventoryEvents()
     {
-        $this->markTestIncomplete('Test if EventAction returns Events from @oktolab.event_calendar_event.');
+        $this->loadFixtures(array(
+            '\Oktolab\Bundle\RentBundle\Tests\DataFixtures\ORM\Calendar\InventoryCalendarEventFixture',
+            '\Oktolab\Bundle\RentBundle\Tests\DataFixtures\ORM\Calendar\RoomCalendarEventFixture'
+        ));
+        $response = $this->requestXmlHttp('/api/calendar/events.json/2013-10-13/2013-10-20');
+        $this->assertTrue($response->isSuccessful(), 'Response is successful');
+        $this->assertTrue($response->headers->contains('Content-Type', 'application/json'), 'Returns application/json');
+        $this->assertJson($response->getContent(), 'Response returns valid JSON.');
+
+        $json = json_decode($response->getContent(), true);
+        $this->assertEquals(1, count($json));
+    }
+
+    /**
+     * @test
+     */
+    public function calendarRoomEvents()
+    {
+        $this->loadFixtures(array(
+            '\Oktolab\Bundle\RentBundle\Tests\DataFixtures\ORM\Calendar\InventoryCalendarEventFixture',
+            '\Oktolab\Bundle\RentBundle\Tests\DataFixtures\ORM\Calendar\RoomCalendarEventFixture'
+        ));
+        $response = $this->requestXmlHttp('/api/calendar/room_events.json/2013-10-13/2013-10-20');
+        $this->assertTrue($response->isSuccessful(), 'Response is successful');
+        $this->assertTrue($response->headers->contains('Content-Type', 'application/json'), 'Returns application/json');
+        $this->assertJson($response->getContent(), 'Response returns valid JSON.');
+
+        $json = json_decode($response->getContent(), true);
+        $this->assertEquals(1, count($json));
     }
 
     /**

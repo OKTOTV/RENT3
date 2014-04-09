@@ -5,14 +5,12 @@ jQuery(document).ready(function ($) {
         var begin = null;
         if ($('#calendar-input-date').val()) {
             begin = new Date($('#calendar-input-date').val());
-        } else {
-            begin = new Date();
+            url = url+'/'+ begin.getFullYear() + "-" + Oktolab.leadingZero(begin.getMonth()+1) +'-'+Oktolab.leadingZero(begin.getDate().toString());
+            begin.setDate(begin.getDate()+3);
+            url = url+'/'+ begin.getFullYear() + "-" + Oktolab.leadingZero(begin.getMonth()+1) +'-'+Oktolab.leadingZero(begin.getDate().toString());
+
+            window.location.href = url;
         }
-        url = url+'/'+ begin.getFullYear() + "-" + Oktolab.leadingZero(begin.getMonth()+1) +'-'+Oktolab.leadingZero(begin.getDate().toString());
-        begin.setDate(begin.getDate()+3);
-        url = url+'/'+ begin.getFullYear() + "-" + Oktolab.leadingZero(begin.getMonth()+1) +'-'+Oktolab.leadingZero(begin.getDate().toString());
-        
-        window.location.href = url;
     });
 });
 
