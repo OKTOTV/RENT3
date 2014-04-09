@@ -156,6 +156,50 @@ class CalendarApiControllerTest extends WebTestCase
     }
 
     /**
+     * @test
+     */
+    public function calendarRoomWeekTimeblocks()
+    {
+        $this->loadFixtures(array(
+            '\Oktolab\Bundle\RentBundle\Tests\DataFixtures\ORM\Calendar\RoomTimeblockFixture'
+        ));
+        $response = $this->requestXmlHttp('/api/calendar/room_timeblock.json/2014-04-01/2014-04-07');
+        $this->assertTrue($response->isSuccessful(), 'Response is successful');
+        $this->assertTrue($response->headers->contains('Content-Type', 'application/json'), 'Returns application/json');
+        $this->assertJson($response->getContent(), 'Response returns valid JSON.');
+
+        $json = json_decode($response->getContent(), true);
+        $this->assertEquals(7, count($json));
+        $this->assertEquals('Di, 01.04', $json['2014-04-01T00:00:00+02:00']['title']);
+        $this->assertEquals(1, count($json['2014-04-01T00:00:00+02:00']['blocks']));
+    }
+
+    /**
+     * @test
+     */
+    public function calendarRoomDayTimeblocks()
+    {
+        $this->loadFixtures(array(
+            '\Oktolab\Bundle\RentBundle\Tests\DataFixtures\ORM\Calendar\RoomTimeblockFixture'
+        ));
+        $response = $this->requestXmlHttp('/api/calendar/room_day_timeblock.json/2014-04-01T00:00:00/2014-04-01T23:59:00');
+        $this->assertTrue($response->isSuccessful(), 'Response is successful');
+        $this->assertTrue($response->headers->contains('Content-Type', 'application/json'), 'Returns application/json');
+        $this->assertJson($response->getContent(), 'Response returns valid JSON.');
+
+        $json = json_decode($response->getContent(), true);
+        $this->assertEquals(1, count($json));
+        $this->assertEquals('', $json['2014-04-01T00:00:00+02:00']['title']);
+        $this->assertEquals(19, count($json['2014-04-01T00:00:00+02:00']['blocks']));
+        $this->assertEquals('2014-04-01T13:00:00+02:00', $json['2014-04-01T00:00:00+02:00']['blocks'][0]['begin']);
+        $this->assertEquals('2014-04-01T13:30:00+02:00', $json['2014-04-01T00:00:00+02:00']['blocks'][0]['end']);
+        $this->assertEquals('2014-04-01T21:30:00+02:00', $json['2014-04-01T00:00:00+02:00']['blocks'][17]['begin']);
+        $this->assertEquals('2014-04-01T22:00:00+02:00', $json['2014-04-01T00:00:00+02:00']['blocks'][17]['end']);
+        $this->assertEquals('2014-04-01T22:00:00+02:00', $json['2014-04-01T00:00:00+02:00']['blocks'][18]['begin']);
+        $this->assertEquals('2014-04-01T22:30:00+02:00', $json['2014-04-01T00:00:00+02:00']['blocks'][18]['end']);
+    }
+
+    /**
      * Simple wrapper to make a JSON-Request
      *
      * @param string $uri

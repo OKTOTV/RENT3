@@ -119,7 +119,7 @@ class TimeblockTransformer
                 );
             }
             $time = clone $timeblock['begin'];
-            while ($timeblock['end'] >= $time) { // add half hour blocks to the day starting with begin of timeblock and stop at end
+            while ($time <= $timeblock['end']) { // add half hour blocks to the day starting with begin of timeblock and stop at end
                 $block['blocks'][] = array(
                 'title' => sprintf('%s<sup>%s</sup>', $time->format('H'), $time->format('i')),
                 'begin' => $time->format('c'),

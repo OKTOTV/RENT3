@@ -212,8 +212,8 @@
          */
         showEvents: function (events) {
             $.each(events, function (key, event) {
-                var begin = Calendar.findBlockByDate(new Date(event.begin));
-                var end = Calendar.findBlockByDate(new Date(event.end));
+                var begin = Calendar.findBeginBlockByDate(new Date(event.begin));
+                var end = Calendar.findEndBlockByDate(new Date(event.end));
 
                 $.each(event.objects, function (key, object) {
                     var inventoryObject = Calendar._getInventoryObjectByIdentifier(object.object_id.toLowerCase());
@@ -244,7 +244,7 @@
             var objectId = 'event-' + event.id + '-' + inventoryObject.attr('id').replace(':', '-');
             var eventView = $.extend({}, event, {
                 style_top:      inventoryObject.position().top + 20,
-                style_left:     begin.offset().left,
+                style_left:     begin.offset().left + (begin.width()/2),
                 style_width:    end.offset().left - begin.offset().left + end.width(),
                 eventIdentfier: objectId,
             });
@@ -305,18 +305,24 @@
             return renderObjects + '</ul>';
         },
 
-        /**
-         * Finds a rendered block by given Date.
-         *
-         * @param {object:Date} date
-         * @returns {object}
-         */
-        findBlockByDate: function (date) {
+        findBeginBlockByDate: function (date) {
             var block = null;
 
             for (block in Calendar.data.renderedTimeblocks) {
                 var block = Calendar.data.renderedTimeblocks[block];
                 if (block.date > date) {
+                    return block;
+                }
+            }
+            return Calendar.data.renderedTimeblocks[Calendar.data.renderedTimeblocks.length -1];
+        },
+
+        findEndBlockByDate: function (date) {
+            var block = null;
+
+            for (block in Calendar.data.renderedTimeblocks) {
+                var block = Calendar.data.renderedTimeblocks[block];
+                if (block.date >= date) {
                     return block;
                 }
             }
