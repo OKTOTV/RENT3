@@ -186,7 +186,6 @@ class Item implements RentableInterface, UploadableInterface
     private $active;
 
     /**
-     *
      * @var type integer
      * @ORM\Column(name="sortnumber", type="integer", nullable=true)
      */

@@ -44,6 +44,20 @@ class CalendarSortingController extends Controller
     }
 
     /**
+     * Lists all Rooms by sorting and allows resorting
+     *
+     * @Configuration\Route("/rooms", name="orb_calendar_sorting_rooms")
+     * @Configuration\Method("GET")
+     * @Configuration\Template()
+     */
+    public function roomAction()
+    {
+        $em = $this->getDoctrine()->getManager();
+        $rooms = $em->getRepository('OktolabRentBundle:Inventory\Room')->findBy(array(), array('sortnumber' => 'asc'));
+        return array('rooms' => $rooms);
+    }
+
+    /**
      * Sets sortindex of category
      *
      * @Configuration\Route("/update_category", name="orb_calendar_update_category_sorting")
@@ -76,6 +90,25 @@ class CalendarSortingController extends Controller
             $item = $em->getRepository('OktolabRentBundle:Inventory\Item')->findOneBy(array('id' => $key));
             $item->setSortnumber($value);
             $em->persist($item);
+        }
+        $em->flush();
+        return new Response(null, 200);
+    }
+
+    /**
+     * Sets sortindex of rooms
+     *
+     * @Configuration\Route("/update_rooms", name="orb_calendar_update_room_sorting")
+     */
+    public function updateRoomSorting(Request $request)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $params = json_decode($request->getContent(), true);
+
+        foreach ($params as $key => $value) {
+            $room = $em->getRepository('OktolabRentBundle:Inventory\Room')->findOneBy(array('id' => $key));
+            $room->setSortnumber($value);
+            $em->persist($room);
         }
         $em->flush();
         return new Response(null, 200);

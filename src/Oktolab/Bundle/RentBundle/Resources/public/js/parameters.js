@@ -37,6 +37,7 @@
         calendarCategorySortUrl: oktolab.baseUrl + '/admin/calendar/sorting/update_category', //Post a json object with ajax to sort
         calendarItemSortUrl: oktolab.baseUrl + '/admin/calendar/sorting/update_items', //Post a json object with ajax to sort
         calendarSetSortUrl: oktolab.baseUrl + '/admin/calendar/sorting/update_sets', //Post a json object with ajax to sort
+        calendarRoomSortUrl: oktolab.baseUrl + '/admin/calendar/sorting/update_rooms', //Post a json object with ajax to sort
         contactsForCostunitUrl: oktolab.baseUrl + '/api/contact/contacts_for_costunit/' //Add the costunit id to get json of contacts for given costunit
     };
 

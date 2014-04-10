@@ -101,6 +101,12 @@ class Room implements UploadableInterface, RentableInterface
     private $picture;
 
     /**
+     * @var type integer
+     * @ORM\Column(name="sortnumber", type="integer", nullable=true)
+     */
+    private $sortnumber;
+
+    /**
      * Get id
      *
      * @return integer
@@ -321,5 +327,28 @@ class Room implements UploadableInterface, RentableInterface
     public function getState()
     {
         return 0;
+    }
+
+    /**
+     * Set sortnumber
+     *
+     * @param integer $sortnumber
+     * @return Room
+     */
+    public function setSortnumber($sortnumber)
+    {
+        $this->sortnumber = $sortnumber;
+    
+        return $this;
+    }
+
+    /**
+     * Get sortnumber
+     *
+     * @return integer 
+     */
+    public function getSortnumber()
+    {
+        return $this->sortnumber;
     }
 }

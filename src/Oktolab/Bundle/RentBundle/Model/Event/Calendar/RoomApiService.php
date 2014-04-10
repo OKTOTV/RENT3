@@ -34,16 +34,11 @@ class RoomApiService
 
     /**
      * returns rooms as json for the calendar to display.
-     * uses caching
      * @return array JSON Rooms
      */
     public function getRoomsForCalendar()
     {
-        if ($this->cache->contains(self::ROOM_CACHE)) {
-            return $this->cache->fetch(self::ROOM_CACHE);
-        }
-
-        $rooms = $this->em->getRepository('OktolabRentBundle:Inventory\Room')->findAll();
+        $rooms = $this->em->getRepository('OktolabRentBundle:Inventory\Room')->findBy(array(), array('sortnumber' => 'asc'));
         $categorylist = array(); // rooms don't have any category yet. mehs calendar demands it though.
 
         $json = array('title' => 'Räume', 'objectives' => array());
@@ -57,7 +52,6 @@ class RoomApiService
 
         $categorylist[] = $json;
 
-        $this->cache->save(self::ROOM_CACHE, $categorylist, 86400);
         return $categorylist;
     }
 }

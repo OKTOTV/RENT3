@@ -41,4 +41,14 @@
        }
    });
 
+   $('.room_sortable').sortable({
+       update: function (event, ui) {
+           var json = new Object();
+           ui.item.parent().children().each(function (key, value) {
+              json[$(value).data('value')] = $(value).index();
+           });
+           ajaxRequest(oktolab.jquery.calendarRoomSortUrl, json);
+       }
+   })
+
 }(window, document, jQuery, Oktolab));

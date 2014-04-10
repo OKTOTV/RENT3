@@ -881,6 +881,10 @@
                 <source>calendar.show_inventory_week</source>
                 <target>Wochenansicht</target>
             </trans-unit>
+            <trans-unit id="627">
+                <source>calendar.sorting.rooms</source>
+                <target>Räume</target>
+            </trans-unit>
 
             <trans-unit id="700">
                 <source>event.book</source>
