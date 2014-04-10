@@ -6,6 +6,8 @@ use Symfony\Component\Validator\Constraint;
 use Symfony\Component\Validator\ConstraintValidator;
 use Oktolab\Bundle\RentBundle\Model\Event\EventManager as OktolabEventManager;
 use Oktolab\Bundle\RentBundle\Entity\Event;
+use Oktolab\Bundle\RentBundle\Entity\Timeblock;
+use Oktolab\Bundle\RentBundle\Model\Event\EventTimeblockService;
 
 /**
  * Description of AvailabilityValidator
@@ -15,10 +17,12 @@ use Oktolab\Bundle\RentBundle\Entity\Event;
 class AvailabilityConstrainValidator extends ConstraintValidator
 {
     private $eventManager;
+    private $ets;
 
-    public function __construct(OktolabEventManager $em)
+    public function __construct(OktolabEventManager $em, EventTimeblockService $ets)
     {
         $this->eventManager = $em;
+        $this->ets          = $ets;
     }
 
     /**
@@ -30,6 +34,15 @@ class AvailabilityConstrainValidator extends ConstraintValidator
      */
     public function validate($event, Constraint $constraint)
     {
+
+//        if ($event->getBegin()) {
+//            $this->context->addViolation($constraint->beginOutatime);
+//        }
+//
+//        if ($event->getEnd()) {
+//            $this->context->addViolation($constraint->endOutatime);
+//        }
+
         if ($event->getState() != Event::STATE_DEFERRED) {
             $entities = $this->eventManager->convertEventObjectsToEntites($event->getObjects());
 

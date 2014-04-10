@@ -258,7 +258,7 @@ class Timeblock
     }
 
     /**
-     * Returns true, if $date is in timerange and considered as active
+     * Returns true, if $date is in daterange and considered as active
      *
      * @param \DateTime $date
      *
@@ -267,6 +267,24 @@ class Timeblock
     public function isActiveOnDate(\DateTime $date)
     {
         return ($date >= $this->intervalBegin && $date <= $this->intervalEnd && $this->hasWeekdayAvailable($date));
+    }
+
+        /**
+     * Returns true, if $date is in timerange and considered as active
+     *
+     * @param \DateTime $date
+     *
+     * @return boolean
+     */
+    public function isActiveOnTime(\DateTime $date)
+    {
+        if ($this->isActiveOnDate($date)) {
+            $timeblockbegin = $this->intervalBegin->format('H')*3600 + $this->intervalBegin->format('i')*60;
+            $timeblockend = $this->intervalEnd->format('H')*3600 + $this->intervalEnd->format('i')*60;
+            $datetime = $date->format('H')*3600 + $date->format('i')*60;
+            return ($timeblockbegin <= $datetime && $timeblockend >= $datetime);
+        }
+        return false;
     }
 
     /**
