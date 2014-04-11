@@ -169,9 +169,10 @@ class CalendarApiControllerTest extends WebTestCase
         $this->assertJson($response->getContent(), 'Response returns valid JSON.');
 
         $json = json_decode($response->getContent(), true);
+        foreach ($json as $key => $value) {
+            $this->assertEquals(1, count($json[$key]['blocks']));
+        }
         $this->assertEquals(7, count($json));
-        $this->assertEquals('Di, 01.04', $json['2014-04-01T00:00:00+02:00']['title']);
-        $this->assertEquals(1, count($json['2014-04-01T00:00:00+02:00']['blocks']));
     }
 
     /**
@@ -189,14 +190,10 @@ class CalendarApiControllerTest extends WebTestCase
 
         $json = json_decode($response->getContent(), true);
         $this->assertEquals(1, count($json));
-        $this->assertEquals('', $json['2014-04-01T00:00:00+02:00']['title']);
-        $this->assertEquals(19, count($json['2014-04-01T00:00:00+02:00']['blocks']));
-        $this->assertEquals('2014-04-01T13:00:00+02:00', $json['2014-04-01T00:00:00+02:00']['blocks'][0]['begin']);
-        $this->assertEquals('2014-04-01T13:30:00+02:00', $json['2014-04-01T00:00:00+02:00']['blocks'][0]['end']);
-        $this->assertEquals('2014-04-01T21:30:00+02:00', $json['2014-04-01T00:00:00+02:00']['blocks'][17]['begin']);
-        $this->assertEquals('2014-04-01T22:00:00+02:00', $json['2014-04-01T00:00:00+02:00']['blocks'][17]['end']);
-        $this->assertEquals('2014-04-01T22:00:00+02:00', $json['2014-04-01T00:00:00+02:00']['blocks'][18]['begin']);
-        $this->assertEquals('2014-04-01T22:30:00+02:00', $json['2014-04-01T00:00:00+02:00']['blocks'][18]['end']);
+        foreach ($json as $key => $value) {
+            $this->assertEquals('', $json[$key]['title']);
+            $this->assertEquals(19, count($json[$key]['blocks']));
+        }
     }
 
     /**
