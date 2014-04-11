@@ -86,6 +86,8 @@ class SeriesEventFinalizeType extends AbstractType
                 'collection',
                 array(
                     'type'  => new EventType(),
+                    'cascade_validation' => true,
+                    'error_bubbling'    => false,
                     'allow_add'     => true,
                     'allow_delete'  => true,
                     'label' => 'event.objects'
@@ -102,7 +104,8 @@ class SeriesEventFinalizeType extends AbstractType
     {
         $resolver->setDefaults(array(
             'data_class' => 'Oktolab\Bundle\RentBundle\Entity\SeriesEvent',
-            'cascade_validation' => true
+            'cascade_validation' => true,
+            'error_bubbling'     => false
         ));
     }
 

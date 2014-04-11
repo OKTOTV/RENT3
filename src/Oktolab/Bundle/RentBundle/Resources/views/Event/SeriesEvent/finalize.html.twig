@@ -37,7 +37,8 @@
             </fieldset>
             <h3>{{ 'series_event.events'|trans }}</h3>
             {% for eventform in form.events %}
-            <h3>{{ eventform.vars.value.begin|date('d.m.Y H:i') }} - {{ eventform.vars.value.end|date('d.m.Y H:i') }}</h3>
+                <h3>{{ eventform.vars.value.begin|date('d.m.Y H:i') }} - {{ eventform.vars.value.end|date('d.m.Y H:i') }}</h3>
+                {{ form_errors(eventform) }}
                 {% do eventform.update.setRendered %}
                 {% do eventform.delete.setRendered %}
                 {% do eventform.rent.setRendered %}
@@ -60,8 +61,8 @@
                             <input class="text orb_series_event_form_inventory_search" type="text" name="inventory-search-field" title="{{ 'Search for Barcodes, Items, Sets, ...'|trans }}" disabled="disabled" />
                             <div class="description">{{ 'event.searchFor'|trans }} {{'generic.barcodes'|trans}}, {{'inventory.items'|trans}}, {{'inventory.sets'|trans}}, ...</div>
                         </div>
-                        <div class="field-group aui-oktolab-form-table">
                             <label>{{ 'event.objects'|trans }}</label>
+                        <div class="field-group aui-oktolab-form-table">
                             <table class="aui">
                                 <thead>
                                     <tr>

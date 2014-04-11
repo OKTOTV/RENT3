@@ -4,6 +4,8 @@ namespace Oktolab\Bundle\RentBundle\Model\Event;
 
 use \Doctrine\ORM\EntityManager;
 use Oktolab\Bundle\RentBundle\Entity\Event;
+use Oktolab\Bundle\RentBundle\Entity\SeriesEvent;
+use Oktolab\Bundle\RentBundle\Entity\EventType;
 
 /**
  * @author rs
@@ -28,9 +30,9 @@ class EventTimeblockService
 
     public function EventInTimeStatus(Event $event)
     {
-       $timeblocks = $this->getTimeblocksForEvent($event);
-       $begin = $this->isEventBeginInATimeblockTime($event, $timeblocks);
-       $end   = $this->isEventEndInATimeblockTime($event, $timeblocks);
+       $timeblocks = $this->getTimeblocksForType($event->getType());
+       $begin = $this->isDateInTimeblockTime($event->getBegin(), $timeblocks);
+       $end   = $this->isDateInTimeblockTime($event->getEnd(), $timeblocks);
 
        if (!$begin && !$end) {
            return $this::EVENT_BEGIN_END_OUTATIME;
@@ -42,26 +44,16 @@ class EventTimeblockService
        return $this::EVENT_IN_TIME;
     }
 
-    private function getTimeblocksForEvent(Event $event)
+    private function getTimeblocksForType(EventType $eventType)
     {
-       $timeblocks = $this->em->getRepository('OktolabRentBundle:Timeblock')->findBy(array('eventType' => $event->getType()));
+       $timeblocks = $this->em->getRepository('OktolabRentBundle:Timeblock')->findBy(array('eventType' => $eventType));
        return $timeblocks;
     }
 
-    private function isEventBeginInATimeblockTime(Event $event, $timeblocks)
+    private function isDateInTimeblockTime(\DateTime $date, $timeblocks)
     {
         foreach ($timeblocks as $timeblock) {
-            if ($timeblock->isActiveOnTime($event->getBegin())) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    private function isEventEndInATimeblockTime(Event $event, $timeblocks)
-    {
-        foreach ($timeblocks as $timeblock) {
-            if ($timeblock->isActiveOnTime($event->getEnd())) {
+            if ($timeblock->isActiveOnTime($date)) {
                 return true;
             }
         }

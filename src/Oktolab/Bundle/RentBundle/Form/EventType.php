@@ -106,6 +106,7 @@ class EventType extends AbstractType
             array(
                 'data_class'            => 'Oktolab\Bundle\RentBundle\Entity\Event',
                 'cascade_validation'    => true,
+                'error_bubbling'        => false,
                 'validation_groups'     => array('Event', 'Logic'),
             )
         );
