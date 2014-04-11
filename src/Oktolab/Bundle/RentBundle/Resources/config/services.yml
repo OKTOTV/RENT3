@@ -17,6 +17,7 @@ parameters:
     oktolab.setting.class:                    Oktolab\Bundle\RentBundle\Model\SettingService
     oktolab.qms.class:                        Oktolab\Bundle\RentBundle\Model\QMSService
     oktolab.series_event.class:               Oktolab\Bundle\RentBundle\Model\SeriesEvent\SeriesEventService
+    oktolab.event_timeblock_service.class:    Oktolab\Bundle\RentBundle\Model\Event\EventTimeblockService
 
     # upload service-classes
     oktolab.upload_manager.class:             Oktolab\Bundle\RentBundle\Model\UploadManager
@@ -247,7 +248,7 @@ services:
 
     oktolab.availability_validator:
          class:     %oktolab.availability_validator.class%
-         arguments: [@oktolab.event_manager]
+         arguments: [@oktolab.event_manager, @oktolab.event_timeblock_service]
          tags:
              - { name: validator.constraint_validator, alias: availability_validator }
 
@@ -262,3 +263,7 @@ services:
     oktolab.room_api_service:
         class:      %oktolab.room_api_service.class%
         arguments:  [@doctrine.orm.entity_manager, @oktolab.cache]
+
+    oktolab.event_timeblock_service:
+        class:      %oktolab.event_timeblock_service.class%
+        arguments:  [@doctrine.orm.entity_manager]

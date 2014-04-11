@@ -11,6 +11,7 @@ use Oktolab\Bundle\RentBundle\Entity\Contact;
 use Oktolab\Bundle\RentBundle\Entity\EventObject;
 use Oktolab\Bundle\RentBundle\Entity\Event;
 use Oktolab\Bundle\RentBundle\Entity\EventType;
+use Oktolab\Bundle\RentBundle\Entity\Timeblock;
 
 /**
  * Qms Fixture for EventControllerTest.
@@ -74,7 +75,20 @@ class QmsFixture extends AbstractFixture
 
         $eventType = new EventType();
         $eventType->setName('inventory');
+
+        $timeblock = new Timeblock();
+        $timeblock
+            ->setIntervalBegin(new \DateTime('2012-01-01'))
+            ->setIntervalEnd(new \DateTime('2015-01-01'))
+            ->setBegin(new \DateTime('today 10:00'))
+            ->setEnd(new \DateTime('today 22:00'))
+            ->setIsActive(true)
+            ->setEventType($eventType)
+            ->setWeekdays(1016)    // All Weekdays
+            ->setTitle('inventory timeblock');
+
         $manager->persist($eventType);
+        $manager->persist($timeblock);
         $manager->flush();
 
         $eventObject1 = new EventObject();

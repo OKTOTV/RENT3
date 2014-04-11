@@ -32,7 +32,7 @@ class EventTimeblockService
        $begin = $this->isEventBeginInATimeblockTime($event, $timeblocks);
        $end   = $this->isEventEndInATimeblockTime($event, $timeblocks);
 
-       if (!$begin && !end) {
+       if (!$begin && !$end) {
            return $this::EVENT_BEGIN_END_OUTATIME;
        } else if (!$begin) {
            return $this::EVENT_BEGIN_OUTATIME;
@@ -51,7 +51,7 @@ class EventTimeblockService
     private function isEventBeginInATimeblockTime(Event $event, $timeblocks)
     {
         foreach ($timeblocks as $timeblock) {
-            if ($timeblock->isActiveOnDate($event->getBegin())) {
+            if ($timeblock->isActiveOnTime($event->getBegin())) {
                 return true;
             }
         }

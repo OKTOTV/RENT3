@@ -11,6 +11,7 @@ use Oktolab\Bundle\RentBundle\Entity\Contact;
 use Oktolab\Bundle\RentBundle\Entity\EventType;
 use Oktolab\Bundle\RentBundle\Entity\Inventory\Item;
 use Oktolab\Bundle\RentBundle\Entity\Inventory\Place;
+use Oktolab\Bundle\RentBundle\Entity\Timeblock;
 
 /**
  *  Loads a fixture Event.
@@ -23,6 +24,25 @@ class EventFixture extends AbstractFixture
      */
     public function load(ObjectManager $manager)
     {
+        $eventType = new EventType();
+        $eventType->setName('inventory');
+        $manager->persist($eventType);
+
+        $eventType2 = new EventType();
+        $eventType2->setName('room');
+        $manager->persist($eventType2);
+
+        $timeblock = new Timeblock();
+        $timeblock
+            ->setIntervalBegin(new \DateTime('2012-01-01'))
+            ->setIntervalEnd(new \DateTime('2015-01-01'))
+            ->setBegin(new \DateTime('today 10:00'))
+            ->setEnd(new \DateTime('today 22:00'))
+            ->setIsActive(true)
+            ->setEventType($eventType)
+            ->setWeekdays(1016)    // All Weekdays
+            ->setTitle('inventory timeblock');
+
         $contact = new Contact();
         $contact->setName('Testcontact');
         $contact->setGuid('12345678');
@@ -42,9 +62,6 @@ class EventFixture extends AbstractFixture
         $manager->persist($place);
         $manager->persist($item);
 
-        $eventType = new EventType();
-        $eventType->setName('inventory');
-        $manager->persist($eventType);
         $manager->flush();
 
         $eventObject = new EventObject();
@@ -64,6 +81,7 @@ class EventFixture extends AbstractFixture
             ->addObject($eventObject);
 
         $eventObject->setEvent($event);
+        $manager->persist($timeblock);
         $manager->persist($contact);
         $manager->persist($costunit);
         $manager->persist($eventObject);

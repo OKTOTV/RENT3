@@ -35,13 +35,15 @@ class AvailabilityConstrainValidator extends ConstraintValidator
     public function validate($event, Constraint $constraint)
     {
 
-//        if ($event->getBegin()) {
-//            $this->context->addViolation($constraint->beginOutatime);
-//        }
-//
-//        if ($event->getEnd()) {
-//            $this->context->addViolation($constraint->endOutatime);
-//        }
+        $eventtimestatus = $this->ets->EventInTimeStatus($event);
+        if ($eventtimestatus == EventTimeblockService::EVENT_BEGIN_OUTATIME) {
+            $this->context->addViolation($constraint->beginOutatime);
+        } else if ($eventtimestatus == EventTimeblockService::EVENT_END_OUTATIME) {
+            $this->context->addViolation($constraint->endOutatime);
+        } else if ($eventtimestatus == EventTimeblockService::EVENT_BEGIN_END_OUTATIME) {
+            $this->context->addViolation($constraint->beginOutatime);
+            $this->context->addViolation($constraint->endOutatime);
+        }
 
         if ($event->getState() != Event::STATE_DEFERRED) {
             $entities = $this->eventManager->convertEventObjectsToEntites($event->getObjects());

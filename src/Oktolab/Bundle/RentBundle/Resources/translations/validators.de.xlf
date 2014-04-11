@@ -108,6 +108,14 @@
                 <source>event.begin_after_end</source>
                 <target>Der Beginzeitpunkt darf nicht während oder nach dem Endzeitpunkt sein</target>
             </trans-unit>
+            <trans-unit id="601">
+                <source>event.begin_outatime</source>
+                <target>Der Startzeitpunkt muss innerhalb der Verleihzeit liegen</target>
+            </trans-unit>
+            <trans-unit id="602">
+                <source>event.end_outatime</source>
+                <target>Der Endzeitpunkt muss innerhalb der Verleihzeit liegen</target>
+            </trans-unit>
 
             <trans-unit id="700">
                 <source>qms.descriptionNeeded</source>

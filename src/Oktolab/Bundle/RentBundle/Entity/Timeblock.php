@@ -279,9 +279,10 @@ class Timeblock
     public function isActiveOnTime(\DateTime $date)
     {
         if ($this->isActiveOnDate($date)) {
-            $timeblockbegin = $this->intervalBegin->format('H')*3600 + $this->intervalBegin->format('i')*60;
-            $timeblockend = $this->intervalEnd->format('H')*3600 + $this->intervalEnd->format('i')*60;
+            $timeblockbegin = $this->begin->format('H')*3600 + $this->begin->format('i')*60;
+            $timeblockend = $this->end->format('H')*3600 + $this->end->format('i')*60;
             $datetime = $date->format('H')*3600 + $date->format('i')*60;
+
             return ($timeblockbegin <= $datetime && $timeblockend >= $datetime);
         }
         return false;
