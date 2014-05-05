@@ -109,7 +109,6 @@ jQuery(document).ready(function ($) {
     $('.orb_event_costunit_typeahead').typeahead({
         name:       'costunits',
         valueKey:   'displayName',
-        prefetch: { url: oktolab.typeahead.costunitPrefetchUrl },
         remote: { url: oktolab.typeahead.costunitRemoteUrl },
         template: [
             '<span class="aui-icon aui-icon-small aui-iconfont-devtools-file">Object</span>',
