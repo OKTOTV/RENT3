@@ -41,9 +41,8 @@ class Item implements RentableInterface, UploadableInterface
     /**
      * @var string
      *
-     * @ORM\Column(name="description", type="string", length=500)
+     * @ORM\Column(name="description", type="string", length=500, nullable=true)
      *
-     * @Assert\NotBlank(message = "item.description.notblank" )
      * @Assert\Length
      *      (
      *      max = 500,

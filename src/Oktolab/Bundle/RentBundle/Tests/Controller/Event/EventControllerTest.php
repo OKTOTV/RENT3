@@ -34,8 +34,8 @@ class EventControllerTest extends WebTestCase
 
         $crawler = $this->client->request('GET', '/rent/inventory');
         $this->assertTrue($this->client->getResponse()->isSuccessful(), 'Response should be successful.');
-
-        $form = $crawler->filter('#OktolabRentBundle_Event_Form_update')->form(
+//        echo $this->client->getResponse()->getContent(); die();
+        $form = $crawler->filter('.rent-create-form')->form(
             array(
                 'OktolabRentBundle_Event_Form[name]'        => 'My Event',
                 'OktolabRentBundle_Event_Form[begin]'       => '2013-10-11 12:00:00',
@@ -90,7 +90,7 @@ class EventControllerTest extends WebTestCase
         $crawler = $this->client->request('GET', '/rent/inventory');
         $this->assertTrue($this->client->getResponse()->isSuccessful(), 'Response is successful.');
 
-        $form = $crawler->filter('#OktolabRentBundle_Event_Form_update')->form(
+        $form = $crawler->filter('.rent-create-form')->form(
             array(
                 'OktolabRentBundle_Event_Form[name]'  => 'asdf',
                 'OktolabRentBundle_Event_Form[begin]' => '2013-10-11 12:00:00',
@@ -347,7 +347,7 @@ class EventControllerTest extends WebTestCase
         $crawler = $this->client->request('GET', '/rent/inventory');
         $this->assertTrue($this->client->getResponse()->isSuccessful(), 'Response should be successful.');
 
-        $form = $crawler->filter('#OktolabRentBundle_Event_Form_update')->form(
+        $form = $crawler->filter('.rent-create-form')->form(
             array(
                 'OktolabRentBundle_Event_Form[name]'        => 'My Event',
                 'OktolabRentBundle_Event_Form[begin]'       => '2013-10-14 12:00:00',
@@ -596,7 +596,7 @@ class EventControllerTest extends WebTestCase
         $crawler = $this->client->request('GET', '/rent/inventory');
         $this->assertTrue($this->client->getResponse()->isSuccessful(), 'Response is successful.');
 
-        $form = $crawler->filter('#OktolabRentBundle_Event_Form_update')->form(
+        $form = $crawler->filter('.rent-create-form')->form(
             array(
                 'OktolabRentBundle_Event_Form[name]'  => 'asdf',
                 'OktolabRentBundle_Event_Form[begin]' => '2013-10-11 09:59:00', //invalid data
@@ -635,7 +635,7 @@ class EventControllerTest extends WebTestCase
         $crawler = $this->client->request('GET', '/rent/inventory');
         $this->assertTrue($this->client->getResponse()->isSuccessful(), 'Response is successful.');
 
-        $form = $crawler->filter('#OktolabRentBundle_Event_Form_update')->form(
+        $form = $crawler->filter('.rent-create-form')->form(
             array(
                 'OktolabRentBundle_Event_Form[name]'  => 'asdf',
                 'OktolabRentBundle_Event_Form[begin]' => '2013-10-11 10:00:00',
@@ -674,7 +674,7 @@ class EventControllerTest extends WebTestCase
         $crawler = $this->client->request('GET', '/rent/inventory');
         $this->assertTrue($this->client->getResponse()->isSuccessful(), 'Response is successful.');
 
-        $form = $crawler->filter('#OktolabRentBundle_Event_Form_update')->form(
+        $form = $crawler->filter('.rent-create-form')->form(
             array(
                 'OktolabRentBundle_Event_Form[name]'  => 'asdf',
                 'OktolabRentBundle_Event_Form[begin]' => '2013-10-11 09:59:00', // invalid data

@@ -4,8 +4,8 @@
             {{ form_errors(form) }}
 
             {{ form_row(form.name) }}
-            {{ form_row(form.begin, {'attr': {'data-timeblock-times': timeblock_times, 'class': 'room-beginDate'}}) }}
-            {{ form_row(form.end, {'attr': {'data-timeblock-times': timeblock_times, 'class': 'room-endDate'}}) }}
+            {{ form_row(form.begin, {'attr': {'class': 'room-beginDate'}}) }}
+            {{ form_row(form.end, {'attr': {'class': 'room-endDate'}}) }}
         </fieldset>
 
         <h3>{{ 'event.rentable_rooms'|trans}}</h3>

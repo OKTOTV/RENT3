@@ -340,7 +340,7 @@ class ItemController extends Controller
                 $em = $this->getDoctrine()->getManager();
                 $em->persist($item);
                 $em->flush();
-                
+
                 return $this->redirect($this->generateUrl('inventory_item_show', array('id' => $item->getId())));
             }
             $message = $this->get('translator')->trans('inventory.item.add_qms_error');

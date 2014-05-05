@@ -4,16 +4,16 @@
 // with datetimepickers, typeahead and item list handling
 jQuery(document).ready(function ($) {
 
-    var createForm = $('#rent-series-inventory-form');
+    var createForm = $('.rent-create-form');
 
     // enables itemsearch typeahead if the selected timerange makes sense.
     var enableItemSearch = function (handler) {
         var eventId = createForm.data('value');
         var formGroup = handler.parents(".object-date-search"); // yeah, more searches on one page!
-        var searchfield = $(formGroup.find(".orb_series_event_form_inventory_search"));
-        var roomSearchField = $(formGroup.find(".orb_series_event_form_room_search"));
-        var begin = $(formGroup.find('.orb_series_event_form_event_begin')).val();
-        var end = $(formGroup.find('.orb_series_event_form_event_end')).val();
+        var searchfield = $(formGroup.find(".orb_event_form_inventory_search"));
+        var roomSearchField = $(formGroup.find(".orb_event_form_room_search"));
+        var begin = $(formGroup.find('.orb_event_form_event_begin')).val();
+        var end = $(formGroup.find('.orb_event_form_event_end')).val();
         if ((begin !== undefined && begin !== "" )&& (end !== "" && end !== undefined)) {
             begin = begin.replace(' ', 'T');
             end = end.replace(' ', 'T');
@@ -106,7 +106,7 @@ jQuery(document).ready(function ($) {
     };
 
     // make a input field into a typeahead search for costunits
-    $('.orb_series_costunit_typeahead').typeahead({
+    $('.orb_event_costunit_typeahead').typeahead({
         name:       'costunits',
         valueKey:   'displayName',
         prefetch: { url: oktolab.typeahead.costunitPrefetchUrl },
@@ -166,10 +166,10 @@ jQuery(document).ready(function ($) {
     });
 
     // enable contact selectbox depending on selected costunit
-    $('.orb_series_costunit_typeahead').on('typeahead:selected', function(e, datum) {
+    $('.orb_event_costunit_typeahead').on('typeahead:selected', function(e, datum) {
         var formGroup = $(e.currentTarget).parents(".costunit-contact-search");
-        var costunitSelectBox = $(formGroup.find('#orb_series_event_form_costunit'));
-        var contactSelectBox = $(formGroup.find('#orb_series_event_form_contact'));
+        var costunitSelectBox = $(formGroup.find('#OktolabRentBundle_Event_Form_costunit'));
+        var contactSelectBox = $(formGroup.find('#OktolabRentBundle_Event_Form_contact'));
 
         // set the costunit to the hidden selectbox
         costunitSelectBox.val(datum.id);
@@ -189,7 +189,7 @@ jQuery(document).ready(function ($) {
     });
 
     // add event object to tablerow next to the searchfield, so the form gets the selected items
-    $('.orb_series_event_form_inventory_search').on('typeahead:selected', function(e, datum) {
+    $('.orb_event_form_inventory_search').on('typeahead:selected', function(e, datum) {
         addObjectToTable(e, datum);
         if ('set' == datum.type) { // todo: add setitems!
             $.each(datum.items, function(key, itemValue) {
@@ -199,12 +199,13 @@ jQuery(document).ready(function ($) {
         }
     });
 
-    $('.orb_series_event_form_room_search').on('typeahead:selected', function(e, datum) {
+    $('.orb_event_form_room_search').on('typeahead:selected', function(e, datum) {
         addObjectToTable(e, datum);
     });
 
     // disable the contact selectbox to prevent searching for contact before searching for costunit.
-    $('#orb_series_event_form_contact').prop('disabled', true);
+    $('#orb_event_form_contact').prop('disabled', true);
+    $('#OktolabRentBundle_Event_Form_contact').prop('disabled', true);
 
     // enables removing of event objects
    $('.aui-oktolab-form-table').on('click', 'a.remove', function (e) {

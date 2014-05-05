@@ -40,8 +40,8 @@
                 {{ form_row(form.costunit, { 'attr': { 'data-name': form.vars.value.costunit is not null ? form.vars.value.costunit.name : '' } }) }}
                 {{ form_row(form.contact, { 'attr': { 'data-name': form.vars.value.contact is not null ? form.vars.value.contact.name : '' } } ) }}
                 {{ form_row(form.description) }}
-                {{ form_row(form.begin, {'attr': {'data-timeblock-times': timeblock_times, 'class': type~'-edit-beginDate'}}) }}
-                {{ form_row(form.end,  {'attr': {'data-timeblock-times': timeblock_times, 'class': type~'-edit-endDate'}}) }}
+                {{ form_row(form.begin, {'attr': {'class': type~'-edit-beginDate'}}) }}
+                {{ form_row(form.end,  {'attr': {'class': type~'-edit-endDate'}}) }}
             </fieldset>
 
             <h3>

@@ -5,7 +5,6 @@ namespace Oktolab\Bundle\RentBundle\Controller\Event;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration;
 use Oktolab\Bundle\RentBundle\Entity\Event;
-use Oktolab\Bundle\RentBundle\Form\EventType;
 use Oktolab\Bundle\RentBundle\Entity\SeriesEvent;
 use Oktolab\Bundle\RentBundle\Form\SeriesEventType;
 
@@ -46,8 +45,7 @@ class RentController extends Controller
         $form->remove('rent');
 
         return array(
-            'form' => $form->createView(),
-            'timeblock_times'  => $this->get('oktolab.event_calendar_timeblock')->getBlockJsonForType($event->getType()->getName())
+            'form' => $form->createView()
         );
     }
 
@@ -83,8 +81,7 @@ class RentController extends Controller
         $form->remove('update');
 
         return array(
-            'form' => $form->createView(),
-            'timeblock_times'  => $this->get('oktolab.event_calendar_timeblock')->getBlockJsonForType($event->getType()->getName())
+            'form' => $form->createView()
         );
     }
 
