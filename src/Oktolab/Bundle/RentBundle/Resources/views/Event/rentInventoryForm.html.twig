@@ -1,5 +1,5 @@
 <div id="rent-inventory-form">
-    {{ form_start(form, {'attr': {'class': 'aui rent-create-form', 'data-value': form.vars.id } }) }}
+    {{ form_start(form, {'attr': {'class': 'aui' } }) }}
         <fieldset>
             {{ form_errors(form) }}
 
@@ -8,24 +8,24 @@
                     {{ form_label(form.costunit) }}
                     <input type="text" class="text orb_event_costunit_typeahead">
                 </div>
-                {{ form_row(form.contact, {'attr': {'class': 'select orb_event_contact'}}) }}
+                {{ form_row(form.contact, {'attr': {'class': 'orb_event_contact'}}) }}
                 <div class="hidden">
-                    {{ form_row(form.name) }}
                     {{ form_row(form.costunit) }}
                     {{ form_row(form.type) }}
                 </div>
+                {{ form_row(form.description) }}
             </div>
         </fieldset>
 
         <h3>{{ 'event.rentable_objects'|trans }}</h3>
         <fieldset>
-            <div class="object-date-search">
+            <div class="object-date-search" data-event-id="{{form.vars.value.id}}">
                 {{ form_row(form.begin, {'attr': {'class': 'text event-datetime orb_event_form_event_begin'}}) }}
                 {{ form_row(form.end, {'attr': {'class': 'text event-datetime orb_event_form_event_end'}}) }}
                 <div class="field-group">
                     <label for="inventory-search-field">{{ 'generic.search'|trans }}</label>
                     <input class="text orb_event_form_inventory_search" type="text" id="inventory-search-field" name="inventory-search-field" title="{{ 'Search for Barcodes, Items, Sets, ...'|trans }}" disabled="disabled" />
-                    <div class="description">{{ 'event.searchFor'|trans }} {{'generic.barcodes'|trans}}, {{'inventory.items'|trans}}, {{'inventory.sets'|trans}}, ...</div>
+                    <div class="description">{{'event.invenory.search'|trans}}</div>
                 </div>
 
                 <div class="field-group aui-oktolab-form-table">

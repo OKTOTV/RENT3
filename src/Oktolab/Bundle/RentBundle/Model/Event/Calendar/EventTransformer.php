@@ -80,8 +80,7 @@ class EventTransformer
     {
         return array(
             'id'            => $event->getId(),
-            'title'         => $event->getName(),
-            'name'          => $event->getName(),
+            'title'         => $event->getCostunit()->getName(),
             'begin'         => $event->getBegin()->format('c'),
             'end'           => $event->getEnd()->format('c'),
             'description'   => $event->getDescription(),

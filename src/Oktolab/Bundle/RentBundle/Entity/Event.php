@@ -41,15 +41,6 @@ class Event
     /**
      * @var string
      *
-     * @ORM\Column(name="name", type="string", length=255)
-     *
-     * @Assert\NotBlank()
-     */
-    private $name;
-
-    /**
-     * @var string
-     *
      * @ORM\Column(name="description", type="string", length=500, nullable=true)
      */
     private $description;
@@ -141,29 +132,6 @@ class Event
     public function getId()
     {
         return $this->id;
-    }
-
-    /**
-     * Set name
-     *
-     * @param  string $name
-     * @return Event
-     */
-    public function setName($name)
-    {
-        $this->name = $name;
-
-        return $this;
-    }
-
-    /**
-     * Get name
-     *
-     * @return string
-     */
-    public function getName()
-    {
-        return $this->name;
     }
 
     /**

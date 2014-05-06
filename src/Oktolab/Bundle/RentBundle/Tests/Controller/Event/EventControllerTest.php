@@ -34,10 +34,9 @@ class EventControllerTest extends WebTestCase
 
         $crawler = $this->client->request('GET', '/rent/inventory');
         $this->assertTrue($this->client->getResponse()->isSuccessful(), 'Response should be successful.');
-//        echo $this->client->getResponse()->getContent(); die();
+
         $form = $crawler->filter('.rent-create-form')->form(
             array(
-                'OktolabRentBundle_Event_Form[name]'        => 'My Event',
                 'OktolabRentBundle_Event_Form[begin]'       => '2013-10-11 12:00:00',
                 'OktolabRentBundle_Event_Form[end]'         => '2013-10-12 17:00:00',
                 'OktolabRentBundle_Event_Form[contact]'     => $contact->getId(),
@@ -58,8 +57,8 @@ class EventControllerTest extends WebTestCase
         $this->client->followRedirect();
         $this->assertTrue($this->client->getResponse()->isSuccessful(), 'Response should be successful.');
 
-        $event = $em->getRepository('OktolabRentBundle:Event')->findOneBy(array('name' => 'My Event'));
-        $this->assertSame('My Event', $event->getName());
+        $event = $em->getRepository('OktolabRentBundle:Event')->findOneBy(array('costunit' => $costunit->getId()));
+        $this->assertSame('1234567DUMMY', $event->getCostunit()->Name());
         $this->assertSame(Event::STATE_PREPARED, $event->getState(), 'State should be "PREPARED".');
         $this->assertEquals(new \DateTime('2013-10-11 12:00:00'), $event->getBegin());
         $this->assertEquals(new \DateTime('2013-10-12 17:00:00'), $event->getEnd());

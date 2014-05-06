@@ -23,14 +23,13 @@ class EventType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('name')
             ->add(
                 'contact',
                 'entity',
                 array(
                     'class'         => 'OktolabRentBundle:Contact',
                     'label'         => 'admin.contact',
-                    'property'      => 'id',
+                    'property'      => 'name',
                     'required'      => true,
                     'empty_value'   => ''
                 )
@@ -41,7 +40,7 @@ class EventType extends AbstractType
                 array(
                     'class'         => 'OktolabRentBundle:CostUnit',
                     'label'         => 'admin.costunit',
-                    'property'      => 'id',
+                    'property'      => 'name',
                     'required'      => true,
                     'empty_value'   => ''
                 )

@@ -1,34 +1,47 @@
 <div id="rent-room-form">
-    {{ form_start(form, {'attr': {'class': 'aui', 'id': 'room_form'}}) }}
+    {{ form_start(form, {'attr': {'class': 'aui'} }) }}
         <fieldset>
             {{ form_errors(form) }}
 
-            {{ form_row(form.name) }}
-            {{ form_row(form.begin, {'attr': {'class': 'room-beginDate'}}) }}
-            {{ form_row(form.end, {'attr': {'class': 'room-endDate'}}) }}
+            <div class="costunit-contact-search">
+                <div class="field-group">
+                    {{ form_label(form.costunit) }}
+                    <input type="text" class="text orb_event_costunit_typeahead">
+                </div>
+                {{ form_row(form.contact, {'attr': {'class': 'orb_event_contact'}}) }}
+                <div class="hidden">
+                    {{ form_row(form.costunit) }}
+                    {{ form_row(form.type) }}
+                </div>
+                {{ form_row(form.description) }}
+            </div>
         </fieldset>
 
         <h3>{{ 'event.rentable_rooms'|trans}}</h3>
-        <fieldset>
-            <div class="field-group">
-                <label for="d-lname">Suche</label>
-                <input class="text" id="room-search-field" type="text" disabled="disabled">
-                <div class="description">{{ 'event.searchFor'|trans }} {{'generic.barcodes'|trans}}, {{ 'generic.name'|trans}}</div>
-            </div>
+                <fieldset>
+            <div class="object-date-search" data-event-id="{{form.vars.value.id}}">
+                {{ form_row(form.begin, {'attr': {'class': 'text event-datetime orb_event_form_event_begin'}}) }}
+                {{ form_row(form.end, {'attr': {'class': 'text event-datetime orb_event_form_event_end'}}) }}
+                <div class="field-group">
+                    <label for="inventory-search-field">{{ 'generic.search'|trans }}</label>
+                    <input class="text orb_event_form_room_search" type="text" id="room-search-field" name="room-search-field" title="{{ 'event.room.searchRoomSpecifics'|trans }}" disabled="disabled" />
+                    <div class="description">{{ 'event.room.search'|trans }}</div>
+                </div>
 
-            <div class="field-group aui-oktolab-form-table">
-                <label>{{ 'inventory.room.rooms'|trans }}</label>
-                <table class="aui">
-                    <thead>
-                        <tr>
-                            <th id="basic-fname">{{ 'generic.barcode'|trans }}</th>
-                            <th id="basic-lname">{{ 'generic.name'|trans }}</th>
-                            <th id="basic-action"><span class="aui-icon aui-icon-small aui-iconfont-configure">{{ 'generic.actions'|trans }}</span></th>
-                        </tr>
-                    </thead>
-                    <tbody class="event-objects" id="room-event-objects" data-index="-1" data-prototype="{% filter escape %}{% include 'OktolabRentBundle:Event:eventObjectPrototype.html.twig' %}{% endfilter %}">
-                    </tbody>
-                </table>
+                <div class="field-group aui-oktolab-form-table">
+                    <label>{{ 'event.objects'|trans }}</label>
+                    <table class="aui">
+                        <thead>
+                            <tr>
+                                <th id="basic-barcode">{{ 'generic.barcode'|trans }}</th>
+                                <th id="basic-name">{{ 'generic.name'|trans }}</th>
+                                <th id="basic-action"><span class="aui-icon aui-icon-small aui-iconfont-configure">{{ 'Actions'|trans }}</span></th>
+                            </tr>
+                        </thead>
+                        <tbody id="inventory-event-objects" class="event-objects" data-index="-1" data-prototype="{% filter escape %}{% include 'OktolabRentBundle:Event:eventObjectPrototype.html.twig' %}{% endfilter %}">
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </fieldset>
 

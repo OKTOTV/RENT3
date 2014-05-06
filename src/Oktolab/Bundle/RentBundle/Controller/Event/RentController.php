@@ -5,6 +5,7 @@ namespace Oktolab\Bundle\RentBundle\Controller\Event;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration;
 use Oktolab\Bundle\RentBundle\Entity\Event;
+use Oktolab\Bundle\RentBundle\Form\EventType;
 use Oktolab\Bundle\RentBundle\Entity\SeriesEvent;
 use Oktolab\Bundle\RentBundle\Form\SeriesEventType;
 
@@ -30,16 +31,15 @@ class RentController extends Controller
         $event = new Event();
         $eventType = $this->getDoctrine()->getManager()->getRepository('OktolabRentBundle:EventType')->findOneBy(array('name' => 'inventory'));
         $event->setType($eventType);
-        $form = $this->get('form.factory')->create(
-            'OktolabRentBundle_Event_Form',
-            new Event(),
+        $form = $this->createForm(
+            new EventType(),
+            $event,
             array(
                 'action' => $this->generateUrl('OktolabRentBundle_Event_Create'),
                 'method' => 'POST'
             )
         );
 
-        $form->remove('description');
         $form->remove('cancel');
         $form->remove('delete');
         $form->remove('rent');
@@ -65,8 +65,8 @@ class RentController extends Controller
         $eventType = $this->getDoctrine()->getManager()->getRepository('OktolabRentBundle:EventType')->findOneBy(array('name' => 'room'));
         $event->setType($eventType);
 
-        $form = $this->get('form.factory')->create(
-            'OktolabRentBundle_Event_Form',
+        $form = $this->createForm(
+            new EventType(),
             $event,
             array(
                 'action' => $this->generateUrl('OktolabRentBundle_Event_Create'),
@@ -74,7 +74,6 @@ class RentController extends Controller
             )
         );
 
-        $form->remove('description');
         $form->remove('cancel');
         $form->remove('delete');
         $form->remove('rent');

@@ -76,7 +76,7 @@ jQuery(document).ready(function ($) {
     };
 
     // adds a typeahead datum to the tablerow in e
-    var addObjectToTable = function(e, datum) {
+    var addSeriesObjectToTable = function(e, datum) {
         var formGroup = $(e.currentTarget).parents(".object-date-search");
         var table = formGroup.find('.event-objects');
         var prototype = table.data('prototype');
@@ -120,7 +120,7 @@ jQuery(document).ready(function ($) {
     });
 
     // make all .datetime input fields into nice usable datetimepickers
-    $('.datetime').each(function(index, input) {
+    $('.series-datetime').each(function(index, input) {
         input = $(input);
         var val = input.val();
         var current = new Date(val);
@@ -143,7 +143,7 @@ jQuery(document).ready(function ($) {
 
     // makes all .event-datetime into datetimepickers and
     // (depends) enable the item search!
-    $('.event-datetime').each(function(index, input) {
+    $('.series-event-datetime').each(function(index, input) {
         input = $(input);
         var val = input.val();
         var current = new Date(val);
@@ -190,22 +190,21 @@ jQuery(document).ready(function ($) {
 
     // add event object to tablerow next to the searchfield, so the form gets the selected items
     $('.orb_series_event_form_inventory_search').on('typeahead:selected', function(e, datum) {
-        addObjectToTable(e, datum);
+        addSeriesObjectToTable(e, datum);
         if ('set' == datum.type) { // todo: add setitems!
             $.each(datum.items, function(key, itemValue) {
                 var itemDatum = itemDatumForValue(e, itemValue);
-                addObjectToTable(e, itemDatum);
+                addSeriesObjectToTable(e, itemDatum);
             });
         }
     });
 
     $('.orb_series_event_form_room_search').on('typeahead:selected', function(e, datum) {
-        addObjectToTable(e, datum);
+        addSeriesObjectToTable(e, datum);
     });
 
     // disable the contact selectbox to prevent searching for contact before searching for costunit.
-    $('#orb_series_event_form_contact').prop('disabled', true);
-    $('#OktolabRentBundle_Event_Form_contact').prop('disabled', true);
+    $('.orb_series_event_form_contact').prop('disabled', true);
 
     // enables removing of event objects
    $('.aui-oktolab-form-table').on('click', 'a.remove', function (e) {

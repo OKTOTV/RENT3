@@ -32,16 +32,25 @@
                 {{ 'event.booking_for_costunit'|trans({'%costunit%': form.vars.value.costunit.name})}}
             {% endif %}
         </h2>
-        {{ form_start(form, {'attr': {'class': 'aui', 'id': type~'-edit-form', 'data-value':form.vars.value.id } }) }}
+        {{ form_start(form, {'attr': {'class': 'aui'} }) }}
             <fieldset>
+                <div class="hidden">
+                    {{ form_row(form.type) }}
+                </div>
                 {{ form_errors(form) }}
 
-                {{ form_row(form.name) }}
-                {{ form_row(form.costunit, { 'attr': { 'data-name': form.vars.value.costunit is not null ? form.vars.value.costunit.name : '' } }) }}
-                {{ form_row(form.contact, { 'attr': { 'data-name': form.vars.value.contact is not null ? form.vars.value.contact.name : '' } } ) }}
-                {{ form_row(form.description) }}
-                {{ form_row(form.begin, {'attr': {'class': type~'-edit-beginDate'}}) }}
-                {{ form_row(form.end,  {'attr': {'class': type~'-edit-endDate'}}) }}
+                <div class="costunit-contact-search">
+                    <div class="field-group">
+                        {{ form_label(form.costunit) }}
+                        <input type="text" class="text orb_event_costunit_typeahead" value="{{form.vars.value.costunit.name}}" data-id="{{form.vars.value.costunit.id}}">
+                    </div>
+                    {{ form_row(form.contact, {'attr': {'class': 'orb_event_contact'} }) }}
+                    <div class="hidden">
+                        {{ form_row(form.costunit, {'attr': {'class': 'orb_event_costunit'} }) }}
+                        {{ form_row(form.type) }}
+                    </div>
+                    {{ form_row(form.description) }}
+                </div>
             </fieldset>
 
             <h3>
@@ -52,52 +61,46 @@
                 {% endif %}
             </h3>
             <fieldset>
-                <div class="field-group">
-                    <label for="oktolabrentbundle_event_editform_searchfield">{{ 'generic.search'|trans }}</label>
-                    <input class="text" type="text" id="{{type~'-edit-search-field'}}" disabled="disabled">
-                    <div class="description">
-                        {% if type == 'inventory' %}
-                            {{ 'event.searchFor'|trans }} {{'generic.barcodes'|trans}}, {{'inventory.items'|trans}}, {{'inventory.sets'|trans}}, ...
-                        {% else %}
-                            {{ 'event.searchFor'|trans }} {{'generic.barcodes'|trans}}, {{ 'generic.name'|trans}}
-                        {% endif %}
+                <div class="object-date-search" data-event-id="{{form.vars.value.id}}">
+                    {{ form_row(form.begin, {'attr': {'class': 'text event-datetime orb_event_form_event_begin'}}) }}
+                    {{ form_row(form.end, {'attr': {'class': 'text event-datetime orb_event_form_event_end'}}) }}
+                    <div class="field-group">
+                        <label for="inventory-search-field">{{ 'generic.search'|trans }}</label>
+                        <input class="text {% if type == 'inventory'%}orb_event_form_inventory_search{% else %}orb_event_form_room_search{% endif%}" type="text" id="inventory-search-field" name="inventory-search-field" title="{{ 'Search for Barcodes, Items, Sets, ...'|trans }}" disabled="disabled" />
+                        <div class="description">{% if type == 'inventory' %}{{'event.inventory.search'|trans}}{% else %}{{'event.room.search'|trans}}{% endif %}</div>
                     </div>
-                </div>
 
-                <div class="field-group aui-oktolab-form-table">
-                    <label>{{ 'event.objects'|trans }}</label>
-                    <table class="aui">
-                        <thead>
-                            <tr>
-                                <th id="basic-barcode">{{ 'Barcode'|trans }}</th>
-                                <th id="basic-name">{{ 'Name'|trans }}</th>
-                                <th id="basic-action"><span class="aui-icon aui-icon-small aui-iconfont-configure">{{ 'Actions'|trans }}</span></th>
-                            </tr>
-                        </thead>
-                        <tbody class="event-objects"
-                               id="{{type~'-edit-event-objects'}}"
-                               data-prototype="{% filter escape %}{% include 'OktolabRentBundle:Event:eventObjectPrototype.html.twig' %}{% endfilter %}"
-                               data-index="{{ objects|length }}">
-                            {% for object in objects if objects %}
+                    <div class="field-group aui-oktolab-form-table">
+                        <label>{{ 'event.objects'|trans }}</label>
+                        <table class="aui">
+                            <thead>
+                                <tr>
+                                    <th id="basic-barcode">{{ 'generic.barcode'|trans }}</th>
+                                    <th id="basic-name">{{ 'generic.name'|trans }}</th>
+                                    <th id="basic-action"><span class="aui-icon aui-icon-small aui-iconfont-configure">{{ 'Actions'|trans }}</span></th>
+                                </tr>
+                            </thead>
+                            <tbody id="inventory-event-objects" class="event-objects" data-index="-1" data-prototype="{% filter escape %}{% include 'OktolabRentBundle:Event:eventObjectPrototype.html.twig' %}{% endfilter %}">
+                                {% for object in objects if objects %}
                                 {% set formobject = form.objects[loop.index0] %}
                                 {% set objective = '%s:%s'|format(object.type, object.id) %}
-
-                                <tr data-value="{{ objective }}">
-                                    <td>{{ object.barcode }}</td>
-                                    <td>{{ object.title }}</td>
-                                    <td class="event-object-icons">
-                                        <a href="#" class="remove" data-value="{{ objective }} ">
-                                            <span class="aui-icon aui-icon-small aui-iconfont-remove">{{ 'Remove'|trans }}</span>
-                                        </a>
-                                        <a href="#" class="scan" data-value="{{ objective }}">
-                                            <span class="aui-icon aui-icon-small aui-iconfont-approve">{{ 'Scan'|trans }}</span>
-                                        </a>
-                                    </td>
-                                    <td class="hidden">{{ form_row(formobject, { 'attr': { 'data-value': objective } }) }}</td>
-                                </tr>
-                            {% endfor %}
-                        </tbody>
-                    </table>
+                                    <tr data-value="{{ objective }}">
+                                        <td>{{ object.barcode }}</td>
+                                        <td>{{ object.title }}</td>
+                                        <td class="event-object-icons">
+                                            <a href="#" class="remove" data-value="{{ objective }} ">
+                                                <span class="aui-icon aui-icon-small aui-iconfont-remove">{{ 'Remove'|trans }}</span>
+                                            </a>
+                                            <a href="#" class="scan" data-value="{{ objective }}">
+                                                <span class="aui-icon aui-icon-small aui-iconfont-approve">{{ 'Scan'|trans }}</span>
+                                            </a>
+                                        </td>
+                                        <td class="hidden">{{ form_row(formobject, { 'attr': { 'data-value': objective } }) }}</td>
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </fieldset>
 

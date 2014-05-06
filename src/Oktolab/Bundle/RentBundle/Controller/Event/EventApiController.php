@@ -46,12 +46,12 @@ class EventApiController extends Controller
         $json = array();
 
         foreach ($events as $event) {
-            $tokens = explode(' ', $event->getName());
+            $tokens = explode(' ', $event->getCostunit()->getName());
             $tokens[] = $event->getBarcode();
 
             $datum = array(
-                'name'          => $event->getName().$event->getId(),
-                'displayName'   => $event->getName(),
+                'name'          => $event->getCostunit()->getName().$event->getId(),
+                'displayName'   => $event->getCostunit()->getName(),
                 'id'            => $event->getId(),
                 'barcode'       => $event->getBarcode(),
                 'tokens'        => $tokens

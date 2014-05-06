@@ -958,6 +958,14 @@
                 <source>event.series_booking_for_costunit</source>
                 <target>%link_start%Serienbuchung%link_end% für %costunit%</target>
             </trans-unit>
+            <trans-unit id="718">
+                <source>event.inventory.search</source>
+                <target>Suche nach: Barcodes, Namen, Sets, ...</target>
+            </trans-unit>
+            <trans-unit id="719">
+                <source>event.room.search</source>
+                <target>Suche nach: Barcodes, Namen, ...</target>
+            </trans-unit>
 
             <trans-unit id="800">
                 <source>inventory.import</source>
