@@ -170,6 +170,28 @@ jQuery(document).ready(function ($) {
         enableItemSearch(input);
     });
 
+    // make all .datetime input fields into nice usable datetimepickers
+    $('.datetime').each(function(index, input) {
+        input = $(input);
+        var val = input.val();
+        var current = new Date(val);
+        input.val('');
+        var currentStamp = current.getFullYear();
+        currentStamp = currentStamp+"-"+Oktolab.leadingZero(current.getMonth()+1);
+        currentStamp = currentStamp+'-'+Oktolab.leadingZero(current.getDate().toString());
+        currentStamp = currentStamp+' '+Oktolab.leadingZero(current.getHours().toString());
+        currentStamp = currentStamp+':'+Oktolab.leadingZero(current.getMinutes().toString());
+
+        input.appendDtpicker({
+            "firstDayOfWeek": 1,
+            "futureOnly"    : true,
+            "dateOnly"      : true,
+            "calendarMouseScroll": false,
+            "closeOnSelected": true,
+            "current":      currentStamp
+        });
+    });
+
     // enable contact selectbox depending on selected costunit
     $('.orb_event_costunit_typeahead').on('typeahead:selected', function(e, datum) {
         var formGroup = $(e.currentTarget).parents(".costunit-contact-search");

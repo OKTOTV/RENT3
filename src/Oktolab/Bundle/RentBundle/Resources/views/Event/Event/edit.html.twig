@@ -107,7 +107,7 @@
             <div class="buttons-container">
                 <div class="buttons">
 
-                    {% if form.vars.value.state == 1 or form.vars.value.state == 0%} {# event is reserved, can be lent#}
+                    {% if form.vars.value.state == 1 or form.vars.value.state == 0 %} {# event is reserved, can be lent#}
                         {{ form_widget(form.rent, {'attr': { 'class': 'aui-button aui-button-primary', 'aria-disabled': 'true' }, 'label': 'event.rent'|trans }) }}
                         {{ form_widget(form.update, {'attr': { 'class': 'aui-button' }, 'label': 'event.update'|trans }) }}
                     {% elseif form.vars.value.state == 2 %} {# event is lent, can be taken back #}
@@ -117,7 +117,7 @@
                     {% if form.vars.value.id is not null %}
                         <a href="{{ path('event_pdf', { 'id': form.vars.value.id }) }}" class="aui-button">{{ 'event.printPdf'|trans }}</a>
                     {% endif %}
-                    {% if form.vars.value.state == 1 %}
+                    {% if form.vars.value.state == 1 or form.vars.value.state == 0 %}
                         <a href="{{ path('orb_event_cancel', { 'id': form.vars.value.id }) }}" class="aui-button aui-button-link">{{ 'event.cancel'|trans }}</a>
                     {% endif %}
                 </div>
