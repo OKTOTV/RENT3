@@ -42,16 +42,13 @@ AJS.$(document).ready(function() {
     AJS.$('#quicksearch').typeahead([{
             name:           'quicksearch-items',
             valueKey:       'displayName',
-            prefetch:    { url: oktolab.typeahead.itemPrefetchUrl, ttl: 604800000},
             remote:         { url: oktolab.typeahead.itemRemoteUrl },
-            limit:          10,
             template:       quicksearch_template,
             header:         '<h3 style="color: black">Items</h3>',
             engine:         Hogan
         }, {
             name:           'quicksearch-sets',
             valueKey:       'displayName',
-            prefetch:    { url: oktolab.typeahead.setPrefetchUrl, ttl: 604800000},
             remote:         { url: oktolab.typeahead.setRemoteUrl },
             template:       quicksearch_template,
             header:         '<h3 style="color: black">Sets</h3>',
@@ -66,7 +63,6 @@ AJS.$(document).ready(function() {
         }, {
             name:           'quicksearch-costunits',
             valueKey:       'displayName',
-            prefetch:    { url: oktolab.typeahead.costunitPrefetchUrl, ttl: 604800000},
             remote:         { url: oktolab.typeahead.costunitRemoteUrl },
             template:       '<p class="tt-object-addon">{{displayName}}</p>',
             header:         '<h3 style="color: black">Kostenstellen</h3>',
@@ -74,7 +70,6 @@ AJS.$(document).ready(function() {
         }, {
             name:           'quicksearch-rooms',
             valueKey:       'displayName',
-            prefetch:    { url: oktolab.typeahead.roomPrefetchUrl, ttl: 604800000},
             remote:         { url: oktolab.typeahead.roomRemoteUrl },
             template:       quicksearch_template,
             header:         '<h3 style="color: black">Räume</h3>',
