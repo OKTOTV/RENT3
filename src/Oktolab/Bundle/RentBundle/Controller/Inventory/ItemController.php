@@ -85,7 +85,6 @@ class ItemController extends Controller
      * @Configuration\Method("GET")
      * @Configuration\Route("/new", name="inventory_item_new")
      * @Configuration\Template()
-     * @Configuration\Cache(expires="+30 days", public="yes")
      */
     public function newAction()
     {
