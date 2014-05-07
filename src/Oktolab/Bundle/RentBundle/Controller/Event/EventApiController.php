@@ -30,14 +30,9 @@ class EventApiController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
         $repository = $em->getRepository('OktolabRentBundle:Event');
-        //SELECT * FROM item.i WHERE i.barcode LIKE %value% OR i.title LIKE %value%
+        //SELECT * FROM item.i WHERE i.barcode LIKE %value%
         $dq = $repository->createQueryBuilder('i');
-        $query = $dq->where(
-            $dq->expr()->orX(
-                    $dq->expr()->like('i.barcode', ':value'),
-                    $dq->expr()->like('i.name', ':value')
-                )
-            )
+        $query = $dq->where($dq->expr()->like('i.barcode', ':value'))
             ->setParameter('value', '%'.$eventValue.'%')
             ->getQuery();
 
@@ -48,11 +43,23 @@ class EventApiController extends Controller
         foreach ($events as $event) {
             $tokens = explode(' ', $event->getCostunit()->getName());
             $tokens[] = $event->getBarcode();
+            $showUrl = 'event/'.$event->getId();
+
+            if ($event->getState() < 3 ) {
+                $showUrl = $showUrl.'/edit';
+            }
+            if ($event->getState() == 3) {
+                $showUrl = $showUrl.'/check';
+            }
+            if ($event->getState() >= 5 ) {
+                $showUrl = $showUrl.'/show';
+            }
 
             $datum = array(
                 'name'          => $event->getCostunit()->getName().$event->getId(),
                 'displayName'   => $event->getCostunit()->getName(),
                 'id'            => $event->getId(),
+                'showUrl'       => $showUrl,
                 'barcode'       => $event->getBarcode(),
                 'tokens'        => $tokens
             );
