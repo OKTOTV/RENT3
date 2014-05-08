@@ -42,7 +42,16 @@
                 <div class="costunit-contact-search">
                     <div class="field-group">
                         {{ form_label(form.costunit) }}
-                        <input type="text" class="text orb_event_costunit_typeahead" value="{{form.vars.value.costunit.name}}" data-id="{{form.vars.value.costunit.id}}">
+                        <input
+                            type="text"
+                            class="text orb_event_costunit_typeahead"
+                            value="{% if form.vars.value.costunit is not null %}
+                                {{form.vars.value.costunit.name}}
+                            {% endif %}"
+                            data-id="{% if form.vars.value.costunit is not null %}
+                                {{form.vars.value.costunit.id}}
+                            {% endif %}"
+                        >
                     </div>
                     {{ form_row(form.contact, {'attr': {'class': 'orb_event_contact'} }) }}
                     <div class="hidden">
@@ -117,7 +126,7 @@
                     {% if form.vars.value.id is not null %}
                         <a href="{{ path('event_pdf', { 'id': form.vars.value.id }) }}" class="aui-button">{{ 'event.printPdf'|trans }}</a>
                     {% endif %}
-                    {% if form.vars.value.state == 1 or form.vars.value.state == 0 %}
+                    {% if form.vars.value.state == 1 %}
                         <a href="{{ path('orb_event_cancel', { 'id': form.vars.value.id }) }}" class="aui-button aui-button-link">{{ 'event.cancel'|trans }}</a>
                     {% endif %}
                 </div>

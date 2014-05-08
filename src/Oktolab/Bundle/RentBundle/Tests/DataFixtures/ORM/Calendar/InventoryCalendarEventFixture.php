@@ -64,7 +64,7 @@ class InventoryCalendarEventFixture extends AbstractFixture
         $manager->flush();
 
         $event = new Event();
-        $event->setName('Calendar Inventory Event')
+        $event
             ->setState(Event::STATE_PREPARED)
             ->setDescription('There is a description for this event.')
             ->setBegin(new \DateTime('2013-10-14 11:00:00'))

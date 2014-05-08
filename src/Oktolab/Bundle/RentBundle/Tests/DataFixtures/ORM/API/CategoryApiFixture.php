@@ -84,7 +84,7 @@ class CategoryApiFixture extends AbstractFixture
             ->setObject($item3->getId());
 
         $event = new Event();
-        $event->setName('Test Event')
+        $event
             ->setState(Event::STATE_PREPARED)
             ->setDescription('There is a description for this event.')
             ->setBegin(new \DateTime('2013-10-14 11:00:00'))

@@ -68,7 +68,6 @@ class SeriesEventService
             $event = new Event();
             $event->setContact($series_event->getContact());
             $event->setCostunit($series_event->getCostUnit());
-            $event->setName($series_event->getCostUnit()->getName());
             $event->setState(Event::STATE_PREPARED);
             $event->setType($type);
             $event->setBegin(clone $begin);

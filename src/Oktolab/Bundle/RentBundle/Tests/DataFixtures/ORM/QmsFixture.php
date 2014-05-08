@@ -112,8 +112,9 @@ class QmsFixture extends AbstractFixture
             ->setObject($item5->getId());
 
         $event = new Event();
-        $event->setName('My Event')
-            ->setState(Event::STATE_PREPARED)
+        $event
+            ->setState(Event::STATE_DELIVERED)
+            ->setBarcode('EVENTHAHA')
             ->setDescription('There is a description for this event.')
             ->setBegin(new \DateTime('2013-10-14 11:00:00'))
             ->setEnd(new \DateTime('2013-10-15 17:00:00'))

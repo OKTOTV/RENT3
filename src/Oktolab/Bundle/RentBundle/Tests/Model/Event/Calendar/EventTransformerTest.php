@@ -71,7 +71,7 @@ class EventTransformerTest extends \PHPUnit_Framework_TestCase
             '2' => array(
                 'id'            => 2,
                 'title'         => 'New Ordner',
-                'name'          => 'New Ordner',
+                //'name'          => 'New Ordner',
                 'begin'         => $date->modify('2013-10-09 08:00')->format('c'),
                 'end'           => $date->modify('2013-10-12 17:00')->format('c'),
                 'uri'           => '/event/2/edit',
@@ -93,7 +93,11 @@ class EventTransformerTest extends \PHPUnit_Framework_TestCase
 
         $event = $this->getMock('\Oktolab\Bundle\RentBundle\Entity\Event', array('getId'));
         $event->expects($this->any())->method('getId')->will($this->returnValue(2));
-        $event->setName('New Ordner')
+        $costunit = $this->getMock('\Oktolab\Bundle\RentBundle\Entity\Costunit', array('getName'));
+        $costunit->expects($this->any())->method('getName')->will($this->returnValue('New Ordner'));
+
+        $event
+            ->setCostUnit($costunit)
             ->setBegin(clone $date->modify('2013-10-09 08:00'))
             ->setEnd(clone $date->modify('2013-10-12 17:00'))
             ->setDescription('This is a event for new ordner')

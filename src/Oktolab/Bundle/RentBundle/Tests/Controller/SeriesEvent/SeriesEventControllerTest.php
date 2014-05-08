@@ -27,7 +27,7 @@ class SeriesEventControllerTest extends WebTestCase
         $crawler = $this->client->request('GET', '/rent/series_inventory');
         $this->assertTrue($this->client->getResponse()->isSuccessful(), 'Response should be successful.');
 
-        $form = $crawler->filter('.aui')->form(
+        $form = $crawler->filter('.series-event')->form(
             array(
                 'orb_series_event_form[end]'                => '2013-10-12 17:00:00',
                 'orb_series_event_form[contact]'            => $contact->getId(),
@@ -73,7 +73,7 @@ class SeriesEventControllerTest extends WebTestCase
         $crawler = $this->client->request('GET', '/rent/series_inventory');
         $this->assertTrue($this->client->getResponse()->isSuccessful(), 'Response should be successful.');
 
-        $form = $crawler->filter('.aui')->form(
+        $form = $crawler->filter('.series-event')->form(
             array(
                 'orb_series_event_form[end]'                => '2013-10-12 17:00:00',
                 'orb_series_event_form[contact]'            => $contact->getId(),
@@ -114,7 +114,7 @@ class SeriesEventControllerTest extends WebTestCase
         $crawler = $this->client->request('GET', '/rent/series_inventory');
         $this->assertTrue($this->client->getResponse()->isSuccessful(), 'Response should be successful.');
 
-        $form = $crawler->filter('.aui')->form(
+        $form = $crawler->filter('.series-event')->form(
             array(
                 'orb_series_event_form[end]'                => '2013-10-12 17:00:00',
                 'orb_series_event_form[contact]'            => $contact->getId(),

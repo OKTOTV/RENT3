@@ -41,7 +41,7 @@ class EventManagerFixture extends AbstractFixture
             ->setObject($item->getId());
 
         $event1 = new Event();
-        $event1->setName('2013-08-28 12:00 - 13:00')
+        $event1
             ->setBegin(new \DateTime('2013-08-28 12:00'))
             ->setEnd(new \DateTime('2013-08-28 13:00'))
             ->addObject($eventObject)
@@ -57,7 +57,7 @@ class EventManagerFixture extends AbstractFixture
             ->setObject($item->getId());
 
         $event2 = new Event();
-        $event2->setName('2013-08-28 15:00 - 16:00')
+        $event2
             ->setBegin(new \DateTime('2013-08-28 15:00'))
             ->setEnd(new \DateTime('2013-08-28 16:00'))
             ->addObject($eventObject2)

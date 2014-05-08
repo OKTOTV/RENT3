@@ -53,7 +53,6 @@ class EventManagerFunctionalTest extends WebTestCase
         $event
             ->setBegin(new \DateTime('2013-08-28 15:00'))
             ->setEnd(new \DateTime('2013-08-28 17:00'))
-            ->setName('Test Event')
             ->setType($eventType);
 
         $rentedEvent = $em->rent($event);

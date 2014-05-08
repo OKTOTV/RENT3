@@ -64,8 +64,9 @@ class EventShowFixture extends AbstractFixture
         $manager->flush();
 
         $event = new Event();
-        $event->setName('My Event')
+        $event
             ->setState(Event::STATE_PREPARED)
+            ->setBarcode('EVENTHAHA')
             ->setDescription('There is a description for this event.')
             ->setBegin(new \DateTime('2013-10-14 11:00:00'))
             ->setEnd(new \DateTime('2013-10-15 17:00:00'))

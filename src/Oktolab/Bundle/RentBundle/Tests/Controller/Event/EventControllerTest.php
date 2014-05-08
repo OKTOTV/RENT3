@@ -35,7 +35,7 @@ class EventControllerTest extends WebTestCase
         $crawler = $this->client->request('GET', '/rent/inventory');
         $this->assertTrue($this->client->getResponse()->isSuccessful(), 'Response should be successful.');
 
-        $form = $crawler->filter('.rent-create-form')->form(
+        $form = $crawler->filter('.rent-form')->form(
             array(
                 'OktolabRentBundle_Event_Form[begin]'       => '2013-10-11 12:00:00',
                 'OktolabRentBundle_Event_Form[end]'         => '2013-10-12 17:00:00',
@@ -58,7 +58,7 @@ class EventControllerTest extends WebTestCase
         $this->assertTrue($this->client->getResponse()->isSuccessful(), 'Response should be successful.');
 
         $event = $em->getRepository('OktolabRentBundle:Event')->findOneBy(array('costunit' => $costunit->getId()));
-        $this->assertSame('1234567DUMMY', $event->getCostunit()->Name());
+        $this->assertSame('Dummy Costunit', $event->getCostunit()->getName());
         $this->assertSame(Event::STATE_PREPARED, $event->getState(), 'State should be "PREPARED".');
         $this->assertEquals(new \DateTime('2013-10-11 12:00:00'), $event->getBegin());
         $this->assertEquals(new \DateTime('2013-10-12 17:00:00'), $event->getEnd());
@@ -89,9 +89,8 @@ class EventControllerTest extends WebTestCase
         $crawler = $this->client->request('GET', '/rent/inventory');
         $this->assertTrue($this->client->getResponse()->isSuccessful(), 'Response is successful.');
 
-        $form = $crawler->filter('.rent-create-form')->form(
+        $form = $crawler->filter('.rent-form')->form(
             array(
-                'OktolabRentBundle_Event_Form[name]'  => 'asdf',
                 'OktolabRentBundle_Event_Form[begin]' => '2013-10-11 12:00:00',
                 'OktolabRentBundle_Event_Form[end]'   => '2013-10-10 12:00:00', //invalid data
             )
@@ -102,7 +101,6 @@ class EventControllerTest extends WebTestCase
 
         // @see https://github.com/symfony/symfony/issues/4124#issuecomment-13229362
         $crawler = $this->client->request($form->getMethod(), $form->getUri(), $values, $form->getPhpFiles());
-
         $this->assertTrue($this->client->getResponse()->isSuccessful(), 'Response is successful.');
         $this->assertRegExp('/Das Event konnte nicht gespeichert werden/', $this->client->getResponse()->getContent());
 
@@ -134,7 +132,7 @@ class EventControllerTest extends WebTestCase
             )
         );
         $em = $this->getContainer()->get('doctrine.orm.entity_manager');
-        $event = $em->getRepository('OktolabRentBundle:Event')->findOneBy(array('name' => 'My Event'));
+        $event = $em->getRepository('OktolabRentBundle:Event')->findOneBy(array('barcode' => 'EVENTHAHA'));
 
         $crawler = $this->client->request('GET', '/event/'.$event->getId().'/edit');
         $this->assertTrue($this->client->getResponse()->isSuccessful(), 'Response should be successful.');
@@ -162,7 +160,7 @@ class EventControllerTest extends WebTestCase
             )
         );
         $em = $this->getContainer()->get('doctrine.orm.entity_manager');
-        $event1 = $em->getRepository('OktolabRentBundle:Event')->findOneBy(array('name' => 'My Event'));
+        $event1 = $em->getRepository('OktolabRentBundle:Event')->findOneBy(array('barcode' => 'EVENTHAHA'));
         $em->detach($event1);
 
         $this->client->request('GET', '/event/'.$event1->getId().'/edit');
@@ -170,7 +168,6 @@ class EventControllerTest extends WebTestCase
 
         $form = $this->client->getCrawler()->filter('#content')->selectButton('Speichern')->form(
             array(
-                'OktolabRentBundle_Event_Form[name]' => 'new name',
                 'OktolabRentBundle_Event_Form[end]'  => '2013-10-16 17:00:00',
             )
         );
@@ -188,7 +185,6 @@ class EventControllerTest extends WebTestCase
                 ->findOneBy(array('id' => $event1->getId()));
         $this->assertInstanceOf('\Oktolab\Bundle\RentBundle\Entity\Event', $event);
         $this->assertEquals(new \DateTime('2013-10-16 17:00:00'), $event->getEnd());
-        $this->assertSame('new name', $event->getName());
         $this->assertSame(Event::STATE_PREPARED, $event->getState());
     }
 
@@ -211,55 +207,6 @@ class EventControllerTest extends WebTestCase
     }
 
     /**
-     * @depends editAnEventReturnsValidResponse
-     * @test
-     */
-    public function editAnEventWithInvalidData()
-    {
-        $this->loadFixtures(
-            array(
-                '\Oktolab\Bundle\RentBundle\Tests\DataFixtures\ORM\Event\EventFixture',
-                '\Oktolab\Bundle\RentBundle\Tests\DataFixtures\ORM\Event\EventTypeFixture'
-            )
-        );
-        $em = $this->getContainer()->get('doctrine.orm.entity_manager');
-        $event = $em->getRepository('OktolabRentBundle:Event')->findOneBy(array('name' => 'My Event'));
-
-        $crawler = $this->client->request('GET', '/event/'.$event->getId().'/edit');
-        $this->assertTrue($this->client->getResponse()->isSuccessful(), 'Response is successful.');
-
-        $form = $crawler->filter('#content')->selectButton('Speichern');
-        $this->assertSame(1, $form->count(), 'The EventForm is rendered');
-
-        // set to invalid data
-        $form = $form->form(array('OktolabRentBundle_Event_Form[name]' => ''));
-        $this->client->submit($form);
-
-        $response = $this->client->getResponse();
-        $this->assertTrue($response->isSuccessful(), 'Response is successful.');
-        $this->assertRegExp('/Das Event konnte nicht gespeichert werden/', $response->getContent());
-
-        $crawler = $this->client->getCrawler();
-        $fieldError = $crawler->filter('#OktolabRentBundle_Event_Form_name ~ div[class="error"]');
-
-        $this->assertSame(1, $fieldError->count(), 'An error message is rendered.');
-        $this->assertRegExp('/Dieser Wert sollte nicht leer sein./', $fieldError->html());
-
-        $this->assertEquals(
-            1,
-            $crawler->filter('#content form > input[name="_method"][value="PUT"]')->count(),
-            'Form method is "PUT"'
-        );
-
-        $form = $crawler->filter('#content')->selectButton('Speichern')->form();
-        $url = $this->client->getContainer()
-                ->get('router')
-                ->generate('OktolabRentBundle_Event_Update', array('id' => $event->getId()));
-
-        $this->assertStringEndsWith($url, $form->getUri(), sprintf('Form action is "%s".', $url));
-    }
-
-    /**
      * @depends editAnEventWithInvalidData
      * @test
      */
@@ -272,7 +219,7 @@ class EventControllerTest extends WebTestCase
             )
         );
         $em = $this->getContainer()->get('doctrine.orm.entity_manager');
-        $event = $em->getRepository('OktolabRentBundle:Event')->findOneBy(array('name' => 'My Event'));
+        $event = $em->getRepository('OktolabRentBundle:Event')->findOneBy(array('barcode' => 'EVENTHAHA'));
         $item = $em->getRepository('OktolabRentBundle:Inventory\Item')->findOneBy(array('barcode' => 'YXCV'));
 
         $crawler = $this->client->request('GET', '/event/'.$event->getId().'/edit');
@@ -281,7 +228,7 @@ class EventControllerTest extends WebTestCase
         $form = $crawler->filter('#content')->selectButton('Speichern');
         $this->assertSame(1, $form->count(), 'The EventForm is rendered');
 
-        $form = $form->form(array('OktolabRentBundle_Event_Form[name]' => '')); // set to invalid data
+        $form = $form->form(array('OktolabRentBundle_Event_Form[end]'       => '2010-10-14 12:00:00')); // set to invalid data
         $this->client->submit($form);
         $this->assertTrue($this->client->getResponse()->isSuccessful(), 'Response is successful.');
         $this->assertRegExp('/Das Event konnte nicht gespeichert werden/', $this->client->getResponse()->getContent());
@@ -303,7 +250,7 @@ class EventControllerTest extends WebTestCase
             )
         );
         $em = $this->getContainer()->get('doctrine.orm.entity_manager');
-        $event = $em->getRepository('OktolabRentBundle:Event')->findOneBy(array('name' => 'My Event'));
+        $event = $em->getRepository('OktolabRentBundle:Event')->findOneBy(array('barcode' => 'EVENTHAHA'));
 
         $crawler = $this->client->request('GET', '/event/'.$event->getId().'/edit');
         $this->assertTrue($this->client->getResponse()->isSuccessful(), 'Response is successful.');
@@ -346,9 +293,8 @@ class EventControllerTest extends WebTestCase
         $crawler = $this->client->request('GET', '/rent/inventory');
         $this->assertTrue($this->client->getResponse()->isSuccessful(), 'Response should be successful.');
 
-        $form = $crawler->filter('.rent-create-form')->form(
+        $form = $crawler->filter('.rent-form')->form(
             array(
-                'OktolabRentBundle_Event_Form[name]'        => 'My Event',
                 'OktolabRentBundle_Event_Form[begin]'       => '2013-10-14 12:00:00',
                 'OktolabRentBundle_Event_Form[end]'         => '2013-10-16 17:00:00',
                 'OktolabRentBundle_Event_Form[contact]'     => $contact->getId(),
@@ -380,12 +326,11 @@ class EventControllerTest extends WebTestCase
     {
         $this->loadFixtures(
             array(
-                '\Oktolab\Bundle\RentBundle\Tests\DataFixtures\ORM\Event\EventTypeFixture',
                 '\Oktolab\Bundle\RentBundle\Tests\DataFixtures\ORM\QmsFixture'
             ));
 
        $em = $this->getContainer()->get('doctrine.orm.entity_manager');
-       $event = $em->getRepository('OktolabRentBundle:Event')->findOneBy(array('name' => 'My Event'));
+       $event = $em->getRepository('OktolabRentBundle:Event')->findOneBy(array('barcode' => 'EVENTHAHA'));
 
        $this->client->request('GET', '/event/'.$event->getId().'/check');
        $this->assertTrue($this->client->getResponse()->isSuccessful(), 'Response should be successful.');
@@ -417,12 +362,11 @@ class EventControllerTest extends WebTestCase
     {
         $this->loadFixtures(
             array(
-                '\Oktolab\Bundle\RentBundle\Tests\DataFixtures\ORM\Event\EventTypeFixture',
                 '\Oktolab\Bundle\RentBundle\Tests\DataFixtures\ORM\QmsFixture'
             ));
 
        $em = $this->getContainer()->get('doctrine.orm.entity_manager');
-       $event = $em->getRepository('OktolabRentBundle:Event')->findOneBy(array('name' => 'My Event'));
+       $event = $em->getRepository('OktolabRentBundle:Event')->findOneBy(array('barcode' => 'EVENTHAHA'));
 
        $this->client->request('GET', '/event/'.$event->getId().'/check');
        $this->assertTrue($this->client->getResponse()->isSuccessful(), 'Response should be successful.');
@@ -458,12 +402,11 @@ class EventControllerTest extends WebTestCase
     {
         $this->loadFixtures(
             array(
-                '\Oktolab\Bundle\RentBundle\Tests\DataFixtures\ORM\Event\EventTypeFixture',
                 '\Oktolab\Bundle\RentBundle\Tests\DataFixtures\ORM\EventShowFixture'
             ));
 
         $em = $this->getContainer()->get('doctrine.orm.entity_manager');
-        $event = $em->getRepository('OktolabRentBundle:Event')->findOneBy(array('name' => 'My Event'));
+        $event = $em->getRepository('OktolabRentBundle:Event')->findOneBy(array('barcode' => 'EVENTHAHA'));
         $this->client->request('GET', '/event/'.$event->getId().'/show');
         $this->assertTrue($this->client->getResponse()->isSuccessful(), 'Response should be successful.');
 
@@ -549,7 +492,7 @@ class EventControllerTest extends WebTestCase
             ));
 
         $em = $this->getContainer()->get('doctrine.orm.entity_manager');
-        $event = $em->getRepository('OktolabRentBundle:Event')->findOneBy(array('name' => 'My Event'));
+        $event = $em->getRepository('OktolabRentBundle:Event')->findOneBy(array('barcode' => 'EVENTHAHA'));
 
         $crawler = $this->client->request('GET', '/event/'.$event->getId().'/check');
         $this->assertTrue($this->client->getResponse()->isSuccessful(), 'Response should be successful.');
@@ -568,7 +511,7 @@ class EventControllerTest extends WebTestCase
             ));
 
         $em = $this->getContainer()->get('doctrine.orm.entity_manager');
-        $event = $em->getRepository('OktolabRentBundle:Event')->findOneBy(array('name' => 'My Event'));
+        $event = $em->getRepository('OktolabRentBundle:Event')->findOneBy(array('barcode' => 'EVENTHAHA'));
 
         $this->client->request('GET', '/event/'.$event->getId().'/check');
         $this->assertTrue($this->client->getResponse()->isSuccessful(), 'Response should be successful.');
@@ -595,9 +538,8 @@ class EventControllerTest extends WebTestCase
         $crawler = $this->client->request('GET', '/rent/inventory');
         $this->assertTrue($this->client->getResponse()->isSuccessful(), 'Response is successful.');
 
-        $form = $crawler->filter('.rent-create-form')->form(
+        $form = $crawler->filter('.rent-form')->form(
             array(
-                'OktolabRentBundle_Event_Form[name]'  => 'asdf',
                 'OktolabRentBundle_Event_Form[begin]' => '2013-10-11 09:59:00', //invalid data
                 'OktolabRentBundle_Event_Form[end]'   => '2013-10-12 12:00:00',
             )
@@ -634,9 +576,8 @@ class EventControllerTest extends WebTestCase
         $crawler = $this->client->request('GET', '/rent/inventory');
         $this->assertTrue($this->client->getResponse()->isSuccessful(), 'Response is successful.');
 
-        $form = $crawler->filter('.rent-create-form')->form(
+        $form = $crawler->filter('.rent-form')->form(
             array(
-                'OktolabRentBundle_Event_Form[name]'  => 'asdf',
                 'OktolabRentBundle_Event_Form[begin]' => '2013-10-11 10:00:00',
                 'OktolabRentBundle_Event_Form[end]'   => '2013-10-12 22:01:0', //invalid data
             )
@@ -673,9 +614,8 @@ class EventControllerTest extends WebTestCase
         $crawler = $this->client->request('GET', '/rent/inventory');
         $this->assertTrue($this->client->getResponse()->isSuccessful(), 'Response is successful.');
 
-        $form = $crawler->filter('.rent-create-form')->form(
+        $form = $crawler->filter('.rent-form')->form(
             array(
-                'OktolabRentBundle_Event_Form[name]'  => 'asdf',
                 'OktolabRentBundle_Event_Form[begin]' => '2013-10-11 09:59:00', // invalid data
                 'OktolabRentBundle_Event_Form[end]'   => '2013-10-12 22:01:0', // invalid data
             )
