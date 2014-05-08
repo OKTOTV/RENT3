@@ -59,7 +59,7 @@ class EventControllerTest extends WebTestCase
 
         $event = $em->getRepository('OktolabRentBundle:Event')->findOneBy(array('costunit' => $costunit->getId()));
         $this->assertSame('Dummy Costunit', $event->getCostunit()->getName());
-        $this->assertSame(Event::STATE_PREPARED, $event->getState(), 'State should be "PREPARED".');
+        $this->assertSame(Event::STATE_RESERVED, $event->getState(), 'State should be "RESERVED".');
         $this->assertEquals(new \DateTime('2013-10-11 12:00:00'), $event->getBegin());
         $this->assertEquals(new \DateTime('2013-10-12 17:00:00'), $event->getEnd());
 
