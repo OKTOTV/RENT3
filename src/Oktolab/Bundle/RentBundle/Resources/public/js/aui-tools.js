@@ -11,23 +11,55 @@ AJS.$(document).ready(function() {
 
     // Activate Oktolab.Calendar on Dashboard
     if (AJS.$('#calendar').length) {
-//        var calendar = new Oktolab.Calendar('#calendar');
-
-        console.time('rendercalendar');
         Oktolab.Calendar.init();
-        console.timeEnd('rendercalendar');
+        AJS.$('#calendar-date').appendDtpicker({
+                "firstDayOfWeek": 1,
+                "dateOnly"      : true,
+                "locale"        : "de",
+                "dateFormat"    : "YYYY-MM-DD",
+                "calendarMouseScroll": false,
+                "closeOnSelected": true,
+                "onHide": function(handler) {Oktolab.Calendar._loadCalendarStartingAtDate(new Date(AJS.$('#calendar-date').val()));}
+            });
     }
 
     if (AJS.$('#room-calendar').length) {
         Oktolab.RoomCalendar.init();
+        AJS.$('#calendar-date').appendDtpicker({
+                "firstDayOfWeek": 1,
+                "dateOnly"      : true,
+                "locale"        : "de",
+                "dateFormat"    : "YYYY-MM-DD",
+                "calendarMouseScroll": false,
+                "closeOnSelected": true,
+                "onHide": function(handler) {Oktolab.RoomCalendar._loadCalendarStartingAtDate(new Date(AJS.$('#calendar-date').val()));}
+            });
     }
 
     if (AJS.$('#room-day-calendar').length) {
         Oktolab.RoomDayCalendar.init();
+        AJS.$('#calendar-date').appendDtpicker({
+                "firstDayOfWeek": 1,
+                "dateOnly"      : true,
+                "locale"        : "de",
+                "dateFormat"    : "YYYY-MM-DD",
+                "calendarMouseScroll": false,
+                "closeOnSelected": true,
+                "onHide": function(handler) {Oktolab.RoomDayCalendar._loadCalendarStartingAtDate(new Date(AJS.$('#calendar-date').val()));}
+            });
     }
 
     if (AJS.$('#inventory-day-calendar').length) {
         Oktolab.InventoryDayCalendar.init();
+        AJS.$('#calendar-date').appendDtpicker({
+                "firstDayOfWeek": 1,
+                "dateOnly"      : true,
+                "locale"        : "de",
+                "dateFormat"    : "YYYY-MM-DD",
+                "calendarMouseScroll": false,
+                "closeOnSelected": true,
+                "onHide": function(handler) {Oktolab.InventoryDayCalendar._loadCalendarStartingAtDate(new Date(AJS.$('#calendar-date').val()));}
+            });
     }
 
     AJS.$('a.fancybox').fancybox();

@@ -167,8 +167,11 @@ jQuery(document).ready(function ($) {
         input.appendDtpicker({
             "firstDayOfWeek": 1,
             "futureOnly"    : true,
+            "locale"        : "de",
+            "dateFormat"    : "YYYY-MM-DD hh:mm",
             "calendarMouseScroll": false,
             "closeOnSelected": true,
+            "autodateOnStart": false,
             "current": currentStamp,//"2014-03-27 17:30",
             "onHide": function(handler){ enableItemSearch(handler); }
         });
@@ -190,7 +193,9 @@ jQuery(document).ready(function ($) {
         input.appendDtpicker({
             "firstDayOfWeek": 1,
             "futureOnly"    : true,
+            "locale"        : "de",
             "dateOnly"      : true,
+            "dateFormat"    : "YYYY-MM-DD",
             "calendarMouseScroll": false,
             "closeOnSelected": true,
             "current":      currentStamp

@@ -36,9 +36,7 @@
                 timeblocks: $.getJSON(Calendar.buildUrl(Calendar.config.timeblockSrcUri)).promise(),
                 items: [],
                 renderedTimeblocks: [],
-                today_button: $('#calendar-show-today'),
-                date_button:  $('#calendar-show-date'),
-                date_input:   $('#calendar-input-date')
+                date_input:   $('#calendar-date')
             };
 
             Calendar.setup();
@@ -73,18 +71,6 @@
                 .append(Calendar.data.containerWrapper);
 
             Calendar.data.container.trigger('OktolabCalendar:rendered');
-
-            //add onclick to search and today button
-            Calendar.data.today_button.on('click', function () {
-                Calendar._loadCalendarStartingAtDate(new Date());
-            });
-
-            Calendar.data.date_button.on('click', function (){
-                if (Calendar.data.date_input.val() !== '') {
-                    Calendar._loadCalendarStartingAtDate(new Date(Calendar.data.date_input.val()));
-                }
-            });
-
         },
 
         /**
