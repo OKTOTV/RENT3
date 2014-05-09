@@ -1,4 +1,8 @@
 jQuery(document).ready(function ($) {
+    $(document).tooltip({ 
+        track: true,
+        content: function(){return $(this).attr('title');}
+    });
 
     $('#dashboard-show-date').on('click', function(e){
         var url = oktolab.baseUrl+'/dashboard';

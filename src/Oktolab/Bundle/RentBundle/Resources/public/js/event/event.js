@@ -16,6 +16,11 @@ jQuery(document).ready(function ($) {
         var begin = $(formGroup.find('.orb_event_form_event_begin')).val();
         var end = $(formGroup.find('.orb_event_form_event_end')).val();
         if ((begin !== undefined && begin !== "" ) && (end !== "" && end !== undefined)) {
+            if (eventId) {
+                var prefetch = { url: oktolab.typeahead.eventItemPrefetchUrl + '/' + eventId + '/'+begin+'/'+end, ttl: 0 };
+            } else {
+                prefetch = {};
+            }
             begin = begin.replace(' ', 'T');
             end = end.replace(' ', 'T');
             // enable inventory search
@@ -25,7 +30,7 @@ jQuery(document).ready(function ($) {
                 name: 'rent-items',
                 valueKey: 'displayName',
                 remote: { url: oktolab.typeahead.eventItemRemoteUrl + '/'+begin+'/'+end },
-                prefetch: { url: oktolab.typeahead.eventItemPrefetchUrl + '/' + eventId + '/'+begin+'/'+end, ttl: 0 },
+                prefetch: prefetch,
                 template: [
                     '<span class="aui-icon aui-icon-small aui-iconfont-devtools-file">Object</span>',
                     '<p class="tt-object-name">{{displayName}}</p>',
@@ -37,7 +42,6 @@ jQuery(document).ready(function ($) {
                 name:       'rent-sets',
                 valueKey:   'displayName',
                 remote: { url: oktolab.typeahead.eventSetRemoteUrl + '/'+begin+'/'+end },
-                prefetch: { url: oktolab.typeahead.eventSetPrefetchUrl + '/'+begin+'/'+end, ttl: 0 },
                 template: [
                     '<span class="aui-icon aui-icon-small aui-iconfont-devtools-file">Object</span>',
                     '<p class="tt-object-name">{{displayName}}</p>',
@@ -124,7 +128,8 @@ jQuery(document).ready(function ($) {
        });
        var formGroup = costunitInput.parents('.costunit-contact-search');
        var costunit = formGroup.find('.orb_event_costunit').val();
-       if (costunit != undefined) { // already set costunit? set the contacts for that!
+
+       if (costunit != undefined && costunit != 0) { // already set costunit? set the contacts for that!
            var contactSelectBox = formGroup.find('.orb_event_contact');
            var oldOption = contactSelectBox.val();
             // get the contacts of the selected costunit and set them as options

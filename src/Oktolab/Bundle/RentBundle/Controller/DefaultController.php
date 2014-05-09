@@ -26,9 +26,23 @@ class DefaultController extends Controller
         $begin = new \DateTime();
         $end = new \DateTime('+3 Days');
 
+        $roomEvents = $eventRepository->findActiveFromBeginToEnd($begin, $end, 'room');
+        $roomObjects = array();
+        foreach ($roomEvents as $roomEvent) {
+            $roomObjects[] = $this->get('oktolab.event_manager')->convertEventObjectsToEntites($roomEvent->getObjects()); 
+        }
+
+        $inventoryEvents = $eventRepository->findActiveFromBeginToEnd($begin, $end, 'inventory');
+        $inventoryObjects = array();
+        foreach ($inventoryEvents as $inventoryEvent) {
+            $inventoryObjects[] = $this->get('oktolab.event_manager')->convertEventObjectsToEntites($inventoryEvent->getObjects()); 
+        }
+
         return array(
-            'roomEvents'      => $eventRepository->findActiveFromBeginToEnd($begin, $end, 'room'),
-            'inventoryEvents' => $eventRepository->findActiveFromBeginToEnd($begin, $end, 'inventory'),
+            'roomEvents'      => $roomEvents,
+            'roomObjects'     => $roomObjects,
+            'inventoryEvents' => $inventoryEvents,
+            'inventoryObjects'=> $inventoryObjects,
             'begin'           => $begin,
             'end'             => $end
         );

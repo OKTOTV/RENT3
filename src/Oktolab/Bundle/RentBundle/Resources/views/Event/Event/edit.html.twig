@@ -89,7 +89,7 @@
                                     <th id="basic-action"><span class="aui-icon aui-icon-small aui-iconfont-configure">{{ 'Actions'|trans }}</span></th>
                                 </tr>
                             </thead>
-                            <tbody id="inventory-event-objects" class="event-objects" data-index="-1" data-prototype="{% filter escape %}{% include 'OktolabRentBundle:Event:eventObjectPrototype.html.twig' %}{% endfilter %}">
+                            <tbody id="inventory-event-objects" class="event-objects" data-index="{{objects|length}}" data-prototype="{% filter escape %}{% include 'OktolabRentBundle:Event:eventObjectPrototype.html.twig' %}{% endfilter %}">
                                 {% for object in objects if objects %}
                                 {% set formobject = form.objects[loop.index0] %}
                                 {% set objective = '%s:%s'|format(object.type, object.id) %}

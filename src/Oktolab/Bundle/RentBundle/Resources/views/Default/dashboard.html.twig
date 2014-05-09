@@ -33,8 +33,10 @@
                 <tbody>
                     {% for inventoryEvent in inventoryEvents %}
                     <tr>
-                        <td>
-                            <span style="display:none">{{ inventoryEvent.state(false) }}</span>
+                        <td title="<ul>{% for object in inventoryObjects[loop.index0] %}<li>{{ object.title}}</li>{% endfor %}</ul>">
+                            <span style="display:none" >
+                                {{ inventoryEvent.state(false) }}
+                            </span>
                             {% set vars = {'event': inventoryEvent }%}
                             {% include 'OktolabRentBundle:Event/Event:_event_status_lozenge.html.twig' with vars%}
                         </td>
@@ -73,8 +75,10 @@
                 <tbody>
                     {% for roomEvent in roomEvents %}
                     <tr>
-                        <td>
-                            <span style="display:none">{{ roomEvent.state(false) }}</span>
+                        <td title="<ul>{% for object in roomObjects[loop.index0] %}<li>{{ object.title}}</li>{% endfor %}</ul>">
+                            <span style="display:none">
+                                {{ roomEvent.state(false) }}
+                            </span>
                             {% set vars = {'event': roomEvent }%}
                             {% include 'OktolabRentBundle:Event/Event:_event_status_lozenge.html.twig' with vars%}
                         </td>
