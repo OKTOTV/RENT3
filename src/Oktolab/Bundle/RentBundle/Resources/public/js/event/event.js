@@ -140,9 +140,7 @@ jQuery(document).ready(function ($) {
                     contactSelectBox.append($('<option />').val(contact.id).text(contact.name));
                 });
                 formGroup.find('.orb_event_contact').prop('disabled', false);
-                console.log(oldOption);
                 $(contactSelectBox).find('option').each(function( i, opt ) {
-                    console.log(opt.value);
                     if( opt.value === oldOption )
                         $(opt).attr('selected', 'selected');
                 });
@@ -157,12 +155,13 @@ jQuery(document).ready(function ($) {
         input = $(input);
         var val = input.val();
         var current = new Date(val);
-        input.val("");
+        input.val('');
         var currentStamp = current.getFullYear();
         currentStamp = currentStamp+"-"+Oktolab.leadingZero(current.getMonth()+1);
         currentStamp = currentStamp+'-'+Oktolab.leadingZero(current.getDate().toString());
         currentStamp = currentStamp+' '+Oktolab.leadingZero(current.getHours().toString());
         currentStamp = currentStamp+':'+Oktolab.leadingZero(current.getMinutes().toString());
+
         // handler is the jquery object with the datetimepicker
         input.appendDtpicker({
             "firstDayOfWeek": 1,
@@ -175,6 +174,9 @@ jQuery(document).ready(function ($) {
             "current": currentStamp,//"2014-03-27 17:30",
             "onHide": function(handler){ enableItemSearch(handler); }
         });
+        if (currentStamp != "NaN-NaN-NaN NaN:NaN") {
+            input.val(currentStamp);
+        }
         enableItemSearch(input);
     });
 
