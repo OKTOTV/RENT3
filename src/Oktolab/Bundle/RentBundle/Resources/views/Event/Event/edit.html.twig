@@ -45,12 +45,8 @@
                         <input
                             type="text"
                             class="text orb_event_costunit_typeahead"
-                            value="{% if form.vars.value.costunit is not null %}
-                                {{form.vars.value.costunit.name}}
-                            {% endif %}"
-                            data-id="{% if form.vars.value.costunit is not null %}
-                                {{form.vars.value.costunit.id}}
-                            {% endif %}"
+                            value="{% if form.vars.value.costunit is not null %}{{form.vars.value.costunit.name}}{% endif %}"
+                            data-id="{% if form.vars.value.costunit is not null %}{{form.vars.value.costunit.id}}{% endif %}"
                         >
                     </div>
                     {{ form_row(form.contact, {'attr': {'class': 'orb_event_contact'} }) }}
@@ -117,7 +113,7 @@
                 <div class="buttons">
 
                     {% if form.vars.value.state == 1 or form.vars.value.state == 0 %} {# event is reserved, can be lent#}
-                        {{ form_widget(form.rent, {'attr': { 'class': 'aui-button aui-button-primary', 'aria-disabled': 'true' }, 'label': 'event.rent'|trans }) }}
+                        {{ form_widget(form.rent, {'attr': { 'class': 'aui-button aui-button-primary'}, 'label': 'event.rent'|trans }) }}
                         {{ form_widget(form.update, {'attr': { 'class': 'aui-button' }, 'label': 'event.update'|trans }) }}
                     {% elseif form.vars.value.state == 2 %} {# event is lent, can be taken back #}
                         {{ form_widget(form.rent, {'attr': { 'class': 'aui-button aui-button-primary'}, 'label': 'event.deliver'|trans }) }}
