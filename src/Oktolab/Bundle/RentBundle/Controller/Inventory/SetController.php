@@ -101,10 +101,17 @@ class SetController extends Controller
      * @Route("/{id}", name="inventory_set_show")
      * @ParamConverter("set", class="OktolabRentBundle:Inventory\Set")
      * @Method("GET")
-     * @Template("OktolabRentBundle:Inventory\Set:show.html.twig", vars={"set"})
+     * @Template("OktolabRentBundle:Inventory\Set:show.html.twig")
      */
-    public function showAction()
+    public function showAction(Set $set)
     {
+        $events = array();
+        $eventObjects = $this->getDoctrine()->getManager()->getRepository('OktolabRentBundle:eventObject')->findBy(array('object' => $set->getId(), 'type' => $set->getType()));
+        foreach ($eventObjects as $eventObject) {
+            $events[] = $eventObject->getEvent();
+        }
+
+        return array('set' => $set, 'events' => array_reverse($events));
     }
 
     /**

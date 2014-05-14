@@ -106,10 +106,16 @@ class ItemController extends Controller
      * @Configuration\Method("GET")
      * @Configuration\Route("/{id}", name="inventory_item_show")
      * @Configuration\ParamConverter("item", class="OktolabRentBundle:Inventory\Item")
-     * @Configuration\Template("OktolabRentBundle:Inventory\Item:show.html.twig", vars={"item"})
+     * @Configuration\Template("OktolabRentBundle:Inventory\Item:show.html.twig")
      */
     public function showAction(Item $item)
     {
+        $events = array();
+        $eventObjects = $this->getDoctrine()->getManager()->getRepository('OktolabRentBundle:EventObject')->findBy(array('object'=> $item->getId(), 'type' => $item->getType()));
+        foreach ($eventObjects as $eventObject) {
+            $events[] = $eventObject->getEvent();
+        }
+        return array('item' => $item, 'events' => array_reverse($events));
     }
 
     /**

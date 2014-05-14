@@ -57,6 +57,7 @@
 {% endblock %}
 
 {% block content %}
+
 <form class="aui">
     <fieldset>
         <h3>{{ 'inventory.set.set'|trans }}</h3>
@@ -77,7 +78,8 @@
             <label>{{ 'inventory.set.description'|trans }}</label>
             <span class="field-value">{{ set.description }}</span>
         </div>
-
+    <div class="aui-group">
+        <div class="aui-item">
         <h3>{{ 'inventory.set.items'|trans }}</h3>
         {% if set.items|length == 0 %}
             <span class="field-value">{{ 'inventory.set.zeroItems'|trans }}</span>
@@ -107,8 +109,38 @@
                 </tbody>
             </table>
         {% endif %}
+        </div>
+<div class="aui-item">
+        <h3>{{ 'event.bookings'|trans }}</h3>
+        {% if events|length == 0 %}
+            <span class="field-value">{{ 'inventory.set.zeroBookings'|trans }}</span>
+        {% else %}
+            <table class="aui aui-table-sortable">
+                <thead>
+                    <tr>
+                        <th>{{'event.state'| trans }}</th>
+                        <th id="event_costunit">{{ 'event.costunit'|trans }}</th>
+                        <th id="event_begin">{{ 'event.begin'|trans }}</th>
+                        <th id="event_end">{{ 'event.end'|trans }}</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for event in events %}
+                        <tr>
+                            <td>{% include 'OktolabRentBundle:Event/Event:_event_status_lozenge.html.twig'%}</td>
+                            <td headers="event_costunit">{{ event.costunit.name }}</td>
+                            <td headers="event_begin">{{ event.begin|date('Y.m.d H:i') }}</td>
+                            <td headers="event_end">{{ event.end|date('Y.m.d H:i') }}</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        {% endif %}
+
     </fieldset>
 </form>
+</div>
+</div>
 {% endblock %}
 
 {% block sidebar %}

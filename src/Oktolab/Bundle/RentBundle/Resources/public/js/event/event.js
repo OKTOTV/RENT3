@@ -19,7 +19,7 @@ jQuery(document).ready(function ($) {
             if (eventId) {
                 var prefetch = { url: oktolab.typeahead.eventItemPrefetchUrl + '/' + eventId + '/'+begin+'/'+end, ttl: 0 };
             } else {
-                prefetch = {};
+                prefetch = { url: oktolab.typeahead.eventItemPrefetchUrl + '/undefined/'+begin+'/'+end, ttl: 0 };
             }
             begin = begin.replace(' ', 'T');
             end = end.replace(' ', 'T');
@@ -52,6 +52,7 @@ jQuery(document).ready(function ($) {
             }, {
                 name:       'category',
                 valueKey:   'displayName',
+                remote: { url: oktolab.typeahead.eventItemRemoteUrl + '/'+begin+'/'+end },
                 prefetch:   { url: oktolab.typeahead.eventCategoryPrefetchUrl + '/'+begin+'/'+end, ttl:0 },
                 template:   [
                     '<span class="aui-icon aui-icon-small aui-iconfont-devtools-file">Object</span>',

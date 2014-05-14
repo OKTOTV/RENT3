@@ -228,8 +228,6 @@ class EventApiController extends Controller
      * Returns a JSON formatted Dataset for typeahead.js
      * Returns all Items where category is not null and are free in given time range.
      *
-     *
-     * @Configuration\Cache(expires="+30 days", public="yes")
      * @Configuration\Method("GET")
      * @Configuration\Route("/category/typeahead.{_format}/{begin}/{end}",
      *      name="inventory_category_typeahead_prefetch",
@@ -339,7 +337,7 @@ class EventApiController extends Controller
                     'type'          => $item->getType(),
                     'id'            => $item->getId(),
                     'barcode'       => $item->getBarcode(),
-                    'showUrl'       => 'inventory/item/'.$item->getId(),
+                    //'showUrl'       => 'inventory/item/'.$item->getId(),
                     'tokens'        => $tokens
                 );
             }

@@ -154,6 +154,32 @@
                 </tbody>
             </table>
             {% endif %}
+
+            <h3>{{ 'event.bookings'|trans }}</h3>
+            {% if events|length == 0 %}
+                <span class="field-value">{{ 'inventory.item.zeroBookings'|trans }}</span>
+            {% else %}
+                <table class="aui aui-table-sortable">
+                    <thead>
+                        <tr>
+                            <th>{{'event.state'| trans }}</th>
+                            <th id="event_costunit">{{ 'event.costunit'|trans }}</th>
+                            <th id="event_begin">{{ 'event.begin'|trans }}</th>
+                            <th id="event_end">{{ 'event.end'|trans }}</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for event in events %}
+                            <tr>
+                                <td>{% include 'OktolabRentBundle:Event/Event:_event_status_lozenge.html.twig'%}</td>
+                                <td headers="event_costunit">{{ event.costunit.name }}</td>
+                                <td headers="event_begin">{{ event.begin|date('Y.m.d H:i') }}</td>
+                                <td headers="event_end">{{ event.end|date('Y.m.d H:i') }}</td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            {% endif %}
         </fieldset>
     </form>
 {% endblock %}
