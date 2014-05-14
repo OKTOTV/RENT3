@@ -184,20 +184,6 @@ class EventController extends Controller
         $form->handleRequest($request);
         if ($form->isValid()) {
 
-            // @TODO: Validator needed! ----------------
-            $validation = true;
-            foreach ($event->getObjects() as $object) {
-                if (!$object->isScanned()) {
-                    $validation = false;
-                }
-            }
-
-            if (!$validation) {
-                $this->get('session')->getFlashBag()->add('error', 'event.save_error');
-                return $this->redirect($this->generateUrl('rentbundle_dashboard'));
-            }
-            //@TODO: add above to class validator ------
-
             $this->get('session')->getFlashBag()->add('success', 'event.rent_success');
             $event->setState(Event::STATE_LENT);
 
