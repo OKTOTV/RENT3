@@ -4,17 +4,24 @@
 // with datetimepickers, typeahead and item list handling
 jQuery(document).ready(function ($) {
 
-    var createForm = $('#rent-series-inventory-form');
+    // disable the contact selectbox to prevent searching for contact before searching for costunit.
+    $('.orb_series_event_contact').prop('disabled', true);
 
     // enables itemsearch typeahead if the selected timerange makes sense.
     var enableItemSearch = function (handler) {
-        var eventId = createForm.data('value');
         var formGroup = handler.parents(".object-date-search"); // yeah, more searches on one page!
+        console.log(formGroup);
+        var eventId = formGroup.data('event-id');
         var searchfield = $(formGroup.find(".orb_series_event_form_inventory_search"));
         var roomSearchField = $(formGroup.find(".orb_series_event_form_room_search"));
         var begin = $(formGroup.find('.orb_series_event_form_event_begin')).val();
         var end = $(formGroup.find('.orb_series_event_form_event_end')).val();
         if ((begin !== undefined && begin !== "" )&& (end !== "" && end !== undefined)) {
+            if (eventId) {
+                var prefetch = { url: oktolab.typeahead.eventItemPrefetchUrl + '/' + eventId + '/'+begin+'/'+end, ttl: 0 };
+            } else {
+                prefetch = { url: oktolab.typeahead.eventItemPrefetchUrl + '/undefined/'+begin+'/'+end, ttl: 0 };
+            }
             begin = begin.replace(' ', 'T');
             end = end.replace(' ', 'T');
             // enable inventory search
@@ -23,7 +30,7 @@ jQuery(document).ready(function ($) {
                 name: 'rent-items',
                 valueKey: 'displayName',
                 remote: { url: oktolab.typeahead.eventItemRemoteUrl + '/'+begin+'/'+end },
-                prefetch: { url: oktolab.typeahead.eventItemPrefetchUrl + '/' + eventId + '/'+begin+'/'+end, ttl: 0 },
+                prefetch: prefetch,
                 template: [
                     '<span class="aui-icon aui-icon-small aui-iconfont-devtools-file">Object</span>',
                     '<p class="tt-object-name">{{displayName}}</p>',
@@ -153,23 +160,30 @@ jQuery(document).ready(function ($) {
         currentStamp = currentStamp+'-'+Oktolab.leadingZero(current.getDate().toString());
         currentStamp = currentStamp+' '+Oktolab.leadingZero(current.getHours().toString());
         currentStamp = currentStamp+':'+Oktolab.leadingZero(current.getMinutes().toString());
+
         // handler is the jquery object with the datetimepicker
         input.appendDtpicker({
             "firstDayOfWeek": 1,
             "futureOnly"    : true,
+            "locale"        : "de",
+            "dateFormat"    : "YYYY-MM-DD hh:mm",
             "calendarMouseScroll": false,
             "closeOnSelected": true,
+            "autodateOnStart": false,
             "current": currentStamp,//"2014-03-27 17:30",
             "onHide": function(handler){ enableItemSearch(handler); }
         });
+        if (currentStamp != "NaN-NaN-NaN NaN:NaN") {
+            input.val(currentStamp);
+        }
         enableItemSearch(input);
     });
 
     // enable contact selectbox depending on selected costunit
     $('.orb_series_costunit_typeahead').on('typeahead:selected', function(e, datum) {
         var formGroup = $(e.currentTarget).parents(".costunit-contact-search");
-        var costunitSelectBox = $(formGroup.find('#orb_series_event_form_costunit'));
-        var contactSelectBox = $(formGroup.find('#orb_series_event_form_contact'));
+        var costunitSelectBox = $(formGroup.find('.orb_series_event_costunit'));
+        var contactSelectBox = $(formGroup.find('.orb_series_event_contact'));
 
         // set the costunit to the hidden selectbox
         costunitSelectBox.val(datum.id);
