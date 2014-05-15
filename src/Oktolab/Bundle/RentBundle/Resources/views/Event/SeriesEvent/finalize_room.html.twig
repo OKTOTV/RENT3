@@ -46,15 +46,14 @@
                 <div class="hidden">
                     {{ form_row(form.objects) }}
                     {{ form_row(eventform.type) }}
-                    {{ form_row(eventform.name) }}
                     {{ form_row(eventform.contact) }}
                     {{ form_row(eventform.costunit) }}
                 </div>
                 {{ form_row(eventform.description) }}
                 <fieldset>
                     <div class="object-date-search">
-                        {{ form_row(eventform.begin, {'attr': {'class': 'text event-datetime orb_series_event_form_event_begin', 'data-value': eventform.vars.value.begin|date('d-m-Y H:i')} }) }}
-                        {{ form_row(eventform.end, {'attr': {'class': 'text event-datetime orb_series_event_form_event_end', 'data-value': eventform.vars.value.end|date('d-m-Y H:i')} }) }}
+                        {{ form_row(eventform.begin, {'attr': {'class': 'text series-event-datetime orb_series_event_form_event_begin', 'data-value': eventform.vars.value.begin|date('d-m-Y H:i')} }) }}
+                        {{ form_row(eventform.end, {'attr': {'class': 'text series-event-datetime orb_series_event_form_event_end', 'data-value': eventform.vars.value.end|date('d-m-Y H:i')} }) }}
                         <div class="field-group">
                             <label for="inventory-search-field">{{ 'generic.search'|trans }}</label>
                             <input class="text orb_series_event_form_room_search" type="text" name="inventory-search-field" title="{{ 'Search for Barcodes, Names'|trans }}" disabled="disabled" />
