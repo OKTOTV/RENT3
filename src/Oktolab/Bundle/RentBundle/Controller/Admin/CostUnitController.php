@@ -38,7 +38,7 @@ class CostUnitController extends Controller
         return array(
             'entities'      => $entities,
             'currentPage'   => $page,
-            'pages'         => floor($totalResults / $resultsPerPage),
+            'pages'         => ceil($totalResults / $resultsPerPage),
             'renderPages'   => 9,
         );
     }
