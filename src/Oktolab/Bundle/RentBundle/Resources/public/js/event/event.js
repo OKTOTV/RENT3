@@ -1,10 +1,8 @@
 // if the document (form) is ready, enable all cool jquery features
-// needed by the item event series form
+// needed by the event form
 // to enhance the user experience
-// with datetimepickers, typeahead and item list handling
+// with datetimepickers, typeahead, barcode scanning and item list handling
 jQuery(document).ready(function ($) {
-
-$('input,select').keypress(function(event) { return event.keyCode != 13; });
 
 // adds a typeahead datum to the tablerow in e
     var addObjectToTable = function(e, datum) {
@@ -79,17 +77,14 @@ $('input,select').keypress(function(event) { return event.keyCode != 13; });
             }
         });
    });
-
-    $('.scan-search-edit').submit(function(e) {
-         return false;
-    });
    //==================================================================
    
    // enable the rent button if everything is scanned
-   var enableRent = function (tablerows) {
+   var enableRent = function (table) {
         var allScanned = true;
+        var tablerows = table.find('tr');
         $.each(tablerows, function(key, row) {
-            if ($(row).find('.scan-icon').hasClass( "aui-iconfont-approve" )) {
+            if ($(row).find('input.scanner').val() == 0) {
                 allScanned = false;
             }
         });
@@ -99,9 +94,6 @@ $('input,select').keypress(function(event) { return event.keyCode != 13; });
             $('.event-rent').prop('disabled', true);
         }
    };
-
-    // disable the contact selectbox to prevent searching for contact before searching for costunit.
-    $('.orb_event_contact').prop('disabled', true);
 
     // enables itemsearch typeahead if the selected timerange makes sense.
     var enableItemSearch = function (handler) {
@@ -174,10 +166,6 @@ $('input,select').keypress(function(event) { return event.keyCode != 13; });
                 header: '<h3>Räume</h3>',
                 engine: Hogan
             }]);
-
-            //enable Scanner
-            // enableBarcodeScanner(searchfield);
-            // enableBarcodeScanner(roomSearchField);
         } else {
             roomSearchField.prop('disabled', true);
             searchfield.prop('disabled', true);
@@ -315,16 +303,11 @@ $('input,select').keypress(function(event) { return event.keyCode != 13; });
         $(e.currentTarget).typeahead('setQuery', '');
     });
 
-    // enables removing of event objects
-   $('.aui-oktolab-form-table').on('click', 'a.remove', function (e) {
-        e.preventDefault();
-        $(e.currentTarget).closest('tr').remove();
-    });
-
    // enable scanning of event objects
    $('.aui-oktolab-form-table').on('click', 'a.scan', function (e) {
         e.preventDefault();
         $(e.currentTarget).find('.aui-icon').removeClass('aui-iconfont-approve').addClass('aui-icon-success');
-        enableRent($(e.currentTarget).closest('table tr'));
+        $(e.currentTarget).closest('tr').find('input.scanner').val('1');
+        enableRent($(e.currentTarget).closest('table'));
    });
 });
