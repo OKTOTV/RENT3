@@ -7,10 +7,37 @@ jQuery(document).ready(function ($) {
     // disable the contact selectbox to prevent searching for contact before searching for costunit.
     $('.orb_series_event_contact').prop('disabled', true);
 
+    //===================== Barcode Scanning ========================
+   var enableSeriesBarcodeScanner = function(input) {
+        input.keyup(function (e) {
+            var keyCode = e.which || e.keyCode;
+                // block keys: *, /, -, +, ... from numpad (barcode scanner ...)
+                if ((keyCode >= 106 && keyCode <= 111) || keyCode === 16 || keyCode === 17 || keyCode === 18) {
+                    e.preventDefault();
+                    return;
+                }
+
+                if ((keyCode === 13 && e.ctrlKey == true) || (keyCode === 74 && e.ctrlKey == true) || keyCode === 9) {
+                    e.preventDefault();
+                    var datum = setDatumForBarcode(input);
+                    if ('undefined' !== typeof(datum)) {
+                        addSeriesObjectToTable(input, datum);
+                        if ('set' == datum.type) { // add setitems!
+                            $.each(datum.items, function(key, itemValue) {
+                                var itemDatum = setItemDatumForValue(e, itemValue);
+                                addSeriesObjectToTable(e, itemDatum);
+                            });
+                        }
+                        input.typeahead('setQuery', '');
+                    }
+                    input.focus();
+                }
+        });
+   };
+
     // enables itemsearch typeahead if the selected timerange makes sense.
-    var enableItemSearch = function (handler) {
+    var enableSeriesItemSearch = function (handler) {
         var formGroup = handler.parents(".object-date-search"); // yeah, more searches on one page!
-        console.log(formGroup);
         var eventId = formGroup.data('event-id');
         var searchfield = $(formGroup.find(".orb_series_event_form_inventory_search"));
         var roomSearchField = $(formGroup.find(".orb_series_event_form_room_search"));
@@ -42,7 +69,7 @@ jQuery(document).ready(function ($) {
                 name:       'rent-sets',
                 valueKey:   'displayName',
                 remote: { url: oktolab.typeahead.eventSetRemoteUrl + '/'+begin+'/'+end },
-                prefetch: { url: oktolab.typeahead.eventSetPrefetchUrl + '/'+begin+'/'+end, ttl: 0 },
+                prefetch: { url: oktolab.typeahead.eventSetPrefetchUrl + '/'+begin+'/'+end, ttl:0 },
                 template: [
                     '<span class="aui-icon aui-icon-small aui-iconfont-devtools-file">Object</span>',
                     '<p class="tt-object-name">{{displayName}}</p>',
@@ -76,6 +103,10 @@ jQuery(document).ready(function ($) {
                 header: '<h3>Räume</h3>',
                 engine: Hogan
             }]);
+
+            //enable Scanner
+            enableSeriesBarcodeScanner(searchfield);
+            enableSeriesBarcodeScanner(roomSearchField);
         } else {
             roomSearchField.prop('disabled', true);
             searchfield.prop('disabled', true);
@@ -84,7 +115,11 @@ jQuery(document).ready(function ($) {
 
     // adds a typeahead datum to the tablerow in e
     var addSeriesObjectToTable = function(e, datum) {
-        var formGroup = $(e.currentTarget).parents(".object-date-search");
+        if (e.currentTarget == undefined) {
+            var formGroup = e.parents(".object-date-search");
+        } else {
+            var formGroup = $(e.currentTarget).parents(".object-date-search");
+        }
         var table = formGroup.find('.event-objects');
         var prototype = table.data('prototype');
 
@@ -99,7 +134,7 @@ jQuery(document).ready(function ($) {
         }
     };
 
-    var itemDatumForValue = function(e, item) {
+    var setItemDatumForValue = function(e, item) {
         var typeaheadSearch = $(e.currentTarget);
         var datum;
         $.each(typeaheadSearch.data().ttView.datasets, function(datasetKey, dataset) {
@@ -111,6 +146,18 @@ jQuery(document).ready(function ($) {
         });
         return datum;
     };
+
+        var setDatumForBarcode = function(input) {
+        var datum;
+        $.each(input.data().ttView.datasets, function (datasetKey, dataset) {
+            $.each(dataset.itemHash, function (itemKey, itemHash) {
+                if (input.val() === itemHash.datum.barcode) {
+                    datum = itemHash.datum;
+                }
+            });
+        });
+        return datum;
+   };
 
     // make a input field into a typeahead search for costunits
     $('.orb_series_costunit_typeahead').typeahead({
@@ -171,12 +218,12 @@ jQuery(document).ready(function ($) {
             "closeOnSelected": true,
             "autodateOnStart": false,
             "current": currentStamp,//"2014-03-27 17:30",
-            "onHide": function(handler){ enableItemSearch(handler); }
+            "onHide": function(handler){ enableSeriesItemSearch(handler); }
         });
         if (currentStamp != "NaN-NaN-NaN NaN:NaN") {
             input.val(currentStamp);
         }
-        enableItemSearch(input);
+        enableSeriesItemSearch(input);
     });
 
     // enable contact selectbox depending on selected costunit
@@ -207,7 +254,7 @@ jQuery(document).ready(function ($) {
         addSeriesObjectToTable(e, datum);
         if ('set' == datum.type) { // todo: add setitems!
             $.each(datum.items, function(key, itemValue) {
-                var itemDatum = itemDatumForValue(e, itemValue);
+                var itemDatum = setItemDatumForValue(e, itemValue);
                 addSeriesObjectToTable(e, itemDatum);
             });
         }

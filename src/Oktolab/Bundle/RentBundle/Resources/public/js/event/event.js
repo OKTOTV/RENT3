@@ -4,6 +4,107 @@
 // with datetimepickers, typeahead and item list handling
 jQuery(document).ready(function ($) {
 
+$(window).keydown(function(event){
+    if(event.keyCode == 13) {
+      event.preventDefault();
+      return false;
+    }
+});
+
+// adds a typeahead datum to the tablerow in e
+    var addObjectToTable = function(e, datum) {
+        if (e.currentTarget == undefined) {
+            var formGroup = e.parents(".object-date-search");
+        } else {
+            var formGroup = $(e.currentTarget).parents(".object-date-search");
+        }
+        var table = formGroup.find('.event-objects');
+        var prototype = table.data('prototype');
+
+        var tr = table.find('tr[data-value="' + datum.value + '"]');
+        if (0 === tr.length) { //item is not in table yet. add it!
+            var index    = table.data('index');
+            var template = Hogan.compile(prototype);
+            var tablerow = template.render($.extend(datum, {'index': index +1}));
+
+            table.data('index', index +1);
+            table.append(tablerow);
+        }
+    };
+
+    var datumForValue = function(e, item) {
+        var datum;
+        $.each(e.data().ttView.datasets, function(datasetKey, dataset) {
+           $.each(dataset.itemHash, function (itemKey, itemHash) {
+              if (item === itemHash.datum.value) {
+                  datum = itemHash.datum;
+              }
+           });
+        });
+        return datum;
+    };
+
+    //===================== Barcode Scanning ========================
+    var datumForBarcode = function(input) {
+        var datum;
+        $.each(input.data().ttView.datasets, function (datasetKey, dataset) {
+            $.each(dataset.itemHash, function (itemKey, itemHash) {
+                if (input.val() === itemHash.datum.barcode) {
+                    datum = itemHash.datum;
+                }
+            });
+        });
+        return datum;
+   };
+
+    $('.scan-search').each(function(index, input) {
+        var input = $(input);
+        input.keyup(function (e) {
+            var keyCode = e.which || e.keyCode;
+            // block keys: *, /, -, +, ... from numpad (barcode scanner ...)
+            if ((keyCode >= 106 && keyCode <= 111) || keyCode === 16 || keyCode === 17 || keyCode === 18) {
+                e.preventDefault();
+                return;
+            }
+
+            if ((keyCode === 13 && e.ctrlKey == true) || (keyCode === 74 && e.ctrlKey == true) || keyCode === 9) {
+                e.preventDefault();
+                var datum = datumForBarcode(input);
+                if ('undefined' !== typeof(datum)) {
+                    addObjectToTable(input, datum);
+                    if ('set' == datum.type) { // add setitems!
+                        $.each(datum.items, function(key, itemValue) {
+                            var itemDatum = datumForValue(e, itemValue);
+                            addObjectToTable(e, itemDatum);
+                        });
+                    }
+                    input.typeahead('setQuery', '');
+                }
+                input.focus();
+            }
+        });
+   });
+
+    $('.scan-search-edit').submit(function(e) {
+         return false;
+    });
+   //==================================================================
+   
+   // enable the rent button if everything is scanned
+   var enableRent = function (tablerows) {
+        var allScanned = true;
+        $.each(tablerows, function(key, row) {
+            if ($(row).find('.scan-icon').hasClass( "aui-iconfont-approve" )) {
+                allScanned = false;
+            }
+        });
+        if (allScanned) {
+            $('.event-rent').prop('disabled', false);
+        } else {
+            $('.event-rent').prop('disabled', true);
+        }
+   };
+
     // disable the contact selectbox to prevent searching for contact before searching for costunit.
     $('.orb_event_contact').prop('disabled', true);
 
@@ -42,6 +143,7 @@ jQuery(document).ready(function ($) {
                 name:       'rent-sets',
                 valueKey:   'displayName',
                 remote: { url: oktolab.typeahead.eventSetRemoteUrl + '/'+begin+'/'+end },
+                prefetch: { url: oktolab.typeahead.eventSetPrefetchUrl + '/'+begin+'/'+end, ttl:0 },
                 template: [
                     '<span class="aui-icon aui-icon-small aui-iconfont-devtools-file">Object</span>',
                     '<p class="tt-object-name">{{displayName}}</p>',
@@ -77,40 +179,14 @@ jQuery(document).ready(function ($) {
                 header: '<h3>Räume</h3>',
                 engine: Hogan
             }]);
+
+            //enable Scanner
+            // enableBarcodeScanner(searchfield);
+            // enableBarcodeScanner(roomSearchField);
         } else {
             roomSearchField.prop('disabled', true);
             searchfield.prop('disabled', true);
         }
-    };
-
-    // adds a typeahead datum to the tablerow in e
-    var addObjectToTable = function(e, datum) {
-        var formGroup = $(e.currentTarget).parents(".object-date-search");
-        var table = formGroup.find('.event-objects');
-        var prototype = table.data('prototype');
-
-        var tr = table.find('tr[data-value="' + datum.value + '"]');
-        if (0 === tr.length) { //item is not in table yet. add it!
-            var index    = table.data('index');
-            var template = Hogan.compile(prototype);
-            var tablerow = template.render($.extend(datum, {'index': index +1}));
-
-            table.data('index', index +1);
-            table.append(tablerow);
-        }
-    };
-
-    var itemDatumForValue = function(e, item) {
-        var typeaheadSearch = $(e.currentTarget);
-        var datum;
-        $.each(typeaheadSearch.data().ttView.datasets, function(datasetKey, dataset) {
-           $.each(dataset.itemHash, function (itemKey, itemHash) {
-              if (item === itemHash.datum.value) {
-                  datum = itemHash.datum;
-              }
-           });
-        });
-        return datum;
     };
 
     // make a input field into a typeahead search for costunits
@@ -213,7 +289,7 @@ jQuery(document).ready(function ($) {
 
         // set the costunit to the hidden selectbox
         costunitSelectBox.val(datum.id);
-        // clear options
+        // clear all options
         contactSelectBox.empty();
 
         // get the contacts of the selected costunit and set them as options
@@ -223,7 +299,6 @@ jQuery(document).ready(function ($) {
                 contactSelectBox.append($('<option />').val(contact.id).text(contact.name));
             });
         });
-
         // enable the contact selectbox
         contactSelectBox.prop('disabled', false);
     });
@@ -231,9 +306,9 @@ jQuery(document).ready(function ($) {
     // add event object to tablerow next to the searchfield, so the form gets the selected items
     $('.orb_event_form_inventory_search').on('typeahead:selected', function(e, datum) {
         addObjectToTable(e, datum);
-        if ('set' == datum.type) { // todo: add setitems!
+        if ('set' == datum.type) { // add setitems!
             $.each(datum.items, function(key, itemValue) {
-                var itemDatum = itemDatumForValue(e, itemValue);
+                var itemDatum = datumForValue($(e.currentTarget), itemValue);
                 addObjectToTable(e, itemDatum);
             });
         }
@@ -250,4 +325,11 @@ jQuery(document).ready(function ($) {
         e.preventDefault();
         $(e.currentTarget).closest('tr').remove();
     });
+
+   // enable scanning of event objects
+   $('.aui-oktolab-form-table').on('click', 'a.scan', function (e) {
+        e.preventDefault();
+        $(e.currentTarget).find('.aui-icon').removeClass('aui-iconfont-approve').addClass('aui-icon-success');
+        enableRent($(e.currentTarget).closest('table tr'));
+   });
 });

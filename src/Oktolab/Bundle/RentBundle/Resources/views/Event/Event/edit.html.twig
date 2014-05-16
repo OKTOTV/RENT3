@@ -71,7 +71,7 @@
                     {{ form_row(form.end, {'attr': {'class': 'text event-datetime orb_event_form_event_end'}}) }}
                     <div class="field-group">
                         <label for="inventory-search-field">{{ 'generic.search'|trans }}</label>
-                        <input class="text {% if type == 'inventory'%}orb_event_form_inventory_search{% else %}orb_event_form_room_search{% endif%}" type="text" id="inventory-search-field" name="inventory-search-field" title="{{ 'Search for Barcodes, Items, Sets, ...'|trans }}" disabled="disabled" />
+                        <input class="text scan-search {% if type == 'inventory'%}orb_event_form_inventory_search{% else %}orb_event_form_room_search{% endif%}" type="text" id="inventory-search-field" name="inventory-search-field" disabled="disabled" />
                         <div class="description">{% if type == 'inventory' %}{{'event.inventory.search'|trans}}{% else %}{{'event.room.search'|trans}}{% endif %}</div>
                     </div>
 
@@ -85,7 +85,7 @@
                                     <th id="basic-action"><span class="aui-icon aui-icon-small aui-iconfont-configure">{{ 'Actions'|trans }}</span></th>
                                 </tr>
                             </thead>
-                            <tbody id="inventory-event-objects" class="event-objects" data-index="{{objects|length}}" data-prototype="{% filter escape %}{% include 'OktolabRentBundle:Event:eventObjectPrototype.html.twig' %}{% endfilter %}">
+                            <tbody id="inventory-event-objects" class="event-objects" data-index="{{objects|length}}" data-prototype="{% filter escape %}{% include 'OktolabRentBundle:Event:eventObjectPrototypeScan.html.twig' %}{% endfilter %}">
                                 {% for object in objects if objects %}
                                 {% set formobject = form.objects[loop.index0] %}
                                 {% set objective = '%s:%s'|format(object.type, object.id) %}
@@ -95,6 +95,9 @@
                                         <td class="event-object-icons">
                                             <a href="#" class="remove" data-value="{{ objective }} ">
                                                 <span class="aui-icon aui-icon-small aui-iconfont-remove">{{ 'Remove'|trans }}</span>
+                                            </a>
+                                            <a href="#" class="scan" data-value="{{ '{{value}}'}}">
+                                                <span class="scan-icon aui-icon aui-icon-small aui-iconfont-approve">{{ 'Scan'|trans }}</span>
                                             </a>
                                         </td>
                                         <td class="hidden">{{ form_row(formobject, { 'attr': { 'data-value': objective } }) }}</td>
@@ -110,7 +113,7 @@
                 <div class="buttons">
 
                     {% if form.vars.value.state == 1 or form.vars.value.state == 0 %} {# event is reserved, can be lent#}
-                        {{ form_widget(form.rent, {'attr': { 'class': 'aui-button aui-button-primary'}, 'label': 'event.rent'|trans }) }}
+                        {{ form_widget(form.rent, {'attr': { 'class': 'aui-button aui-button-primary event-rent', 'disabled':'disabled'}, 'label': 'event.rent'|trans }) }}
                         {{ form_widget(form.update, {'attr': { 'class': 'aui-button' }, 'label': 'event.update'|trans }) }}
                     {% elseif form.vars.value.state == 2 %} {# event is lent, can be taken back #}
                         {{ form_widget(form.rent, {'attr': { 'class': 'aui-button aui-button-primary'}, 'label': 'event.deliver'|trans }) }}
