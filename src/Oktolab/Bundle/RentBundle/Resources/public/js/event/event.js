@@ -4,12 +4,7 @@
 // with datetimepickers, typeahead and item list handling
 jQuery(document).ready(function ($) {
 
-$(window).keydown(function(event){
-    if(event.keyCode == 13) {
-      event.preventDefault();
-      return false;
-    }
-});
+$('input,select').keypress(function(event) { return event.keyCode != 13; });
 
 // adds a typeahead datum to the tablerow in e
     var addObjectToTable = function(e, datum) {
