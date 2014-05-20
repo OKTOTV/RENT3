@@ -266,10 +266,4 @@ jQuery(document).ready(function ($) {
 
     // disable the contact selectbox to prevent searching for contact before searching for costunit.
     $('.orb_series_event_form_contact').prop('disabled', true);
-
-    // enables removing of event objects
-   $('.aui-oktolab-form-table').on('click', 'a.remove', function (e) {
-        e.preventDefault();
-        $(e.currentTarget).closest('tr').remove();
-    });
 });

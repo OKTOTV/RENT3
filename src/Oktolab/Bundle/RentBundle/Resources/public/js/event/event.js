@@ -4,12 +4,29 @@
 // with datetimepickers, typeahead, barcode scanning and item list handling
 jQuery(document).ready(function ($) {
 
-// adds a typeahead datum to the tablerow in e
-    var addObjectToTable = function(e, datum) {
-        if (e.currentTarget == undefined) {
-            var formGroup = e.parents(".object-date-search");
+// enable the rent button if everything is scanned
+    var enableRent = function (table) {
+        var allScanned = true;
+        var tablerows = table.find('tr');
+        $.each(tablerows, function(key, row) {
+            if ($(row).find('input.scanner').val() == 0) {
+                allScanned = false;
+            }
+        });
+        if (allScanned) {
+            $('.event-rent').prop('disabled', false);
         } else {
-            var formGroup = $(e.currentTarget).parents(".object-date-search");
+            $('.event-rent').prop('disabled', true);
+        }
+    };
+
+    // adds a typeahead datum to the tablerow in e
+    var addObjectToTable = function(e, datum) {
+        var formGroup;
+        if (e.currentTarget == undefined) {
+            formGroup = e.parents(".object-date-search");
+        } else {
+            formGroup = $(e.currentTarget).parents(".object-date-search");
         }
         var table = formGroup.find('.event-objects');
         var prototype = table.data('prototype');
@@ -22,8 +39,30 @@ jQuery(document).ready(function ($) {
 
             table.data('index', index +1);
             table.append(tablerow);
+            enableRent(formGroup.find('table'));
+        } else {
+            //todo: scan the item (green)
         }
     };
+
+    // disable the contact selectbox to prevent searching for contact before searching for costunit.
+    $('.orb_event_contact').prop('disabled', true);
+
+    // enables removing of event objects
+    $('.aui-oktolab-form-table').on('click', 'a.remove', function (e) {
+        e.preventDefault();
+        $(e.currentTarget).closest('tr').remove();
+        enableRent($(e.currentTarget).closest('table'));
+    });
+
+   // enable scanning of event objects
+   $('.aui-oktolab-form-table').on('click', 'a.scan', function (e) {
+        e.preventDefault();
+        $(e.currentTarget).find('.aui-icon').removeClass('aui-iconfont-approve').addClass('aui-icon-success');
+        $(e.currentTarget).closest('tr').find('input.scanner').val('1');
+        enableRent($(e.currentTarget).closest('table'));
+   });
+
 
     var datumForValue = function(e, item) {
         var datum;
@@ -78,22 +117,6 @@ jQuery(document).ready(function ($) {
         });
    });
    //==================================================================
-   
-   // enable the rent button if everything is scanned
-   var enableRent = function (table) {
-        var allScanned = true;
-        var tablerows = table.find('tr');
-        $.each(tablerows, function(key, row) {
-            if ($(row).find('input.scanner').val() == 0) {
-                allScanned = false;
-            }
-        });
-        if (allScanned) {
-            $('.event-rent').prop('disabled', false);
-        } else {
-            $('.event-rent').prop('disabled', true);
-        }
-   };
 
     // enables itemsearch typeahead if the selected timerange makes sense.
     var enableItemSearch = function (handler) {
@@ -302,12 +325,4 @@ jQuery(document).ready(function ($) {
         addObjectToTable(e, datum);
         $(e.currentTarget).typeahead('setQuery', '');
     });
-
-   // enable scanning of event objects
-   $('.aui-oktolab-form-table').on('click', 'a.scan', function (e) {
-        e.preventDefault();
-        $(e.currentTarget).find('.aui-icon').removeClass('aui-iconfont-approve').addClass('aui-icon-success');
-        $(e.currentTarget).closest('tr').find('input.scanner').val('1');
-        enableRent($(e.currentTarget).closest('table'));
-   });
 });
