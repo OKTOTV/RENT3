@@ -107,8 +107,10 @@ class SetController extends Controller
     {
         $events = array();
         $eventObjects = $this->getDoctrine()->getManager()->getRepository('OktolabRentBundle:eventObject')->findBy(array('object' => $set->getId(), 'type' => $set->getType()));
-        foreach ($eventObjects as $eventObject) {
-            $events[] = $eventObject->getEvent();
+        if ($eventObjects) {
+            foreach ($eventObjects as $eventObject) {
+                $events[] = $eventObject->getEvent();
+            }
         }
 
         return array('set' => $set, 'events' => array_reverse($events));
