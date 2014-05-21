@@ -112,8 +112,10 @@ class ItemController extends Controller
     {
         $events = array();
         $eventObjects = $this->getDoctrine()->getManager()->getRepository('OktolabRentBundle:EventObject')->findBy(array('object'=> $item->getId(), 'type' => $item->getType()));
-        foreach ($eventObjects as $eventObject) {
-            $events[] = $eventObject->getEvent();
+        if ($eventObjects) {
+            foreach ($eventObjects as $eventObject) {
+                $events[] = $eventObject->getEvent();
+            }
         }
         return array('item' => $item, 'events' => array_reverse($events));
     }
