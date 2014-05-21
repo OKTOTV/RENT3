@@ -45,7 +45,7 @@ class EventController extends Controller
 
             //$this->logAction('Event created', array('event' => $event->getId()));
             $this->get('oktolab.event_manager')->save($event);
-
+            $this->get('session')->getFlashBag()->add('success', 'event.create_success');
             return $this->redirect($this->generateUrl('rentbundle_dashboard'));
         }
 
@@ -163,7 +163,7 @@ class EventController extends Controller
      * @Configuration\Method("POST")
      * @Configuration\Route("/event/{id}/rent", name="event_rent")
      * @Configuration\ParamConverter("event", class="OktolabRentBundle:Event")
-     *
+     * 
      * @param \Symfony\Component\HttpFoundation\Request $request
      * @param \Oktolab\Bundle\RentBundle\Entity\Event   $event
      *
@@ -184,7 +184,6 @@ class EventController extends Controller
         $form->handleRequest($request);
         if ($form->isValid()) {
 
-            $this->get('session')->getFlashBag()->add('success', 'event.rent_success');
             $event->setState(Event::STATE_LENT);
 
             $em = $this->getDoctrine()->getManager();
@@ -194,6 +193,7 @@ class EventController extends Controller
             }
             $em->flush();
 
+            $this->get('session')->getFlashBag()->add('success', 'event.rent_success');
             return $this->redirect($this->generateUrl('rentbundle_dashboard'));
         }
 

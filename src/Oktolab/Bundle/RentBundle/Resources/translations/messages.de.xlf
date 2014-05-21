@@ -1323,6 +1323,10 @@
                 <source>event.event_time</source>
                 <target>Zeitraum</target>
             </trans-unit>
+            <trans-unit id="1233">
+                <source>event.create_success</source>
+                <target>Buchung erfolgreich reserviert</target>
+            </trans-unit>
 
             <trans-unit id="1300">
                 <source>admin.setting.settings</source>
