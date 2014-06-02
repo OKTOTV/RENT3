@@ -589,6 +589,10 @@
                 <source>set.message.changesuccessful</source>
                 <target>Set erfolgreich geändert</target>
             </trans-unit>
+            <trans-unit id="225">
+                <source>inventory.set.zeroBookings</source>
+                <target>Bisher keine Buchungen</target>
+            </trans-unit>
 
             <trans-unit id="300">
                 <source>inventory.places</source>
