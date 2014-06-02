@@ -91,6 +91,19 @@ jQuery(document).ready(function ($) {
 
     $('.scan-search').each(function(index, input) {
         var input = $(input);
+
+        // prevent "Enter" or Post of Form.
+        input.keydown(function (e) {
+            var keyCode = e.which || e.keyCode;
+
+            if (keyCode === 13 ||                       // ENTER
+                keyCode === 9 ||                        // TAB
+                (keyCode === 74 && e.ctrlKey == true)   // LF (Barcode Scanner)
+            ) {
+                e.preventDefault();
+            }
+        });
+
         input.keyup(function (e) {
             var keyCode = e.which || e.keyCode;
             // block keys: *, /, -, +, ... from numpad (barcode scanner ...)
@@ -106,7 +119,7 @@ jQuery(document).ready(function ($) {
                     addObjectToTable(input, datum);
                     if ('set' == datum.type) { // add setitems!
                         $.each(datum.items, function(key, itemValue) {
-                            var itemDatum = datumForValue(e, itemValue);
+                            var itemDatum = datumForValue(input, itemValue);
                             addObjectToTable(e, itemDatum);
                         });
                     }
