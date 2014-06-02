@@ -96,7 +96,7 @@ class RentSheetPdfCreator
     protected function addTable(Event $event)
     {
         $objects = $this->eventManager->convertEventObjectsToEntites($event->getObjects());
-
+        $this->addBlock($event->getDescription(), 'p');
         $this->openTag('table');
         $this->openTag('thead');
         $this->openTag('tr');
