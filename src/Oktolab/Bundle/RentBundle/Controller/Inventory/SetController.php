@@ -106,7 +106,7 @@ class SetController extends Controller
     public function showAction(Set $set)
     {
         $events = array();
-        $eventObjects = $this->getDoctrine()->getManager()->getRepository('OktolabRentBundle:eventObject')->findBy(array('object' => $set->getId(), 'type' => $set->getType()));
+        $eventObjects = $this->getDoctrine()->getManager()->getRepository('OktolabRentBundle:EventObject')->findBy(array('object' => $set->getId(), 'type' => $set->getType()));
         if ($eventObjects) {
             foreach ($eventObjects as $eventObject) {
                 $events[] = $eventObject->getEvent();

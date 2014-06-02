@@ -585,6 +585,10 @@
                 <source>inventory.set.not_available</source>
                 <target>Nicht Verfügbar</target>
             </trans-unit>
+            <trans-unit id="224">
+                <source>set.message.changesuccessful</source>
+                <target>Set erfolgreich geändert</target>
+            </trans-unit>
 
             <trans-unit id="300">
                 <source>inventory.places</source>
