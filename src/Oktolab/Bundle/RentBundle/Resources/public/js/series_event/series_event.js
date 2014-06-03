@@ -24,7 +24,7 @@ jQuery(document).ready(function ($) {
                         addSeriesObjectToTable(input, datum);
                         if ('set' == datum.type) { // add setitems!
                             $.each(datum.items, function(key, itemValue) {
-                                var itemDatum = setItemDatumForValue(e, itemValue);
+                                var itemDatum = setItemDatumForValue(input, itemValue);
                                 addSeriesObjectToTable(e, itemDatum);
                             });
                         }
