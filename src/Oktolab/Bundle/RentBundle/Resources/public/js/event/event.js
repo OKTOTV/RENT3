@@ -48,7 +48,6 @@ jQuery(document).ready(function ($) {
             enableRent(formGroup.find('table'));
         } else {
             //todo: scan the item (green)
-            console.log(make tick green!);
             checkTick(tr);
         }
     };
