@@ -27,6 +27,7 @@ twig:
     globals:
       rent_documentation_url:  %rent_documentation_url%
       project_name:             "Oktolab RENT 3.7.4"
+      hub_redirect_url: %oktolab.hub_redirect_url%
     form:
       resources:
         - 'OktolabRentBundle:Form:fields.html.twig'

@@ -9,7 +9,7 @@
     <fieldset>
         <div class="field-group viewMode">
             <label>{{ 'admin.contact.name' | trans }}</label>
-            <span class="field-value">{{ contact.name }}</span>
+            <span class="field-value"><a href="{{ hub_redirect_url ~ contact.guid }}">{{ contact.name }}</a></span>
         </div>
         <div class="field-group viewMode aui-oktolab-form-table">
             <label>{{ 'admin.contact.costunits' | trans }}</label>
