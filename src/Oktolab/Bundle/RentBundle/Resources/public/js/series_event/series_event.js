@@ -9,6 +9,7 @@ jQuery(document).ready(function ($) {
 
     //===================== Barcode Scanning ========================
    var enableSeriesBarcodeScanner = function(input) {
+
         input.keyup(function (e) {
             var keyCode = e.which || e.keyCode;
                 // block keys: *, /, -, +, ... from numpad (barcode scanner ...)

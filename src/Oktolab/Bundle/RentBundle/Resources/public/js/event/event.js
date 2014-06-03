@@ -20,6 +20,12 @@ jQuery(document).ready(function ($) {
         }
     };
 
+    // makes the tick green and sets the scanner value true.
+    var checkTick = function (tablerow) {
+        tablerow.find('.aui-iconfont-approve').removeClass('aui-iconfont-approve').addClass('aui-icon-success');
+        tablerow.find('input.scanner').val('1');
+    };
+
     // adds a typeahead datum to the tablerow in e
     var addObjectToTable = function(e, datum) {
         var formGroup;
@@ -42,6 +48,8 @@ jQuery(document).ready(function ($) {
             enableRent(formGroup.find('table'));
         } else {
             //todo: scan the item (green)
+            console.log(make tick green!);
+            checkTick(tr);
         }
     };
 
@@ -58,8 +66,7 @@ jQuery(document).ready(function ($) {
    // enable scanning of event objects
    $('.aui-oktolab-form-table').on('click', 'a.scan', function (e) {
         e.preventDefault();
-        $(e.currentTarget).find('.aui-icon').removeClass('aui-iconfont-approve').addClass('aui-icon-success');
-        $(e.currentTarget).closest('tr').find('input.scanner').val('1');
+        checkTick($(e.currentTarget).closest('tr')); 
         enableRent($(e.currentTarget).closest('table'));
    });
 
