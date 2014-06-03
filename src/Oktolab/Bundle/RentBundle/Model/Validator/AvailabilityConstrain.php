@@ -11,7 +11,7 @@ use Symfony\Component\Validator\Constraint;
  */
 class AvailabilityConstrain extends Constraint
 {
-    public $message = "The Object %string% is not available for the given eventtimerange.";
+    public $message = "event.object_unavailable_in_timerange";//"The Object %string% is not available for the given eventtimerange.";
     public $beginOutatime = "event.begin_outatime";
     public $endOutatime = "event.end_outatime";
 
