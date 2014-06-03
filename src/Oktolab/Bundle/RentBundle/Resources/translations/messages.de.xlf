@@ -492,6 +492,22 @@
                 <source>inventory.item.active</source>
                 <target>Verfügbar</target>
             </trans-unit>
+            <trans-unit id="146">
+                <source>inventory.item.show_inactive</source>
+                <target>Inaktive Gegenstände</target>
+            </trans-unit>
+            <trans-unit id="147">
+                <source>inventory.show_all_items</source>
+                <target>Alle Gegenstände</target>
+            </trans-unit>
+            <trans-unit id="148">
+                <source>inventory.no_inactive_items</source>
+                <target>Keine inaktiven Gegenstände vorhanden</target>
+            </trans-unit>
+            <trans-unit id="149">
+                <source>inventory.inactive_items</source>
+                <target>Inaktive Gegenstände</target>
+            </trans-unit>
 
             <trans-unit id="201">
                 <source>inventory.set.removeFromSet</source>

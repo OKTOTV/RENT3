@@ -51,6 +51,22 @@ class ItemController extends Controller
     }
 
     /**
+     * Lists all inactive Items
+     *
+     * @Configuration\Method("GET")
+     * @Configuration\Route("s/inactive", name="inventory_item_inactive")
+     * @Configuration\Template()
+     * 
+     * @return array item entities
+     */
+    public function inactiveAction()
+    {
+        $items = $this->getDoctrine()->getManager()->getRepository('OktolabRentBundle:Inventory\Item')->findBy(array('active' => false), array('updated_at' => 'ASC'));
+
+        return array('items' => $items);
+    }
+
+    /**
      * Creates a new Inventory\Item entity.
      *
      * @Configuration\Method("POST")

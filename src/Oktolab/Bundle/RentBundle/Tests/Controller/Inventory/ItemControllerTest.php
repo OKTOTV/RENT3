@@ -329,4 +329,33 @@ class ItemControllerTest extends WebTestCase
         $this->assertEquals(1, count($qmsTable->filter('tr > td:contains("In Ordnung")')), 'The Qms State should be STATE_OKAY.');
         $this->assertEquals(1, count($qmsTable->filter('tr > td:contains("Interner Status")')), 'The Qms Cost Unit should be Interner Status.');
     }
+
+    /**
+     * @test
+     */
+    public function testInactiveIndexEmpty()
+    {
+        $this->loadFixtures(array('\Oktolab\Bundle\RentBundle\Tests\DataFixtures\ORM\Event\EventTypeFixture'));
+        $crawler = $this->client->request('GET', '/inventory/items/inactive');
+        $this->assertTrue($this->client->getResponse()->isSuccessful(), 'Response should be successful');
+        $this->assertEquals(1, count($crawler->filter('body:contains("Keine inaktiven Gegenstände vorhanden")')));
+
+        $this->loadFixtures(array());
+    }
+
+    /**
+     * @test
+     */
+    public function testInactiveIndex()
+    {
+        $this->loadFixtures(array(
+            '\Oktolab\Bundle\RentBundle\Tests\DataFixtures\ORM\Event\EventTypeFixture',
+            '\Oktolab\Bundle\RentBundle\Tests\DataFixtures\ORM\ItemInactiveFixture'
+            )
+        );
+
+        $crawler = $this->client->request('GET', '/inventory/items/inactive');
+        $this->assertTrue($this->client->getResponse()->isSuccessful(), 'Response should be successful');
+        $this->assertEquals(0, count($crawler->filter('body:contains("Keine inaktiven Gegenstände vorhanden")')));
+    }
 }
