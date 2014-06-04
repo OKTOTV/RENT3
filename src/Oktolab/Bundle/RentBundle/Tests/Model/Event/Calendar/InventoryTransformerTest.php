@@ -61,6 +61,8 @@ class InventoryTransformerTest extends \PHPUnit_Framework_TestCase
                 'objective' => sprintf('%s:%d', $item->getType(), $item->getId()),
                 'id'        => $item->getId(),
                 'title'     => $item->getTitle(),
+                'url' => 'inventory/item/'.$item->getId(),
+                'active' => true
             ))
         ));
 
@@ -85,6 +87,8 @@ class InventoryTransformerTest extends \PHPUnit_Framework_TestCase
                 'objective' => sprintf('%s:%d', $set->getType(), $set->getId()),
                 'id'        => $set->getId(),
                 'title'     => $set->getTitle(),
+                'url'       => 'inventory/set/'.$set->getId(),
+                'active'    => true
             ))
         ));
 
@@ -117,6 +121,8 @@ class InventoryTransformerTest extends \PHPUnit_Framework_TestCase
                     'objective' => sprintf('%s:%d', $item->getType(), $item->getId()),
                     'id'        => $item->getId(),
                     'title'     => $item->getTitle(),
+                    'url'       => 'inventory/item/'.$item->getId(),
+                    'active'    => true
             ))))
         );
 

@@ -44,9 +44,9 @@ class InventoryTransformer
      */
     public function getTransformedInventory($sets = false)
     {
-        // if ($this->cache->contains(self::CACHE_ID)) {
-        //     return $this->cache->fetch(self::CACHE_ID);
-        // }
+        if ($this->cache->contains(self::CACHE_ID)) {
+            return $this->cache->fetch(self::CACHE_ID);
+        }
 
         $aggregatedObjectives = $this->aggregator->getInventory($sets);
         $inventory = array();
