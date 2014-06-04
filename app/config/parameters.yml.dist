@@ -20,3 +20,4 @@ parameters:
     oktolab.hub_api_auth_url:       "http://verzeichnis.okto.tv/interface.php/api/auth"
     oktolab.hub_fetch_url:          "http://verzeichnis.okto.tv/interface.php/api/fetchdata"
     oktolab.flow_api_costunit_url:  "http://programm.okto.tv/interface.php/series/search.xml?search=*"
+    oktolab.hub_redirect_url: 'http://localhost/hubTIDE/web/frontend.php/redirecttoid?id='

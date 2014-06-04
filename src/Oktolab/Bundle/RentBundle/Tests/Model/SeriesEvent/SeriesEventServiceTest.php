@@ -5,7 +5,7 @@ namespace Oktolab\Bundle\RentBundle\Tests\Model;
 use Oktolab\Bundle\RentBundle\Model\SeriesEvent\SeriesEventService;
 use Oktolab\Bundle\RentBundle\Entity\SeriesEvent;
 use Oktolab\Bundle\RentBundle\Entity\EventType;
-use Oktolab\Bundle\RentBundle\Entity\CostUnit;
+use Oktolab\Bundle\RentBundle\Entity\CostUnit as Costunit;
 use Oktolab\Bundle\RentBundle\Entity\EventObject;
 
 /**
@@ -30,7 +30,7 @@ class SeriesEventServiceTest extends \PHPUnit_Framework_TestCase
 
         $SUT = new SeriesEventService($managerMock);
 
-        $costunit = new CostUnit();
+        $costunit = new Costunit();
         $costunit->setName('mock testunit');
 
         $event_object = new EventObject();
