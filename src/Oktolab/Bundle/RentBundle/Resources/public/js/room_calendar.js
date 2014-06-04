@@ -142,7 +142,12 @@
                 var list = $('<ul />').appendTo(group);
 
                 $.each(item.objectives, function (key, objective) {
-                    var object = $('<a />', { href: '#', id: objective.objective }).text(objective.title);
+                    var object = '<a href="'+objective.url+'" id="'+objective.objective+'">'+ objective.title+'</a>';
+                    if (!objective.active) {
+                        object = "<a href="+objective.url+" id="+objective.objective+"><span class='aui-lozenge aui-lozenge-error'>"+objective.title+"</span></a>";
+                        console.log(object);
+                    }
+                    object = $(object);
                     Calendar.data.items[objective.objective.toLowerCase()] = object;
                     $('<li />').append(object).appendTo(list);
                 });
