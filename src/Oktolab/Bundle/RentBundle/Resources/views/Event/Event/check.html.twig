@@ -36,7 +36,9 @@
                             {% else %}
                             <span class="field-value"><ul>
                                 {% for old_qms in qms.vars.value.item.qmss %}
-                                    <li>{{ old_qms.description }}</li>
+                                    {% if old_qms.active and old_qms.status > 1 %}
+                                        <li>{{ old_qms.description }}</li>
+                                    {% endif %}
                                 {% endfor%}
                                 </ul></span>
                             {% endif %}
