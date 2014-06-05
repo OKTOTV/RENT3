@@ -69,7 +69,7 @@ class InventoryTransformer
             $inventory[] = $objective;
         }
 
-        $this->cache->save(self::CACHE_ID, $inventory, 86400);
+        $this->cache->save(self::CACHE_ID, $inventory, 3600);
 
         return $inventory;
     }

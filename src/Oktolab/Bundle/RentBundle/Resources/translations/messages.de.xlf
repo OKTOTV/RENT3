@@ -1417,6 +1417,14 @@
                 <source>admin.setting.noAdditionalText</source>
                 <target>Kein Zusatztext angegeben.</target>
             </trans-unit>
+            <trans-unit id="1310">
+                <source>calendar.sorting.item</source>
+                <target>Gegenstände ohne Kategorie</target>
+            </trans-unit>
+            <trans-unit id="1311">
+                <source>admin.sorting_withoutCat</source>
+                <target>Kategorielos</target>
+            </trans-unit>
 
             <trans-unit id="1400">
                 <source>qms.okay</source>

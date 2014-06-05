@@ -26,7 +26,21 @@ class CalendarSortingController extends Controller
     public function indexAction()
     {
         $inventoryByCalendar = $this->get('oktolab.event_calendar_inventory_aggregator')->getCategories();
-        return array('categories' => $inventoryByCalendar);
+        $itemsWithoutCat = $this->getDoctrine()->getManager()->getRepository('OktolabRentBundle:Inventory\Item')->findBy(array('category' => null), array('sortnumber' => 'ASC'));
+        return array('categories' => $inventoryByCalendar, 'itemsWithoutCat' => $itemsWithoutCat);
+    }
+
+    /**
+     * Lists all Inventory\Place entities.
+     *
+     * @Configuration\Route("/item", name="orb_calendar_sorting_item")
+     * @Configuration\Method("GET")
+     * @Configuration\Template()
+     */
+    public function itemAction()
+    {
+        $itemsWithoutCat = $this->getDoctrine()->getManager()->getRepository('OktolabRentBundle:Inventory\Item')->findBy(array('category' => null), array('sortnumber' => 'ASC'));
+        return array('itemsWithoutCat' => $itemsWithoutCat);
     }
 
     /**
