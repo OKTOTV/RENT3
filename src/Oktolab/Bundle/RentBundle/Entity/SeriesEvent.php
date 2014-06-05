@@ -305,6 +305,9 @@ class SeriesEvent
      */
     public function isSeriesTimerangeOkay()
     {
+        if (!$this->getEventEnd() || !$this->getEventBegin()) {
+            return false;
+        }
         //maximum amount of seconds for a single event in the repetition
         $repetitionrange = $this->getRepetition() * 24 * 3600;
         //amount of seconds for a single event

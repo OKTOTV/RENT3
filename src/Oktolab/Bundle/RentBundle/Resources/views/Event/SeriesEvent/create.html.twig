@@ -19,20 +19,20 @@
                 <input type="text" class="text orb_series_costunit_typeahead">
                 {{ form_errors(form.costunit) }}
             </div>
-            {{ form_row(form.contact) }}
+            {{ form_row(form.contact, {'attr': {'class': 'orb_series_event_contact'}}) }}
             <div class="hidden">
-                {{ form_row(form.costunit) }}
+                {{ form_row(form.costunit, {'attr': {'class': 'orb_series_event_costunit'}}) }}
             </div>
         </div>
     </fieldset>
     <fieldset>
         <div class="object-date-search">
-            {{ form_row(form.event_begin, {'attr': {'class': 'text event-datetime orb_series_event_form_event_begin', 'data-value' : form.vars.value.eventBegin|date('d-m-Y H:i')} }) }}
-            {{ form_row(form.event_end, {'attr': {'class': 'text event-datetime orb_series_event_form_event_end', 'data-value': form.vars.value.eventEnd|date('d-m-Y H:i')} }) }}
+            {{ form_row(form.event_begin, {'attr': {'class': 'text series-event-datetime orb_series_event_form_event_begin', 'data-value' : form.vars.value.eventBegin|date('d-m-Y H:i')} }) }}
+            {{ form_row(form.event_end, {'attr': {'class': 'text series-event-datetime orb_series_event_form_event_end', 'data-value': form.vars.value.eventEnd|date('d-m-Y H:i')} }) }}
             <div class="field-group">
                 <label for="inventory-search-field">{{ 'generic.search'|trans }}</label>
-                <input class="text orb_series_event_form_inventory_search" type="text" name="inventory-search-field" title="{{ 'Search for Barcodes, Items, Sets, ...'|trans }}" disabled="disabled"/>
-                <div class="description">{{ 'event.searchFor'|trans }} {{'generic.barcodes'|trans}}, {{'inventory.items'|trans}}, {{'inventory.sets'|trans}}, ...</div>
+                <input class="text scan-search orb_series_event_form_inventory_search" type="text" name="inventory-search-field" title="{{ 'Search for Barcodes, Items, Sets, ...'|trans }}" disabled="disabled"/>
+                <div class="description">{{'event.inventory.search'|trans}}</div>
             </div>
             <div class="field-group aui-oktolab-form-table">
                 <label>{{ 'event.objects'|trans }}</label>
