@@ -39,7 +39,7 @@ class CalendarSortingController extends Controller
      */
     public function itemAction()
     {
-        $itemsWithoutCat = $this->getDoctrine()->getManager()->getRepository('OktolabRentBundle:Inventory\Item')->findBy(array('category' => null), array('sortnumber' => 'ASC'));
+        $itemsWithoutCat = $this->getDoctrine()->getManager()->getRepository('OktolabRentBundle:Inventory\Item')->findBy(array('category' => null, 'set' => null), array('sortnumber' => 'ASC'));
         return array('itemsWithoutCat' => $itemsWithoutCat);
     }
 

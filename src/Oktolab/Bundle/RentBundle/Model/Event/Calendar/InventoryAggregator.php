@@ -46,7 +46,7 @@ class InventoryAggregator extends BaseAggregator
             throw new RepositoryNotFoundException(sprintf('Repository "%s" not found.', $repository)); 
         }
 
-        return $this->getRepository($repository)->findBy(array('category' => null), array('sortnumber' => 'asc'));
+        return $this->getRepository($repository)->findBy(array('category' => null, 'set' => null), array('sortnumber' => 'asc'));
     }
 
     /**
