@@ -787,6 +787,17 @@ class Item implements RentableInterface, UploadableInterface
         return $deferred;
     }
 
+    public function lost()
+    {
+        $lost = false;
+        foreach ($this->getQmss() as $qms) {
+            if ($qms->getActive() && $qms->getStatus() == Qms::STATE_LOST) {
+                $lost = true;
+            }
+        }
+        return $lost;
+    }
+
     /**
      * Set sortnumber
      *
