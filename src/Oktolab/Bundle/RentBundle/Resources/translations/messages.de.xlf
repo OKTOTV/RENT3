@@ -508,6 +508,11 @@
                 <source>inventory.inactive_items</source>
                 <target>Inaktive Gegenstände</target>
             </trans-unit>
+            <trans-unit id="150">
+                <source>inventory.item.zeroBookings</source>
+                <target>Bisher keine Buchungen</target>
+            </trans-unit>
+
 
             <trans-unit id="201">
                 <source>inventory.set.removeFromSet</source>
@@ -608,6 +613,10 @@
             <trans-unit id="225">
                 <source>inventory.set.zeroBookings</source>
                 <target>Bisher keine Buchungen</target>
+            </trans-unit>
+            <trans-unit id="226">
+                <source>inventory.set.not_active</source>
+                <target>Unvollständig</target>
             </trans-unit>
 
             <trans-unit id="300">
