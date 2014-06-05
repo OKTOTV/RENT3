@@ -24,7 +24,7 @@
             {{ form_errors(form) }}
             {% for qms in form.qmss %}
                     {% if qms.vars.value.active and qms.vars.value.id is empty %}
-                        <h3><a href="{{ path('inventory_item_show', { 'id': qms.vars.value.item.id}) }}">{{ qms.vars.value.item.title }}</a></h3>
+                        <h3><a href="{{ path('inventory_item_show', { 'id': qms.vars.value.item.id}) }}" title="{{qms.vars.value.item.set.title|default('')}}">{{ qms.vars.value.item.title }}</a> <span class="smalltext">({{ qms.vars.value.item.barcode }})</span></h3>
                         <div class="field-group">
                             <label>{{'inventory.item.notice'|trans}}</label>
                             <span class="field-value">{{qms.vars.value.item.notice|default('inventory.item.notice_empty'|trans)}}</span>
