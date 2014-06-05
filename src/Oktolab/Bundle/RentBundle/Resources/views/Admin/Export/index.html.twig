@@ -1,0 +1,5 @@
+{% extends 'OktolabRentBundle:Admin:Export\\base.html.twig' %}
+
+{% block buttons %}
+    <a href="{{ path('inventory_download')}}" class="aui-button">{{ 'admin.download_export_file'|trans }}</a>
+{% endblock %}

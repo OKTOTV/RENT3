@@ -918,6 +918,22 @@
                 <source>calendar.sorting.rooms</source>
                 <target>Räume</target>
             </trans-unit>
+            <trans-unit id="628">
+                <source>admin.export</source>
+                <target>Export</target>
+            </trans-unit>
+            <trans-unit id="629">
+                <source>admin.export.about</source>
+                <target>Exportiert eine vollständige Liste des Inventars als CSV Datei.</target>
+            </trans-unit>
+            <trans-unit id="630">
+                <source>admin.download_export_file</source>
+                <target>Herunterladen</target>
+            </trans-unit>
+            <trans-unit id="631">
+                <source>inventory.export</source>
+                <target>Export</target>
+            </trans-unit>
 
             <trans-unit id="700">
                 <source>event.book</source>

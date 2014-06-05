@@ -23,6 +23,7 @@
                                 <li{% if highlight_action == "category" %} class="aui-nav-selected"{% endif %}><a href="{{ path('inventory_category') }}">{{ 'inventory.categories' | trans }}</a></li>
                                 <li{% if highlight_action == "place" %} class="aui-nav-selected"{% endif %}><a href="{{ path('inventory_place') }}">{{ 'inventory.places' | trans }}</a></li>
                                 <li{% if highlight_action == "import" %} class="aui-nav-selected"{% endif %}><a href="{{ path('inventory_import') }}">{{ 'inventory.import' | trans }}</a></li>
+                                <li{% if highlight_action == "export" %} class="aui-nav-selected"{% endif %}><a href="{{ path('inventory_export') }}">{{ 'inventory.export' | trans }}</a></li>
                             </ul>
                             <div class="aui-nav-heading"><strong>{{ 'admin.console.basics'|trans }}</strong></div>
                             <ul class="aui-nav">
