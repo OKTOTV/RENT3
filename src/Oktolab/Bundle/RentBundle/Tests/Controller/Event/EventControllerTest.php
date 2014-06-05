@@ -498,7 +498,7 @@ class EventControllerTest extends WebTestCase
         $crawler = $this->client->request('GET', '/event/'.$event->getId().'/check');
         $this->assertTrue($this->client->getResponse()->isSuccessful(), 'Response should be successful.');
 
-        $this->assertEquals('JVC Camera 1', $crawler->filter('body div#event-form h3')->text());
+        $this->assertEquals('JVC Camera 1 (F00B51)', $crawler->filter('body div#event-form h3')->text());
         $this->assertEquals('Bemerkung', $crawler->filter('body div#event-form div.field-group')->eq(6)->filter('label')->text());
         $this->assertEquals('Nicht angegeben', $crawler->filter('body div#event-form div.field-group')->eq(6)->filter('span')->text());
     }
