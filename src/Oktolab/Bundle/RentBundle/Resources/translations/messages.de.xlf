@@ -1015,6 +1015,18 @@
                 <source>event.room.search</source>
                 <target>Suche nach: Barcodes, Namen, ...</target>
             </trans-unit>
+            <trans-unit id="720">
+                <source>event.extend</source>
+                <target>Verlängern</target>
+            </trans-unit>
+            <trans-unit id="721">
+                <source>event.description</source>
+                <target>Beschreibung</target>
+            </trans-unit>
+            <trans-unit id="722">
+                <source>event.no_description</source>
+                <target>Nichts Angegeben</target>
+            </trans-unit>
 
             <trans-unit id="800">
                 <source>inventory.import</source>
@@ -1375,6 +1387,14 @@
             <trans-unit id="1233">
                 <source>event.create_success</source>
                 <target>Buchung erfolgreich reserviert</target>
+            </trans-unit>
+            <trans-unit id="1234">
+                <source>event.extend_success</source>
+                <target>Buchung erfolgreich verlängert</target>
+            </trans-unit>
+            <trans-unit id="1235">
+                <source>event.extend_error</source>
+                <target>Verlängerung ungültig</target>
             </trans-unit>
 
             <trans-unit id="1300">

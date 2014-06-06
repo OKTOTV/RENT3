@@ -1,0 +1,91 @@
+{% extends 'OktolabRentBundle::layoutFocusedTask.html.twig' %}
+{% set type = form.vars.value.type.name|lower %}
+{% block content_header %}
+        <div class="aui-page-header-inner">
+                <ol class="aui-progress-tracker aui-progress-tracker-inverted" style="width: 600px">
+                    {% set state = form.vars.value.state %}
+                    {% set current = 'aui-progress-tracker-step-current' %}
+
+                    <li class="aui-progress-tracker-step"><span>{{ 'Reservieren'|trans }}</span></li>
+                    <li class="aui-progress-tracker-step {{ state <= constant('\\Oktolab\\Bundle\\RentBundle\\Entity\\Event::STATE_RESERVED') ? current : '' }}"><span>{{ 'Ausgeben oder Ändern'|trans }}</span></li>
+                    <li class="aui-progress-tracker-step {{ state is constant('\\Oktolab\\Bundle\\RentBundle\\Entity\\Event::STATE_LENT') ? current : '' }}"><span>{{ 'Rücknehmen'|trans }}</span></li>
+                    <li class="aui-progress-tracker-step {{ state is constant('\\Oktolab\\Bundle\\RentBundle\\Entity\\Event::STATE_DELIVERED') ? current : '' }}"><span>{{ 'Abschließen'|trans }}</span></li>
+                    <li class="aui-progress-tracker-step {{ state is constant('\\Oktolab\\Bundle\\RentBundle\\Entity\\Event::STATE_DEFERRED') ? current : '' }}"><span>{{ 'event.deferred'|trans }}</span></li>
+                    <li class="aui-progress-tracker-step {{ state is constant('\\Oktolab\\Bundle\\RentBundle\\Entity\\Event::STATE_COMPLETED') ? current : '' }}"><span>{{ 'Abgeschlossen'|trans }}</span></li>
+                </ol>
+        </div>
+{% endblock %}
+
+{% block content %}
+    <div id="event-form">
+        <h2>
+            {% if form.vars.value.costunit is empty %}
+                {{ 'event.booking'|trans }}
+            {% elseif form.vars.value.seriesEvent is not null %}
+                {{ 'event.series_booking_for_costunit'|trans|replace({
+                    '%costunit%': form.vars.value.costunit.name,
+                    '%link_start%': '<a href="'~path('orb_show_series_event', {'series_event': form.vars.value.seriesEvent.id})~'">',
+                    '%link_end%': '</a>'})|raw
+                }}
+            {% else %}
+                {{ 'event.booking_for_costunit'|trans({'%costunit%': form.vars.value.costunit.name})}}
+            {% endif %}
+        </h2>
+        {{ form_start(form, {'attr': {'class': 'aui'} }) }}
+            <fieldset>
+                {{ form_errors(form) }}
+            </fieldset>
+            <fieldset>
+                <div class="field-group">
+                    <label>{{ 'event.costunit'|trans }}</label>
+                    <span class='field-value'>{{ event.costunit.name }}</span>
+                </div>
+                <div class="field-group">
+                    <label>{{ 'event.contact'|trans }}</label>
+                    <span class='field-value'><a href="{{ hub_redirect_url ~ event.contact.guid }}">{{ event.contact.name }}</a></span>
+                </div>
+                <div class="field-group">
+                    <label>{{ 'event.description'|trans }}</label>
+                    <span class='field-value'>{{ event.description|default('event.no_description'|trans) }}</span>
+                </div>
+                <div class="field-group">
+                    <label>{{ 'event.begin'|trans }}</label>
+                    <span class='field-value'>{{ event.begin|date('Y.m.d H:i') }}</span>
+                </div>
+                {{ form_row(form.end, {'attr': {'class': 'text event-datetime'}}) }}
+            </fieldset>
+
+            <fieldset>
+                <div class="object-date-search" data-event-id="{{form.vars.value.id}}">
+
+                    <div class="field-group aui-oktolab-form-table">
+                        <label>{{ 'event.objects'|trans }}</label>
+                        <table class="aui">
+                            <thead>
+                                <tr>
+                                    <th id="basic-barcode">{{ 'generic.barcode'|trans }}</th>
+                                    <th id="basic-name">{{ 'generic.name'|trans }}</th>
+                                </tr>
+                            </thead>
+                            <tbody id="inventory-event-objects" class="event-objects">
+                                {% for object in objects if objects %}
+                                    <tr>
+                                        <td>{{ object.barcode }}</td>
+                                        <td>{{ object.title }}</td>
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </fieldset>
+
+            <div class="buttons-container">
+                <div class="buttons">
+                    {{ form_widget(form.extend, {'attr': { 'class': 'aui-button aui-button-primary'}, 'label': 'event.extend'|trans }) }}
+                </div>
+            </div>
+
+        {{ form_end(form) }}
+    </div>
+{% endblock %}

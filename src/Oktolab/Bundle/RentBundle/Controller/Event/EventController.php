@@ -10,6 +10,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration;
 use Oktolab\Bundle\RentBundle\Entity\Event;
 use Oktolab\Bundle\RentBundle\Entity\Inventory\Qms;
 use Oktolab\Bundle\RentBundle\Form\EventQMSType;
+use Oktolab\Bundle\RentBundle\Form\EventExtendType;
 
 /**
  * Event Controller.
@@ -404,5 +405,37 @@ class EventController extends Controller
             $this->get('session')->getFlashBag()->add('error', 'event.cancelation_error');
         }
         return $this->redirect($this->generateUrl('rentbundle_dashboard'));
+    }
+
+    /**
+     * Defer an Event
+     * @Configuration\Method({"GET", "POST"})
+     * @Configuration\Route("/event/{id}/defer", name="orb_event_extend")
+     * @Configuration\Template("OktolabRentBundle:Event:Event\extend.html.twig")
+     */
+    public function extendAction(Request $request, Event $event)
+    {
+        $form = $this->createForm(
+            new EventExtendType(),
+            $event
+        );
+        $objects = $this->get('oktolab.event_manager')->convertEventObjectsToEntites($event->getObjects());
+
+        if ($request->getMethod() == "GET") { // wants form
+            return array('form' => $form->createView(), 'event' => $event, 'objects' => $objects);
+        } else { // posts form
+            $form->handleRequest($request);
+
+            if ($form->isValid()) {
+                $em = $this->getDoctrine()->getManager();
+                $em->persist($event);
+                $em->flush();
+                $this->get('session')->getFlashBag()->add('success', 'event.extend_success');
+                return $this->redirect($this->generateUrl('rentbundle_dashboard'));
+            }
+
+            $this->get('session')->getFlashBag()->add('error', 'event.extend_error');
+            return array('form' => $form->createView(), 'event' => $event, 'objects' => $objects);
+        }
     }
 }
