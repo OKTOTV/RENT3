@@ -74,15 +74,18 @@ class InventoryAggregatorTest extends \PHPUnit_Framework_TestCase
     public function testGetInventoryReturnsCorrectArrayIndexes()
     {
         $repository = $this->trainCategoryRepositoryToFindAllCategories();
+        $itemRepository = $this->trainItemRepositoryToFindAllItems();
         $this->SUT->addRepository('Category', $repository);
+        $this->SUT->addRepository('Item', $itemRepository);
         $this->assertArrayHasKey($this->category->getTitle(), $this->SUT->getInventory());
     }
 
     public function testGetInventoryReturnsItemsInCategory()
     {
         $repository = $this->trainCategoryRepositoryToFindAllCategories();
+        $itemRepository = $this->trainItemRepositoryToFindAllItems();
         $this->SUT->addRepository('Category', $repository);
-
+        $this->SUT->addRepository('Item', $itemRepository);
         $item = new Item();
         $this->category->addItem($item);
 
@@ -95,8 +98,10 @@ class InventoryAggregatorTest extends \PHPUnit_Framework_TestCase
     {
         $setRepository = $this->trainSetRepositoryToFindAllSets();
         $categoryRepository = $this->trainCategoryRepositoryToFindAllCategories();
+        $itemRepository = $this->trainItemRepositoryToFindAllItems();
         $this->SUT->addRepository('Set', $setRepository);
         $this->SUT->addRepository('Category', $categoryRepository);
+        $this->SUT->addRepository('Item', $itemRepository);
 
         $inventory = $this->SUT->getInventory(true);
         $this->assertArrayHasKey('Sets', $inventory);
@@ -140,8 +145,12 @@ class InventoryAggregatorTest extends \PHPUnit_Framework_TestCase
      */
     protected function trainCategoryRepositoryToFindAllCategories()
     {
+        $item = new Item();
+        $item->setTitle('Test Item');
+
         $this->category = new Category();
         $this->category->setTitle('Test Category');
+        $this->category->addItem($item);
 
         $repository = $this->getMockBuilder('\Doctrine\ORM\EntityRepository')->disableOriginalConstructor()->getMock();
         $repository->expects($this->once())

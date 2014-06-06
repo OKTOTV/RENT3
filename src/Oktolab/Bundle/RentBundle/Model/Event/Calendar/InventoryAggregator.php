@@ -40,6 +40,11 @@ class InventoryAggregator extends BaseAggregator
         return $this->getRepository('Category')->findBy(array(), array('sortnumber' => 'asc'));
     }
 
+    /**
+     * Aggregates Inventory\Item s withoud Category or Set
+     * @param  string $repository name of the repository
+     * @return array
+     */
     public function getItemWithoutCategories($repository = 'Item')
     {
         if (null === $this->getRepository($repository)) {

@@ -56,7 +56,8 @@ class CalendarApiControllerTest extends WebTestCase
         $this->assertJson($response->getContent(), 'Response sends valid JSON.');
 
         $inventory = $this->client->getContainer()->get('oktolab.event_calendar_inventory')->getTransformedInventory();
-        $this->assertCount(2, $inventory, 'One Category was aggregated');
+
+        $this->assertCount(3, $inventory, 'One Category was aggregated');
         $this->assertCount(2, $inventory[1], 'Two Items were aggregated in first Category');
         $this->assertJsonStringEqualsJsonString(
             json_encode($inventory),
