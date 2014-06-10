@@ -102,7 +102,7 @@
                     {% endif %}
                     <a href="{{ path('rentbundle_dashboard') }}" class="aui-button aui-button-link">{{ 'generic.dashboard'|trans }}</a>
                     <span class="event-hyperlink-separator">·</span>
-                    <a href="{{ path('event_pdf', { 'id': event.id }) }}" class="aui-button aui-button-primary">{{ 'event.printPdf'|trans }}</a>
+                    <a href="{{ path('event_pdf', { 'id': event.id }) }}" target="_blank" class="aui-button aui-button-primary">{{ 'event.printPdf'|trans }}</a>
                 </div>
             </div>
         </form>
