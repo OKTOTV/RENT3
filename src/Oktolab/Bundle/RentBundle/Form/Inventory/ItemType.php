@@ -13,11 +13,12 @@ class ItemType extends AbstractType
     {
         $builder
             ->add('title', 'text', array('label' => 'inventory.item.title'))
-            ->add('description', 'textarea', array('label' => 'inventory.item.description'))
+            ->add('barcode', 'text', array('label' => 'inventory.item.barcode'))            
+            ->add('description', 'textarea', array('label' => 'inventory.item.description', 'required' => false ))
             ->add('notice', 'textarea', array('label' => 'inventory.item.notice', 'required' => false ))
             ->add('origin_value', 'text', array('label' => 'inventory.item.origin_value', 'required' => false))
             ->add('daily_rent', 'text', array('label' => 'inventory.item.daily_rent', 'required' => false))
-            ->add('barcode', 'text', array('label' => 'inventory.item.barcode'))
+
             ->add(
                 'buyDate',
                 'date',
@@ -28,9 +29,9 @@ class ItemType extends AbstractType
                     'label' => 'inventory.item.buydate'
                 )
             )
-            ->add('serialNumber', 'text', array('label' => 'inventory.item.serialnumber'))
-            ->add('vendor', 'text', array('label' => 'inventory.item.vendor'))
-            ->add('modelNumber', 'text', array('label' => 'inventory.item.modelnumber'))
+            ->add('serialNumber', 'text', array('label' => 'inventory.item.serialnumber', 'required' => false))
+            ->add('vendor', 'text', array('label' => 'inventory.item.vendor', 'required' => false))
+            ->add('modelNumber', 'text', array('label' => 'inventory.item.modelnumber', 'required' => false))
             ->add(
                 'set',
                 'entity',
