@@ -1145,6 +1145,10 @@
                 <source>admin.costunit.no_abbreviation</source>
                 <target>Kein Kürzel eingetragen</target>
             </trans-unit>
+            <trans-unit id="918">
+                <source>costunit.message.deletesuccess</source>
+                <target>Kostenstelle erfolgreich gelöscht</target>
+            </trans-unit>
 
             <trans-unit id="1000">
                 <source>admin.contact</source>
