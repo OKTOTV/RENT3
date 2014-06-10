@@ -24,7 +24,9 @@ class DefaultController extends Controller
         $eventRepository = $this->get('oktolab.event_manager')->getEventRepository();
 
         $begin = new \DateTime();
+        $begin->setTime(0, 0);
         $end = new \DateTime('+3 Days');
+        $end->setTime(23, 59);
 
         $roomEvents = $eventRepository->findActiveFromBeginToEnd($begin, $end, 'room');
         $roomObjects = array();

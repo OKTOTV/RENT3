@@ -161,6 +161,7 @@ jQuery(document).ready(function ($) {
                 valueKey: 'displayName',
                 remote: { url: oktolab.typeahead.eventItemRemoteUrl + '/'+begin+'/'+end },
                 prefetch: prefetch,
+                limit: 10,
                 template: [
                     '<span class="aui-icon aui-icon-small aui-iconfont-devtools-file">Object</span>',
                     '<p class="tt-object-name">{{displayName}}</p>',
