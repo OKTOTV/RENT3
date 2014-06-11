@@ -24,6 +24,7 @@ jQuery(document).ready(function ($) {
     var checkTick = function (tablerow) {
         tablerow.find('.aui-iconfont-approve').removeClass('aui-iconfont-approve').addClass('aui-icon-success');
         tablerow.find('input.scanner').val('1');
+        tablerow.find('input.scanner').prop('checked', true);
     };
 
     // adds a typeahead datum to the tablerow in e
