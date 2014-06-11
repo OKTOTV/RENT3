@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        {% stylesheets filter="cssrewrite"
+            '@OktolabRentBundle/Resources/public/css/pdf/rentsheet.css'
+        %}
+        <link rel="stylesheet" href="{{ asset_url }}" type="text/css" />
+        {% endstylesheets %}
+    </head>
+    <body>
+        <p class="rightTop">
+            {{ event.barcode|upper }}<barcode code="{{ event.barcode}}" type="C39" size="0.5" height="1.0" /><br />
+            {{ 'event.pdf.costunit'|trans({ '%costunit%': event.costunit.name }) }}<br />
+            {{ 'event.pdf.contact'|trans({ '%contact%': event.contact.name }) }}<br />
+            {{ 'event.pdf.begin'|trans({ '%begin%': event.begin|date('d.m.Y H:i') }) }}<br />
+            {{ 'event.pdf.end'|trans({ '%end%': event.begin|date('d.m.Y H:i') }) }}
+        </p>
+        <h1>{{ 'event.pdf.rentsheet'|trans }}</h1>
+
+        <adress>
+            {{ setting.name}}<br />
+            {{ setting.address }}<br />
+            {{ setting.postal_code }} {{ setting.city }}<br />
+            {{ setting.email }}<br />
+            {{ setting.telnumber }}
+        </adress>
+
+        <div class="signatureStrip">
+            <div class="textStripe">
+                <div class="lentText">
+                    <p class="partTitle">
+                        {{ 'event.pdf.rent'|trans }}
+                    </p>
+                    <p>
+                        {{ 'event.pdf.lentgivenBy'|trans({ '%CompanyName%': setting.name, '%coworkerName%': app.user.username}) }}
+                    </p>
+                    <p>
+                        {{ setting.additional_text }}
+                    </p>
+                </div>
+                
+                <div class="returnText">
+                    <p class="partTitle">
+                        {{ 'event.pdf.deliver'|trans }}
+                    </p>
+                    <p>
+                        {{ 'event.pdf.reallyReturnedAt'|trans }}
+                    </p>
+                    <p>
+                        {{ 'event.pdf.takenBackBy'|trans }}
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <p>
+            {{ event.description }}
+        </p>
+        <table>
+            <thead>
+                <tr>
+                    <th class="barcode">{{ "inventory.item.barcode"|trans}}</th>
+                    <th class="item">{{ "inventory.item.item"|trans}}</th>
+                    <th class="vendor">{{ "inventory.item.vendor"|trans}}</th>
+                    <th class="serialnumber">{{ "inventory.item.serialnumber"|trans}}</th>
+                    <th class="modelnumber">{{ "inventory.item.modelnumber"|trans}}</th>
+                    <th class="notice">{{ "inventory.item.notice"|trans}}</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for object in objects if objects %}
+                    {% if object.type == "Item" %}
+                        <tr>
+                            <td class="barcode">{{ object.barcode }}</td>
+                            <td class="item">{{ object.title }}</td>
+                            <td class="vendor">{{ object.vendor }}</td>
+                            <td class="serialnumber">{{ object.serialnumber }}</td>
+                            <td class="modelnumber">{{ object.modelnumber }}</td>
+                            <td class="notice">{{ object.notice }}</td>
+                        </tr>
+                    {% endif %}
+                {% endfor %}
+            </tbody>
+        </table>
+
+        <htmlpagefooter name="myFooter">
+            <div class="footer-right">
+                {{'{DATE j.m.Y}'|raw}} 
+                {{ 'event.pdf.Page'|trans}} 
+                {{'{PAGENO}'|raw}} 
+                / 
+                {{'{nbpg}'|raw}}
+            </div>
+        </htmlpagefooter>
+    </body>
+</html>

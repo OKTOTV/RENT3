@@ -358,7 +358,12 @@ class EventController extends Controller
      */
     public function rentPdfAction(Event $event)
     {
-        return $this->get('oktolab.rent_sheet_pdf')->generatePdf($event, $this->get('security.context')->getToken()->getUsername());
+        $objects = $this->get('oktolab.event_manager')->convertEventObjectsToEntites($event->getObjects());
+        $settings = $this->get('oktolab.setting')->get('company');
+        $pdfhtml = $this->renderView('OktolabRentBundle:Pdf:rentsheet.html.twig', array('event' => $event, 'objects' => $objects, 'setting' => $settings));
+        //return new Response($pdfhtml,'200');
+        return $this->get('oktolab.rent_sheet_pdf')->generatePredefinedPdf($pdfhtml);
+        //return $this->get('oktolab.rent_sheet_pdf')->generatePdf($event, $this->get('security.context')->getToken()->getUsername());
     }
 
     /**

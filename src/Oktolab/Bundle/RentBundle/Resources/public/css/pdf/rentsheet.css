@@ -1,0 +1,62 @@
+@page {
+      even-footer-name: html_myFooter;
+      odd-footer-name: html_myFooter;
+      margin-top: 30px;
+ }
+ body {
+    font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif; 
+ }
+ .footer-right {
+      text-align: right;
+ }
+ table {
+    border-collapse: collapse;
+    border: 0;
+    width: 100%;
+ }
+ th {
+    font-size: 0.7em;
+    text-align: left;
+ }
+ td {
+    border-bottom: 0.1mm solid #000000;
+    font-size: 0.7em;
+    text-align: left;
+ }
+ .barcode {
+    text-align: left;
+    width: 10%;
+ }
+ .item {
+    text-align: left;
+    width: 25%;
+ }
+ .rightTop {
+    text-align: right;
+    position: fixed;
+    top: 0px;
+    right: 0px;
+ }
+ .lentText {
+    width: 50%;
+    float: left;
+ }
+ .returnText {
+    width: 50%;
+    text-align: right;
+ }
+ .lentSignature {
+    width: 50%;
+    float: left;
+ }
+ .returnSignature {
+    widht: 50%;
+    text-align: right;
+ }
+ .partTitle {
+    font-weight: bold;
+ }
+ .textStripe,
+ .signatureStripe {
+    width: 100%;
+ }

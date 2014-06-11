@@ -1281,20 +1281,20 @@
                 <target>Zurück genommen von: ______________________</target>
             </trans-unit>
             <trans-unit id="1206">
-                <source>event.pdf.lentAt</source>
-                <target>Verleih vom: %rentFromDate%</target>
+                <source>event.pdf.begin</source>
+                <target>Verleih vom: %begin%</target>
             </trans-unit>
             <trans-unit id="1207">
-                <source>event.pdf.planReturnAt</source>
-                <target>Verleih bis: %rentTillDate%</target>
+                <source>event.pdf.end</source>
+                <target>Verleih bis: %end%</target>
             </trans-unit>
             <trans-unit id="1208">
-                <source>event.pdf.pickUpName</source>
-                <target>AbholerIn: %pickUpName%</target>
+                <source>event.pdf.contact</source>
+                <target>AbholerIn: %contact%</target>
             </trans-unit>
             <trans-unit id="1209">
-                <source>event.pdf.costUnitName</source>
-                <target>Kostenstelle: %costUnitName%</target>
+                <source>event.pdf.costunit</source>
+                <target>Kostenstelle: %costunit%</target>
             </trans-unit>
             <trans-unit id="1210">
                 <source>event.costunit</source>
@@ -1399,6 +1399,18 @@
             <trans-unit id="1235">
                 <source>event.extend_error</source>
                 <target>Verlängerung ungültig</target>
+            </trans-unit>
+            <trans-unit id="1236">
+                <source>event.pdf.rentsheet</source>
+                <target>Verleihschein</target>
+            </trans-unit>
+            <trans-unit id="1237">
+                <source>event.pdf.rent</source>
+                <target>Ausgabe</target>
+            </trans-unit>
+            <trans-unit id="1238">
+                <source>event.pdf.deliver</source>
+                <target>Rücknahme</target>
             </trans-unit>
 
             <trans-unit id="1300">

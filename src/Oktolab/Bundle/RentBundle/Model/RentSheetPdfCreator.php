@@ -87,6 +87,11 @@ class RentSheetPdfCreator
         return $this->mPDFS->generatePdfResponse($this->html);
     }
 
+    public function generatePredefinedPdf($html)
+    {
+        return $this->mPDFS->generatePdfResponse($html);
+    }
+
     /**
      *
      * @see http://mpdf1.com/manual/index.php?tid=77
