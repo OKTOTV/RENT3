@@ -53,6 +53,18 @@ class CompanySetting implements SettingInterface
     private $additional_text;
 
     /**
+     * @Assert\Email(message ="setting.company_email.invalid")
+     * @var string
+     */
+    private $email;
+
+    /**
+     * 
+     * @var string
+     */
+    private $telnumber;
+
+    /**
      *
      * @param type $name
      */
@@ -66,6 +78,30 @@ class CompanySetting implements SettingInterface
     public function getName()
     {
         return $this->name;
+    }
+
+    public function setEmail($email)
+    {
+        $this->email = $email;
+
+        return $this;
+    }
+
+    public function getEmail()
+    {
+        return $this->email;
+    }
+
+    public function setTelnumber($telnumber)
+    {
+        $this->telnumber = $telnumber;
+
+        return $this;
+    }
+
+    public function getTelnumber()
+    {
+        return $this->telnumber;
     }
 
     public function setAddress($address)
@@ -132,7 +168,7 @@ class CompanySetting implements SettingInterface
     public function toArray()
     {
         $values = array();
-        foreach (array('name', 'address', 'postal_code', 'city', 'logo', 'additional_text') as $value) {
+        foreach (array('name', 'address', 'postal_code', 'city', 'logo', 'additional_text', 'email', 'telnumber') as $value) {
             $values[$value] = $this->$value;
         }
 

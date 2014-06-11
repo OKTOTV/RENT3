@@ -28,6 +28,14 @@
                 <span class="field-value">{{ settings.city }}</span>
             </div>
             <div class="field-group viewMode">
+                <label>{{ 'setting.company.email'|trans }}</label>
+                <span class="field-value">{{ settings.email|default('settings.company_email.empty') }}</span>
+            </div>
+            <div class="field-group viewMode">
+                <label>{{ 'setting.company.telnumber'|trans }}</label>
+                <span class="field-value">{{ settings.telnumber|default('settings.company_telnumber.empty') }}</span>
+            </div>
+            <div class="field-group viewMode">
                 <label>{{ 'setting.company.additionalText'|trans }}</label>
                 <span class="field-value">
                     {% if settings.additionalText is not null %}

@@ -24,12 +24,13 @@ class CompanySettingType extends AbstractType
             ->add('address', 'text', array('label' => 'setting.company.address'))
             ->add('postal_code', 'text', array('label' => 'setting.company.postal_code'))
             ->add('city', 'text', array('label' => 'setting.company.city'))
-            ->add('logo', 'file', array('label' => 'setting.company.logo', 'required' => false))
             ->add(
                 'additional_text',
                 'textarea',
                 array('label' => 'setting.company.additional_text', 'required' => false)
-            );
+            )
+            ->add('email', 'text', array('label' => 'setting.company.email'))
+            ->add('telnumber', 'text', array('label' => 'setting.company.telnumber'));
     }
 
     /**

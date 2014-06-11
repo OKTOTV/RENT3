@@ -1431,7 +1431,7 @@
             </trans-unit>
             <trans-unit id="1307">
                 <source>admin.setting.about</source>
-                <target>Einstellungen die das Verhalten von Oktolab RENT beeinflussen.</target>
+                <target>Grundeinstellungen für die Software.</target>
             </trans-unit>
             <trans-unit id="1308">
                 <source>admin.setting.company</source>
@@ -1448,6 +1448,14 @@
             <trans-unit id="1311">
                 <source>admin.sorting_withoutCat</source>
                 <target>Kategorielos</target>
+            </trans-unit>
+            <trans-unit id="1312">
+                <source>setting.company.email</source>
+                <target>Email</target>
+            </trans-unit>
+            <trans-unit id="1313">
+                <source>setting.company.telnumber</source>
+                <target>Telefonnummer</target>
             </trans-unit>
 
             <trans-unit id="1400">
