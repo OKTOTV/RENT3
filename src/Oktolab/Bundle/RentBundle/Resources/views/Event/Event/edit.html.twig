@@ -98,7 +98,7 @@
                                                 <span class="aui-icon aui-icon-small aui-iconfont-remove">{{ 'Remove'|trans }}</span>
                                             </a>
                                             <a href="#" class="scan" data-value="{{ '{{value}}'}}">
-                                                <span class="scan-icon aui-icon aui-icon-small aui-iconfont-approve">{{ 'Scan'|trans }}</span>
+                                                <span class="scan-icon aui-icon aui-icon-small {% if formobject.vars.value.scanned %}aui-icon-success{% else %}aui-iconfont-approve{% endif %}">{{ 'Scan'|trans }}</span>
                                             </a>
                                         </td>
                                         <td class="hidden">{{ form_row(formobject, { 'attr': { 'data-value': objective } }) }}</td>

@@ -213,6 +213,8 @@ jQuery(document).ready(function ($) {
             roomSearchField.prop('disabled', true);
             searchfield.prop('disabled', true);
         }
+        // enable rent if objects are prescanned.
+        enableRent(formGroup.find('.event-objects'));
     };
 
     // make a input field into a typeahead search for costunits
