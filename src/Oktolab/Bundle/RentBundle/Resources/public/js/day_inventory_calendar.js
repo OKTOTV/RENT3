@@ -310,7 +310,7 @@
                     return block;
                 }
             }
-            return Calendar.data.renderedTimeblocks[Calendar.data.renderedTimeblocks.length -1];
+            return block;
         },
 
         /**
