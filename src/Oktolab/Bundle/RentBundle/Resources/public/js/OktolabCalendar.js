@@ -314,6 +314,7 @@
                     return block;
                 }
             }
+            return block;
         },
 
         _getLozengeForEvent: function (event) {
