@@ -45,7 +45,7 @@ class EventObject
 
     /**
      * @var boolean
-     * @ORM\Column(name="scanned", type="boolean"))
+     * @ORM\Column(name="scanned", type="boolean", options={"default":0})))
      * @Assert\True(groups={"Rent"})
      */
     private $scanned = false;

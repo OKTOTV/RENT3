@@ -9,7 +9,7 @@ jQuery(document).ready(function ($) {
         var allScanned = true;
         var tablerows = table.find('tr');
         $.each(tablerows, function(key, row) {
-            if ($(row).find('input.scanner').val() == 0) {
+            if ($(row).find('input.scanner').is(':checked') == false) {
                 allScanned = false;
             }
         });
@@ -23,7 +23,6 @@ jQuery(document).ready(function ($) {
     // makes the tick green and sets the scanner value true.
     var checkTick = function (tablerow) {
         tablerow.find('.aui-iconfont-approve').removeClass('aui-iconfont-approve').addClass('aui-icon-success');
-        tablerow.find('input.scanner').val('1');
         tablerow.find('input.scanner').prop('checked', true);
     };
 
@@ -48,7 +47,7 @@ jQuery(document).ready(function ($) {
             table.append(tablerow);
             enableRent(formGroup.find('table'));
         } else {
-            //todo: scan the item (green)
+            // scan the item (green)
             checkTick(tr);
         }
     };
@@ -60,14 +59,14 @@ jQuery(document).ready(function ($) {
     $('.aui-oktolab-form-table').on('click', 'a.remove', function (e) {
         e.preventDefault();
         $(e.currentTarget).closest('tr').remove();
-        enableRent($(e.currentTarget).closest('table'));
+        enableRent($(e.currentTarget).closest('tbody'));
     });
 
    // enable scanning of event objects
    $('.aui-oktolab-form-table').on('click', 'a.scan', function (e) {
         e.preventDefault();
         checkTick($(e.currentTarget).closest('tr')); 
-        enableRent($(e.currentTarget).closest('table'));
+        enableRent($(e.currentTarget).closest('tbody'));
    });
 
 
@@ -210,12 +209,12 @@ jQuery(document).ready(function ($) {
                 header: '<h3>Räume</h3>',
                 engine: Hogan
             }]);
+            // enable rent if objects are prescanned.
+            enableRent(formGroup.find('.event-objects'));
         } else {
             roomSearchField.prop('disabled', true);
             searchfield.prop('disabled', true);
         }
-        // enable rent if objects are prescanned.
-        enableRent(formGroup.find('.event-objects'));
     };
 
     // make a input field into a typeahead search for costunits
