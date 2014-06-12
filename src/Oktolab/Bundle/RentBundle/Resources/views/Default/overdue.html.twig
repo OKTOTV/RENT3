@@ -10,7 +10,6 @@
         <div class="aui-page-header-actions">
             <div class="aui-buttons">
                 <input class="aui-button" type="text" id="dashboard-date" />
-                <a class="aui-button" href="{{path('rentbundle_overdue_events')}}">{{'dashboard.show_overdue'|trans}}</a>
             </div>
         </div>
     </div>
@@ -33,7 +32,7 @@
                 <tbody>
                     {% for inventoryEvent in inventoryEvents %}
                     <tr>
-                        <td title="<ul>{% for object in inventoryObjects[loop.index0] %}<li>{{ object.title}}</li>{% endfor %}</ul>">
+                        <td>
                             <span style="display:none" >
                                 {{ inventoryEvent.state(false) }}
                             </span>
@@ -75,7 +74,7 @@
                 <tbody>
                     {% for roomEvent in roomEvents %}
                     <tr>
-                        <td title="<ul>{% for object in roomObjects[loop.index0] %}<li>{{ object.title}}</li>{% endfor %}</ul>">
+                        <td>
                             <span style="display:none">
                                 {{ roomEvent.state(false) }}
                             </span>

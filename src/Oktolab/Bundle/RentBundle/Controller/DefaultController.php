@@ -97,6 +97,27 @@ class DefaultController extends Controller
         );
     }
 
+    /*
+     * Shows overdue events.
+     *
+     * @Configuration\Method("GET")
+     * @Configuration\Route("/overdue_events", name="rentbundle_overdue_events")
+     * @Configuration\Template()
+     *
+     * @return array
+     */
+    public function overdueAction()
+    {
+        $inventoryEvents = $this->getDoctrine()->getManager()->getRepository('OktolabRentBundle:Event')->getOverduedEvents('inventory');
+        $roomEvents = $this->getDoctrine()->getManager()->getRepository('OktolabRentBundle:Event')->getOverduedEvents('room');
+
+
+        return array(
+                'inventoryEvents' =>$inventoryEvents,
+                'roomEvents' =>$roomEvents
+            );
+    }
+
     /**
      * Renders OktolabCalendar.js.
      *

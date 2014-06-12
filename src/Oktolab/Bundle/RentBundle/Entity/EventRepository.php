@@ -138,4 +138,36 @@ class EventRepository extends EntityRepository
 
         return $qb;
     }
+
+    public function getOverduedEvents($type='inventory')
+    {
+        $qb2 = $this->getEntityManager()->createQueryBuilder();
+        $qb2->select('et.id')->from('OktolabRentBundle:EventType', 'et')
+            ->where($qb2->expr()->eq('et.name', ':type'))
+            ;
+
+        $qb = $this->getEntityManager()->createQueryBuilder();
+        $qb->select('e')
+            ->from('OktolabRentBundle:Event', 'e')
+            ->where(
+                $qb->expr()->andX(
+                    $qb->expr()->lte('e.end', ':end'),
+                    $qb->expr()->in('e.type', $qb2->getDQL()),
+                    $qb->expr()->orX(
+                        $qb->expr()->eq('e.state', ':reserved'),
+                        $qb->expr()->eq('e.state', ':lent'),
+                        $qb->expr()->eq('e.state', ':delivered'),
+                        $qb->expr()->eq('e.state', ':deferred')
+                    )
+                )
+            );
+        $qb->setParameter('end', new DateTime());
+        $qb->setParameter('reserved', Event::STATE_RESERVED);
+        $qb->setParameter('lent', Event::STATE_LENT);
+        $qb->setParameter('delivered', Event::STATE_DELIVERED);
+        $qb->setParameter('deferred', Event::STATE_DEFERRED);
+        $qb->setParameter('type', $type);
+
+        return $qb->getResult();
+    }
 }
