@@ -12,19 +12,20 @@
             {{ event.barcode|upper }}<barcode code="{{ event.barcode}}" type="C39" size="0.5" height="1.0" /><br />
             {{ 'event.pdf.costunit'|trans({ '%costunit%': event.costunit.name }) }}<br />
             {{ 'event.pdf.contact'|trans({ '%contact%': event.contact.name }) }}<br />
-            {{ 'event.pdf.begin'|trans({ '%begin%': event.begin|date('d.m.Y H:i') }) }}<br />
-            {{ 'event.pdf.end'|trans({ '%end%': event.begin|date('d.m.Y H:i') }) }}
+            {{ 'event.pdf.begin'|trans({ '%begin%': event.begin|date('H:i d.m.Y') }) }}<br />
+            {{ 'event.pdf.end'|trans({ '%end%': event.begin|date('H:i d.m.Y') }) }}
         </p>
         <h1>{{ 'event.pdf.rentsheet'|trans }}</h1>
 
         <adress>
             {{ setting.name}}<br />
             {{ setting.address }}<br />
-            {{ setting.postal_code }} {{ setting.city }}<br />
-            {{ setting.email }}<br />
-            {{ setting.telnumber }}
+            {{ setting.postal_code }} {{ setting.city }}
+            <p class=adress>
+                {{ setting.email }}<br />
+                {{ setting.telnumber }}
+            </p>
         </adress>
-
         <div class="signatureStrip">
             <div class="textStripe">
                 <div class="lentText">
@@ -53,29 +54,28 @@
             </div>
         </div>
 
-        <p>
-            {{ event.description }}
-        </p>
+        {% if event.description %}
+            <p>
+                {{ event.description }}
+            </p>
+        {% endif %}
         <table>
             <thead>
                 <tr>
                     <th class="barcode">{{ "inventory.item.barcode"|trans}}</th>
                     <th class="item">{{ "inventory.item.item"|trans}}</th>
-                    <th class="vendor">{{ "inventory.item.vendor"|trans}}</th>
-                    <th class="serialnumber">{{ "inventory.item.serialnumber"|trans}}</th>
-                    <th class="modelnumber">{{ "inventory.item.modelnumber"|trans}}</th>
-                    <th class="notice">{{ "inventory.item.notice"|trans}}</th>
+                    <th class="notice">{{ 'inventory.item.notice'|trans }}</th>
                 </tr>
             </thead>
             <tbody>
                 {% for object in objects if objects %}
-                    {% if object.type == "Item" %}
+                    {% if object.type == "item" %}
                         <tr>
-                            <td class="barcode">{{ object.barcode }}</td>
-                            <td class="item">{{ object.title }}</td>
-                            <td class="vendor">{{ object.vendor }}</td>
-                            <td class="serialnumber">{{ object.serialnumber }}</td>
-                            <td class="modelnumber">{{ object.modelnumber }}</td>
+                            <td class="barcode">{{ object.barcode|upper }}</td>
+                            <td class="item">
+                                {{ object.vendor }} {{ object.modelnumber }} {{ object.title}} {% if object.serialnumber %}- {{ object.serialnumber }}{% endif %}<br />
+                                {% if object.description %}<p class="description">{{ object.description }}</p>{% endif %}
+                            </td>
                             <td class="notice">{{ object.notice }}</td>
                         </tr>
                     {% endif %}

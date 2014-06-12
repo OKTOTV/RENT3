@@ -1282,7 +1282,7 @@
             </trans-unit>
             <trans-unit id="1206">
                 <source>event.pdf.begin</source>
-                <target>Verleih vom: %begin%</target>
+                <target>Verleih von: %begin%</target>
             </trans-unit>
             <trans-unit id="1207">
                 <source>event.pdf.end</source>
