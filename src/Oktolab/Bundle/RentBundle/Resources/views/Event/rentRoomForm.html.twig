@@ -20,8 +20,8 @@
         <h3>{{ 'event.rentable_rooms'|trans}}</h3>
                 <fieldset>
             <div class="object-date-search" data-event-id="{{form.vars.value.id}}">
-                {{ form_row(form.begin, {'attr': {'class': 'text event-datetime orb_event_form_event_begin'}}) }}
-                {{ form_row(form.end, {'attr': {'class': 'text event-datetime orb_event_form_event_end'}}) }}
+                {{ form_row(form.begin, {'attr': {'class': 'text event-datetime orb_event_form_event_begin','data-date': timeblock_days, 'data-begin': timeblock_begin, 'data-end': timeblock_end}}) }}
+                {{ form_row(form.end, {'attr': {'class': 'text event-datetime orb_event_form_event_end','data-date': timeblock_days, 'data-begin': timeblock_begin, 'data-end': timeblock_end}}) }}
                 <div class="field-group">
                     <label for="inventory-search-field">{{ 'generic.search'|trans }}</label>
                     <input class="text scan-search orb_event_form_room_search" type="text" id="room-search-field" name="room-search-field"  disabled="disabled" />

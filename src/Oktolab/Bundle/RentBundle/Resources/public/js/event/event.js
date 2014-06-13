@@ -275,7 +275,7 @@ jQuery(document).ready(function ($) {
         // handler is the jquery object with the datetimepicker
         input.appendDtpicker({
             "firstDayOfWeek": 1,
-            //"futureOnly"    : true,
+            "futureOnly"    : true,
             "locale"        : "de",
             "dateFormat"    : "YYYY-MM-DD hh:mm",
             "minTime"       : input.data('begin'),

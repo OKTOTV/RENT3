@@ -53,10 +53,14 @@ class EventController extends Controller
         $objects = $this->get('oktolab.event_manager')->convertEventObjectsToEntites($form->getData()->getObjects());
         $this->get('session')->getFlashBag()->add('error', 'event.save_error');
 
+        $datepicker = $this->get('oktolab.event_calendar_timeblock')->getRangeForDatePicker($form->getData()->getType()->getName());
+
         return array(
             'form' => $form->createView(),
             'objects' => $objects,
-            'timeblock_times'  => $this->get('oktolab.event_calendar_timeblock')->getRangeForDatePicker($form->getData()->getType()->getName())
+            'timeblock_days'  => $datepicker[0],
+            'timeblock_begin' => $datepicker[1],
+            'timeblock_end'   => $datepicker[2]
         );
     }
 
@@ -87,11 +91,15 @@ class EventController extends Controller
             )
         );
 
+        $datepicker = $this->get('oktolab.event_calendar_timeblock')->getRangeForDatePicker($form->getData()->getType()->getName());
+
         return array(
             'form' => $form->createView(),
             'objects' => $objects,
             'event' => $event,
-            'timeblock_times'  => $this->get('oktolab.event_calendar_timeblock')->getBlockJsonForType($event->getType()->getName())
+            'timeblock_days'  => $datepicker[0],
+            'timeblock_begin' => $datepicker[1],
+            'timeblock_end'   => $datepicker[2]
             );
     }
 
@@ -130,10 +138,14 @@ class EventController extends Controller
             $objects = $this->get('oktolab.event_manager')->convertEventObjectsToEntites($event->getObjects());
             $this->get('session')->getFlashBag()->add('error', 'event.save_error');
 
+            $datepicker = $this->get('oktolab.event_calendar_timeblock')->getRangeForDatePicker($form->getData()->getType()->getName());
+
             return array(
                 'form' => $form->createView(),
                 'objects' => $objects,
-                'timeblock_times' => $this->get('oktolab.event_calendar_timeblock')->getBlockJsonForType($event->getType()->getName())
+                'timeblock_days'  => $datepicker[0],
+                'timeblock_begin' => $datepicker[1],
+                'timeblock_end'   => $datepicker[2]
             );
         }
 
@@ -229,10 +241,14 @@ class EventController extends Controller
 
         $objects = $this->get('oktolab.event_manager')->convertEventObjectsToEntites($event->getObjects());
 
+        $datepicker = $this->get('oktolab.event_calendar_timeblock')->getRangeForDatePicker($form->getData()->getType()->getName());
+
         return array(
             'form' => $form->createView(),
             'objects' => $objects,
-            'timeblock_times' => $this->get('oktolab.event_calendar_timeblock')->getBlockJsonForType($event->getType()->getName())
+            'timeblock_days'  => $datepicker[0],
+            'timeblock_begin' => $datepicker[1],
+            'timeblock_end'   => $datepicker[2]
         );
     }
 
@@ -267,7 +283,15 @@ class EventController extends Controller
             $objects = $this->get('oktolab.event_manager')->convertEventObjectsToEntites($event->getObjects());
             $this->get('session')->getFlashBag()->add('error', 'event.save_error');
 
-            return array('form' => $form->createView(), 'objects' => $objects);
+            $datepicker = $this->get('oktolab.event_calendar_timeblock')->getRangeForDatePicker($form->getData()->getType()->getName());
+
+            return array(
+                'form' => $form->createView(), 
+                'objects' => $objects,
+                'timeblock_days'  => $datepicker[0],
+                'timeblock_begin' => $datepicker[1],
+                'timeblock_end'   => $datepicker[2]
+            );
         }
 
         if ($form->get('cancel')->isClicked()) { // User clicked Abort -> Nothing to do here
@@ -361,9 +385,7 @@ class EventController extends Controller
         $objects = $this->get('oktolab.event_manager')->convertEventObjectsToEntites($event->getObjects());
         $settings = $this->get('oktolab.setting')->get('company');
         $pdfhtml = $this->renderView('OktolabRentBundle:Pdf:rentsheet.html.twig', array('event' => $event, 'objects' => $objects, 'setting' => $settings));
-        //return new Response($pdfhtml,'200');
         return $this->get('oktolab.rent_sheet_pdf')->generatePredefinedPdf($pdfhtml);
-        //return $this->get('oktolab.rent_sheet_pdf')->generatePdf($event, $this->get('security.context')->getToken()->getUsername());
     }
 
     /**

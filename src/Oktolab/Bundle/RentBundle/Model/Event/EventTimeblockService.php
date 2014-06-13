@@ -30,6 +30,10 @@ class EventTimeblockService
 
     public function EventInTimeStatus(Event $event)
     {
+      if (!$event->getBegin() || !$event->getEnd()) {
+        return $this::EVENT_BEGIN_END_OUTATIME;
+      }
+
        $timeblocks = $this->getTimeblocksForType($event->getType());
        $begin = $this->isDateInTimeblockTime($event->getBegin(), $timeblocks);
        $end   = $this->isDateInTimeblockTime($event->getEnd(), $timeblocks);

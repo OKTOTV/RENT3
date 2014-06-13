@@ -52,7 +52,7 @@
                     <label>{{ 'event.begin'|trans }}</label>
                     <span class='field-value'>{{ event.begin|date('Y.m.d H:i') }}</span>
                 </div>
-                {{ form_row(form.end, {'attr': {'class': 'text event-datetime'}}) }}
+                {{ form_row(form.end, {'attr': {'class': 'text event-datetime','data-date': timeblock_days, 'data-begin': timeblock_begin, 'data-end': timeblock_end}}) }}
             </fieldset>
 
             <fieldset>
