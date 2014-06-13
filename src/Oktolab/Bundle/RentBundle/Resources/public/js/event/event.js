@@ -139,6 +139,7 @@ jQuery(document).ready(function ($) {
 
     // enables itemsearch typeahead if the selected timerange makes sense.
     var enableItemSearch = function (handler) {
+        console.log('enable search');
         var formGroup = handler.parents(".object-date-search"); // yeah, more searches on one page!
         var eventId = formGroup.data('event-id');
         var searchfield = $(formGroup.find(".orb_event_form_inventory_search"));
@@ -270,17 +271,16 @@ jQuery(document).ready(function ($) {
         var days = input.data('date');
         if (days) {
             days = days.split(',').map( Number );
-            console.log(days);
         }
         // handler is the jquery object with the datetimepicker
         input.appendDtpicker({
             "firstDayOfWeek": 1,
-            "futureOnly"    : true,
+            //"futureOnly"    : true,
             "locale"        : "de",
             "dateFormat"    : "YYYY-MM-DD hh:mm",
             "minTime"       : input.data('begin'),
             "maxTime"       : input.data('end'),
-            "allowWdays"    : [1,3],//days,
+            "allowWdays"    : days,
             "calendarMouseScroll": false,
             "closeOnSelected": true,
             "autodateOnStart": false,
