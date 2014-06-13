@@ -26,7 +26,7 @@ twig:
     strict_variables: %kernel.debug%
     globals:
       rent_documentation_url:  %rent_documentation_url%
-      project_name:             "Oktolab RENT 3.7.4"
+      project_name:             "Oktolab RENT 3.8"
       hub_redirect_url: %oktolab.hub_redirect_url%
     form:
       resources:
