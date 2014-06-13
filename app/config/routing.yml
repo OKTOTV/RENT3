@@ -1,5 +1,5 @@
 oktolab_rent:
-    resource: "@OktolabRentBundle/Controller/"
+    resource: "@OktolabRentBundle/Controller"
     type:     annotation
     prefix:   /
 

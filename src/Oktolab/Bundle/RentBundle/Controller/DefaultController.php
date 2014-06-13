@@ -97,7 +97,7 @@ class DefaultController extends Controller
         );
     }
 
-    /*
+    /**
      * Shows overdue events.
      *
      * @Configuration\Method("GET")

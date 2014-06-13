@@ -161,13 +161,13 @@ class EventRepository extends EntityRepository
                     )
                 )
             );
-        $qb->setParameter('end', new DateTime());
+        $qb->setParameter('end', new \DateTime());
         $qb->setParameter('reserved', Event::STATE_RESERVED);
         $qb->setParameter('lent', Event::STATE_LENT);
         $qb->setParameter('delivered', Event::STATE_DELIVERED);
         $qb->setParameter('deferred', Event::STATE_DEFERRED);
         $qb->setParameter('type', $type);
 
-        return $qb->getResult();
+        return $qb->getQuery()->getResult();
     }
 }
