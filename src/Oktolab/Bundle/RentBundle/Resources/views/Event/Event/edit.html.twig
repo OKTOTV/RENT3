@@ -117,7 +117,7 @@
                         {{ form_widget(form.rent, {'attr': { 'class': 'aui-button aui-button-primary event-rent', 'disabled':'disabled'}, 'label': 'event.rent'|trans }) }}
                         {{ form_widget(form.update, {'attr': { 'class': 'aui-button' }, 'label': 'event.update'|trans }) }}
                     {% elseif form.vars.value.state == 2 %} {# event is lent, can be taken back #}
-                        {{ form_widget(form.rent, {'attr': { 'class': 'aui-button aui-button-primary'}, 'label': 'event.deliver'|trans }) }}
+                        {{ form_widget(form.rent, {'attr': { 'class': 'aui-button aui-button-primary event-rent'}, 'disabled':'disabled','label': 'event.deliver'|trans }) }}
                         <a href="{{ path('orb_event_extend', { 'id': form.vars.value.id }) }}" class="aui-button">{{ 'event.extend'|trans }}</a>
                     {% endif %}
                     {% if form.vars.value.id is not null %}
