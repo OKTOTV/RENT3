@@ -4,11 +4,11 @@
 {% block content_header %}
     <div class="aui-page-header-inner">
         <div class="aui-page-header-main">
-            <h1>{{'generic.dashboard'|trans}}</h1>
+            <h1>{{'dashboard.overdue_events'|trans}}</h1>
         </div>
         <div class="aui-page-header-actions">
             <div class="aui-buttons">
-                <input class="aui-button" type="text" id="dashboard-date" />
+                <a href="{{ path('rentbundle_dashboard') }}" class="aui-button">{{ 'generic.dashboard'|trans }}</a>
             </div>
         </div>
     </div>
@@ -53,7 +53,7 @@
                 </tbody>
             </table>
             {% else %}
-                {{'event.noActiveEvents'|trans}}
+                {{'dashboard.no_overdue_events'|trans}}
             {% endif %}
         </div>
 
@@ -89,7 +89,7 @@
                 </tbody>
             </table>
             {% else %}
-                {{'event.noActiveEvents'|trans}}
+                {{'dashboard.no_overdue_events'|trans}}
             {% endif %}
         </div>
     </div>

@@ -1633,6 +1633,18 @@
                 <source>dashboard.event_timeroom</source>
                 <target>Aktive Buchungen im Zeitraum %begin% bis %end%</target>
             </trans-unit>
+            <trans-unit id="1701">
+                <source>dashboard.no_overdue_events</source>
+                <target>Keine überfälligen Buchungen vorhanden</target>
+            </trans-unit>
+            <trans-unit id="1702">
+                <source>dashboard.overdue_events</source>
+                <target>Überfällige Buchungen</target>
+            </trans-unit>
+            <trans-unit id="1703">
+                <source>dashboard.show_overdue</source>
+                <target>Überfällige Buchungen</target>
+            </trans-unit>
         </body>
     </file>
 </xliff>
