@@ -267,12 +267,20 @@ jQuery(document).ready(function ($) {
         currentStamp = currentStamp+' '+Oktolab.leadingZero(current.getHours().toString());
         currentStamp = currentStamp+':'+Oktolab.leadingZero(current.getMinutes().toString());
 
+        var days = input.data('date');
+        if (days) {
+            days = days.split(',').map( Number );
+            console.log(days);
+        }
         // handler is the jquery object with the datetimepicker
         input.appendDtpicker({
             "firstDayOfWeek": 1,
             "futureOnly"    : true,
             "locale"        : "de",
             "dateFormat"    : "YYYY-MM-DD hh:mm",
+            "minTime"       : input.data('begin'),
+            "maxTime"       : input.data('end'),
+            "allowWdays"    : [1,3],//days,
             "calendarMouseScroll": false,
             "closeOnSelected": true,
             "autodateOnStart": false,

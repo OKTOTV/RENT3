@@ -253,6 +253,48 @@ class TimeblockTransformer
         return json_encode($json_timeblocks);
     }
 
+    public function getRangeForDatePicker($type = 'Inventory')
+    {
+        $timeblocks = $this->aggregator->getTimeblocks(null, null, $type);
+        $days = array();
+        $begin = $timeblocks[0]->getBegin();
+        $end = $timeblocks[0]->getEnd();
+
+        foreach ($timeblocks as $timeblock) {
+            if ($begin > $timeblock->getBegin()) {
+                $begin = $timeblock->getBegin();
+            }
+            if ($end < $timeblock->getEnd()) {
+                $end = $timeblock->getEnd();
+            }
+
+            if ($timeblock->hasWeekdayAvailable(Timeblock::WEEKDAY_MO)) {
+                $days[] = 1;
+            }
+            if ($timeblock->hasWeekdayAvailable(Timeblock::WEEKDAY_TU)) {
+                $days[] = 2;
+            }
+            if ($timeblock->hasWeekdayAvailable(Timeblock::WEEKDAY_WE)) {
+                $days[] = 3;
+            }
+            if ($timeblock->hasWeekdayAvailable(Timeblock::WEEKDAY_TH)) {
+                $days[] = 4;
+            }
+            if ($timeblock->hasWeekdayAvailable(Timeblock::WEEKDAY_FR)) {
+                $days[] = 5;
+            }
+            if ($timeblock->hasWeekdayAvailable(Timeblock::WEEKDAY_SA)) {
+                $days[] = 6;
+            }
+            if ($timeblock->hasWeekdayAvailable(Timeblock::WEEKDAY_SO)) {
+                $days[] = 0;
+            }
+        }
+
+        $days = array_unique($days);
+        return array(implode(',', $days), $begin->format('H:i'), $end->modify('+1 minute')->format('H:i'));
+    }
+
     private function loadCache($type = 'inventory', $begin)
     {
         switch($type) {

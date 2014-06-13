@@ -56,7 +56,7 @@ class EventController extends Controller
         return array(
             'form' => $form->createView(),
             'objects' => $objects,
-            'timeblock_times'  => $this->get('oktolab.event_calendar_timeblock')->getBlockJsonForType($form->getData()->getType()->getName())
+            'timeblock_times'  => $this->get('oktolab.event_calendar_timeblock')->getRangeForDatePicker($form->getData()->getType()->getName())
         );
     }
 
