@@ -53,7 +53,7 @@ class EventController extends Controller
         $objects = $this->get('oktolab.event_manager')->convertEventObjectsToEntites($form->getData()->getObjects());
         $this->get('session')->getFlashBag()->add('error', 'event.save_error');
 
-        $datepicker = $this->get('oktolab.event_calendar_timeblock')->getRangeForDatePicker($form->getData()->getType()->getName());
+        $datepicker = $this->get('oktolab.event_calendar_timeblock')->getRangeForDatePicker($form->getData()->getType());
 
         return array(
             'form' => $form->createView(),
@@ -91,7 +91,7 @@ class EventController extends Controller
             )
         );
 
-        $datepicker = $this->get('oktolab.event_calendar_timeblock')->getRangeForDatePicker($form->getData()->getType()->getName());
+        $datepicker = $this->get('oktolab.event_calendar_timeblock')->getRangeForDatePicker($form->getData()->getType());
 
         return array(
             'form' => $form->createView(),
@@ -138,7 +138,7 @@ class EventController extends Controller
             $objects = $this->get('oktolab.event_manager')->convertEventObjectsToEntites($event->getObjects());
             $this->get('session')->getFlashBag()->add('error', 'event.save_error');
 
-            $datepicker = $this->get('oktolab.event_calendar_timeblock')->getRangeForDatePicker($form->getData()->getType()->getName());
+            $datepicker = $this->get('oktolab.event_calendar_timeblock')->getRangeForDatePicker($form->getData()->getType());
 
             return array(
                 'form' => $form->createView(),
@@ -241,7 +241,7 @@ class EventController extends Controller
 
         $objects = $this->get('oktolab.event_manager')->convertEventObjectsToEntites($event->getObjects());
 
-        $datepicker = $this->get('oktolab.event_calendar_timeblock')->getRangeForDatePicker($form->getData()->getType()->getName());
+        $datepicker = $this->get('oktolab.event_calendar_timeblock')->getRangeForDatePicker($form->getData()->getType());
 
         return array(
             'form' => $form->createView(),
@@ -283,7 +283,7 @@ class EventController extends Controller
             $objects = $this->get('oktolab.event_manager')->convertEventObjectsToEntites($event->getObjects());
             $this->get('session')->getFlashBag()->add('error', 'event.save_error');
 
-            $datepicker = $this->get('oktolab.event_calendar_timeblock')->getRangeForDatePicker($form->getData()->getType()->getName());
+            $datepicker = $this->get('oktolab.event_calendar_timeblock')->getRangeForDatePicker($form->getData()->getType());
 
             return array(
                 'form' => $form->createView(), 

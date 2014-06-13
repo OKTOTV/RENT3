@@ -253,9 +253,19 @@ class TimeblockTransformer
         return json_encode($json_timeblocks);
     }
 
-    public function getRangeForDatePicker($type = 'Inventory')
+    public function getRangeForDatePicker($type)
     {
+        if ($type) {
+            $type = $type->getName();
+        } else {
+            return array("0,1,2,3,4,5,6", "00:00", "23:59");
+        }
+
         $timeblocks = $this->aggregator->getTimeblocks(null, null, $type);
+        if (!$timeblocks) {
+            return array("0,1,2,3,4,5,6", "00:00", "23:59");
+        }
+
         $days = array();
         $begin = $timeblocks[0]->getBegin();
         $end = $timeblocks[0]->getEnd();

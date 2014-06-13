@@ -78,6 +78,8 @@ class CompanySettingTest extends \PHPUnit_Framework_TestCase
             'city'              => 'austria',
             'logo'              => null,
             'additional_text'   => null,
+            'email'             => null,
+            'telnumber'         => null
         );
 
         $this->SUT->setName($expected['name']);

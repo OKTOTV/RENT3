@@ -44,7 +44,7 @@ class RentController extends Controller
         $form->remove('delete');
         $form->remove('rent');
 
-        $datepicker = $this->get('oktolab.event_calendar_timeblock')->getRangeForDatePicker($form->getData()->getType()->getName());
+        $datepicker = $this->get('oktolab.event_calendar_timeblock')->getRangeForDatePicker($form->getData()->getType());
 
         return array(
             'form' => $form->createView(),
@@ -84,7 +84,7 @@ class RentController extends Controller
         $form->remove('rent');
         $form->remove('update');
 
-        $datepicker = $this->get('oktolab.event_calendar_timeblock')->getRangeForDatePicker($form->getData()->getType()->getName());
+        $datepicker = $this->get('oktolab.event_calendar_timeblock')->getRangeForDatePicker($eventType);
 
         return array(
             'form' => $form->createView(),
