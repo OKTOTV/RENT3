@@ -33,7 +33,7 @@
                         {{ 'event.pdf.rent'|trans }}
                     </p>
                     <p>
-                        {{ 'event.pdf.lentgivenBy'|trans({ '%CompanyName%': setting.name, '%coworkerName%': app.user.username}) }}
+                        {{ 'event.pdf.lentgivenBy'|trans({ '%CompanyName%': setting.name, '%coworkerName%': app.user.displayName|default(app.user.username)}) }}
                     </p>
                     <p>
                         {{ setting.additional_text }}
