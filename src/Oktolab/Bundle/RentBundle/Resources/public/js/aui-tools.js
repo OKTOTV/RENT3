@@ -76,6 +76,7 @@ AJS.$(document).ready(function() {
             valueKey:       'displayName',
             remote:         { url: oktolab.typeahead.itemRemoteUrl },
             template:       quicksearch_template,
+            minLength:      2,
             header:         '<h3 style="color: black">Items</h3>',
             engine:         Hogan
         }, {
@@ -83,6 +84,7 @@ AJS.$(document).ready(function() {
             valueKey:       'displayName',
             remote:         { url: oktolab.typeahead.setRemoteUrl },
             template:       quicksearch_template,
+            minLength:      2,
             header:         '<h3 style="color: black">Sets</h3>',
             engine:         Hogan
         }, {
@@ -90,12 +92,14 @@ AJS.$(document).ready(function() {
             valueKey:       'displayName',
             remote:         { url: oktolab.typeahead.eventRemoteUrl },
             template:       quicksearch_template,
+            minLength:      2,
             header:         '<h3 style="color: black">Verleihscheine</h3>',
             engine:         Hogan
         }, {
             name:           'quicksearch-costunits',
             valueKey:       'displayName',
             remote:         { url: oktolab.typeahead.costunitRemoteUrl },
+            minLength:      2,
             template:       '<p class="tt-object-addon">{{displayName}}</p>',
             header:         '<h3 style="color: black">Kostenstellen</h3>',
             engine:         Hogan
@@ -104,6 +108,7 @@ AJS.$(document).ready(function() {
             valueKey:       'displayName',
             remote:         { url: oktolab.typeahead.roomRemoteUrl },
             template:       quicksearch_template,
+            minLength:      2,
             header:         '<h3 style="color: black">Räume</h3>',
             engine:         Hogan
         }

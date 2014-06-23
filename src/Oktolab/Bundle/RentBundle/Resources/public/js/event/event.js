@@ -158,57 +158,64 @@ jQuery(document).ready(function ($) {
             searchfield.prop('disabled', false);
             searchfield.typeahead('destroy');
             searchfield.typeahead([{
-                name: 'rent-items',
-                valueKey: 'displayName',
-                remote: { url: oktolab.typeahead.eventItemRemoteUrl + '/'+begin+'/'+end },
-                prefetch: prefetch,
-                limit: 10,
-                template: [
-                    '<span class="aui-icon aui-icon-small aui-iconfont-devtools-file">Object</span>',
-                    '<p class="tt-object-name">{{displayName}}</p>',
-                    '<p class="tt-object-addon">{{barcode}}</p>'
-                ].join(''),
-                header: '<h3>Gegenstände</h3>',
-                engine: Hogan
-            }, {
-                name:       'rent-sets',
+                name:       'rent-items',
                 valueKey:   'displayName',
-                remote: { url: oktolab.typeahead.eventSetRemoteUrl + '/'+begin+'/'+end },
-                prefetch: { url: oktolab.typeahead.eventSetPrefetchUrl + '/'+begin+'/'+end, ttl:0 },
-                template: [
-                    '<span class="aui-icon aui-icon-small aui-iconfont-devtools-file">Object</span>',
-                    '<p class="tt-object-name">{{displayName}}</p>',
-                    '<p class="tt-object-addon">{{barcode}}</p>'
-                ].join(''),
-                header: '<h3>Sets</h3>',
-                engine: Hogan
-            }, {
-                name:       'category',
-                valueKey:   'displayName',
-                remote: { url: oktolab.typeahead.eventItemRemoteUrl + '/'+begin+'/'+end },
-                prefetch:   { url: oktolab.typeahead.eventCategoryPrefetchUrl + '/'+begin+'/'+end, ttl:0 },
+                remote:     { url: oktolab.typeahead.eventItemRemoteUrl + '/'+begin+'/'+end },
+                prefetch:   prefetch,
+                limit:      10,
+                minLength:  2,
                 template:   [
                     '<span class="aui-icon aui-icon-small aui-iconfont-devtools-file">Object</span>',
                     '<p class="tt-object-name">{{displayName}}</p>',
                     '<p class="tt-object-addon">{{barcode}}</p>'
                 ].join(''),
-                header: '<h3>Kategorie</h3>',
-                engine: Hogan
+                header:     '<h3>Gegenstände</h3>',
+                engine:     Hogan
+            }, {
+                name:       'rent-sets',
+                valueKey:   'displayName',
+                remote:     { url: oktolab.typeahead.eventSetRemoteUrl + '/'+begin+'/'+end },
+                prefetch:   { url: oktolab.typeahead.eventSetPrefetchUrl + '/'+begin+'/'+end, ttl:0 },
+                limit:      10,
+                minLength:  2,
+                template:   [
+                    '<span class="aui-icon aui-icon-small aui-iconfont-devtools-file">Object</span>',
+                    '<p class="tt-object-name">{{displayName}}</p>',
+                    '<p class="tt-object-addon">{{barcode}}</p>'
+                ].join(''),
+                header:     '<h3>Sets</h3>',
+                engine:     Hogan
+            }, {
+                name:       'category',
+                valueKey:   'displayName',
+                remote:     { url: oktolab.typeahead.eventItemRemoteUrl + '/'+begin+'/'+end },
+                prefetch:   { url: oktolab.typeahead.eventCategoryPrefetchUrl + '/'+begin+'/'+end, ttl:0 },
+                limit:      10,
+                minLength:  2,
+                template:   [
+                    '<span class="aui-icon aui-icon-small aui-iconfont-devtools-file">Object</span>',
+                    '<p class="tt-object-name">{{displayName}}</p>',
+                    '<p class="tt-object-addon">{{barcode}}</p>'
+                ].join(''),
+                header:     '<h3>Kategorie</h3>',
+                engine:     Hogan
             }]);
             // enable room search
             roomSearchField.prop('disabled', false);
             roomSearchField.typeahead('destroy');
             roomSearchField.typeahead([{
-                name: 'rent-rooms',
-                valueKey: 'displayName',
-                remote: { url: oktolab.typeahead.eventRoomRemoteUrl + '/'+begin+'/'+end },
-                template: [
+                name:       'rent-rooms',
+                valueKey:   'displayName',
+                remote:     { url: oktolab.typeahead.eventRoomRemoteUrl + '/'+begin+'/'+end },
+                limit:      10,
+                minLength:  2,
+                template:   [
                     '<span class="aui-icon aui-icon-small aui-iconfont-devtools-file">Object</span>',
                     '<p class="tt-object-name">{{displayName}}</p>',
                     '<p class="tt-object-addon">{{barcode}}</p>'
                 ].join(''),
-                header: '<h3>Räume</h3>',
-                engine: Hogan
+                header:     '<h3>Räume</h3>',
+                engine:     Hogan
             }]);
             // enable rent if objects are prescanned.
             enableRent(formGroup.find('.event-objects'));
