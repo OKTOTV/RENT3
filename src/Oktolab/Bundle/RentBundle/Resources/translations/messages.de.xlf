@@ -512,6 +512,18 @@
                 <source>inventory.item.zeroBookings</source>
                 <target>Bisher keine Buchungen</target>
             </trans-unit>
+            <trans-unit id="151">
+                <source>inventory.item.tabtitle</source>
+                <target>Inventar %title%</target>
+            </trans-unit>
+            <trans-unit id="152">
+                <source>inventory.room.tabtitle</source>
+                <target>Raum %title%</target>
+            </trans-unit>
+            <trans-unit id="153">
+                <source>inventory.set.tabtitle</source>
+                <target>Set %title%</target>
+            </trans-unit>
 
 
             <trans-unit id="201">

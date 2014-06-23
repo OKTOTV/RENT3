@@ -46,7 +46,9 @@ class RoomApiService
             $json['objectives'][] = array(
                 'objective' => sprintf('%s:%d', $room->getType(), $room->getId()),
                 'id'        => $room->getId(),
-                'title'     => $room->getTitle()
+                'title'     => $room->getTitle(),
+                'active'    => true,
+                'url'       => 'inventory/room/'.$room->getId()
             );
         }
 

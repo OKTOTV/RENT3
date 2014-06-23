@@ -1,4 +1,5 @@
 {% extends 'OktolabRentBundle::layoutFocusedTask.html.twig' %}
+{% block title 'inventory.item.tabtitle'|trans({'%title%': item.title}) %}
 {% block content %}
     <div id="qms-form">
         <h2>{{ 'inventory.item.new_qms_status'|trans({'%itemName%': form.vars.value.title}) }}</h2>
