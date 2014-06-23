@@ -186,13 +186,14 @@ class CostUnitController extends Controller
         if ($editForm->isValid()) {
 
             foreach ($allContacts as $contact) {
-                $costunit->removeContact($contact);
                 $contact->removeCostunit($costunit);
             }
 
-            foreach ($editForm->get('contacts')->getData() as $contact) {
-                $costunit->addContact($contact);
-                $contact->addCostunit($costunit);
+            if ($editForm->get('contacts')->getData()) {
+                foreach ($editForm->get('contacts')->getData() as $contact) {
+                    $costunit->addContact($contact);
+                    $contact->addCostunit($costunit);
+                }
             }
 
             $em->persist($costunit);
@@ -217,27 +218,18 @@ class CostUnitController extends Controller
     public function deleteAction(CostUnit $costunit)
     {
         if (count($costunit->getContacts()) > 0) {
-            $this
-                ->get('session')
-                ->getFlashBag()
-                ->add(
-                    'warning',
-                    $this->get('translator')->trans('costunit.message.deletefailure')
-                );
-        } else {
+            $this->get('session')->getFlashBag()->add('warning', 'costunit.message.deletefailure_contacts');
+        } else if (count($costunit->getEvents()) > 0) {
+            $this->get('session')->getFlashBag()->add('error', 'costunit.message.deletefailure_events');
+        } 
+        else {
             $em = $this->get('doctrine.orm.entity_manager');
             $em->remove($costunit);
             $em->flush();
 
-            $this
-                ->get('session')
-                ->getFlashBag()
-                ->add(
-                    'success',
-                    $this->get('translator')->trans('costunit.message.deletesuccess')
-                );
+            $this->get('session')->getFlashBag()->add('success', 'costunit.message.deletesuccess');
+            return $this->redirect($this->generateUrl('admin_costunit'));
         }
-
-        return $this->redirect($this->generateUrl('admin_costunit'));
+        return $this->redirect($this->generateUrl('admin_costunit_edit', array('id' => $costunit->getId())));
     }
 }

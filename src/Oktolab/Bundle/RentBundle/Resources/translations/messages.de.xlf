@@ -1161,6 +1161,14 @@
                 <source>costunit.message.deletesuccess</source>
                 <target>Kostenstelle erfolgreich gelöscht</target>
             </trans-unit>
+            <trans-unit id="919">
+                <source>costunit.message.deletefailure_contacts</source>
+                <target>Kostenstelle kann wegen Kontakten nicht gelöscht werden</target>
+            </trans-unit>
+            <trans-unit id="920">
+                <source>costunit.message.deletefailure_events</source>
+                <target>Kostenstelle darf wegen ihren Buchungen nicht gelöscht werden</target>
+            </trans-unit>
 
             <trans-unit id="1000">
                 <source>admin.contact</source>
