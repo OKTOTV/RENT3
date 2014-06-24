@@ -1489,6 +1489,15 @@
                 <source>setting.company.telnumber</source>
                 <target>Telefonnummer</target>
             </trans-unit>
+            <trans-unit id="1314">
+                <source>settings.company_email.empty</source>
+                <target>Nicht Eingetragen</target>
+            </trans-unit>
+            <trans-unit id="1315">
+                <source>settings.company_telnumber.empty</source>
+                <target>Nicht Eingetragen</target>
+            </trans-unit>
+
 
             <trans-unit id="1400">
                 <source>qms.okay</source>

@@ -16,7 +16,7 @@
 
             <input id="{{ '%s_objects_{{index}}_type'|format(formName) }}" name="{{ '%s[objects][{{index}}][type]'|format(formName) }}" value="{{ '{{type}}' }}" />
             <input id="{{ '%s_objects_{{index}}_object'|format(formName) }}" name="{{ '%s[objects][{{index}}][object]'|format(formName) }}" value="{{ '{{id}}' }}" />
-            <input type="checkbox" id="{{ '%s_objects_{{index}}_scanned'|format(formName) }}" name="{{ '%s[objects][{{index}}][scanned]'|format(formName) }}" class="scanner" />
+            <input type="checkbox" id="{{ '%s_objects_{{index}}_scanned'|format(formName) }}" name="{{ '%s[objects][{{index}}][scanned]'|format(formName) }}" class="scanner" novalidate="novalidate" />
         </div>
     </td>
 </tr>

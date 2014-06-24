@@ -29,8 +29,8 @@ class CompanySettingType extends AbstractType
                 'textarea',
                 array('label' => 'setting.company.additional_text', 'required' => false)
             )
-            ->add('email', 'text', array('label' => 'setting.company.email'))
-            ->add('telnumber', 'text', array('label' => 'setting.company.telnumber'));
+            ->add('email', 'text', array('label' => 'setting.company.email', 'required' => false))
+            ->add('telnumber', 'text', array('label' => 'setting.company.telnumber', 'required' => false));
     }
 
     /**
