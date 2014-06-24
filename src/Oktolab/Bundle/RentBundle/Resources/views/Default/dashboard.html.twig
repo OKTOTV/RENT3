@@ -83,7 +83,7 @@
                             {% include 'OktolabRentBundle:Event/Event:_event_status_lozenge.html.twig' with vars%}
                         </td>
                         <td>{{ roomEvent.costunit.name }}</td>
-                        <td>{{ roomEvent.contact.name}}</td>
+                        <td><a href="{{ hub_redirect_url ~ roomEvent.contact.guid}}">{{ roomEvent.contact.name}}</a></td>
                         <td><span style="display:none">{{roomEvent.begin|date('U')}}</span>{{ roomEvent.begin|date('d.m.Y H:i') }}</td>
                         <td><span style="display:none">{{roomEvent.end|date('U')}}</span>{{ roomEvent.end|date('d.m.Y H:i') }}</td>
                     </tr>
