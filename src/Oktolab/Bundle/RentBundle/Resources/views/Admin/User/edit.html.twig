@@ -12,7 +12,8 @@
         <fieldset>
             {{ form_errors(edit_form) }}
             {{ form_row(edit_form.role) }}
-
+            {{ form_row(edit_form.displayname) }}
+            {{ form_row(edit_form.username) }}
             <div class="buttons-container">
                 <button class="aui-button aui-button-primary" type="submit">{{'generic.submit'|trans}}</button>
             </div>

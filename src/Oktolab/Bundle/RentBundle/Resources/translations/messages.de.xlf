@@ -946,6 +946,14 @@
                 <source>inventory.export</source>
                 <target>Export</target>
             </trans-unit>
+            <trans-unit id="632">
+                <source>admin.user.displayname</source>
+                <target>Name</target>
+            </trans-unit>
+            <trans-unit id="633">
+                <source>admin.user.short</source>
+                <target>Kürzel</target>
+            </trans-unit>
 
             <trans-unit id="700">
                 <source>event.book</source>
