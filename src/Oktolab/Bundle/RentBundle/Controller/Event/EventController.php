@@ -447,9 +447,18 @@ class EventController extends Controller
             $event
         );
         $objects = $this->get('oktolab.event_manager')->convertEventObjectsToEntites($event->getObjects());
-
+        $datepicker = $this->get('oktolab.event_calendar_timeblock')->getRangeForDatePicker($form->getData()->getType());
+        
         if ($request->getMethod() == "GET") { // wants form
-            return array('form' => $form->createView(), 'event' => $event, 'objects' => $objects);
+            
+            return array(
+                'form' => $form->createView(), 
+                'event' => $event, 
+                'objects' => $objects,
+                'timeblock_days'  => $datepicker[0],
+                'timeblock_begin' => $datepicker[1],
+                'timeblock_end'   => $datepicker[2]
+            );
         } else { // posts form
             $form->handleRequest($request);
 
@@ -462,7 +471,14 @@ class EventController extends Controller
             }
 
             $this->get('session')->getFlashBag()->add('error', 'event.extend_error');
-            return array('form' => $form->createView(), 'event' => $event, 'objects' => $objects);
+            return array(
+                'form' => $form->createView(), 
+                'event' => $event, 
+                'objects' => $objects,
+                'timeblock_days'  => $datepicker[0],
+                'timeblock_begin' => $datepicker[1],
+                'timeblock_end'   => $datepicker[2]
+            );
         }
     }
 }
