@@ -202,7 +202,7 @@ class EventController extends Controller
             $em = $this->getDoctrine()->getManager();
             $em->persist($event);
             foreach ($event->getObjects() as $object) {
-                $object->isScanned(false);
+                $object->setScanned(false);
                 $em->persist($object);
             }
             $em->flush();
