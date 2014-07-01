@@ -13,7 +13,7 @@
             {{ 'event.pdf.costunit'|trans({ '%costunit%': event.costunit.name }) }}<br />
             {{ 'event.pdf.contact'|trans({ '%contact%': event.contact.name }) }}<br />
             {{ 'event.pdf.begin'|trans({ '%begin%': event.begin|date('H:i d.m.Y') }) }}<br />
-            {{ 'event.pdf.end'|trans({ '%end%': event.begin|date('H:i d.m.Y') }) }}
+            {{ 'event.pdf.end'|trans({ '%end%': event.end|date('H:i d.m.Y') }) }}
         </p>
         <h1>{{ 'event.pdf.rentsheet'|trans }}</h1>
 
