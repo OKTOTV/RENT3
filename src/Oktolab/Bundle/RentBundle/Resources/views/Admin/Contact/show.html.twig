@@ -25,7 +25,7 @@
                     <tbody>
                         {% for costunit in contact.costunits %}
                             <tr>
-                                <td headers="name"><a href="{{ path('admin_costunit_show', {'id': costunit.id}) }}">{{ costunit.name }}</a></td>
+                                <td headers="name"><a href="{{ path('admin_costunit_show', {'id': costunit.id}) }}" target="_blank">{{ costunit.name }}</a></td>
                             </tr>
                         {% endfor %}
                     </tbody>

@@ -33,7 +33,7 @@
                 </div>
                 <div class="field-group viewMode">
                     <label>{{ 'admin.contact'|trans }}</label>
-                    <span class='field-value'><a href="{{ hub_redirect_url ~ event.contact.guid }}">{{ event.contact.name|default('event.no_contact'|trans) }}</a></span>
+                    <span class='field-value'><a href="{{ hub_redirect_url ~ event.contact.guid }}" target="_blank">{{ event.contact.name|default('event.no_contact'|trans) }}</a></span>
                 </div>
                 <div class="field-group viewMode">
                     <label>{{ 'generic.description'|trans }}</label>
