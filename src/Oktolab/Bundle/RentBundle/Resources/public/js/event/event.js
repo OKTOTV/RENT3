@@ -37,18 +37,20 @@ jQuery(document).ready(function ($) {
         var table = formGroup.find('.event-objects');
         var prototype = table.data('prototype');
 
-        var tr = table.find('tr[data-value="' + datum.value + '"]');
-        if (0 === tr.length) { //item is not in table yet. add it!
-            var index    = table.data('index');
-            var template = Hogan.compile(prototype);
-            var tablerow = template.render($.extend(datum, {'index': index +1}));
+        if (datum) {
+            var tr = table.find('tr[data-value="' + datum.value + '"]');
+            if (0 === tr.length) { //item is not in table yet. add it!
+                var index    = table.data('index');
+                var template = Hogan.compile(prototype);
+                var tablerow = template.render($.extend(datum, {'index': index +1}));
 
-            table.data('index', index +1);
-            table.append(tablerow);
-            enableRent(formGroup.find('table'));
-        } else {
-            // scan the item (green)
-            checkTick(tr);
+                table.data('index', index +1);
+                table.append(tablerow);
+                enableRent(formGroup.find('table'));
+            } else {
+                // scan the item (green)
+                checkTick(tr);
+            }
         }
     };
 
