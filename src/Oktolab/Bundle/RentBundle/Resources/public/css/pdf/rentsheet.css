@@ -58,6 +58,10 @@ h1 {
     text-align: left;
     width: 70%;
  }
+ .set {
+    text-align: left;
+    width: 90%;
+ }
  .rightTop {
     text-align: right;
     position: fixed;

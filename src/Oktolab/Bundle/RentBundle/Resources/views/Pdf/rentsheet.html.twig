@@ -62,6 +62,32 @@
                 {{ event.description }}
             </p>
         {% endif %}
+
+        {% set headerWritten = false %}
+        {% for object in objects if objects %}
+            {% if object.type == "set" %}
+                {% if headerWritten == false %}
+                    <table>
+                        <thead>
+                            <tr>
+                                <th class="barcode">{{ "inventory.set.barcode"|trans }}</th>
+                                <th class="set">{{ "inventory.set.sets"|trans }}</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                {% endif %}
+                <tr>
+                    <td class="barcode">{{ object.barcode }}</td>
+                    <td class="set">{{ object.title }}</td>
+                </tr>
+                {% if headerWritten == false %}
+                    </tbody>
+                </table>
+                {% set headerWritten = true %}
+                {% endif %}
+            {% endif %}
+        {% endfor %}
+        <p></p>
         <table>
             <thead>
                 <tr>
@@ -77,7 +103,9 @@
                             <td class="barcode">{{ object.barcode|upper }}</td>
                             <td class="item">
                                 {{ object.vendor }} {{ object.modelnumber }} {{ object.title}} {% if object.serialnumber %}- {{ object.serialnumber }}{% endif %}<br />
-                                {% if object.description %}<p class="description">{{ object.description }}</p>{% endif %}
+                                {% if object.description or object.set %}
+                                    <p class="description">{{ object.set.title|default()|upper }} {{ object.description }}</p>
+                                {% endif %}
                             </td>
                             <td class="notice">{{ object.notice }}</td>
                         </tr>
