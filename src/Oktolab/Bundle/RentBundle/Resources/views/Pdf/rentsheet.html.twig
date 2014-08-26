@@ -75,18 +75,18 @@
                             </tr>
                         </thead>
                         <tbody>
+                    {% set headerWritten = true %}
                 {% endif %}
                 <tr>
                     <td class="barcode">{{ object.barcode }}</td>
                     <td class="set">{{ object.title }}</td>
                 </tr>
-                {% if headerWritten == false %}
-                    </tbody>
-                </table>
-                {% set headerWritten = true %}
-                {% endif %}
             {% endif %}
         {% endfor %}
+        {% if headerWritten == true %}
+                </tbody>
+            </table>
+        {% endif %}
         <p></p>
         <table>
             <thead>
