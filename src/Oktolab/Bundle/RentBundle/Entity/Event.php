@@ -299,6 +299,15 @@ class Event
     }
 
     /**
+     * @Assert\True(message="event.has_no_objects")
+     * @return boolean 
+     */
+    public function isEmpty()
+    {
+        return count($this->getObjects()) > 0;
+    }
+
+    /**
      * Set costunit
      *
      * @param \Oktolab\Bundle\RentBundle\Entity\costunit $costunit

@@ -1,8 +1,6 @@
 <?php
 namespace Oktolab\Bundle\RentBundle\Extension;
 
-use Symfony\Bundle\FrameworkBundle\Translation\Translator;
-
 /**
  * Description of WeekdaysToStringExtension
  *
@@ -32,7 +30,7 @@ class WeekdaysToStringExtension extends \Twig_Extension
 
     private $translator;
 
-    public function __construct(Translator $translator)
+    public function __construct($translator)
     {
         $this->translator = $translator;
     }

@@ -3,7 +3,6 @@
 namespace Oktolab\Bundle\RentBundle\Model;
 
 use Doctrine\ORM\EntityManager;
-use Symfony\Component\Validator\Validator;
 use Oktolab\Bundle\RentBundle\Model\ItemCsvParser;
 
 class ItemImportManager
@@ -14,7 +13,7 @@ class ItemImportManager
     private $csvParser;
     private $mode;
 
-    public function __construct(EntityManager $manager, Validator $validator, ItemCsvParser $csvParser)
+    public function __construct(EntityManager $manager, $validator, ItemCsvParser $csvParser)
     {
         $this->entityManager = $manager;
         $this->validator = $validator;

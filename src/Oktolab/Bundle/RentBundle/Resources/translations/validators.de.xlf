@@ -120,6 +120,10 @@
                 <source>event.object_unavailable_in_timerange</source>
                 <target>"%string%" ist nicht für den gegebenen Zeitraum frei</target>
             </trans-unit>
+            <trans-unit id="604">
+                <source>event.has_no_objects</source>
+                <target>Du musst für eine Buchung auch etwas buchen</target>
+            </trans-unit>
 
             <trans-unit id="700">
                 <source>qms.descriptionNeeded</source>

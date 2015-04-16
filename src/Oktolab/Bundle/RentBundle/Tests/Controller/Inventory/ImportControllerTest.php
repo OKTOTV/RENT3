@@ -24,7 +24,7 @@ class ImportControllerTest extends WebTestCase
         $form = $this->client->getCrawler()->selectButton('Hochladen')->form();
         $form['form[csv]'] = $file;
         $crawler = $this->client->submit($form);
-
+        
         $this->assertTrue($this->client->getResponse()->isSuccessful(), 'Form submit was not successful');
         $this->assertEquals(
             4,
