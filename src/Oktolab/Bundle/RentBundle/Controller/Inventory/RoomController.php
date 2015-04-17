@@ -100,12 +100,19 @@ class RoomController extends Controller
      * Finds and displays a Inventory\Room entity.
      *
      * @Route("/{id}", name="inventory_room_show")
-     * @ParamConverter("room", class="OktolabRentBundle:Inventory\Room")
      * @Method("GET")
-     * @Template("OktolabRentBundle:Inventory\Room:show.html.twig", vars={"room"})
+     * @Template("OktolabRentBundle:Inventory\Room:show.html.twig")
      */
-    public function showAction()
+    public function showAction(Room $room)
     {
+        $events = array();
+        $eventObjects = $this->getDoctrine()->getManager()->getRepository('OktolabRentBundle:EventObject')->findBy(array('object' => $room->getId(), 'type' => $room->getType()));
+        if ($eventObjects) {
+            foreach ($eventObjects as $eventObject) {
+                $events[] = $eventObject->getEvent();
+            }
+        }
+        return array('room' => $room, 'events' => array_reverse($events));
     }
 
     /**
