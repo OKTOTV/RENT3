@@ -38,15 +38,26 @@
 {% endblock %}
 
 {% block content %}
-    {{ aui_pager('inventory_item', nbPages, currentPage) }}
-
+    {{ aui_pager('inventory_item', nbPages, currentPage, 5, sortBy, order, nbResults) }}
+    {% set reverse = 'ASC' %}
+    {% if order == 'ASC' %}
+        {% set reverse = 'DESC'%}
+    {% endif %}
     <table class="aui inventory_item">
         <thead>
             <tr>
-                <th id="item_table_title" colspan="2">{{ 'inventory.item.title'|trans }}</th>
-                <th id="item_table_barcode">{{ 'inventory.item.barcode'|trans }}</th>
-                <th id="item_table_vendor">{{ 'inventory.item.vendor'|trans }}</th>
-                <th id="item_table_category">{{ 'inventory.item.category'|trans }}</th>
+                <th id="item_table_title" colspan="2">
+                    <a href="{{ path('inventory_item', {'page': 1, 'sortBy': 'title', 'order':reverse, 'nbResults': nbResults}) }}">{{ 'inventory.item.title'|trans }}</a>
+                </th>
+                <th id="item_table_barcode">
+                    <a href="{{ path('inventory_item', {'page': 1, 'sortBy': 'barcode', 'order':reverse, 'nbResults': nbResults}) }}">{{ 'inventory.item.barcode'|trans }}</a>
+                </th>
+                <th id="item_table_vendor">
+                    <a href="{{ path('inventory_item', {'page': 1, 'sortBy': 'vendor', 'order':reverse, 'nbResults': nbResults}) }}">{{ 'inventory.item.vendor'|trans }}</a>
+                </th>
+                <th id="item_table_category">
+                    <a href="{{ path('inventory_item', {'page': 1, 'sortBy': 'category', 'order':reverse, 'nbResults': nbResults}) }}">{{ 'inventory.item.category'|trans }}</a>
+                </th>
             </tr>
         </thead>
         <tbody>
@@ -74,5 +85,5 @@
         </tbody>
     </table>
 
-    {{ aui_pager('inventory_item', nbPages, currentPage) }}
+    {{ aui_pager('inventory_item', nbPages, currentPage, 5, sortBy, order, nbResults) }}
 {% endblock %}

@@ -25,9 +25,9 @@ class ItemController extends Controller
      * Lists all Inventory\Item entities.
      *
      * @Configuration\Method("GET")
-     * @Configuration\Route("s/{page}/{toDisplay}",
+     * @Configuration\Route("s/{page}/{nbResults}/{sortBy}/{order}",
      *      name="inventory_item",
-     *      defaults={"page"=1, "toDisplay"=10},
+     *      defaults={"page"=1, "nbResults"=30, "sortBy"="title", "order"="ASC"},
      *      requirements={"page"="\d+"})
      *
      * @Configuration\Template()
@@ -37,17 +37,25 @@ class ItemController extends Controller
      *
      * @return array
      */
-    public function indexAction($page, $toDisplay)
+    public function indexAction($page, $nbResults, $sortBy, $order)
     {
         $repository = $this->getDoctrine()->getManager()->getRepository('OktolabRentBundle:Inventory\Item');
 
         $count = $repository->fetchAllCount();
-        $items = $repository->getAllJoinSetAndJoinCategoryQuery()
-            ->setFirstResult(($page - 1) * $toDisplay)
-            ->setMaxResults($toDisplay)
-            ->getResult();
+        $items = $repository->findBy(array(), array($sortBy => $order), $nbResults, (($page-1)*$nbResults));
+        $nbPages = ceil($count / $nbResults);
+        if ($nbPages < 1) {
+            $nbPages = 1;
+        }
 
-        return array('entities' => $items, 'nbPages' => ceil($count / $toDisplay), 'currentPage' => $page);
+        return array(
+            'entities' => $items, 
+            'nbPages' => $nbPages,//floor($count / $nbResults),
+            'nbResults' => $nbResults, 
+            'currentPage' => $page,
+            'sortBy' => $sortBy,
+            'order' => $order
+        );
     }
 
     /**

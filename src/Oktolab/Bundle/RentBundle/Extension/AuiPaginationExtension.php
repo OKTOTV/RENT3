@@ -76,7 +76,7 @@ class AuiPaginationExtension extends \Twig_Extension
      *
      * @return string HTML
      */
-    public function getPagerHtml($url_name, $pages, $current, $max = 5)
+    public function getPagerHtml($url_name, $pages, $current, $max = 5, $sortBy = '', $order = '', $nbResults = 10)
     {
         if (1 === $pages) {
             return '<ol class="aui-nav aui-nav-pagination"></ol>';
@@ -92,7 +92,7 @@ class AuiPaginationExtension extends \Twig_Extension
                     if ($current > 1) {
                         $this->addListPoint(
                             $this->translator->trans('generic.previous'),
-                            $this->routing->generate($url_name, array('page' => $current-1)),
+                            $this->routing->generate($url_name, array('page' => $current-1, 'sortBy' => $sortBy, 'order' => $order, 'nbResults' => $nbResults)),
                             PREV
                         );
                     }
@@ -101,14 +101,14 @@ class AuiPaginationExtension extends \Twig_Extension
                 if ($i == $current) {
                     $this->htmlString .= sprintf('<li class="%s">%s</li>', SELECTED, $i);
                 } else {
-                    $this->addListPoint($i, $this->routing->generate($url_name, array('page' => $i)));
+                    $this->addListPoint($i, $this->routing->generate($url_name, array('page' => $i, 'sortBy' => $sortBy, 'order' => $order, 'nbResults' => $nbResults)));
                 }
 
                 if ($i == $pages) {
                     if ($current < $pages) {
                         $this->addListPoint(
                             $this->translator->trans('generic.next'),
-                            $this->routing->generate($url_name, array('page' => $current+1)),
+                            $this->routing->generate($url_name, array('page' => $current+1, 'sortBy' => $sortBy, 'order' => $order, 'nbResults' => $nbResults)),
                             NEXT
                         );
                     }
@@ -124,7 +124,7 @@ class AuiPaginationExtension extends \Twig_Extension
                 if ($current > 1) {
                     $this->addListPoint(
                         $this->translator->trans('generic.previous'),
-                        $this->routing->generate($url_name, array('page' => $current-1)),
+                        $this->routing->generate($url_name, array('page' => $current-1, 'sortBy' => $sortBy, 'order' => $order, 'nbResults' => $nbResults)),
                         PREV
                     );
                 }
@@ -132,7 +132,7 @@ class AuiPaginationExtension extends \Twig_Extension
                 if ($i == $current) {
                     $this->htmlString .= sprintf('<li class="%s">%s</li>', SELECTED, $i);
                 } else {
-                    $this->addListPoint($i, $this->routing->generate($url_name, array('page' => $i)));
+                    $this->addListPoint($i, $this->routing->generate($url_name, array('page' => $i, 'sortBy' => $sortBy, 'order' => $order, 'nbResults' => $nbResults)));
                 }
                 if ($startPoint > 2) {
                     $this->addListPoint('&hellip;', '', 'aui-nav-truncation');
@@ -146,7 +146,7 @@ class AuiPaginationExtension extends \Twig_Extension
                 } else {
                     $this->addListPoint(
                         $i,
-                        $this->routing->generate($url_name, array('page' => $i))
+                        $this->routing->generate($url_name, array('page' => $i, 'sortBy' => $sortBy, 'order' => $order, 'nbResults' => $nbResults))
                     );
                 }
             }
@@ -162,7 +162,7 @@ class AuiPaginationExtension extends \Twig_Extension
                 } else {
                     $this->addListPoint(
                         $i,
-                        $this->routing->generate($url_name, array('page' => $i)),
+                        $this->routing->generate($url_name, array('page' => $i, 'sortBy' => $sortBy, 'order' => $order, 'nbResults' => $nbResults)),
                         LAST
                     );
                 }
@@ -170,7 +170,7 @@ class AuiPaginationExtension extends \Twig_Extension
                 if ($current < $pages) {
                     $this->addListPoint(
                         $this->translator->trans('generic.next'),
-                        $this->routing->generate($url_name, array('page' => $current+1)),
+                        $this->routing->generate($url_name, array('page' => $current+1, 'sortBy' => $sortBy, 'order' => $order, 'nbResults' => $nbResults)),
                         NEXT
                     );
                 }
@@ -209,19 +209,6 @@ class AuiPaginationExtension extends \Twig_Extension
     protected function addListPoint($text, $link = '', $class = '')
     {
         $this->htmlString .= sprintf('<li class="%s"><a href="%s">%s</a></li>', $class, $link, $text);
-    }
-
-    /**
-     * Generates the URI.
-     *
-     * @param string $uri
-     * @param array  $parameters
-     *
-     * @return string
-     */
-    protected function generateUri($uri, array $parameters = array())
-    {
-        return $this->routing->generate($uri, $parameters);
     }
 
     /**
