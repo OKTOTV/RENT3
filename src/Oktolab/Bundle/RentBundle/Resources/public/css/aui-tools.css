@@ -94,3 +94,7 @@
     width: 15% !important;
     margin-right: 10px !important;
 }
+
+body {
+    font-size: 12px;
+}

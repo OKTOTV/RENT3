@@ -172,7 +172,7 @@
                     var block = $('<div />')
                         .addClass('calendar-timeblock')
                         .html(dataBlock.title)
-                        .css('width', (100 / timeblock.blocks.length).toFixed(2) + '%');
+                        .css('width', (100 / timeblock.blocks.length) + '%');
 
                     block.appendTo(headline);
                     Calendar.data.renderedTimeblocks.push({ 'date': new Date(dataBlock.end), 'block': block });
@@ -244,7 +244,7 @@
         _renderEventDescription: function (event, eventIdentifier) {
             var lozenge = Calendar._getLozengeForEvent(event);
 
-            var description = '<div class="calendar-event-description"><div class="event-image"><img width="50px" height="50px" src="{{image}}" alt="{{image_alt}}" /></div><div class="event-fields"><div class="event-field event-summary"><strong>{{name}}</strong>'+lozenge+'</div><div class="event-field event-duration"><em>{{begin_view}}</em> - <em>{{end_view}}</em></div><div class="event-field event-description">{{description}}</div><div class="event-field event-objects">{{{objects}}}</div></div><div class="event-controls buttons-container"><div class="buttons"><a class="aui-button aui-button-primary" href="{{uri}}">Bearbeiten</a></div></div></div>';
+            var description = '<div class="calendar-event-description"><div class="event-image"><img width="50px" height="50px" src="{{image}}" alt="{{image_alt}}" /></div><div class="event-fields"><div class="event-field event-summary"><strong>{{title}}</strong>'+lozenge+'</div><div class="event-field event-duration"><em>{{begin_view}}</em> - <em>{{end_view}}</em></div><div class="event-field event-description">{{description}}</div><div class="event-field event-objects">{{{objects}}}</div></div><div class="event-controls buttons-container"><div class="buttons"><a class="aui-button aui-button-primary" href="{{uri}}">Bearbeiten</a></div></div></div>';
             var description = Hogan.compile(description);
             var eventView = $.extend({}, event, {
                 image:   oktolab.baseUrl + '/../aui-5.1/images/user-avatar-blue-48@2x.png',
