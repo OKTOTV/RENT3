@@ -21,3 +21,4 @@ parameters:
     oktolab.hub_fetch_url:          "http://verzeichnis.okto.tv/interface.php/api/fetchdata"
     oktolab.flow_api_costunit_url:  "http://programm.okto.tv/interface.php/series/search.xml?search=*"
     oktolab.hub_redirect_url:       "http://verzeichnis.okto.tv/redirecttoid?id="
+    calendar_list_setItems: false

@@ -45,12 +45,14 @@ class InventoryAggregator extends BaseAggregator
      * @param  string $repository name of the repository
      * @return array
      */
-    public function getItemWithoutCategories($repository = 'Item')
+    public function getItemWithoutCategories($repository = 'Item', $setItems = false)
     {
         if (null === $this->getRepository($repository)) {
             throw new RepositoryNotFoundException(sprintf('Repository "%s" not found.', $repository)); 
         }
-
+        if ($setItems) {
+            return $this->getRepository($repository)->findBy(array('category' => null), array('sortnumber' => 'asc'));
+        }
         return $this->getRepository($repository)->findBy(array('category' => null, 'set' => null), array('sortnumber' => 'asc'));
     }
 
@@ -61,7 +63,7 @@ class InventoryAggregator extends BaseAggregator
      *
      * @return array
      */
-    public function getInventory($sets = false)
+    public function getInventory($sets = false, $setItems = false)
     {
         $inventory = array();
 
@@ -75,7 +77,7 @@ class InventoryAggregator extends BaseAggregator
         foreach ($categories as $category) {
             $itemsInCat = array();
             foreach ($category->getItems() as $item) {
-                if (!$item->getSet()) {
+                if (!$item->getSet() || $setItems) {
                     $itemsInCat[] = $item;
                 }
             }
@@ -83,7 +85,7 @@ class InventoryAggregator extends BaseAggregator
                 $inventory[$category->getTitle()] = $itemsInCat;
             }
         }
-        $itemsWithoutCat = $this->getItemWithoutCategories();
+        $itemsWithoutCat = $this->getItemWithoutCategories('Item', $setItems);
         $inventory['Kategorielos'] = $itemsWithoutCat;
 
         return $inventory;
