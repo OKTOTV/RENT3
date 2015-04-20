@@ -42,13 +42,13 @@ class InventoryTransformer
      *
      * @return array
      */
-    public function getTransformedInventory($sets = false)
+    public function getTransformedInventory($sets = false, $setItems = false)
     {
-        if ($this->cache->contains(self::CACHE_ID)) {
-            return $this->cache->fetch(self::CACHE_ID);
-        }
+        // if ($this->cache->contains(self::CACHE_ID)) {
+        //     return $this->cache->fetch(self::CACHE_ID);
+        // }
 
-        $aggregatedObjectives = $this->aggregator->getInventory($sets);
+        $aggregatedObjectives = $this->aggregator->getInventory($sets, $setItems);
         $inventory = array();
 
         // Transform Objectives to easily read as a JSON-array
