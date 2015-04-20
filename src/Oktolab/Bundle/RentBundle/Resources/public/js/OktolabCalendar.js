@@ -187,7 +187,7 @@
                     var block = $('<div />')
                         .addClass('calendar-timeblock')
                         .html(dataBlock.title)
-                        .css('width', (100 / timeblock.blocks.length).toFixed(2) + '%');
+                        .css('width', (100 / timeblock.blocks.length) + '%');
 
                     block.appendTo(headline);
                     Calendar.data.renderedTimeblocks.push({ 'date': new Date(dataBlock.end), 'block': block });
