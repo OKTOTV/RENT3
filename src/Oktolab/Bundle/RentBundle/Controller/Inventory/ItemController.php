@@ -27,7 +27,7 @@ class ItemController extends Controller
      * @Configuration\Method("GET")
      * @Configuration\Route("s/{page}/{nbResults}/{sortBy}/{order}",
      *      name="inventory_item",
-     *      defaults={"page"=1, "nbResults"=10, "sortBy"="title", "order"="ASC"},
+     *      defaults={"page"=1, "nbResults"=30, "sortBy"="title", "order"="ASC"},
      *      requirements={"page"="\d+"})
      *
      * @Configuration\Template()
@@ -42,11 +42,15 @@ class ItemController extends Controller
         $repository = $this->getDoctrine()->getManager()->getRepository('OktolabRentBundle:Inventory\Item');
 
         $count = $repository->fetchAllCount();
-        $items = $repository->findBy(array(), array($sortBy => $order), $nbResults, ($page*$nbResults));
+        $items = $repository->findBy(array(), array($sortBy => $order), $nbResults, (($page-1)*$nbResults));
+        $nbPages = ceil($count / $nbResults);
+        if ($nbPages < 1) {
+            $nbPages = 1;
+        }
 
         return array(
             'entities' => $items, 
-            'nbPages' => floor($count / $nbResults),
+            'nbPages' => $nbPages,//floor($count / $nbResults),
             'nbResults' => $nbResults, 
             'currentPage' => $page,
             'sortBy' => $sortBy,

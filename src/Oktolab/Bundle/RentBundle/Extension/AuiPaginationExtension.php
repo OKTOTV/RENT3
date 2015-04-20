@@ -76,7 +76,7 @@ class AuiPaginationExtension extends \Twig_Extension
      *
      * @return string HTML
      */
-    public function getPagerHtml($url_name, $pages, $current, $max = 5, $sortBy, $order, $nbResults = 10)
+    public function getPagerHtml($url_name, $pages, $current, $max = 5, $sortBy = '', $order = '', $nbResults = 10)
     {
         if (1 === $pages) {
             return '<ol class="aui-nav aui-nav-pagination"></ol>';
