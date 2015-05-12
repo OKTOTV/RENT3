@@ -5,7 +5,7 @@ namespace Oktolab\Bundle\RentBundle\Form;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
-use Oktolab\Bundle\RentBundle\Form\QMSType;
+use Oktolab\Bundle\RentBundle\Form\QMSStatusType;
 use Oktolab\Bundle\RentBundle\Entity\Inventory\Qms;
 
 /**
@@ -27,7 +27,7 @@ class ItemQMSType extends AbstractType
                 'qmss',
                 'collection',
                 array(
-                    'type' => new QMSType()
+                    'type' => new QMSStatusType()
                 ))
             ->add('save', 'submit', array('label' => 'qms.submit'));
     }
