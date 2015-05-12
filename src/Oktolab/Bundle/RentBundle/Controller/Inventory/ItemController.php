@@ -12,7 +12,7 @@ use Oktolab\Bundle\RentBundle\Form\Inventory\PictureType;
 use Oktolab\Bundle\RentBundle\Entity\Inventory\Qms;
 use Oktolab\Bundle\RentBundle\Form\QMSType;
 use Oktolab\Bundle\RentBundle\Form\ItemQMSType;
-
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 /**
  * Inventory\Item controller.
  *
@@ -129,13 +129,16 @@ class ItemController extends Controller
      *
      * @Configuration\Method("GET")
      * @Configuration\Route("/{id}", name="inventory_item_show")
-     * @Configuration\ParamConverter("item", class="OktolabRentBundle:Inventory\Item")
      * @Configuration\Template("OktolabRentBundle:Inventory\Item:show.html.twig")
      */
-    public function showAction(Item $item)
+    public function showAction($id)
     {
+        $item = $this->getDoctrine()->getManager()->getRepository('OktolabRentBundle:Inventory\Item')->quickItemById($id); //findOneBy(array('id' => $id)); //
+        if (!$item) {
+            throw new NotFoundHttpException;
+        }
         $events = array();
-        $eventObjects = $this->getDoctrine()->getManager()->getRepository('OktolabRentBundle:EventObject')->findBy(array('object'=> $item->getId(), 'type' => $item->getType()));
+        $eventObjects = $this->getDoctrine()->getManager()->getRepository('OktolabRentBundle:EventObject')->findBy(array('object' => $item->getId(), 'type' => $item->getType()), array('id' => 'DESC'), 10);
         if ($eventObjects) {
             foreach ($eventObjects as $eventObject) {
                 $events[] = $eventObject->getEvent();
@@ -291,11 +294,12 @@ class ItemController extends Controller
      *
      * @Configuration\Method({"GET", "POST"})
      * @Configuration\Route("/{id}/new_status", name="inventory_item_create_qms")
-     * @Configuration\ParamConverter("item", class="OktolabRentBundle:Inventory\Item")
      * @Configuration\Template("OktolabRentBundle:Inventory\Item:create_qms.html.twig")
      */
-    public function createQmsAction(Request $request, Item $item)
+    public function createQmsAction(Request $request, $id)
     {
+        $item = $this->getDoctrine()->getManager()->getRepository('OktolabRentBundle:Inventory\Item')->quickItemById($id);
+        
         $states = array(
             QMS::STATE_DAMAGED,
             QMS::STATE_DESTROYED,
@@ -338,14 +342,14 @@ class ItemController extends Controller
      * This form should be used when the item comes back from maintenance or inactivity.
      * @Configuration\Method({"GET", "POST"})
      * @Configuration\Route("/{id}/change_status", name="inventory_item_change_qms")
-     * @Configuration\ParamConverter("item", class="OktolabRentBundle:Inventory\Item")
      * @Configuration\Template("OktolabRentBundle:Inventory\Item:change_qms.html.twig")
      *
      * @param \Symfony\Component\HttpFoundation\Request $request
      * @param \Oktolab\Bundle\RentBundle\Entity\Inventory\Item $item
      */
-    public function changeQmsAction(Request $request, Item $item)
+    public function changeQmsAction(Request $request, $id)
     {
+        $item = $this->getDoctrine()->getManager()->getRepository('OktolabRentBundle:Inventory\Item')->findItemByIdJoinedToQms($id);
         $form = $this->createForm(
             new ItemQMSType(),
             $item,
@@ -357,7 +361,7 @@ class ItemController extends Controller
             ->add('save', 'submit');
 
         if ($request->getMethod() == "GET") { // wants form
-            return array('form' => $form->createView());
+            return array('form' => $form->createView(), 'item' => $item);
         } else { // posts form
             $form->handleRequest($request);
             if ($form->isValid()) {
@@ -376,7 +380,7 @@ class ItemController extends Controller
             }
             $message = $this->get('translator')->trans('inventory.item.add_qms_error');
             $this->get('session')->getFlashBag()->add('error', $message);
-            return array('form' => $form->createView());
+            return array('form' => $form->createView(), 'item' => $item);
         }
     }
 }

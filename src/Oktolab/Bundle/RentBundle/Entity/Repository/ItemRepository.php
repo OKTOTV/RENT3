@@ -46,4 +46,39 @@ class ItemRepository extends EntityRepository
             ->setQueryCacheLifeTime(86400)   // DQL -> SQL - 1d
             ->setResultCacheLifeTime(300);   // SQL -> Result - 5m
     }
+
+    public function findItemByIdJoinedToQms($id)
+    {
+        $query = $this->getEntityManager()
+            ->createQuery(
+                'SELECT i, q FROM OktolabRentBundle:Inventory\Item i
+                LEFT JOIN i.qmss q WITH q.active = TRUE AND q.status > 2 WHERE i.id = :id' 
+            )->setParameter('id', $id)
+            ->setFetchMode("OktolabRentBundle:Inventory\Item", "qmss", "EAGER");
+        try {
+            return $query->getSingleResult();
+        } catch (\Doctrine\ORM\NoResultException $e) {
+            return null;
+        }
+    }
+
+    /**
+     * Fasten item loading for show and edit.
+     */
+    public function quickItemById($id)
+    {
+        $query = $this->getEntityManager()->createQuery(
+            "SELECT i, q FROM OktolabRentBundle:Inventory\Item i
+            LEFT JOIN i.qmss q 
+            WHERE i.id = :id"
+            )
+        ->setParameter('id', $id)
+        ->setMaxResults(10);
+
+        try {
+            return $query->getSingleResult();
+        } catch (\Doctrine\ORM\NoResultException $e) {
+            return null;
+        }
+    }
 }
