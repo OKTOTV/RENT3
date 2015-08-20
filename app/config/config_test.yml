@@ -4,9 +4,9 @@ imports:
 framework:
     test: ~
     session:
-        storage_id: session.storage.filesystem
+        storage_id: session.storage.mock_file
     profiler:
-        enabled: false
+        collect: false
 
 web_profiler:
     toolbar: false
@@ -14,15 +14,3 @@ web_profiler:
 
 swiftmailer:
     disable_delivery: true
-
-doctrine:
-  dbal:
-        driver: pdo_mysql
-        host: localhost
-        port: null
-        dbname: rentTest
-        user: rentTest
-        password: rentTest
-
-liip_functional_test:
-  cache_sqlite_db: true

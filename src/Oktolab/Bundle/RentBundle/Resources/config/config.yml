@@ -1,8 +1,0 @@
-parameters:
-    oktolab.web_dir:            "%kernel.root_dir%/../web"
-    oktolab.upload_dir:         "/uploads"	# be sure to also check composer.json (extras)
-
-    oktolab.hub_api_search_url: %oktolab.hub_api_search_url%
-    oktolab.hub_api_auth_url:   %oktolab.hub_api_auth_url%
-    oktolab.flow_api_costunit_url: %oktolab.flow_api_costunit_url%
-    oktolab.hub_fetch_url:      %oktolab.hub_fetch_url%

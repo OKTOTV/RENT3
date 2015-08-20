@@ -1,6 +1,5 @@
 imports:
     - { resource: config.yml }
-    - { resource: security_dev.yml }
 
 framework:
     router:
@@ -15,58 +14,35 @@ web_profiler:
 monolog:
     handlers:
         main:
-            type:  stream
-            path:  %kernel.logs_dir%/%kernel.environment%.log
-            level: debug
-        firephp:
-            type:  firephp
-            level: info
-        chromephp:
-            type:  chromephp
-            level: info
+            type:   stream
+            path:   "%kernel.logs_dir%/%kernel.environment%.log"
+            level:  debug
+        console:
+            type:   console
+            bubble: false
+            verbosity_levels:
+                VERBOSITY_VERBOSE: INFO
+                VERBOSITY_VERY_VERBOSE: DEBUG
+            channels: ["!doctrine"]
+        console_very_verbose:
+            type:   console
+            bubble: false
+            verbosity_levels:
+                VERBOSITY_VERBOSE: NOTICE
+                VERBOSITY_VERY_VERBOSE: NOTICE
+                VERBOSITY_DEBUG: DEBUG
+            channels: ["doctrine"]
+        # uncomment to get logging in your browser
+        # you may have to allow bigger header sizes in your Web server configuration
+        #firephp:
+        #    type:   firephp
+        #    level:  info
+        #chromephp:
+        #    type:   chromephp
+        #    level:  info
 
 assetic:
     use_controller: true
 
-bazinga_faker:
-    orm: doctrine
-    locale: de_DE
-    entities:
-        OktolabRentBundle:Inventory\Place:
-            number: 2
-            custom_formatters:
-                title:        { method: randomElement, parameters: [ [ "Okto Verleih", "Okto IT", "Okto AuW", "Okto Schnitt", "Okto Studio" ] ] }
-
-        OktolabRentBundle:Inventory\Category:
-            number: 3
-            custom_formatters:
-                title:        { method: randomElement, parameters: [ [ "Kamera", "LIKO", "Stative", "DSLR", "Mikros" ] ] }
-
-        OktolabRentBundle:Inventory\Set:
-            number: 5
-            custom_formatters:
-                title:        { method: randomElement, parameters: [ [ "Herkules", "Zeus", "Athene", "Poseidon", "Ares", "Demeter", "Hermes", "Hades" ] ] }
-                description:  { method: sentence, parameters: [ 12 ] }
-                barcode:      { method: itemBarcode }
-
-        OktolabRentBundle:Inventory\Item:
-            number: 30
-            custom_formatters:
-                title:        { method: itemTitle }
-                barcode:      { method: itemBarcode }
-                vendor:       { method: itemVendor }
-                description:  { method: sentence, parameters: [ 20 ] }
-                serialNumber: { method: randomNumber, parameters: [ 12 ] }
-                modelNumber:  { method: randomNumber, parameters: [ 12 ] }
-
-        OktolabRentBundle:Contact:
-            number: 20
-            custom_formatters:
-                name:       { method: name }
-                guid:       { method: randomNumber, parameters: [ 10 ] }
-
-        OktolabRentBundle:CostUnit:
-            number: 5
-            custom_formatters:
-                name:       { method: randomElement, parameters: [ [ "Mulatschag", "New Ordner", "Afrika TV", "Poplastikka", "Andererseits", "Arbeitswelten", "Kwadrat" ] ] }
-                guid:       { method: randomNumber, parameters: [ 10 ] }
+#swiftmailer:
+#    delivery_address: me@example.com

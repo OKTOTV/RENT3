@@ -1,12 +1,3 @@
-oktolab_rent:
-    resource: "@OktolabRentBundle/Controller"
+app:
+    resource: "@AppBundle/Controller/"
     type:     annotation
-    prefix:   /
-
-oneup_uploader:
-    resource: .
-    type: uploader
-
-_imagine:
-    resource: .
-    type:     imagine

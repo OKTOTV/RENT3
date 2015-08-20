@@ -2,64 +2,12 @@
 <html>
     <head>
         <meta charset="UTF-8" />
-        <meta name="decorator" content="atl.general">
-        <title>{% block title %}Welcome!{% endblock %} - Oktolab RENT</title>
-        <link rel="icon" type="image/x-icon" sizes="16x16" href="{{ asset('favicon.ico') }}" />
-
-        {% stylesheets filter="cssrewrite"
-            'aui-5.1/css/aui-all.css'
-            'aui-5.1/css/aui-experimental.css'
-            '@OktolabRentBundle/Resources/public/css/aui-tools.css'
-            'fancybox/jquery.fancybox-1.3.4.css'
-            '@OktolabRentBundle/Resources/public/css/typeahead.css'
-            '@OktolabRentBundle/Resources/public/css/*'
-        %}
-            <link rel="stylesheet" href="{{ asset_url }}" type="text/css" />
-        {% endstylesheets %}
-
+        <title>{% block title %}Welcome!{% endblock %}</title>
         {% block stylesheets %}{% endblock %}
-        {% block head %}{% endblock %}
+        <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
     </head>
-
-    <body class="aui-layout aui-theme-default {% block body_classes '' %}">
-        <div id="page">
-            {% block page_header %}{% endblock %}
-            {% block page_main %}{% endblock %}
-            {% block page_footer %}{% endblock%}
-        </div>
-
-        <script type="text/javascript">
-            if (!oktolab) {
-                var oktolab = {
-                    baseUrl: window.location.protocol + '//' + window.location.host + '{{ app.request.getBaseURL() }}',
-                };
-            }
-
-            Oktolab = {
-                baseUrl: window.location.protocol + '//' + window.location.host + '{{ app.request.getBaseURL() }}',
-            };
-
-            window.Oktolab = Oktolab;
-        </script>
-
-        {% javascripts
-            'aui-5.1/js/aui-all.js'
-            'aui-5.1/js/aui-experimental.js'
-            'fancybox/*.js'
-            '@OktolabRentBundle/Resources/public/js/vendor/hogan-2.0.0.min.js'
-            '@OktolabRentBundle/Resources/public/js/vendor/*'
-            '@OktolabRentBundle/Resources/public/js/plupload/plupload.full.js'
-            '@OktolabRentBundle/Resources/public/js/plupload/customPlupload.js'
-
-            '@OktolabRentBundle/Resources/public/js/parameters.js'
-            '@OktolabRentBundle/Resources/public/js/oktolab-common.js'
-            '@OktolabRentBundle/Resources/public/js/event/*'
-            '@OktolabRentBundle/Resources/public/js/inventory/*'
-            '@OktolabRentBundle/Resources/public/js/*'
-            '@OktolabRentBundle/Resources/public/js/series_event/*'
-            %}
-            <script type="text/javascript" src="{{ asset_url }}"></script>
-        {% endjavascripts %}
+    <body>
+        {% block body %}{% endblock %}
         {% block javascripts %}{% endblock %}
     </body>
 </html>

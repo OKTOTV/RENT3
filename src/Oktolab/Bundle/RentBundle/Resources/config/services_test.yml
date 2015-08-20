@@ -1,2 +1,0 @@
-parameters:
-    oktolab.hub_guid_contact_transformer.class:  Oktolab\Bundle\RentBundle\Tests\DataFixtures\Mocks\HubGuidToContactTransformerMock

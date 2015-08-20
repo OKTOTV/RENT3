@@ -1,6 +1,0 @@
-services:
-    oktolab.faker.provider.item:
-      class: Oktolab\Bundle\RentBundle\Util\Faker\Provider\Item
-      arguments: [@faker.generator]
-      tags:
-        - { name: bazinga_faker.provider }
