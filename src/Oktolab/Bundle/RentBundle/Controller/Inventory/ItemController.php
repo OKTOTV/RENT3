@@ -49,9 +49,9 @@ class ItemController extends Controller
         }
 
         return array(
-            'entities' => $items, 
+            'entities' => $items,
             'nbPages' => $nbPages,//floor($count / $nbResults),
-            'nbResults' => $nbResults, 
+            'nbResults' => $nbResults,
             'currentPage' => $page,
             'sortBy' => $sortBy,
             'order' => $order
@@ -64,7 +64,7 @@ class ItemController extends Controller
      * @Configuration\Method("GET")
      * @Configuration\Route("s/inactive", name="inventory_item_inactive")
      * @Configuration\Template()
-     * 
+     *
      * @return array item entities
      */
     public function inactiveAction()
@@ -141,7 +141,9 @@ class ItemController extends Controller
         $eventObjects = $this->getDoctrine()->getManager()->getRepository('OktolabRentBundle:EventObject')->findBy(array('object' => $item->getId(), 'type' => $item->getType()), array('id' => 'DESC'), 10);
         if ($eventObjects) {
             foreach ($eventObjects as $eventObject) {
-                $events[] = $eventObject->getEvent();
+                if ($eventObject->getEvent()) {
+                    $events[] = $eventObject->getEvent();
+                }
             }
         }
         return array('item' => $item, 'events' => array_reverse($events));
@@ -299,7 +301,7 @@ class ItemController extends Controller
     public function createQmsAction(Request $request, $id)
     {
         $item = $this->getDoctrine()->getManager()->getRepository('OktolabRentBundle:Inventory\Item')->quickItemById($id);
-        
+
         $states = array(
             QMS::STATE_DAMAGED,
             QMS::STATE_DESTROYED,
