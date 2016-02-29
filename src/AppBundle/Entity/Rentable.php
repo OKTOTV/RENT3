@@ -9,9 +9,6 @@ use Doctrine\ORM\Mapping as ORM;
  *
  * @ORM\Table()
  * @ORM\Entity
- * @ORM\InheritanceType("SINGLE_TABLE")
- * @ORM\DiscriminatorColumn(name="discr", type="string")
- * @ORM\DiscriminatorMap({"item" = "Item", "room" = "Room", "set" = "Set", "item_collection" = "ItemCollection"})
  */
 class Rentable
 {
@@ -67,9 +64,20 @@ class Rentable
     private $barcode;
 
     /**
-     * @ManyToMany(targetEntity="Event", mappedBy="rentables")
+     * @ORM\ManyToMany(targetEntity="Event", mappedBy="rentables")
      **/
     private $events;
+
+    /**
+     * @ORM\ManyToMany(targetEntity="Set", mappedBy="rentables")
+     */
+    private $sets;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="Type", inversedBy="rentables")
+     * @ORM\JoinColumn(name="type", referencedColumnName="id")
+     */
+    private $type;
 
     public function __construct() {
         $this->events = new \Doctrine\Common\Collections\ArrayCollection();
