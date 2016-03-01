@@ -1,0 +1,94 @@
+# menu
+oktolab.menu_homepage:                  Heutige Buchungen
+oktolab.menu_calendar:                  Kalender
+oktolab.menu_rentables:                 Leihobjekte
+oktolab.menu_events:                    Buchungen
+oktolab.menu_settings:                  Einstellungen
+oktolab.menu_login:                     Anmelden
+oktolab.menu_new_event:                 Neue Buchung
+oktolab.menu_types:                     Kategorien
+oktolab.menu_sets:                      Sets
+
+# homepage
+oktolab.homepage_no_incoming:           Derzeit keine eingehenden Buchungen
+oktolab.homepage_no_outgoing:           Derzeit keine ausgehenden Buchungen
+
+# Event
+## form labels:
+oktolab.event_create_button:            Reservieren
+oktolab.event_edit_button:              Aktualisieren
+
+oktolab.event_startAt_label:            Buchung von
+oktolab.event_endAt_label:              Buchung bis
+oktolab.event_description_label:        Beschreibung
+oktolab.event_rentables_label:          Auszuleihendes
+oktolab.event_startAt_placeholder:      Ausgabe am
+oktolab.event_endAt_placeholder:        Rückgabe am
+oktolab.event_description_placeholder:  Allgemeine Info zur Buchung (scheint auf Verleihschein auf)
+
+## new.html.twig
+oktolab.event_new_header:               Neue Buchung
+
+## index.html.twig
+oktolab.event_index_title:              Buchungen (%count%)
+oktolab.event_index_empty:              Derzeit keine Buchungen vorhanden
+
+# Rentable
+## form labels:
+oktolab.rentable_create_button:         Anlegen
+oktolab.rentable_edit_button:           Aktualisieren
+
+oktolab.rentable_title_label:           Name
+oktolab.rentable_description_label:     Beschreibung
+oktolab.rentable_isActive_label:        Aktiv
+oktolab.rentable_barcode_label:         Barcode
+oktolab.rentable_sets_label:            Sets
+oktolab.rentable_type_label:            Kategorie
+oktolab.rentable_count_label:           Anzahl
+
+oktolab.rentable_title_placeholder:     Bezeichnung
+oktolab.rentable_description_placeholder:   Beschreibung des Leihobjekts
+oktolab.rentable_barcode_placeholder:   Barcode
+
+## show
+oktolab.rentable_show_title:            Leihobjekt
+oktolab.rentable_isActive_choice:       "{0} Inaktiv|{1} Aktiv"
+
+## index
+oktolab.rentable_index_new:             <span class="glyphicon glyphicon-plus"></span> Neues Leihobjekt anlegen
+oktolab.rentable_index_empty:           Derzeit sind keine Leihobjekte angelegt
+oktolab.rentable_index_title:           Leihobjekte (%count%)
+
+## new
+oktolab.rentable_new_title:             Neues Leihobjekt
+
+# Type
+## form labels:
+oktolab.type_create_button:             Anlegen
+oktolab.type_edit_button:               Aktualisieren
+
+oktolab.type_title_label:               Titel
+oktolab.type_rentables_label:           Leihobjekte
+
+## index
+oktolab.type_index_title:               Kategorien (%count%)
+oktolab.type_index_new:                 <span class="glyphicon glyphicon-plus"></span> Neue Kategorie anlegen
+oktolab.type_index_empty:               Derzeit sind keine Kategorien angelegt
+## new
+oktolab.type_new_title:                 Neue Kategorie
+oktolab.success_create_type:            Kategorie erfolgreich angelegt
+
+# Set
+## form labels:
+oktolab.set_title_label:                Name
+oktolab.set_rentables_label:            Leihobjekte
+## index
+oktolab.set_index_title:                Sets (%count%)
+oktolab.set_index_new:                  <span class="glyphicon glyphicon-plus"></span> Neues Set anlegen
+oktolab.set_index_empty:                Derzeit sind keine Sets angelegt
+
+## new
+oktolab.set_create_button:              Anlegen
+oktolab.set_edit_button:                Aktualisieren
+oktolab.set_new_title:                  Neues Set
+oktolab.success_create_set:             Set erfolgreich angelegt

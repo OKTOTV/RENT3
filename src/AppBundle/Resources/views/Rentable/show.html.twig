@@ -1,0 +1,42 @@
+{% extends "BprsStyleBundle::layout.html.twig" %}
+{% block title %}{{ name|default('RENT')~'|'~'oktolab.rentable_show_title'|trans }}{% endblock %}
+
+{% block nav_head%}
+    {% include 'BprsStyleBundle::menu.html.twig' with {'selected': 'homepage', 'dropdown': ''} %}
+{% endblock %}
+{% block body_main %}
+    <div class="page-header">
+        <h1>{{ 'oktolab.rentable_show_title'|trans }}</h1>
+    </div>
+
+    <table>
+        <tr>
+            <td>{{ 'oktolab.rentable_title_label'|trans }}</td>
+            <td>{{ rentable.title }}</td>
+        </tr>
+        <tr>
+            <td>{{ 'oktolab.rentable_description_label'|trans }}</td>
+            <td>{{ rentable.description }}</td>
+        </tr>
+        <tr>
+            <td>{{ 'oktolab.rentable_isActive_label'|trans }}</td>
+            <td>{{ 'oktolab.rentable_isActive_choice'|transchoice(rentable.isActive) }}</td>
+        </tr>
+        <tr>
+            <td>{{ 'oktolab.rentable_barcode_label'|trans }}</td>
+            <td>{{ rentable.barcode }}</td>
+        </tr>
+        <tr>
+            <td>{{ 'oktolab.rentable_sets_label'|trans }}</td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>{{ 'oktolab.rentable_type_label'|trans }}</td>
+            <td>{{ rentable.type }}</td>
+        </tr>
+        <tr>
+            <td>{{ 'oktolab.rentable_count_label'|trans }}</td>
+            <td>{{ rentable.count }}</td>
+        </tr>
+    </table>
+{% endblock %}

@@ -1,0 +1,12 @@
+{{ form_start(form) }}
+    <div class="modal-body">
+        {# {{ form_row(form.startAt) }} #}
+        {% include "BprsStyleBundle::datetimepicker.html.twig" with {'widget': form.startAt} %}
+        {{ form_row(form.endAt) }}
+        {{ form_row(form.description) }}
+        {{ form_row(form.rentables)}}
+    </div>
+    <div class="modal-footer">
+        {{ form_row(form.submit)}}
+    </div>
+{{ form_end (form) }}

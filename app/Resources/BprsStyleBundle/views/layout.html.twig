@@ -1,0 +1,120 @@
+{% extends "BprsStyleBundle::base.html.twig" %}
+
+{% block stylesheets %}
+    <link href="{{ asset('bundles/bprsstyle/css/bootstrap.min.css') }}" rel="stylesheet" />
+    <link href="{{ asset('bundles/bprsstyle/css/custom.css') }}" rel="stylesheet" />
+    <link href="{{ asset('bundles/bprsstyle/css/datetimepicker.min.css') }}" rel="stylesheet" />
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{ asset('bundles/bprsstyle/js/moment/moment.min.js') }}"></script>
+    <script src="{{ asset('bundles/bprsstyle/js/moment/de.js') }}"></script>
+    <script src="{{ asset('bundles/bprsstyle/js/datetimepicker.min.js') }}"></script>
+    <script type="text/javascript">
+        $(document).ready(function(){
+            $('#oktolab_event_startAt').datetimepicker({
+                locale: 'de',
+                useCurrent: true,
+                calendarWeeks: true,
+                allowInputToggle: true,
+                showTodayButton: true,
+                stepping: 15,
+                sideBySide: true
+            });
+
+            $('#oktolab_event_endAt').datetimepicker({
+                locale: 'de',
+                useCurrent: false,
+                calendarWeeks: true,
+                allowInputToggle: true,
+                showTodayButton: true,
+                stepping: 15,
+                sideBySide: true
+            });
+            $("#oktolab_event_startAt").on("dp.change", function (e) {
+                $('#oktolab_event_endAt').data("DateTimePicker").minDate(e.date);
+            });
+            $("#oktolab_event_endAt").on("dp.change", function (e) {
+                $('#oktolab_event_startAt').data("DateTimePicker").maxDate(e.date);
+            });
+        });
+    </script>
+{% endblock %}
+
+{% block header %}
+    <div class="modal fade" id="eventModal" tabindex="-1" role="dialog" aria-labelledby="eventModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="eventModalLabel">{{ 'oktolab.event_new_header'|trans }}</h4>
+                </div>
+                {% render(controller("AppBundle:Event:new")) %}
+            </div>
+        </div>
+    </div>
+
+    <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="{{ path('homepage')}}">{{ name|default('') }}</a>
+            </div>
+            <div class="collapse navbar-collapse">
+                {% block nav_head%}
+                {% endblock %}
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block messages %}
+    {% for flashMessage in app.session.flashbag.get('error') %}
+        <div class="container">
+            <div class="alert alert-danger alert-dismissible">
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>
+                {{ flashMessage|trans }}
+            </div>
+        </div>
+    {% endfor %}
+
+    {% for flashMessage in app.session.flashbag.get('success') %}
+        <div class="container">
+            <div class="alert alert-success alert-dismissible">
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>
+                {{ flashMessage|trans }}
+            </div>
+        </div>
+    {% endfor %}
+
+    {% for flashMessage in app.session.flashbag.get('warning') %}
+        <div class="container">
+            <div class="alert alert-warning alert-dismissible">
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>
+                {{ flashMessage|trans }}
+            </div>
+        </div>
+    {% endfor %}
+{% endblock %}
+
+
+{% block body %}
+    <div class="container">
+        {% block body_main %}
+        {% endblock %}
+    </div>
+{% endblock %}
+
+{% block footer %}
+    <div class="navbar-fixed-bottom footer">
+        <div class="container">
+            <p class="text-muted">{{ version|default('') }}</p>
+        </div>
+    </div>
+{% endblock %}

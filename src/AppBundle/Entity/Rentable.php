@@ -8,7 +8,8 @@ use Doctrine\ORM\Mapping as ORM;
  * Rentable
  *
  * @ORM\Table()
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="AppBundle\Entity\Repository\RentableRepository")
+ * @ORM\HasLifecycleCallbacks
  */
 class Rentable
 {
@@ -59,7 +60,7 @@ class Rentable
     /**
      * @var string
      *
-     * @ORM\Column(name="barcode", type="string", length=255)
+     * @ORM\Column(name="barcode", type="string", length=255, unique=true)
      */
     private $barcode;
 
@@ -79,8 +80,29 @@ class Rentable
      */
     private $type;
 
+    /**
+     * @ORM\Column(name="count", type="smallint", options={"default=1"})
+     */
+    private $count;
+
+    /**
+     * @ORM\Column(name="created_at", type="datetime")
+     */
+    private $createdAt;
+
+    /**
+     * @ORM\Column(name="updated_at", type="datetime")
+     */
+    private $updatedAt;
+
     public function __construct() {
+        $this->count = 1;
         $this->events = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+
+    public function __toString()
+    {
+        return $this->title;
     }
 
     /**
@@ -206,5 +228,140 @@ class Rentable
     public function getIsActive()
     {
         return $this->isActive;
+    }
+
+    /**
+     * Set barcode
+     *
+     * @param string $barcode
+     * @return Rentable
+     */
+    public function setBarcode($barcode)
+    {
+        $this->barcode = $barcode;
+
+        return $this;
+    }
+
+    /**
+     * Get barcode
+     *
+     * @return string
+     */
+    public function getBarcode()
+    {
+        return $this->barcode;
+    }
+
+    /**
+     * Add events
+     *
+     * @param \AppBundle\Entity\Event $events
+     * @return Rentable
+     */
+    public function addEvent(\AppBundle\Entity\Event $events)
+    {
+        $this->events[] = $events;
+
+        return $this;
+    }
+
+    /**
+     * Remove events
+     *
+     * @param \AppBundle\Entity\Event $events
+     */
+    public function removeEvent(\AppBundle\Entity\Event $events)
+    {
+        $this->events->removeElement($events);
+    }
+
+    /**
+     * Get events
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getEvents()
+    {
+        return $this->events;
+    }
+
+    /**
+     * Add sets
+     *
+     * @param \AppBundle\Entity\Set $sets
+     * @return Rentable
+     */
+    public function addSet(\AppBundle\Entity\Set $sets)
+    {
+        $this->sets[] = $sets;
+
+        return $this;
+    }
+
+    /**
+     * Remove sets
+     *
+     * @param \AppBundle\Entity\Set $sets
+     */
+    public function removeSet(\AppBundle\Entity\Set $sets)
+    {
+        $this->sets->removeElement($sets);
+    }
+
+    /**
+     * Get sets
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getSets()
+    {
+        return $this->sets;
+    }
+
+    /**
+     * Set type
+     *
+     * @param \AppBundle\Entity\Type $type
+     * @return Rentable
+     */
+    public function setType(\AppBundle\Entity\Type $type = null)
+    {
+        $this->type = $type;
+
+        return $this;
+    }
+
+    /**
+     * Get type
+     *
+     * @return \AppBundle\Entity\Type
+     */
+    public function getType()
+    {
+        return $this->type;
+    }
+
+    /**
+     * Set count
+     *
+     * @param integer $count
+     * @return Rentable
+     */
+    public function setCount($count)
+    {
+        $this->count = $count;
+
+        return $this;
+    }
+
+    /**
+     * Get count
+     *
+     * @return integer
+     */
+    public function getCount()
+    {
+        return $this->count;
     }
 }

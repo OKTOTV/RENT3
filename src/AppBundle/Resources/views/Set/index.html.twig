@@ -1,0 +1,33 @@
+{% extends "BprsStyleBundle::layout.html.twig" %}
+{% block title %}{{ name|default('RENT')~' | '~'oktolab.set_index_title'|trans({'%count%': sets.getTotalItemCount}) }}{% endblock %}
+
+{% block nav_head%}
+    {% include 'BprsStyleBundle::menu.html.twig' with {'selected': 'sets', 'dropdown': 'backend'} %}
+{% endblock %}
+{% block body_main %}
+    <div class="page-header">
+        <h1>{{ 'oktolab.set_index_title'|trans({'%count%': sets.getTotalItemCount}) }}</h1>
+        <a href="{{ path('new_set') }}" class="btn btn-default">{{'oktolab.set_index_new'|trans|raw }}</a>
+    </div>
+
+    {% if sets.getTotalItemCount <= 0 %}
+        <p>{{ 'oktolab.set_index_empty'|trans }}</p>
+    {% else %}
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th {% if sets.isSorted('s.name') %} class="sorted"{% endif %}>{{ knp_pagination_sortable(sets, 'oktolab.set_title_label'|trans, 's.name') }}</th>
+                    <th>{{ 'oktolab.set_rentables_label'|trans }}</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for set in sets %}
+                    <tr>
+                        <td>{{ set.name }}</td>
+                        <td>{{ set.rentables|length }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% endif %}
+{% endblock %}

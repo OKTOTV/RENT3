@@ -1,0 +1,13 @@
+{% extends "BprsStyleBundle::layout.html.twig" %}
+{% block title %}{{ name|default('RENT')~'|'~'oktolab.rentable_new_title'|trans }}{% endblock %}
+
+{% block nav_head%}
+    {% include 'BprsStyleBundle::menu.html.twig' with {'selected': 'homepage', 'dropdown': ''} %}
+{% endblock %}
+{% block body_main %}
+    <div class="page-header">
+        <h1>{{ 'oktolab.rentable_new_title'|trans }}</h1>
+    </div>
+
+    {{ form(form) }}
+{% endblock %}

@@ -1,0 +1,31 @@
+{% extends "BprsStyleBundle::layout.html.twig" %}
+{% block title %}{{ name|default('RENT')~' | '~'oktolab.type_index_title'|trans({'%count%': types.getTotalItemCount}) }}{% endblock %}
+
+{% block nav_head%}
+    {% include 'BprsStyleBundle::menu.html.twig' with {'selected': 'types', 'dropdown': 'backend'} %}
+{% endblock %}
+{% block body_main %}
+    <div class="page-header">
+        <h1>{{ 'oktolab.type_index_title'|trans({'%count%': types.getTotalItemCount}) }}</h1>
+        <a href="{{ path('new_type') }}" class="btn btn-default">{{'oktolab.type_index_new'|trans|raw }}</a>
+    </div>
+
+    {% if types.getTotalItemCount <= 0 %}
+        <p>{{ 'oktolab.type_index_empty'|trans }}</p>
+    {% else %}
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th {% if types.isSorted('t.name') %} class="sorted"{% endif %}>{{ knp_pagination_sortable(types, 'oktolab.type_title_label'|trans, 't.name') }}</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for type in types %}
+                    <tr>
+                        <td>{{ type.name }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% endif %}
+{% endblock %}

@@ -1,0 +1,35 @@
+{% extends "BprsStyleBundle::layout.html.twig" %}
+{% block title %}{{ name|default('RENT')~' | '~'oktolab.rentable_index_title'|trans({'%count%': rentables.getTotalItemCount}) }}{% endblock %}
+
+{% block nav_head%}
+    {% include 'BprsStyleBundle::menu.html.twig' with {'selected': 'rentables', 'dropdown': 'backend'} %}
+{% endblock %}
+{% block body_main %}
+    <div class="page-header">
+        <h1>{{ 'oktolab.rentable_index_title'|trans({'%count%': rentables.getTotalItemCount}) }}</h1>
+        <a href="{{ path('new_rentable') }}" class="btn btn-default">{{'oktolab.rentable_index_new'|trans|raw }}</a>
+    </div>
+
+    {% if rentables.getTotalItemCount  <= 0 %}
+        <p>{{ 'oktolab.rentable_index_empty'|trans }}</p>
+    {% else %}
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th {% if rentables.isSorted('r.title') %} class="sorted"{% endif %}>{{ knp_pagination_sortable(rentables, 'oktolab.rentable_title_label'|trans, 'r.title') }}</th>
+                    <th {% if rentables.isSorted('r.barcode') %} class="sorted"{% endif %}>{{ knp_pagination_sortable(rentables, 'oktolab.rentable_barcode_label'|trans, 'r.barcode') }}</th>
+                    <th {% if rentables.isSorted('r.type') %} class="sorted"{% endif %}>{{ knp_pagination_sortable(rentables, 'oktolab.rentable_type_label'|trans, 'r.type') }}</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for rentable in rentables %}
+                    <tr>
+                        <td>{{ rentable.title }}</td>
+                        <td>{{ rentable.barcode }}</td>
+                        <td>{{ rentable.type }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% endif %}
+{% endblock %}

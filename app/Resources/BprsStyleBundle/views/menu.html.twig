@@ -1,0 +1,60 @@
+{% block menu %}
+    <ul class="nav navbar-nav">
+        <li>
+            <form class="form">
+            <a class="btn btn-primary navbar-btn" data-toggle="modal" data-target="#eventModal">
+              {{ 'oktolab.menu_new_event'|trans }}
+          </a>
+            <!-- <a href="#" class="btn btn-primary navbar-btn"></a> -->
+            </form>
+        </li>
+        <li {% if selected == "homepage" %}class="active"{% endif %}>
+            <a href="{{ path('homepage') }}">{{ 'oktolab.menu_homepage'|trans }}</a>
+        </li>
+        <li {% if selected == "calendar" %}class="active"{% endif %}>
+            <a href="{{ path('calendar', {'start': "now"|date("Y-m-d\\TH:i"), 'end': "+8 hours"|date('Y-m-d\\TH:i')})}}">{{ 'oktolab.menu_calendar'|trans }}</a>
+        </li>
+        <li class="dropdown">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="glyphicon glyphicon-globe"></span></a>
+            <ul class="dropdown-menu" role="menu">
+                <li><a href="#">Deutsch</a></li>
+                <li><a href="#">English</a></li>
+                <li></li>
+            </ul>
+        </li>
+    </ul>
+    {# example for an login area #}
+    {% if is_granted('ROLE_ADMIN') or is_granted('ROLE_USER') %}
+        <ul class="nav navbar-nav navbar-right">
+            <li {% if dropdown == "backend" %}class="dropdown active"{% else %}class="dropdown"{% endif %}>
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="glyphicon glyphicon-user"></span> {{ app.user.username }}</a>
+                <ul class="dropdown-menu" role="menu">
+                    <li {% if selected == "sets" %}class="active"{% endif %}>
+                        <a href="{{ path('sets')}}">{{ 'oktolab.menu_sets'|trans }}</a>
+                    </li>
+                    <li {% if selected == "rentables" %}class="active"{% endif %}>
+                        <a href="{{ path('rentables')}}">{{ 'oktolab.menu_rentables'|trans }}</a>
+                    </li>
+                    <li {% if selected == "types" %}class="active"{% endif %}>
+                        <a href="{{ path('types')}}">{{ 'oktolab.menu_types'|trans }}</a>
+                    </li>
+                    <li role="separator" class="divider"></li>
+                    <li {% if selected == "events" %}class="active"{% endif %}>
+                        <a href="{{ path('events')}}">{{ 'oktolab.menu_events'|trans }}</a>
+                    </li>
+                    <li role="separator" class="divider"></li>
+                    {% if is_granted('ROLE_ADMIN') %}
+                        <li {% if selected == "settings" %}class="active"{% endif %}>
+                            <a href="#">{{ 'oktolab.menu_settings'|trans }}</a>
+                        </li>
+                    {% endif %}
+                </ul>
+            </li>
+            <li><a href="#"><span class="glyphicon glyphicon-off" aria-hidden="true" style="color:red"></span></a><li>
+        </ul>
+    {% else %}
+        <ul class="nav navbar-nav navbar-right">
+            <li {% if selected == "selected_6" %}class="active"{% endif %}><a href="#">{{ 'oktolab.menu_login'|trans }}</a></li>
+        </ul>
+    {% endif %}
+{% endblock %}

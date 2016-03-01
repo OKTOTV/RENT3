@@ -1,3 +1,7 @@
 app:
     resource: "@AppBundle/Controller/"
     type:     annotation
+
+bprs_user:
+    resource: .
+    type: bprs_user

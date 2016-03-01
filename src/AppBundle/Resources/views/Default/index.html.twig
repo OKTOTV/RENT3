@@ -1,0 +1,33 @@
+{% extends "BprsStyleBundle::layout.html.twig" %}
+{% block title %}{{ name|default('RENT') }}{% endblock %}
+
+{% block nav_head%}
+    {% include 'BprsStyleBundle::menu.html.twig' with {'selected': 'homepage', 'dropdown': ''} %}
+{% endblock %}
+{% block body_main %}
+        <div class="row">
+            <div class="col-md-6">
+                {% if incoming is empty %}
+                    <p>{{ 'oktolab.homepage_no_incoming'|trans }}</p>
+                {% else %}
+                <div class="list-group">
+                    {% for event in incoming %}
+                        <a href="#" class="list-group-item">{{ event.description }}</a>
+                    {% endfor %}
+                </div>
+                {% endif %}
+            </div>
+            <div class="col-md-6">
+                <div class="list-group">
+                    {% if outgoing is empty %}
+                        <p>{{ 'oktolab.homepage_no_outgoing'|trans }}</p>
+                    {% else %}
+                        <div class="list-group">
+                            {% for event in outgoing %}
+                                <a href="#" class="list-group-item">{{ event.description }}</a>
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+            </div>
+        </div>
+{% endblock %}

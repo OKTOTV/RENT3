@@ -8,7 +8,8 @@ use Doctrine\ORM\Mapping as ORM;
  * Event
  *
  * @ORM\Table()
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="AppBundle\Entity\Repository\EventRepository")
+ * @ORM\HasLifecycleCallbacks()
  */
 class Event
 {
@@ -29,6 +30,11 @@ class Event
      * @ORM\GeneratedValue(strategy="AUTO")
      */
     private $id;
+
+    /**
+     * @ORM\Column(name="state", type="integer")
+     */
+    private $state;
 
     /**
      * @var \DateTime
@@ -73,12 +79,13 @@ class Event
     private $isActive;
 
     /**
-     * @ManyToMany(targetEntity="Rentable", inversedBy="events")
-     * @JoinTable(name="event_rentables")
+     * @ORM\ManyToMany(targetEntity="Rentable", inversedBy="events")
+     * @ORM\JoinTable(name="event_rentables")
      **/
     private $rentables;
 
     public function __construct() {
+        $this->state = $this::STATE_RESERVED;
         $this->rentables = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
@@ -94,14 +101,11 @@ class Event
 
     /**
      * Set createdAt
-     *
-     * @param \DateTime $createdAt
-     * @return Event
+     * @ORM\PrePersist
      */
-    public function setCreatedAt($createdAt)
+    public function setCreatedAt()
     {
-        $this->createdAt = $createdAt;
-
+        $this->createdAt = new \DateTime();
         return $this;
     }
 
@@ -116,15 +120,12 @@ class Event
     }
 
     /**
-     * Set updatedAt
-     *
-     * @param \DateTime $updatedAt
-     * @return Event
+     * @ORM\PrePersist
+     * @ORM\PreUpdate
      */
-    public function setUpdatedAt($updatedAt)
+    public function setUpdatedAt()
     {
-        $this->updatedAt = $updatedAt;
-
+        $this->updatedAt = new \DateTime();
         return $this;
     }
 
@@ -228,5 +229,61 @@ class Event
     public function getIsActive()
     {
         return $this->isActive;
+    }
+
+    /**
+     * Set state
+     *
+     * @param integer $state
+     * @return Event
+     */
+    public function setState($state)
+    {
+        $this->state = $state;
+
+        return $this;
+    }
+
+    /**
+     * Get state
+     *
+     * @return integer 
+     */
+    public function getState()
+    {
+        return $this->state;
+    }
+
+    /**
+     * Add rentables
+     *
+     * @param \AppBundle\Entity\Rentable $rentables
+     * @return Event
+     */
+    public function addRentable(\AppBundle\Entity\Rentable $rentables)
+    {
+        $this->rentables[] = $rentables;
+
+        return $this;
+    }
+
+    /**
+     * Remove rentables
+     *
+     * @param \AppBundle\Entity\Rentable $rentables
+     */
+    public function removeRentable(\AppBundle\Entity\Rentable $rentables)
+    {
+        $this->rentables->removeElement($rentables);
+    }
+
+    /**
+     * Get rentables
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getRentables()
+    {
+        return $this->rentables;
     }
 }

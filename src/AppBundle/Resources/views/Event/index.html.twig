@@ -1,0 +1,32 @@
+{% extends "BprsStyleBundle::layout.html.twig" %}
+{% block title %}{{ name|default('RENT')~' | '~'oktolab.event_index_title'|trans({'%count%': events.getTotalItemCount}) }}{% endblock %}
+
+{% block nav_head%}
+    {% include 'BprsStyleBundle::menu.html.twig' with {'selected': 'events', 'dropdown': 'backend'} %}
+{% endblock %}
+{% block body_main %}
+    <div class="page-header">
+        <h1>{{ 'oktolab.event_index_title'|trans({'%count%': events.getTotalItemCount}) }}</h1>
+    </div>
+
+    {% if events.getTotalItemCount  <= 0 %}
+        <p>{{ 'oktolab.event_index_empty'|trans }}</p>
+    {% else %}
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th {% if events.isSorted('e.startAt') %} class="sorted"{% endif %}>{{ knp_pagination_sortable(events, 'oktolab.event_startAt_label'|trans, 'e.startAt') }}</th>
+                    <th {% if events.isSorted('e.endAt') %} class="sorted"{% endif %}>{{ knp_pagination_sortable(events, 'oktolab.event_endAt_label'|trans, 'e.endAt') }}</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for event in events %}
+                    <tr>
+                        <td>{{ event.startAt|date('H:i d.m.Y') }}</td>
+                        <td>{{ event.endAt|date('H:i d.m.Y') }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% endif %}
+{% endblock %}
