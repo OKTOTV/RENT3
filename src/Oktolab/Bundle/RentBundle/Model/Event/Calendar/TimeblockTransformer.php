@@ -133,7 +133,7 @@ class TimeblockTransformer
     }
 
     /**
-     * Seperates Timeblocks for easy use.
+     * Separates Timeblocks for easy use.
      * @TODO: remove max. Its not necessary
      * @param \DateTime $begin Begin of interval
      * @param \DateTime $end   End of interval
